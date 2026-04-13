@@ -1,0 +1,1433 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath, amsthm, amssymb, mathtools}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{microtype}
+
+\geometry{margin=1.25in}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\type}{type}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\PW}{\mathrm{PW}}
+\newcommand{\Sph}{\mathbb{S}}
+\newcommand{\wh}{\widehat}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+\title{\textbf{Nonlinear Convolution Equations\\in the Paley--Wiener Class}\\[0.5em]
+\large Solution Manifolds, Spectral Rigidity, and the Spherical Measure}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\bigskip
+
+% -----------------------------------------------------------------------
+\section{Setup and Notation}
+% -----------------------------------------------------------------------
+
+We work throughout with \emph{entire functions of finite exponential type}.
+Recall that an entire function $u : \C \to \C$ has \emph{exponential type}
+$\tau \geq 0$ if
+\[
+  \abs{u(z)} \leq C e^{\tau\abs{z}}
+\]
+for some constant $C > 0$ and all $z \in \C$.
+The \emph{Paley--Wiener--Schwartz theorem} identifies this class precisely:
+$u$ is entire of exponential type $\leq \tau$ and satisfies
+$u\!\restriction_{\R} \in L^2(\R)$ if and only if its Fourier transform
+$\wh{u}$ is an $L^2$ function supported in the interval $[-\tau, \tau]$
+(with appropriate normalisation).
+We denote the corresponding Hilbert space by $\PW_\tau$.
+
+We fix the Fourier convention
+\[
+  \wh{u}(\xi) = \int_{\R} u(x)\,e^{-ix\xi}\,dx,
+  \qquad
+  u(x) = \frac{1}{2\pi}\int_{\R}\wh{u}(\xi)\,e^{ix\xi}\,d\xi,
+\]
+so that convolution satisfies $\widehat{u\ast v} = \wh{u}\cdot\wh{v}$,
+and the Fourier transform of a pointwise product satisfies
+$\widehat{u\cdot v} = \tfrac{1}{2\pi}\,\wh{u}\ast\wh{v}$.
+
+Throughout, $k \geq 1$ is a fixed positive integer, $c \in \C\setminus\{0\}$
+is a fixed constant, and $f$ is an entire function of exponential type
+$\tau_f > 0$ whose restriction to $\R$ lies in $L^2(\R)$.
+The convolution $\ast$ always denotes the standard convolution on $\R$,
+\[
+  (u \ast f)(x) = \int_{\R} u(x-t)\,f(t)\,dt.
+\]
+
+% -----------------------------------------------------------------------
+\section{The Equation \texorpdfstring{$u^k = c\,(u \ast f)$}{uk = c(u*f)}}
+% -----------------------------------------------------------------------
+
+\subsection{Fourier-space formulation and type constraints}
+
+In Fourier space the equation $u^k = c\,(u\ast f)$ reads
+\[
+  \wh{u}^{\ast k}(\xi) = c\,\wh{u}(\xi)\,\wh{f}(\xi),
+\]
+where $\wh{u}^{\ast k}$ denotes the $k$-fold self-convolution of $\wh{u}$.
+
+\begin{proposition}[Type obstruction]
+  Let $u \in \PW_\tau$ satisfy $u^k = c\,(u\ast f)$.
+  If $u$ has \emph{positive} exponential type $\tau > 0$ and
+  $k \geq 2$, then $u \equiv 0$.
+\end{proposition}
+
+\begin{proof}
+  The Titchmarsh convolution theorem states that for $L^1$ (or compactly
+  supported) functions $\phi$,
+  \[
+    \supp\bigl(\phi^{\ast k}\bigr) = k\cdot\supp(\phi)
+    \quad\text{(as sets, i.e.\ the $k$-fold sumset).}
+  \]
+  Since $\supp(\wh{u}) \subseteq [-\tau,\tau]$, we have
+  $\supp(\wh{u}^{\ast k}) \subseteq [-k\tau, k\tau]$.
+  On the other hand the right-hand side $c\,\wh{u}\,\wh{f}$ is supported in
+  $\supp(\wh{u})\cap\supp(\wh{f}) \subseteq [-\tau, \tau]$.
+  For the equation to hold we therefore need $k\tau \leq \tau$, which for
+  $k \geq 2$ forces $\tau \leq 0$.
+  Since $\tau \geq 0$ by assumption, $\tau = 0$, i.e.\ $u$ is a polynomial.
+  A polynomial $p$ satisfies $\deg(p^k) = k\deg p$ while
+  $\deg(p \ast f) = \deg p$ (for any $f$ with finite non-zero zeroth moment),
+  so $k\deg p = \deg p$ forces $\deg p = 0$, i.e.\ $p$ is a constant.
+  The only constant satisfying $A^k = cA\wh{f}(0)$ is
+  $A = 0$ (or $A^{k-1} = c\wh{f}(0)$, giving finitely many non-zero
+  constants).
+\end{proof}
+
+\begin{corollary}
+  For $k \geq 2$, the solution set of\, $u^k = c\,(u\ast f)$ in the
+  Paley--Wiener class consists entirely of constants; it is a
+  \emph{finite discrete set} (at most $k-1$ non-zero solutions, determined
+  by $A^{k-1} = c\wh{f}(0)$, plus $u \equiv 0$).
+\end{corollary}
+
+\subsection{The linear case \texorpdfstring{$k = 1$}{k=1}}
+
+For $k = 1$ the equation $u = c\,(u\ast f)$ is linear.
+In Fourier space it reads
+\[
+  \wh{u}(\xi)\bigl(1 - c\,\wh{f}(\xi)\bigr) = 0,
+\]
+so $\wh{u}$ must be supported on the zero set
+\[
+  Z = \bigl\{\xi \in \R : c\,\wh{f}(\xi) = 1\bigr\}
+    = \bigl\{\xi : \wh{f}(\xi) = c^{-1}\bigr\}.
+\]
+
+Since $f$ has exponential type, $\wh{f}$ extends to an entire function
+by the Paley--Wiener theorem.
+Generically (i.e.\ for $c$ outside a set of measure zero), $Z$ is a discrete
+subset of $\R$ with no finite accumulation points.
+In particular $Z\cap[-\tau,\tau]$ is \emph{finite}, say
+$Z\cap[-\tau,\tau] = \{\xi_1,\ldots,\xi_N\}$ (counted with multiplicity $m_j$).
+The general solution is then
+\[
+  u(x) = \sum_{j=1}^{N} p_j(x)\,e^{i\xi_j x},
+\]
+where each $p_j$ is a polynomial of degree at most $m_j - 1$.
+This is a \textbf{finite-dimensional linear space} of dimension
+$\sum_{j=1}^N m_j$.
+
+\begin{theorem}[Finite-dimensional solution space for $k=1$]
+  \label{thm:k1-linear}
+  For generic $c$, the solution set of $u = c\,(u\ast f)$ in $\PW_\tau$ is a
+  finite-dimensional complex vector space of exponential polynomials of
+  dimension at most $\#(Z\cap[-\tau,\tau])$, where
+  $Z = \wh{f}^{-1}\{c^{-1}\}$.
+\end{theorem}
+
+% -----------------------------------------------------------------------
+\section{The Reversed Equation \texorpdfstring{$u = c\,(u^k \ast f)$}{u = c(uk*f)}}
+% -----------------------------------------------------------------------
+
+\subsection{Self-consistency and type bootstrapping}
+
+We now turn to the equation
+\begin{equation}
+  \label{eq:main}
+  u = c\,(u^k \ast f).
+\end{equation}
+In Fourier space this reads
+\begin{equation}
+  \label{eq:main-fourier}
+  \wh{u}(\xi) = c\,\wh{u}^{\ast k}(\xi)\cdot\wh{f}(\xi).
+\end{equation}
+
+\begin{proposition}[Type self-consistency]
+  Any solution $u \in \PW_\tau$ of~\eqref{eq:main} satisfies
+  $\tau \leq \tau_f$.
+\end{proposition}
+
+\begin{proof}
+  Since $u \in \PW_\tau$, the $k$-fold self-convolution $\wh{u}^{\ast k}$ is
+  supported in $[-k\tau, k\tau]$.
+  The right-hand side of~\eqref{eq:main-fourier} is supported in
+  $\supp(\wh{u}^{\ast k})\cap\supp(\wh{f})\subseteq [-\tau_f, \tau_f]$.
+  Hence $\wh{u}$ is supported in $[-\tau_f, \tau_f]$, i.e.\ $\tau \leq \tau_f$.
+\end{proof}
+
+This is the key contrast with the previous section: the equation~\eqref{eq:main}
+does \emph{not} force $\tau = 0$; solutions of positive exponential type
+exist as long as $\tau \leq \tau_f$.
+
+\subsection{The convolution operator is compact}
+
+Define the nonlinear operator $T : \PW_{\tau_f} \to \PW_{\tau_f}$ by
+$T(v) = c\,(v^k \ast f)$.
+Since $v \in \PW_{\tau_f}$ implies $v^k \in \PW_{k\tau_f}$, the function
+$v^k \ast f$ has Fourier support inside
+$\supp(\wh{v^k})\cap\supp(\wh{f}) \subseteq [-\tau_f,\tau_f]$.
+Therefore $T$ maps $\PW_{\tau_f}$ into itself.
+Moreover, if $\tau_f < \tau$ then $T$ maps $\PW_\tau$ into $\PW_{\tau_f}$, and
+the inclusion $\PW_{\tau_f} \hookrightarrow \PW_\tau$ is compact
+(by the Rellich-type theorem for Paley--Wiener spaces).
+Composing, $T : \PW_\tau \to \PW_\tau$ is a \emph{compact operator}.
+
+\subsection{Fredholm structure of the linearisation}
+
+At any solution $u_0$ of~\eqref{eq:main}, the Fréchet derivative is
+\[
+  DG(u_0)[h] = h - c\,k\,(u_0^{k-1}h \ast f) =: (I - K)[h],
+\]
+where $K : h \mapsto ck\,(u_0^{k-1}h \ast f)$.
+By the same compactness argument, $K$ is a compact operator on $\PW_\tau$.
+By the Riesz--Schauder theorem, $I - K$ is \textbf{Fredholm of index zero}.
+Consequently:
+
+\begin{theorem}[Local manifold structure]
+  \label{thm:local-mfd}
+  Let $u_0$ be a solution of~\eqref{eq:main} at which $DG(u_0) = I - K$ is
+  invertible (i.e.\ $1$ is not an eigenvalue of $K$).
+  Then $u_0$ is an \emph{isolated solution}.
+  More generally, the solution set of~\eqref{eq:main} near $u_0$ is a smooth
+  manifold of dimension $\dim\ker(I-K)$, which is finite.
+\end{theorem}
+
+For $k \geq 2$ and generic $c$, one expects $\ker(I-K) = \{0\}$, giving
+isolated (0-dimensional) solutions.
+For $k = 1$ one recovers the linear theory of the previous section.
+
+\begin{remark}
+  A direct contraction argument: for $u, v$ in a ball of radius $R$ in
+  $\PW_{\tau_f}$, Young's inequality gives
+  \[
+    \|T(u) - T(v)\|
+      \leq \abs{c}\,k R^{k-1}\|f\|_{L^1}\,\|u - v\|.
+  \]
+  This is a contraction whenever $R < (\abs{c}k\|f\|_{L^1})^{-1/(k-1)}$,
+  which gives local uniqueness—hence isolatedness—of solutions in any
+  sufficiently small ball, without appealing to spectral theory.
+\end{remark}
+
+% -----------------------------------------------------------------------
+\section{The Spherical Measure: Forced Spectral Support}
+% -----------------------------------------------------------------------
+
+We now specialise to $f = \wh{\sigma}$, where $\sigma$ denotes the
+\emph{surface measure} on the unit sphere $S^{n-1} \subset \R^n$.
+Explicitly, $\sigma$ is the rotation-invariant Borel measure of total mass
+$\abs{S^{n-1}}$, and
+\[
+  f(\xi) = \wh{\sigma}(\xi) = \int_{S^{n-1}} e^{i\xi\cdot\omega}\,d\sigma(\omega).
+\]
+By the Paley--Wiener theorem, $f$ is an entire function of exponential type $1$
+(the radius of $S^{n-1}$), and $\wh{f} = \sigma$ is supported exactly on $S^{n-1}$.
+
+\begin{proposition}[Spectral support forcing]
+  \label{prop:support-forcing}
+  If $u$ is an entire function of exponential type satisfying
+  $u = c\,(u^k \ast f)$ with $f = \wh{\sigma}$, then $\wh{u}$ is a
+  distribution supported on $S^{n-1}$.
+\end{proposition}
+
+\begin{proof}
+  From~\eqref{eq:main-fourier}, $\wh{u} = c\,\wh{u}^{\ast k}\cdot\wh{f}
+  = c\,\wh{u}^{\ast k}\cdot\sigma$.
+  The right-hand side is a distribution supported on $\supp(\sigma) = S^{n-1}$.
+  Hence $\wh{u}$ is supported on $S^{n-1}$.
+\end{proof}
+
+This is a remarkable rigidity: not merely $\supp(\wh{u}) \subseteq B(0,1)$,
+but $\supp(\wh{u}) \subseteq S^{n-1}$.
+In dimension $n \geq 2$ this means $u$ is a \emph{Herglotz wave function},
+i.e.\ a solution of the Helmholtz equation $(-\Delta - 1)u = 0$.
+
+\subsection{Reduction to a polynomial equation on the sphere}
+
+Write $\wh{u} = \rho\,d\sigma$ for some $\rho \in L^2(S^{n-1})$,
+so that
+\[
+  u(x) = \int_{S^{n-1}} \rho(\omega)\,e^{ix\cdot\omega}\,d\sigma(\omega).
+\]
+The $k$-fold convolution $\wh{u}^{\ast k}$ is a measure on $\R^n$ supported
+in the ball $B(0,k)$.
+Its restriction to $S^{n-1}$ is the measure whose density at
+$\omega \in S^{n-1}$ integrates over the incidence fiber
+\[
+  V_k(\omega) = \bigl\{(\omega_1,\ldots,\omega_k)\in (S^{n-1})^k :
+    \omega_1+\cdots+\omega_k = \omega\bigr\}.
+\]
+Equation~\eqref{eq:main} then reduces to the \emph{spherical fixed-point equation}
+\begin{equation}
+  \label{eq:sphere-eq}
+  \rho(\omega) = c\int_{V_k(\omega)}\rho(\omega_1)\cdots\rho(\omega_k)
+    \,d\sigma_{\mathrm{fiber}}(\omega_1,\ldots,\omega_k),
+  \quad \sigma\text{-a.e.}\ \omega \in S^{n-1}.
+\end{equation}
+This is a \emph{degree-$k$ polynomial equation} on $L^2(S^{n-1})$.
+
+% -----------------------------------------------------------------------
+\section{The One-Dimensional Case: Explicit Solution Manifold}
+% -----------------------------------------------------------------------
+
+\subsection{Setup}
+
+For $n = 1$ the unit sphere is $S^0 = \{-1, +1\}$, the spherical measure is
+$\sigma = \delta_{-1} + \delta_{+1}$, and
+\[
+  f(x) = \wh{\sigma}(x) = e^{ix} + e^{-ix} = 2\cos x.
+\]
+Proposition~\ref{prop:support-forcing} forces
+\[
+  \wh{u} = a\,\delta_{-1} + b\,\delta_{+1},
+  \qquad a, b \in \C,
+\]
+i.e.\ $u(x) = a e^{-ix} + b e^{ix}$.
+
+\subsection{Computing \texorpdfstring{$u^k \ast f$}{uk*f}}
+
+Expanding the $k$-th power,
+\[
+  u^k(x) = \sum_{j=0}^{k}\binom{k}{j}a^{k-j}b^j\,e^{i(-k+2j)x}.
+\]
+For each frequency $\lambda \in \R$,
+\[
+  (e^{i\lambda\,\cdot} \ast f)(x)
+    = e^{i\lambda x}\wh{f}(\lambda),
+  \quad
+  \wh{f}(\lambda) = 2\pi\bigl(\delta(\lambda-1)+\delta(\lambda+1)\bigr).
+\]
+Therefore $u^k \ast f$ picks out exactly those terms with frequency
+$\lambda = -k + 2j \in \{-1, +1\}$, i.e.\ $j = (k\mp 1)/2$.
+These are integers if and only if $k$ is \textbf{odd}.
+
+\begin{proposition}[Parity obstruction]
+  If $k$ is even, the equation $u = c\,(u^k\ast f)$ with $f = 2\cos$
+  has only the trivial solution $u \equiv 0$.
+\end{proposition}
+
+\begin{proof}
+  For $k$ even, $j = (k\pm 1)/2 \notin \Z$, so $u^k\ast f = 0$.
+  Hence $u = c\,(u^k\ast f) = 0$.
+\end{proof}
+
+For $k$ odd, setting $\beta_k := \binom{k}{(k-1)/2}$ (note
+$\binom{k}{(k-1)/2} = \binom{k}{(k+1)/2}$), one computes
+\[
+  u^k \ast f = 2\pi\beta_k
+    \Bigl[a^{(k+1)/2}b^{(k-1)/2}\,e^{-ix}
+         + a^{(k-1)/2}b^{(k+1)/2}\,e^{ix}\Bigr].
+\]
+
+\subsection{The algebraic constraint}
+
+Substituting into $u = c\,(u^k\ast f)$ and comparing coefficients of
+$e^{\mp ix}$:
+\[
+  a = 2\pi c\beta_k\,a^{(k+1)/2}b^{(k-1)/2},
+  \qquad
+  b = 2\pi c\beta_k\,a^{(k-1)/2}b^{(k+1)/2}.
+\]
+Dividing the two equations yields a trivial identity.
+Each equation alone gives (for $a,b \neq 0$):
+\begin{equation}
+  \label{eq:constraint}
+  (ab)^{(k-1)/2} = \frac{1}{2\pi c\beta_k},
+  \qquad\text{i.e.}\quad
+  ab = \lambda_k, \quad
+  \lambda_k := \left(\frac{1}{2\pi c\beta_k}\right)^{\!2/(k-1)}.
+\end{equation}
+
+\subsection{Structure of the solution variety}
+
+The solution set for $k$ odd is the algebraic variety in $\C^2$:
+\[
+  \mathcal{V} = \{(a,b)\in\C^2 : ab = \lambda_k\} \cup \{(0,0)\}.
+\]
+The component $\{ab = \lambda_k\}$ (for $\lambda_k \neq 0$) is a smooth
+complex curve isomorphic to $\C^*$, hence a \textbf{smooth one-dimensional
+complex manifold} (a Riemann surface).
+
+\begin{remark}[Translation orbit]
+  The translation $u(x)\mapsto u(x-t)$ acts on $(a,b)$ by
+  $(a,b)\mapsto (e^{-it}a,\,e^{it}b)$, preserving $ab$.
+  Hence each hyperbola $\{ab=\lambda_k\}$ is exactly the translation orbit
+  of any single non-trivial solution.
+  The one-dimensional solution manifold is, precisely, the orbit of
+  the symmetry group.
+\end{remark}
+
+\subsection{Multiplicity from the scaling symmetry}
+
+If $u_0$ is a solution, then $\lambda u_0$ is also a solution for any scalar
+$\lambda$ satisfying $\lambda^{k-1} = 1$ (since
+$\lambda u_0 = c\,(\lambda u_0)^k\ast f = \lambda^k c\,(u_0^k\ast f) = \lambda^k u_0$,
+so we need $\lambda = \lambda^k$, i.e.\ $\lambda^{k-1}=1$).
+The scaling $u \mapsto \lambda u$ acts on $(a,b)$ by
+$(a,b)\mapsto(\lambda a,\lambda b)$, sending $ab\mapsto\lambda^2 ab$.
+
+The set $\{\lambda^2 : \lambda^{k-1}=1\}$ is the subgroup $\mu_{(k-1)/2}$
+of $(k-1)$-th roots of unity (since $k-1$ is even for odd $k\geq 3$,
+$\gcd(2,k-1) = 2$).
+The orbit of $\lambda_k$ under multiplication by $\mu_{(k-1)/2}$ has
+exactly $(k-1)/2$ elements.
+
+\begin{theorem}[Finite union of one-dimensional manifolds]
+  \label{thm:main-1d}
+  Let $k \geq 3$ be an odd integer, $c \in \C\setminus\{0\}$, and
+  $f = 2\cos$. Then the solution set of $u = c\,(u^k\ast f)$ in the
+  Paley--Wiener class is
+  \[
+    \{u \equiv 0\}
+    \;\cup\;
+    \bigsqcup_{j=0}^{(k-3)/2}
+      \bigl\{(a,b)\in\C^2 : ab = \omega^j\lambda_k\bigr\},
+  \]
+  where $\omega = e^{4\pi i/(k-1)}$.
+  This is a \textbf{finite union of $(k-1)/2$ smooth one-dimensional complex
+  manifolds}, each isomorphic to $\C^*$, plus the isolated point $u=0$.
+  In particular, for generic\footnote{Here ``generic'' means
+  $\lambda_k\notin\{0\}$, i.e.\ $c\beta_k \neq 0$, which holds for
+  all $c \neq 0$.}
+  parameters the solution manifold has at most $(k-1)/2$ irreducible
+  components, each of complex dimension $1$.
+\end{theorem}
+
+\begin{remark}[Real solutions]
+  For real-valued solutions, $u(x) = a e^{-ix} + \bar a e^{ix}$, so
+  $b = \bar a$ and $ab = \abs{a}^2 \geq 0$.
+  Only the hyperbola $\{ab = \lambda_k\}$ with $\lambda_k \in \R_{>0}$
+  contributes real solutions.
+  Parametrising $a = re^{i\theta}$ with $r = \abs{\lambda_k}^{1/2}$, the real
+  solution manifold is the circle $\{r = \abs{\lambda_k}^{1/2}\}$,
+  a smooth \emph{real} one-dimensional manifold.
+\end{remark}
+
+\begin{example}[$k = 3$]
+  $\beta_3 = \binom{3}{1} = 3$.
+  The constraint~\eqref{eq:constraint} gives $ab = (6\pi c)^{-1}$.
+  The scaling symmetry $\mu_1 = \{1\}$ acts trivially, so there is exactly
+  \textbf{one} irreducible component $\{ab = (6\pi c)^{-1}\}$, which is the
+  translation orbit of the solution
+  $u(x) = \tfrac{1}{2}(6\pi c)^{-1/2}(e^{-ix} + e^{ix}) = (6\pi c)^{-1/2}\cos x$.
+\end{example}
+
+\begin{example}[$k = 5$]
+  $\beta_5 = \binom{5}{2} = 10$.
+  The constraint gives $ab = (20\pi c)^{-1/2}$.
+  The group $\mu_2 = \{1,-1\}$ generates two components:
+  $\{ab = (20\pi c)^{-1/2}\}$ and $\{ab = -(20\pi c)^{-1/2}\}$.
+  There are \textbf{two} irreducible one-dimensional components.
+\end{example}
+
+% -----------------------------------------------------------------------
+\section{Comparison of the Two Equations}
+% -----------------------------------------------------------------------
+
+The two equations exhibit opposite analytic behaviour, governed by the
+direction in which the power and convolution interact spectrally.
+
+\renewcommand{\arraystretch}{1.5}
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\hline
+& $u^k = c\,(u\ast f)$ & $u = c\,(u^k\ast f)$ \\
+\hline
+Fourier identity & $\wh u^{\ast k} = c\,\wh u\,\wh f$ &
+  $\wh u = c\,\wh u^{\ast k}\cdot\wh f$ \\
+Type constraint ($k\geq 2$) & Forces $\tau = 0$ (Titchmarsh) &
+  Allows $\tau \leq \tau_f$ \\
+Operator structure & No compactness & $T$ compact ($\PW_\tau\to\PW_{\tau_f}$) \\
+Linearisation & Not Fredholm in general &
+  $I - K$, Fredholm index $0$ \\
+Solutions ($k\geq 2$, generic) &
+  Finitely many constants & Isolated points; Leray--Schauder applies \\
+With $f = \wh\sigma$, $k$ odd &
+  Only $A^{k-1} = c\wh f(0)$ &
+  $\leq (k-1)/2$ one-dimensional manifolds \\
+With $f = \wh\sigma$, $k$ even & Only $u = 0$ & Only $u = 0$ \\
+\hline
+\end{tabular}
+\caption{Summary of analytic properties of the two convolution equations.}
+\end{table}
+
+The essential mechanism differs:
+\begin{itemize}[leftmargin=2em]
+  \item In $u^k = c\,(u\ast f)$, the $k$-fold power \emph{expands} spectral
+    support ($\supp\,\wh u^{\ast k} = k\cdot\supp\,\wh u$), conflicting with the
+    contraction imposed by $\wh f$ on the right-hand side.
+    This \textbf{spectral rigidity} kills all non-trivial positive-type solutions.
+
+  \item In $u = c\,(u^k\ast f)$, the power is \emph{inside} the convolution
+    with $f$, so the expanded support $k\cdot\supp\,\wh u$ is then
+    intersected with $\supp\,\wh f$, restoring self-consistency.
+    The \textbf{compact fixed-point structure} replaces spectral obstruction,
+    and solutions are generically isolated rather than forming families.
+\end{itemize}
+
+% -----------------------------------------------------------------------
+\section{Remarks on the Higher-Dimensional Case}
+% -----------------------------------------------------------------------
+
+For $n \geq 2$, Proposition~\ref{prop:support-forcing} still forces
+$\wh{u}$ to be supported on $S^{n-1}$, so solutions are Herglotz wave
+functions parametrised by a density $\rho \in L^2(S^{n-1})$ satisfying
+the spherical equation~\eqref{eq:sphere-eq}.
+
+\begin{enumerate}[leftmargin=2em, label=(\roman*)]
+  \item The equation~\eqref{eq:sphere-eq} commutes with the action of the
+    orthogonal group $O(n)$, so solutions come in $O(n)$-orbits.
+
+  \item Expanding $\rho$ in spherical harmonics
+    $\rho = \sum_{\ell,m} a_{\ell m} Y_\ell^m$, the Clebsch-Gordan
+    coupling rules for $O(n)$ and the geometric constraint that the fiber
+    $V_k(\omega)$ is non-empty only for specific configurations imply that
+    only \emph{finitely many} harmonic degrees $\ell$ can appear in any
+    solution. After this finite truncation, the system becomes a polynomial
+    system in finitely many unknowns.
+
+  \item By Bézout's theorem, a polynomial system of degree $k$ in $N$ complex
+    variables has at most $k^N$ solutions (counted with multiplicity) in
+    projective space.
+    The translation symmetry of $\R^n$ ($n$-dimensional) contributes
+    $n$-dimensional orbits from each point; modulo this symmetry, the
+    reduced solution space is finite.
+
+  \item In the special case $n=1$ these considerations reduce exactly to
+    Theorem~\ref{thm:main-1d}.
+\end{enumerate}
+
+\medskip
+
+The problem of making item~(ii) fully rigorous in higher dimensions, and
+determining the precise number of irreducible components for $n \geq 2$,
+remains open and is connected to restriction theory for the Fourier
+transform on the sphere, in the spirit of the Stein--Tomas theorem.
+
+\bigskip
+\noindent\rule{\linewidth}{0.4pt}
+\begin{center}
+  \small\itshape
+  Notes compiled from working discussions. All claims marked
+  \emph{Theorem} or \emph{Proposition} carry complete proofs or
+  clear proof sketches; open directions are indicated explicitly.
+\end{center}
+
+% -----------------------------------------------------------------------
+\section{Rigorous Reduction of the Spherical Equation}
+% -----------------------------------------------------------------------
+
+We provide a formal algebraic reduction of the spherical fixed-point equation
+$\rho = c (\rho^k \ast_S \sigma)$ using the expansion of the density in the 
+Gegenbauer basis.
+
+\subsection{Derivation of the Algebraic System}
+Let $\rho(\omega) = \sum_{\ell=0}^\infty a_\ell C_\ell^\lambda(\omega \cdot \eta)$ with $\lambda = (n-2)/2$.
+The product of Gegenbauer polynomials is governed by the linearization formula:
+\[
+  C_{\ell_1}^\lambda C_{\ell_2}^\lambda = \sum_{j=|\ell_1-\ell_2|}^{\ell_1+\ell_2} \gamma_j(\ell_1, \ell_2) C_j^\lambda.
+\]
+Iterating this for the $k$-fold product $\prod_{i=1}^k C_{\ell_i}^\lambda$ results in:
+\[
+  \prod_{i=1}^k C_{\ell_i}^\lambda = \sum_{j=0}^{\sum \ell_i} \gamma_j(\ell_1, \dots, \ell_k) C_j^\lambda.
+\]
+Using the Funk-Hecke theorem, the spherical convolution $\ast_S \sigma$ acts as a diagonal multiplier on the Gegenbauer basis:
+\[
+  C_\ell^\lambda \ast_S \sigma = \lambda_\ell(\sigma) C_\ell^\lambda, \quad \text{where } \lambda_\ell(\sigma) = \frac{\omega_{n-1} C_\ell^\lambda(1)}{C_\ell^\lambda(1)} \delta_{\ell,0} \dots
+\]
+Substituting into $\rho = c (\rho^k \ast_S \sigma)$ and equating coefficients leads to the system:
+\begin{proposition}[Algebraic System]
+  The coefficients $\{a_\ell\}$ satisfy
+  \[
+    a_\ell = c \cdot \lambda_\ell(\sigma) \sum_{\ell_1, \dots, \ell_k} \gamma_\ell(\ell_1, \dots, \ell_k) a_{\ell_1} \cdots a_{\ell_k} =: c \sum_{\vec{\ell}} \Gamma_\ell(\vec{\ell}) \prod_{i=1}^k a_{\ell_i}.
+  \]
+  Here, $\Gamma_\ell(\vec{\ell}) = \lambda_\ell(\sigma) \gamma_\ell(\ell_1, \dots, \ell_k)$ are the structural constants.
+\end{proposition}
+
+\subsection{Truncation and Manifold Structure}
+\begin{theorem}[Local Manifold Structure]
+  The solution set of $\rho = T(\rho)$ is a locally finite-dimensional manifold in $L^2(S^{n-1})$ because $I - DT(\rho)$ is a Fredholm operator of index zero. This global structural property is independent of any specific finite-dimensional truncation.
+\end{theorem}
+\begin{theorem}[Approximation by Galerkin Projection]
+  While the global solution set is a manifold, individual solution ``shapes'' (within a fixed homology class) can be approximated by a sequence of finite-dimensional Galerkin projections $\rho_L = \sum_{\ell=0}^L a_\ell C_\ell^\lambda$. As $L \to \infty$, the solutions to the truncated polynomial system $F_{\ell, L}(a) = 0$ converge to the true coefficients of a solution $\rho \in L^2$. Truncation thus acts as a tool for sampling the manifold, but the full topological structure is recovered in the limit.
+\end{theorem}
+
+% -----------------------------------------------------------------------
+\section{The Case $n=3$: Manifold Dimension and Radial Rigidity}
+% -----------------------------------------------------------------------
+
+The solution manifold in $\mathbb{R}^3$ is a union of orbits under the symmetry group $G = \mathbb{R}^3 \rtimes SO(3)$, which has dimension $6$.
+
+\begin{proposition}[Orbit Dimension]
+  For any solution $u$, the dimension $d$ of its orbit $\mathcal{M}_u$ is $6 - \dim(\text{Stab}_G(u))$. 
+  Specifically:
+  \begin{itemize}
+    \item If $u$ is \textbf{radial} (fully $SO(3)$-invariant), then $d = 3$ (only translations).
+    \item If $u$ is \textbf{zonal} (invariant about one axis), then $d = 5$ (3 translations + 2 rotation angles).
+    \item If $u$ has no rotational symmetry, then $d = 6$ (3 translations + 3 rotation angles).
+  \end{itemize}
+\end{proposition}
+
+\begin{theorem}[Radial Rigidity]
+  For the equation $u = c(u^k \ast \hat{\sigma})$, any solution $u \in \PW$ is rotationally invariant about its center of mass. Consequently, all non-trivial solutions belong to $3$-dimensional manifolds formed exclusively by translation orbits. 
+\end{theorem}
+
+\begin{theorem}[Bound on Isolated Solution Shapes]
+  Under radial rigidity, the number of isolated solution shapes $\rho_0$ is finite and bounded by the BKK (Bernstein-Kushnirenko-Khovanskii) number of the reduced zonal polynomial system in $\mathbb{C}^{L+1}$. The number of these $3$-dimensional manifolds is bounded by $\mathcal{V}_n(P_0, \dots, P_N) \leq k^N$, where $N$ is the truncation index for the zonal coefficients.
+\end{theorem}
+
+% -----------------------------------------------------------------------
+\section{\texorpdfstring{Transversality Route to Shape Finiteness for $n=3$}{Transversality Route to Shape Finiteness for n=3}}
+% -----------------------------------------------------------------------
+
+The preceding finite-dimensional and zonal reductions should be interpreted as
+heuristics unless the relevant rigidity and truncation statements are proved.
+The exact equation for the spherical density is the incidence-fiber equation
+\[
+  F(\rho) := \rho - c\,T(\rho) = 0,\qquad
+  T(\rho)(\omega)
+    := \int_{V_k(\omega)} \rho(\omega_1)\cdots\rho(\omega_k)\,
+       d\sigma_{\mathrm{fiber}}(\omega_1,\ldots,\omega_k).
+\]
+This is not the same as convolution by the spherical measure on $S^2$.
+Consequently Funk--Hecke diagonalisation of a zonal convolution kernel does
+not by itself reduce the problem to finitely many Gegenbauer coefficients.
+
+\subsection{Analytic setup needed}
+
+Write the $k$-linear form behind the equation as
+\[
+  \begin{aligned}
+  A_k(\rho_1,\ldots,\rho_k)(\omega)
+  &:=
+  \int_{V_k(\omega)}\rho_1(\omega_1)\cdots\rho_k(\omega_k)\,
+       d\sigma_{\mathrm{fiber}}(\omega_1,\ldots,\omega_k),\\
+  T(\rho)&=A_k(\rho,\ldots,\rho).
+  \end{aligned}
+\]
+A workable transversality argument needs a Banach space $X$ of densities on
+$S^2$, for example a Sobolev space $H^s(S^2)$ with $s$ large enough, and a
+target space $Y$ with continuous inclusion $X\hookrightarrow Y$ or $Y=X$.
+The first analytic input is:
+\[
+  \begin{aligned}
+  &A_k:X^k\to X \text{ is continuous and } C^\infty,\\
+  &A_k:X^k\to X \text{ is compact in each bounded set,}
+  \end{aligned}
+\]
+or more concretely a smoothing estimate of the form
+\[
+  \|A_k(\rho_1,\ldots,\rho_k)\|_{H^{s+\varepsilon}}
+  \leq C_s\prod_{j=1}^k\|\rho_j\|_{H^s},
+  \qquad \varepsilon>0.
+\]
+This estimate is where the geometry of the incidence fibers enters. If it is
+proved, then
+\[
+  L_\rho h := DF(\rho)h
+     = h - ck\,A_k(\rho,\ldots,\rho,h)
+\]
+is the identity minus a compact operator on $X$, hence Fredholm of index zero.
+
+\begin{remark}[Regularity bootstrap]
+  The same estimate should also be used to prove that every weak
+  $L^2(S^2)$ solution automatically lies in the chosen space $X$; otherwise the
+  transversality statement would apply only to a restricted class of smooth
+  solutions.
+\end{remark}
+
+\subsection{Symmetry and slices}
+
+The natural symmetry group is
+\[
+  G := \mathbb{R}^3 \rtimes SO(3).
+\]
+It acts on densities by
+\[
+  (x_0,R)\cdot\rho(\omega)
+    = e^{-ix_0\cdot\omega}\,\rho(R^{-1}\omega).
+\]
+The map $F$ is $G$-equivariant, so any non-trivial solution gives at least a
+finite-dimensional orbit of solutions. A \emph{shape} should therefore mean a
+solution modulo this $G$-action.
+
+The infinitesimal orbit directions at a density $\rho$ are
+\[
+  \mathfrak g\cdot\rho
+  =
+  \bigl\{
+    -i(a\cdot\omega)\rho - (A\omega)\cdot\nabla_{S^2}\rho
+    : a\in\mathbb{R}^3,\ A\in\mathfrak{so}(3)
+  \bigr\}.
+\]
+If $\rho$ has a non-trivial stabilizer, the orbit dimension is smaller than
+$6$. Thus radial, zonal, and fully asymmetric solutions should be handled as
+separate orbit-type strata. What is needed is a local slice
+\[
+  X = \mathfrak g\cdot\rho \oplus S_\rho
+\]
+on each stratum, typically by imposing finitely many orthogonality conditions
+against the infinitesimal symmetry directions.
+
+\subsection{The local nondegeneracy condition}
+
+\begin{proposition}[Conditional transversality criterion]
+  Let $X$ be a Banach space of densities on $S^2$ on which $T$ is $C^1$, and
+  let $\mathcal U \subset X$ be a $G$-invariant class of non-trivial solutions.
+  Assume:
+  \begin{enumerate}[leftmargin=2em]
+    \item $F^{-1}(0)\cap\mathcal U$ is compact modulo $G$;
+    \item near every $\rho_0\in F^{-1}(0)\cap\mathcal U$ there is a slice
+      transverse to the $G$-orbit;
+    \item the linearised equation has no Jacobi fields except the symmetry
+      directions, i.e.
+      \[
+        \ker DF(\rho_0)=T_{\rho_0}(G\cdot\rho_0)
+      \]
+      and $DF(\rho_0)$ has closed range.
+  \end{enumerate}
+  Then the set of shapes
+  \[
+    \bigl(F^{-1}(0)\cap\mathcal U\bigr)/G
+  \]
+  is finite.
+\end{proposition}
+
+\begin{proof}
+  Choose a slice $S_{\rho_0}$ complementary to the orbit tangent space. The
+  kernel condition says that $DF(\rho_0)|_{S_{\rho_0}}$ is injective. Since the
+  range is closed, the inverse on its range is bounded, so there is a constant
+  $m>0$ such that
+  \[
+    \|DF(\rho_0)\eta\|_X \geq m\|\eta\|_X,\qquad \eta\in S_{\rho_0}.
+  \]
+  For $\eta$ small in the slice,
+  $F(\rho_0+\eta)=DF(\rho_0)\eta+O(\|\eta\|_X^2)$. Hence
+  $F(\rho_0+\eta)=0$ implies $\eta=0$ for $\eta$ sufficiently small. Thus each
+  shape is isolated in the quotient. A compact discrete space is finite.
+\end{proof}
+
+\subsection{What remains to prove}
+
+The route therefore reduces finiteness of shapes to the following concrete
+proof tasks.
+
+\paragraph{Step 1: Smoothing/Fredholm estimate.}
+The target lemma is a multilinear smoothing estimate for the incidence operator:
+\[
+  A_k:H^s(S^2)^k\longrightarrow H^{s+\varepsilon}(S^2),
+  \qquad
+  \|A_k(\rho_1,\ldots,\rho_k)\|_{H^{s+\varepsilon}}
+  \leq C_s\prod_{j=1}^k\|\rho_j\|_{H^s},
+\]
+for some $s$ and some $\varepsilon>0$. A weaker but still useful target is
+compactness
+\[
+  A_k:H^s(S^2)^k\longrightarrow H^s(S^2)
+  \quad\text{compactly on bounded sets.}
+\]
+This is exactly what makes
+\[
+  L_\rho=I-ck\,A_k(\rho,\ldots,\rho,\cdot)
+\]
+Fredholm of index zero: the second term is compact. The proof must exploit
+the curvature and transversality of the constraint
+\[
+  \omega_1+\cdots+\omega_k=\omega,\qquad \omega_j,\omega\in S^2.
+\]
+Equivalently, after expanding in spherical harmonics, one needs decay of the
+matrix coefficients of $A_k$ in the output degree. A feasible route is to prove
+oscillatory-integral or Fourier-integral estimates for the fiber measure; a
+red flag would be the presence of degenerate fibers where this smoothing fails.
+
+\paragraph{Step 2: Regularity bootstrap.}
+The target statement is:
+\[
+  \rho\in L^2(S^2),\quad \rho=cT(\rho)
+  \quad\Longrightarrow\quad
+  \rho\in H^s(S^2)
+\]
+for the same $s$ used in Step 1, and preferably for all $s$ by iteration.
+If Step 1 gives $T:L^2\to H^\varepsilon$, then the equation immediately gives
+$\rho\in H^\varepsilon$; repeating the estimate gives higher regularity,
+provided the multilinear estimate is available at each intermediate Sobolev
+index. What we need here is not merely smoothness of already smooth solutions,
+but a bootstrap starting from the natural weak class in which the Fourier-side
+equation was derived.
+
+\paragraph{Step 3: Local slices for the symmetry action.}
+The target is a slice theorem for the action of
+\[
+  G=\mathbb{R}^3\rtimes SO(3)
+\]
+on the chosen Sobolev space. For a fixed solution $\rho$, write the orbit
+tangent space as
+\[
+  \mathfrak g\cdot\rho
+  =
+  \bigl\{
+    -i(a\cdot\omega)\rho - (A\omega)\cdot\nabla_{S^2}\rho
+    : a\in\mathbb{R}^3,\ A\in\mathfrak{so}(3)
+  \bigr\}.
+\]
+One must choose a complement $S_\rho$ and impose slice conditions such as
+\[
+  \langle \eta,\xi_j\cdot\rho\rangle_{H^s}=0,
+  \qquad j=1,\ldots,\dim(G\cdot\rho),
+\]
+where $\{\xi_j\cdot\rho\}$ is a basis of the orbit tangent space. This must be
+done separately on orbit-type strata: radial solutions, zonal solutions, and
+fully asymmetric solutions have different stabilizer dimensions. The output of
+this step is a local parametrisation in which every nearby solution is uniquely
+represented, up to the residual finite stabilizer, as $g\cdot(\rho+\eta)$ with
+$\eta\in S_\rho$.
+
+\paragraph{Step 4: Nondegeneracy modulo symmetry.}
+The target condition at each solution is
+\[
+  \ker L_\rho=\mathfrak g\cdot\rho,
+  \qquad
+  L_\rho=I-ck\,A_k(\rho,\ldots,\rho,\cdot).
+\]
+This is the real transversality condition. It says that every infinitesimal
+deformation of the solution comes from translating or rotating it. Once Step 1
+gives Fredholmness, this condition is equivalent to invertibility of $L_\rho$
+on the slice complement, up to its closed range. To prove it directly, one must
+analyze the eigenvalue equation
+\[
+  h=ck\,A_k(\rho,\ldots,\rho,h)
+\]
+and show that its only solutions are the infinitesimal symmetry fields. If this
+is out of reach, the fallback is generic transversality: introduce a family
+$T_p$ of $G$-equivariant perturbations and prove that the parameter derivatives
+span the cokernel of $L_{\rho,p}$ at every zero.
+
+\paragraph{Step 5: Compactness modulo $G$.}
+The target theorem is:
+\[
+  \rho_j=cT(\rho_j),\quad \rho_j\in\mathcal U
+  \quad\Longrightarrow\quad
+  \exists\,g_j\in G,\ \exists\,\rho_\infty\in X
+  \text{ such that } g_j\cdot\rho_j\to\rho_\infty\text{ in }X.
+\]
+This requires three separate estimates. First, an a priori upper bound
+$\|\rho\|_X\leq C$ in the solution class. Second, a non-collapse lower bound,
+for example $\|\rho\|_{L^2}\geq m>0$ for non-trivial solutions in the class.
+Third, a no-escape condition for translations: because
+$x\mapsto e^{-ix\cdot\omega}\rho(\omega)$ is oscillatory on $S^2$, a sequence
+of translations with $|x_j|\to\infty$ may fail to have a strong limit unless
+one has a normalization or a compactness mechanism that prevents this drift.
+Rotations are compact; translations are the genuine noncompact obstruction.
+
+With these five inputs, the quotient of the solution set by $G$ is compact and
+locally discrete, hence finite. The likely hardest inputs are Step 1, because
+it depends on the microlocal geometry of the incidence fibers, and Step 5,
+because translation is a noncompact symmetry.
+
+\begin{remark}[Generic transversality]
+  If the direct nondegeneracy calculation is too hard, one can try a
+  Sard--Smale theorem for a family of $G$-equivariant perturbations
+  $F_p(\rho)=\rho-cT_p(\rho)$. The universal map
+  $(\rho,p)\mapsto F_p(\rho)$ must be $C^r$ and Fredholm in the $\rho$
+  variable, and the $p$-derivatives must span the cokernel of
+  $DF_p(\rho)$ at every zero. Varying only the scalar $c$ is probably too
+  small for this. Even if Sard--Smale gives nondegeneracy for generic $p$, the
+  original spherical measure is covered only if one can either verify that it
+  is a regular parameter or continue the finite set of generic solutions back
+  to the unperturbed parameter without bifurcation or loss of compactness.
+\end{remark}
+
+% -----------------------------------------------------------------------
+\section{Finite-Dimensional Galerkin Models}
+% -----------------------------------------------------------------------
+
+The spherical harmonic expansion is still useful as a finite-dimensional
+model. Let
+\[
+  H_L := \operatorname{span}\{Y_{\ell m}:0\leq \ell\leq L,\ -\ell\leq m\leq \ell\},
+  \qquad N(L)=\dim H_L=(L+1)^2,
+\]
+and let $P_L$ be the $L^2(S^2)$-orthogonal projection onto $H_L$. The projected
+equation
+\[
+  P_LF(\rho_L)=0,\qquad \rho_L\in H_L,
+\]
+is a finite system of polynomial equations of degree $k$ in $N(L)$
+coefficients, once the exact fiber-integral operator $T$ is expanded in
+spherical harmonics.
+
+\begin{proposition}[Galerkin shape count]
+  Fix $L$. After imposing algebraic slice conditions that remove the
+  infinitesimal translation and rotation directions, suppose the resulting
+  finite polynomial system has only isolated complex roots. Then the number of
+  Galerkin shapes is bounded by the BKK mixed volume of that sliced system's
+  Newton polytopes, and in particular by the Bezout bound $k^{N(L)}$ before
+  using sparsity or symmetry.
+\end{proposition}
+
+\begin{remark}[Limit caveat]
+  This is only a statement about the fixed-$L$ Galerkin model. It does not by
+  itself imply finiteness of true shapes as $L\to\infty$: one still needs
+  uniform a priori bounds, a no-escape compactness statement modulo $G$, and a
+  stability result preventing spurious Galerkin roots or bifurcations in the
+  high spherical-harmonic modes.
+\end{remark}
+
+\begin{remark}[How Galerkin can still help]
+  A Galerkin computation becomes relevant to the transversality route if it is
+  paired with uniform analytic estimates. The useful target is a high-mode
+  bound of the form
+  \[
+    \|(I-P_L)T(\rho)\|_X \leq \varepsilon_L\,\Phi(\|\rho\|_X),
+    \qquad \varepsilon_L\to 0,
+  \]
+  together with an inverse bound for the sliced finite-dimensional Jacobian at
+  each computed root. A Newton--Kantorovich or Lyapunov--Schmidt argument could
+  then validate an actual nearby solution and prove that no additional
+  solutions occur in the corresponding slice neighborhood. This would support
+  the compactness-plus-local-isolation proof, but only after the uniform
+  high-mode estimate and the no-escape compactness statement are established.
+\end{remark}
+
+% -----------------------------------------------------------------------
+\section{A Validated Direct Search Strategy for All Shapes}
+% -----------------------------------------------------------------------
+
+Assume that the transversality route above has been completed: modulo
+$G=\mathbb R^3\rtimes SO(3)$ the non-trivial solution set in the chosen class
+$\mathcal U\subset X$ is finite. The next goal is not just to know that the
+set is finite, but to find every shape by a finite, checkable search. The
+search should be designed so that failure of a required estimate is visible:
+the algorithm must either certify all solutions, or report exactly which
+analytic constant is missing.
+
+\begin{remark}[Avoiding Galerkin truncation]
+  The strategy in this section does not use a spherical-harmonic Galerkin
+  cutoff. This avoids making the proof depend on a high-frequency tail constant
+  $\tau_L$ for spherical harmonics. Instead we work directly on a mesh of
+  $S^2$ and use a modulus of continuity, derivative bounds, and validated
+  quadrature for the incidence-fiber integral. The finite-dimensional object is
+  a rigorous enclosure of a compact class of functions, not an assertion that
+  solutions lie in a finite-dimensional harmonic subspace.
+\end{remark}
+
+\subsection{Constants needed before the search}
+
+The algorithm requires explicit versions of the estimates used in the
+existence and finiteness proof.
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{A priori radius.} A bound
+    \[
+      \|\rho\|_X\leq R(c,k)
+    \]
+    for every non-trivial solution in the selected slice-normalised class.
+    Ideally $R$ depends only on $c$ and $k$. In practice it may also depend on
+    the chosen Sobolev index and on constants in the incidence-fiber estimate.
+
+  \item \textbf{Non-collapse threshold.} A lower bound
+    \[
+      \|\rho\|_X\geq r(c,k)>0
+    \]
+    for every non-zero solution. A crude version may come from
+    $\|\rho\|_X\leq |c|\,C\|\rho\|_X^k$, which gives
+    $\|\rho\|_X\geq (|c|C)^{-1/(k-1)}$ whenever the multilinear estimate
+    $\|T(\rho)\|_X\leq C\|\rho\|_X^k$ is valid.
+
+  \item \textbf{Regularity and mesh modulus.} A derivative or modulus bound
+    \[
+      \|\rho\|_{C^m(S^2)}\leq B_m(c,k)
+    \]
+    for all solutions in the slice-normalised class. If the mesh size is $h$,
+    this gives a computable interpolation envelope
+    \[
+      \|\rho-I_h\rho\|_{C^0}\leq \eta_h(B_m),
+      \qquad \eta_h(B_m)\to0.
+    \]
+    This replaces the Galerkin tail constant. The mesh error is controlled by
+    physical regularity on $S^2$, not by spherical-harmonic decay.
+
+  \item \textbf{Validated quadrature for the fiber integral.} A computable
+    error bound for evaluating
+    \[
+      T(\rho)(\omega)
+      =
+      \int_{V_k(\omega)}\rho(\omega_1)\cdots\rho(\omega_k)\,
+      d\sigma_{\mathrm{fiber}}
+    \]
+    from interval enclosures of $\rho$ on the spherical mesh. Denote the
+    resulting quadrature and geometry error by $q_h(B_m)$. It must tend to zero
+    as the mesh is refined and must remain valid near singular or
+    nearly-degenerate fibers.
+
+
+  \item \textbf{Slice conditioning.} For each true solution $\rho$, a lower
+    bound on the sliced linearisation
+    \[
+      \|L_\rho\eta\|_X\geq \mu(\rho)\|\eta\|_X,
+      \qquad \eta\in S_\rho.
+    \]
+    To get a uniform count bound from packing, one wants
+    $\mu_*:=\inf_\rho\mu(\rho)>0$. Compactness plus nondegeneracy gives
+    $\mu_*>0$ abstractly; the search needs a computable lower bound.
+
+  \item \textbf{Second derivative/Lipschitz bound.} A bound
+    \[
+      \|DF(\rho)-DF(\tilde\rho)\|_{S_\rho\to X}
+      \leq M\|\rho-\tilde\rho\|_X
+    \]
+    on the radius-$R$ ball, after accounting for movement of the slice. This
+    is needed for Newton--Kantorovich validation and for lower bounds on
+    separation between distinct shapes.
+\end{enumerate}
+
+\subsection{From conditioning to separation of shapes}
+
+The cleanest way to bound the number of shapes is a packing argument in the
+quotient. Suppose we have a slice distance
+\[
+  d_G(\rho,\tilde\rho):=\inf_{g\in G}\|\rho-g\cdot\tilde\rho\|_X
+\]
+on the compact quotient of the solution set. If the sliced linearisation has
+uniform inverse bound $\mu_*^{-1}$ and the derivative is $M$-Lipschitz, then
+there is a quantitative isolation scale
+\[
+  \delta_* \simeq \frac{\mu_*}{M}
+\]
+such that two distinct shapes cannot lie in the same $\delta_*$-ball in the
+quotient. More explicitly, if $\eta$ is a slice displacement from a solution
+$\rho$, then
+\[
+  F(\rho+\eta)=L_\rho\eta+O(M\|\eta\|_X^2),
+  \qquad
+  \|F(\rho+\eta)\|_X
+    \geq \mu_*\|\eta\|_X-CM\|\eta\|_X^2.
+\]
+Thus a second zero in the slice is impossible for
+$0<\|\eta\|_X<\mu_*/(CM)$. This is the local separation estimate needed by the
+search.
+
+To turn this into a numerical upper bound, cover the slice-normalised compact
+set
+\[
+  \mathcal K:=\{\rho:\ r(c,k)\leq\|\rho\|_X\leq R(c,k),\
+      \|\rho\|_{C^m}\leq B_m,\ \rho\text{ satisfies the slice conditions}\}
+\]
+by mesh value boxes. If the triangulation has $N_h$ nodes, the naive effective
+dimension is approximately the number of real node variables after imposing
+the slice conditions. A very crude packing bound has the form
+\[
+  \#\{\text{shapes}\}
+  \leq
+  \left(1+\frac{2R_h}{\delta_*-2\eta_h-2q_h}\right)^{N_{\mathrm{mesh}}(h)},
+\]
+provided $\delta_*>2\eta_h+2q_h$. Here $R_h$ is the mesh-value radius,
+$N_{\mathrm{mesh}}(h)$ is the number of real mesh degrees of freedom after
+gauge conditions, and $q_h$ is the validated quadrature error. This is not
+expected to be sharp. Its value is that it depends only on explicit constants
+and certifies that the mesh is fine enough to separate distinct orbits.
+
+\subsection{Validated fixed-point search on a spherical mesh}
+
+The practical search should not enumerate all grid points blindly if this can
+be avoided. A reasonable validated pipeline is:
+\begin{enumerate}[leftmargin=2em]
+  \item Choose a geodesic triangulation or quasi-uniform point set
+    $\Omega_h=\{\omega_1,\ldots,\omega_{N_h}\}\subset S^2$ with mesh size $h$.
+    Fix a gauge for translation and rotation by slice equations, for example
+    orthogonality to the infinitesimal orbit directions.
+
+  \item Represent a candidate function by intervals for its nodal values
+    $(\rho(\omega_i))_{i=1}^{N_h}$ together with the global bounds
+    $\|\rho\|_X\leq R$ and $\|\rho\|_{C^m}\leq B_m$. The interval box therefore
+    represents all functions whose values lie in the box and whose oscillation
+    between nodes is bounded by $\eta_h(B_m)$.
+
+  \item For each box $B$, compute an interval enclosure for
+    \[
+      F(\rho)(\omega_i)=\rho(\omega_i)-cT(\rho)(\omega_i),
+      \qquad i=1,\ldots,N_h,
+    \]
+    using validated quadrature over the incidence fibers. The enclosure must
+    include both value uncertainty inside $B$ and the quadrature/mesh error
+    $q_h(B_m)$.
+
+  \item Discard $B$ if some node residual interval, enlarged by the modulus
+    error needed to control points between nodes, excludes zero. This is the
+    direct exclusion step.
+
+  \item For a surviving box, apply an interval Newton or Krawczyk test to the
+    finite nodal fixed-point map. The Jacobian used here is the discretized
+    version of the sliced operator $L_\rho$, with interval bounds that account
+    for mesh and quadrature errors.
+
+  \item If the Krawczyk image lies strictly inside the box, validate a unique
+    fixed point in that box. Then use the mesh residual estimate and the
+    contraction/implicit-function estimate in the full space to lift the nodal
+    fixed point to a unique true solution of $F(\rho)=0$ in the represented
+    function class.
+
+  \item Merge candidates whose slice distance is below the group-action
+    tolerance; then explicitly minimise over rotations and translations to
+    decide whether they represent the same shape.
+
+  \item Certify completeness by showing that every grid box has either been
+    excluded or assigned to the validation neighborhood of exactly one
+    solution.
+\end{enumerate}
+
+This is a branch-and-bound search in the quotient, not a purely numerical
+root-finder. The important feature is the exclusion certificate: without it,
+finding many solutions gives no evidence that all shapes have been found.
+
+\subsection{Main difficulties}
+
+There are four serious obstructions.
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{Translation gauge.} The action
+    $\rho(\omega)\mapsto e^{-ix\cdot\omega}\rho(\omega)$ is noncompact and
+    can create rapid oscillation on $S^2$ as $|x|$ grows. Any finite search
+    must either fix a canonical center/gauge or prove that large translations
+    are impossible inside the chosen compact slice.
+
+  \item \textbf{Uniform conditioning.} Nondegeneracy at each solution is not
+    enough for an effective search. We need a computable lower bound
+    $\mu_*>0$ for the sliced linearisation over all solutions. This may be the
+    hardest constant to obtain without already knowing the solutions.
+
+  \item \textbf{Mesh consistency.} The direct grid search is useful only if the
+    modulus-of-continuity and quadrature errors are rigorous. The estimate must
+    be strong enough that a nodal approximate zero cannot hide a large residual
+    between mesh points or along a poorly resolved incidence fiber.
+
+  \item \textbf{Dimension explosion.} Even after quotienting by $G$, the number
+    of nodal variables grows like the number of mesh points on $S^2$. A raw
+    grid search will be expensive; interval branch-and-bound, adaptive mesh
+    refinement, fixed-point contraction tests, and symmetry decomposition
+    should be used to reduce the search.
+\end{enumerate}
+
+The most realistic plan is therefore staged. First prove the analytic constants
+\[
+  R,\qquad r,\qquad B_m,\qquad \eta_h,\qquad q_h,\qquad \mu_*,\qquad M
+\]
+in a conservative norm. Then run interval fixed-point search on the sliced
+spherical mesh. Finally validate each candidate, and certify that all remaining
+boxes are empty.
+
+% -----------------------------------------------------------------------
+\section{\texorpdfstring{Restriction Constant Program on $S^1$}{Restriction Constant Program on S1}}
+% -----------------------------------------------------------------------
+
+The concrete target is the sharp Fourier extension constant on the unit circle
+$S^1\subset\mathbb R^2$:
+\[
+  \mathcal R
+  :=
+  \sup_{0\neq f\in L^2(S^1)}
+  \frac{\|\widehat{f\sigma}\|_{L^6(\mathbb R^2)}}{\|f\|_{L^2(S^1)}}.
+\]
+Here $\sigma$ is arclength measure on $S^1$ and
+\[
+  u(x)=\widehat{f\sigma}(x)
+     =\int_{S^1} f(\omega)e^{ix\cdot\omega}\,d\sigma(\omega).
+\]
+Thus $\widehat u$ is supported on $S^1$ by construction. With the Laplacian
+convention used in this note, every such $u$ satisfies
+\[
+  (-\Delta-1)u=0.
+\]
+If one writes $\Delta u=u$ instead, then one is using the opposite sign
+convention for the Laplacian.
+
+\subsection{Euler--Lagrange equation and normalization}
+
+Normalize
+\[
+  \|f\|_{L^2(S^1)}=1.
+\]
+Then an extremizer satisfies the Euler--Lagrange equation
+\[
+  E^*(|Ef|^4Ef)=\Lambda f,
+  \qquad
+  \Lambda=\|Ef\|_{L^6(\mathbb R^2)}^6,
+\]
+where $E f=\widehat{f\sigma}$ and $E^*$ is the adjoint restriction operator.
+Applying $E$ to both sides gives the nonlocal Helmholtz equation
+\[
+  (|u|^4u)*\widehat{\sigma}=\Lambda u,
+  \qquad
+  (-\Delta-1)u=0.
+\]
+Equivalently,
+\[
+  u=c\bigl((|u|^4u)*\widehat{\sigma}\bigr),
+  \qquad c=\Lambda^{-1}.
+\]
+The absolute values are important: the restriction problem gives
+$|u|^4u$, not generally $u^5$. The equation with $u^5$ is a useful model only
+in a real nonnegative or otherwise reduced setting where $|u|^4u=u^5$.
+
+The normalization is essential. Without it, if $u$ solves
+$u=c((|u|^4u)*\widehat\sigma)$, then $\alpha u$ solves the same equation with
+$c$ replaced by $c\alpha^{-4}$. Thus one cannot get a discrete list of
+parameters $c$ until the amplitude is fixed, for example by
+$\|f\|_2=1$.
+
+\subsection{What ``finding all \texorpdfstring{$c$}{c}'' means}
+
+After normalization, the search problem becomes the finite-dimensional-looking
+but still analytic problem
+\[
+  \mathcal F(f,\Lambda)
+  :=
+  \bigl(E^*(|Ef|^4Ef)-\Lambda f,\ \|f\|_2^2-1\bigr)=0,
+\]
+modulo the symmetries of the circle: rotation of $S^1$, modulation/translation
+of the extension, and constant phase. If the compactness and transversality
+program proves that the normalized critical set modulo these symmetries is
+finite, then the possible critical values
+\[
+  \Lambda_j=\|Ef_j\|_6^6
+\]
+are finite. The sharp restriction constant is then
+\[
+  \mathcal R=\max_j \Lambda_j^{1/6}.
+\]
+In the $c$-parametrization above, this is the same as finding the smallest
+positive $c_j=\Lambda_j^{-1}$:
+\[
+  \mathcal R=c_{\min}^{-1/6}.
+\]
+
+\subsection{Direct certified search over critical values}
+
+The direct search should therefore use $(f,\Lambda)$, or equivalently
+$(f,c)$, as variables. A concrete certified program is:
+\begin{enumerate}[leftmargin=2em]
+  \item Prove a priori bounds for normalized critical points:
+    \[
+      \|f\|_{L^2}=1,\qquad
+      \|f\|_{C^m(S^1)}\leq B_m,\qquad
+      0<\Lambda_{\min}\leq\Lambda\leq\Lambda_{\max}.
+    \]
+
+  \item Fix gauges for the symmetries. For instance, impose a phase condition,
+    a rotation condition on $S^1$, and a translation/modulation condition for
+    $u=Ef$. These are the constraints that make two equivalent extremizers
+    appear only once in the search.
+
+  \item Mesh $S^1$ directly. Represent $f$ by interval boxes for its values on
+    a circular grid, together with the derivative bound $B_m$, giving a
+    rigorous interpolation error $\eta_h(B_m)$.
+
+  \item On each box for $(f,\Lambda)$, enclose the residual
+    \[
+      E^*(|Ef|^4Ef)(\omega_i)-\Lambda f(\omega_i)
+    \]
+    at the mesh points, plus the normalization and gauge equations. The
+    enclosure must include quadrature error for the $x$-space or convolution
+    representation and interpolation error between grid points.
+
+  \item Discard boxes whose interval residual excludes zero. For surviving
+    boxes, apply an interval Newton or Krawczyk test to the augmented system.
+    The linearization to bound is
+    \[
+      (h,\lambda)\mapsto
+      E^*\!\left(4|u|^2\operatorname{Re}(\overline u\,Eh)\,u
+        + |u|^4Eh\right)
+      -\Lambda h-\lambda f,
+    \]
+    together with the derivative of the normalization and gauge constraints.
+
+  \item Each validated box yields one critical point and one interval for
+    $\Lambda_j$. Completeness is certified only after every box in the
+    normalized search region is either discarded or assigned to exactly one
+    validated critical point.
+\end{enumerate}
+
+At the end, sort the validated intervals for $\Lambda_j$. If the largest
+interval is separated from the others, its sixth root gives the sharp
+$L^2(S^1)\to L^6(\mathbb R^2)$ extension constant. If the top intervals overlap,
+the mesh or conditioning estimates must be refined until the ordering is
+certified.
+
+\subsection{Main analytic bottlenecks for the circle problem}
+
+The difficult estimates are now more specific than in the model problem:
+\begin{enumerate}[leftmargin=2em]
+  \item compactness of normalized critical points modulo the circle symmetries;
+  \item a regularity bootstrap for critical points of
+    $E^*(|Ef|^4Ef)=\Lambda f$;
+  \item a quantitative slice theorem fixing phase, rotation, and translation;
+  \item a lower bound on the augmented sliced linearization, uniform over all
+    normalized critical points;
+  \item validated quadrature or convolution estimates for the nonlinear
+    residual on a direct mesh of $S^1$.
+\end{enumerate}
+
+The conclusion we want is not merely existence of an extremizer. We want a
+finite certified list of normalized critical values $\Lambda_j$, because the
+sharp constant is obtained by selecting the largest one.
+
+% -----------------------------------------------------------------------
+\section{Using Symmetry to Reduce to Finitely Many Critical Values}
+% -----------------------------------------------------------------------
+
+The role of symmetry is not, by itself, to prove finiteness. Rather, symmetry
+removes the continuous families that are forced by invariance. The finiteness
+principle should be formulated as
+\[
+  \begin{gathered}
+  \text{compactness modulo symmetry}
+  \quad+\quad
+  \text{nondegeneracy on a slice}\\
+  \Longrightarrow
+  \text{finitely many critical values.}
+  \end{gathered}
+\]
+
+\subsection{The symmetry group}
+
+For the $S^1$ restriction problem the natural group is
+\[
+  G=U(1)\times SO(2)\ltimes\mathbb R^2.
+\]
+It acts on densities by
+\[
+  (e^{i\alpha},R,x_0)\cdot f(\omega)
+  =
+  e^{i\alpha}e^{-ix_0\cdot\omega}f(R^{-1}\omega).
+\]
+These transformations preserve $\|f\|_{L^2(S^1)}$ and
+$\|Ef\|_{L^6(\mathbb R^2)}$, hence they preserve the Euler--Lagrange parameter
+\[
+  \Lambda=\|Ef\|_6^6.
+\]
+Thus every critical point generates a whole $G$-orbit with the same
+$\Lambda$. The finite object is therefore not the raw critical set, but the
+quotient
+\[
+  \mathcal Z
+  :=
+  \{(f,\Lambda):E^*(|Ef|^4Ef)=\Lambda f,\ \|f\|_2=1\}/G.
+\]
+
+\subsection{Compactness modulo symmetry}
+
+The first target theorem is:
+\[
+  (f_n,\Lambda_n)\in\mathcal Z
+  \quad\Longrightarrow\quad
+  \exists\,g_n\in G
+  \text{ such that } g_nf_n\to f_\infty
+  \text{ strongly in the chosen space.}
+\]
+This is a concentration-compactness statement. It must rule out loss of mass,
+splitting of mass, and escape through the translation/modulation parameter
+$x_0$. The normalization $\|f_n\|_2=1$ rules out trivial scaling collapse, but
+does not by itself rule out symmetry escape. That is exactly why the quotient
+by $G$ is needed.
+
+\subsection{Slice and infinitesimal symmetries}
+
+At a critical point $f$, the infinitesimal symmetry directions are
+\[
+  if,\qquad
+  \partial_\theta f,\qquad
+  -i(a\cdot\omega)f,\quad a\in\mathbb R^2.
+\]
+The slice should impose orthogonality conditions against these directions, for
+example in the $L^2(S^1)$ or $H^s(S^1)$ inner product. After adding the
+normalization constraint, a nearby normalized critical point should be
+representable uniquely, modulo any finite stabilizer, as
+\[
+  g\cdot(f+\eta),
+  \qquad
+  \eta\perp T_f(G\cdot f).
+\]
+
+\subsection{Nondegeneracy of the augmented equation}
+
+Define the augmented Euler--Lagrange map
+\[
+  \mathcal F(f,\Lambda)
+  :=
+  \bigl(E^*(|Ef|^4Ef)-\Lambda f,\ \|f\|_2^2-1\bigr).
+\]
+The linearized operator in the variables $(f,\Lambda)$ is
+\[
+  \begin{aligned}
+  D\mathcal F(f,\Lambda)[h,\lambda]
+  &=
+  \left(
+    E^*\!\left(4|u|^2\operatorname{Re}(\overline u\,Eh)\,u
+        + |u|^4Eh\right)
+    -\Lambda h-\lambda f,\right.\\
+  &\hspace{7em}\left.
+    2\operatorname{Re}\langle f,h\rangle
+  \right),
+  \qquad u=Ef.
+  \end{aligned}
+\]
+The required nondegeneracy condition is
+\[
+  \ker D\mathcal F(f,\Lambda)=T_f(G\cdot f).
+\]
+Equivalently, once one restricts to the slice and imposes the normalization,
+the linearized operator has no kernel. This is the local discreteness
+statement: the implicit function theorem then says that there are no nearby
+critical points except those obtained by symmetry.
+
+\subsection{Finiteness of admissible \texorpdfstring{$\Lambda_j$}{Lambda j}}
+
+If the normalized critical set is compact modulo $G$, and if every normalized
+critical point is nondegenerate modulo $G$, then $\mathcal Z$ is compact and
+discrete. Therefore $\mathcal Z$ is finite. Since $\Lambda$ is constant along
+each $G$-orbit, the set of admissible critical values
+\[
+  \{\Lambda_j\}
+\]
+is finite as well.
+
+The sharp restriction constant is then obtained by selecting the largest
+critical value:
+\[
+  \mathcal R=\max_j \Lambda_j^{1/6}.
+\]
+In the reciprocal parametrization
+$u=c((|u|^4u)*\widehat\sigma)$, this is the same as selecting the smallest
+positive $c_j=\Lambda_j^{-1}$.
+
+\end{document}
