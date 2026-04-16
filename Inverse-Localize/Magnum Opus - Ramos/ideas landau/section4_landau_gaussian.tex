@@ -1,0 +1,348 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+
+\newcommand{\C}{\mathbb C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\ddA}{\,dA}
+\newcommand{\dz}{\partial_z}
+\newcommand{\dbz}{\partial_{\bar z}}
+
+\title{Section 4 in Lowest-Landau Language}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Purpose}
+
+This note records the translation of the rigidity argument in Section 4 of
+\texttt{main.tex} into the language of the magnetic Landau operator.  The main
+point is that, for the usual Gaussian window used in the paper, the relevant
+Landau level is the lowest Landau level, with magnetic field normalized by the
+Fock weight
+\[
+        \|F\|_{\mathcal F^2}^2
+        =\int_{\C}|F(z)|^2 e^{-\pi |z|^2}\ddA(z).
+\]
+Thus the constant which is \(2\) in the convention
+\(e^{-|z|^2/2}\) becomes \(2\pi\) in the convention of the paper.
+
+The conclusion is that Section 4 should be viewed as a magnetic Schwarz
+potential problem at the bottom Landau energy.  The disk rigidity then follows
+from the same mechanism as in the second proof of Section 4, provided one has
+a magnetic analogue of the compact-support potential/divisibility step.
+
+\section{Fock normalization and the Landau operator}
+
+Set \(z=x+iy\), and choose the symmetric gauge
+\[
+        A_\pi(x,y)=(-\pi y,\pi x).
+\]
+Write
+\[
+        L_\pi:=(\nabla-iA_\pi)^2
+        =(\partial_x+i\pi y)^2+(\partial_y-i\pi x)^2.
+\]
+This is the negative magnetic Laplacian.  The positive magnetic Laplacian is
+\[
+        H_\pi:=-L_\pi.
+\]
+Define the magnetic Cauchy--Riemann operators
+\[
+        Q_\pi:=2\dbz+\pi z,
+        \qquad
+        P_\pi:=2\dz-\pi\bar z .
+\]
+Then
+\[
+        Q_\pi=2e^{-\pi |z|^2/2}\dbz e^{\pi |z|^2/2},
+        \qquad
+        P_\pi=2e^{\pi |z|^2/2}\dz e^{-\pi |z|^2/2},
+\]
+and
+\begin{equation}\label{eq:factorization}
+        P_\pi Q_\pi=L_\pi+2\pi .
+\end{equation}
+Consequently,
+\[
+        Q_\pi \psi=0
+        \quad\Longleftrightarrow\quad
+        \psi(z)=F(z)e^{-\pi |z|^2/2},
+        \qquad F \ \text{entire}.
+\]
+These are the lowest Landau states, and they satisfy
+\[
+        L_\pi\psi=-2\pi\psi,
+        \qquad
+        H_\pi\psi=2\pi\psi.
+\]
+If one rescales the field so that the Gaussian is \(e^{-|z|^2/2}\), then
+\(2\pi\) is replaced by \(2\).  This is the source of the normalization shift.
+
+\section{Localization as a lowest-Landau Toeplitz operator}
+
+The Bargmann-Fock localization operator in the paper is
+\[
+        T_UF(w)=\int_U F(z)e^{\pi w\bar z}e^{-\pi |z|^2}\ddA(z).
+\]
+Under the unitary identification
+\[
+        F\longmapsto \psi_F:=F e^{-\pi |z|^2/2},
+\]
+this is the compressed multiplication operator
+\[
+        \psi_F\longmapsto \Pi_0(\1_U\psi_F),
+\]
+where \(\Pi_0\) is the orthogonal projection onto the lowest Landau level
+\[
+        \mathcal L_0:=\ker(H_\pi-2\pi)=\ker Q_\pi .
+\]
+Thus the Gaussian eigenfunction condition \(T_U1=\lambda\) is equivalent to
+\[
+        \Pi_0(\1_U\psi_0)=\lambda\psi_0,
+        \qquad
+        \psi_0=e^{-\pi |z|^2/2}.
+\]
+Testing against the reproducing kernels gives the weighted quadrature identity
+\begin{equation}\label{eq:k0-quadrature}
+        \int_U e^{-\pi |z|^2}e^{\pi w\bar z}\ddA(z)=\lambda,
+        \qquad w\in\C .
+\end{equation}
+Equivalently,
+\[
+        \int_U e^{-\pi |z|^2}\bar z^m\ddA(z)=0,
+        \qquad m\ge 1.
+\]
+
+More generally, if the Hermite function \(h_k\) is an eigenfunction, then its
+Bargmann transform is a nonzero multiple of \(z^k\).  Section 4 obtains
+\begin{equation}\label{eq:k-quadrature}
+        \int_U |z|^{2k}e^{-\pi |z|^2}e^{\pi w\bar z}\ddA(z)
+        =c_{k,\lambda},
+        \qquad w\in\C ,
+\end{equation}
+after differentiating \(k\) times in \(w\).  This is still a lowest-Landau
+quadrature identity.  The index \(k\) is angular momentum inside the lowest
+Landau level; it is not a higher Landau level.
+
+\section{The magnetic Schwarz-potential formulation}
+
+The natural magnetic analogue of the logarithmic potential in Section 4 is a
+compactly supported solution of
+\begin{equation}\label{eq:magnetic-potential}
+        (L_\pi+2\pi)u
+        =
+        |z|^{2k}e^{-\pi |z|^2/2}\1_U
+        -
+        c_{k,\lambda}\delta_0 .
+\end{equation}
+Indeed, if \(h(z)=G(z)e^{-\pi |z|^2/2}\) is in the lowest Landau level, then
+pairing \eqref{eq:magnetic-potential} with the conjugate reproducing family
+recovers exactly \eqref{eq:k-quadrature}.  Conversely, a compactly supported
+solution of \eqref{eq:magnetic-potential} would be the Landau analogue of the
+compactly supported logarithmic potential supplied in Section 4 by the
+Fourier/divisibility argument.
+
+If \(u\) is supported in \(\overline U\) and is sufficiently regular up to
+\(\partial U\), extension by zero gives the overdetermined boundary conditions
+\begin{equation}\label{eq:magnetic-boundary}
+        u=0,
+        \qquad
+        \partial_\nu^A u:=\nu\cdot(\nabla-iA_\pi)u=0
+        \quad\text{on }\partial U.
+\end{equation}
+Since the trace of \(u\) vanishes, its tangential magnetic derivative also
+vanishes on \(\partial U\).  Hence the full magnetic gradient vanishes there,
+and in particular
+\[
+        Q_\pi u=0
+        \quad\text{on }\partial U .
+\]
+
+\section{Mirroring the holomorphic auxiliary function from Section 4}
+
+Assume for the moment that \eqref{eq:magnetic-potential} has a compactly
+supported solution satisfying \eqref{eq:magnetic-boundary}.  By
+\eqref{eq:factorization},
+\[
+        P_\pi(Q_\pi u)
+        =
+        |z|^{2k}e^{-\pi |z|^2/2}\1_U
+        -
+        c_{k,\lambda}\delta_0 .
+\]
+Inside \(U\setminus\{0\}\), introduce the radial primitive
+\[
+        \Phi_k(t):=\frac12\int_0^t s^k e^{-\pi s}\,ds,
+        \qquad t=|z|^2.
+\]
+Then
+\[
+        \Psi_k(z):=
+        e^{\pi |z|^2/2}\frac{\Phi_k(|z|^2)}{\bar z}
+\]
+satisfies
+\begin{equation}\label{eq:P-primitive}
+        P_\pi\Psi_k
+        =
+        |z|^{2k}e^{-\pi |z|^2/2}
+        \qquad (z\ne 0).
+\end{equation}
+Also,
+\[
+        P_\pi\left(e^{\pi |z|^2/2}\frac1{\bar z}\right)
+        =
+        2\pi\delta_0
+\]
+in the sense of distributions.  Therefore
+\[
+        G(z):=
+        Q_\pi u(z)-\Psi_k(z)
+        +\frac{c_{k,\lambda}}{2\pi}
+        e^{\pi |z|^2/2}\frac1{\bar z}
+\]
+satisfies
+\[
+        P_\pi G=0
+        \quad\text{in }U.
+\]
+Equivalently,
+\[
+        e^{-\pi |z|^2/2}G(z)
+\]
+is antiholomorphic in \(U\).  Multiplying by \(\bar z\), the singularity at the
+origin is removable, and
+\[
+        W(z):=\bar z\,e^{-\pi |z|^2/2}G(z)
+\]
+is antiholomorphic in \(U\).
+
+On \(\partial U\), the boundary condition gives \(Q_\pi u=0\), so
+\[
+        W|_{\partial U}
+        =
+        \frac{c_{k,\lambda}}{2\pi}
+        -
+        \Phi_k(|z|^2).
+\]
+This boundary value is real.  Hence \(\operatorname{Im}W\) is harmonic in \(U\),
+continuous up to the boundary, and vanishes on \(\partial U\).  By the maximum
+principle,
+\[
+        \operatorname{Im}W\equiv 0.
+\]
+Thus \(W\) is constant.  Restricting again to the boundary gives
+\[
+        \Phi_k(|z|^2)=\text{constant}
+        \quad\text{on }\partial U.
+\]
+Since
+\[
+        \Phi_k'(t)=\frac12t^k e^{-\pi t}>0
+        \qquad (t>0),
+\]
+the radius \(|z|\) is constant on \(\partial U\).  Under the same connectedness
+and boundary hypotheses used in Section 4, this forces \(U\) to be a disk
+centered at the origin.
+
+\begin{proposition}[Conditional Landau-Schwarz rigidity]
+Let \(U\subset\C\) be bounded, connected, and sufficiently regular, and assume
+that \(0\in U\).  Suppose the quadrature identity
+\eqref{eq:k-quadrature} gives rise to a compactly supported solution
+\(u\) of \eqref{eq:magnetic-potential} with support in \(\overline U\) and
+with boundary conditions \eqref{eq:magnetic-boundary}.  Then \(U\) is a disk
+centered at the origin.
+\end{proposition}
+
+\section{Where the spectral nonresonance enters}
+
+In the field normalization of this note, the bottom positive Landau energy is
+\(2\pi\).  In the normalization of \texttt{landau.tex}, where the Gaussian is
+\(e^{-|z|^2/2}\), it is \(2\).  The statement
+\[
+        2\pi\notin\sigma(H_{\pi,U}^D)
+\]
+for the Dirichlet magnetic Laplacian on a bounded domain is the corresponding
+nonresonance statement.
+
+Indeed, if \(H_{\pi,U}^D v=2\pi v\), then \(Q_\pi v=0\) by the factorization,
+so
+\[
+        v(z)=F(z)e^{-\pi |z|^2/2}
+\]
+for some holomorphic \(F\).  The Dirichlet trace forces \(F=0\) on
+\(\partial U\), hence \(F\equiv 0\) under the usual connected-domain
+hypotheses.  Thus \(2\pi\) is not a Dirichlet eigenvalue.
+
+This nonresonance is useful because it gives uniqueness and solvability for
+the interior Dirichlet problem at the Landau energy.  It is not, by itself, the
+disk rigidity.  The rigidity comes from the stronger free-boundary information:
+the solution is compactly supported, so both \(u\) and the magnetic normal
+derivative vanish on the boundary.
+
+\section{What remains to make this a proof}
+
+To turn the preceding conditional argument into a replacement proof of
+Section 4, one needs the following inputs.
+
+\begin{enumerate}
+    \item \textbf{Magnetic divisibility / compact-support potential.}
+    Starting from \eqref{eq:k-quadrature}, prove the existence of
+    \(u\in\mathcal E'(\C)\), or preferably a function with enough Sobolev
+    regularity, satisfying \eqref{eq:magnetic-potential}.  This is the magnetic
+    analogue of the Fourier/Paley--Wiener divisibility step used in Section 4
+    to obtain \(\Delta u=f\1_U-c\delta_0\).
+
+    \item \textbf{Support identification.}
+    Show that the compactly supported solution may be chosen so that
+    \(\operatorname{supp}u\subset\overline U\), or prove directly that it
+    vanishes in the exterior component.  This is what turns the PDE into a
+    free-boundary problem.
+
+    \item \textbf{Boundary regularity and transmission.}
+    Establish enough regularity up to \(\partial U\) to justify
+    \(u=0\) and \(\partial_\nu^A u=0\) on the boundary after extension by zero.
+    Once these are available, the first-order argument above is purely local.
+
+    \item \textbf{Treatment of the origin.}
+    As in Section 4, one must show that \(0\in U\) and \(0\notin\partial U\),
+    or otherwise remove a small centered disk and adjust the constant.  The
+    auxiliary function uses \(1/\bar z\), so this point has to be handled
+    explicitly.
+
+    \item \textbf{Topology.}
+    The boundary conclusion is that \(\partial U\) lies on a centered circle.
+    The final statement that \(U\) is the disk uses the same connectedness or
+    simply-connectedness assumptions as Section 4.
+\end{enumerate}
+
+\section{Summary}
+
+The Gaussian-window Section 4 problem is a lowest-Landau-level inverse problem:
+\[
+        T_U z^k=\lambda z^k
+        \quad\Longleftrightarrow\quad
+        \Pi_0(\1_U z^k e^{-\pi |z|^2/2})
+        =
+        \lambda z^k e^{-\pi |z|^2/2}.
+\]
+After differentiating in the reproducing parameter, this becomes the weighted
+quadrature identity \eqref{eq:k-quadrature}.  The corresponding magnetic
+Schwarz potential is \eqref{eq:magnetic-potential}, at the Landau energy
+\(2\pi\) for the positive operator \(H_\pi\).
+
+If the missing compact-support potential step is supplied, then the rest of
+Section 4 has a direct Landau analogue: factor \(L_\pi+2\pi=P_\pi Q_\pi\),
+subtract the explicit radial first-order primitive \(\Psi_k\), obtain an
+antiholomorphic auxiliary function with real boundary values, and conclude that
+\(|z|\) is constant on \(\partial U\).  This recovers the disk.
+
+\end{document}

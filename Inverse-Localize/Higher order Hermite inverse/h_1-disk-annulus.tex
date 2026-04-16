@@ -1,0 +1,610 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\title{Disk and annulus rigidity for the \((h_1,h_1,U)\) problem}
+\author{}
+\date{}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\C}{\mathbb C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\pw}{\partial_w}
+\newcommand{\pwb}{\partial_{\bar w}}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Let \(U\subset\C\) be a bounded, connected open set with \(C^1\) boundary, and let
+\(\partial U=\Gamma_0\cup\Gamma_1\cup\cdots\cup\Gamma_N\), where \(\Gamma_0\) is the outer
+boundary component and \(\Gamma_1,\dots,\Gamma_N\) bound the holes
+\(H_1,\dots,H_N\subset\C\setminus\overline U\).
+
+We consider the \((h_1,h_1,U)\) localization problem: find all such \(U\) for which the first
+Hermite function \(h_1\) is an eigenfunction of the \(h_1\)-window localization operator
+\(\mathcal L_U^{h_1}\), i.e.,
+\[
+\mathcal L_U^{h_1}h_1=\lambda h_1
+\]
+for some \(\lambda\in\R\).
+
+The main result of this note is the following.
+
+\begin{theorem}\label{thm:main}
+Let \(U\subset\C\) be bounded and connected with \(C^1\) boundary, and suppose that
+\(\mathcal L_U^{h_1}h_1=\lambda h_1\) for some \(\lambda\in\R\). Then \(U\) is a disk or
+an annulus centered at the origin.
+\end{theorem}
+
+The proof combines the Bargmann-space formulation and the first-order distributional equation
+established in the companion note \texttt{h\_1-loc.tex} with a new explicit-antiderivative
+argument that determines the solution in each connected component of~\(\C\).
+
+\section{Setup and distributional equation}
+
+We recall the relevant results from \texttt{h\_1-loc.tex}. Under the Bargmann transform,
+\(h_1\leftrightarrow e_1(w)=\sqrt\pi\,w\), and a standard computation gives
+\[
+\langle e_1,T_ze_1\rangle_{\mathcal F^2}
+=e^{-\frac\pi2|z|^2}(1-\pi|z|^2).
+\]
+The eigenvalue equation \(\mathcal L_U^{h_1}h_1=\lambda h_1\) is therefore equivalent to
+\begin{equation}\label{eq:bargmann}
+\int_U(1-\pi|z|^2)(w-z)\,e^{\pi w\bar z-\pi|z|^2}\,dA(z)=\lambda w,
+\qquad w\in\C.
+\end{equation}
+Set
+\[
+g(w):=(1-\pi|w|^2)\,e^{-\pi|w|^2}.
+\]
+The Bargmann identity \eqref{eq:bargmann} is equivalent to the vanishing
+\(\langle\omega,e^{\pi wz}\rangle=0\) for all \(w\in\C\), where
+\begin{equation}\label{eq:omega}
+\omega
+:=
+\bigl(-\tfrac1\pi\pw-\bar w\bigr)(g\,\1_U)
++\tfrac\lambda\pi\,\pw\delta_0
+\end{equation}
+is a compactly supported distribution. (See \texttt{h\_1-loc.tex}, Proposition~3.1 and its
+proof.) Expanding the Leibniz rule gives the equivalent form
+\begin{equation}\label{eq:omega-expanded}
+\omega
+=
+\bar w\,e^{-\pi|w|^2}\1_U
+-\tfrac1\pi\,g(w)\,\pw\1_U
++\tfrac\lambda\pi\,\pw\delta_0.
+\end{equation}
+
+Since the exponentials \(\{e^{\pi wz}:w\in\C\}\) span the kernel of \(\pw\) acting on
+distributions, the Ehrenpreis--Malgrange theorem furnishes a (unique) distribution
+\(u\in\mathcal E'(\C)\) satisfying
+\begin{equation}\label{eq:first-order}
+\pw u=\omega.
+\end{equation}
+
+\begin{lemma}\label{lem:uniqueness}
+The solution of \eqref{eq:first-order} in \(\mathcal E'(\C)\) is unique.
+\end{lemma}
+
+\begin{proof}
+If \(T\in\mathcal E'(\C)\) satisfies \(\pw T=0\), then \(T\) is anti-holomorphic as a
+distribution. Its Fourier transform satisfies
+\((\xi_1-i\xi_2)\hat T(\xi_1,\xi_2)=0\), so \(\hat T\) is supported at the origin, hence
+\(T\) is a polynomial. A compactly supported polynomial vanishes identically.
+\end{proof}
+
+\section{Regularity and structure of the solution}
+
+We now analyze the unique solution \(u\in\mathcal E'(\C)\) of \eqref{eq:first-order}
+region by region.
+
+\subsection{Unbounded exterior}
+
+In the unbounded component \(\Omega_\infty\) of \(\C\setminus\overline U\), both
+\(\1_U\) and \(\delta_0\) vanish, so \(\pw u=0\). Thus \(u\) is anti-holomorphic in
+\(\Omega_\infty\). Since \(u\) has compact support, \(u\equiv 0\) in \(\Omega_\infty\)
+(an anti-holomorphic function that vanishes on an open subset of a connected set vanishes
+identically).
+
+\subsection{Interior of \(U\)}
+
+In~\(U\), the boundary distribution \(\pw\1_U\) vanishes, and \eqref{eq:omega-expanded}
+reduces to
+\begin{equation}\label{eq:interior}
+\pw u
+=
+\bar w\,e^{-\pi|w|^2}
++\tfrac\lambda\pi\,\pw\delta_0
+\qquad\text{in }\mathcal D'(U).
+\end{equation}
+Define \(v:=u-\frac\lambda\pi\,\delta_0\in\mathcal D'(U)\). Then
+\(\pw v=\bar w\,e^{-\pi|w|^2}\), which is \(C^\infty\). Since \(\pw\) is elliptic
+(its principal symbol \(\xi_1-i\xi_2\) is nonvanishing for \(\xi\ne 0\)),
+elliptic regularity gives \(v\in C^\infty(U)\).
+
+\begin{lemma}\label{lem:real}
+The function \(v\) is real-valued in~\(U\).
+\end{lemma}
+
+\begin{proof}
+Applying \(\pwb\) to \(\pw v=\bar w\,e^{-\pi|w|^2}\):
+\[
+\tfrac14\Delta v
+=
+\pwb(\bar w\,e^{-\pi|w|^2})
+=
+e^{-\pi|w|^2}+\bar w\cdot(-\pi w)\,e^{-\pi|w|^2}
+=
+(1-\pi|w|^2)\,e^{-\pi|w|^2}.
+\]
+This is real, so \(\Delta(\operatorname{Im}v)=0\) in~\(U\); i.e.,
+\(\operatorname{Im}v\) is harmonic in~\(U\).
+
+We will show that \(\operatorname{Im}v=0\) on \(\partial U\) in the distributional
+trace sense, after which the maximum principle gives \(\operatorname{Im}v\equiv 0\).
+The boundary analysis is carried out in \S\ref{sec:boundary} below.
+\end{proof}
+
+\subsection{Holes not containing the origin}\label{sec:holes}
+
+Let \(H_j\) (\(1\le j\le N\)) be a hole with \(0\notin H_j\). In~\(H_j\), both
+\(\1_U\) and \(\delta_0\) vanish, so
+\(\pw u=0\). Hence \(u\) is anti-holomorphic in~\(H_j\).
+
+\subsection{The hole containing the origin (if any)}
+
+If \(0\in U\), there is nothing to add. If \(0\notin U\), then \(0\) lies in some hole
+\(H_0\) (relabeling if necessary). In~\(H_0\),
+\[
+\pw u=\tfrac\lambda\pi\,\pw\delta_0
+\qquad\text{in }\mathcal D'(H_0).
+\]
+Setting \(\tilde u:=u-\frac\lambda\pi\,\delta_0\), we get
+\(\pw\tilde u=0\) in \(\mathcal D'(H_0)\), so \(\tilde u\) is anti-holomorphic
+(hence \(C^\infty\)) in~\(H_0\). In particular, \(u\) is represented by a smooth
+function away from~\(0\) in~\(H_0\), with the distributional singularity
+\(\frac\lambda\pi\delta_0\) at the origin.
+
+\section{Boundary traces and the jump relation}\label{sec:boundary}
+
+Since \(u\in\mathcal E'(\C)\) satisfies \(\pw u=\omega\), we can read off the jump
+of~\(u\) across \(\partial U\) by comparing the coefficients of the boundary distribution
+\(\pw\1_U=-\frac12(\nu_1-i\nu_2)\,\mathcal H^1|_{\partial U}\).
+
+Write \(u=v\,\1_U+\sum_{j}u_j\,\1_{H_j}+0\cdot\1_{\Omega_\infty}\) distributionally
+near \(\partial U\) (ignoring the \(\delta_0\) term, which is supported away from
+\(\partial U\)). Then
+\[
+\pw u
+=
+(\pw v)\,\1_U+\sum_j(\pw u_j)\,\1_{H_j}
++\bigl(v|_{\partial U}-u_{\mathrm{ext}}|_{\partial U}\bigr)\pw\1_U
++\cdots,
+\]
+where \(u_{\mathrm{ext}}\) denotes the exterior trace (which is \(0\) on \(\Gamma_0\) and
+\(u_j\) on \(\Gamma_j\)). Matching the coefficient of \(\pw\1_U\) in
+\eqref{eq:omega-expanded}:
+
+\begin{equation}\label{eq:jump}
+v|_{\Gamma_k}-u_{\mathrm{ext}}|_{\Gamma_k}
+=
+-\tfrac1\pi\,g(w)
+=
+-\tfrac1\pi(1-\pi|w|^2)\,e^{-\pi|w|^2}
+\qquad(k=0,1,\dots,N).
+\end{equation}
+
+On the outer boundary \(\Gamma_0\): \(u_{\mathrm{ext}}=0\), so
+\begin{equation}\label{eq:trace-outer}
+v|_{\Gamma_0}=-\tfrac1\pi(1-\pi|w|^2)\,e^{-\pi|w|^2}
+\qquad(\text{real}).
+\end{equation}
+
+On an inner boundary \(\Gamma_j\): \(u_{\mathrm{ext}}=u_j\), so
+\begin{equation}\label{eq:trace-inner}
+v|_{\Gamma_j}-u_j|_{\Gamma_j}
+=
+-\tfrac1\pi(1-\pi|w|^2)\,e^{-\pi|w|^2}
+\qquad(\text{real}).
+\end{equation}
+
+\section{Reality of \(u\) everywhere}
+
+\begin{proposition}\label{prop:real}
+The smooth function \(v\) is real-valued in~\(U\), and the anti-holomorphic function
+\(u_j\) is real-valued in each hole~\(H_j\).
+\end{proposition}
+
+\begin{proof}
+Define the function \(\Phi:\C\to\R\) by
+\[
+\Phi(w):=
+\begin{cases}
+\operatorname{Im}v(w) & w\in U,\\
+\operatorname{Im}u_j(w) & w\in H_j\ (j=1,\dots,N),\\
+0 & w\in\Omega_\infty.
+\end{cases}
+\]
+In each region, \(\Phi\) is harmonic:
+\begin{itemize}
+\item In~\(U\): \(\Delta(\operatorname{Im}v)=\operatorname{Im}(\Delta v)=0\) since
+\(\Delta v=4(1-\pi|w|^2)e^{-\pi|w|^2}\) is real (Lemma~\ref{lem:real}).
+\item In~\(H_j\): \(u_j\) is anti-holomorphic, hence harmonic, so
+\(\operatorname{Im}u_j\) is harmonic.
+\item In~\(\Omega_\infty\): \(\Phi\equiv 0\).
+\end{itemize}
+
+Moreover, \(\Phi\) is continuous across \(\partial U\). Indeed:
+\begin{itemize}
+\item On \(\Gamma_0\): from the \(U\)-side, \(\Phi=\operatorname{Im}v\); from the
+exterior, \(\Phi=0\). The jump relation \eqref{eq:trace-outer} gives
+\(v|_{\Gamma_0}=\text{real}\), so \(\operatorname{Im}v|_{\Gamma_0}=0\). Thus \(\Phi\)
+is continuous across~\(\Gamma_0\).
+\item On \(\Gamma_j\): the jump relation \eqref{eq:trace-inner} gives
+\(v|_{\Gamma_j}-u_j|_{\Gamma_j}=\text{real}\), so
+\(\operatorname{Im}v|_{\Gamma_j}=\operatorname{Im}u_j|_{\Gamma_j}\). Thus \(\Phi\)
+is continuous across~\(\Gamma_j\).
+\end{itemize}
+
+Therefore \(\Phi\) is harmonic in
+\(U\cup H_1\cup\cdots\cup H_N\cup\Omega_\infty=\C\) (since it is harmonic in each
+piece and continuous across the interfaces, it is harmonic globally by removability of
+\(C^1\) interfaces for continuous harmonic functions). Since \(\Phi\equiv 0\) outside a
+compact set, the maximum principle (or Liouville's theorem) gives
+\(\Phi\equiv 0\) on~\(\C\).
+
+In particular, \(\operatorname{Im}v\equiv 0\) in~\(U\) and
+\(\operatorname{Im}u_j\equiv 0\) in each~\(H_j\).
+\end{proof}
+
+\begin{remark}
+For the hole \(H_0\) containing the origin (if \(0\notin U\)): we showed
+\(u=\tilde u+\frac\lambda\pi\delta_0\) with \(\tilde u\) anti-holomorphic in~\(H_0\).
+The jump relation gives \(\tilde u|_{\Gamma_0^{H_0}}\) real (since \(v\) and \(g\) are
+real on the boundary). The same maximum-principle argument shows
+\(\operatorname{Im}\tilde u\equiv 0\), so \(\tilde u\) is real in~\(H_0\).
+\end{remark}
+
+\section{Explicit formula and rigidity}
+
+\begin{proposition}\label{prop:explicit}
+The solution satisfies
+\begin{equation}\label{eq:explicit}
+v(w)=-\frac1\pi\,e^{-\pi|w|^2}+C
+\qquad(w\in U)
+\end{equation}
+for a constant \(C\in\R\). Moreover, each \(u_j\) is a real constant in~\(H_j\).
+\end{proposition}
+
+\begin{proof}
+Since \(v\) is real and smooth in~\(U\), the first-order equation
+\(\pw v=\bar w\,e^{-\pi|w|^2}\) gives, via
+\(\pw=(\partial_x-i\partial_y)/2\),
+\[
+\frac{\partial_x v-i\,\partial_y v}2
+=
+(x-iy)\,e^{-\pi(x^2+y^2)}.
+\]
+Since \(v\) is real, matching real and imaginary parts:
+\begin{equation}\label{eq:gradient}
+\partial_x v=2x\,e^{-\pi|w|^2},
+\qquad
+\partial_y v=2y\,e^{-\pi|w|^2}.
+\end{equation}
+Now observe that the function \(p(w):=-\frac1\pi\,e^{-\pi|w|^2}\) satisfies
+\[
+\partial_x p=2x\,e^{-\pi|w|^2},
+\qquad
+\partial_y p=2y\,e^{-\pi|w|^2}.
+\]
+Therefore \(\nabla(v-p)\equiv 0\) in~\(U\). Since \(U\) is connected, \(v=p+C\) for
+some constant~\(C\). This proves \eqref{eq:explicit}.
+
+For the holes: each \(u_j\) is real and anti-holomorphic in the connected open set~\(H_j\).
+Write \(u_j=\varphi_j(\bar w)\) for a holomorphic function \(\varphi_j\). Since \(u_j\)
+is real,
+\(\overline{\varphi_j(\bar w)}=\varphi_j(\bar w)\), i.e.,
+\(\overline{\varphi_j(\zeta)}=\varphi_j(\bar\zeta)\) for \(\zeta\in\overline{H_j}\).
+Expanding \(\varphi_j(\zeta)=\sum_{n\ge 0}a_n(\zeta-\zeta_0)^n\) locally, the reality
+condition forces \(a_n=0\) for all \(n\ge 1\) (since
+\(\bar a_n e^{in\theta}=a_n e^{-in\theta}\) for all~\(\theta\) requires
+\(a_n=0\)). Hence \(\varphi_j\) is constant, so \(u_j\equiv c_j\in\R\).
+\end{proof}
+
+\begin{proposition}\label{prop:circles}
+Every connected component of \(\partial U\) is a circle centered at the origin.
+\end{proposition}
+
+\begin{proof}
+\textbf{Outer boundary.}
+On \(\Gamma_0\), the jump relation \eqref{eq:trace-outer} and
+\eqref{eq:explicit} give
+\[
+-\frac1\pi\,e^{-\pi|w|^2}+C
+=
+-\frac1\pi(1-\pi|w|^2)\,e^{-\pi|w|^2}
+=
+-\frac1\pi\,e^{-\pi|w|^2}+|w|^2\,e^{-\pi|w|^2}.
+\]
+Hence
+\begin{equation}\label{eq:level-set}
+|w|^2\,e^{-\pi|w|^2}=C
+\qquad\text{on }\Gamma_0.
+\end{equation}
+
+\textbf{Inner boundaries.}
+On \(\Gamma_j\), the jump relation \eqref{eq:trace-inner} gives
+\[
+\Bigl(-\frac1\pi\,e^{-\pi|w|^2}+C\Bigr)-c_j
+=
+-\frac1\pi(1-\pi|w|^2)\,e^{-\pi|w|^2},
+\]
+so
+\begin{equation}\label{eq:level-set-inner}
+|w|^2\,e^{-\pi|w|^2}=C-c_j
+\qquad\text{on }\Gamma_j.
+\end{equation}
+
+\textbf{Constancy of \(|w|\).}
+Consider the function \(h:[0,\infty)\to\R\) defined by
+\(h(t):=t\,e^{-\pi t}\). One has \(h(0)=0\),
+\(h'(t)=(1-\pi t)\,e^{-\pi t}\), so \(h\) is strictly increasing on
+\([0,\frac1\pi]\) and strictly decreasing on \([\frac1\pi,\infty)\),
+with maximum \(h(\frac1\pi)=\frac1{\pi e}\).
+
+On each boundary component \(\Gamma_k\), equations
+\eqref{eq:level-set}--\eqref{eq:level-set-inner} assert that
+\(h(|w|^2)=\text{const}\). Since \(\Gamma_k\) is connected,
+\(t(s):=|\gamma(s)|^2\) is a continuous function of the arclength
+parameter~\(s\). Its range is a connected subset of the level set
+\(h^{-1}(\text{const})\). But this level set consists of at most two
+points (one in \([0,\frac1\pi]\) and one in \([\frac1\pi,\infty)\), if
+the constant is in the range of~\(h\)). A connected subset of a
+two-point set is a single point. Therefore \(|w|^2\) is constant on
+\(\Gamma_k\), i.e., \(\Gamma_k\) is a circle centered at the origin.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+By Proposition~\ref{prop:circles}, every boundary component of~\(U\) is a circle centered
+at the origin. Each hole \(H_j\) is therefore a disk \(D(0,r_j)\). If there are two or
+more holes with radii \(r_1>r_2\), then \(D(0,r_2)\subset D(0,r_1)\), so \(H_2\) is
+contained in~\(H_1\), contradicting the fact that \(H_1\) and \(H_2\) are distinct
+connected components of \(\C\setminus\overline U\). Thus there is at most one hole.
+\begin{itemize}
+\item If \(N=0\): \(U=D(0,R)\) is a disk centered at the origin.
+\item If \(N=1\): \(U=\{r<|w|<R\}\) is an annulus centered at the origin.
+\end{itemize}
+This completes the proof.
+\end{proof}
+
+\section{The distributional trace: detailed justification}\label{sec:trace-details}
+
+In this section we supply the technical details for the boundary analysis used above.
+The distributional equation \(\pw u=\omega\) holds in \(\mathcal E'(\C)\). We must
+justify that the jump of~\(u\) across \(\partial U\) is well-defined and given by
+\eqref{eq:jump}, and that the function \(\Phi\) from Proposition~\ref{prop:real} is
+indeed continuous across \(\partial U\).
+
+\begin{lemma}\label{lem:boundary-reg}
+The smooth function \(v\) extends continuously to \(\overline U\), and the anti-holomorphic
+function \(u_j\) extends continuously to \(\overline{H_j}\), for each~\(j\).
+\end{lemma}
+
+\begin{proof}
+By Proposition~\ref{prop:explicit}, \(v=-\frac1\pi e^{-\pi|w|^2}+C\), which extends
+smoothly to all of~\(\C\). (One might object that Proposition~\ref{prop:explicit} relies
+on Proposition~\ref{prop:real}, which uses Lemma~\ref{lem:boundary-reg}. We resolve this
+circularity below.)
+
+To avoid circularity, we argue as follows. In~\(U\), the general solution of
+\(\pw v=\bar w\,e^{-\pi|w|^2}\) is
+\[
+v(w)=-\frac1\pi\,e^{-\pi|w|^2}+C_0+\varphi(\bar w),
+\]
+where \(\varphi\) is anti-holomorphic in~\(U\) and \(C_0\in\C\). The first term
+extends smoothly to \(\overline U\). It remains to show that \(\varphi\) extends
+continuously to \(\overline U\).
+
+The distributional equation \(\pw u=\omega\) forces the jump
+\(v|_{\Gamma_k}-u_{\mathrm{ext}}|_{\Gamma_k}=-\frac1\pi g\) as a distributional
+identity on \(\Gamma_k\). Since the right-hand side and
+\(-\frac1\pi e^{-\pi|w|^2}+C_0\) are both continuous on \(\Gamma_k\), the distributional
+trace of \(\varphi\) on \(\Gamma_k\) (from the \(U\)-side) is a continuous function.
+
+Now \(\varphi(\bar w)\) is harmonic in~\(U\). A harmonic function in a bounded domain
+with \(C^1\) boundary whose distributional trace is continuous extends continuously to
+the closure (this follows from the barrier argument: \(C^1\) domains satisfy the exterior
+cone condition at every boundary point, so the Wiener criterion gives continuity of the
+Perron solution, which must agree with \(\varphi\) by uniqueness).
+
+The same argument applies to each \(u_j\) (anti-holomorphic, hence harmonic, with
+continuous distributional trace given by the jump relation).
+\end{proof}
+
+With boundary continuity established, the maximum-principle argument in
+Proposition~\ref{prop:real} is rigorous: \(\Phi\) is harmonic in each piece, continuous
+across boundaries, and vanishes at infinity, so \(\Phi\equiv 0\) by the maximum principle
+for subharmonic functions on~\(\C\).
+
+Once \(\Phi\equiv 0\), Proposition~\ref{prop:explicit} follows without circularity, and
+Proposition~\ref{prop:circles} and Theorem~\ref{thm:main} follow in turn.
+
+\section{Remarks}
+
+\begin{remark}[Why the argument is specific to the \((h_1,h_1)\) case]
+The key algebraic input is that
+\[
+\pwb\bigl(\bar w\,e^{-\pi|w|^2}\bigr)=(1-\pi|w|^2)\,e^{-\pi|w|^2}
+\]
+is \emph{real-valued}. This is what makes \(\Delta v\) real, forcing
+\(\operatorname{Im}v\) to be harmonic and ultimately \(v\) to be real.
+
+For the \((h_0,h_0,U)\) problem, the interior first-order equation is
+\(\pw u=-e^{-\pi|w|^2}\), and
+\[
+\pwb\bigl(-e^{-\pi|w|^2}\bigr)=\pi w\,e^{-\pi|w|^2},
+\]
+which is \emph{complex}. The Laplacian of the imaginary part is
+\(4\pi y\,e^{-\pi|w|^2}\ne 0\), so the reality argument fails and the explicit
+antiderivative approach has no traction.
+\end{remark}
+
+\begin{remark}[Comparison with the simply connected case]
+For simply connected~\(U\), the result was already accessible via two other routes:
+\begin{enumerate}[label=\textnormal{(\roman*)}]
+\item The angular-derivative argument applied to the second-order compact-support equation
+\(\Delta u=\rho\,\1_U-c\,\delta_0\) (with \(\rho\) radial), which gives \(u\) radial
+and hence \(U\) a disk. This uses \(\nabla u=0\) on \(\partial U\), which holds only
+for simply connected~\(U\).
+\item The compatibility condition
+\((1-\pi|w|^2)(w\cdot\tau)=0\) from \texttt{h\_1-loc.tex}, combined with analyticity
+of the boundary (if available from Kinderlehrer--Nirenberg).
+\end{enumerate}
+The present argument has the advantage of requiring neither the angular-derivative
+mechanism nor boundary analyticity, and of handling the multiply connected case directly.
+\end{remark}
+
+\begin{remark}[The admissible radii]
+For a disk \(U=D(0,R)\), the constant \(C=R^2e^{-\pi R^2}\) and the eigenvalue
+\(\lambda\) are determined by the quadrature identity \eqref{eq:bargmann}. For an annulus
+\(U=\{r<|w|<R\}\), the two boundary conditions give
+\[
+R^2e^{-\pi R^2}=C,
+\qquad
+r^2e^{-\pi r^2}=C-c_1,
+\]
+and additionally the eigenvalue equation \eqref{eq:bargmann} must hold, imposing a
+further relation among \(r\), \(R\), \(\lambda\), and~\(c_1\). Whether these constraints
+admit solutions is a separate question; the present note only establishes the geometric
+rigidity.
+\end{remark}
+
+\section{Validity Check}
+
+\begin{verbatim}
+I checked [h_1-disk-annulus.tex](/home/joao-pedro-ramos/deepseek/Inverse-Localize/Higher%20order%20Hermite%20inverse/h_1-disk-annulus.tex). My assessment: the proposed proof is **not valid as written**. There are two structural gaps, either one of which breaks the argument.
+
+**Main Fatal Issue: Wrong First-Order Direction**
+
+At [lines 92-96](/home/joao-pedro-ramos/deepseek/Inverse-Localize/Higher%20order%20Hermite%20inverse/h_1-disk-annulus.tex#L92), the note says that the vanishing
+
+\[
+\langle \omega,e^{\pi wz}\rangle=0
+\]
+
+implies existence of compactly supported \(u\) with
+
+\[
+\partial_w u=\omega.
+\]
+
+This is the wrong operator direction.
+
+With the convention used later in the file,
+
+\[
+\partial_w=\frac12(\partial_x-i\partial_y)=\partial_z,
+\]
+
+the functions \(e^{\pi wz}\) are holomorphic in \(z\), so they lie in the kernel of \(\partial_{\bar z}\), not in the kernel of \(\partial_z\). The annihilator condition against holomorphic entire functions is the compatibility condition for solving a \(\bar\partial\)-type equation, not a \(\partial\)-type equation.
+
+For compactly supported solvability of
+
+\[
+\partial_z u=\omega,
+\]
+
+one needs \(\omega\) to annihilate anti-holomorphic entire test functions, for example \(e^{\pi w\bar z}\). The proof only shows annihilation against \(e^{\pi wz}\). So the central equation
+
+\[
+\partial_w u=\omega
+\]
+
+is not justified.
+
+This matters because all later rigidity depends on the interior equation
+
+\[
+\partial_w v=\bar w e^{-\pi |w|^2},
+\]
+
+which then gives
+
+\[
+\frac14\Delta v=\partial_{\bar w}(\bar w e^{-\pi|w|^2})
+=(1-\pi |w|^2)e^{-\pi|w|^2},
+\]
+
+a real right-hand side. If the valid equation is instead a \(\bar\partial\)-equation, this real-Laplacian mechanism disappears.
+
+**Second Fatal Issue: The Global Harmonicity Claim Is False**
+
+At [lines 263-268](/home/joao-pedro-ramos/deepseek/Inverse-Localize/Higher%20order%20Hermite%20inverse/h_1-disk-annulus.tex#L263), the proof claims that a function harmonic on each side of a \(C^1\) interface and continuous across the interface is globally harmonic by removability.
+
+That is false. Smooth curves are not removable for harmonic functions under mere continuity.
+
+A simple counterexample is
+
+\[
+\Phi(z)=
+\begin{cases}
+0, & |z|\ge 2,\\
+\log(|z|/2), & 1<|z|<2,\\
+\log(1/2), & |z|\le 1.
+\end{cases}
+\]
+
+This function is continuous, compactly supported, harmonic in each region, and nonzero. Its distributional Laplacian has boundary measures on the circles. So the maximum-principle/Liouville step used to force \(\Phi\equiv 0\) is invalid.
+
+For this argument to work, one would need more than continuity of imaginary parts across \(\partial U\); one would need matching normal derivatives, or an actual distributional harmonicity statement for \(\Phi\). The jump relation only gives equality of traces of imaginary parts, not flux matching.
+
+**Additional Technical Gaps**
+
+The jump comparison around [lines 184-205](/home/joao-pedro-ramos/deepseek/Inverse-Localize/Higher%20order%20Hermite%20inverse/h_1-disk-annulus.tex#L184) is also not fully justified. From \(u\in\mathcal E'(\mathbb C)\) and \(\partial_w u=\omega\), one still needs to prove that \(u\) has no boundary-supported singular part and decomposes as piecewise smooth functions with classical traces. The later “trace details” section attempts this, but it relies on the jump relation whose rigorous derivation is precisely the issue.
+
+The boundary-regularity lemma at [lines 402-435](/home/joao-pedro-ramos/deepseek/Inverse-Localize/Higher%20order%20Hermite%20inverse/h_1-disk-annulus.tex#L402) is therefore not enough to close the gap. It also uses a somewhat circular structure: the proof first cites Proposition 6.1, then tries to avoid circularity, but the alternative argument still assumes a distributional trace/jump mechanism that has not been established at the needed strength.
+
+**What Remains Sound**
+
+The algebra after the assumed equation
+
+\[
+\partial_w v=\bar w e^{-\pi|w|^2}
+\]
+
+is mostly correct. In particular, if one somehow had a real-valued \(v\), then
+
+\[
+v(w)=-\frac1\pi e^{-\pi|w|^2}+C
+\]
+
+is correct, and the level-set argument using
+
+\[
+|w|^2 e^{-\pi |w|^2}=\text{constant}
+\]
+
+does force each boundary component to be a centered circle. The final geometric step from centered circular boundary components to disk/annulus is also fine.
+
+But the proof does not validly reach the real-valuedness or the explicit formula.
+
+**Verdict**
+
+The proposed proof does **not** currently establish disk/annulus rigidity. The decisive break is the Ehrenpreis-Malgrange step at lines 92-96: the moment condition shown is compatible with the opposite Cauchy-Riemann operator from the one used in the rest of the proof. Even if that were patched by assumption, the piecewise-harmonic “removability” argument for \(\Phi\) is false in multiply connected settings.
+\end{verbatim}
+
+\end{document}

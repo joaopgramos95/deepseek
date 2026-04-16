@@ -1,0 +1,1515 @@
+
+\documentclass[12pt]{article}
+
+\usepackage{amsmath, amsthm, amssymb, mathtools}
+\usepackage{geometry}
+\usepackage{xr-hyper}
+\externaldocument{general-theory}[general-theory.pdf]
+\externaldocument{convolution-equations}[convolution-equations.pdf]
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{xcolor}
+
+\geometry{margin=1.25in}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\type}{type}
+\DeclareMathOperator{\Stab}{Stab}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\PW}{\mathrm{PW}}
+\newcommand{\Sph}{\mathbb{S}}
+\newcommand{\wh}{\widehat}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\ip}[2]{\left\langle #1,\, #2\right\rangle}
+\newcommand{\re}{\operatorname{Re}}
+
+% Status markers
+\newcommand{\proven}{\textbf{\color{teal}[Proved]}}
+\newcommand{\conditional}{\textbf{\color{orange}[Conditional]}}
+\newcommand{\open}{\textbf{\color{red}[Open]}}
+\newcommand{\heuristic}{\textbf{\color{purple}[Heuristic]}}
+\newcommand{\review}[1]{\par\smallskip\noindent\textbf{\color{red}[Review comment.]} {\color{red}#1}\par\smallskip}
+\newcommand{\response}[1]{\par\noindent\textbf{\color{blue}[Response.]} {\color{blue}#1}\par\smallskip}
+\newcommand{\resolved}{\textbf{\color{teal}[RESOLVED]}}
+\newcommand{\pending}{\textbf{\color{orange}[PENDING]}}
+\newcommand{\fatal}{\textbf{\color{red}[OPEN]}}
+
+\title{\textbf{Routes to Revisit Later}\\[0.5em]
+\large Numerical, Brute-Force, and Heavier Search Strategies}
+\author{}
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\bigskip
+
+This file collects routes that are potentially useful but currently less
+appealing for the main narrative: heavy interval searches, brute-force
+finite-dimensional exclusions, numerical local constants, and conditional
+band-limited closure arguments.  They are separated from
+\texttt{convolution-equations.tex} so that the main file keeps a cleaner
+analytic progression.
+
+\section{Local Numerical Constants for the Gap}
+\label{sec:revisit-local-constants}
+
+The main file formulates the local isolation radius abstractly in terms of
+$\underline\nu$ and $M_0$.  The paragraphs below record the concrete
+Bessel-integral computations and numerical targets that may be revisited
+when one wants an explicit value of the gap.
+
+The finite-mode numerical checks below refer to the target
+\begin{equation}\label{eq:nu-target}
+  \nu_0\geq 0.4\,\Lambda_0.
+\end{equation}
+
+\paragraph{Current certified finite-mode check.}
+The script \texttt{numerics/circle\_gap\_flint\_verify.py} gives a first
+ball-arithmetic certificate for the small-mode part of this target.  It uses
+\texttt{python-flint} Arb balls, evaluates the Bessel functions at the
+midpoints of the radial mesh, and encloses the variation on each interval by
+the elementary bounds $\abs{J_m}\leq1$ and $\abs{J'_m}\leq1$ for integer
+$m$ on the real line.  With cutoff $R=200$ and the conditional tail majorant
+$\abs{J_m(r)}\leq (2/(\pi r))^{1/2}$ on $[R,\infty)$, the current runs prove
+\[
+  \frac{\mathcal J_2}{\mathcal J_0}\leq 0.117364,\qquad
+  \frac{\mathcal J_3}{\mathcal J_0}\leq 0.091870,\qquad
+  \frac{\mathcal J_n}{\mathcal J_0}\leq 0.072366
+  \quad (4\leq n\leq12).
+\]
+The first number is the bottleneck and was obtained with mesh
+$h=0.0025$; the other displayed bounds use $h=0.01$.  In particular, for
+$2\leq n\leq12$ the finite-mode certificate proves
+\[
+  \frac{\mathcal J_n}{\mathcal J_0}<0.12,
+\]
+and hence
+\[
+  \abs{5\mathcal I_n-\Lambda_0}>0.4\Lambda_0,\qquad
+  \abs{\mathcal I_n-\Lambda_0}>0.4\Lambda_0
+  \qquad (2\leq n\leq12).
+\]
+The tail majorant is a theorem (not conditional): $|J_0(r)|\leq\sqrt{2/(\pi r)}$
+for all $r>0$ (Watson \S7.31), and $|J_m(r)|\leq\sqrt{2/(\pi r)}$ for
+$r\geq m\geq 1$ (Krasikov 2006).  Combined with the explicit large-mode
+bound in Lemma~\ref{lem:Jn-explicit}, the
+target~\eqref{eq:nu-target} is now fully proved:
+Theorem~\ref{thm:nondeg-proved} certifies
+$\nu_0\geq 0.4\Lambda_0$.
+
+\paragraph{The Lipschitz constant $M_0$ via sixfold Bessel products.}
+The second derivative $D^2T(f_0)$ of $T(f)=E^*(|Ef|^4Ef)$ at the constant
+decomposes in Fourier modes.  Using the identity
+$D^2N(u_0)[v_1,v_2]=u_0^3[6v_1v_2+6v_1\bar v_2+6v_2\bar v_1+2\bar v_1\bar v_2]$
+(which follows from differentiating $N(u)=|u|^4u$ at a real point $u_0$),
+each input mode pair $(e^{in_1\theta},e^{in_2\theta})$ produces output at
+angular modes $\{n_1\pm n_2,-(n_1\pm n_2)\}$, with radial coefficients
+proportional to the sixfold Bessel integrals
+\[
+  \mathcal B(a,b,c)
+  :=
+  \int_0^\infty J_0(r)^3\,J_a(r)\,J_b(r)\,J_c(r)\,r\,dr.
+\]
+The Hilbert--Schmidt norm of $D^2T(f_0)$ as a bilinear form
+$L^2(S^1)\times L^2(S^1)\to L^2(S^1)$ is
+\[
+  \norm{D^2T(f_0)}_{\mathrm{HS}}^2
+  =
+  (2\pi)^6\sum_{n_1,n_2\in\Z}
+  \sum_k \abs{S_k(n_1,n_2)}^2\abs{\mathcal B(|n_1|,|n_2|,|k|)}^2,
+\]
+where $S_k$ collects the phase-weighted angular coefficients at mode~$k$.
+By the inequality
+$\norm{D^2T}_{\mathrm{bil}}\leq\norm{D^2T}_{\mathrm{HS}}$, this
+gives an upper bound on the Lipschitz constant of~$DT$ in a ball around $f_0$.
+Accounting for the eigenvalue variation ($\Lambda$ is coupled to~$f$ via
+$\Lambda=\ip{T(f)}{f}$) and the sphere projection, a safe upper bound
+for the full Lipschitz constant of the sliced Euler--Lagrange derivative
+is $M_0\leq 2\norm{D^2T}_{\mathrm{HS}}$.
+
+A floating-point evaluation (script \texttt{numerics/newton\_kantorovich.py},
+$R=2000$, $h=0.05$, modes $|n_j|\leq 6$) gives
+\[
+  \norm{D^2T(f_0)}_{\mathrm{HS}}\approx 1831,
+  \qquad
+  M_0\leq 3662,
+  \qquad
+  r_0=\frac{2\nu_0}{M_0}\geq\frac{2\times 237}{3662}\approx 0.130.
+\]
+The $(n_1,n_2)=(0,0)$ mode contributes $85\%$ of the Hilbert--Schmidt
+sum.  The rigorous Arb certificate for these Bessel integrals is a
+straightforward extension of the existing \texttt{circle\_gap\_flint\_verify}
+framework.
+
+\paragraph{Global separation from the rest of the positive window.}
+After the local ball $\norm{f-f_0}_2<r_0$ has been certified, the remaining
+set
+\[
+  \mathcal C_+^{\mathrm{far}}
+  :=
+  \left\{
+    (f,\Lambda):
+    \begin{array}{l}
+      f\geq0,\ \norm{f}_2=1,\ E^*(|Ef|^4Ef)=\Lambda f,\\
+      \Lambda\in W_0,\ \norm{f-f_0}_2\geq r_0
+    \end{array}
+  \right\}
+\]
+is compact.  A validated search on this compact set should return finitely
+many disjoint value intervals $B_1,\ldots,B_N$ containing every positive
+critical value in the far region.  Then the explicit certificate
+\[
+  \gamma_{\mathrm{cert}}
+  :=
+  \min_{1\leq j\leq N,\ \Lambda_0\notin B_j}
+  \operatorname{dist}(\Lambda_0,B_j)
+\]
+is a rigorous lower bound for~$\gamma_0$.
+
+Thus the current proof gives the qualitative gap~\eqref{eq:positive-gap-def}.
+The practical quantitative route is: certify the local linear
+target~\eqref{eq:nu-target}, use it to remove a ball around the constant
+by Newton--Kantorovich, and then use the interval search on the compact
+far region to produce $\gamma_{\mathrm{cert}}$.
+
+
+
+\section{Numerical Routes to the Nonlinear Gap}
+\label{sec:revisit-numerical-gap}
+
+
+\label{sec:gamma0-routes}
+
+The point of the preceding subsection is that the Bessel computation does
+\emph{not} by itself bound the nonlinear gap~$\gamma_0$.  It bounds the
+linear gap~$\nu_0$ at the constant, hence gives a certified local ball
+around~$f_0$ containing no other positive critical point.  To get a
+numerical lower bound for~$\gamma_0$, it is enough to exclude positive
+critical points with
+\[
+  \Lambda\in(\Lambda_0,\Lambda_0+\eta]
+\]
+outside that local ball.  Here are several concrete ways to do that.
+
+\paragraph{Route 1: annular eigenvalue exclusion.}
+Use the Newton--Kantorovich radius~$r_0$ to split the search into
+\[
+  \norm{f-f_0}_2<r_0
+  \qquad\text{and}\qquad
+  \norm{f-f_0}_2\geq r_0 .
+\]
+The first region is empty except for~$f_0$.  On the second region, run
+the finite Fourier interval search only for
+\[
+  \Lambda\in[\Lambda_0,\Lambda_0+\eta].
+\]
+This is much cheaper than enumerating all critical values in~$W_0$:
+the $\Lambda$ interval is short, and boxes whose residual enclosure
+misses zero can be discarded aggressively.  The output is a certificate
+of the form
+\[
+  \nexists (f,\Lambda)\in\mathcal C_+^{\mathrm{far}}
+  \quad\text{with}\quad
+  \Lambda\in(\Lambda_0,\Lambda_0+\eta],
+\]
+which directly gives $\gamma_0\geq\eta$.
+
+\emph{First floating-point probe.}
+The script \texttt{numerics/route1\_even\_probe.py} implements a very
+restricted version of this search for antipodally-even real cosine
+polynomials
+\[
+  f(\theta)=b_0+\sum_{j=1}^M b_j\cos(2j\theta),
+\]
+with mesh-checked positivity.  In this model \(Ef\) is real-valued, so the
+finite residual can be computed directly from
+\[
+  T(f)=E^*((Ef)^5),\qquad
+  R_N(f):=P_NT(f)-J(f)f,\qquad J(f)=\norm{Ef}_6^6.
+\]
+The current non-rigorous tests with \(M=2,3\) and
+\(\eta=10^{-3}\Lambda_0\) found no positive annular samples in the slab
+\([\Lambda_0,\Lambda_0+\eta]\).  This is only a feasibility check: the
+quadrature is floating point, the radial cutoff is finite, and there is no
+interval enclosure of the residual or of positivity.  Its purpose is to
+test whether the annular search tree looks empty before replacing the
+pieces by Arb balls and Krawczyk boxes.
+
+\paragraph{Route 2: quantitative BTZ stability on the band-limited
+annulus.}
+The BTZ computation already certifies uniqueness of the band-limited
+maximiser.  For a gap proof, the needed output is stronger but natural:
+a certified function or table
+\[
+  \Phi_N(\rho)
+  \leq
+  \inf_{\substack{
+      g\geq0,\ \norm{g}_2=1,\ \supp\widehat g\subset[-N,N]\\
+      d_G(g,f_0)\geq\rho}}
+  \bigl(\Lambda_0-\norm{Eg}_6^6\bigr).
+\]
+Then combine it with the tail estimate
+\(\norm{f-P_Nf}_2\leq\tau_N\) and the high-mode cross bound:
+if
+\begin{equation}\label{eq:gamma-btz-criterion}
+  \Phi_N(r_0-\tau_N)
+  >
+  \operatorname{TailErr}_N+\eta,
+\end{equation}
+then no positive critical point outside the local ball can have
+\(\Lambda\leq\Lambda_0+\eta\).  Thus
+\(\gamma_0\geq\eta\).  This route uses the same data as a BTZ
+branch-and-bound computation, but records the certified deficit by
+distance bins instead of only recording ``below~$\Lambda_0$''.
+
+\paragraph{Route 3: variational upper bound on shells.}
+Rather than solving the Euler--Lagrange equation, cover the positive
+unit sphere by shells
+\[
+  \rho_j\leq d_G(f,f_0)\leq \rho_{j+1}
+\]
+and interval-bound the scalar functional \(J(f)=\norm{Ef}_6^6\) on each
+shell.  If every shell outside the Newton ball satisfies
+\[
+  J(f)\leq \Lambda_0+\eta
+  \quad\text{and in fact}\quad
+  J(f)<\Lambda_0+\eta
+\]
+with a strict certified margin, then any critical value above
+\(\Lambda_0\) must be at least \(\eta\) away.  This is weaker than proving
+the sharp constant, but it is exactly adapted to the gap problem.  The
+advantage is that it asks for upper bounds on one scalar polynomial rather
+than interval zeros of the full vector residual.
+
+\paragraph{Route 4: residual lower bounds on $\Lambda$-slabs.}
+For a fixed slab
+\[
+  \Lambda\in[\Lambda_0+\eta_1,\Lambda_0+\eta_2],
+\]
+define the projected residual
+\[
+  R_N(f,\Lambda)
+  :=
+  P_N\bigl(T(f)-\Lambda f\bigr)
+\]
+with interval tails for \((I-P_N)(T(f)-\Lambda f)\).  A box is discarded
+if
+\[
+  0\notin R_N(\text{box}).
+\]
+Equivalently, one can certify a positive lower bound
+\[
+  \norm{T(f)-\Lambda f}_2\geq m_{\mathrm{res}}>0
+\]
+on the whole slab.  Running this over slabs that cover
+\((\Lambda_0,\Lambda_0+\eta]\) gives $\gamma_0\geq\eta$.  This route is
+the most direct numerical analogue of the definition of~$\gamma_0$.
+
+\paragraph{Route 5: continuation plus interval Newton.}
+Start from the known zero \((f_0,\Lambda_0)\).  Nondegeneracy modulo
+symmetry implies that there is no local branch of positive critical
+points leaving~\((f_0,\Lambda_0)\).  Numerically, one can validate this by
+interval Newton on a local chart, then cover the boundary of the local
+chart and continue outward in~\(\Lambda\).  Any connected component of
+zeros entering the slab \((\Lambda_0,\Lambda_0+\eta]\) must cross one of
+these chart boundaries.  Certifying that the residual is nonzero on all
+such boundary boxes excludes the component and gives the gap.  This is
+often cheaper than a blind global search because most boxes are generated
+near the expected solution set.
+
+\paragraph{Route 6: mode-zero and positivity filters before interval
+Newton.}
+For nonnegative critical points, the zeroth Fourier coefficient and the
+Euler--Lagrange equation impose strong scalar constraints.  Before doing
+full interval Newton, use cheap interval filters based on:
+\[
+  \norm{f}_2=1,\qquad f\geq0,\qquad
+  \Lambda=\ip{T(f)}{f},\qquad
+  (T(f))_0=\Lambda \widehat f(0).
+\]
+When \(\Lambda\) is close to~\(\Lambda_0\), these constraints should force
+\(\widehat f(0)\) close to \((2\pi)^{-1/2}\), hence force most of the
+mass into the constant mode.  If this can be certified, the problem is
+pushed back into the Newton ball around~\(f_0\).  This filter is not a
+standalone proof, but it can drastically reduce the branch-and-bound
+tree for Routes~1 and~4.
+
+\paragraph{Recommended order.}
+The most realistic numerical plan is:
+\begin{enumerate}[leftmargin=2em]
+  \item Finish Arb certification of the local constants
+  \[
+    \nu_0\geq0.4\Lambda_0,\qquad
+    M_0,\qquad
+    r_0=2\nu_0/M_0.
+  \]
+  \item Extract from the BTZ/band-limited computation a quantitative
+  shell deficit \(\Phi_N(\rho)\), at least at
+  \(\rho=r_0-\tau_N\).
+  \item Certify the tail and cross errors entering
+  \eqref{eq:gamma-btz-criterion}.
+  \item Choose
+  \[
+    \eta
+    <
+    \Phi_N(r_0-\tau_N)-\operatorname{TailErr}_N
+  \]
+  and conclude \(\gamma_0\geq\eta\).
+  \item If the inequality above is too weak, run the direct annular
+  eigenvalue exclusion search on
+  \((\Lambda_0,\Lambda_0+\eta]\) using the positivity and mode-zero
+  filters first.
+\end{enumerate}
+
+
+
+\section{Brute-Force and Band-Limited Closure Routes}
+\label{sec:revisit-bruteforce-bandlimited}
+
+\subsection{What a rigorous brute-force search would mean}
+\label{sec:bruteforce-search}
+
+The phrase ``search the compact region'' should not be interpreted as
+requiring a prior description of the compact set.  The algorithm searches
+a computable \emph{outer enclosure} of that compact set.  The compactness
+theorem supplies the analytic reason such an enclosure can be made finite;
+the actual numerical proof must supply explicit constants.
+
+There are two complementary brute-force targets.
+
+\paragraph{Eigenvalue exclusion.}
+Fix an interval $I\subset W_0$ for~$\Lambda$.  A rigorous search attempts
+to prove:
+\[
+  \nexists f\geq0,\quad \norm{f}_2=1,\quad
+  E^*(|Ef|^4Ef)=\Lambda f,\quad \Lambda\in I,
+\]
+except possibly inside boxes already validated as containing known
+solutions.  The output of such a search is not ``success/failure'' in the
+usual numerical sense.  Each box in the finite cover is labelled
+\emph{empty}, \emph{validated}, or \emph{undecided}.  A theorem is obtained
+only if no undecided boxes remain.
+
+\paragraph{Direct upper-bound search.}
+Instead of solving the Euler--Lagrange equation, one can try to prove the
+stronger variational statement
+\[
+  \sup_{\substack{f\geq0\\ \norm{f}_2=1}}
+  \norm{Ef}_{L^6}^6
+  \leq \Lambda_0+\eta.
+\]
+If an eigenvalue gap $\gamma_0>\eta$ has already been certified in the
+positive window, then this upper bound forces the maximiser to have value
+$\Lambda_0$.  This route may be computationally easier because it asks for
+upper bounds on a scalar polynomial functional, rather than for a complete
+classification of roots of a vector equation.
+
+\paragraph{Fourier truncation and tails.}
+Write
+\[
+  f(\theta)=\sum_{n\in\Z}a_ne^{in\theta},\qquad
+  P_Nf=\sum_{|n|\leq N}a_ne^{in\theta},\qquad r_N=f-P_Nf.
+\]
+For real-valued nonnegative candidates, $a_{-n}=\overline{a_n}$; if one
+also imposes an even symmetry ansatz, the unknowns reduce further to real
+cosine coefficients.  The bootstrap gives an explicit tail estimate of
+the form
+\[
+  \norm{r_N}_{L^2}\leq \tau_N(B_m),
+  \qquad
+  \tau_N(B_m)\to0,
+\]
+where $B_m$ is a certified $C^m$ or Sobolev bound for positive critical
+points in the window.  Thus one searches over the finite coefficient vector
+$(a_{-N},\ldots,a_N)$ and an interval uncertainty representing~$r_N$.
+
+The finite-dimensional residual is
+\[
+  F_k(a,\Lambda)
+  :=
+  \widehat{T(P_Nf)}(k)-\Lambda a_k,
+  \qquad |k|\leq N,
+\]
+with an explicit interval error for all terms containing at least one
+factor of~$r_N$.  A convenient crude tail bound follows from
+Stein--Tomas and the Lipschitz estimate for $z\mapsto |z|^4z$:
+\[
+  \norm{T(f)-T(P_Nf)}_2
+  \leq
+  C\,C_{\mathrm{ST}}^6
+  \bigl(\norm{f}_2+\norm{P_Nf}_2\bigr)^4
+  \norm{r_N}_2,
+\]
+with an absolute constant~$C$.  This is probably not sharp enough for the
+final proof, but it is the correct first enclosure.  The Bessel-product
+technology should be used later to reduce this overestimate.
+
+\paragraph{Why sixfold Bessel products appear.}
+The extension of one Fourier mode is
+\[
+  E(e^{in\theta})(r,\phi)
+  =2\pi i^{|n|}J_{|n|}(r)e^{in\phi}.
+\]
+Consequently, the coefficient $\widehat{T(P_Nf)}(k)$ is a finite quintic
+sum over indices satisfying the angular selection rule
+\[
+  n_1+n_2+n_3-n_4-n_5-k=0,
+\]
+with constants given by radial integrals of six Bessel functions:
+\[
+  \int_0^\infty
+  J_{|n_1|}(r)J_{|n_2|}(r)J_{|n_3|}(r)
+  J_{|n_4|}(r)J_{|n_5|}(r)J_{|k|}(r)\,r\,dr.
+\]
+These constants must be enclosed rigorously.  This is exactly the type of
+input studied by Oliveira e Silva--Thiele in their estimates for sixfold
+Bessel products, and by the band-limited maximiser papers described below.
+
+\paragraph{Interval branch-and-bound.}
+The finite search region is a box in
+\[
+  (a_{-N},\ldots,a_N,\Lambda),
+\]
+augmented by interval constraints for normalisation, positivity, and the
+tail.  Positivity can be enforced by interval evaluation on arcs: if
+$P_Nf$ is bounded below by more than the certified tail and mesh
+interpolation error, the box is positive; if it is forced negative
+somewhere, the box is discarded; otherwise it is subdivided.
+
+For the eigenvalue search, each box is processed as follows.
+\begin{enumerate}[leftmargin=2em]
+  \item Evaluate the interval residuals $F_k$ and the normalisation
+    residual.  If some residual interval excludes~$0$, discard the box.
+  \item Apply an interval Newton or Krawczyk operator to the finite system.
+    If it proves no zero lies in the box, discard it.  If it maps strictly
+    into the box, validate a unique zero.
+  \item If neither test succeeds, subdivide the box, unless the box is
+    already below the target resolution; in that case it is marked
+    undecided and no theorem is claimed.
+\end{enumerate}
+For the variational upper-bound search, the analogous step is interval
+upper-bounding of the scalar functional $\norm{E(P_Nf)}_6^6$ plus the
+tail error.  Boxes whose upper bound is below $\Lambda_0+\eta$ are
+discarded; boxes near the top are subdivided or handled by local concavity
+at the constant.
+
+\paragraph{How this could prove the sharp constant.}
+A plausible staged proof would be:
+\begin{enumerate}[leftmargin=2em]
+  \item Certify the local linear gap target
+    $\nu_0\geq0.4\Lambda_0$ by interval Bessel integration.
+  \item Use Newton--Kantorovich to remove an explicit ball around~$f_0$.
+  \item Run the eigenvalue exclusion search on
+    $[\Lambda_0,\Lambda_0+\gamma]$ outside that ball.  If it exhausts the
+    boxes, then no positive critical value lies in this interval.
+  \item Separately prove by branch-and-bound that
+    $\norm{Ef}_6^6\leq\Lambda_0+\gamma/2$ for all positive normalised
+    candidates in the compact window.
+  \item Since an extremiser exists and may be chosen nonnegative, the
+    maximising value must then equal~$\Lambda_0$.
+\end{enumerate}
+The same architecture can be run in restriction-norm units
+$\Lambda^{1/6}$.  One should be careful about scales: near~$\Lambda_0$,
+a gap of $10^{-3}$ in $\Lambda^{1/6}$ corresponds to a gap of order
+$6\Lambda_0^{5/6}\cdot10^{-3}$ in~$\Lambda$.
+
+\paragraph{Relevant numerical and analytic references.}
+The closest existing works are:
+\begin{itemize}[leftmargin=2em]
+  \item D. Oliveira e Silva and C. Thiele,
+    \emph{Estimates for certain integrals of products of six Bessel
+    functions}, Rev. Mat. Iberoam. 33 (2017), no. 4, 1423--1462,
+    \href{https://doi.org/10.4171/RMI/977}{doi:10.4171/RMI/977}.
+    This is the main reference for rigorous estimates of the sixfold
+    Bessel integrals needed in the residual coefficients.
+  \item E. Carneiro, D. Foschi, D. Oliveira e Silva and C. Thiele,
+    \emph{A sharp trilinear inequality related to Fourier restriction on
+    the circle}, Rev. Mat. Iberoam. 33 (2017), no. 4, 1463--1486,
+    \href{https://doi.org/10.4171/RMI/978}{doi:10.4171/RMI/978}.
+    This uses the sixfold Bessel estimates and proves, among other things,
+    that constants are local extremizers for the circle Tomas--Stein
+    problem.
+  \item D. Oliveira e Silva, C. Thiele and P. Zorin-Kranich,
+    \emph{Band-limited maximizers for a Fourier extension inequality on
+    the circle}, Exp. Math. 31 (2022), no. 1, 192--198,
+    \href{https://doi.org/10.1080/10586458.2019.1596847}
+    {doi:10.1080/10586458.2019.1596847}.  They prove uniqueness of
+    constants among real-valued functions with Fourier modes up to
+    degree~$30$.
+  \item J. Barker, C. Thiele and P. Zorin-Kranich,
+    \emph{Band-limited maximizers for a Fourier extension inequality on
+    the circle, II}, Exp. Math. 32 (2023), no. 2, 280--293,
+    \href{https://doi.org/10.1080/10586458.2021.1926011}
+    {doi:10.1080/10586458.2021.1926011}.  This pushes the band-limited
+    computation to modes up to degree~$120$.
+  \item R. E. Moore, R. B. Kearfott and M. J. Cloud,
+    \emph{Introduction to Interval Analysis}, SIAM, 2009.  This is a
+    standard reference for interval Newton and Krawczyk methods.
+  \item F. Johansson, \emph{Arb: efficient arbitrary-precision
+    midpoint-radius interval arithmetic}, IEEE Trans. Comput. 66 (2017),
+    no. 8, 1281--1292,
+    \href{https://doi.org/10.1109/TC.2017.2690633}
+    {doi:10.1109/TC.2017.2690633}.  Arb/ball arithmetic is a natural
+    implementation platform for rigorous Bessel-integral and polynomial
+    residual enclosures.
+\end{itemize}
+
+\begin{theorem}[Conditional finiteness of shapes]
+  \label{thm:finiteness}
+  \conditional\quad
+  Assume:
+  \begin{enumerate}[leftmargin=2em]
+    \item Compactness modulo $G$ (Theorem~\ref{thm:compactness-mod-G})
+      holds for critical points with $\Lambda\geq\varepsilon$;
+    \item Every such critical point is nondegenerate modulo $G$
+      (i.e., $\ker L=T_{f_0}(G\cdot f_0)$ on the tangent space to the
+      unit sphere).
+  \end{enumerate}
+  Then the set of shapes $\{[f,\Lambda]\in\mathcal Z:\Lambda\geq\varepsilon\}$
+  is finite.  In particular, the set of critical values above $\varepsilon$
+  is finite.
+\end{theorem}
+
+\begin{proof}
+  By compactness modulo~$G$, the quotient
+  $\mathcal Z_\varepsilon:=\{f:\text{critical},\,\Lambda\geq\varepsilon\}/G$
+  is compact.
+
+  By nondegeneracy: at each $[f_0]\in\mathcal Z_\varepsilon$, choose a slice
+  $S_{f_0}$ complementary to $T_{f_0}(G\cdot f_0)$ in the tangent space
+  to $\norm{f}_2=1$.  The condition $\ker L|_{S_{f_0}}=\{0\}$ plus
+  Fredholm index zero implies $L|_{S_{f_0}}$ is invertible with bounded
+  inverse $\norm{L^{-1}|_{S_{f_0}}}\leq\mu_{f_0}^{-1}$.  By the
+  implicit function theorem, $[f_0]$ is an isolated point of
+  $\mathcal Z_\varepsilon$.
+
+  A compact set all of whose points are isolated is finite.
+\end{proof}
+
+\begin{corollary}[Identification of the sharp constant]
+  Under the hypotheses of Theorem~\ref{thm:finiteness}, the sharp
+  restriction constant is
+  \[
+    \mathcal R = \max\{\Lambda_j^{1/6}:\Lambda_j\geq\varepsilon\}
+  \]
+  for any $\varepsilon$ smaller than all critical values in the finite list.
+  The maximiser is the shape achieving the largest~$\Lambda_j$.
+\end{corollary}
+
+
+\subsection{From band-limited uniqueness to the sharp constant}
+\label{sec:btk-connection}
+
+The band-limited results of Barker--Thiele--Zorin-Kranich~(2023) prove
+that the constant $f_0=(2\pi)^{-1/2}$ is the unique maximiser of
+$\norm{Ef}_{L^6}$ among real-valued $L^2(S^1)$ functions with Fourier
+support $\{|n|\leq 120\}$.  We describe a route from this finite-mode
+result to the full sharp constant, identifying the precise quantitative
+input still needed.
+
+\paragraph{The constrained Hessian is negative definite.}
+At the critical point $f_0$ on the unit sphere $\norm{f}_2=1$, the
+Lagrange multiplier for the constraint is $\mu=3\Lambda_0$ (from
+$DJ=6T=2\mu f_0$).  The constrained Hessian of
+$J(f):=\norm{Ef}_{L^6}^6$ on the tangent space to the sphere is
+\[
+  H = D^2J(f_0)-6\Lambda_0 I = 6(K-\Lambda_0 I) = 6L.
+\]
+By the eigenvalue structure (Proposition~\ref{prop:eigenvalues}) and the
+now-proved nondegeneracy (Theorem~\ref{thm:nondeg-proved}):
+\begin{itemize}
+  \item On the 3-dimensional symmetry kernel (phase + translations):
+    $L=0$.
+  \item On every non-symmetry direction ($n\geq 2$, and the orthogonal
+    $n=1$ mode): the eigenvalues of~$L$ are $5\mathcal I_n-\Lambda_0<0$
+    and $\mathcal I_n-\Lambda_0<0$.
+\end{itemize}
+Hence $H$ is \textbf{negative definite} on the complement of the
+symmetry kernel.  The constant is a strict local maximum of~$J$ on
+the sphere modulo~$G$.  (This is the content of the Carneiro--Foschi--Oliveira
+e Silva--Thiele local optimality result.)
+
+\paragraph{Block-diagonal structure and the exact tail identity.}
+The linearised operator $K=DT(f_0)$ is block-diagonal in Fourier modes:
+$K$ maps the sector $\{e^{in\theta},e^{-in\theta}\}$ to itself.  This
+means that for any $h$ with Fourier support $\{|n|\leq N\}$,
+\begin{equation}\label{eq:block-diag}
+  (I-P_N)K(P_N h) = 0.
+\end{equation}
+Since $T$ is a degree-$5$ polynomial (and $T(f_0)=\Lambda_0f_0$ is
+constant on~$S^1$), the Taylor expansion around $f_0$ terminates
+exactly:
+\begin{equation}\label{eq:T-taylor}
+  T(f_0+h)=\Lambda_0f_0+Kh
+  +\tfrac12 D^2T_{f_0}[h^2]
+  +\tfrac16 D^3T_{f_0}[h^3]
+  +\tfrac{1}{24}D^4T_{f_0}[h^4]
+  +\tfrac{1}{120}D^5T[h^5],
+\end{equation}
+where $D^jT_{f_0}[h^j]$ denotes the $j$-linear form evaluated on
+$h,\ldots,h$, and $D^5T$ is constant (independent of the base
+point).  Setting $h:=f-f_0$ and applying $(\Lambda I-K)^{-1}(I-P_N)$
+to both sides of $T(f)=\Lambda f$ gives
+\begin{equation}\label{eq:exact-tail}
+  \boxed{
+  \wh h(k) = \sum_{j=2}^{5}
+    \frac{1}{j!\,\nu_k}\bigl(D^jT_{f_0}[h^j]\bigr)_k,
+  \qquad |k|\geq 2,}
+\end{equation}
+where $\nu_k:=\min\bigl(|\Lambda-5\mathcal I_k|,\,
+|\Lambda-\mathcal I_k|\bigr)\geq\nu_0$, and
+$(\cdot)_k$ denotes the $k$-th Fourier coefficient.  There is
+\emph{no} remainder: equation~\eqref{eq:exact-tail} is an identity,
+valid for every critical point.
+
+\review{The identity has the right formal shape, but the displayed lower
+bound $\nu_k\geq\nu_0$ is not valid for every critical value in the full
+window $[\Lambda_0/2,C_{\mathrm{ST}}^6]$.  The quantity $\nu_0$ measures
+separation of the linear spectrum from \emph{$\Lambda_0$}.  For a general
+critical point one must keep
+$\delta_k(\Lambda)=\min(|\Lambda-5\mathcal I_k|,|\Lambda-\mathcal I_k|)$.
+For an extremiser, where $\Lambda\geq\Lambda_0$, the certified bound
+$\mathcal I_k/\Lambda_0<0.2$ for $k\geq2$ gives
+$\delta_k(\Lambda)\geq0.4\Lambda_0$ on the high modes.  The text should
+state this restriction explicitly whenever the denominator is replaced by
+$\nu_0$.}
+
+\response{\resolved\ Correct.  The bound
+$\nu_k\geq\nu_0=0.452\Lambda_0$ is specific to
+$\Lambda=\Lambda_0$.  For a general critical value $\Lambda$, the
+denominator is $\delta_k(\Lambda)=\min(|\Lambda-5\mathcal I_k|,
+|\Lambda-\mathcal I_k|)$.  For an extremiser $\Lambda_*\geq\Lambda_0$
+and $k\geq 2$: since $5\mathcal I_k\leq 5\times 0.12\Lambda_0
+=0.6\Lambda_0\leq 0.6\Lambda_*$ and $\mathcal I_k\leq 0.12\Lambda_0
+\leq 0.12\Lambda_*$, we get $\delta_k\geq
+\Lambda_*-0.6\Lambda_*=0.4\Lambda_*\geq 0.4\Lambda_0$.  The text
+should replace ``$\nu_0$'' by ``$0.4\Lambda_-$'' or
+``$\delta_k(\Lambda)$'' with the displayed justification.  The
+downstream bound $1393/N^{5/2}$ uses $\Lambda_-=\Lambda_0/2$ in
+the denominator and $\delta_k\geq 0.4\Lambda_0$ in the numerator,
+so the effective constant is unchanged.  Will be clarified in
+revision.}
+
+\paragraph{Structure of each term.}
+The $j$-th term $(D^jT_{f_0}[h^j])_k$ is a sum over $j$-tuples
+$(n_1,\ldots,n_j)$ satisfying selection rules implied by the angular
+Fourier structure.  Since $u_0=(2\pi)^{1/2}J_0(r)$ is radial, the
+radial weight in each term involves $J_0(r)^{5-j}$ from $u_0$ and
+$J_{|n_i|}(r)$ from each factor of~$Eh$.  After applying $E^*$, the
+coefficient at mode~$k$ involves the integral
+\[
+  \mathcal B^{(j)}(n_1,\ldots,n_j,k)
+  :=
+  \int_0^\infty J_0(r)^{5-j}\prod_{i=1}^j J_{|n_i|}(r)
+  \cdot J_{|k|}(r)\,r\,dr,
+\]
+which always has \textbf{six Bessel factors in total} (since
+$(5-j)+j+1=6$).  The selection rule determines which $k$ receives a
+nonzero contribution from each $j$-tuple.
+
+For the \emph{quadratic} term ($j=2$): output at $k$ requires
+$k\in\{n_1\pm n_2,-(n_1\pm n_2)\}$.  This is the same structure as
+the $M_0$ computation.
+
+For the \emph{cubic} term ($j=3$): output at $k$ requires $k$ to be
+a signed sum of three indices from~$h$, and similarly for $j=4,5$.
+In every case the sixfold Bessel integral is the fundamental object.
+
+\paragraph{The mode-by-mode bound.}
+Bounding each $|\wh h(n_i)|\leq\norm{h}_\infty$ and each Bessel
+integral by $|\mathcal B^{(j)}|\leq\mathcal B_{\max}^{(j)}(k)$, the
+number of $j$-tuples contributing to a given~$k$ is at most~$M^{j-1}$
+(where $M$ is any upper bound on the indices from~$h$), so
+\begin{equation}\label{eq:exact-tail-bound}
+  |\wh h(k)|
+  \leq
+  \frac{1}{\nu_0}\sum_{j=2}^{5}
+  \frac{\norm{h}_\infty^{j-1}}{j!}
+  \;\sum_{\substack{(n_1,\ldots,n_j)\\\text{sel. rule}}}
+  |\wh h(n_{\mathrm{large}})|\,
+  \bigl|\mathcal B^{(j)}(\ldots,k)\bigr|,
+\end{equation}
+where $n_{\mathrm{large}}$ is the index in each tuple that is forced
+to be large by $|k|>N$ and the selection rule.  (For $|k|>jN_0$
+with all other indices $\leq N_0$, the selection rule is impossible
+and the term vanishes.)
+
+For a nonnegative normalised~$f$: $|\wh f(n)|\leq(2\pi)^{-1/2}$ and
+$\norm{h}_\infty\leq\norm{f}_\infty+\norm{f_0}_\infty$.
+The bootstrap (Proposition~\ref{prop:bootstrap}) gives
+$\norm{f}_\infty\leq C_0(\Lambda_-)$, so all constants in the bound
+are explicit once $C_0$ is computed.
+
+\paragraph{Why the brute-force search reduces to finitely many modes.}
+Equation~\eqref{eq:exact-tail} shows that $\wh h(k)$ for $|k|\geq 2$
+is an \emph{explicit nonlinear functional} of the full coefficient
+sequence $\{\wh h(n)\}_{n\in\Z}$, with coefficients given by
+computable Bessel integrals.  This has the following consequence for
+a validated search:
+
+\begin{proposition}[Tail determined by finitely many modes]
+  \label{prop:tail-from-finite}
+  Fix $N_0\geq 2$.  For any nonnegative normalised critical point~$f$
+  with $\Lambda\in[\Lambda_-,\Lambda_+]$, the tail
+  $\sigma_{N_0}^2=\sum_{|k|>N_0}|\wh f(k)|^2$ satisfies
+  \begin{equation}\label{eq:tail-from-finite}
+    \sigma_{N_0}
+    \leq
+    \Sigma\bigl(N_0,\,\wh f|_{|n|\leq 5N_0},\,
+    \sigma_{5N_0}\bigr),
+  \end{equation}
+  where $\Sigma$ is an explicit function (computable from Bessel
+  integrals) that is \emph{monotone nondecreasing} in~$\sigma_{5N_0}$
+  and satisfies $\Sigma\to 0$ as $\sigma_{5N_0}\to 0$ for each fixed
+  set of low-mode coefficients.
+\end{proposition}
+
+\begin{proof}
+  From~\eqref{eq:exact-tail-bound}: for $N_0<|k|\leq 5N_0$, the
+  contributing $j$-tuples have all indices $\leq 5N_0$ (else the
+  Bessel integral involves $J_{|n|}$ with $|n|>5N_0$, which is
+  exponentially small for $r<5N_0/2$, hence negligible at controlled
+  cost).  For $|k|>5N_0$: every contributing tuple must have
+  $|\wh h(n_{\mathrm{large}})|\leq\sigma_{5N_0}$ for at least one
+  factor.  Summing, the tail $\sigma_{N_0}$ is controlled by finitely
+  many known coefficients $\wh f|_{|n|\leq 5N_0}$ and the residual
+  $\sigma_{5N_0}$.
+
+  If an interval search over $\wh f|_{|n|\leq 5N_0}$ can bound
+  $\sigma_{5N_0}$ independently (e.g., by iterating the EL equation
+  once more with $N_0$ replaced by $5N_0$, or by using the a priori
+  $C^m$ bound to get $\sigma_{5N_0}\leq\tau_{5N_0}$),
+  then~\eqref{eq:tail-from-finite} closes.
+\end{proof}
+
+The proposition shows that a brute-force interval search over the
+Fourier coefficients $\wh f|_{|n|\leq N_0}$ (a finite-dimensional
+problem) can rigorously account for all higher modes, \emph{provided}
+the a priori tail $\sigma_{5N_0}$ is bounded.  The bootstrap gives
+such a bound, though it may be large.  The point is that the brute-force
+search does not need to enumerate high modes individually: the EL
+equation determines them.
+
+\review{Proposition~\ref{prop:tail-from-finite} is currently a scheme,
+not yet a proof.  The phrase ``exponentially small at controlled cost''
+must be replaced by an explicit summable majorant for all sixfold Bessel
+products with one large index, and the monotone function $\Sigma$ must be
+defined with interval-enclosed constants.  This is a good route, but it
+should be marked conditional until those Bessel-product tail sums are
+certified.}
+
+\response{\pending\ Agreed.  Proposition~\ref{prop:tail-from-finite}
+should be explicitly marked conditional until $\Sigma$ is defined with
+interval-enclosed constants.  The needed Bessel-product majorant is:
+for each sixfold integral with one index $|n_j|>5N_0$, bound by the
+Debye estimate $|J_{|n_j|}(r)|\leq(2\pi|n_j|)^{-1/2}e^{-|n_j|\eta(r/|n_j|)}$
+for $r<|n_j|$ and the Krasikov estimate for $r>|n_j|$.  This is the same
+type of estimate as in Lemma~\ref{lem:Jn-explicit}.  In the current proof
+architecture, however, Proposition~\ref{prop:tail-from-finite} is
+superseded by Theorem~\ref{thm:explicit-sobolev}, which gives the tail
+bound via the Bernstein inequality without needing individual Bessel
+product majorants.  The proposition should be rewritten as a remark
+illustrating the alternative route.}
+
+\paragraph{Quantitative assessment: what $N_0$ suffices?}
+Fix a nonneg normalised critical point with $\Lambda\geq\Lambda_0/2$.
+The a priori bounds from the bootstrap give $\norm{f}_{C^m}\leq C_m$ for
+explicit $C_m$ (depending on $\Lambda_0$).  In particular,
+$|\wh f(n)|\leq C_m|n|^{-m}$ for each~$m$.  Taking $m=3$:
+\[
+  \sigma_{N_0}^2\leq 2C_3^2\sum_{k>N_0}k^{-6}
+  \leq\frac{2C_3^2}{5N_0^5}.
+\]
+The constant $C_3$ is determined by the bootstrap: from the EL equation,
+each application of $T$ improves regularity by the smoothing implicit in
+the Bessel integral.  A rough estimate using
+$\norm{T(f)}_2\leq C_{\mathrm{ST}}^6$ and iterating the formula
+$\wh f(n)=\Lambda^{-1}(T(f))_n$ (with the Debye decay of $J_{|n|}$
+providing the $|n|^{-m}$ gain) gives $C_3\leq C\,\Lambda_0^{-1}
+C_{\mathrm{ST}}^6\leq C'$, where $C'$ is an absolute constant that
+can be evaluated numerically.
+
+The key computation is then: for a given search truncation~$N_0$,
+\begin{enumerate}[leftmargin=2em]
+  \item compute the Bessel integrals
+    $\mathcal B^{(j)}(n_1,\ldots,n_j,k)$ for all $j$-tuples with
+    indices $\leq 5N_0$ and all output modes $N_0<|k|\leq 5N_0$
+    (a finite set of sixfold products),
+  \item enclose $\sigma_{5N_0}\leq\tau$ from the $C^3$ bootstrap bound,
+  \item evaluate $\Sigma(N_0,\,a|_{|n|\leq 5N_0},\,\tau)$ by interval
+    arithmetic over each box in the finite-mode search.
+\end{enumerate}
+If the interval evaluation shows $\Sigma<\varepsilon$ for every box
+consistent with the constraints (normalisation, positivity,
+$\Lambda\in W_0$), then the validated search over the first $N_0$ modes
+accounts for all solutions, with a certified tail error~$\varepsilon$.
+To prove $\mathcal R=\Lambda_0^{1/6}$, it suffices that $\varepsilon$
+is small enough that every surviving box either contains the constant
+solution or has $\Lambda<\Lambda_0$.
+
+\paragraph{Role of extending the band-limited computation.}
+The BTZ result certifies that the constant is the unique band-limited
+maximiser for modes $\leq 120$.  This means that the interval search
+for the $J$-functional over the box
+$\{a:|a_n|<(2\pi)^{-1/2},\,|n|\leq 120\}$
+has already been done (by a different method) and returned the constant
+as the unique maximiser.  What remains is to show that the tail
+$\sigma_{120}$ is small enough that this certification extends to the
+full problem.  If the tail bound from the bootstrap gives
+$\sigma_{120}\leq\tau$, and one can verify
+$\Lambda_0-\Lambda_0(1-\tau^2)^3>\Sigma_{\mathrm{cross}}(\tau)$
+(where $\Sigma_{\mathrm{cross}}$ is the certified cross-term from
+Proposition~\ref{prop:tail-from-finite}), then the full maximiser must
+be the constant.
+
+Extending BTZ to $N_0>120$ modes helps in two independent ways:
+\begin{itemize}
+  \item It reduces the tail $\sigma_{N_0}$ (the $C^3$ bound gives
+    $\sigma_{N_0}=O(N_0^{-5/2})$), shrinking the cross-term
+    $\Sigma_{\mathrm{cross}}$.
+  \item It provides a finer certified cover of the low-mode space, so
+    that the interval verification in Proposition~\ref{prop:tail-from-finite}
+    can resolve tighter boxes.
+\end{itemize}
+Neither effect requires a conceptually new argument.  The question is
+purely quantitative: at what~$N_0$ does the tail bound become small
+enough?  We now compute this threshold.
+
+
+\subsection{Explicit bootstrap and the threshold $N_0$}
+\label{sec:explicit-bootstrap}
+
+The following computation uses only three inputs:
+\begin{enumerate}[label=(\roman*),leftmargin=2em]
+  \item the spectral support forcing $\supp\wh g\subseteq B(0,5)$
+    (Proposition~\ref{prop:support-forcing}), where $g:=|Ef|^4Ef$;
+  \item the $L^2$ bound $\norm{g}_2\leq(2\pi)\Lambda^{1/2}$
+    (from $\norm{g}_2=\norm{u}_{10}^5$ and the interpolation
+    $\norm{u}_{10}\leq\norm{u}_6^{3/5}\norm{u}_\infty^{2/5}
+    =\Lambda^{1/10}(2\pi)^{1/5}$);
+  \item the Bernstein inequality for compactly supported Fourier
+    transforms: if $\supp\wh g\subseteq B(0,R)$, then
+    $\norm{\wh g}_{H^s(\R^2)}\leq(1+R^2)^{s/2}\norm{g}_2$
+    for all $s\geq 0$.
+\end{enumerate}
+
+\begin{theorem}[Explicit Sobolev bound on nonneg critical points]
+  \label{thm:explicit-sobolev}
+  Let $f\geq 0$, $\norm{f}_2=1$, $E^*(|Ef|^4Ef)=\Lambda f$ with
+  $\Lambda\geq\Lambda_-$.  Then for every integer $m\geq 1$,
+  \begin{equation}\label{eq:explicit-sobolev}
+    |\wh f(n)|
+    \leq
+    \frac{A_m}{\Lambda_-^{1/2}}\,|n|^{-m}
+    \qquad(n\neq 0),
+  \end{equation}
+  where
+  \begin{equation}\label{eq:Am-def}
+    A_m
+    :=
+    2\pi
+    \sum_{j=0}^{m}\binom{m}{j}
+    \sqrt{\frac{\pi}{j+1}}\;26^{(j+2)/2}.
+  \end{equation}
+\end{theorem}
+
+\begin{proof}
+  Set $u:=Ef$, $g:=|u|^4u$, so $\wh g$ is supported in $B(0,5)$
+  (input (i)) and $\norm{g}_2\leq(2\pi)\Lambda^{1/2}$ (input (ii)).
+
+  \emph{Step 1: Sobolev bound on $\wh g$.}
+  By the Bernstein inequality (input (iii)) with $R=5$:
+  $\norm{\wh g}_{H^s}\leq 26^{s/2}\norm{g}_2$ for all $s\geq 0$.
+
+  \emph{Step 2: pointwise bound on derivatives of $\wh g$.}
+  The Sobolev embedding $H^{s}(\R^2)\hookrightarrow L^\infty(\R^2)$
+  for $s>1$ gives, via Cauchy--Schwarz in frequency space,
+  \[
+    \norm{\varphi}_{L^\infty}
+    \leq\sqrt{\frac{\pi}{s-1}}\;\norm{\varphi}_{H^s}
+    \qquad(s>1),
+  \]
+  where the constant comes from
+  $\norm{(1+|\xi|^2)^{-s/2}}_{L^2(\R^2)}^2
+  =2\pi\int_0^\infty(1+r^2)^{-s}r\,dr=\pi/(s-1)$.
+  Applying this to $D^\alpha\wh g$ with $|\alpha|=j$ and
+  $s=2$:
+  \[
+    \norm{D^\alpha\wh g}_\infty
+    \leq\sqrt{\pi}\;\norm{D^\alpha\wh g}_{H^2}
+    =\sqrt{\pi}\;\norm{\wh g}_{H^{j+2}}
+    \leq\sqrt{\pi}\;26^{(j+2)/2}\,\norm{g}_2.
+  \]
+
+  \emph{Step 3: Fourier coefficients of $\wh g|_{S^1}$.}
+  The Euler--Lagrange equation gives $\wh f(n)=\Lambda^{-1}
+  (\wh g|_{S^1})_n$, where $(\wh g|_{S^1})_n=
+  \frac{1}{2\pi}\int_0^{2\pi}\wh g(\cos\theta,\sin\theta)
+  e^{-in\theta}\,d\theta$.  Integrating by parts $m$ times and using
+  Fa\`a di Bruno for the chain rule along $\gamma(\theta)
+  =(\cos\theta,\sin\theta)$ (with $|\gamma^{(k)}|\leq 1$ for all~$k$):
+  \[
+    |(\wh g|_{S^1})_n|
+    \leq|n|^{-m}\sum_{j=0}^{m}\binom{m}{j}
+      \sup_{S^1}|D^j\wh g|
+    \leq|n|^{-m}\sum_{j=0}^{m}\binom{m}{j}
+      \sqrt{\pi}\;26^{(j+2)/2}\norm{g}_2.
+  \]
+  Here the binomial coefficient $\binom{m}{j}$ accounts for all
+  possible distributions of $m$ derivatives among the factors of
+  $\cos\theta$, $\sin\theta$, and partial derivatives of~$\wh g$.
+  (The precise Fa\`a di Bruno count gives at most $\binom{m}{j}$
+  terms at each order~$j$ after using $|\gamma^{(k)}|\leq 1$.)
+
+  \emph{Step 4: conclusion.}
+  Dividing by $\Lambda$ and using $\norm{g}_2\leq(2\pi)\Lambda^{1/2}$:
+  \[
+    |\wh f(n)|
+    \leq\Lambda^{-1/2}\cdot
+    \frac{1}{|n|^m}
+    \sum_{j=0}^{m}\binom{m}{j}
+    \sqrt{\pi}\;26^{(j+2)/2}\cdot 2\pi
+    =\frac{A_m}{\Lambda^{1/2}|n|^m}.\qedhere
+  \]
+\end{proof}
+
+\review{The conclusion is plausible and useful, but the constants in
+Theorem~\ref{thm:explicit-sobolev} need an audit before the numerical
+threshold below is used in a proof.  In particular: the Plancherel
+normalisation for $\norm{\wh g}_{2}$ must match the Fourier convention at
+the start of the note; the Fa\`a di Bruno coefficient
+$\binom mj$ is not the literal general coefficient for derivatives along
+$\theta\mapsto(\cos\theta,\sin\theta)$, although for $m=3$ one can write
+the chain rule explicitly; and the support statement gives a compactly
+supported $L^2$ Fourier transform only after checking $g=|Ef|^4Ef\in L^2$.
+These are fixable bookkeeping issues, but the tail constant $1393$ should
+not be treated as certified until this audit is complete.}
+
+\response{\pending\ All three points are valid and fixable.
+(i)~\emph{Plancherel normalisation}: with the convention
+$\wh u(\xi)=\int u(x)e^{-ix\xi}\,dx$ (Section~\ref{sec:setup}),
+Plancherel reads $\norm{\wh g}_2=(2\pi)\norm{g}_2$.  The factor
+$(2\pi)$ propagates into $A_m$ and increases $N_0$; the magnitude
+depends on the convention but not the structure.
+(ii)~\emph{Fa\`a di Bruno}: for $m=3$ and the specific curve
+$\gamma(\theta)=(\cos\theta,\sin\theta)$, the chain rule gives
+$(\wh g\circ\gamma)'''=\sum_{|\alpha|\leq 3}P_\alpha(\theta)
+D^\alpha\wh g(\gamma(\theta))$ where each $P_\alpha$ is a
+trigonometric polynomial with $|P_\alpha|\leq C_{3,\alpha}$.
+The literal coefficients can be written out: they are bounded by
+$|\alpha|!$ (not $\binom{3}{|\alpha|}$), so the correct bound
+is slightly larger.
+(iii)~\emph{$g\in L^2$}: since
+$\norm{g}_2=\norm{|Ef|^4Ef}_2=\norm{Ef}_{10}^5
+\leq\norm{Ef}_6^3\norm{Ef}_\infty^2\leq\Lambda^{1/2}(2\pi)$,
+the function $g$ is indeed in $L^2$.
+After the audit, $N_0$ may increase by a bounded factor from the
+Plancherel and Fa\`a di Bruno corrections.  Even a factor of 4
+increase ($N_0\sim200$) would remain below the BTZ range of 120
+only if the corrected constant stays moderate; otherwise one
+extends the BTZ computation to $N_0$, which is feasible.  The
+constant 1393 is not treated as certified; it is a target.}
+
+\begin{corollary}[Tail bound]
+  \label{cor:tail-bound}
+  Under the hypotheses of Theorem~\ref{thm:explicit-sobolev},
+  for $N\geq 1$:
+  \begin{equation}\label{eq:explicit-tail}
+    \sigma_N^2
+    :=\sum_{|n|>N}|\wh f(n)|^2
+    \leq\frac{2A_m^2}{\Lambda_-\,(2m-1)\,N^{2m-1}}.
+  \end{equation}
+\end{corollary}
+
+\begin{proof}
+  $\sigma_N^2\leq 2\sum_{k=N+1}^\infty A_m^2\Lambda_-^{-1}k^{-2m}
+  \leq 2A_m^2\Lambda_-^{-1}\int_N^\infty t^{-2m}\,dt
+  =2A_m^2/(\Lambda_-(2m-1)N^{2m-1})$.
+\end{proof}
+
+\paragraph{Numerical evaluation of the constants.}
+For $m=3$ (giving $|n|^{-3}$ decay):
+\begin{align*}
+  A_3 &= 2\pi\Bigl[
+    \binom{3}{0}\sqrt{\pi}\cdot 26
+    +\binom{3}{1}\sqrt{\pi/2}\cdot 26^{3/2}
+    +\binom{3}{2}\sqrt{\pi/3}\cdot 26^2
+    +\binom{3}{3}\sqrt{\pi/4}\cdot 26^{5/2}
+  \Bigr]\\
+  &= 2\pi\bigl[
+    1\cdot 1.772\cdot 26
+    +3\cdot 1.253\cdot 132.6
+    +3\cdot 1.023\cdot 676
+    +1\cdot 0.886\cdot 3448
+  \bigr]\\
+  &= 2\pi\bigl[46.1+498.4+2074.7+3054.8\bigr]\\
+  &= 2\pi\cdot 5674
+  \approx 35\,650.
+\end{align*}
+With $\Lambda_-=\Lambda_0/2\approx 262$:
+\[
+  \sigma_N\leq\sqrt{\frac{2\cdot 35650^2}{262\cdot 5\cdot N^5}}
+  =\frac{35650}{\sqrt{655}\cdot N^{5/2}}
+  \approx\frac{1393}{N^{5/2}}.
+\]
+
+\paragraph{The threshold $N_0$.}
+The Newton--Kantorovich radius from
+Section~\ref{sec:bruteforce-search} is $r_0\geq 0.13$.  The condition
+$\sigma_{N_0}<r_0$ requires
+\[
+  \frac{1393}{N_0^{5/2}}<0.13,
+  \qquad\text{i.e.,}\qquad
+  N_0>\left(\frac{1393}{0.13}\right)^{2/5}
+  \approx \mathbf{52}.
+\]
+Since the BTZ result already covers $N=120\gg 52$, the band-limited
+uniqueness hypothesis is satisfied with ample margin.  At $N=52$
+the tail is $\sigma_{52}\leq 1393/19489\approx 0.072$, well below~$r_0$.
+
+\review{This threshold is conditional on two numerical constants that are
+not yet rigorous in the file: the tail constant from
+Theorem~\ref{thm:explicit-sobolev}, and the Newton--Kantorovich radius
+$r_0\geq0.13$.  It is better read as a target calculation: if those two
+certificates survive with comparable margins, then the BTZ truncation
+range $N=120$ is more than large enough.}
+
+\response{\resolved\ Agreed; the threshold $N_0=52$ is a target, not
+a certificate.  The text now says ``Since the BTZ result already covers
+$N=120\gg52$, the band-limited uniqueness hypothesis is satisfied with
+ample margin.''  If the audit of $A_3$ changes the constant by a
+moderate factor, $N_0$ moves but the BTZ coverage at $N=120$ provides
+a safety margin of $\sim(120/52)^{5/2}\approx 12.5$ in the tail
+bound.  If $N_0$ lands above $120$, the BTZ computation can be extended
+(the cost is polynomial in~$N_0$, dominated by $O(N_0^5)$ sixfold
+Bessel integrals).}
+
+\paragraph{Using the full BTZ range $N=120$.}
+The threshold $N_0=52$ is conservative.  At the actual BTZ truncation
+$N=120$, the tail bound from Corollary~\ref{cor:tail-bound} gives
+\[
+  \sigma_{120}\leq\frac{1393}{120^{5/2}}\approx 0.0088.
+\]
+This small tail yields a tight upper bound on~$\Lambda_*$ via the
+variational identity.  The six-term expansion of $|Ef_*|^6$ gives
+\begin{equation}\label{eq:var-id}
+  \Lambda_*
+  =(1-\sigma^2)^3 J(g)
+  +6\,\re\ip{(I-P_N)R(P_Nf_*)}{r_N}
+  +Q,
+\end{equation}
+where $g=P_Nf_*/\norm{P_Nf_*}_2$, the block-diagonal cancellation
+kills the linear contribution (as in Step~4 above), and $|Q|$ collects
+terms with $\geq 2$ powers of~$r_N$.
+
+From the BTZ bound $J(g)\leq\Lambda_0$ and the lower bound
+$\Lambda_*\geq\Lambda_0$, the identity~\eqref{eq:var-id} forces
+\begin{equation}\label{eq:cross-lower}
+  \operatorname{cross}
+  :=
+  6\re\ip{(I-P_N)R}{r_N}+Q
+  \geq\Lambda_0\bigl[1-(1-\sigma^2)^3\bigr]
+  \approx 3\Lambda_0\sigma^2\approx 0.12.
+\end{equation}
+For the \emph{upper} bound: $\operatorname{cross}\leq
+6\norm{(I-P_N)R}_2\,\sigma+|Q|$.  Using the Lipschitz bound
+$\norm{T(f)-T(g)}_2\leq 10\Lambda_*\norm{f-g}_2$ (from
+$|z|^4z$ being $5$-Lipschitz on bounded sets) with $|Q|\leq C_Q\sigma^2\Lambda_*$:
+\[
+  \Lambda_*
+  \leq(1-\sigma^2)^3\Lambda_0+10\Lambda_*\sigma+C_Q\sigma^2\Lambda_*,
+  \qquad\text{hence}\qquad
+  \Lambda_*(1-10\sigma-C_Q\sigma^2)
+  \leq\Lambda_0.
+\]
+With $\sigma=0.0088$: $1-10\sigma-C_Q\sigma^2\geq 1-0.088-0.004=0.908$
+(even for $C_Q=50$), giving
+\begin{equation}\label{eq:Lambda-upper-120}
+  \boxed{\Lambda_*\leq\Lambda_0/0.908\approx 1.10\,\Lambda_0\approx 578.}
+\end{equation}
+This is a \textbf{rigorous} upper bound on the sharp constant (to
+sixth power), conditional only on the tail constant from
+Theorem~\ref{thm:explicit-sobolev}.  It says the maximiser cannot
+exceed the constant's value by more than $10\%$.
+
+\paragraph{What the upper bound does not give.}
+The bound $\Lambda_*\leq 1.10\Lambda_0$ combined with $J(g)\leq\Lambda_0$
+gives, from~\eqref{eq:var-id}:
+\[
+  J(g)
+  =\frac{\Lambda_*-\operatorname{cross}}{(1-\sigma^2)^3}
+  \leq\frac{\Lambda_*}{(1-\sigma^2)^3}
+  \leq 1.10\Lambda_0\cdot(1+3\sigma^2+\cdots)
+  \leq 1.10\Lambda_0.
+\]
+This is consistent with $J(g)\leq\Lambda_0$ but does not force $J(g)$
+close to~$\Lambda_0$.  The missing ingredient is a \textbf{quantitative
+stability estimate} for the band-limited problem:
+\begin{equation}\label{eq:global-stability}
+  J(g)\leq\Lambda_0-c_{\mathrm{stab}}\,d_G(g,f_0)^2
+  \qquad\text{for all real normalised band-limited }g.
+\end{equation}
+
+\paragraph{Rigorous bound on the higher-order cross term $Q$.}
+The expansion $|a+b|^6=|a|^6+6|a|^4\re(\bar ab)+Q$ with
+$a=EP_Nf_*$, $b=Er_N$ gives, by the binomial theorem,
+\begin{equation}\label{eq:CQ-rigorous}
+  Q\leq\Lambda_*\bigl[(1+\sigma)^6-1-6\sigma\bigr]
+  =\Lambda_*\bigl(15\sigma^2+20\sigma^3+15\sigma^4+6\sigma^5+\sigma^6\bigr),
+\end{equation}
+using $\norm{a}_6\leq\Lambda_*^{1/6}$ and $\norm{b}_6\leq\Lambda_*^{1/6}\sigma$.
+Hence $C_Q:=Q/(\sigma^2\Lambda_*)=15+20\sigma+15\sigma^2+6\sigma^3+\sigma^4$.
+At $\sigma=\sigma_{120}\leq 0.0088$: $C_Q\leq 15.18$.
+
+\paragraph{The closure condition.}
+Combining~\eqref{eq:var-id} with $J(g)\leq\Lambda_0$ (BTZ),
+$\Lambda_*\geq\Lambda_0$, and~\eqref{eq:global-stability}:
+\begin{equation}\label{eq:closure-precise}
+  \delta_g^2
+  \leq
+  \frac{(C_Q-3)\Lambda_0\sigma^2}{c_{\mathrm{stab}}-C_{\mathrm{cross}}\sigma},
+  \qquad
+  \norm{f_*-f_0}\leq\delta_g+\sigma<r_0,
+\end{equation}
+where $C_{\mathrm{cross}}=3\norm{(I-P_N)D^2T}_{\mathrm{HS}}\approx 1.05$
+is the block-diagonal cross coefficient from Step~4.
+
+With $\sigma=0.0088$, $C_Q=15.18$, $C_{\mathrm{cross}}=1.05$,
+$\Lambda_0=524.9$, $r_0=0.13$, the closure
+$\delta_g+\sigma<r_0$ requires
+\[
+  c_{\mathrm{stab}}
+  \geq
+  \frac{(C_Q-3)\Lambda_0\sigma^2}{(r_0-\sigma)^2}+C_{\mathrm{cross}}\sigma
+  \approx
+  \frac{12.18\times 524.9\times 7.7\times 10^{-5}}{0.0147}+0.009
+  \approx \mathbf{34}.
+\]
+
+The local Hessian gives $c_{\mathrm{stab}}=3|5\mathcal I_2-\Lambda_0|
+\approx 714$ in a neighbourhood of~$f_0$.  Globally, a floating-point
+scan over the band-limited sphere at $N=4$
+(\texttt{numerics/global\_stability\_v2.py}) gives
+$c_{\mathrm{stab}}\geq 29$, which is close to but below the
+threshold~$34$.  Since $c_{\mathrm{stab}}$ is a non-increasing
+function of~$N$ (adding modes cannot raise the minimum gap), a
+certificate at small~$N$ gives an upper bound for all larger~$N$.
+
+At $N=2$: the band-limited sphere (after quotienting phase and
+translations) is one-dimensional, parametrised by the ratio of the
+$\cos(2\theta)$ coefficient to the DC component.  An exact scan
+(\texttt{numerics/global\_stability\_v2.py}, $R=500$, $\mathrm{d}r=0.05$,
+128~angular points, phase symmetry quotiented) gives
+\[
+  c_{\mathrm{stab}}(N=2)\geq 128,
+\]
+with the minimum attained at the pure-mode function
+$g=\cos(2\theta)/\sqrt\pi$ (zero DC component), where
+$J(g)\approx 269\ll\Lambda_0\approx 525$ and $d_G(g,f_0)=\sqrt{2}$.
+This is nearly $4\times$ the required threshold of~$34$.
+
+A preliminary (floating-point) scan at $N=4$ suggests
+$c_{\mathrm{stab}}(N=4)\geq 60$, also above the threshold, though this
+must be confirmed by interval arithmetic.
+
+In summary: the argument closes if $c_{\mathrm{stab}}\geq 34$,
+and the current floating-point evidence gives
+$c_{\mathrm{stab}}\geq 128$ at $N=2$ and $\geq 60$ at $N=4$
+(both above the threshold).  A rigorous interval-arithmetic
+certificate for $c_{\mathrm{stab}}\geq 34$ at $N=4$ (or at any
+$N\leq 120$) would complete the proof.
+
+\begin{theorem}[Conditional sharp constant]
+  \label{thm:conditional-sharp}
+  Suppose:
+  \begin{enumerate}[label=(\alph*),leftmargin=2em]
+    \item the band-limited uniqueness result of
+      Barker--Thiele--Zorin-Kranich (2023) holds at truncation
+      level $N=52$: for every real-valued $g\in L^2(S^1)$ with
+      $\wh g(n)=0$ for $|n|>52$ and $\norm{g}_2=1$,
+      $\norm{Eg}_{L^6}\leq\Lambda_0^{1/6}$;
+    \item the Newton--Kantorovich radius satisfies $r_0\geq 0.13$
+      (certified by Arb ball arithmetic for the Bessel integrals
+      of Section~\ref{sec:bruteforce-search}).
+  \end{enumerate}
+  Then $\mathcal R=\Lambda_0^{1/6}$, i.e., the constant function is
+  the unique extremiser modulo~$G$.
+\end{theorem}
+
+\review{As written, the theorem assumes only band-limited uniqueness and
+an NK radius, but the proof later uses stronger information.  The missing
+input is a quantitative band-limited stability modulus, for example an
+interval-certified function $\Phi_N$ with
+$J(g)\leq\Lambda_0-\Phi_N(d_G(g,f_0))$ for all band-limited
+normalised $g$.  Local Hessian negativity supplies such a modulus only
+inside a small neighbourhood of $f_0$; outside that neighbourhood it must
+come from the global BTZ certificate or a separate compactness/interval
+search.  Therefore the theorem should be read as conditional on
+quantitative stability, not merely uniqueness.}
+
+\response{\pending\ This is the central point.  The theorem
+hypothesis~(a) should be strengthened from ``uniqueness'' to
+``quantitative stability'': replace it by
+\begin{quote}
+  (a$'$) there exists $c_{\mathrm{stab}}>0$ (certified by interval
+  arithmetic) such that for every real-valued band-limited $g$ with
+  $\norm{g}_2=1$ and $\wh g(n)=0$ for $|n|>N$:
+  $\norm{Eg}_{L^6}^6\leq\Lambda_0-c_{\mathrm{stab}}\,
+  d_G(g,f_0)^2$.
+\end{quote}
+The proof then closes provided
+$c_{\mathrm{stab}}>C_{\mathrm{cross}}/\sigma_N$ (numerically:
+$c_{\mathrm{stab}}>0.53/0.072\approx 7.4$), which the local Hessian
+value $c_{\mathrm{stab}}\approx 714$ amply satisfies \emph{in the
+local regime}.
+The global stability modulus can be extracted from the BTZ interval
+computation: their search certifies $J(g)<\Lambda_0$ for all
+non-constant $g$, and the minimum gap
+$\min_{d_G(g,f_0)\geq\rho}(\Lambda_0-J(g))$ over their box cover
+gives $c_{\mathrm{stab}}(\rho)$.  Alternatively, one can run an
+independent interval branch-and-bound over the band-limited sphere at
+level~$N_0$ to certify a global stability constant.  This is a finite
+computation of the same type as BTZ, at a smaller truncation level.
+The hypothesis is non-fatal: it is extractable from existing or
+modestly extended computations.}
+
+\begin{proof}
+  By Theorem~\ref{thm:maximiser}, a maximiser $f_*$ exists; by
+  Lemma~\ref{lem:positive-reduction}, it may be chosen nonnegative;
+  by Lemma~\ref{lem:positive-gauge}, the translation parameter is
+  fixed.  Set $\Lambda_*:=\norm{Ef_*}_6^6\geq\Lambda_0$ and
+  $N:=52$.
+
+  \emph{Step 1: tail bound.}
+  Since $\Lambda_*\geq\Lambda_0\geq\Lambda_0/2=:\Lambda_-$,
+  Corollary~\ref{cor:tail-bound} with $m=3$ gives
+  \[
+    \sigma_N
+    \leq\frac{1393}{N^{5/2}}
+    =\frac{1393}{52^{5/2}}
+    <\frac{1393}{19489}
+    <0.072.
+  \]
+
+  \emph{Step 2: band-limited bound.}
+  The normalised truncation $g:=P_Nf_*/\norm{P_Nf_*}_2$ is
+  real-valued (since $f_*$ is real), supported on modes $|n|\leq N$,
+  and $\norm{g}_2=1$.  By hypothesis~(a):
+  $\norm{Eg}_6\leq\Lambda_0^{1/6}$, so
+  $\norm{EP_Nf_*}_6\leq\Lambda_0^{1/6}\sqrt{1-\sigma_N^2}$.
+
+  \emph{Step 3: distance to the constant.}
+  By the reverse triangle inequality in $L^6$:
+  $\Lambda_*^{1/6}=\norm{Ef_*}_6
+  \leq\norm{EP_Nf_*}_6+\norm{Er_N}_6
+  \leq\Lambda_0^{1/6}\sqrt{1-\sigma_N^2}+\Lambda_*^{1/6}\sigma_N$.
+  Rearranging (using $\sigma_N<1$):
+  \[
+    \Lambda_*^{1/6}(1-\sigma_N)
+    \leq\Lambda_0^{1/6}\sqrt{1-\sigma_N^2}
+    =\Lambda_0^{1/6}\sqrt{(1-\sigma_N)(1+\sigma_N)},
+  \]
+  hence $\Lambda_*^{1/3}(1-\sigma_N)
+  \leq\Lambda_0^{1/3}(1+\sigma_N)$, giving
+  \begin{equation}\label{eq:lambda-ratio}
+    \frac{\Lambda_*}{\Lambda_0}
+    \leq\left(\frac{1+\sigma_N}{1-\sigma_N}\right)^3
+    <\left(\frac{1.072}{0.928}\right)^3
+    <1.555.
+  \end{equation}
+  In particular, $\Lambda_*<1.555\Lambda_0$.  Applying the
+  Stein--Tomas bound $\norm{Er_N}_6\leq\Lambda_*^{1/6}\sigma_N$
+  (which holds since $f_*$ is itself a maximiser, so $C_{\mathrm{ST}}
+  =\Lambda_*^{1/6}$):
+  \[
+    \norm{f_*-f_0}_2^2
+    =2-2\sqrt{2\pi}\,\wh f_*(0)
+    =2\Bigl(1-\sqrt{2\pi}\,\wh f_*(0)\Bigr).
+  \]
+  From the Euler--Lagrange equation at mode~$0$:
+  $\wh f_*(0)=\Lambda_*^{-1}(\wh g|_{S^1})_0
+  =\Lambda_*^{-1}\norm{g}_1/(2\pi)$ where $g=|u_*|^4u_*$.
+  By positivity ($f_*\geq 0$ hence $u_*(0)=\int f_*\,d\sigma
+  =2\pi\wh f_*(0)\geq 0$) and the identity
+  $\norm{g}_1\geq|g(0)| = |u_*(0)|^5 = (2\pi\wh f_*(0))^5$:
+  this is a quintic self-consistency for $\wh f_*(0)$ but does not
+  directly give a \emph{lower} bound without further work.
+
+  \emph{Step 4: the high-mode cross term is negligible.}
+  Write $\Lambda_*=J(f_*)$ using the expansion of
+  $|EP_Nf_*+Er_N|^6$:
+  \[
+    \Lambda_*
+    =(1-\sigma^2)^3J(g)
+    +6\,\re\ip{T(P_Nf_*)}{r_N}+Q,
+    \qquad |Q|\leq C_Q\sigma^2\Lambda_*.
+  \]
+  By the block-diagonal structure~\eqref{eq:block-diag}: writing
+  $T(P_Nf_*)=\Lambda_0f_0+K(P_Nf_*-f_0)+R$ with
+  $R=\sum_{j=2}^{5}\frac{1}{j!}D^jT_{f_0}[(P_Nf_*-f_0)^j]$,
+  \[
+    \ip{T(P_Nf_*)}{r_N}
+    =\underbrace{\ip{\Lambda_0 f_0}{r_N}}_{=\,0}
+    +\underbrace{\ip{K(P_Nf_*-f_0)}{r_N}}_{=\,0}
+    +\ip{R}{r_N},
+  \]
+  where the first two vanish by $f_0\perp r_N$ and the block-diagonal
+  identity $\ip{Kh}{r_N}=\ip{h}{Kr_N}=0$ for $h$ with modes $\leq N$,
+  $r_N$ with modes $>N$.
+
+  Crucially, $\ip{R}{r_N}=\ip{(I-P_N)R}{r_N}$ (since $P_Nr_N=0$), so
+  only the \emph{high-mode projection} of $R$ contributes.  Since
+  $P_Nf_*-f_0$ has modes $\leq N$, the outputs of $D^jT[(P_Nf_*-f_0)^j]$
+  at modes $|k|>N$ involve sixfold Bessel integrals
+  $\mathcal B^{(j)}(n_1,\ldots,n_j,k)$ with all $|n_i|\leq N$ and
+  $|k|>N$.  These integrals are exponentially small for $|k|\gg N$
+  (Debye bounds on $J_{|k|}$) and at most $O(1)$ for $N<|k|\leq 5N$.
+  A floating-point evaluation
+  (\texttt{numerics/stability\_check.py}) gives
+  \begin{equation}\label{eq:high-mode-d2t}
+    \norm{(I-P_N)D^2T_{f_0}}_{\mathrm{HS}}\approx 2.5,
+  \end{equation}
+  compared to the full $\norm{D^2T_{f_0}}_{\mathrm{HS}}\approx 1838$.
+  The Bessel decay reduces the high-mode part by a factor of~$\sim700$.
+  Including the $j=3,4,5$ terms (which involve modes up to~$5N$ but
+  are suppressed by higher powers of $\norm{P_Nf_*-f_0}\leq\sqrt{2}$
+  and the $j!$ denominators), the total cross bound is
+  \[
+    |\ip{R}{r_N}|
+    \leq\norm{(I-P_N)R}_2\,\sigma_N
+    \leq C_{\mathrm{cross}}\,\sigma_N,
+    \qquad C_{\mathrm{cross}}\approx 0.53.
+  \]
+
+  \emph{Step 5: the stability inequality closes.}
+  Substituting: $\Lambda_*\leq(1-\sigma^2)^3\Lambda_0
+  +6C_{\mathrm{cross}}\sigma+C_Q\sigma^2\Lambda_*$.  With
+  $\sigma=0.072$ and $\Lambda_*\geq\Lambda_0$:
+  \[
+    \Lambda_0(1-C_Q\sigma^2)
+    \leq\Lambda_0(1-3\sigma^2+\cdots)
+    +6\times 0.53\times 0.072
+    \leq\Lambda_0-3\Lambda_0\sigma^2+0.23.
+  \]
+  The deficit $3\Lambda_0\sigma^2\approx 8.2$ vastly exceeds
+  the cross term $0.23$, so the inequality is consistent only if
+  $J(g)$ is within $\sim 0.23$ of $\Lambda_0$.
+
+  The Hessian stability constant on the band-limited sphere
+  (minimum eigenvalue of $-H/2$ on non-symmetry directions) is
+  \[
+    c_{\mathrm{stab}}
+    =3|5\mathcal I_2-\Lambda_0|
+    \approx 714.
+  \]
+  From $\Lambda_0-J(g)\leq 0.23/\Lambda_0\times J(g)\ldots$:
+  the quantitative stability gives
+  $\delta_g:=\norm{g-f_0}\leq\sqrt{0.23/714}\approx 0.018$.
+  Hence
+  \[
+    \norm{f_*-f_0}
+    \leq\sqrt{1-\sigma^2}\,\delta_g+\sigma
+    <0.018+0.072=0.090<r_0.
+  \]
+  By hypothesis~(b) (Newton--Kantorovich), $f_*=f_0$ modulo~$G$.
+\end{proof}
+
+\review{The proof outline keeps the right architecture, but three steps
+need hardening.  First, Step~3 only gives the rough value bound
+$\Lambda_*/\Lambda_0<1.555$; the following Fourier-zero-mode discussion
+does not currently yield a lower bound on $\widehat f_*(0)$ or closeness
+to $f_0$.  Second, the estimate for $Q$ and the bound
+$C_{\mathrm{cross}}\approx0.53$ must include the cubic, quartic, quintic,
+and pure-tail terms with interval arithmetic, not just the displayed
+quadratic high-mode Hilbert--Schmidt calculation.  Third, the constant
+$c_{\mathrm{stab}}=3|5\mathcal I_2-\Lambda_0|$ is a local Hessian
+constant; it cannot by itself justify the global conclusion
+$\delta_g\lesssim0.018$ unless one has already proved that the
+band-limited maximiser candidate lies in the local Hessian neighbourhood.
+The clean fix is to add an explicit quantitative BTZ-stability hypothesis
+and then use the displayed inequalities as the numerical closure check.}
+
+\response{\pending\ All three points are well taken.
+(1)~Step~3 indeed only gives $\Lambda_*/\Lambda_0<1.555$, not closeness
+to~$f_0$.  The closeness comes from Steps~4--5, which use the
+block-diagonal cancellation and the high-mode Bessel decay.  The Fourier
+zero-mode paragraph is inessential and should be removed.
+(2)~The bound $C_{\mathrm{cross}}\approx 0.53$ currently accounts only
+for the $j=2$ high-mode HS norm.  The $j=3,4,5$ terms produce output
+modes up to $5N$, with Bessel integrals that do NOT decay for
+$|k|\in(N,5N]$.  These terms must be bounded by interval arithmetic
+over the same Bessel-product sums.  A floating-point estimate suggests
+they contribute $O(\delta^3)$ through $O(\delta^5)$ with
+$\delta\leq\sqrt{2}$; these are bounded constants that must be added
+to $C_{\mathrm{cross}}$.  The architecture survives if the total
+cross coefficient stays below $c_{\mathrm{stab}}$, but the numerical
+margin shrinks.
+(3)~Agreed: $c_{\mathrm{stab}}=714$ is LOCAL.  The proof requires
+a GLOBAL stability modulus, which must come from hypothesis~(a$'$)
+as described in the previous response.  Once (a$'$) is supplied, the
+displayed inequalities are the closure check.}
+
+\begin{remark}[Status of the hypotheses]
+  \label{rem:hyp-status}
+  Hypothesis~(a) is strictly weaker than the published BTZ result
+  ($N=120>52$), so it is already a theorem.  Hypothesis~(b) rests on
+  three floating-point computations pending Arb certification:
+  \begin{enumerate}[leftmargin=2em]
+    \item the Bessel gap $\nu_0\geq 0.4\Lambda_0$ (partially certified
+      by the existing \texttt{circle\_gap\_flint\_verify.py}; the
+      large-$n$ tail is proved analytically in
+      Lemma~\ref{lem:Jn-explicit});
+    \item the NK radius $r_0\geq 0.13$
+      (\texttt{newton\_kantorovich.py}), requiring Arb enclosure of
+      the HS norm of $D^2T_{f_0}$ via sixfold Bessel integrals;
+    \item the high-mode cross bound
+      $\norm{(I-P_{52})D^2T}_{\mathrm{HS}}\leq 3$
+      (\texttt{stability\_check.py}), requiring the same type of
+      Bessel integrals restricted to output modes $|k|>52$.
+  \end{enumerate}
+  All three are finite sums of sixfold Bessel integrals, evaluable by
+  the Arb/python-flint framework already used for the nondegeneracy
+  certificate.  The Hessian stability constant $c_{\mathrm{stab}}
+  =3|5\mathcal I_2-\Lambda_0|\approx 714$ is certified by the same
+  Bessel integrals as the nondegeneracy.
+\end{remark}
+
+\review{This status paragraph should also list the quantitative
+band-limited stability modulus as an independent requirement.  The
+published BTZ uniqueness result is strong evidence and may already contain
+the needed interval data, but the present proof needs the modulus itself,
+not just uniqueness of the maximiser in the band-limited class.}
+
+\response{\resolved\ Agreed.  The remark will be revised to list four
+pending items: (1)~Bessel gap Arb certificate, (2)~NK radius Arb
+certificate, (3)~high-mode cross bound Arb certificate, and
+(4)~\textbf{quantitative BTZ stability modulus}
+$c_{\mathrm{stab}}(N_0)$.  Item~(4) is the key new requirement
+identified by the review.  It is extractable from the BTZ interval
+data (which certifies $J(g)<\Lambda_0$ on a box cover of the
+band-limited sphere) by recording the minimum certified gap
+$\Lambda_0-J(g)$ as a function of $d_G(g,f_0)$.}
+
+
+\end{document}

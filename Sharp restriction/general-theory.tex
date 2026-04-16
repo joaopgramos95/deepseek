@@ -1,0 +1,285 @@
+
+\documentclass[12pt]{article}
+
+\usepackage{amsmath, amsthm, amssymb, mathtools}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{xcolor}
+
+\geometry{margin=1.25in}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\type}{type}
+\DeclareMathOperator{\Stab}{Stab}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\PW}{\mathrm{PW}}
+\newcommand{\Sph}{\mathbb{S}}
+\newcommand{\wh}{\widehat}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\ip}[2]{\left\langle #1,\, #2\right\rangle}
+\newcommand{\re}{\operatorname{Re}}
+
+% Status markers
+\newcommand{\proven}{\textbf{\color{teal}[Proved]}}
+\newcommand{\conditional}{\textbf{\color{orange}[Conditional]}}
+\newcommand{\open}{\textbf{\color{red}[Open]}}
+\newcommand{\heuristic}{\textbf{\color{purple}[Heuristic]}}
+\newcommand{\review}[1]{\par\smallskip\noindent\textbf{\color{red}[Review comment.]} {\color{red}#1}\par\smallskip}
+\newcommand{\response}[1]{\par\noindent\textbf{\color{blue}[Response.]} {\color{blue}#1}\par\smallskip}
+\newcommand{\resolved}{\textbf{\color{teal}[RESOLVED]}}
+\newcommand{\pending}{\textbf{\color{orange}[PENDING]}}
+\newcommand{\fatal}{\textbf{\color{red}[OPEN]}}
+
+\title{\textbf{General Theory for Nonlinear Convolution Equations}}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\bigskip
+
+This file contains the background material on abstract nonlinear convolution
+equations and spectral support forcing.  The material is separated from the
+specific $S^1$ sharp restriction programme, which is kept in
+\texttt{convolution-equations.tex}.
+
+
+
+% =======================================================================
+\section{Setup and Notation}
+\label{sec:setup}
+% =======================================================================
+
+We work throughout with \emph{entire functions of finite exponential type}.
+An entire function $u:\C\to\C$ has \emph{exponential type} $\tau\geq 0$ if
+$\abs{u(z)}\leq Ce^{\tau\abs{z}}$ for some $C>0$ and all $z\in\C$.
+The \emph{Paley--Wiener--Schwartz theorem} identifies this class:
+$u$ is entire of type $\leq\tau$ with $u|_{\R}\in L^2(\R)$ if and only if
+$\wh u\in L^2$ is supported in $[-\tau,\tau]$.
+We write $\PW_\tau$ for the corresponding Hilbert space.
+
+Fourier conventions:
+\[
+  \wh u(\xi)=\int_\R u(x)e^{-ix\xi}\,dx,
+  \qquad
+  u(x)=\frac{1}{2\pi}\int_\R \wh u(\xi)e^{ix\xi}\,d\xi,
+\]
+so $\widehat{u\ast v}=\wh u\cdot\wh v$ and
+$\widehat{u\cdot v}=\tfrac{1}{2\pi}\wh u\ast\wh v$.
+
+Throughout, $k\geq 1$ is a fixed positive integer, $c\in\C\setminus\{0\}$
+is a fixed constant, and $f$ is an entire function of exponential type
+$\tau_f>0$ whose restriction to~$\R$ lies in $L^2(\R)$.
+
+% =======================================================================
+\section{The Compact Convolution Equation}
+\label{sec:two-eqns}
+% =======================================================================
+
+\subsection{The equation $u=c\,(u^k\ast f)$: compact fixed-point structure}
+\label{sec:reversed-eqn}
+
+We now turn to the equation
+\begin{equation}  \label{eq:main}
+  u = c\,(u^k\ast f).
+\end{equation}
+In Fourier space:
+\begin{equation}  \label{eq:main-fourier}
+  \wh u(\xi) = c\,\wh u^{\ast k}(\xi)\cdot\wh f(\xi).
+\end{equation}
+
+\begin{proposition}[Type self-consistency]
+  Any solution $u\in\PW_\tau$ of~\eqref{eq:main} satisfies $\tau\leq\tau_f$.
+\end{proposition}
+
+\begin{proof}
+  The right side of~\eqref{eq:main-fourier} is supported in
+  $\supp(\wh u^{\ast k})\cap\supp(\wh f)\subseteq[-\tau_f,\tau_f]$.
+\end{proof}
+
+This is the key contrast: the equation $u=c(u^k\ast f)$ does \emph{not}
+force $\tau=0$; solutions of positive exponential type exist as long as
+$\tau\leq\tau_f$.
+
+\begin{proposition}[Compactness of $T$ on Paley--Wiener spaces]
+  \label{prop:T-compact-PW}
+  Define $T:\PW_{\tau_f}\to\PW_{\tau_f}$ by $T(v)=c(v^k\ast f)$.  Then
+  $T$ maps bounded sets in $\PW_\tau$ (for any $\tau>\tau_f$) to precompact
+  sets in $\PW_\tau$.  In particular, $T:\PW_\tau\to\PW_\tau$ is a compact
+  operator.
+\end{proposition}
+
+\begin{proof}
+  Since $v\in\PW_{\tau_f}$ implies $v^k\in\PW_{k\tau_f}$, the function
+  $v^k\ast f$ has Fourier support in
+  $\supp(\wh{v^k})\cap\supp(\wh f)\subseteq[-\tau_f,\tau_f]$.
+  Hence $T$ maps $\PW_\tau$ into $\PW_{\tau_f}$, and the inclusion
+  $\PW_{\tau_f}\hookrightarrow\PW_\tau$ is compact by the Rellich-type
+  theorem for Paley--Wiener spaces.
+\end{proof}
+
+\subsection{Fredholm structure and local manifold theorem}
+
+At a solution $u_0$ of~\eqref{eq:main}, the Fr\'echet derivative of
+$G(u):=u-c(u^k\ast f)$ is
+\[
+  DG(u_0)[h] = h - ck(u_0^{k-1}h\ast f) =: (I-K)[h],
+\]
+where $K:h\mapsto ck(u_0^{k-1}h\ast f)$ is compact by the same argument.
+By Riesz--Schauder, $I-K$ is \textbf{Fredholm of index zero}.
+
+\begin{theorem}[Local manifold structure]
+  \label{thm:local-mfd}
+  Let $u_0$ be a solution of~\eqref{eq:main} at which $DG(u_0)=I-K$ is
+  invertible.  Then $u_0$ is an isolated solution.  More generally, the
+  solution set near $u_0$ is a smooth manifold of dimension
+  $\dim\ker(I-K)$, which is finite.
+\end{theorem}
+
+% =======================================================================
+\section{Spectral Support Forcing}
+\label{sec:spectral-forcing}
+% =======================================================================
+
+We specialise to $f=\wh\sigma$, where $\sigma$ is the surface measure on
+$S^{n-1}\subset\R^n$.  By the Paley--Wiener theorem, $f$ is entire of
+exponential type~$1$, and $\wh f=(2\pi)^n\sigma$ as a distribution.
+
+\begin{proposition}[Spectral support forcing]
+  \label{prop:support-forcing}
+  If $u$ is entire of exponential type satisfying $u=c(u^k\ast\wh\sigma)$,
+  then $\wh u$ is a distribution supported on~$S^{n-1}$.
+  The same conclusion holds for the equation $u=c(|u|^{2(k-1)}u\ast\wh\sigma)$.
+\end{proposition}
+
+\begin{proof}
+  From~\eqref{eq:main-fourier}, $\wh u=c\,\wh u^{\ast k}\cdot(2\pi)^n\sigma$.
+  The right side is supported on $\supp\sigma=S^{n-1}$.
+
+  For the $|u|^{2(k-1)}u$ variant: writing $|u|^{2(k-1)}u=u^k\bar u^{k-1}$
+  in Fourier space involves $(k-1)$-fold convolutions of $\wh{\bar u}$, where
+  $\wh{\bar u}(\xi)=\overline{\wh u(-\xi)}$.  Since $S^{n-1}$ is symmetric
+  under $\xi\mapsto-\xi$, the support of all convolved terms lies in the
+  sumset of copies of $\pm S^{n-1}$, and multiplication by $\sigma$ restricts
+  back to $S^{n-1}$.
+\end{proof}
+
+\begin{remark}
+  In dimension $n\geq 2$, the conclusion $\supp\wh u\subseteq S^{n-1}$ means
+  $u$ is a \emph{Herglotz wave function}, satisfying $(-\Delta-1)u=0$.
+\end{remark}
+
+\subsection{Reduction to a density equation on the sphere}
+
+Write $\wh u=\rho\,d\sigma$ for $\rho\in L^2(S^{n-1})$, so
+\[
+  u(x) = \int_{S^{n-1}}\rho(\omega)e^{ix\cdot\omega}\,d\sigma(\omega).
+\]
+The equation $u=c(u^k\ast\wh\sigma)$ then reduces to the
+\emph{spherical fixed-point equation}
+\begin{equation}  \label{eq:sphere-eq}
+  \rho(\omega) = c\int_{V_k(\omega)}\rho(\omega_1)\cdots\rho(\omega_k)
+    \,d\sigma_{\mathrm{fiber}}(\omega_1,\ldots,\omega_k),
+  \qquad \sigma\text{-a.e.}\ \omega\in S^{n-1},
+\end{equation}
+where $V_k(\omega)=\{(\omega_1,\ldots,\omega_k)\in(S^{n-1})^k:
+\omega_1+\cdots+\omega_k=\omega\}$ is the incidence fibre.
+
+\begin{warning}[Incidence fibre $\neq$ spherical convolution]
+  \label{warn:not-convolution}
+  The operator $T(\rho)(\omega)=\int_{V_k(\omega)}\rho^{\otimes k}\,
+  d\sigma_\mathrm{fiber}$ is \emph{not} the same as convolution by the
+  spherical measure.  In particular, the Funk--Hecke theorem does not
+  diagonalise~$T$ in spherical harmonics.  Any reduction to finitely many
+  harmonic coefficients requires separate justification.
+\end{warning}
+
+% =======================================================================
+\section{The One-Dimensional Case: Complete Solution}
+\label{sec:1D}
+% =======================================================================
+
+For $n=1$, $S^0=\{-1,+1\}$, $\sigma=\delta_{-1}+\delta_{+1}$, and
+$f(x)=\wh\sigma(x)=2\cos x$.  Proposition~\ref{prop:support-forcing} forces
+$\wh u=a\delta_{-1}+b\delta_{+1}$, so $u(x)=ae^{-ix}+be^{ix}$.
+
+\subsection{Algebraic reduction}
+
+Expanding $u^k$ and computing $u^k\ast f$ picks out frequencies
+$\pm 1$, which exist only when $k$ is \textbf{odd}.
+
+\begin{proposition}[Parity obstruction]
+  If $k$ is even, the equation $u=c(u^k\ast f)$ with $f=2\cos$ has only
+  $u\equiv 0$.
+\end{proposition}
+
+For $k$ odd, setting $\beta_k:=\binom{k}{(k-1)/2}$ and comparing coefficients
+of $e^{\mp ix}$ gives the single constraint
+\begin{equation}  \label{eq:constraint}
+  ab = \lambda_k,
+  \qquad
+  \lambda_k := \left(\frac{1}{2\pi c\beta_k}\right)^{2/(k-1)}.
+\end{equation}
+
+\begin{theorem}[Complete solution in 1D]  \label{thm:main-1d}
+  \proven\quad
+  Let $k\geq 3$ be odd, $c\in\C\setminus\{0\}$, $f=2\cos$.
+  The solution set of $u=c(u^k\ast f)$ in the Paley--Wiener class is
+  \[
+    \{0\}
+    \;\cup\;
+    \bigsqcup_{j=0}^{(k-3)/2}
+      \{(a,b)\in\C^2:ab=\omega^j\lambda_k\},
+    \qquad \omega=e^{4\pi i/(k-1)}.
+  \]
+  This is a finite union of $(k-1)/2$ smooth one-dimensional complex
+  manifolds (each $\cong\C^*$), plus the origin.
+  Each component is exactly the translation orbit of any single non-trivial
+  solution on it: the translation $u(x)\mapsto u(x-t)$ acts by
+  $(a,b)\mapsto(e^{-it}a,e^{it}b)$, preserving~$ab$.
+\end{theorem}
+
+\begin{example}[$k=3$]
+  $\beta_3=3$.  Constraint: $ab=(6\pi c)^{-1}$.  One component, the
+  translation orbit of $u(x)=(6\pi c)^{-1/2}\cos x$.
+\end{example}
+
+\begin{example}[$k=5$]
+  $\beta_5=10$.  Constraint: $ab=(20\pi c)^{-1/2}$.  Two components
+  (the scaling group $\mu_2=\{1,-1\}$ generates a second hyperbola).
+\end{example}
+
+\begin{remark}[Real solutions]
+  For real-valued solutions $b=\bar a$, so $ab=|a|^2\geq 0$.  Only the
+  hyperbola with $\lambda_k\in\R_{>0}$ contributes; the real solution
+  manifold is the circle $|a|=|\lambda_k|^{1/2}$, parametrised by
+  translations.
+\end{remark}
+
+% =======================================================================
+% PART II: THE S^1 RESTRICTION PROBLEM
+% =======================================================================
+
+
+\end{document}

@@ -1,0 +1,625 @@
+
+\documentclass[12pt]{article}
+
+\usepackage{amsmath, amsthm, amssymb, mathtools}
+\usepackage{geometry}
+\usepackage{xr-hyper}
+\externaldocument{general-theory}[general-theory.pdf]
+\externaldocument{convolution-equations}[convolution-equations.pdf]
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{xcolor}
+
+\geometry{margin=1.25in}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{warning}[theorem]{Warning}
+
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\type}{type}
+\DeclareMathOperator{\Stab}{Stab}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\PW}{\mathrm{PW}}
+\newcommand{\Sph}{\mathbb{S}}
+\newcommand{\wh}{\widehat}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\ip}[2]{\left\langle #1,\, #2\right\rangle}
+\newcommand{\re}{\operatorname{Re}}
+
+% Status markers
+\newcommand{\proven}{\textbf{\color{teal}[Proved]}}
+\newcommand{\conditional}{\textbf{\color{orange}[Conditional]}}
+\newcommand{\open}{\textbf{\color{red}[Open]}}
+\newcommand{\heuristic}{\textbf{\color{purple}[Heuristic]}}
+\newcommand{\review}[1]{\par\smallskip\noindent\textbf{\color{red}[Review comment.]} {\color{red}#1}\par\smallskip}
+\newcommand{\response}[1]{\par\noindent\textbf{\color{blue}[Response.]} {\color{blue}#1}\par\smallskip}
+\newcommand{\resolved}{\textbf{\color{teal}[RESOLVED]}}
+\newcommand{\pending}{\textbf{\color{orange}[PENDING]}}
+\newcommand{\fatal}{\textbf{\color{red}[OPEN]}}
+
+\title{\textbf{Attempts and Exploratory Routes}\\[0.5em]
+\large Failed, Partial, and Out-of-Reach Strategies}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\bigskip
+
+This file collects exploratory routes, higher-dimensional extensions, and
+partial strategies that are currently out of reach or have not led to a
+closed proof.  It is kept separate from the main $S^1$ sharp-constant
+argument so that the latter remains focused.
+
+
+
+% =======================================================================
+\section{Abstract Convolution Side Routes}
+\label{sec:abstract-side-routes}
+% =======================================================================
+
+We first record the parts of the abstract convolution discussion which are
+useful as orientation, but do not themselves give the desired proof.  They
+explain why the Fredholm route has to use the equation
+$u=c(u^k\ast f)$ rather than the formally nearby equation
+$u^k=c(u\ast f)$, and why a direct contraction argument is too local to
+replace the spectral analysis.
+
+\subsection{The equation $u^k=c\,(u\ast f)$: spectral expansion kills solutions}
+
+In Fourier space the equation reads
+$\wh u^{\ast k}(\xi)=c\,\wh u(\xi)\wh f(\xi)$.
+
+\begin{proposition}[Type obstruction]  \label{prop:type-obstruction}
+  Let $u\in\PW_\tau$ with $\tau>0$ satisfy $u^k=c(u\ast f)$ for $k\geq 2$.
+  Then no positive-type solution is possible; every solution has type zero.
+\end{proposition}
+
+\begin{proof}
+  The Titchmarsh convolution theorem gives
+  $\supp(\wh u^{\ast k})\subseteq[-k\tau,k\tau]$, while the right side is
+  supported in $[-\tau,\tau]$.  For $k\geq 2$ this forces $\tau=0$, so $u$
+  is a polynomial.  Degree comparison then forces $u$ to be constant, and
+  the remaining constants are determined by the scalar equation obtained
+  from $u^k=c(u\ast f)$.
+\end{proof}
+
+\begin{corollary}
+  For $k\geq 2$ the solution set of $u^k=c(u\ast f)$ in the Paley--Wiener
+  class is a finite discrete set of constants.
+\end{corollary}
+
+This is a useful negative result, but it is not a route to the restriction
+problem.  The Euler--Lagrange equation has the smoothing/compactness
+orientation $u=c(u^k\ast f)$, not the type-expanding orientation above.
+
+\subsection{The small-ball contraction argument}
+
+For the compactly oriented equation
+\[
+  u=c(u^k\ast f),
+\]
+one can bypass Fredholm theory in a small ball.  If
+$T(u):=c(u^k\ast f)$ and $u,v$ lie in a ball of radius $R$ in
+$\PW_{\tau_f}$, Young's inequality gives
+\[
+  \norm{T(u)-T(v)}
+  \leq \abs{c}kR^{k-1}\norm{f}_{L^1}\norm{u-v}.
+\]
+Thus $T$ is a contraction whenever
+\[
+  R<(\abs{c}k\norm{f}_{L^1})^{-1/(k-1)}.
+\]
+This gives local uniqueness near sufficiently small solutions, but it does
+not control the nonlinear eigenfunctions relevant to the sharp restriction
+constant.  In particular, it gives no quantitative isolation around the
+constant solution at the physical normalisation, and it does not separate
+the constant eigenvalue from possible nonconstant branches.
+
+\subsection{Comparison of the two equations}
+
+\renewcommand{\arraystretch}{1.5}
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\hline
+& $u^k=c(u\ast f)$ & $u=c(u^k\ast f)$ \\
+\hline
+Fourier identity & $\wh u^{\ast k}=c\wh u\wh f$ &
+  $\wh u=c\wh u^{\ast k}\cdot\wh f$ \\
+Type constraint ($k\geq 2$) & Forces $\tau=0$ (Titchmarsh) &
+  Allows $\tau\leq\tau_f$ \\
+Operator structure & No compactness & $T$ compact \\
+Linearisation & Not Fredholm in general &
+  $I-K$, Fredholm index $0$ \\
+Solutions ($k\geq 2$, generic) &
+  Finitely many constants & Isolated; Leray--Schauder applies \\
+\hline
+\end{tabular}
+\caption{Analytic contrast between the two convolution equations.}
+\end{table}
+
+The table is useful diagnostically: it shows that the equation with the
+most rigid support behaviour is the wrong model for the restriction
+Euler--Lagrange problem, while the correct model has Fredholm structure but
+requires the harder compactness and spectral-gap inputs.
+
+
+
+% =======================================================================
+\section{The Higher-Dimensional Transversality Route}
+\label{sec:higher-dim}
+% =======================================================================
+
+For $n\geq 2$ and the equation $\rho=cT(\rho)$ on $L^2(S^{n-1})$,
+Proposition~\ref{prop:support-forcing} forces $\wh u$ onto $S^{n-1}$,
+and the problem reduces to the incidence-fibre equation~\eqref{eq:sphere-eq}.
+The symmetry group is $G=\R^n\rtimes SO(n)$, acting on densities by
+$(x_0,R)\cdot\rho(\omega)=e^{-ix_0\cdot\omega}\rho(R^{-1}\omega)$.
+
+\subsection{The five-step programme}
+
+The route to finiteness of shapes requires five analytic inputs.  We state
+each and assess its status for general~$n$.
+
+\paragraph{Step 1: Smoothing / Fredholm estimate.}  \open\quad
+The target is a multilinear smoothing estimate
+\[
+  A_k:H^s(S^{n-1})^k\to H^{s+\varepsilon}(S^{n-1}),
+  \qquad
+  \norm{A_k(\rho_1,\ldots,\rho_k)}_{H^{s+\varepsilon}}
+  \leq C_s\prod_{j=1}^k\norm{\rho_j}_{H^s},
+\]
+for some $\varepsilon>0$, where $A_k$ is the $k$-linear operator behind
+the incidence-fibre equation.  A weaker but sufficient target is
+compactness of $A_k$ on bounded sets.
+
+For the $S^1$ problem, the truncation argument
+(Theorem~\ref{thm:K-compact}) bypasses this step entirely.  For $n\geq 2$,
+the proof must exploit the curvature of $S^{n-1}$ and the transversality
+of the constraint $\omega_1+\cdots+\omega_k=\omega$.  The key obstruction
+is the existence of \emph{degenerate fibres}; see
+Section~\ref{sec:degenerate-fibres}.
+
+\paragraph{Step 2: Regularity bootstrap.}  \open\quad
+Show that weak $L^2$ solutions are automatically smooth:
+$\rho\in L^2(S^{n-1}),\;\rho=cT(\rho)\implies\rho\in H^s$ for all~$s$.
+If Step~1 gives $T:L^2\to H^\varepsilon$, iteration yields the bootstrap.
+
+\paragraph{Step 3: Local slices for the symmetry action.}  \open\quad
+At a solution $\rho$, construct a complement $S_\rho$ to the orbit tangent
+\[
+  \mathfrak g\cdot\rho
+  = \{-i(a\cdot\omega)\rho-(A\omega)\cdot\nabla_{S^{n-1}}\rho:
+  a\in\R^n,\;A\in\mathfrak{so}(n)\}.
+\]
+This must be done separately on orbit-type strata (radial, zonal, fully
+asymmetric solutions have different stabiliser dimensions).
+
+\paragraph{Step 4: Nondegeneracy modulo symmetry.}  \open\quad
+Verify $\ker L_\rho=\mathfrak g\cdot\rho$ at each solution, where
+$L_\rho=I-ckA_k(\rho,\ldots,\rho,\cdot)$.  For the $S^1$ problem at
+the constant solution, this reduces to Bessel integrals
+(Theorem~\ref{thm:nondeg-criterion}).
+
+\paragraph{Step 5: Compactness modulo~$G$.}  \open\quad
+Prove sequential compactness of the solution set modulo~$G$:
+\[
+  \rho_j=cT(\rho_j)\implies\exists g_j\in G:\;g_j\cdot\rho_j\to\rho_\infty.
+\]
+This requires a priori bounds ($\norm\rho\leq R$), a non-collapse lower
+bound ($\norm\rho\geq r>0$), and a no-escape condition for translations.
+Rotations are compact; translations are the genuine noncompact obstruction.
+
+\subsection{Degenerate fibres}
+\label{sec:degenerate-fibres}
+
+The fibre $V_k(\omega)=\{(\omega_1,\ldots,\omega_k)\in(S^{n-1})^k:
+\sum\omega_j=\omega\}$ is generically a smooth manifold of dimension
+$(n-1)k-(n-1+1)=(n-1)(k-1)-1$... when the differential of
+$\Sigma:\omega_1+\cdots+\omega_k$ has full rank.  Degeneracies occur when
+all tangent lines $T_{\omega_j}S^{n-1}$ are parallel.
+
+\textbf{Example for $k=5$ on $S^1$:}  The configuration
+$(\omega_0,\omega_0,\omega_0,-\omega_0,-\omega_0)$ with output
+$\omega=\omega_0$ is degenerate.  Here
+$d\Sigma=3(\text{tangent at }\omega_0)-2(\text{tangent at }-\omega_0)$
+has rank~$1$ instead of~$2$ (the tangents at $\omega_0$ and $-\omega_0$
+are parallel on $S^1$).  This is a codimension-$1$ degeneracy, producing
+an integrable singularity $\sim|t|^{-1/2}$ in the fibre density.
+
+In higher dimensions, the degenerate locus can have higher codimension
+(tangents at $\omega_0$ and $-\omega_0$ are parallel in $\R^n$ only
+when $n=1$; for $n\geq 2$, anti-parallel tangent \emph{spaces} are
+generically transverse).  This suggests that the smoothing estimate may
+be easier for $n\geq 3$ than for $n=2$.
+
+\subsection{Orbit dimension and radial rigidity}
+
+\begin{proposition}[Orbit dimension, $n=3$]
+  For $G=\R^3\rtimes SO(3)$ ($\dim G=6$), the orbit dimension of a
+  solution~$u$ is $6-\dim\Stab_G(u)$.  Specifically:
+  \begin{itemize}
+    \item Radial: $d=3$ (only translations).
+    \item Zonal (one axis of symmetry): $d=5$.
+    \item Fully asymmetric: $d=6$.
+  \end{itemize}
+\end{proposition}
+
+\begin{conjecture}[Radial rigidity]
+  \label{conj:radial}
+  For the equation $u=c(|u|^{2(k-1)}u\ast\wh\sigma)$ on $\R^3$, every
+  non-trivial solution is rotationally invariant about some point (its
+  ``centre of mass'').  If true, all solutions belong to $3$-dimensional
+  translation orbits, and the shape count reduces to counting radial profiles.
+\end{conjecture}
+
+\begin{warning}
+  Conjecture~\ref{conj:radial} is currently \emph{unproved}.  The
+  preceding sections on the $n=3$ problem treated it as established; it
+  should be regarded as a useful heuristic until proved.
+\end{warning}
+
+% =======================================================================
+\section{Supplementary: Gegenbauer Expansion and Galerkin Models}
+\label{sec:galerkin}
+% =======================================================================
+
+\subsection{Gegenbauer expansion}
+\heuristic
+
+For completeness, we record the formal harmonic decomposition.
+Let $\rho(\omega)=\sum_\ell a_\ell C_\ell^\lambda(\omega\cdot\eta)$ with
+$\lambda=(n-2)/2$.  The product of Gegenbauer polynomials linearises as
+$C_{\ell_1}^\lambda C_{\ell_2}^\lambda
+=\sum_j\gamma_j(\ell_1,\ell_2)C_j^\lambda$.
+If $T$ were a spherical convolution, the Funk--Hecke theorem would give
+$C_\ell^\lambda\ast_S\sigma=\lambda_\ell(\sigma)C_\ell^\lambda$.
+Substituting into $\rho=cT(\rho)$ and equating coefficients would give an
+algebraic system for $\{a_\ell\}$.
+
+\textbf{However}, as noted in Warning~\ref{warn:not-convolution}, the
+incidence-fibre operator is \emph{not} spherical convolution.  The
+Gegenbauer expansion gives a useful \emph{model} but does not rigorously
+reduce to finitely many coefficients without separate justification.
+
+\subsection{Galerkin approximation}
+
+Let $H_L=\operatorname{span}\{Y_{\ell m}:0\leq\ell\leq L\}$ and $P_L$ the
+$L^2(S^{n-1})$ projection.  The projected equation $P_LF(\rho_L)=0$ is a
+polynomial system of degree~$k$ in $N(L)=(L+1)^2$ unknowns (for $n=3$).
+
+\begin{proposition}[Galerkin shape count]
+  After imposing algebraic slice conditions, the number of Galerkin shapes
+  at truncation~$L$ is bounded by the BKK mixed volume of the sliced
+  Newton polytopes, in particular by $k^{N(L)}$ (B\'ezout).
+\end{proposition}
+
+\begin{warning}[Limit caveat]
+  This is a statement about the fixed-$L$ model.  It does not imply
+  finiteness of true shapes as $L\to\infty$ without uniform a priori bounds,
+  no-escape compactness, and stability of roots under high-mode
+  perturbation.
+\end{warning}
+
+\begin{remark}[How Galerkin helps]
+  A Galerkin computation becomes rigorous if paired with a high-mode bound
+  $\norm{(I-P_L)T(\rho)}_X\leq\varepsilon_L\Phi(\norm\rho_X)$ with
+  $\varepsilon_L\to 0$, plus an inverse bound on the sliced Jacobian at each
+  computed root.  A Newton--Kantorovich argument would then validate nearby
+  true solutions and certify completeness.
+\end{remark}
+
+% =======================================================================
+\section{Supplementary: Validated Search Strategy}
+\label{sec:validated-search}
+% =======================================================================
+
+Assuming the transversality route is completed (modulo~$G$ the solution set
+is finite), the next goal is to \emph{find every shape} by a finite,
+checkable search.
+
+\subsection{Constants needed}
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{A priori radius:} $\norm\rho_X\leq R(c,k)$.
+  \item \textbf{Non-collapse:} $\norm\rho_X\geq r(c,k)>0$.
+  \item \textbf{Regularity/mesh modulus:} $\norm\rho_{C^m}\leq B_m$.
+  \item \textbf{Validated quadrature:} error $q_h(B_m)\to 0$ for the
+    fibre integral on a mesh of size~$h$.
+  \item \textbf{Slice conditioning:}
+    $\norm{L_\rho\eta}_X\geq\mu(\rho)\norm\eta_X$ on $S_\rho$, with
+    $\mu_*:=\inf_\rho\mu(\rho)>0$.
+  \item \textbf{Lipschitz:}
+    $\norm{DF(\rho)-DF(\tilde\rho)}\leq M\norm{\rho-\tilde\rho}_X$.
+\end{enumerate}
+
+\subsection{Separation and packing}
+
+From the conditioning bound, the quantitative isolation scale is
+$\delta_*\simeq\mu_*/M$: two distinct shapes cannot lie within
+$\delta_*$ of each other in the slice.  A crude packing bound is
+\[
+  \#\{\text{shapes}\}
+  \leq
+  \left(1+\frac{2R_h}{\delta_*-2\eta_h-2q_h}\right)^{N_{\mathrm{mesh}}(h)},
+\]
+provided $\delta_*>2\eta_h+2q_h$.
+
+\subsection{The search pipeline}
+
+\begin{enumerate}[leftmargin=2em]
+  \item Choose a quasi-uniform mesh on $S^{n-1}$ (or directly on $S^1$
+    for the circle problem) and fix gauge conditions.
+  \item Represent candidates by interval boxes for nodal values plus global
+    regularity bounds.
+  \item For each box, enclose the residual $F(\rho)$ at mesh points using
+    validated quadrature.
+  \item Discard boxes with nonzero residual enclosure.
+  \item Apply Krawczyk/interval Newton to surviving boxes.
+  \item Validate uniqueness and lift to the full space.
+  \item Certify completeness: every box discarded or assigned.
+\end{enumerate}
+
+\subsection{Main difficulties}
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{Translation gauge:} $e^{-ix\cdot\omega}\rho(\omega)$ creates
+    oscillation as $|x|\to\infty$.  A canonical centre must be fixed.
+  \item \textbf{Uniform conditioning:} $\mu_*>0$ may be the hardest
+    constant to obtain without knowing all solutions.
+  \item \textbf{Mesh consistency:} nodal errors must not hide solutions
+    between mesh points.
+  \item \textbf{Dimension:} the effective search dimension grows with
+    mesh size.  Symmetry decomposition and adaptive refinement are essential.
+\end{enumerate}
+
+\subsection{Specialisation to $S^1$}
+
+For the circle problem, the validated search simplifies considerably:
+\begin{itemize}
+  \item The mesh is a grid on $[0,2\pi)$ with $N$ equally spaced points.
+  \item The gauge fixes phase, rotation of $S^1$, and one translation.
+  \item The fibre integral reduces to a trigonometric integral.
+  \item The Jacobian involves the linearised operator~$L$, which decomposes
+    into Fourier modes for radial $u_0$.
+\end{itemize}
+
+The direct certified programme for the sharp constant is:
+\begin{enumerate}[leftmargin=2em]
+  \item Prove a priori bounds:
+    $\norm{f}_{L^2}=1$, $\norm{f}_{C^m}\leq B_m$,
+    $0<\Lambda_{\min}\leq\Lambda\leq C_{\mathrm{ST}}^6$.
+  \item Use Lemma~\ref{lem:positive-reduction} to restrict the extremiser
+    search to boxes containing a nonnegative representative.
+  \item Fix gauges (phase, rotation, translation); in the nonnegative
+    slice, Lemma~\ref{lem:positive-gauge} fixes the translation parameter.
+  \item Mesh $S^1$; represent $f$ by interval boxes plus derivative bounds.
+  \item For each $(f,\Lambda)$ box, enclose the residual
+    $E^*(|Ef|^4Ef)(\omega_i)-\Lambda f(\omega_i)$.
+  \item Discard or validate via interval Newton.
+  \item Sort validated $\Lambda_j$ intervals; certify the ordering.
+\end{enumerate}
+
+% =======================================================================
+\section{Summary: The Logical Dependency Graph}
+\label{sec:dependency}
+% =======================================================================
+
+We summarise the dependencies and status of the full programme.
+
+\bigskip
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+\textbf{Proved:}
+\begin{itemize}[leftmargin=1.5em, topsep=2pt, itemsep=1pt]
+  \item Spectral support forcing ($\wh u\subseteq S^1$)
+  \item 1D case complete
+  \item Compactness of linearised operator $K_{u_0}$ on $L^2(S^1)$
+  \item Fredholm index zero for $L=K-\Lambda I$
+  \item Eigenvalue decomposition at the constant solution
+  \item Nondegeneracy $\Leftrightarrow$ Bessel integrals~\eqref{eq:nondeg-cond}
+  \item \textbf{Nondegeneracy at the constant: complete proof}
+    (Theorem~\ref{thm:nondeg-proved}): Arb certificate for
+    $2\leq n\leq12$, explicit Landau/Krasikov bound for $n\geq13$
+  \item Spectral gap $\nu_0\geq 0.4\Lambda_0$ certified
+  \item Regularity bootstrap for critical points
+  \item Inverse Strichartz inequality for $S^1$ extension
+  \item Profiles of critical sequences are critical points
+  \item Existence of a maximiser (Theorem~\ref{thm:maximiser})
+  \item Positivity reduction for extremisers
+    (Lemma~\ref{lem:positive-reduction})
+  \item Finiteness of nonnegative critical values in compact positive
+    windows (Theorem~\ref{thm:positive-values-finite})
+  \item NK isolation radius $r_0\geq 0.13$ (floating; Arb pending)
+\end{itemize}
+
+\review{The last item should not sit under ``Proved'' in a final version:
+it is explicitly floating-point and Arb-pending.  A better status split is
+``proved'', ``partially certified'', and ``numerical target''.  Likewise,
+the sharp-constant route currently needs a quantitative BTZ stability
+certificate and a rigorous high-mode interaction bound before the
+conditional conclusion becomes a proof.}
+
+\response{\resolved\ Agreed.  The status box will be revised to use
+three categories: \textbf{Proved} (complete proofs), \textbf{Partially
+certified} (correct arguments with floating-point constants pending Arb),
+and \textbf{Numerical target} (computations not yet attempted).  The NK
+radius moves to ``Partially certified''.  The sharp-constant conditional
+conclusion will list all four pending certificates explicitly:
+(1)~Bessel gap, (2)~NK radius, (3)~high-mode cross bound,
+(4)~quantitative BTZ stability modulus.}
+
+\textbf{Next concrete steps:}
+\begin{itemize}[leftmargin=1.5em, topsep=2pt, itemsep=1pt]
+  \item Certify $M_0$ and $r_0$ by Arb ball arithmetic
+    (sixfold Bessel integrals)
+  \item Connect the band-limited uniqueness of Barker--Thiele--ZK
+    (modes $\leq 120$) with the bootstrap tail to bypass the far-region
+    branch-and-bound search
+  \item Prove the constant is the unique maximiser modulo $G$
+    (this alone gives $\mathcal R$)
+\end{itemize}
+
+\textbf{Open (harder):}
+\begin{itemize}[leftmargin=1.5em, topsep=2pt, itemsep=1pt]
+  \item Rule out multi-profile splitting for non-maximising
+    critical sequences (Theorem~\ref{thm:compactness-mod-G})
+  \item Enumeration / uniqueness of non-constant shapes
+\end{itemize}
+
+\textbf{Conditional conclusion:}
+\begin{itemize}[leftmargin=1.5em, topsep=2pt, itemsep=1pt]
+  \item Compactness + nondegeneracy $\Longrightarrow$ finitely many
+    critical values $\Lambda_j$
+  \item $\mathcal R=\max_j\Lambda_j^{1/6}$
+\end{itemize}
+}}
+\end{center}
+
+\bigskip
+\noindent\rule{\linewidth}{0.4pt}
+\begin{center}
+  \small\itshape
+  Notes compiled from working discussions.  Statements marked \proven{}
+  carry complete proofs; statements marked \conditional{} depend on
+  explicitly stated hypotheses; statements marked \open{} require new
+  analytic input.
+\end{center}
+
+% =======================================================================
+\section{Working notes: failed and partial approaches}
+\label{sec:working-notes}
+% =======================================================================
+
+This section records approaches that were explored but did not succeed,
+together with the specific obstructions encountered.  The material is
+kept for reference and to avoid repeating dead ends.
+
+\subsection{Approaches to bounding the spectral gap $\gamma_0$}
+
+The spectral gap $\gamma_0:=\inf\{\Lambda-\Lambda_0:\Lambda\in
+\mathcal V_+,\,\Lambda>\Lambda_0\}$ measures the distance from the
+constant's eigenvalue to the next nonneg critical value above it.
+The finiteness theorem (Theorem~\ref{thm:positive-values-finite})
+gives $\gamma_0>0$ non-constructively.  We attempted several routes
+to an effective lower bound; none succeeded cleanly.
+
+\paragraph{Cauchy--Schwarz envelope.}
+For nonneg $f$ with $\norm{f}_2=1$, write
+$|Ef(r,\phi)|\leq 2\pi a_0|J_0(r)|+2\pi\sigma_0 S(r)$
+where $S(r):=\sqrt{\sum_{n\geq 2}J_n(r)^2}$.
+By the Neumann addition theorem,
+$S(r)^2=(1-J_0(r)^2-2J_1(r)^2)/2$, which is $O(1)$ for large~$r$
+(no decay).  Consequently $\int[a_0|J_0|+\sigma_0 S]^6 r\,dr$ diverges
+for $\sigma_0>0$, and the envelope bound cannot certify
+$J(f)<\Lambda_0$.  \textbf{Obstruction:} loss of oscillatory
+cancellation between Bessel modes.
+
+\paragraph{Leading-order sextic expansion.}
+Grouping the sextuples by number of nonzero modes:
+$J(f)=\Lambda_0(2\pi a_0^2)^3+C_2 a_0^4\sigma_0^2+C_4 a_0^2\sigma_0^4
++C_6\sigma_0^6$,
+with $C_2=15\,\mathcal J_2/\mathcal J_0\approx 1.65$ from the
+$(4\text{ zero},2\text{ nonzero})$ sextuples.  At leading order
+this gives $\gamma_0\gtrsim 12$.  However, the coefficients $C_4,C_6$
+involve Bessel integrals with $4$--$6$ nonzero indices, whose bounds
+require the same type of computation as $c_{\mathrm{stab}}$ itself.
+The leading-order estimate is therefore not self-contained.
+
+\paragraph{Truncation of the EL residual.}
+Attempting to certify $T(f)-\Lambda f\neq 0$ mode-by-mode with a
+Fourier truncation at level~$N_0$: the Lipschitz constant of~$T$ is
+$\sim 10\,C_{\mathrm{ST}}^6\approx 7000$, while the mode-$0$ signal
+$(T(f))_0\sim\Lambda_0 a_0\approx 210$.  The truncation error exceeds
+the signal for \emph{every}~$N_0$, because $\sigma_{N_0}\geq
+c/(2\pi)^{1/2}$ for nonneg~$f$ far from~$f_0$.  \textbf{Obstruction:}
+the quintic nonlinearity has too large a Lipschitz constant relative
+to the eigenvalue spacing.
+
+\paragraph{BTZ SOS eigenvalues.}
+The BTZ proof reduces to positive semi-definiteness of matrices $Q_D$
+whose entries are sixfold Bessel integrals.  The minimum eigenvalue
+$\lambda_{\min}(Q_0)\sim 0.15\,N^{-1.74}$ (Figure~2 of BTZ-II)
+certifies $\Lambda_0-J(f)\geq\lambda_{\min}\sum|v_{\mathbf m}|^2$
+where $v_{\mathbf m}=\wh f_{m_1}\wh f_{m_2}\wh f_{m_3}$ are
+triple products.  Converting to a quadratic stability
+$c_{\mathrm{stab}}\,d_G^2$ introduces a factor $\wh f_0^4\sim
+(2\pi)^{-2}$, giving $c_{\mathrm{stab}}\sim 10^{-6}$---far
+below the needed threshold.  \textbf{Obstruction:} the SOS basis
+(cubic products) is not adapted to quadratic distance from~$f_0$.
+
+\subsection{The closure argument and its cost}
+
+The approach that \emph{does} work, at least in principle, is the
+$c_{\mathrm{stab}}$ closure from
+Section~\ref{sec:btk-connection}: certify
+\[
+  c_{\mathrm{stab}}(N)
+  :=
+  \inf_{\substack{g\text{ real, nonneg, }\norm{g}_2=1\\
+  \wh g(n)=0\text{ for }|n|>N,\;g\neq f_0\bmod G}}
+  \frac{\Lambda_0-J(g)}{d_G(g,f_0)^2}
+  \;>\;
+  \mathrm{threshold}(N),
+\]
+where $\mathrm{threshold}(N):=(C_Q-3)\Lambda_0\sigma_N^2/(r_0-\sigma_N)^2$
+with $\sigma_N=A_3/(\sqrt{\Lambda_-}\,N^{5/2})$ from
+Corollary~\ref{cor:tail-bound}.
+
+Both sides depend on~$N$.  The threshold decays as $N^{-5}$
+(from $\sigma_N^2$).  Floating-point scans give
+$c_{\mathrm{stab}}(2)\geq 128$ and $c_{\mathrm{stab}}(4)\geq 39$,
+suggesting a decay $c_{\mathrm{stab}}(N)\sim C_0 N^{-\alpha}$ with
+$\alpha\approx 1.7$ (fitted from two points; consistent with the BTZ
+eigenvalue decay $\sim N^{-1.74}$).
+
+Since $\alpha<5$, the threshold eventually drops below
+$c_{\mathrm{stab}}$ for $N$ large enough.  The crossing
+point~$N_{\mathrm{cross}}$ and the associated BTZ computational cost
+$\sim N_{\mathrm{cross}}^5$ depend on the actual value of~$\alpha$:
+
+\begin{center}
+\begin{tabular}{ccc}
+\hline
+$\alpha$ & $N_{\mathrm{cross}}$ & BTZ cost ($\sim N^5$) \\
+\hline
+$0$ (no decay) & $\sim 140$ & $\sim 5\times 10^{10}$ \\
+$1$ & $\sim 330$ & $\sim 4\times 10^{12}$ \\
+$1.74$ (empirical) & $\sim 900$ & $\sim 6\times 10^{14}$ \\
+$2$ & $\sim 1400$ & $\sim 6\times 10^{15}$ \\
+$3$ & $\sim 27000$ & $\sim 10^{22}$ \\
+\hline
+\end{tabular}
+\end{center}
+
+For comparison, the published BTZ computation at $N=120$ used $94$
+compute nodes for $16$~hours with $\sim 1.6\times 10^8$ Bessel
+integrals.
+
+\paragraph{Next steps.}  The decay rate~$\alpha$ can be pinned down by
+computing $c_{\mathrm{stab}}(N)$ at $N=6,8,10,\ldots$ via the global
+stability scan (\texttt{numerics/global\_stability\_v2.py}).  Once
+$\alpha$ is known to one decimal place, the required~$N$ is determined,
+and the computational cost can be quoted to a numerics team for a
+BTZ-type Arb computation at level~$N_{\mathrm{cross}}$.
+
+
+\end{document}
