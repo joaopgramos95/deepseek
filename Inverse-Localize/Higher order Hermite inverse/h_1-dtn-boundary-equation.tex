@@ -1,0 +1,457 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=2.6cm]{geometry}
+\usepackage{fontspec}
+\setmainfont{Comic Neue}
+\setsansfont{Comic Neue}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\C}{\mathbb C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\dd}{\,d}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\calD}{\mathcal D}
+\newcommand{\calL}{\mathcal L}
+\newcommand{\LambdaU}{\Lambda_U}
+
+\title{The \(h_1\) Boundary Equation from the DtN Strategy}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{From localization to a real free-boundary problem}
+
+Let \(U\subset\C\simeq\R^2\) be bounded.  In the Bargmann model, the condition that
+\(h_1\) be an eigenfunction for the \(h_1\)-window localization operator gives
+\begin{equation}\label{eq:h1-localization}
+  \int_U (1-\pi |z|^2)e^{-\pi |z|^2}(w-z)e^{\pi w\bar z}\dd A(z)
+  =
+  \lambda w ,
+  \qquad w\in\C .
+\end{equation}
+Set
+\[
+  a(r):=(1-\pi r^2)e^{-\pi r^2},
+  \qquad
+  \rho(r):=(1-4\pi r^2+\pi^2r^4)e^{-\pi r^2}.
+\]
+Differentiating \eqref{eq:h1-localization} in \(w\) gives
+\begin{equation}\label{eq:differentiated-identity}
+  \int_U a(|z|)
+  \bigl(1-\pi |z|^2+\pi w\bar z\bigr)e^{\pi w\bar z}\dd A(z)
+  =
+  \lambda .
+\end{equation}
+
+Let \(x=(x_1,x_2)\in\R^2\) denote the point \(z=x_1+ix_2\), and define the compactly
+supported real distribution
+\begin{equation}\label{eq:Omega-def}
+  \Omega
+  :=
+  \rho(|x|)\1_U
+  -a(|x|)(x\cdot\nu)\,\delta_{\partial U}
+  +\lambda\delta_0 ,
+\end{equation}
+where \(\nu\) is the outward unit normal.  Equivalently, since
+\(\nabla\1_U=-\nu\delta_{\partial U}\),
+\[
+  \Omega
+  =
+  \rho(|x|)\1_U+a(|x|)\,x\cdot\nabla\1_U+\lambda\delta_0 .
+\]
+
+\begin{lemma}\label{lem:annihilation}
+For every \(w\in\C\),
+\[
+  \bigl\langle \Omega,e^{\pi w\bar z}\bigr\rangle=0.
+\]
+Since \(\Omega\) is real-valued, also
+\[
+  \bigl\langle \Omega,e^{\pi \bar w z}\bigr\rangle=0.
+\]
+\end{lemma}
+
+\begin{proof}
+Let \(\phi_w(z)=e^{\pi w\bar z}\).  The radial vector field \(a(|x|)x\) satisfies
+\[
+  \operatorname{div}(a(|x|)x)
+  =
+  2(1-3\pi |x|^2+\pi^2|x|^4)e^{-\pi |x|^2},
+\]
+and therefore
+\begin{equation}\label{eq:rho-div-identity}
+  \rho(|x|)-\operatorname{div}(a(|x|)x)
+  =
+  -a(|x|)(1-\pi |x|^2).
+\end{equation}
+Moreover,
+\[
+  x\cdot\nabla\phi_w=\pi w\bar z\,\phi_w .
+\]
+Using the divergence theorem in the distributional form encoded by
+\eqref{eq:Omega-def}, we get
+\begin{align*}
+  \langle\Omega,\phi_w\rangle
+  &=
+  \int_U \rho(|x|)\phi_w\,\dd A
+  -
+  \int_{\partial U}a(|x|)(x\cdot\nu)\phi_w\,\dd s
+  +\lambda \\
+  &=
+  \int_U
+  \bigl(\rho(|x|)-\operatorname{div}(a(|x|)x)\bigr)\phi_w\,\dd A
+  -
+  \int_U a(|x|)\,x\cdot\nabla\phi_w\,\dd A
+  +\lambda \\
+  &=
+  -\int_U a(|z|)
+  \bigl(1-\pi |z|^2+\pi w\bar z\bigr)e^{\pi w\bar z}\dd A(z)
+  +\lambda .
+\end{align*}
+This vanishes by \eqref{eq:differentiated-identity}.  Taking complex conjugates gives
+the second assertion.
+\end{proof}
+
+By the same Paley--Wiener/Ehrenpreis--Malgrange divisibility input used in the
+Section~4 argument, Lemma~\ref{lem:annihilation} yields a compactly supported real
+distribution \(u\) such that
+\begin{equation}\label{eq:global-poisson}
+  \Delta u=\Omega .
+\end{equation}
+Thus, away from the origin and in the classical regime where \(u\) is represented by a
+function in \(U\) and is extended by zero outside \(U\), \eqref{eq:global-poisson}
+means
+\begin{equation}\label{eq:BVP}
+  \Delta u=\rho(|x|)
+  \quad\text{in }U,\qquad
+  u=0,\quad
+  \partial_\nu u=a(|x|)(x\cdot\nu)
+  \quad\text{on }\partial U .
+\end{equation}
+The point mass \(\lambda\delta_0\) is radial and is irrelevant for the boundary
+calculation below as long as \(0\notin\partial U\).
+
+\section{The DtN boundary equation}
+
+Let
+\[
+  X(x):=(-x_2,x_1),\qquad L:=X\cdot\nabla ,
+\]
+and set
+\[
+  v:=Lu .
+\]
+Since \(L\) commutes with \(\Delta\) and annihilates radial distributions,
+\[
+  \Delta v=0
+  \qquad\text{in }U .
+\]
+Thus \(v\) is the harmonic function in \(U\) with the boundary trace computed from
+\eqref{eq:BVP}.  On \(\partial U\), the zero Dirichlet trace implies
+\[
+  \nabla u=(\partial_\nu u)\nu=q\nu,
+  \qquad
+  q:=a(|x|)(x\cdot\nu).
+\]
+Therefore
+\begin{equation}\label{eq:v-boundary-trace}
+  v|_{\partial U}
+  =
+  q(X\cdot\nu).
+\end{equation}
+If \(\Lambda_U\) denotes the Dirichlet-to-Neumann map for harmonic functions in \(U\),
+then
+\begin{equation}\label{eq:dtn-side}
+  \partial_\nu v
+  =
+  \Lambda_U\bigl(q(X\cdot\nu)\bigr)
+  \qquad\text{on }\partial U .
+\end{equation}
+
+\subsection{Parametrized form of the DtN term}
+
+The term in \eqref{eq:dtn-side} can be written explicitly from a boundary
+parametrization.  Since \(U\) is simply connected, write
+\[
+  \partial U=\Gamma,\qquad
+  \gamma:\R/L\mathbb Z\to\Gamma
+\]
+for an arclength parametrization, with outward normal \(\nu(s)\).  Let
+\[
+  G_0(x,y):=\frac{1}{2\pi}\log|x-y|
+\]
+be the planar fundamental solution for \(\Delta\).  For a boundary density \(\mu\),
+define the double-layer operator
+\[
+  (D\mu)(x):=
+  \int_0^{L}
+  \partial_{\nu(t)}G_0(x,\gamma(t))\,\mu(t)\,\dd t .
+\]
+Its interior trace is
+\[
+  (D\mu)|_{\partial U}^{\mathrm{int}}
+  =
+  \Bigl(\frac12 I+K\Bigr)\mu,
+\]
+where, for \(s\in\R/L\mathbb Z\),
+\begin{equation}\label{eq:K-operator}
+  (K\mu)(s)
+  =
+  \operatorname{p.v.}\int_0^{L}
+  \frac{(\gamma(t)-\gamma(s))\cdot\nu(t)}
+       {2\pi|\gamma(s)-\gamma(t)|^2}
+  \,\mu(t)\,\dd t .
+\end{equation}
+Consequently, for boundary data \(f\), the double-layer density
+\(\mu_f\) of the harmonic solution with trace \(f\) is determined by
+\begin{equation}\label{eq:mu-equation}
+  \Bigl(\frac12 I+K\Bigr)\mu_f=f .
+\end{equation}
+The normal derivative of the same harmonic function is the hypersingular
+operator
+\[
+  \Lambda_U f=W\mu_f,
+\]
+where \(W\) may be written in weakly singular form as
+\begin{equation}\label{eq:W-operator}
+  (W\mu)(s)
+  =
+  \partial_s
+  \operatorname{p.v.}\int_0^{L}
+  G_0(\gamma(s),\gamma(t))\,\partial_t\mu(t)\,\dd t .
+\end{equation}
+Equivalently,
+\begin{equation}\label{eq:param-dtn}
+  \Lambda_U f
+  =
+  W\Bigl(\frac12 I+K\Bigr)^{-1}f .
+\end{equation}
+For the present problem the relevant boundary datum is
+\begin{equation}\label{eq:f-def}
+  f(s)
+  =
+  q(s)\,X(\gamma(s))\cdot\nu(s),
+  \qquad
+  q(s):=
+  a(|\gamma(s)|)\,\gamma(s)\cdot\nu(s).
+\end{equation}
+Thus the DtN term in \eqref{eq:dtn-side} is the explicit nonlocal quantity
+\[
+  W\Bigl(\frac12 I+K\Bigr)^{-1}
+  \bigl(q\,X\cdot\nu\bigr).
+\]
+
+We now compute the same normal derivative directly from the boundary jets.  Let
+\(T\) be the arclength unit tangent, and use the signed curvature convention
+\[
+  T'=\kappa\nu .
+\]
+
+\begin{lemma}\label{lem:boundary-jets}
+On \(\Gamma\),
+\[
+  D^2u(T,T)=-\kappa q,\qquad
+  D^2u(T,\nu)=\partial_s q,\qquad
+  D^2u(\nu,\nu)=\rho(|x|)+\kappa q .
+\]
+\end{lemma}
+
+\begin{proof}
+Since \(u=0\) on \(\Gamma\), differentiating twice along arclength gives
+\[
+  D^2u(T,T)+\nabla u\cdot T'=0.
+\]
+Using \(T'=\kappa\nu\) and \(\nabla u=q\nu\), this gives
+\[
+  D^2u(T,T)=-\kappa q.
+\]
+Tangentially differentiating \(\partial_\nu u=q\) gives
+\[
+  D^2u(T,\nu)+\nabla u\cdot\nu'=\partial_s q.
+\]
+Since \(\nu'\) is tangent and \(\nabla u=q\nu\), the second term vanishes.  Finally,
+\[
+  \rho(|x|)
+  =
+  \Delta u
+  =
+  D^2u(T,T)+D^2u(\nu,\nu),
+\]
+which gives the claimed normal-normal component.
+\end{proof}
+
+\begin{proposition}[DtN boundary equation]\label{prop:dtn-equation}
+On \(\Gamma=\partial U\),
+\begin{equation}\label{eq:dtn-boundary-equation}
+  \boxed{
+  W\Bigl(\frac12 I+K\Bigr)^{-1}\bigl(q(X\cdot\nu)\bigr)
+  =
+  (X\cdot T)\,\partial_s q
+  +(X\cdot\nu)\bigl(\rho(|x|)+\kappa q\bigr)
+  }
+\end{equation}
+where
+\[
+  q=a(|x|)(x\cdot\nu).
+\]
+In arclength coordinates this says the following.  Let \(\mu\) be the solution of
+\begin{equation}\label{eq:explicit-mu}
+  \frac12\mu(s)
+  +
+  \operatorname{p.v.}\int_0^L
+  \frac{(\gamma(t)-\gamma(s))\cdot\nu(t)}
+       {2\pi|\gamma(s)-\gamma(t)|^2}
+  \mu(t)\,\dd t
+  =
+  q(s)\,X(\gamma(s))\cdot\nu(s).
+\end{equation}
+Then \eqref{eq:dtn-boundary-equation} is exactly
+\begin{align}\label{eq:explicit-param-equation}
+  \partial_s
+  \operatorname{p.v.}\int_0^L
+  \frac{1}{2\pi}\log|\gamma(s)-\gamma(t)|\,\partial_t\mu(t)\,\dd t
+  &=
+  (X(\gamma(s))\cdot T(s))\,\partial_s q(s) \notag\\
+  &\quad+
+  (X(\gamma(s))\cdot\nu(s))
+  \bigl(\rho(|\gamma(s)|)+\kappa(s)q(s)\bigr).
+\end{align}
+\end{proposition}
+
+\begin{proof}
+Directly,
+\[
+  \partial_\nu v
+  =
+  \nabla(X\cdot\nabla u)\cdot\nu
+  =
+  D^2u(\nu,X)+(DX\,\nu)\cdot\nabla u .
+\]
+The matrix \(DX\) is rotation by \(\pi/2\), so \((DX\,\nu)\cdot\nu=0\).  Since
+\(\nabla u=q\nu\), the last term vanishes.  Decomposing
+\[
+  X=(X\cdot T)T+(X\cdot\nu)\nu
+\]
+and using Lemma~\ref{lem:boundary-jets}, we obtain
+\[
+  \partial_\nu v
+  =
+  (X\cdot T)\,\partial_s q
+  +(X\cdot\nu)\bigl(\rho(|x|)+\kappa q\bigr).
+\]
+Equating this expression with the DtN expression \eqref{eq:dtn-side} proves
+\eqref{eq:dtn-boundary-equation}.
+\end{proof}
+
+\subsection{The cleaner scalar form}
+
+The equation above looks worse than its actual geometric content.  Write
+\[
+  \alpha(s):=\gamma(s)\cdot\nu(s),
+  \qquad
+  \beta(s):=\gamma(s)\cdot T(s),
+  \qquad
+  r(s):=|\gamma(s)|.
+\]
+For the standard boundary orientation compatible with the outward normal,
+\[
+  X(\gamma)\cdot T=\alpha,\qquad X(\gamma)\cdot\nu=-\beta.
+\]
+Moreover,
+\[
+  r_s=\frac{\beta}{r},
+  \qquad
+  \alpha_s=-\kappa\beta.
+\]
+Since \(q=a(r)\alpha\),
+\[
+  \partial_s q
+  =
+  \beta\left(\frac{a'(r)}{r}\alpha-a(r)\kappa\right).
+\]
+Substituting these identities into
+\eqref{eq:dtn-boundary-equation} gives the scalar form
+\begin{equation}\label{eq:clean-dtn-equation}
+  \boxed{
+  \Lambda_U\bigl(-a(r)\alpha\beta\bigr)
+  =
+  \beta\left(
+  \frac{a'(r)}{r}\alpha^2-\rho(r)-2a(r)\kappa\alpha
+  \right).
+  }
+\end{equation}
+Thus the layer-potential formula is not the main point; it is only one explicit
+realization of the nonlocal operator \(\Lambda_U\).  The boundary equation itself is
+the scalar pseudodifferential condition \eqref{eq:clean-dtn-equation}.
+
+Because \(U\) is simply connected, there is also a conformal way to write the same
+operator.  If \(\phi:\mathbb D\to U\) is conformal and
+\[
+  \gamma(\theta):=\phi(e^{i\theta}),
+  \qquad
+  J(\theta):=|\gamma_\theta(\theta)|,
+\]
+then, for any boundary datum \(F\),
+\begin{equation}\label{eq:conformal-dtn}
+  \Lambda_U F(\gamma(\theta))
+  =
+  \frac{1}{J(\theta)}
+  |D_\theta|\bigl(F\circ\gamma\bigr)(\theta)
+  =
+  \frac{1}{J(\theta)}
+  H\partial_\theta\bigl(F\circ\gamma\bigr)(\theta),
+\end{equation}
+where \(H\) is the periodic Hilbert transform.  Hence
+\eqref{eq:clean-dtn-equation} may equivalently be written as
+\begin{equation}\label{eq:conformal-clean-dtn}
+  \frac{1}{J}|D_\theta|\bigl(-a(r)\alpha\beta\bigr)
+  =
+  \beta\left(
+  \frac{a'(r)}{r}\alpha^2-\rho(r)-2a(r)\kappa\alpha
+  \right),
+\end{equation}
+with all quantities evaluated on \(\gamma(\theta)\).
+
+\begin{remark}[What this does and does not give]
+For the Gaussian zero-Neumann problem, applying \(L\) produces a harmonic function
+with zero boundary trace, so one gets a pointwise radius equation.  Here the boundary
+trace is
+\[
+  Lu|_{\partial U}=-a(r)\alpha\beta,
+\]
+which is generally nonzero.  Thus the method does not give an immediate local
+rigidity theorem.  What it gives is the closed nonlocal boundary equation
+\eqref{eq:clean-dtn-equation}.
+\end{remark}
+
+\begin{remark}[Linearized information near centered disks]
+The nonlocal equation still has useful content.  Centered disks satisfy it
+identically, since \(\beta=0\).  Linearizing around a centered disk of radius \(R\),
+with
+\[
+  r(\theta)=R+\varepsilon h(\theta),
+\]
+one obtains, for a nonzero Fourier mode \(h_n e^{in\theta}\),
+\[
+  (1-\pi R^2)(|n|+1-\pi R^2)n\,h_n=0.
+\]
+Consequently, away from the resonant radii
+\[
+  \pi R^2=1
+  \qquad\text{or}\qquad
+  \pi R^2=1+|n|,
+\]
+the DtN equation is linearly rigid against nonradial perturbations of centered
+disks.  At the resonant radii this first-order test leaves the corresponding angular
+modes open; higher-order information or an additional identity would be needed there.
+\end{remark}
+
+\end{document}

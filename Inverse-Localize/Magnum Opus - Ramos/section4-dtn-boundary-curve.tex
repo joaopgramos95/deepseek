@@ -11,6 +11,7 @@
 
 \newcommand{\C}{\mathbb C}
 \newcommand{\R}{\mathbb R}
+\newcommand{\Z}{\mathbb Z}
 \newcommand{\dd}{\,d}
 \newcommand{\1}{\mathbf 1}
 
@@ -20,6 +21,24 @@
 
 \begin{document}
 \maketitle
+
+\section{Scope of the argument}
+
+This note proves a conditional rigidity statement: once the Section~4
+localization argument has produced an interior potential whose zero Dirichlet
+trace also has zero normal derivative, the boundary must satisfy a first-order
+radius equation.  The only inputs not contained in the calculation itself are
+the following.
+
+\begin{itemize}
+\item The boundary component under consideration is smooth enough to justify
+classical boundary jets.  In the real-analytic setting below this follows from
+standard elliptic regularity.
+\item In the Section~4 problem with the logarithmic point mass at the origin, one
+must first know that the origin is not on the boundary and that the potential is
+\(C^1\) across the boundary.  Then the exterior identity \(u\equiv0\) gives both
+the zero Dirichlet and zero Neumann traces.
+\end{itemize}
 
 \section{The affine DtN map}
 
@@ -36,6 +55,10 @@ The corresponding inhomogeneous Dirichlet-to-Neumann map is the affine map
   \mathcal N_U^\rho(\varphi):=\partial_\nu w_\varphi|_{\partial U},
 \]
 where \(\nu\) is the outward unit normal.
+
+For the zero boundary datum, elliptic regularity gives \(u=w_0\in C^2(\overline U)\)
+and in fact real analyticity up to each analytic boundary arc.  Thus the boundary
+differentiations below are classical.
 
 Thus
 \[
@@ -60,16 +83,17 @@ For the nonsingular problem \eqref{eq:dirichlet-problem}, the condition
   \int_U \rho(|z|)\dd A=0
 \]
 by integrating the equation.  In particular, if \(\rho>0\) in \(U\), this
-condition is impossible.  In localization applications one often has either a
-sign-changing \(\rho\), or an additional radial point-mass term at the origin.
-The boundary-curve calculation below is unchanged by a radial point mass,
-because the angular derivative annihilates it.
+condition is impossible.  In the Hermite localization application the relevant
+equation includes an additional radial point mass at the origin; the flux balance
+is then \(\int_U\rho(|z|)\dd A=c\).  The boundary-curve calculation below is
+unchanged by that point mass, because the angular derivative annihilates radial
+distributions.
 \end{remark}
 
 \section{Boundary jets}
 
-Let \(\gamma(s)\) be an arclength parametrization of a boundary component
-\(\Gamma\subset\partial U\), and let
+Let \(\gamma:\R/L_\Gamma\Z\to\Gamma\) be an arclength parametrization of a
+boundary component \(\Gamma\subset\partial U\), and let
 \[
   T(s):=\gamma'(s)
 \]
@@ -147,6 +171,10 @@ so that \(Lu=X\cdot\nabla u\).  Since \(\nabla u=0\) on \(\Gamma\),
 \[
   \partial_\nu v
   =
+  \nabla(X\cdot\nabla u)\cdot\nu
+  =
+  D^2u(\nu,X)+(DX\,\nu)\cdot\nabla u
+  =
   D^2u(\nu,X)
   =
   -\rho(|\gamma|)(\nu\cdot X(\gamma))
@@ -165,10 +193,8 @@ Equivalently,
 \begin{theorem}\label{thm:dtn-to-circle}
 Assume \(\rho\) is real analytic and not identically zero.  If
 \(\mathcal N_U^\rho(0)=0\), then every boundary component of \(U\) is a circle
-centered at the origin, except possibly components lying entirely on a zero
-circle of \(\rho\); those are also centered circles.  In particular, if
-\(U\) is bounded and simply connected, then \(U\) is a disk centered at the
-origin.
+centered at the origin.  In particular, if \(U\) is bounded and simply connected,
+then \(U\) is a disk centered at the origin.
 \end{theorem}
 
 \begin{proof}
@@ -186,9 +212,13 @@ and dense.  On that set, \(\frac{\dd}{\dd s}|\gamma(s)|^2=0\), and by analyticit
 this derivative vanishes for all \(s\).  Hence \(|\gamma|\) is constant.
 
 If instead \(\rho(|\gamma(s)|)\equiv0\), then the connected set
-\(\{|\gamma(s)|:s\in\R/2\pi\mathbb Z\}\) is contained in the zero set of the
-real-analytic function \(\rho\).  Since \(\rho\not\equiv0\), its zero set has no
-intervals.  Therefore \(|\gamma|\) is again constant.
+\[
+  \{|\gamma(s)|:s\in\R/L_\Gamma\Z\}
+\]
+is contained in the zero set of the real-analytic function \(\rho\).  Since
+\(\rho\not\equiv0\), its zero set has no intervals.  Therefore \(|\gamma|\) is
+again constant.  This is the only extra point needed when a boundary component
+lies on a zero circle of \(\rho\).
 
 Thus each boundary component is a level set \(|z|=R\), hence a circle centered
 at the origin.  A bounded simply connected domain with one centered circular
@@ -200,9 +230,14 @@ If the interior equation is instead
 \[
   -\Delta u=\rho(|z|)-c\,\delta_0,
 \]
-with \(0\in U\), the same argument applies on \(U\setminus\{0\}\) and
-distributionally across \(0\), because \(L\delta_0=0\).  Thus \(v=Lu\) is still
-harmonic with zero boundary values, and the same boundary equation
+with \(0\in U\), the boundary calculation is unchanged provided \(0\notin\partial
+U\) and \(u\) is \(C^2\) in a collar of \(\partial U\).  The singular term is
+radial: equivalently, \(L\log|z|=0\) away from the origin and
+\[
+  L\delta_0=0
+\]
+distributionally.  Hence \(v=Lu\) is harmonic in \(U\) in the distributional
+sense, with the same zero boundary values, and the same boundary equation
 \eqref{eq:boundary-ode} follows.
 \end{remark}
 
