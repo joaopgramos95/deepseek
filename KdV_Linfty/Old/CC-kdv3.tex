@@ -1,0 +1,932 @@
+\documentclass[a4paper, 11pt]{amsart}
+%\documentclass{article}
+\synctex=1
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%\usepackage{mathpazo}
+%\usepackage{microtype}
+\usepackage{geometry}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{calrsfs}
+\usepackage{array}
+\usepackage{bbm}
+\usepackage{stmaryrd}
+\usepackage{showkeys}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{mathabx}
+\usepackage{enumitem}
+\usepackage[demo]{graphicx}
+\geometry{margin=1in}
+\usepackage{caption}
+\usepackage{subcaption}
+
+%\usepackage[maxnames=6, doi=false, backend=biber, style=numeric]{biblatex}
+\usepackage{csquotes}
+
+
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs=true}
+\usepackage[svgnames]{xcolor}
+%\usepackage{etoolbox}
+%\usepackage{enumitem}
+\usepackage{hyperref}
+
+\pagestyle{plain}
+\frenchspacing
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+
+
+\newcommand{\ce}{\mathbb{C}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\be}{\mathbb{B}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\en}{\mathbb{N}}
+\newcommand{\qe}{\mathbb{Q}}
+\newcommand{\e}{\epsilon}
+\newcommand{\ze}{\mathbb{Z}}
+
+\newcommand{\partere}{\mathrm{Re} }
+
+\pagestyle{plain}
+\frenchspacing
+
+%\addtolength{\textwidth}{2cm}
+%\addtolength{\hoffset}{-1cm}
+%\addtolength{\textheight}{2cm}
+%\addtolength{\voffset}{-1cm}
+
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\isom}{\stackrel{\sim}{\longrightarrow}}
+\newcommand{\limit}[2]{\xrightarrow{\: #1 \to #2 \:}}
+\newcommand{\jap}[1]{\langle #1 \rangle}
+\newcommand{\weak}{\rightharpoonup}
+\newcommand{\imp}{\Longrightarrow}
+\renewcommand{\r}{\right}
+\renewcommand{\l}{\left}
+
+\newcommand{\supp}{supp}
+
+
+\renewcommand{\Re}{\mathop{\text{Re}}}
+\renewcommand{\Im}{\mathop{\text{Im}}}
+
+
+\newcommand{\m}[1]{
+	\ifdefequal{#1}{1}
+	{\mathbbm{#1}}
+	{\mathbb{#1}}
+}
+\newcommand{\gh}[1]{\mathfrak{#1}}
+\newcommand{\q}[1]{\mathcal{#1}}
+\newcommand{\g}[1]{\ensuremath{\mathbf{#1}}}
+\newcommand{\cal}[1]{\mathcal{#1}}
+\newcommand{\nz}[1]{\vvvert #1 \vvvert}
+\newcommand{\ds}{\displaystyle}
+
+\newcommand{\mf}[1]{\mathbf{#1}}
+\newcommand{\ub}{\mathbf{u}}
+
+\DeclareMathOperator{\flux}{\mathrm{Flux}}
+\DeclareMathOperator{\Span}{\mathrm{Span}}
+\DeclareMathOperator{\argcosh}{\mathrm{argcosh}}
+\DeclareMathOperator{\sgn}{\mathrm{sgn}}
+\DeclareMathOperator{\Ai}{\mathrm{Ai}}
+\DeclareMathOperator{\Id}{\mathrm{Id}}
+\DeclareMathOperator{\Supp}{\mathrm{supp}}
+\DeclareMathOperator{\sech}{sech}
+\newcommand{\fia}{\mathbbm{1}_{|\Phi-\alpha|<M}}
+\newcommand{\psia}{\mathbbm{1}_{|\Psi-\alpha|<M}}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem*{thm*}{Theorem}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem*{defi}{Definition}
+
+\theoremstyle{remark}
+\newtheorem{nb}[thm]{Remark}
+\newtheorem*{claim}{Claim}
+
+
+
+
+%%%%% ANDREIA'S MACROS START %%%%%%%%%
+%
+%Roman I
+\newcommand{\I}{\hspace{0.2mm}\textup{I}\hspace{0.2mm}}
+%Roman II
+\newcommand{\II}{\text{I \hspace{-2.9mm} I} }
+%%Roman III
+\newcommand{\III}{\text{I \hspace{-2.9mm} I \hspace{-2.9mm} I}}
+%
+%%Roman IV
+\newcommand{\IV}{\text{I \hspace{-2.9mm} V}}
+%%Roman V
+\newcommand{\5}{\text{V}}
+
+\newcommand{\noi}{\noindent}
+
+\newcommand{\FL}{\mathcal{F} L}
+\newcommand{\ft}{\widehat}
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\les}{\lesssim}
+\newcommand{\dl}{\delta}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\eps}{\varepsilon}
+\DeclareMathOperator*{\intt}{\int}
+\newcommand{\wt}{\widetilde}
+\newcommand{\embeds}{\hookrightarrow}
+\newcommand{\dx}{\partial_x}
+\newcommand{\dt}{\partial_t}
+
+\usepackage[most]{tcolorbox}
+\usepackage{marginnote}
+\usepackage%[disable]
+{todonotes}
+
+\newcommand{\noteA}[1]{
+\todo[inline, color=blue!20]{\textbf{Andreia:} #1}
+}
+\newcommand{\noteS}[1]{
+\todo[inline, color=green!20]{\textbf{Sim\~ao:} #1}
+}
+
+
+%\newcommand{\noteA}[1]{\marginpar{\color{blue} $\Leftarrow\Leftarrow\Leftarrow$}{\smallskip \noi\color{blue}Andreia: #1}\smallskip}
+%
+%\newcommand{\noteS}[1]{\marginpar{\color{blue} $\Leftarrow\Leftarrow\Leftarrow$}{\smallskip \noi\color{blue}Simao: #1}\smallskip}
+
+%%%%% ANDREIA'S MACROS END %%%%%%%%%
+
+\numberwithin{equation}{section}
+%\makeatletter
+%% \def\@seccntformat#1{\csname the#1\endcsname\quad}% Default
+%\def\@seccntformat#1{\csname the#1\endcsname$.$\hspace*{0.5em}}
+%\makeatother
+%
+%\titleformat*{\section}{\large\bfseries}
+
+%\usepackage[displaymath, mathlines, pagewise]{lineno}
+%\linenumbers
+
+
+\newtheoremstyle{mytheoremstyle} % name
+{\topsep}                    % Space above
+{\topsep}                    % Space below
+{}                   % Body font
+{}                           % Indent amount
+{\scshape}                   % Theorem head font
+{.}                          % Punctuation after theorem head
+{.5em}                       % Space after theorem head
+{}  % Theorem head spec (can be left empty, meaning ‘normal’)
+
+\theoremstyle{mytheoremstyle} \newtheorem{nota}[thm]{Remark}
+\theoremstyle{mytheoremstyle} \newtheorem{exemplo}[thm]{Example}
+
+\makeatletter
+\@namedef{subjclassname@2020}{%
+	\textup{2020} Mathematics Subject Classification}
+\makeatother
+
+
+\newcommand{\red}{\color{red}}
+\newcommand{\blue}{\color{blue}}
+
+\date{\today}
+\author{Andreia Chapouto and Sim\~ao Correia}
+
+\title{Local well-posedness for the Korteweg-de Vries equation for data with bounded Fourier transform}
+
+\subjclass[2020]{35A01, 35B45, 35Q53} %
+
+\thanks{A.~C. was supported by the European Research Council (grant no. 864138 ``SingStochDispDyn'').
+S.~C. was partially supported by Funda\c{c}\~ao para a Ci\^encia e Tecnologia, through CAMGSD, IST-ID
+	(projects UIDB/04459/2020 and UIDP/04459/2020) and through the project NoDES (PTDC/MAT-PUR/1788/2020)}
+
+
+
+\allowdisplaybreaks
+
+
+
+
+
+\begin{document}
+\maketitle
+\section{Introduction}
+\subsection{Setting and motivation}
+\begin{equation}\tag{KdV}\label{KdV}
+	u_t + u_{xxx} = (u^2)_x,\quad u(0)=u_0
+\end{equation}
+
+
+\subsection{Literature review}\
+
+KdV on $\R$:
+
+\begin{itemize}
+
+
+\item Kappeler, Thomas(CH-ETHZ)
+Solutions to the Korteweg-de Vries equation with irregular initial profile.Comm. Partial Differential Equations11(1986), no.9, 927–945.
+
+\url{https://mathscinet.ams.org/mathscinet/article?mr=844170}
+
+Could not get access to paper, so not sure what their data looks like
+
+
+\item \cite{B93}: GWP of KdV in $H^s(\R)$ for $s\ge 0$
+
+
+\item \cite{KPV96}: LWP of KdV in $H^s(\R)$ for $-\frac34<s\le 0$.
+
+
+\item \cite{CCT03}: KdV GWP in $H^{s}(\T)$ for $s>-\frac34$
+
+Ill-posedness for $-1<s<-\frac34$ in the sense of lack of uniform continuity of solution map
+
+
+\item \cite{G10}: LWP via Fourier restriction norm method in $\FL$-spaces for equations in KdV and mKdV hierarchies
+
+For KdV, shows LWP in $\FL^{s,p}(\R)$ for $2<p<\infty$ and
+$$s>\max\Big( -\frac12 - \frac{1}{2p}, -\frac14 - \frac{11}{8p} \Big)$$
+
+
+Note that for $p=\infty$, the above will match the range that we can cover at this moment.
+
+{\blue When $p=\infty$, this result gives $s>-1/4$, which is above what our first result states ($s>-1/2$).}
+
+\item \cite{KV19}:
+
+Optimal well-posedness in $H^{-1}(\R)$ using method of commuting flows (complete integrability)
+\end{itemize}
+
+
+KdV on $\T$:
+
+
+\begin{itemize}
+
+\item \cite{B93}: GWP of KdV in $H^s(\T)$ for $s\ge 0$
+
+\item \cite{KPV96}: LWP of KdV in $H^s(\T)$ for $-\frac12<s\le 0$.
+
+\item \cite{B97}: GWP for periodic KDV with initial data given by a measure on the circle with sufficiently small norm (uses spectral properties of equation?)
+
+\item \cite{KT06}: KdV GWP in $H^s(\T)$ for $s\ge -1$ (using complete integrability, inverse method)
+
+\item \cite{Mol12}: KdV ill-posed in $H^s(\T)$ for $s<-1$ in the sense of discontinuity of the data-to-solution map
+
+\item \cite{KMMT16}: (Theorem 3) KdV GWP in $\FL^{s,p}(\T)$ for $-\frac12 \le s \le 0$ and $2\le p <\infty$, using global KdV-Birkhoff coordinates (complete integrability)
+
+
+\item \cite{KM18}: LWP in $\FL^{s, \infty}(\T)$ for $\frac12<s\le0$, extension of solution map to weak$\star$-continuous map
+
+I think they use Birkhoff normal forms and the Birkhoff map (so complete integrability)
+
+{\blue This paper seems interesting for us}
+\end{itemize}
+
+
+
+
+\subsection{Main results}
+
+Through a direct fixed-point argument in Bourgain spaces, one can only reach $s>1/2$. This is sharp in the sense that the bilinear estimate fails for $s<1/2$.
+
+Using one integration by parts in time in the stationary region, we are able to lower the LWP result to $s>-1/2$. In terms of LWP, this is sharp, in the sense that the flow cannot be $C^2$ for $s<-1/2$. This is due to the boundary term coming from the integration by parts.
+
+Introducing a renormalization which absorbs the boundary term, the new equation has a well-behaved quadratic term plus infinitely many terms of increasing order. We expect this to lower the threshold even further, reaching $s>-1$, which is the scaling-critical regularity.
+
+\textcolor{red}{Isto é verdade?} Using this, we can prove that, for $s<-1/2$, there is no distributional solution of KdV which can be well-approximated by smooth initial data.
+
+
+
+\textcolor{red}{Question A:} could randomization help avoid the need for renormalization to go beyond $-\frac12$?
+
+\textcolor{red}{Question A:} think about ill-posedness result (related to needing the renormalization), and non-existence of solution for the original equation after showing the WP of the renormalized equation (like in my mKdV paper)
+
+\textcolor{red}{Question A:} is there a paper on showing a priori bounds for KdV using complete integrability in $\mathcal{F}L$ that we could use to globalize solutions?
+
+\textcolor{red}{Question S:} After the renormalization, is it possible to show scattering (or some sort of asymptotic behavior)? For equations with scattaring, there is a way of proving the existence of solutions behaving, at $t\sim\infty$, as any given linear solution \textcolor{red}{This is problematic for low pwers, especially for quadratic terms.}. In the case of mKdV, where one has modified scattering, one must correct the ansatz in the phase (this correction makes the source term decay in time; the linear term will have critical decay, which is OK because the remainder will be assumed to have time decay; the h.o.t. decay even faster). For the KdV, we first apply the renormalization to kill the bad quadratic interactions and get basically a mKdV equation with some extra terms, and proceed as above.
+
+
+
+\section{Preliminaries}
+
+\section{Fourier restriction spaces and multilinear estimates}
+
+
+{
+\red
+\begin{itemize}
+\item Add cutoff $\psi$, $\psi_\dl$
+
+\item Add notion of $\ll$, $\les$,...
+\end{itemize}
+}
+
+
+We first introduce the restriction norm spaces $X^{s,b}_{p,q}$, first introduced by Bourgain and Klainerman-Machedon in \cite{} and adapted to the Fourier-Lebesgue setting in \cite{GH08}.
+%
+%
+Let $s,b\in \R$ and $1\le q \le \infty$. We consider the Fourier restriction spaces $X^{s,b}_{\infty,q}$ defined through the norm
+\begin{align*}
+X^{s,b}_{\infty,q} =\{ u\in \mathcal{S}(\R\times \R) : \|u\|_{X^{s,b}_{\infty,q}}<\infty\},
+\end{align*}
+where the norm is given by
+\begin{equation}
+\| u \|_{X^{s,b}_{\infty,q}} := \| \jap{\xi}^s \jap{\tau-\xi^3}^b \F_{t,x}(u) (\tau, \xi) \|_{L^\infty_\xi L^q_\tau}.
+\end{equation}
+
+We also define $\Tilde{u}(t,\xi)=e^{-it\xi^3}\mathcal{F}_xu$. In particular,
+$$
+\|u\|_{X^{s,b}_{\infty,q}} = \|\jap{\xi}^s\jap{\tau}^b\mathcal{F}_t\tilde{u}\|_{L^\infty_\xi L^q_\tau}.
+$$
+
+\subsection{Linear estimates}
+
+
+We first establish some properties of the $X^{s,b}_{\infty,q}$-spaces.
+\begin{lem}
+
+
+{\rm(i)} For $s\in\R$ and $b>0$,  given $u\in X^{s,b}_{\infty,1}$, we have $\tilde{u}\in C_b(\R;L^{s,\infty}(\R))$ with
+\begin{equation}\label{lin}
+    \|\tilde{u}\|_{L^\infty_tL^{s,\infty}_\xi}\lesssim \|u\|_{X^{s,b}_{\infty,1}}. 
+\end{equation}
+In particular,
+\noi
+\begin{align}
+X^{s,b}_{\infty, 1} &\embeds C(\R; \FL_{loc}^{s,\infty}(\R))\cap L^\infty(\R; \mathcal{F}L^{s,\infty}(\R)).
+\end{align}
+
+
+\smallskip
+
+
+\noi {\rm(ii)} Let $s\in\R$, $b\ge0$, and $1\le q \le \infty$. Then, for all $f \in \FL^{s,\infty}(\R)$, we have
+\begin{align}
+\label{lin1}
+\| \psi e^{-t\dx^3} f \|_{X^{s,b}_{\infty,q}} \les \| f \|_{\FL^{s,\infty}}.
+\end{align}
+
+
+
+\noi{\rm(iii)} Let $s\in\R$ and $-1<\tilde{b}' \le 0 \le \tilde{b} \le 1+\tilde{b}'$. Then, for $F\in X^{s,\tilde{b}'}_{\infty,1}$, we have
+
+\noi
+\begin{align}
+\label{lin2a}
+\bigg\| \psi_\dl (t) \int_0^t e^{-(t-t')\dx^3 } F(t') \, dt' \bigg\|_{X^{s,\tilde{b}}_{\infty,1} } & \les \dl^{1+\tilde{b}'-\tilde{b}} \| F \|_{X^{s,\tilde{b}'}_{\infty,1}}.
+\end{align}
+
+
+
+\noi{\rm(iv)} Let $s\in\R$, $-1 < \wt{b}'\le 0$, and $-1<b' \le 0 \le b < 1+b'$ satisfying $2-b+\tilde{b}'\ge 0$. Then, for $F\in X^{s,b'}_{\infty, \infty} \cap X^{s, \wt{b}'}_{\infty, 1}$, we have
+\begin{equation}
+\label{lin2b}
+\bigg\| \psi_\dl (t) \int_0^t e^{-(t-t')\dx^3} F(t') \, dt' \bigg\|_{X^{s,b}_{\infty, \infty} } \les \dl^{1+b'-b} \| F\|_{X^{s, b'}_{\infty, \infty}} + \dl^{2+\wt{b}' -b} \|F\|_{X^{s, \wt{b}'}_{\infty, 1}}.
+\end{equation}
+
+
+
+\end{lem}
+
+\begin{proof}
+
+We begin with (i). Given $u\in X^{s,b}_{\infty,1}$,
+$$
+\tilde{u}(t,\xi)=\int e^{it\tau}\hat{u}(\tau+\xi^3,\xi)d\tau.
+$$
+A direct estimate shows that
+$$
+\|\mathcal{F}_xu(t)\|_{L^{s,\infty}_\xi} = \|\tilde{u}(t)\|_{L^{s,\infty}_\xi} \lesssim \|\jap{\xi}^s\hat{u}\|_{L^\infty_\xi L^1_\tau} \lesssim \|u\_{X^{s,b}_{\infty,1}}.
+$$
+Moreover, given $t,t'\in\R$,
+\begin{align*}
+    \|\tilde{u}(t)-\tilde{u}(t')\|_{L_\xi^{s,\infty}} &\lesssim \left\|\int \frac{e^{it\tau}-e^{it'\tau}}{\jap{\tau}^b}\jap{\xi}^s\jap{\tau}^b\hat{u}(\tau+\xi^3,\tau)d\tau\right\|_{L^\infty_\xi}\\&\lesssim \sup_{\tau} \left| \frac{e^{it\tau}-e^{it'\tau}}{\jap{\tau}^b}\right| \|u\|_{X^{s,b}_{\infty,1}} \to 0 \quad \mbox{as }t\to t',
+\end{align*}
+and thus $\tilde{u}\in C_b(\R;L^{s,\infty}(\R))$. Finally, given $K\subset \R$ compact,
+\begin{align*}
+    \|u(t)-u(t')\|_{\mathcal{F}L^{s,\infty}(K)} &\lesssim \|\tilde{u}(t)-\tilde{u}(t')\|_{L^{s,\infty}_\xi} + \|(e^{it\xi^3}-e^{it'\xi^3})\mathcal{F}_xu(t')\|_{L^{s,\infty}(K)} \\&\lesssim \|\tilde{u}(t)-\tilde{u}(t')\|_{L^{s,\infty}_\xi} + \sup_{\xi\in K}\left|e^{it\xi^3}-e^{it'\xi^3}\right|\|\mathcal{F}_xu(t')\|_{L^{s,\infty}(K)} \to 0\quad \mbox{as }t\to t'.
+\end{align*}
+which implies that $u\in C(\R;\mathcal{F}L^{s,\infty}_{loc}(\R))$.
+
+\textbf{}
+
+\noi The proof of (ii) is a direct consequence of
+$$
+\|\psi e^{-t\partial_x^3}f\|_{X^{s,b}_{\infty,q}} = \|\jap{\xi}^s\jap{\tau}^b\hat{\psi}(\tau)\hat{f}(\xi)\|_{L^\infty_\xi L^q_\tau} \lesssim \|\psi\|_{H^b_t} \|f\|_{\mathcal{F}L^{s,\infty}}.
+$$
+
+\smallskip
+\noi 
+We now move to the proof of items (iii) and (iv).
+ Let $g=e^{t\partial_x^3} F$. First, we write
+\begin{equation}
+\psi_\delta(t)\int_0^t g(s) ds = c\psi_\delta(t)\int \frac{e^{it\tau'}-1}{i\tau'} (\mathcal{F}_tg)(\tau',x) d\tau' = \I + \II + \III,
+\label{lin3a}
+\end{equation}
+where
+\begin{equation}
+\label{lin3}
+\begin{aligned}
+\I & :=c\psi_\delta(t)\sum_{k= 1}^\infty \frac{t^k}{k!}\int_{|\tau|\delta \le 1} (i\eta)^{k-1} (\mathcal{F}_tg)(\eta,x) d\eta, \\
+\II& :=-c\psi_\delta(t)\int_{|\tau|\delta \ge 1} (i\eta)^{-1} (\mathcal{F}_tg)(\eta,x) d\eta , \\
+\III & :=c\psi_\delta(t)\int_{|\tau|\delta \ge 1} e^{it\tau}(i\eta)^{-1} (\mathcal{F}_tg)(\eta,x) d\eta,
+\end{aligned}
+\end{equation}
+for some constant $c\in\R$.
+%
+%
+%
+We begin with $\I$ in \eqref{lin3} and estimate its space-time Fourier transform as follows
+\begin{equation}
+	|(\mathcal{F}_{t,x}\I)(\tau, \xi)| \les \sum_{k= 1}^\infty \frac{|\widehat{t^k\psi_\delta}(\tau)|}{k!} \int_{|\tau|\delta \le 1} |\eta|^{k-1} |\ft{g}(\eta,\xi)| d\eta.
+\label{lin4a}
+\end{equation}
+From \eqref{lin4a} and H\"older's inequality, we have that
+\begin{equation}
+\begin{aligned}
+\| \jap{\xi}^s \jap{\tau}^b \F_{t,x} \I \|_{L^\infty_\xi L^\infty_\tau} & \les \sum_{k=1}^\infty \frac{1}{k!} \| \jap{\tau}^b\ft{t^k \psi_\dl} (\tau) \|_{L^\infty_\tau} \bigg( \int_{|\eta|\dl \le 1} |\eta|^{k-1} \jap{\eta}^{-b'} d\eta \bigg) \| \jap{\xi}^s \jap{\eta}^{b'} \ft{g}(\eta, \xi) \|_{L^\infty_\xi L^\infty_\eta} \\
+& \les_\psi \dl^{1+ b' -b} \| \jap{\xi}^s \jap{\eta}^{b'} \ft{g}(\eta, \xi) \|_{L^\infty_\xi L^\infty_\eta},
+\end{aligned}
+\label{lin4b}
+\end{equation}
+\noi
+given that
+\begin{equation}
+k-1-b' \ge 0 .
+\label{lin4bb}
+\end{equation}
+Similarly, since $\tilde{b}'\le 0$,
+\begin{equation}
+\begin{aligned}
+\| \jap{\xi}^s \jap{\tau}^{\tilde{b}} \F_{t,x} \I \|_{L^\infty_\xi L^1_\tau} & \les \sum_{k=1}^\infty \frac{1}{k!} \| \jap{\tau}^{\tilde{b}}\ft{t^k \psi_\dl} (\tau) \|_{L^1_\tau} \bigg( \sup_{|\eta|\dl \le 1} |\eta|^{k-1} \jap{\eta}^{-\tilde{b}'}  \bigg) \| \jap{\xi}^s \jap{\eta}^{\tilde{b}'} \ft{g}(\eta, \xi) \|_{L^\infty_\xi L^1_\eta} \\
+& \les_\psi \dl^{1+ \tilde{b}' -\tilde{b}} \| \jap{\xi}^s \jap{\eta}^{\tilde{b'}} \ft{g}(\eta, \xi) \|_{L^\infty_\xi L^1_\eta},
+\end{aligned}
+\label{lin4c}
+\end{equation}
+
+
+
+\noi
+For $\II$ in \eqref{lin3}, by H\"older's inequality, we have
+\begin{equation}
+\begin{aligned}
+\| \jap{\xi}^s \jap{\tau}^b \F_{t,x} \II \|_{L^\infty_\xi L^\infty_\tau} & \les \bigg\| \jap{\tau}^b \ft{\psi}_\dl(\tau) \int_{|\eta|\dl >1} \jap{\xi}^s |\eta|^{-1} | \ft{g}(\eta, \xi)| d\eta \bigg\|_{L^\infty_\xi L^\infty_\tau} \\
+& \les \| \jap{\tau}^b \ft{\psi_\dl}(\tau) \|_{L^\infty_\tau} \Big( \sup_{|\eta| \dl >1} |\eta|^{-1} \jap{\eta}^{-\wt{b}'} \Big) \| \jap{\xi}^s \jap{\eta}^{\wt{b}'} \ft{g}(\eta, \xi) \|_{L^\infty_\xi L^1_\eta} \\
+& \les_\psi \dl^{2 + \wt{b}' - b} \| \jap{\xi}^s \jap{\eta}^{\wt{b}'} \ft{g}(\eta, \xi) \|_{L^\infty_\xi L^1_\eta},
+\end{aligned}
+\label{lin5a}
+\end{equation}
+
+\noi
+given that
+\begin{equation}
+\wt{b}'>-1.
+\label{lin5b}
+\end{equation}
+Analogously,
+\begin{equation}
+\begin{aligned}
+\| \jap{\xi}^s \jap{\tau}^{\tilde{b}} \F_{t,x} \II \|_{L^\infty_\xi L^1_\tau} & \les \bigg\| \jap{\tau}^{\tilde{b}} \ft{\psi}_\dl(\tau) \int_{|\eta|\dl >1} \jap{\xi}^s |\eta|^{-1} | \ft{g}(\eta, \xi)| d\eta \bigg\|_{L^\infty_\xi L^\infty_\tau} \\
+& \les \| \jap{\tau}^{\tilde{b}} \ft{\psi_\dl}(\tau) \|_{L^1_\tau} \Big( \sup_{|\eta| \dl >1} |\eta|^{-1} \jap{\eta}^{-\wt{b}'} \Big) \| \jap{\xi}^s \jap{\eta}^{\wt{b}'} \ft{g}(\eta, \xi) \|_{L^\infty_\xi L^1_\eta} \\
+& \les_\psi \dl^{1 + \wt{b}' - \et{b}} \| \jap{\xi}^s \jap{\eta}^{\wt{b}'} \ft{g}(\eta, \xi) \|_{L^\infty_\xi L^1_\eta},
+\end{aligned}
+\label{lin5c}
+\end{equation}
+
+
+
+
+\noi
+Lastly, for $\III$, from \eqref{lin3} and H\"older's inequality, we have
+\begin{equation}
+\begin{aligned}
+\| \jap{\xi}^s \jap{\tau}^b \F_{t,x} \III \|_{L^\infty_\xi L^\infty_\tau} & \les \bigg\| \jap{\xi}^s \int_{|\eta|\dl >1} \jap{\eta}^b |\eta|^{-1} |\ft{g}(\eta, \xi) \ft{\psi}_\dl(\tau-\eta) | d\eta \bigg\|_{L^\infty_\xi L^\infty_\tau} \\
+& \quad + \bigg\| \jap{\xi}^s \int_{|\eta|\dl >1}  |\eta|^{-1} |\ft{g}(\eta, \xi)| \jap{\tau - \eta}^b | \ft{\psi}_\dl(\tau-\eta) | d\eta \bigg\|_{L^\infty_\xi L^\infty_\tau} \\
+& \les \Big( \sup_{|\eta|\dl>1} \jap{\eta}^{b-b'} |\eta|^{-1} \Big) \| \jap{\xi}^s \jap{\eta}^{b'} \ft{g}(\eta, \xi) \|_{L^\infty_\xi L^\infty_\eta} \| \ft{\psi}_\dl \|_{L^1_\tau} \\
+& \quad + \Big( \sup_{|\eta|\dl>1} |\eta|^{-1} \jap{\eta }^{-b'} \Big)  \| \jap{\xi}^s \jap{\eta}^{b'} \ft{g}(\eta, \xi) \|_{L^\infty_\xi L^\infty_\eta} \| \jap{\tau}^{b} \ft{\psi}_\dl \|_{L^1_\tau } \\
+& \les \dl^{1+b'-b} \| \jap{\xi}^s \jap{\eta}^{b'} \ft{g}(\eta, \xi) \|_{L^\infty_\xi L^\infty_\eta}
+\end{aligned}
+\label{lin6a}
+\end{equation}
+given that
+\begin{equation}
+b-b' < 1 \quad \text{and} \quad b'>-1.
+\label{lin6b}
+\end{equation}
+
+\noi
+On the other hand,
+\begin{equation}
+\begin{aligned}
+\| \jap{\xi}^s \jap{\tau}^{\wt{b}} \F_{t,x} \III \|_{L^\infty_\xi L^1_\tau} & \les \bigg\| \jap{\xi}^s \int_{|\eta|\dl >1} \jap{\eta}^{\tilde{b}} |\eta|^{-1} |\ft{g}(\eta, \xi) \ft{\psi}_\dl(\tau-\eta) | d\eta \bigg\|_{L^\infty_\xi L^1_\tau} \\
+& \quad + \bigg\| \jap{\xi}^s \int_{|\eta|\dl >1}  |\eta|^{-1} |\ft{g}(\eta, \xi)| \jap{\tau - \eta}^{\wt{b}} | \ft{\psi}_\dl(\tau-\eta) | d\eta \bigg\|_{L^\infty_\xi L^1_\tau} \\
+& \les \Big( \sup_{|\eta|\dl>1} \jap{\eta}^{\wt{b}-\wt{b}'} |\eta|^{-1} \Big) \| \jap{\xi}^s \jap{\eta}^{\wt{b}'} \ft{g}(\eta, \xi) \|_{L^\infty_\xi L^\infty_\eta} \| \ft{\psi}_\dl \|_{L^1_\tau} \\
+& \quad + \Big( \sup_{|\eta|\dl>1} |\eta|^{-1} \jap{\eta }^{-\wt{b}'} \Big)  \| \jap{\xi}^s \jap{\eta}^{\wt{b}'} \ft{g}(\eta, \xi) \|_{L^\infty_\xi L^1_\eta} \| \jap{\tau}^{\wt{b}} \ft{\psi}_\dl \|_{L^1_\tau } \\
+& \les \dl^{1+\wt{b}'-\wt{b}} \| \jap{\xi}^s \jap{\eta}^{\wt{b}'} \ft{g}(\eta, \xi) \|_{L^\infty_\xi L^1_\eta}.
+\end{aligned}
+\label{lin6c}
+\end{equation}
+
+
+
+\noi
+Combining \eqref{lin3a}, \eqref{lin4b}, \eqref{lin5a}, and \eqref{lin6a}, we obtain
+\begin{equation}
+\bigg\| \psi_{\dl} \int_0^t e^{-(t-t')\dx^3} F(t') \, dt' \bigg\|_{X^{s,b}_{\infty, \infty}} \les \dl^{1+b'-b} \| F\|_{X^{s, b'}_{\infty, \infty}} + \dl^{2+\wt{b}' -b} \|F\|_{X^{s, \wt{b}'}_{\infty, 1}},
+\end{equation}
+given that \eqref{lin4bb}, \eqref{lin5b}, and \eqref{lin6b} hold, as intended. Estimate \eqref{lin2a} follows from \eqref{lin4c}, \eqref{lin5c} and \eqref{lin6c}. \qedhere
+\end{proof}
+
+
+
+In the following, we consider a general multilinear term of the form
+$$
+(N[u_1,\dots, u_k])^\wedge(\xi)=\int_{\xi=\xi_1+\dots+\xi_k} m(\xi_1,\dots,\xi_k)\prod_{j=1}^ku_j(\xi_j) d\xi_1\dots d\xi_{k-1}.
+$$
+
+\begin{lem}
+    Suppose that there exist $\beta,\lambda\ge 0$ with $\beta+\lambda<1$ such that, for any $\alpha\in \R$ and $M>1$,
+    \begin{equation}\label{fre}
+        \sup_{\xi} \int \frac{|m|\jap{\xi}^s}{\prod_{j=1}^k\jap{\xi_k}^s} \mathbbm{1}_{|\Phi-\alpha|<M} d\xi_1\dots d\xi_{k-1} \lesssim \jap{\alpha}^\lambda M^\beta.
+    \end{equation}
+    Take $b,b',\tilde{b},\tilde{b}'\in \R$ satisfying
+    \begin{equation}\label{condb}
+        1-b+b'\ge 0,\quad -1\le \wt{b}'\le 0\quad 1-\wt{b}+\wt{b}'\ge 0,\quad 2-b+\wt{b}'\ge 0,\quad \wt{b}> 0,
+    \end{equation}
+    \begin{equation}\label{condb2}
+       b> \beta,\quad-\wt{b}'>\beta,\quad b-1-\wt{b}'>\beta,\quad -b'>\lambda.
+    \end{equation}
+    Then
+    \begin{align}
+	\|N[u_1,\dots, u_k] \|_{X^{s,b'}_{\infty, \infty}} & \les \prod_{j=1}^k\|u_j\|_{X^{s,b}_{\infty, \infty}}, \\
+ \|N[u_1,\dots, u_k] \|_{X^{s,\wt{b}'}_{\infty, 1}} & \les \prod_{j=1}^k\|u_j\|_{X^{s,b}_{\infty, \infty} \cap X^{s,\tilde{b}}_{\infty,1}}.
+\end{align}
+    
+\end{lem}
+\begin{nb}
+    The conditions \eqref{condb} and \eqref{condb2} can be satisfied whenever $\beta+\lambda<1$. First, take 
+    $$
+    \beta < b < 1+b'< 1-\lambda.
+    $$
+    Next, choose
+    $$
+    -1<-1+\wt{b}<\wt{b}'<b-\beta-1.
+    $$
+\end{nb}
+
+
+
+\begin{proof}
+Set
+$$
+\mathcal{M}=\frac{|m|\jap{\xi}^s}{\prod_{j=1}^k\jap{\xi_j}^s}.
+$$
+A direct estimate yields
+    \begin{align}
+        \|N[u_1,\dots, u_k] \|_{X^{s,b'}_{\infty, \infty}} \lesssim \sup_{\tau,\xi} \int \mathcal{M}\frac{\jap{\tau-\xi^3}^{b'}}{\prod_{j=1}^k\jap{\tau_j-\xi_j^3}^b } d\tau_1\dots d\tau_{k-1}d\xi_1\dots d\xi_{k-1} \cdot \prod_{j=1}^k \|u_j\|_{X^{s,b}_{\infty,\infty}}.
+    \end{align}
+    Integrating in the time-frequency variables and using \eqref{fre}
+    \begin{align}
+        &\sup_{\tau,\xi} \int \mathcal{M}\frac{\jap{\tau-\xi^3}^{b'}}{\prod_{j=1}^k\jap{\tau_j-\xi_j^3}^b } d\tau_1\dots d\tau_{k-1}d\xi_1\dots d\xi_{k-1} \\ \lesssim & \sup_{\tau,\xi} \int \mathcal{M} \frac{\jap{\tau-\xi^3}^{b'}}{\jap{\Phi+\tau-\xi^3}^b}d\xi_1\dots d\xi_{k-1} \lesssim \sup_{\alpha,\xi} \int \mathcal{M} \frac{\jap{\alpha}^{b'}}{\jap{\Phi-\alpha}^b}d\xi_1\dots d\xi_{k-1} \\ \lesssim &\sup_{\alpha,\xi}\sum_{M dyadic} \frac{\jap{\alpha}^{b'}}{M^b}\int \mathcal{M}\mathbbm{1}_{|\Phi-\alpha|<M} d\xi_1\dots d\xi_{k-1} \lesssim \sup_{\alpha,\xi}\sum_{M dyadic} \frac{\jap{\alpha}^{b'+\lambda}}{M^{b-\beta}} <\infty,
+    \end{align}
+    by the assumption \eqref{condb2}. For the second estimate, we have
+    \begin{equation}
+        \|N[u_1,\dots,u_k]\|_{X^{s,\tilde{b}'}_{\infty,1}} \lesssim \sup_\xi \int \mathcal{M} \jap{\tau-\xi^3}^{\tilde{b}'} \prod_{j=1} \hat{u}_j d\tau_1\dots d\tau_k d\xi_1\dots d\xi_{k-1}.
+    \end{equation}
+    We split into two cases: if $|\tau-\xi^3|\gtrsim |\Phi|$, then
+     \begin{align}
+        \|N[u_1,\dots,u_k]\|_{X^{s,\tilde{b}'}_{\infty,1}} &\lesssim \sup_\xi \int \mathcal{M} \jap{\Phi}^{\tilde{b}'} \prod_{j=1} \hat{u}_j d\tau_1\dots d\tau_k d\xi_1\dots d\xi_{k-1} \\&\lesssim \sup_\xi \int \mathcal{M} \jap{\Phi}^{\tilde{b}'} d\xi_1\dots d\xi_{k-1} \cdot \prod_{j=1} \|u_j\|_{X^{s,\tilde{b}}_{\infty,1}} \\&\lesssim \sum_{M dyadic} M^{\tilde{b}'} \sup_\xi \int \mathcal{M} \mathbbm{1}_{|\Phi|<M} d\xi_1\dots d\xi_{k-1} \cdot \prod_{j=1} \|u_j\|_{X^{s,b}_{\infty,1}} \lesssim \prod_{j=1} \|u_j\|_{X^{s,\tilde{b}}_{\infty,1}},
+    \end{align}
+    by \eqref{fre} and assumption \eqref{condb2}. On the other hand, if $|\tau-\xi^3|\ll |\Phi|$, we may assume that $|\tau_1-\xi_1^3|\gtrsim |\Phi|$. Then
+      \begin{align}
+        \|N[u_1,\dots,u_k]\|_{X^{s,\tilde{b}'}_{\infty,1}} &\lesssim \sup_\xi \int \mathcal{M} \frac{\jap{\tau-\xi^3}^{\tilde{b}'}}{\jap{\tau_1-\xi_1^3}^b} \jap{\tau_1-\xi_1^3}^bu_1 \prod_{j=2} \hat{u}_j d\tau d\tau_2\dots d\tau_k d\xi_1\dots d\xi_{k-1} \\&\lesssim \sup_\xi \int \frac{\mathcal{M}}{\jap{\Phi}^{b-\tilde{b}'-1^+}\jap{\tau-\xi^3}^{1+} } d\tau d\xi_1\dots d\xi_{k-1} \cdot \|u_1\|_{X^{s,b}_{\infty,\infty}} \prod_{j=2} \|u_j\|_{X^{s,\tilde{b}}_{\infty,1}} \\&\lesssim \sum_{M dyadic} M^{1^+-b+\tilde{b}'} \sup_\xi \int \mathcal{M} \mathbbm{1}_{|\Phi|<M} d\xi_1\dots d\xi_{k-1} \cdot \|u_1\|_{X^{s,b}_{\infty,\infty}} \prod_{j=2} \|u_j\|_{X^{s,\tilde{b}}_{\infty,1}}\\& \lesssim\|u_1\|_{X^{s,b}_{\infty,\infty}} \prod_{j=2} \|u_j\|_{X^{s,\tilde{b}}_{\infty,1}}
+    \end{align}
+    again by \eqref{fre} and assumption \eqref{condb2}.
+\end{proof}
+
+
+
+{
+\red NEED TO READ THIS STILL
+
+\blue
+\begin{lem}\label{lem:quadraticas}
+	Given $\alpha\in \R$ and $M>0$,
+	\begin{align}\label{eq:posdef}
+		\iint_{B_1(0)} \m 1_{|q_1^2+q_2^2-\alpha|<M}dq_1dq_2 &\lesssim \min(1,M), \\\label{eq:indef}
+		\iint_{B_1(0)} \m 1_{|q_1q_2-\alpha|<M}dq_1dq_2 &\lesssim \min(1,M|\ln M|), \\
+		\label{eq:singular}
+		\forall \delta \in (0,1), \quad \int \m 1_{|q-\alpha| \le M} \frac{dq}{\left|q \right|^{\delta}} &\lesssim_{\delta} M^{1-\delta}, \quad \text{and} \quad \\
+		\label{eq:quadratica}
+		\int_{-1}^{1} \m 1_{|q^2  +\alpha | < M} dq &\lesssim \min(1,\sqrt M).
+	\end{align}
+
+\end{lem}
+
+\begin{proof}
+	The first estimate is direct. For \eqref{eq:indef}: if $M<10$, the integral is uniformly bounded; if $M>10$,
+	\begin{align*}
+		\iint_{B_1(0)} \m 1_{|q_1q_2-\alpha|<M}dq_1dq_2 &\lesssim \int_{M<|q_2|<1} \int \mathbbm{1}_{|q_1-\alpha/q_2|<M/q_2} dq_1dq_2 + \int_{|q_2|<M} \int_{|q_1|<1} 1 dq_1dq_2 \\&\lesssim \int_{M<|q_2|<1} \frac{dq_2}{|q_2|} + M \lesssim M|\ln M|.
+	\end{align*}
+	The proof of \eqref{eq:singular} follows from direct integration if $|\alpha|<2M$. Otherwise,
+	$$
+	\int \m 1_{|q-\alpha| \le M} \frac{dq}{\left|q \right|^{\delta}} \lesssim (|\alpha|+M)^{1-\delta}-(|\alpha|-M)^{1-\delta}\lesssim \frac{M}{(|\alpha|+M)^{\delta}} \lesssim M^{1-\delta}.
+	$$
+	Estimate \eqref{eq:quadratica} follows from \eqref{eq:singular} with $\delta=1/2$ by a change of variables.
+\end{proof}
+}
+
+
+\section{First result: $s>-\frac14$}
+
+In this section, we show the bilinear estimate needed to show well-posedness of \eqref{KdV} in $\FL^{s,\infty}(\R)$ with $s>-\frac14$, using frequency-restricted estimates, as well as the failure of the relevant bilinear frequency-restricted estimate for $s<-\frac12$.
+In particular, Theorem~\ref{THM:LWP1} follows once we establish the following result.
+
+
+{\red
+Need to write clearly the meaning of $\Phi$ as well as the convolution restriction for the frequencies in the following estimate.
+
+
+}
+
+\begin{lem}\label{lem:bilin}
+\blue
+For $s>-1/4$, $0<\eps\ll1$, and $M\ge 1$, we have that
+\begin{equation}
+    \sup_{\xi,\alpha} \int \frac{|\xi|\jap{\xi}^s}{\jap{\xi_1}^s\jap{\xi_2}^s} \fia d\xi_1 \lesssim M^{1-\eps}.
+\end{equation}
+\end{lem}
+\begin{proof}
+\blue
+Without loss in generality, we assume that $|\xi_1|\ge |\xi_2|$. Notice that
+$$
+|\partial_{\xi_1} \Phi | \sim |\xi||\xi_2-\xi_1|.
+$$
+\textbf{Case A.} $|\xi| \gtrsim |\xi_1|$ and $\xi_2\not\simeq \xi_1$. Then
+$$
+\int \frac{|\xi|\jap{\xi}^s}{\jap{\xi_1}^s\jap{\xi_2}^s} \fia d\xi_1 \lesssim \int \frac{1}{\jap{\xi_2}^s |\xi|}\fia d\Phi \lesssim M
+$$
+if $s>-1$.
+
+\noindent\textbf{Case B.} $\xi_2\simeq \xi_1$, which implies that $\xi_1\simeq \xi/2$. Then using Morse's lemma,
+\begin{align*}
+    \int \frac{|\xi|\jap{\xi}^s}{\jap{\xi_1}^s\jap{\xi_2}
+^s} \fia d\xi_1 &\lesssim \int |\xi|^{1-s}\fia d\xi_1 \lesssim \int |\xi|^{2-s}\mathbbm{1}_{|\xi^3(\frac{1}{4}+q^2)-\alpha|<M} dq\\&\lesssim (|\alpha|+M)^{\frac16 - \frac{s}{3}}\int |\xi|^{3/2}\mathbbm{1}_{|\xi^3(\frac{1}{4}+q^2)-\alpha|<M} dq\lesssim  |\alpha|^{\frac16 - \frac{s}{3}}M^{\frac23 - \frac{s}{3}}.
+\end{align*}
+Observe that
+$$
+\left(\frac16 - \frac{s}{3}\right) + \left( \frac23 - \frac{s}{3}\right)<1 \quad \mbox{if and only if}\quad s>-1/4.
+$$
+
+\noindent\textbf{Case C.} $|\xi|\ll |\xi_1|\simeq |\xi_2|$. Performing still the change of variables,
+$$
+\int \frac{|\xi|\jap{\xi}^s}{\jap{\xi_1}^s\jap{\xi_2}^s} \fia d\xi_1 \lesssim \int \frac{\jap{\xi}^s}{\jap{\xi_1}^{2s+1} }\fia d\Phi \lesssim M
+$$
+if $s>-1/2$.
+\end{proof}
+
+\begin{prop}
+   Fix $s\le -1/4$. There is no choice of $b\in\R$ and $b'>b-1$ for which the estimate
+   $$
+   \|\partial_x(u^2)\|_{X^{s,b'}_{\infty,\infty}} \lesssim \|u\|^2_{X^{s,b}_{\infty,\infty}}
+   $$
+   holds.
+\end{prop}
+\begin{proof}
+We argue by contradiction. Take
+$$
+\hat{u}(\tau,\xi)=\jap{\xi}^{-s}\jap{\tau-\xi^3}^{-b}.
+$$
+Then
+$$
+\sup_{\tau,\xi} \int \frac{|\xi|\jap{\xi}^s}{\jap{\xi_1}^s\jap{\xi_2}^s}\frac{\jap{\sigma}^{b'}}{\jap{\sigma_1}^b\jap{\sigma_2}^b}d\tau_1d\xi_1 <\infty.
+$$
+We estimate the integral from below as
+\begin{align*}
+    \int \frac{|\xi|\jap{\xi}^s}{\jap{\xi_1}^s\jap{\xi_2}^s}\frac{\jap{\sigma}^{b'}}{\jap{\sigma_1}^b\jap{\sigma_2}^b}d\tau_1d\xi_1 &\gtrsim \int_{|\xi_1-\xi/2|\ll |\xi|}\int_{|\sigma_1|<1} \frac{|\xi|\jap{\xi}^s}{\jap{\xi_1}^s\jap{\xi_2}^s}\frac{\jap{\sigma}^{b'}}{\jap{\sigma_1}^b\jap{\sigma_2}^b}d\sigma_1d\xi_1\\&\gtrsim |\xi|^{1-s}\jap{\sigma}^{b'}\int_{|\sigma_1|<1} \left(\int_{|\xi_1-\xi/2|\ll |\xi|} \frac{d\xi_1}{\jap{\Phi-\sigma-\sigma_1}^b}\right) d\sigma_1\\&\gtrsim |\xi|^{2-s}\jap{\sigma}^{b'}\int_{|\sigma_1|<1} \left(\int_{|p-1/2|\ll 1} \frac{dp}{\jap{\xi^3P-\sigma-\sigma_1}^b}\right) d\sigma_1,
+\end{align*}
+where $P=1-p^3-(1-p)^3$. By Morse's lemma, there exists a diffeomorphism $p\sim 1/2\mapsto q\sim 0$ such that $P=3/4+q^2$. We conclude that
+\begin{align*}
+    \int \frac{|\xi|\jap{\xi}^s}{\jap{\xi_1}^s\jap{\xi_2}^s}\frac{\jap{\sigma}^{b'}}{\jap{\sigma_1}^b\jap{\sigma_2}^b}d\tau_1d\xi_1 &\gtrsim  |\xi|^{2-s}\jap{\sigma}^{b'}\int_{|\sigma_1|<1} \left(\int_{|q|\ll 1} \frac{dq}{\jap{3\xi^3/4 + \xi^3q^2+\sigma-\sigma_1}^b}\right) d\sigma_1,
+\end{align*}
+If $|\sigma|<1$, then $3\xi^3/4 + \xi^3q^2+\sigma-\sigma_1\sim \xi^3$ and
+\begin{equation}
+    \int \frac{|\xi|\jap{\xi}^s}{\jap{\xi_1}^s\jap{\xi_2}^s}\frac{\jap{\sigma}^{b'}}{\jap{\sigma_1}^b\jap{\sigma_2}^b}d\tau_1d\xi_1 \gtrsim  |\xi|^{2-s-3b}.
+\end{equation}
+On the other hand, if $|\sigma-3\xi^3/4|<1$, then
+\begin{align*}
+    \int \frac{|\xi|\jap{\xi}^s}{\jap{\xi_1}^s\jap{\xi_2}^s}\frac{\jap{\sigma}^{b'}}{\jap{\sigma_1}^b\jap{\sigma_2}^b}d\tau_1d\xi_1 &\gtrsim  |\xi|^{2-s}\jap{\sigma}^{b'}\int_{|\sigma_1|<1} \left(\int_{|\xi|^{-3/2}\ll|q|\ll 1} \frac{dq}{\jap{\xi^3q^2}^b}\right) d\sigma_1\\&\gtrsim |\xi|^{2-s-3/2}\jap{\sigma}^{b'}\int_{|\sigma_1|<1} \left(\int_{1\ll|r|\ll |\xi|^{3/2}} \frac{dr}{\jap{r}^{2b}}\right) d\sigma_1\gtrsim |\xi|^{1/2-s+3b'}.
+\end{align*}
+In order for the integral to be bounded in $\xi$, we must have
+$$
+2-s-3b\le 0,\quad \frac{1}{2}-s+3b'\le0.
+$$
+Since $b'>b-1$, these conditions imply $s> -1/4$, which is a contradiction.
+\end{proof}
+
+
+
+
+
+\section{Second result: $s> - \frac12$}
+To go beyond the result in Theorem~\ref{THM:LWP1}, we consider the new normal form equation.
+
+{\red Mention that 2 formulations are equivalent for smooth solutions, and as we will see, the normal form equation is better to study rough solutions.}
+
+
+{
+\blue
+
+
+Informed by the proof of the bilinear estimate (Lemma \ref{lem:bilin}), we define, for $\xi\in \R$,
+$$
+A_\xi=\left\{\xi_1\in \R : |\xi|\gtrsim \max\{|\xi_1|, |\xi-\xi_1|\},\ |\xi-2\xi_1|\gtrsim \max\{|\xi_1|, |\xi-\xi_1|\} \right\}.
+$$
+In particular, over $A_\xi^c$, $|\xi_2|\sim |\xi_1|>1$.
+
+Write the equation for the profile $\Tilde{u}(t)=e^{it\xi^3}\hat{u}(t)$:
+$$
+\Tilde{u}(t)=\Tilde{u}(0) - i\int_0^t \int_{\Gamma_\xi} e^{is\Phi}\xi \Tilde{u}(s,\xi_1)\Tilde{u}(s,\xi_2)d\xi_1 ds.
+$$
+We split the integration in the domains $A_\xi$ and $A^c_\xi$ and integrate by parts in time in the latter:
+\begin{align*}
+    \Tilde{u}(t)&=\Tilde{u}(0) - i \int_0^t \int_{A_\xi} e^{is\Phi}\xi \Tilde{u}(s,\xi_1)\Tilde{u}(s,\xi_2)d\xi_1 ds \\&- \left[\int_{A_\xi^c}\frac{e^{is\Phi}}{\Phi}\xi \Tilde{u}(s,\xi_1)\Tilde{u}(s,\xi_2)d\xi_1 \right]_0^t + \int_0^t \int_{A_\xi^c} \frac{e^{is\Phi}}{\Phi}\xi \partial_s\left(\Tilde{u}(s,\xi_1)\Tilde{u}(s,\xi_2)\right)d\xi_1 ds
+\end{align*}
+To simplify notation, we abbreviate $u(s,\xi_\ast)$ as $u_\ast$. Using the equation for $\Tilde{u}$ itself, we find the equivalent form of \eqref{KdV}
+\begin{align*}
+    \Tilde{u}(t)&=\Tilde{u}(0) - i \int_0^t \int_{A_\xi} e^{is\Phi}\xi \Tilde{u}_1\Tilde{u}_2d\xi_1 ds \\&- \left[\int_{A_\xi^c}\frac{e^{is\Phi}}{\Phi}\xi \Tilde{u}_1\Tilde{u}_2d\xi_1 \right]_0^t -2i \int_0^t \int_{A_\xi^c} \frac{e^{is(\Phi+\Phi_1)}}{\Phi}\xi\xi_1 \Tilde{u}_{11}\Tilde{u}_{12}\Tilde{u}_{2}d\xi_{11}d\xi_{12} ds
+\end{align*}
+where
+$$
+\xi_1=\xi_{11}+\xi_{12},\quad \Phi_1=\xi_1^3-\xi_{11}^3-\xi_{12}^3.
+$$
+By the proof of Lemma \ref{lem:bilin}, the bilinear term corresponding to the first term is bounded for $s>-1$. We now analyze the boundary and trilinear terms via the operators
+\begin{equation}
+    B[u_1,u_2]^\wedge(\xi)=\int_{A_\xi^c}\frac{\xi}{\Phi} u_1u_2d\xi_1
+\end{equation}
+and
+\begin{equation}
+    T[u_{11},u_{12},u_2]^\wedge(\xi)=\int_{A_\xi^c} \frac{\xi\xi_1}{\Phi}u_{11}u_{12}u_2d\xi_{11}d\xi_{12}
+\end{equation}
+
+
+\begin{lem}
+   The boundary operator $B$ is bounded in $L^\infty(\jap{\xi}^sd\xi)$ for $s>-1/2$.
+\end{lem}
+\begin{proof}
+    Since $|\xi_2|\sim |\xi_1|>1$, the boundedness of $B$ reduces to
+    $$
+    \sup_\xi\int \frac{1}{\jap{\xi_1}^{2s+2}}d\xi_1<\infty,
+    $$
+    which holds for $s>-1/2$.
+\end{proof}
+
+\begin{lem}
+    For $s>-1/2$,
+    $$
+    \sup_{\xi,\alpha} \int_{A_\xi^c} \frac{\jap{\xi}^s}{\jap{\xi_{11}}^s\jap{\xi_{12}}^s\jap{\xi_2}^{s+1}}\psia d\xi_{11} d\xi_{2} \lesssim M^{1^-}, \quad \mbox{for all }M>1.
+    $$
+\end{lem}
+\begin{proof}
+    By symmetry, we may assume that $|\xi_{11}|\gtrsim |\xi_{2}|$. Since we're in $A_\xi^c$, $|\xi_1|\simeq |\xi_2|\gtrsim 1$.
+
+    Taking into account that
+    $|\partial_{\xi_{11}}\Psi|=3|\xi_{11}^2-\xi_{12}^2|\sim |\xi_2||\xi_{11}|$, the change of variables $\xi_{11}\mapsto \Psi$ gives
+    \begin{align*}
+        \int_{A_\xi^c} \frac{\jap{\xi}^s}{\jap{\xi_{11}}^s\jap{\xi_{12}}^s\jap{\xi_2}^{s+1}}\psia d\xi_{11} d\xi_{2} &\lesssim \int_{A_\xi^c} \frac{1}{\jap{\xi_{11}}^{2s+1}\jap{\xi_2}^{s+2}}\psia d\Psi d\xi_{2} \\ &\lesssim \int_{A_\xi^c} \frac{1}{\jap{\xi_2}^{s+2}}\psia d\Psi d\xi_{2} \lesssim M.
+    \end{align*}
+\end{proof}
+
+
+\begin{prop}
+    For $s<-1/2$, there is no $C^2$ flow generated by \eqref{KdV} over $L^\infty(\jap{\xi}^sd\xi)$.
+\end{prop}
+\begin{proof}
+    Given $a>0$ and $N\gg a$, consider as initial data
+    $$
+    \hat{w}(\xi)=\mathbbm{1}_{[N, N+a]}(\xi)N^{-s} + \mathbbm{1}_{[-N+1-a, -N+1]}(\xi)N^{-s}
+    $$
+    so that $\|\hat{w}\|_{L^\infty(\jap{\xi}^sd\xi)}\sim 1$.
+
+ Suppose that a $C^2$-flow exists in $L^\infty(\jap{\xi}^sd\xi)$, Take as initial data $u_0=\delta w$. We expand $u=\delta u_1 + \delta^2 u_2 + o(\delta^2)$. Using Duhamel's formula, the first and second order terms are
+ \begin{align}
+     O(\delta) :&\  u_1(t)=e^{-t\partial_x^3} w\\
+     O(\delta^2) :&\  u_2(t)=\int_0^t e^{-(t-s)\partial_x^3}(u_1^2)_xds
+ \end{align}
+ Since the $u_2$ term must be bounded in $L^\infty(\jap{\xi}^sd\xi)$,
+    $$
+    I:=\left|\sup_\xi \ \jap{\xi}^s\int \frac{e^{it\Phi}-1}{i\Phi}\xi \hat{w}(\xi_1)\hat{w}(\xi_2) d\xi_1\right|\lesssim 1,\quad \mbox{ for all }t\mbox{ small.}
+    $$
+    We fix $\xi\sim 1$. In particular, we only have to consider the $high\times high \to low$ interaction. Since $\Phi\simeq N^2$, if we choose $t\sim cN^{-2}$,
+    $$
+    \mbox{Re}\frac{e^{it\Phi}-1}{i\Phi} \sim N^{-2}.
+    $$
+    In particular,
+    $$
+    I\gtrsim N^{-2s-2}\int_{\substack{N<\xi_1<N+a,\\ -N+1-a<\xi-\xi_1<-N+1}} d\xi_1 \gtrsim N^{-2s-2}a.
+    $$
+    Taking $a=N^{1^-}$, this implies that $N^{-2s+1^-}\lesssim 1$ for all large $N$ and therefore $s\ge -1/2$.
+\end{proof}
+
+
+
+
+}
+
+\section{Third result: below $\red -\frac12\ge s> ???$}
+
+
+
+{\red
+
+
+\begin{itemize}
+\item  Option 1: Add change of variables removing boundary term and check if any cancellation is obtained between new cubic term and original problematic term
+
+\item Option 2: Consider performing INF to observe all of the ``bad'' boundary terms and then do change of variables.
+\end{itemize}
+}
+
+
+
+
+\begin{thebibliography}{99}
+
+\bibitem{B93}
+J.~Bourgain,
+\textit{Fourier transform restriction phenomena for certain lattice subsets and applications to nonlinear evolution equations. II. The KdV-equation},
+Geom. Funct. Anal. 3 (1993), no. 3, 209--262.
+
+\bibitem{B97}
+J.~Bourgain,
+\textit{Periodic Korteweg de Vries equation with measures as initial data}, Selecta Math. (N.S.) 3 (1997), no. 2, 115--159.
+
+\bibitem{CCT03}
+M.~Christ, J.~Colliander, T.~Tao,
+\textit{Asymptotics, frequency modulation, and low regularity ill-posedness for canonical defocusing equations},
+Amer. J. Math. 125 (2003), no. 6, 1235--1293.
+
+
+\bibitem{G03}
+A.~Gr\"unrock,
+\textit{An improved local well-posedness result for the modified KdV equation}, Int. Math. Res. Not. (2004), no. 61, 3287--3308.
+
+\bibitem{G10}
+A.~Gr\"unrock,
+\textit{On the hierarchies of higher order mKdV and KdV equations},
+Cent. Eur. J. Math. 8 (2010), no. 3, 500--536.
+
+\bibitem{GH08}
+A.~Gr\"unrock,  S.~Herr,
+\textit{Low regularity local well-posedness of the derivative nonlinear Schr\"odinger equation with periodic initial data},
+SIAM J. Math. Anal. 39 (2008), no. 6, 1890--1920.
+
+\bibitem{KPV96}
+C.~Kenig, G.~ Ponce, L.~Vega,
+\textit{A bilinear estimate with applications to the KdV equation}, J. Amer. Math. Soc. 9 (1996), no. 2, 573--603.
+
+\bibitem{KMMT16}
+T.~Kappeler, A.~Maspero, J.~Molnar, P.~Topalov,
+\textit{On the convexity of the KdV Hamiltonian},
+Comm. Math. Phys. 346 (2016), no. 1, 191--236.
+
+\bibitem{KM18}
+T.~Kappeler, J.~Molnar,
+\textit{On the wellposedness of the KdV equation on the space of pseudomeasures}, Selecta Math. (N.S.) 24 (2018), no. 2, 1479--1526.
+
+
+\bibitem{KT06}
+T.~Kappeler, P.~Topalov,
+\textit{Global wellposedness of KdV in $H^{-1}(\T,\R)$}, Duke Math. J. 135 (2006), no. 2, 327--360.
+
+\bibitem{KV19}
+R.~Killip, M.~Vi\c{s}an,
+\textit{KdV is well-posed in $H^{-1}$}, Ann. of Math. (2) 190 (2019), no. 1, 249--305.
+
+
+\bibitem{Mol12}
+L.~Molinet,
+\textit{Sharp ill-posedness results for the KdV and mKdV equations on the torus},
+Adv. Math. 230 (2012), no. 4-6, 1895--1930.
+
+
+\end{thebibliography}
+
+\end{document}

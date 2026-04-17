@@ -139,6 +139,93 @@ means
 The point mass \(\lambda\delta_0\) is radial and is irrelevant for the boundary
 calculation below as long as \(0\notin\partial U\).
 
+\section{Subtracting a radial particular solution}
+
+There is a simpler way to turn \eqref{eq:BVP} into a DtN equation.  Let \(V=V(r)\)
+be radial and satisfy
+\[
+  \Delta V=\rho(r)
+  \qquad\text{in }U
+\]
+away from the source point.  Set
+\[
+  h:=u-V .
+\]
+Then
+\[
+  \Delta h=0
+  \qquad\text{in }U
+\]
+away from the source point.  If \(V\) is chosen with the same logarithmic source as
+the distributional solution \(u\), then this harmonicity is distributional in all of
+\(U\).
+
+The boundary data are explicit.  Since \(u=0\) on \(\partial U\),
+\begin{equation}\label{eq:radial-sub-dirichlet}
+  h=-V(r)
+  \qquad\text{on }\partial U .
+\end{equation}
+Moreover,
+\[
+  \nabla V=V'(r)\frac{x}{r},
+  \qquad
+  \partial_\nu V=\frac{V'(r)}{r}(x\cdot\nu).
+\]
+Using the Neumann condition in \eqref{eq:BVP}, we get
+\begin{equation}\label{eq:radial-sub-neumann}
+  \partial_\nu h
+  =
+  \left(a(r)-\frac{V'(r)}{r}\right)(x\cdot\nu)
+  \qquad\text{on }\partial U .
+\end{equation}
+Consequently the same information is the DtN equation
+\begin{equation}\label{eq:radial-sub-dtn}
+  \boxed{
+  \Lambda_U\bigl(-V(r)\bigr)
+  =
+  \left(a(r)-\frac{V'(r)}{r}\right)(x\cdot\nu)
+  \qquad\text{on }\partial U .
+  }
+\end{equation}
+This is the cleaner DtN formulation: after subtracting a radial particular solution,
+one applies the DtN map to a radial boundary function.
+
+For the regular radial particular solution at the origin,
+\[
+  \frac{V'(r)}{r}
+  =
+  P(r^2),
+  \qquad
+  P(t):=\frac{1}{2t}\int_0^t\rho(\sqrt\sigma)\,\dd\sigma .
+\]
+For the \(h_1\) density this is
+\begin{equation}\label{eq:P-explicit}
+  P(t)
+  =
+  \frac{e^{-\pi t}(1+2\pi t-\pi^2t^2)-1}{2\pi t},
+  \qquad
+  P(0)=\frac12 .
+\end{equation}
+Thus
+\begin{equation}\label{eq:regular-radial-sub-dtn}
+  \boxed{
+  \Lambda_U\bigl(-V(r)\bigr)
+  =
+  \bigl(a(r)-P(r^2)\bigr)(x\cdot\nu)
+  \qquad\text{on }\partial U .
+  }
+\end{equation}
+If the source \(\lambda\delta_0\) is included in the radial particular solution, replace
+\[
+  V(r)
+  \quad\text{by}\quad
+  V(r)+\frac{\lambda}{2\pi}\log r .
+\]
+Then the right-hand coefficient in \eqref{eq:regular-radial-sub-dtn} becomes
+\[
+  a(r)-P(r^2)-\frac{\lambda}{2\pi r^2}.
+\]
+
 \section{The DtN boundary equation}
 
 Let
@@ -392,6 +479,107 @@ Thus the layer-potential formula is not the main point; it is only one explicit
 realization of the nonlocal operator \(\Lambda_U\).  The boundary equation itself is
 the scalar pseudodifferential condition \eqref{eq:clean-dtn-equation}.
 
+\subsection{The fully expanded curve equation}
+
+Here is the same equation with no geometric shorthand left.  Assume that
+\(\gamma:\R/L\mathbb Z\to\partial U\) is arclength-parametrized and oriented so that
+\[
+  \nu(s)=-X\gamma'(s),
+  \qquad
+  X(y):=(-y_2,y_1).
+\]
+This is the counterclockwise orientation for a positively oriented boundary.  Define
+\[
+  A(s):=\gamma(s)\cdot X\gamma'(s),
+  \qquad
+  B(s):=\gamma(s)\cdot\gamma'(s),
+  \qquad
+  C(s):=\gamma''(s)\cdot X\gamma'(s),
+  \qquad
+  r(s):=|\gamma(s)|.
+\]
+Then
+\[
+  \alpha=-A,\qquad
+  \beta=B,\qquad
+  \kappa=-C.
+\]
+The boundary datum for \(Lu\) is therefore
+\[
+  -a(r)\alpha\beta=a(r)A B.
+\]
+The completely expanded equation is:
+\begin{equation}\label{eq:gamma-only-equation}
+  \boxed{\begin{aligned}
+  &\partial_s\,\operatorname{p.v.}\int_0^L
+  \frac{1}{2\pi}\log|\gamma(s)-\gamma(t)|\,\partial_t\mu(t)\,\dd t \\
+  &\qquad =
+  B(s)\left[
+  \frac{a'(r(s))}{r(s)}A(s)^2
+  -\rho(r(s))
+  -2a(r(s))A(s)C(s)
+  \right].
+  \end{aligned}}
+\end{equation}
+where the auxiliary density \(\mu\) is determined only from the curve by
+\begin{equation}\label{eq:gamma-only-density}
+  \boxed{
+  \frac12\mu(s)
+  -
+  \operatorname{p.v.}\int_0^L
+  \frac{(\gamma(t)-\gamma(s))\cdot X\gamma'(t)}
+       {2\pi|\gamma(s)-\gamma(t)|^2}
+  \,\mu(t)\,\dd t
+  =
+  a(r(s))A(s)B(s).
+  }
+\end{equation}
+Equivalently, eliminating \(\mu\) from the notation, let
+\[
+  F_\gamma(s):=a(|\gamma(s)|)
+  \bigl(\gamma(s)\cdot X\gamma'(s)\bigr)
+  \bigl(\gamma(s)\cdot\gamma'(s)\bigr),
+\]
+and define
+\[
+  (K_\gamma m)(s):=
+  -\operatorname{p.v.}\int_0^L
+  \frac{(\gamma(t)-\gamma(s))\cdot X\gamma'(t)}
+       {2\pi|\gamma(s)-\gamma(t)|^2}
+  \,m(t)\,\dd t .
+\]
+Then the same condition is the single nonlocal equation
+\begin{align}\label{eq:single-gamma-only-equation}
+  &\partial_s\,\operatorname{p.v.}\int_0^L
+  \frac{1}{2\pi}\log|\gamma(s)-\gamma(t)|
+  \,\partial_t\left[
+  \Bigl(\frac12 I+K_\gamma\Bigr)^{-1}F_\gamma
+  \right](t)\,\dd t
+  \notag\\
+  &\qquad =
+  \bigl(\gamma(s)\cdot\gamma'(s)\bigr)
+  \left[
+  \frac{a'(|\gamma(s)|)}{|\gamma(s)|}
+  \bigl(\gamma(s)\cdot X\gamma'(s)\bigr)^2
+  -\rho(|\gamma(s)|)
+  \right. \notag\\
+  &\hspace{7.8cm}\left.
+  -2a(|\gamma(s)|)
+  \bigl(\gamma(s)\cdot X\gamma'(s)\bigr)
+  \bigl(\gamma''(s)\cdot X\gamma'(s)\bigr)
+  \right].
+\end{align}
+All occurrences of \(a\) and \(\rho\) are the explicit radial functions
+\[
+  a(r)=(1-\pi r^2)e^{-\pi r^2},
+  \qquad
+  \rho(r)=(1-4\pi r^2+\pi^2r^4)e^{-\pi r^2},
+\]
+and
+\[
+  a'(r)=2\pi r(\pi r^2-2)e^{-\pi r^2}.
+\]
+
 Because \(U\) is simply connected, there is also a conformal way to write the same
 operator.  If \(\phi:\mathbb D\to U\) is conformal and
 \[
@@ -452,6 +640,160 @@ Consequently, away from the resonant radii
 the DtN equation is linearly rigid against nonradial perturbations of centered
 disks.  At the resonant radii this first-order test leaves the corresponding angular
 modes open; higher-order information or an additional identity would be needed there.
+\end{remark}
+
+\section{Plan A: Schwarz-function reduction}
+
+The expanded DtN equation is a poor object to manipulate directly.  A more natural
+analytic object appears if the boundary is already known to be real analytic.  This
+section records exactly what the \(h_1\) BVP gives in terms of the local Schwarz
+function.
+
+Assume that \(\Gamma=\partial U\) is a real-analytic Jordan curve, with local Schwarz
+function \(S\) in a collar of \(\Gamma\):
+\[
+  S(z)=\bar z
+  \qquad (z\in\Gamma).
+\]
+For this section it is cleaner to use the squared-radius variable \(t=r^2\).  Write
+\[
+  \widetilde a(t):=(1-\pi t)e^{-\pi t}=a(\sqrt t).
+\]
+Let \(n=\nu_1+i\nu_2\) be the outward unit normal and let \(\tau\) be the positively
+oriented unit tangent.  Then \(n=-i\tau\), and differentiating \(S(z)=\bar z\) along
+\(\Gamma\) gives
+\[
+  S'(z)=\frac{\bar\tau}{\tau}=\bar\tau^2,
+  \qquad
+  \bar n^2=-S'(z).
+\]
+Set
+\[
+  G:=2\partial_z u.
+\]
+Since \(u=0\) on \(\Gamma\), we have \(\nabla u=(\partial_\nu u)\nu\), hence
+\[
+  G=(\partial_\nu u)\bar n
+  \qquad\text{on }\Gamma.
+\]
+Using
+\[
+  z\cdot\nu=\frac12(z\bar n+\bar z n),
+  \qquad
+  \bar z=S(z),
+\]
+the Neumann condition in \eqref{eq:BVP} becomes the complex boundary identity
+\begin{equation}\label{eq:complex-gradient-boundary}
+  G
+  =
+  \frac{\widetilde a(zS(z))}{2}\bigl(S(z)-zS'(z)\bigr)
+  \qquad (z\in\Gamma).
+\end{equation}
+
+Now remove the radial inhomogeneity in the equation for \(G\).  Define
+\[
+  P(t):=\frac{1}{2t}\int_0^t \rho(\sqrt\sigma)\,\dd\sigma
+  =
+  \frac{e^{-\pi t}(1+2\pi t-\pi^2t^2)-1}{2\pi t},
+\]
+with the removable value \(P(0)=1/2\).  Then
+\[
+  \partial_{\bar z}\bigl(P(z\bar z)\bar z\bigr)=\frac12\rho(|z|).
+\]
+Therefore, away from the source point,
+\[
+  G(z)=H(z)+P(z\bar z)\bar z+\frac{\lambda}{2\pi z},
+\]
+where \(H\) is holomorphic in \(U\) after removing the prescribed source pole at
+the origin.  Combining this with \eqref{eq:complex-gradient-boundary} gives the
+following continuation statement.
+
+\begin{proposition}[Weighted Schwarz expression]\label{prop:weighted-schwarz}
+In a collar of \(\Gamma\), define
+\begin{equation}\label{eq:weighted-schwarz-expression}
+  \mathcal A_S(z)
+  :=
+  \frac{\widetilde a(zS(z))}{2}\bigl(S(z)-zS'(z)\bigr)
+  -
+  P(zS(z))S(z).
+\end{equation}
+Then \(\mathcal A_S\) extends meromorphically into \(U\).  The only allowed
+singularity is the source pole at \(0\), with principal part
+\[
+  \frac{\lambda}{2\pi z}.
+\]
+Equivalently,
+\[
+  \mathcal A_S(z)-\frac{\lambda}{2\pi z}
+\]
+extends holomorphically through \(U\), with the source term omitted if \(0\notin U\).
+\end{proposition}
+
+\begin{proof}
+On the boundary, \eqref{eq:complex-gradient-boundary} and \(S=\bar z\) give
+\[
+  G-P(z\bar z)\bar z
+  =
+  \mathcal A_S .
+\]
+But \(G-P(z\bar z)\bar z\) is holomorphic in \(U\) except for the prescribed
+contribution \(\lambda/(2\pi z)\) coming from \(\lambda\delta_0\).  Hence the collar
+function \(\mathcal A_S\) is the boundary germ of that meromorphic function.
+\end{proof}
+
+The expression can be made slightly more compact.  Since
+\[
+  \frac{\widetilde a(t)}{2}-P(t)
+  =
+  \frac{1-(1+\pi t)e^{-\pi t}}{2\pi t}
+  =:b(t),
+\]
+we may rewrite \eqref{eq:weighted-schwarz-expression} as
+\begin{equation}\label{eq:weighted-schwarz-compact}
+  \mathcal A_S(z)
+  =
+  b(zS(z))S(z)
+  -
+  \frac12 \widetilde a(zS(z))zS'(z).
+\end{equation}
+Thus Plan A does not naturally produce an ordinary meromorphic Schwarz function.
+It produces a meromorphic continuation condition for the weighted differential
+expression
+\[
+  b(zS)S-\frac12\widetilde a(zS)zS'.
+\]
+
+\begin{remark}[What this buys]
+This is substantially cleaner than the DtN equation.  It is local near the boundary,
+complex analytic, and has a direct quadrature-domain flavour: a nonlinear expression
+in the Schwarz function has only the prescribed source singularity in \(U\).
+
+For a centered disk \(S(z)=R^2/z\), the quantity \(zS=R^2\) is constant and
+\[
+  \mathcal A_S(z)
+  =
+  \bigl(\widetilde a(R^2)-P(R^2)\bigr)\frac{R^2}{z},
+\]
+so the continuation property holds with a single pole at the origin.
+\end{remark}
+
+\begin{remark}[What is still missing]
+The statement above is not yet a rigidity theorem.  The unknown holomorphic part of
+\(\mathcal A_S\) is still free.  If that meromorphic function were known explicitly,
+then \eqref{eq:weighted-schwarz-compact} would become a first-order nonlinear ODE for
+\(S\):
+\[
+  zS'
+  =
+  \frac{2b(zS)}{\widetilde a(zS)}S
+  -
+  \frac{2}{\widetilde a(zS)}\mathcal A_S .
+\]
+But the BVP by itself only gives the continuation property of \(\mathcal A_S\), not
+its full value.  So the next useful question is whether the original localization
+identity gives enough information to identify this meromorphic function, or at least
+to control its singularities.  That is much closer to a weighted quadrature-domain
+problem than to the raw DtN boundary equation.
 \end{remark}
 
 \end{document}
