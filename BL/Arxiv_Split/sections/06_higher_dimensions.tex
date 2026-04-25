@@ -1,0 +1,67 @@
+\subsection*{Higher dimensions}
+
+Fix $d\ge 2$ and define the product potential
+\[
+  \Phi_S(x,y):=\phi_S(x)+\frac{|y|^2}{2},
+  \qquad (x,y)\in\mathbb R\times\mathbb R^{d-1}.
+\]
+Then $\Phi_S$ is $C^\infty$, strictly convex (as a sum of strictly convex
+functions in disjoint variables), with
+$D^2\Phi_S=\mathrm{diag}(\phi''_S(x),I_{d-1})$ and
+$(D^2\Phi_S)^{-1}=\mathrm{diag}(1/\phi''_S(x),I_{d-1})$. The associated Gibbs
+measure is the product
+$\rho_{\Phi_S}=\rho_S\otimes\gamma_{d-1}$, with $\gamma_{d-1}$ the standard
+Gaussian on $\mathbb R^{d-1}$. The optimizer space is
+\[
+  \mathcal O_{\mathrm{BL},\Phi_S}
+  =\bigl\{a\cdot\nabla\Phi_S+b: a\in\mathbb R^d,b\in\mathbb R\bigr\}
+  =\mathrm{span}_{\mathbb R}\bigl\{1,\,\phi'_S(x),\,y_1,\dots,y_{d-1}\bigr\},
+\]
+a $(d+1)$-dimensional subspace of $L^2(\rho_{\Phi_S})$.
+
+Set $F_S(x,y):=f_S(x)$, so $\nabla F_S=(f_S'(x),0_{\mathbb R^{d-1}})$ and
+$(D^2\Phi_S)^{-1}\nabla F_S=(f_S'(x)/\phi''_S(x),0)$. Therefore
+\[
+  \bigl\langle (D^2\Phi_S)^{-1}\nabla F_S,\nabla F_S\bigr\rangle
+  =\frac{(f_S'(x))^2}{\phi''_S(x)}
+  \qquad\text{pointwise}.
+\]
+Fubini and $\int d\gamma_{d-1}=1$ give
+\[
+  \int_{\mathbb R^d}\bigl\langle (D^2\Phi_S)^{-1}\nabla F_S,\nabla F_S\bigr\rangle
+   \,d\rho_{\Phi_S}
+  =\int_{\mathbb R}\frac{(f_S')^2}{\phi''_S}\,d\rho_S
+  =\mathcal E_{\phi_S}(f_S),
+\]
+\[
+  \int F_S\,d\rho_{\Phi_S}=\int f_S\,d\rho_S=0,\qquad
+  \Var_{\rho_{\Phi_S}}(F_S)=\int f_S^2\,d\rho_S=\Var_{\rho_S}(f_S),
+\]
+hence
+$\delta_{\mathrm{BL},\Phi_S}(F_S)=\delta_{\mathrm{BL},\phi_S}(f_S)$.
+
+Orthogonality of $F_S$ to each generator of $\mathcal O_{\mathrm{BL},\Phi_S}$:
+\[
+  \langle F_S,1\rangle_{L^2(\rho_{\Phi_S})}=\int f_S\,d\rho_S=0,
+\]
+\[
+  \langle F_S,\phi'_S\rangle_{L^2(\rho_{\Phi_S})}
+  =\Bigl(\int f_S\,\phi'_S\,d\rho_S\Bigr)\Bigl(\int d\gamma_{d-1}\Bigr)
+  =0\cdot 1=0
+  \quad\text{by Lemma~\ref{lem:orth}},
+\]
+\[
+  \langle F_S,y_j\rangle_{L^2(\rho_{\Phi_S})}
+  =\Bigl(\int f_S\,d\rho_S\Bigr)\Bigl(\int y_j\,d\gamma_{d-1}\Bigr)
+  =0\cdot 0=0,
+  \quad j=1,\dots,d-1.
+\]
+Hence $F_S\perp\mathcal O_{\mathrm{BL},\Phi_S}$ in $L^2(\rho_{\Phi_S})$, so
+\[
+  \dist_{L^2(\rho_{\Phi_S})}(F_S,\mathcal O_{\mathrm{BL},\Phi_S})^2
+  =\|F_S\|_{L^2(\rho_{\Phi_S})}^2
+  =\|f_S\|_{L^2(\rho_S)}^2,
+\]
+and the divergent ratio of Theorem~\ref{thm:1d} is unchanged when one passes
+from $(\phi_S,f_S)$ to $(\Phi_S,F_S)$. This proves
+Theorem~\ref{thm:l2-fails} in every dimension $d\ge 1$.\hfill$\square$

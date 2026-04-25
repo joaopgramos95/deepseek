@@ -1,0 +1,137 @@
+\section{Statement}
+
+Let $\phi:\mathbb R^d\to\mathbb R\cup\{+\infty\}$ be an essentially continuous
+convex function with $0<\int e^{-\phi}<\infty$. Write
+\[
+  Z_\phi := \int_{\mathbb R^d} e^{-\phi}\,dx, \qquad
+  d\rho_\phi := Z_\phi^{-1}e^{-\phi}\,dx.
+\]
+For smooth strictly convex $\phi$, the \emph{Brascamp--Lieb deficit} is
+\[
+  \delta_{\mathrm{BL},\phi}(f)
+  =
+  \int_{\mathbb R^d}\bigl\langle (D^2\phi)^{-1}\nabla f,\nabla f\bigr\rangle\,d\rho_\phi
+  -\Var_{\rho_\phi}(f),
+\]
+defined for any locally Lipschitz $f\in L^2(\rho_\phi)$. The
+Brascamp--Lieb inequality \cite{BL76} asserts $\delta_{\mathrm{BL},\phi}(f)\ge 0$,
+with equality cases
+\[
+  \mathcal O_{\mathrm{BL},\phi}
+  =
+  \{a\cdot \nabla\phi+b:\ a\in\mathbb R^d,\ b\in\mathbb R\}.
+\]
+When using $L^2(\rho_\phi)$ distances, this affine family is understood through
+its members that belong to $L^2(\rho_\phi)$; for the explicit potentials
+constructed below all the listed generators are in $L^2$.
+
+\begin{theorem}\label{thm:l2-fails}
+There is no finite constant $C$ such that
+\begin{equation}\label{eq:would-be-stability}
+  \dist_{L^2(\rho_\phi)}(f,\mathcal O_{\mathrm{BL},\phi})
+  \le C\,\delta_{\mathrm{BL},\phi}(f)^{1/2}
+\end{equation}
+holds simultaneously for every smooth strictly convex
+$\phi:\mathbb R\to\mathbb R$ with $\int e^{-\phi}<\infty$ and every locally
+Lipschitz $f\in L^2(\rho_\phi)$. Consequently, no dimension-only constant
+$C=C(d)$ can exist in any dimension $d\ge 1$.
+\end{theorem}
+
+\subsection*{Spectral interpretation}
+
+In dimension one, the Brascamp--Lieb Dirichlet form is
+\begin{equation}\label{eq:BL-form}
+  \mathcal E_\phi(f,g)
+  := \int_{\mathbb R}\frac{f'g'}{\phi''}\,d\rho_\phi,
+  \qquad
+  \mathcal E_\phi(f) := \mathcal E_\phi(f,f).
+\end{equation}
+Here the form domain means the locally absolutely continuous functions
+$f\in L^2(\rho_\phi)$ for which $\mathcal E_\phi(f)<\infty$.
+After closing the form, its restriction to the orthogonal complement of
+constants in $L^2(\rho_\phi)$ defines a non-negative self-adjoint operator
+$L_\phi$ via
+$\mathcal E_\phi(f,g)=\langle L_\phi f,g\rangle_{L^2(\rho_\phi)}$, and the
+Brascamp--Lieb inequality is the assertion that
+$\inf\,\mathrm{spec}\bigl(L_\phi\restriction\{1\}^\perp\bigr)\ge 1$.
+Theorem~\ref{thm:l2-fails} is the assertion that the spectral gap
+$\inf\,\mathrm{spec}\bigl(L_\phi\restriction \mathcal O_{\mathrm{BL},\phi}^\perp\bigr)-1$
+\emph{cannot} be bounded below by a positive universal constant: the
+construction below produces potentials for which the Rayleigh quotient on
+$\mathcal O_{\mathrm{BL},\phi}^\perp$ approaches~$1$ from above. If one also
+knows compactness of the resolvent for the corresponding one-dimensional
+operator, this can be phrased as collapse of the next eigenvalue.
+
+The basic optimizer direction at the lowest level is $\phi'$ itself.
+
+\begin{lemma}\label{lem:phi-prime-eigen}
+Let $\phi:\mathbb R\to\mathbb R$ be smooth and strictly convex, with
+$0<\int e^{-\phi}<\infty$. Assume in addition that $\phi''$ is bounded and
+$\phi'\in L^2(\rho_\phi)$; in particular, this holds for the potentials
+$\phi_S$ constructed below. Then $\int\phi'\,d\rho_\phi=0$, $\phi'$ belongs to
+the form domain, and
+\[
+  \mathcal E_\phi(\phi',g)=\langle\phi',g\rangle_{L^2(\rho_\phi)}
+  \qquad\text{for every locally Lipschitz form-domain }g.
+\]
+In particular $\mathcal E_\phi(\phi')=\Var_{\rho_\phi}(\phi')$, and
+$\phi'$ satisfies the weak eigenvalue identity at level~$1$ against locally
+Lipschitz form-domain test functions.
+\end{lemma}
+
+\begin{proof}
+Integrability of $e^{-\phi}$ on $\mathbb R$ together with strict convexity
+forces $\phi(x)\to+\infty$ as $|x|\to\infty$, hence $e^{-\phi(\pm R)}\to 0$
+as $R\to\infty$. Moreover, by convexity $\phi'$ is monotone non-decreasing,
+so $\phi'(x)$ has a (possibly infinite) limit as $x\to\pm\infty$, and there
+exists $x_0>0$ with $\phi'(x)\ge 0$ for $x\ge x_0$ and $\phi'(x)\le 0$ for
+$x\le -x_0$ (otherwise $\phi$ could not satisfy $\phi(\pm\infty)=+\infty$).
+Thus
+\[
+  \int_{\mathbb R}|\phi'(x)|e^{-\phi(x)}\,dx
+  = -\int_{-\infty}^{-x_0}(e^{-\phi})'\,dx
+    +\int_{-x_0}^{x_0}|\phi'|e^{-\phi}\,dx
+    +\int_{x_0}^{\infty}-(e^{-\phi})'\,dx <\infty,
+\]
+and integrating $\phi'e^{-\phi}=-(e^{-\phi})'$ over the two tails and then
+letting the endpoints tend to infinity gives
+$\int\phi'\,d\rho_\phi=0$.
+
+\emph{Integration by parts for general $h$.} Let
+$h\in L^2(\rho_\phi)$ be locally Lipschitz and in the form domain. Since
+$\phi''$ is bounded, $h'\in L^2(\rho_\phi)$. By Cauchy--Schwarz,
+$h\phi' e^{-\phi}, h e^{-\phi}, h' e^{-\phi}\in L^1(\mathbb R)$.
+Choose sequences $R_k\to+\infty$ and $R_k'\to-\infty$ along which
+$|h(R_k)|e^{-\phi(R_k)}+|h(R_k')|e^{-\phi(R_k')}\to0$. Integration by parts on
+$[R_k',R_k]$ gives
+\[
+  \int_{R_k'}^{R_k}h\phi' e^{-\phi}\,dx
+  = -\int_{R_k'}^{R_k}h(e^{-\phi})'\,dx
+  = -\bigl[h\,e^{-\phi}\bigr]_{R_k'}^{R_k}
+    +\int_{R_k'}^{R_k}h' e^{-\phi}\,dx.
+\]
+The boundary term vanishes along the chosen sequence; passing to the limit
+yields
+\begin{equation}\label{eq:ipb}
+  \int_{\mathbb R} h\phi' e^{-\phi}\,dx
+  = \int_{\mathbb R} h' e^{-\phi}\,dx.
+\end{equation}
+
+For any locally Lipschitz form-domain $g$, applying \eqref{eq:ipb} to $h=g$
+yields
+\[
+  \mathcal E_\phi(\phi',g)
+  =\int\frac{(\phi')'g'}{\phi''}\,d\rho_\phi
+  =\int g'\,d\rho_\phi
+  =\int g\,\phi'\,d\rho_\phi
+  =\langle\phi',g\rangle_{L^2(\rho_\phi)}.
+\]
+Specializing to $g=\phi'$ gives
+$\mathcal E_\phi(\phi')=\|\phi'\|_{L^2(\rho_\phi)}^2
+=\Var_{\rho_\phi}(\phi')$, since $\phi'$ has $\rho_\phi$-mean zero.
+
+For the later potentials $\phi_S$, the assumptions are immediate from the
+explicit formulas: $\phi''_S$ is bounded for each fixed $S$, while on the
+tails $\phi'_S(x)=\eta x\pm S$ and $e^{-\phi_S(x)}$ has at least Gaussian
+decay.
+\end{proof}

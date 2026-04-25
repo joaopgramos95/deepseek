@@ -1,0 +1,138 @@
+\subsection*{The test function $g_S$}
+
+Define $g_S:\mathbb R\to[0,1]$ by
+\begin{equation}\label{eq:gS}
+  g_S(x):=
+  \begin{cases}
+    0 & x\in C_S,\\[4pt]
+    \displaystyle
+      \frac{\int_{1-\varepsilon}^{|x|}\phi''_S(t)e^{\phi_S(t)}\,dt}
+           {\int_{I_S^+}\phi''_S(t)e^{\phi_S(t)}\,dt}
+      & |x|\in (1-\varepsilon,1+\varepsilon),\\[12pt]
+    1 & x\in E_S.
+  \end{cases}
+\end{equation}
+On each of $C_S$ and $E_S$, $g_S$ is constant; on each layer it is (a
+reparametrization of) the energy-minimizing interpolation between the
+prescribed boundary values, as we verify in Lemma~\ref{lem:energy} below.
+
+Continuity at the four endpoints $\pm 1\pm\varepsilon$ is built in: at
+$|x|=1-\varepsilon$ the layer formula gives $g_S=0$, matching $C_S$; at
+$|x|=1+\varepsilon$ it gives $g_S=1$, matching $E_S$. By construction $g_S$
+is even, since the formula depends only on $|x|$.
+
+Since $\phi''_S$ is bounded on $\mathbb R$ (it has supremum $\eta+(S/\varepsilon)
+\|\kappa\|_\infty=O(S^4)$), $g_S'$ is bounded on each layer, hence $g_S$ is
+globally Lipschitz. In particular, $g_S\in L^\infty(\mathbb R)\subset
+L^2(\rho_S)$ and is locally Lipschitz.
+
+\begin{lemma}\label{lem:energy}
+The Brascamp--Lieb energy of $g_S$ is
+\[
+  \mathcal E_{\phi_S}(g_S)
+  =\frac{2}{Z_S\int_{I_S^+}\phi''_S(t)e^{\phi_S(t)}\,dt}
+  =\frac{2}{Z_S\,S}\bigl(1+O(S^{-2})\bigr).
+\]
+\end{lemma}
+
+\begin{proof}
+We first compute the energy of the optimal interpolant on a single layer.
+Let $I=(a,b)$ be an interval and consider the variational problem
+\begin{equation}\label{eq:single-J}
+  J^*:=\inf\left\{\int_I\frac{(h'(x))^2}{\phi''_S(x)}\,e^{-\phi_S(x)}\,dx
+        :\ h\in W^{1,2}(I),\ h(a)=0,\ h(b)=\Delta\right\},
+\end{equation}
+where the boundary values are interpreted as traces. Setting
+$w(x):=e^{-\phi_S(x)}/\phi''_S(x)>0$, the integrand is $(h')^2 w$.
+The Euler--Lagrange equation $(h'\,w)'=0$ gives $h'(x)=c/w(x)
+=c\,\phi''_S(x)\,e^{\phi_S(x)}$ for some constant $c$. The boundary condition
+$\int_a^b h'\,dx=\Delta$ forces
+\[
+  c=\frac{\Delta}{\int_I\phi''_S\,e^{\phi_S}\,dx}.
+\]
+Substituting $h'=c\phi''_S e^{\phi_S}$ into the integral gives
+\[
+  \int_I (h')^2 w\,dx
+  =c^2\int_I\frac{(\phi''_S)^2 e^{2\phi_S}}{\phi''_S}\,e^{-\phi_S}\,dx
+  =c^2\int_I\phi''_S e^{\phi_S}\,dx
+  =\frac{\Delta^2}{\int_I\phi''_S e^{\phi_S}\,dx}.
+\]
+This is in fact the minimum: the integrand is a coercive non-negative
+quadratic form in $h'$, with a strictly positive weight $w$ bounded above
+and below on the compact interval $\overline I=[a,b]$ (here $w$ is bounded
+above by $1/\eta$ and below by $\varepsilon/(S\|\kappa\|_\infty\,e^{O(S^{-2})})$,
+both strictly positive). The set of admissible $h$ is the affine subspace
+$\{h_0+W_0^{1,2}(I)\}$ with $h_0$ a fixed admissible interpolant, and $J$ is
+strictly convex coercive on this subspace, so a minimizer exists and is
+unique. The Euler--Lagrange formula above gives that minimizer.
+
+By construction \eqref{eq:gS}, $g_S$ restricted to $I_S^+$ has $g_S(1-\varepsilon)
+=0$, $g_S(1+\varepsilon)=1$, and
+$g_S'(x)=\phi''_S(x)e^{\phi_S(x)}\big/\int_{I_S^+}\phi''_S e^{\phi_S}$,
+which is exactly the Euler--Lagrange minimizer with $\Delta=1$. The same holds
+on $I_S^-$ with $\Delta=-1$ (since $g_S$ ranges from $1$ at $-1-\varepsilon$
+to $0$ at $-1+\varepsilon$, sign of $\Delta$ is opposite, but $\Delta^2=1$ in
+either case). Outside the layers $g_S$ is constant, so $g_S'\equiv 0$ on
+$C_S\cup E_S$. Therefore
+\[
+  \mathcal E_{\phi_S}(g_S)
+  =\frac{1}{Z_S}\Biggl(\int_{I_S^+}\frac{(g_S')^2}{\phi''_S}e^{-\phi_S}\,dx
+                 +\int_{I_S^-}\frac{(g_S')^2}{\phi''_S}e^{-\phi_S}\,dx\Biggr)
+  =\frac{1}{Z_S}\bigl(J^*_{I_S^+}+J^*_{I_S^-}\bigr),
+\]
+and by the formula above with $\Delta^2=1$ on each layer and the symmetry
+$\int_{I_S^+}\phi''_S e^{\phi_S}=\int_{I_S^-}\phi''_S e^{\phi_S}$,
+\[
+  \mathcal E_{\phi_S}(g_S)
+  =\frac{2}{Z_S\int_{I_S^+}\phi''_S\,e^{\phi_S}\,dx}.
+\]
+The asymptotic statement now follows from
+Lemma~\ref{lem:phi-bounds}(d).
+\end{proof}
+
+\begin{lemma}\label{lem:variance}
+The variance of $g_S$ satisfies
+\[
+  \Var_{\rho_S}(g_S)
+  = q_S(1-q_S)+O(S^{-3})
+  = \frac{1}{S}-\frac{2}{S^2}+O(S^{-3}).
+\]
+\end{lemma}
+
+\begin{proof}
+On $E_S$, $g_S\equiv 1$; on $C_S$, $g_S\equiv 0$; on $T_S$, $0\le g_S\le 1$.
+Hence
+\[
+  \int g_S\,d\rho_S
+  = \rho_S(E_S)+\int_{T_S}g_S\,d\rho_S
+  = q_S+\mathcal R_1,\qquad |\mathcal R_1|\le t_S=O(S^{-3}),
+\]
+\[
+  \int g_S^2\,d\rho_S
+  = \rho_S(E_S)+\int_{T_S}g_S^2\,d\rho_S
+  = q_S+\mathcal R_2,\qquad |\mathcal R_2|\le t_S=O(S^{-3}),
+\]
+by Lemma~\ref{lem:normalization}(c). Therefore
+\[
+  \Var_{\rho_S}(g_S)
+  =(q_S+\mathcal R_2)-(q_S+\mathcal R_1)^2
+  = q_S-q_S^2+\bigl(\mathcal R_2-2q_S\mathcal R_1-\mathcal R_1^2\bigr)
+  = q_S(1-q_S)+O(S^{-3}),
+\]
+where in the last step we used $q_S=O(S^{-1})$ to absorb $-2q_S\mathcal R_1
+=O(S^{-4})$ and $\mathcal R_1^2=O(S^{-6})$ into the $O(S^{-3})$ error.
+
+Substituting $q_S=1/S-1/S^2+O(S^{-3})$ from
+Lemma~\ref{lem:normalization}(c),
+\[
+  q_S^2
+  =\frac{1}{S^2}\Bigl(1-\frac{1}{S}+O(S^{-2})\Bigr)^{\!2}
+  =\frac{1}{S^2}-\frac{2}{S^3}+O(S^{-4}),
+\]
+hence
+\[
+  q_S(1-q_S)=q_S-q_S^2
+  =\Bigl(\tfrac{1}{S}-\tfrac{1}{S^2}\Bigr)-\Bigl(\tfrac{1}{S^2}-\tfrac{2}{S^3}\Bigr)+O(S^{-3})
+  =\tfrac{1}{S}-\tfrac{2}{S^2}+O(S^{-3}). \qedhere
+\]
+\end{proof}

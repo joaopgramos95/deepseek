@@ -1,0 +1,83 @@
+\begin{lemma}\label{lem:normalization}
+Under the choice \eqref{eq:specific-choice}, as $S\to\infty$:
+\begin{enumerate}
+\item[(a)] $\displaystyle\int_{1+\varepsilon}^{\infty}e^{-\phi_S(x)}\,dx
+  =\frac{1}{S}+O(S^{-3})$.
+\item[(b)] $\displaystyle Z_S = 2+\frac{2}{S}+O(S^{-3})$.
+\item[(c)] Set
+  $q_S:=\rho_S(E_S)=\rho_S\bigl(\{|x|>1+\varepsilon\}\bigr)$
+  and $t_S:=\rho_S(T_S)$. Then
+  \[
+    q_S = \frac{1}{S}-\frac{1}{S^2}+O(S^{-3}),\qquad t_S=O(S^{-3}).
+  \]
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Substitute $u=x-1-\varepsilon$ in part (c) of
+Lemma~\ref{lem:phi-bounds}, set $\widetilde S:=S+\eta(1+\varepsilon)=
+S\bigl(1+O(\eta/S)\bigr)$, and use $\phi_S(1+\varepsilon)=O(S^{-2})$:
+\[
+  \int_{1+\varepsilon}^{\infty}e^{-\phi_S}\,dx
+  = e^{-\phi_S(1+\varepsilon)}\int_0^{\infty}
+     e^{-\widetilde S\,u-\eta u^2/2}\,du.
+\]
+The elementary bound $0\le 1-e^{-v}\le v$ for $v\ge0$ gives
+\begin{equation}\label{eq:tail-expansion}
+  0\le
+  \frac{1}{\widetilde S}
+  -\int_0^{\infty}e^{-\widetilde S\,u-\eta u^2/2}\,du
+  \le
+  \frac{\eta}{2}\int_0^\infty u^2e^{-\widetilde S u}\,du
+  =\frac{\eta}{\widetilde S^3}.
+\end{equation}
+Since $\widetilde S=S+\eta(1+\varepsilon)$, this implies
+\[
+  \int_0^{\infty}e^{-\widetilde S\,u-\eta u^2/2}\,du
+  =\frac{1}{S}+O\!\left(\frac{\eta}{S^2}+\frac{\eta}{S^3}\right)
+  =\frac{1}{S}+O(S^{-6}).
+\]
+Combined with $e^{-\phi_S(1+\varepsilon)}=1+O(S^{-2})$ this gives
+\[
+  \int_{1+\varepsilon}^{\infty}e^{-\phi_S}\,dx
+  =\bigl(1+O(S^{-2})\bigr)\bigl(1/S+O(S^{-6})\bigr)
+  =\frac{1}{S}+O(S^{-3}),
+\]
+proving (a).
+
+(b) Decompose $\int_0^{\infty}e^{-\phi_S}\,dx$ over the three regions
+$[0,1-\varepsilon]$, $[1-\varepsilon,1+\varepsilon]$, $[1+\varepsilon,\infty)$.
+
+On $[0,1-\varepsilon]$: $\phi_S(x)=\eta x^2/2$, so
+$\int_0^{1-\varepsilon}e^{-\eta x^2/2}\,dx=(1-\varepsilon)+O(\eta)
+=1-\varepsilon+O(S^{-4})$.
+
+On $[1-\varepsilon,1+\varepsilon]$: $e^{-\phi_S}=1+O(S^{-2})$ by
+Lemma~\ref{lem:phi-bounds}(b), so
+$\int=2\varepsilon+O(\varepsilon/S^2)=2\varepsilon+O(S^{-5})$.
+
+On $[1+\varepsilon,\infty)$: by part (a), $\int=1/S+O(S^{-3})$.
+
+Adding and using $\varepsilon=S^{-3}$:
+\[
+  \int_0^{\infty}e^{-\phi_S}\,dx
+  =1-\varepsilon+2\varepsilon+\frac{1}{S}+O(S^{-3})
+  =1+\frac{1}{S}+O(S^{-3}).
+\]
+Multiplying by~$2$ (even symmetry) yields $Z_S=2+2/S+O(S^{-3})$.
+
+(c) The layer mass is bounded by the Lebesgue measure of $T_S$ times
+$\sup_{T_S}e^{-\phi_S}/Z_S\le 4\varepsilon/Z_S=O(\varepsilon)=O(S^{-3})$. For
+$q_S$:
+\[
+  q_S=\frac{2}{Z_S}\int_{1+\varepsilon}^{\infty}e^{-\phi_S}\,dx
+  =\frac{2/S+O(S^{-3})}{2+2/S+O(S^{-3})}
+  =\frac{1}{S}\cdot\frac{1+O(S^{-2})}{1+1/S+O(S^{-3})}.
+\]
+Expanding the geometric series for $1/(1+1/S+O(S^{-3}))=
+1-1/S+1/S^2+O(S^{-3})$:
+\[
+  q_S=\frac{1}{S}\Bigl(1-\frac{1}{S}+\frac{1}{S^2}+O(S^{-3})\Bigr)\bigl(1+O(S^{-2})\bigr)
+   =\frac{1}{S}-\frac{1}{S^2}+O(S^{-3}).\qedhere
+\]
+\end{proof}

@@ -1,0 +1,113 @@
+\section{The construction}
+
+Fix a non-negative even $C^\infty$ bump
+$\kappa:\mathbb R\to[0,\infty)$ supported in $[-1,1]$ and normalized by
+$\int_{\mathbb R}\kappa(u)\,du=1$. For parameters $S\ge 1$,
+$\varepsilon\in(0,\tfrac14)$ and $\eta>0$ define
+\begin{equation}\label{eq:phi-double-prime}
+  \phi''_{S,\varepsilon,\eta}(x)
+  :=\eta
+  +\frac{S}{\varepsilon}\kappa\!\left(\frac{x-1}{\varepsilon}\right)
+  +\frac{S}{\varepsilon}\kappa\!\left(\frac{x+1}{\varepsilon}\right),
+\end{equation}
+together with the normalization $\phi_{S,\varepsilon,\eta}(0)
+=\phi_{S,\varepsilon,\eta}'(0)=0$. The right-hand side of
+\eqref{eq:phi-double-prime} is $C^\infty$, even, and bounded below by~$\eta>0$,
+so $\phi_{S,\varepsilon,\eta}$ is $C^\infty$, even, strictly convex, with
+$\phi_{S,\varepsilon,\eta}(x)\ge\eta x^2/2$, hence
+$\int e^{-\phi_{S,\varepsilon,\eta}}<\infty$. By construction,
+$\phi'_{S,\varepsilon,\eta}$ is odd.
+
+We require the parameters to satisfy
+\begin{equation}\label{eq:scaling}
+  S\varepsilon\to 0,\qquad \eta\,S^{-2}\to 0,\qquad \eta\to 0,
+  \qquad\text{as }S\to\infty.
+\end{equation}
+For concreteness we work throughout with the explicit choice
+\begin{equation}\label{eq:specific-choice}
+  \varepsilon = S^{-3},\qquad \eta = S^{-4},
+\end{equation}
+which obeys all conditions in \eqref{eq:scaling}, and abbreviate
+\[
+  \phi_S:=\phi_{S,S^{-3},S^{-4}},\qquad
+  \rho_S:=\rho_{\phi_S},\qquad
+  Z_S:=\int_{\mathbb R}e^{-\phi_S}\,dx.
+\]
+All asymptotic notation $O(\,\cdot\,)$, $o(1)$ below is understood as
+$S\to\infty$.
+
+\subsection*{Notation for the three regions}
+
+Decompose $\mathbb R$ into the central plateau, the two transition layers, and
+the exterior:
+\[
+  C_S:=[-1+\varepsilon,1-\varepsilon],\quad
+  T_S:=I_S^+\cup I_S^-,\quad
+  E_S:=\mathbb R\setminus(C_S\cup T_S),
+\]
+where
+\[
+  I_S^+:=(1-\varepsilon,1+\varepsilon),\qquad I_S^-:=(-1-\varepsilon,-1+\varepsilon).
+\]
+
+\subsection*{Profile of $\phi_S$, $\phi'_S$ and the partition function}
+
+Direct integration of \eqref{eq:phi-double-prime}, together with
+$\int\kappa=1$ and the support assumption on $\kappa$, gives:
+\begin{itemize}
+\item On $C_S$: $\phi''_S\equiv\eta$, so $\phi'_S(x)=\eta x$ and
+  $\phi_S(x)=\eta x^2/2\in[0,\eta/2]$.
+\item On $I_S^+$: $\phi'_S$ is non-decreasing and
+  $\int_{1-\varepsilon}^{1+\varepsilon}\phi''_S\,dx=2\eta\varepsilon+S$, so
+  $\phi'_S$ ranges from $\eta(1-\varepsilon)$ at the left endpoint to
+  $\eta(1+\varepsilon)+S$ at the right endpoint.
+\item On $(1+\varepsilon,\infty)$: $\phi''_S=\eta$, so
+  $\phi'_S(x)=\eta x+S$.
+\item Symmetric statements hold on $I_S^-$ and $(-\infty,-1-\varepsilon)$.
+\end{itemize}
+
+\begin{lemma}\label{lem:phi-bounds}
+Under the choice \eqref{eq:specific-choice}, for all sufficiently large $S$:
+\begin{enumerate}
+\item[(a)] $0\le\phi_S(x)\le\eta/2=\tfrac{1}{2}S^{-4}$ for $x\in C_S$.
+\item[(b)] $0\le\phi_S(x)\le \tfrac{\eta}{2}+2\varepsilon\bigl(\eta+S\bigr)
+  =O(S\varepsilon)=O(S^{-2})$ for $x\in T_S$. In particular
+  $e^{\phi_S(x)}=1+O(S^{-2})$ uniformly on $T_S$.
+\item[(c)] For $x>1+\varepsilon$,
+  \[
+    \phi_S(x)
+    =\phi_S(1+\varepsilon)
+     +S\,(x-1-\varepsilon)
+     +\tfrac{\eta}{2}\bigl(x^2-(1+\varepsilon)^2\bigr).
+  \]
+\item[(d)] $\displaystyle\int_{I_S^+}\phi''_S(t)\,e^{\phi_S(t)}\,dt
+  =S\bigl(1+O(S^{-2})\bigr)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) is immediate from $\phi_S(x)=\eta x^2/2$ and $|x|\le 1$.
+
+(b) For $x\in I_S^+$,
+\[
+  \phi_S(x)=\phi_S(1-\varepsilon)+\int_{1-\varepsilon}^x\phi'_S(t)\,dt
+  \le \tfrac{\eta}{2}+2\varepsilon\,\sup_{I_S^+}\phi'_S
+  \le \tfrac{\eta}{2}+2\varepsilon(\eta+S).
+\]
+Substituting $\eta=S^{-4}$, $\varepsilon=S^{-3}$ gives the bound
+$O(S\varepsilon)=O(S^{-2})$. The bound $|e^{\phi_S}-1|\le \phi_S e^{\phi_S}
+=O(S^{-2})$ follows. The bound on $I_S^-$ is identical by even symmetry.
+
+(c) For $x>1+\varepsilon$, $\phi_S(x)-\phi_S(1+\varepsilon)
+=\int_{1+\varepsilon}^x\phi'_S(t)\,dt=\int_{1+\varepsilon}^x(\eta t+S)\,dt$,
+which evaluates to the stated expression.
+
+(d) Using $e^{\phi_S}=1+O(S^{-2})$ uniformly on $I_S^+$ from (b) and
+$\int_{I_S^+}\phi''_S\,dx=S+2\eta\varepsilon=S+O(S^{-7})$, we get
+\[
+  \int_{I_S^+}\phi''_S e^{\phi_S}\,dx
+  =\int_{I_S^+}\phi''_S\,dx+\int_{I_S^+}\phi''_S\bigl(e^{\phi_S}-1\bigr)\,dx
+  = S+O(S^{-7})+O(S^{-2})\cdot S
+  = S\bigl(1+O(S^{-2})\bigr).\qedhere
+\]
+\end{proof}

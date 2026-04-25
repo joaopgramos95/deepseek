@@ -4,6 +4,7 @@
 \usepackage{hyperref}
 
 \newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
@@ -11,7 +12,8 @@
 \DeclareMathOperator{\Var}{Var}
 \DeclareMathOperator{\dist}{dist}
 
-\title{A counterexample to uniform $L^2$ stability in the Brascamp--Lieb variance inequality}
+\title{A counterexample to uniform $L^2$ stability\\
+       in the Brascamp--Lieb variance inequality}
 \author{}
 \date{}
 
@@ -21,229 +23,718 @@
 \begin{abstract}
 We show that the sharp uniform $L^1$ stability estimate for the Brascamp--Lieb
 variance inequality cannot be strengthened to an $L^2$ estimate with a constant
-depending only on the dimension.
+depending only on the dimension. Already in dimension one we exhibit, for all
+sufficiently large $S$, a smooth strictly convex potential $\phi_S$ and a
+locally Lipschitz test function $f_S$ such that
+\[
+  \frac{\dist_{L^2(\rho_{\phi_S})}(f_S,\mathcal O_{\mathrm{BL},\phi_S})^2}
+       {\delta_{\mathrm{BL},\phi_S}(f_S)}
+  = S\bigl(1+O(S^{-1})\bigr)\to+\infty.
+\]
+Equivalently, the constant in any putative inequality
+$\dist_{L^2}\le C\,\delta_{\mathrm{BL}}^{1/2}$ must blow up at rate at least
+$\sqrt S$.
 \end{abstract}
 
 \section{Statement}
 
-Let $\phi:\mathbb{R}^d\to\mathbb{R}\cup\{+\infty\}$ be an essentially continuous
-convex function with $0<\int e^{-\phi}<\infty$, and put
+Let $\phi:\mathbb R^d\to\mathbb R\cup\{+\infty\}$ be an essentially continuous
+convex function with $0<\int e^{-\phi}<\infty$. Write
 \[
-  d\rho_\phi = Z_\phi^{-1}e^{-\phi}\,dx .
+  Z_\phi := \int_{\mathbb R^d} e^{-\phi}\,dx, \qquad
+  d\rho_\phi := Z_\phi^{-1}e^{-\phi}\,dx.
 \]
-For smooth strictly convex $\phi$, the Brascamp--Lieb deficit is
+For smooth strictly convex $\phi$, the \emph{Brascamp--Lieb deficit} is
 \[
   \delta_{\mathrm{BL},\phi}(f)
   =
-  \int_{\mathbb{R}^d}
-  \bigl\langle (D^2\phi)^{-1}\nabla f,\nabla f\bigr\rangle\,d\rho_\phi
-  - \Var_{\rho_\phi}(f).
+  \int_{\mathbb R^d}\bigl\langle (D^2\phi)^{-1}\nabla f,\nabla f\bigr\rangle\,d\rho_\phi
+  -\Var_{\rho_\phi}(f),
 \]
-The equality cases are
+defined for any locally Lipschitz $f\in L^2(\rho_\phi)$. The
+Brascamp--Lieb inequality \cite{BL76} asserts $\delta_{\mathrm{BL},\phi}(f)\ge 0$,
+with equality cases
 \[
   \mathcal O_{\mathrm{BL},\phi}
   =
-  \{a\cdot \nabla \phi+b:\ a\in\mathbb R^d,\ b\in\mathbb R\}.
+  \{a\cdot \nabla\phi+b:\ a\in\mathbb R^d,\ b\in\mathbb R\}.
 \]
+When using $L^2(\rho_\phi)$ distances, this affine family is understood through
+its members that belong to $L^2(\rho_\phi)$; for the explicit potentials
+constructed below all the listed generators are in $L^2$.
 
 \begin{theorem}\label{thm:l2-fails}
-Already in dimension one, there is no finite constant $C$ such that
-\[
+There is no finite constant $C$ such that
+\begin{equation}\label{eq:would-be-stability}
   \dist_{L^2(\rho_\phi)}(f,\mathcal O_{\mathrm{BL},\phi})
   \le C\,\delta_{\mathrm{BL},\phi}(f)^{1/2}
-\]
-for every smooth strictly convex $\phi:\mathbb R\to\mathbb R$ with
-$\int e^{-\phi}<\infty$ and every locally Lipschitz $f\in L^2(\rho_\phi)$.
-Consequently no dimension-only constant can exist in any dimension $d\ge 1$.
+\end{equation}
+holds simultaneously for every smooth strictly convex
+$\phi:\mathbb R\to\mathbb R$ with $\int e^{-\phi}<\infty$ and every locally
+Lipschitz $f\in L^2(\rho_\phi)$. Consequently, no dimension-only constant
+$C=C(d)$ can exist in any dimension $d\ge 1$.
 \end{theorem}
 
-The point is spectral.  In one dimension the BL Dirichlet form is
+\subsection*{Spectral interpretation}
+
+In dimension one, the Brascamp--Lieb Dirichlet form is
+\begin{equation}\label{eq:BL-form}
+  \mathcal E_\phi(f,g)
+  := \int_{\mathbb R}\frac{f'g'}{\phi''}\,d\rho_\phi,
+  \qquad
+  \mathcal E_\phi(f) := \mathcal E_\phi(f,f).
+\end{equation}
+Here the form domain means the locally absolutely continuous functions
+$f\in L^2(\rho_\phi)$ for which $\mathcal E_\phi(f)<\infty$.
+After closing the form, its restriction to the orthogonal complement of
+constants in $L^2(\rho_\phi)$ defines a non-negative self-adjoint operator
+$L_\phi$ via
+$\mathcal E_\phi(f,g)=\langle L_\phi f,g\rangle_{L^2(\rho_\phi)}$, and the
+Brascamp--Lieb inequality is the assertion that
+$\inf\,\mathrm{spec}\bigl(L_\phi\restriction\{1\}^\perp\bigr)\ge 1$.
+Theorem~\ref{thm:l2-fails} is the assertion that the spectral gap
+$\inf\,\mathrm{spec}\bigl(L_\phi\restriction \mathcal O_{\mathrm{BL},\phi}^\perp\bigr)-1$
+\emph{cannot} be bounded below by a positive universal constant: the
+construction below produces potentials for which the Rayleigh quotient on
+$\mathcal O_{\mathrm{BL},\phi}^\perp$ approaches~$1$ from above. If one also
+knows compactness of the resolvent for the corresponding one-dimensional
+operator, this can be phrased as collapse of the next eigenvalue.
+
+The basic optimizer direction at the lowest level is $\phi'$ itself.
+
+\begin{lemma}\label{lem:phi-prime-eigen}
+Let $\phi:\mathbb R\to\mathbb R$ be smooth and strictly convex, with
+$0<\int e^{-\phi}<\infty$. Assume in addition that $\phi''$ is bounded and
+$\phi'\in L^2(\rho_\phi)$; in particular, this holds for the potentials
+$\phi_S$ constructed below. Then $\int\phi'\,d\rho_\phi=0$, $\phi'$ belongs to
+the form domain, and
 \[
-  \mathcal E_\phi(f)=\int_{\mathbb R}\frac{|f'|^2}{\phi''}\,d\rho_\phi .
+  \mathcal E_\phi(\phi',g)=\langle\phi',g\rangle_{L^2(\rho_\phi)}
+  \qquad\text{for every locally Lipschitz form-domain }g.
 \]
-The function $\phi'$ is always an eigenfunction with eigenvalue $1$.  We construct
-potentials for which there is a second, even, almost-eigenfunction with Rayleigh
-quotient arbitrarily close to $1$.  Since this even mode is orthogonal to the
-constants and to the odd function $\phi'$, it is far from the optimizer space
-compared with its deficit.
+In particular $\mathcal E_\phi(\phi')=\Var_{\rho_\phi}(\phi')$, and
+$\phi'$ satisfies the weak eigenvalue identity at level~$1$ against locally
+Lipschitz form-domain test functions.
+\end{lemma}
+
+\begin{proof}
+Integrability of $e^{-\phi}$ on $\mathbb R$ together with strict convexity
+forces $\phi(x)\to+\infty$ as $|x|\to\infty$, hence $e^{-\phi(\pm R)}\to 0$
+as $R\to\infty$. Moreover, by convexity $\phi'$ is monotone non-decreasing,
+so $\phi'(x)$ has a (possibly infinite) limit as $x\to\pm\infty$, and there
+exists $x_0>0$ with $\phi'(x)\ge 0$ for $x\ge x_0$ and $\phi'(x)\le 0$ for
+$x\le -x_0$ (otherwise $\phi$ could not satisfy $\phi(\pm\infty)=+\infty$).
+Thus
+\[
+  \int_{\mathbb R}|\phi'(x)|e^{-\phi(x)}\,dx
+  = -\int_{-\infty}^{-x_0}(e^{-\phi})'\,dx
+    +\int_{-x_0}^{x_0}|\phi'|e^{-\phi}\,dx
+    +\int_{x_0}^{\infty}-(e^{-\phi})'\,dx <\infty,
+\]
+and integrating $\phi'e^{-\phi}=-(e^{-\phi})'$ over the two tails and then
+letting the endpoints tend to infinity gives
+$\int\phi'\,d\rho_\phi=0$.
+
+\emph{Integration by parts for general $h$.} Let
+$h\in L^2(\rho_\phi)$ be locally Lipschitz and in the form domain. Since
+$\phi''$ is bounded, $h'\in L^2(\rho_\phi)$. By Cauchy--Schwarz,
+$h\phi' e^{-\phi}, h e^{-\phi}, h' e^{-\phi}\in L^1(\mathbb R)$.
+Choose sequences $R_k\to+\infty$ and $R_k'\to-\infty$ along which
+$|h(R_k)|e^{-\phi(R_k)}+|h(R_k')|e^{-\phi(R_k')}\to0$. Integration by parts on
+$[R_k',R_k]$ gives
+\[
+  \int_{R_k'}^{R_k}h\phi' e^{-\phi}\,dx
+  = -\int_{R_k'}^{R_k}h(e^{-\phi})'\,dx
+  = -\bigl[h\,e^{-\phi}\bigr]_{R_k'}^{R_k}
+    +\int_{R_k'}^{R_k}h' e^{-\phi}\,dx.
+\]
+The boundary term vanishes along the chosen sequence; passing to the limit
+yields
+\begin{equation}\label{eq:ipb}
+  \int_{\mathbb R} h\phi' e^{-\phi}\,dx
+  = \int_{\mathbb R} h' e^{-\phi}\,dx.
+\end{equation}
+
+For any locally Lipschitz form-domain $g$, applying \eqref{eq:ipb} to $h=g$
+yields
+\[
+  \mathcal E_\phi(\phi',g)
+  =\int\frac{(\phi')'g'}{\phi''}\,d\rho_\phi
+  =\int g'\,d\rho_\phi
+  =\int g\,\phi'\,d\rho_\phi
+  =\langle\phi',g\rangle_{L^2(\rho_\phi)}.
+\]
+Specializing to $g=\phi'$ gives
+$\mathcal E_\phi(\phi')=\|\phi'\|_{L^2(\rho_\phi)}^2
+=\Var_{\rho_\phi}(\phi')$, since $\phi'$ has $\rho_\phi$-mean zero.
+
+For the later potentials $\phi_S$, the assumptions are immediate from the
+explicit formulas: $\phi''_S$ is bounded for each fixed $S$, while on the
+tails $\phi'_S(x)=\eta x\pm S$ and $e^{-\phi_S(x)}$ has at least Gaussian
+decay.
+\end{proof}
 
 \section{The construction}
 
-Fix a non-negative even $C^\infty$ bump $\kappa$ supported in $[-1,1]$ with
-$\int_{\mathbb R}\kappa=1$.  For parameters $S\gg1$, $\varepsilon>0$, and
-$\eta>0$, define a smooth even strictly convex potential by prescribing
-\[
+Fix a non-negative even $C^\infty$ bump
+$\kappa:\mathbb R\to[0,\infty)$ supported in $[-1,1]$ and normalized by
+$\int_{\mathbb R}\kappa(u)\,du=1$. For parameters $S\ge 1$,
+$\varepsilon\in(0,\tfrac14)$ and $\eta>0$ define
+\begin{equation}\label{eq:phi-double-prime}
   \phi''_{S,\varepsilon,\eta}(x)
-  =
-  \eta
-  + \frac S\varepsilon\kappa\!\left(\frac{x-1}{\varepsilon}\right)
-  + \frac S\varepsilon\kappa\!\left(\frac{x+1}{\varepsilon}\right),
-  \qquad
-  \phi_{S,\varepsilon,\eta}(0)=\phi'_{S,\varepsilon,\eta}(0)=0.
-\]
-We choose $\varepsilon=\varepsilon(S)$ and $\eta=\eta(S)$ so small that
-\[
-  S\varepsilon\to0,\qquad \eta S^{-2}\to0,\qquad \eta\to0.
-\]
-For instance $\varepsilon=S^{-3}$ and $\eta=S^{-4}$ are enough.  Write
-\[
-  \phi_S:=\phi_{S,S^{-3},S^{-4}},
-  \qquad
-  \rho_S:=\rho_{\phi_S},
-  \qquad
-  Z_S:=\int_{\mathbb R}e^{-\phi_S}.
-\]
-
-The potential is almost flat on $[-1,1]$, while its derivative jumps from nearly
-$0$ to nearly $S$ across each of the two small layers near $\pm1$.  After the
-right layer, $\phi'_S=S+o(S)$ throughout the part of the right tail carrying
-essentially all of the tail mass.  Hence
-\begin{equation}\label{eq:normalization}
-  Z_S = 2+\frac{2}{S}+o(S^{-1}),
-  \qquad
-  \rho_S((1+\varepsilon,\infty))
-  =
-  \frac{1+o(1)}{Z_S S}.
+  :=\eta
+  +\frac{S}{\varepsilon}\kappa\!\left(\frac{x-1}{\varepsilon}\right)
+  +\frac{S}{\varepsilon}\kappa\!\left(\frac{x+1}{\varepsilon}\right),
 \end{equation}
-The same estimate holds on the left by symmetry.
+together with the normalization $\phi_{S,\varepsilon,\eta}(0)
+=\phi_{S,\varepsilon,\eta}'(0)=0$. The right-hand side of
+\eqref{eq:phi-double-prime} is $C^\infty$, even, and bounded below by~$\eta>0$,
+so $\phi_{S,\varepsilon,\eta}$ is $C^\infty$, even, strictly convex, with
+$\phi_{S,\varepsilon,\eta}(x)\ge\eta x^2/2$, hence
+$\int e^{-\phi_{S,\varepsilon,\eta}}<\infty$. By construction,
+$\phi'_{S,\varepsilon,\eta}$ is odd.
 
-Now define an even Lipschitz test function $g_S$ as follows.  Let
+We require the parameters to satisfy
+\begin{equation}\label{eq:scaling}
+  S\varepsilon\to 0,\qquad \eta\,S^{-2}\to 0,\qquad \eta\to 0,
+  \qquad\text{as }S\to\infty.
+\end{equation}
+For concreteness we work throughout with the explicit choice
+\begin{equation}\label{eq:specific-choice}
+  \varepsilon = S^{-3},\qquad \eta = S^{-4},
+\end{equation}
+which obeys all conditions in \eqref{eq:scaling}, and abbreviate
 \[
-  I_S^+=(1-\varepsilon,1+\varepsilon),\qquad
-  I_S^-=(-1-\varepsilon,-1+\varepsilon).
+  \phi_S:=\phi_{S,S^{-3},S^{-4}},\qquad
+  \rho_S:=\rho_{\phi_S},\qquad
+  Z_S:=\int_{\mathbb R}e^{-\phi_S}\,dx.
 \]
-Set $g_S=0$ on $[-1+\varepsilon,1-\varepsilon]$ and $g_S=1$ on
-$(-\infty,-1-\varepsilon]\cup[1+\varepsilon,\infty)$.  Inside each transition
-layer choose the energy-minimising interpolation for the Dirichlet form
-$\mathcal E_{\phi_S}$ with these boundary values.  Equivalently, on $I_S^+$,
+All asymptotic notation $O(\,\cdot\,)$, $o(1)$ below is understood as
+$S\to\infty$.
+
+\subsection*{Notation for the three regions}
+
+Decompose $\mathbb R$ into the central plateau, the two transition layers, and
+the exterior:
 \[
-  g_S'(x)
-  =
-  \frac{\phi_S''(x)e^{\phi_S(x)}}{\int_{I_S^+}\phi_S''(t)e^{\phi_S(t)}\,dt},
+  C_S:=[-1+\varepsilon,1-\varepsilon],\quad
+  T_S:=I_S^+\cup I_S^-,\quad
+  E_S:=\mathbb R\setminus(C_S\cup T_S),
 \]
-and on $I_S^-$ we take the symmetric interpolation.
+where
+\[
+  I_S^+:=(1-\varepsilon,1+\varepsilon),\qquad I_S^-:=(-1-\varepsilon,-1+\varepsilon).
+\]
+
+\subsection*{Profile of $\phi_S$, $\phi'_S$ and the partition function}
+
+Direct integration of \eqref{eq:phi-double-prime}, together with
+$\int\kappa=1$ and the support assumption on $\kappa$, gives:
+\begin{itemize}
+\item On $C_S$: $\phi''_S\equiv\eta$, so $\phi'_S(x)=\eta x$ and
+  $\phi_S(x)=\eta x^2/2\in[0,\eta/2]$.
+\item On $I_S^+$: $\phi'_S$ is non-decreasing and
+  $\int_{1-\varepsilon}^{1+\varepsilon}\phi''_S\,dx=2\eta\varepsilon+S$, so
+  $\phi'_S$ ranges from $\eta(1-\varepsilon)$ at the left endpoint to
+  $\eta(1+\varepsilon)+S$ at the right endpoint.
+\item On $(1+\varepsilon,\infty)$: $\phi''_S=\eta$, so
+  $\phi'_S(x)=\eta x+S$.
+\item Symmetric statements hold on $I_S^-$ and $(-\infty,-1-\varepsilon)$.
+\end{itemize}
+
+\begin{lemma}\label{lem:phi-bounds}
+Under the choice \eqref{eq:specific-choice}, for all sufficiently large $S$:
+\begin{enumerate}
+\item[(a)] $0\le\phi_S(x)\le\eta/2=\tfrac{1}{2}S^{-4}$ for $x\in C_S$.
+\item[(b)] $0\le\phi_S(x)\le \tfrac{\eta}{2}+2\varepsilon\bigl(\eta+S\bigr)
+  =O(S\varepsilon)=O(S^{-2})$ for $x\in T_S$. In particular
+  $e^{\phi_S(x)}=1+O(S^{-2})$ uniformly on $T_S$.
+\item[(c)] For $x>1+\varepsilon$,
+  \[
+    \phi_S(x)
+    =\phi_S(1+\varepsilon)
+     +S\,(x-1-\varepsilon)
+     +\tfrac{\eta}{2}\bigl(x^2-(1+\varepsilon)^2\bigr).
+  \]
+\item[(d)] $\displaystyle\int_{I_S^+}\phi''_S(t)\,e^{\phi_S(t)}\,dt
+  =S\bigl(1+O(S^{-2})\bigr)$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) is immediate from $\phi_S(x)=\eta x^2/2$ and $|x|\le 1$.
+
+(b) For $x\in I_S^+$,
+\[
+  \phi_S(x)=\phi_S(1-\varepsilon)+\int_{1-\varepsilon}^x\phi'_S(t)\,dt
+  \le \tfrac{\eta}{2}+2\varepsilon\,\sup_{I_S^+}\phi'_S
+  \le \tfrac{\eta}{2}+2\varepsilon(\eta+S).
+\]
+Substituting $\eta=S^{-4}$, $\varepsilon=S^{-3}$ gives the bound
+$O(S\varepsilon)=O(S^{-2})$. The bound $|e^{\phi_S}-1|\le \phi_S e^{\phi_S}
+=O(S^{-2})$ follows. The bound on $I_S^-$ is identical by even symmetry.
+
+(c) For $x>1+\varepsilon$, $\phi_S(x)-\phi_S(1+\varepsilon)
+=\int_{1+\varepsilon}^x\phi'_S(t)\,dt=\int_{1+\varepsilon}^x(\eta t+S)\,dt$,
+which evaluates to the stated expression.
+
+(d) Using $e^{\phi_S}=1+O(S^{-2})$ uniformly on $I_S^+$ from (b) and
+$\int_{I_S^+}\phi''_S\,dx=S+2\eta\varepsilon=S+O(S^{-7})$, we get
+\[
+  \int_{I_S^+}\phi''_S e^{\phi_S}\,dx
+  =\int_{I_S^+}\phi''_S\,dx+\int_{I_S^+}\phi''_S\bigl(e^{\phi_S}-1\bigr)\,dx
+  = S+O(S^{-7})+O(S^{-2})\cdot S
+  = S\bigl(1+O(S^{-2})\bigr).\qedhere
+\]
+\end{proof}
+
+\begin{lemma}\label{lem:normalization}
+Under the choice \eqref{eq:specific-choice}, as $S\to\infty$:
+\begin{enumerate}
+\item[(a)] $\displaystyle\int_{1+\varepsilon}^{\infty}e^{-\phi_S(x)}\,dx
+  =\frac{1}{S}+O(S^{-3})$.
+\item[(b)] $\displaystyle Z_S = 2+\frac{2}{S}+O(S^{-3})$.
+\item[(c)] Set
+  $q_S:=\rho_S(E_S)=\rho_S\bigl(\{|x|>1+\varepsilon\}\bigr)$
+  and $t_S:=\rho_S(T_S)$. Then
+  \[
+    q_S = \frac{1}{S}-\frac{1}{S^2}+O(S^{-3}),\qquad t_S=O(S^{-3}).
+  \]
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) Substitute $u=x-1-\varepsilon$ in part (c) of
+Lemma~\ref{lem:phi-bounds}, set $\widetilde S:=S+\eta(1+\varepsilon)=
+S\bigl(1+O(\eta/S)\bigr)$, and use $\phi_S(1+\varepsilon)=O(S^{-2})$:
+\[
+  \int_{1+\varepsilon}^{\infty}e^{-\phi_S}\,dx
+  = e^{-\phi_S(1+\varepsilon)}\int_0^{\infty}
+     e^{-\widetilde S\,u-\eta u^2/2}\,du.
+\]
+The elementary bound $0\le 1-e^{-v}\le v$ for $v\ge0$ gives
+\begin{equation}\label{eq:tail-expansion}
+  0\le
+  \frac{1}{\widetilde S}
+  -\int_0^{\infty}e^{-\widetilde S\,u-\eta u^2/2}\,du
+  \le
+  \frac{\eta}{2}\int_0^\infty u^2e^{-\widetilde S u}\,du
+  =\frac{\eta}{\widetilde S^3}.
+\end{equation}
+Since $\widetilde S=S+\eta(1+\varepsilon)$, this implies
+\[
+  \int_0^{\infty}e^{-\widetilde S\,u-\eta u^2/2}\,du
+  =\frac{1}{S}+O\!\left(\frac{\eta}{S^2}+\frac{\eta}{S^3}\right)
+  =\frac{1}{S}+O(S^{-6}).
+\]
+Combined with $e^{-\phi_S(1+\varepsilon)}=1+O(S^{-2})$ this gives
+\[
+  \int_{1+\varepsilon}^{\infty}e^{-\phi_S}\,dx
+  =\bigl(1+O(S^{-2})\bigr)\bigl(1/S+O(S^{-6})\bigr)
+  =\frac{1}{S}+O(S^{-3}),
+\]
+proving (a).
+
+(b) Decompose $\int_0^{\infty}e^{-\phi_S}\,dx$ over the three regions
+$[0,1-\varepsilon]$, $[1-\varepsilon,1+\varepsilon]$, $[1+\varepsilon,\infty)$.
+
+On $[0,1-\varepsilon]$: $\phi_S(x)=\eta x^2/2$, so
+$\int_0^{1-\varepsilon}e^{-\eta x^2/2}\,dx=(1-\varepsilon)+O(\eta)
+=1-\varepsilon+O(S^{-4})$.
+
+On $[1-\varepsilon,1+\varepsilon]$: $e^{-\phi_S}=1+O(S^{-2})$ by
+Lemma~\ref{lem:phi-bounds}(b), so
+$\int=2\varepsilon+O(\varepsilon/S^2)=2\varepsilon+O(S^{-5})$.
+
+On $[1+\varepsilon,\infty)$: by part (a), $\int=1/S+O(S^{-3})$.
+
+Adding and using $\varepsilon=S^{-3}$:
+\[
+  \int_0^{\infty}e^{-\phi_S}\,dx
+  =1-\varepsilon+2\varepsilon+\frac{1}{S}+O(S^{-3})
+  =1+\frac{1}{S}+O(S^{-3}).
+\]
+Multiplying by~$2$ (even symmetry) yields $Z_S=2+2/S+O(S^{-3})$.
+
+(c) The layer mass is bounded by the Lebesgue measure of $T_S$ times
+$\sup_{T_S}e^{-\phi_S}/Z_S\le 4\varepsilon/Z_S=O(\varepsilon)=O(S^{-3})$. For
+$q_S$:
+\[
+  q_S=\frac{2}{Z_S}\int_{1+\varepsilon}^{\infty}e^{-\phi_S}\,dx
+  =\frac{2/S+O(S^{-3})}{2+2/S+O(S^{-3})}
+  =\frac{1}{S}\cdot\frac{1+O(S^{-2})}{1+1/S+O(S^{-3})}.
+\]
+Expanding the geometric series for $1/(1+1/S+O(S^{-3}))=
+1-1/S+1/S^2+O(S^{-3})$:
+\[
+  q_S=\frac{1}{S}\Bigl(1-\frac{1}{S}+\frac{1}{S^2}+O(S^{-3})\Bigr)\bigl(1+O(S^{-2})\bigr)
+   =\frac{1}{S}-\frac{1}{S^2}+O(S^{-3}).\qedhere
+\]
+\end{proof}
+
+\subsection*{The test function $g_S$}
+
+Define $g_S:\mathbb R\to[0,1]$ by
+\begin{equation}\label{eq:gS}
+  g_S(x):=
+  \begin{cases}
+    0 & x\in C_S,\\[4pt]
+    \displaystyle
+      \frac{\int_{1-\varepsilon}^{|x|}\phi''_S(t)e^{\phi_S(t)}\,dt}
+           {\int_{I_S^+}\phi''_S(t)e^{\phi_S(t)}\,dt}
+      & |x|\in (1-\varepsilon,1+\varepsilon),\\[12pt]
+    1 & x\in E_S.
+  \end{cases}
+\end{equation}
+On each of $C_S$ and $E_S$, $g_S$ is constant; on each layer it is (a
+reparametrization of) the energy-minimizing interpolation between the
+prescribed boundary values, as we verify in Lemma~\ref{lem:energy} below.
+
+Continuity at the four endpoints $\pm 1\pm\varepsilon$ is built in: at
+$|x|=1-\varepsilon$ the layer formula gives $g_S=0$, matching $C_S$; at
+$|x|=1+\varepsilon$ it gives $g_S=1$, matching $E_S$. By construction $g_S$
+is even, since the formula depends only on $|x|$.
+
+Since $\phi''_S$ is bounded on $\mathbb R$ (it has supremum $\eta+(S/\varepsilon)
+\|\kappa\|_\infty=O(S^4)$), $g_S'$ is bounded on each layer, hence $g_S$ is
+globally Lipschitz. In particular, $g_S\in L^\infty(\mathbb R)\subset
+L^2(\rho_S)$ and is locally Lipschitz.
 
 \begin{lemma}\label{lem:energy}
-With the above choice,
+The Brascamp--Lieb energy of $g_S$ is
 \[
   \mathcal E_{\phi_S}(g_S)
-  =
-  \frac{2}{Z_S\int_{I_S^+}\phi_S''(t)e^{\phi_S(t)}\,dt}
-  =
-  \frac{2+o(1)}{Z_S S}.
+  =\frac{2}{Z_S\int_{I_S^+}\phi''_S(t)e^{\phi_S(t)}\,dt}
+  =\frac{2}{Z_S\,S}\bigl(1+O(S^{-2})\bigr).
 \]
 \end{lemma}
 
 \begin{proof}
-For a single interval $I$ and boundary jump $\Delta$, the minimum of
+We first compute the energy of the optimal interpolant on a single layer.
+Let $I=(a,b)$ be an interval and consider the variational problem
+\begin{equation}\label{eq:single-J}
+  J^*:=\inf\left\{\int_I\frac{(h'(x))^2}{\phi''_S(x)}\,e^{-\phi_S(x)}\,dx
+        :\ h\in W^{1,2}(I),\ h(a)=0,\ h(b)=\Delta\right\},
+\end{equation}
+where the boundary values are interpreted as traces. Setting
+$w(x):=e^{-\phi_S(x)}/\phi''_S(x)>0$, the integrand is $(h')^2 w$.
+The Euler--Lagrange equation $(h'\,w)'=0$ gives $h'(x)=c/w(x)
+=c\,\phi''_S(x)\,e^{\phi_S(x)}$ for some constant $c$. The boundary condition
+$\int_a^b h'\,dx=\Delta$ forces
 \[
-  Z_S^{-1}\int_I \frac{|h'|^2}{\phi_S''}e^{-\phi_S}\,dx
+  c=\frac{\Delta}{\int_I\phi''_S\,e^{\phi_S}\,dx}.
 \]
-among all interpolants with jump $\Delta$ is
+Substituting $h'=c\phi''_S e^{\phi_S}$ into the integral gives
 \[
-  \frac{\Delta^2}{Z_S\int_I \phi_S''e^{\phi_S}}.
+  \int_I (h')^2 w\,dx
+  =c^2\int_I\frac{(\phi''_S)^2 e^{2\phi_S}}{\phi''_S}\,e^{-\phi_S}\,dx
+  =c^2\int_I\phi''_S e^{\phi_S}\,dx
+  =\frac{\Delta^2}{\int_I\phi''_S e^{\phi_S}\,dx}.
 \]
-This is the elementary one-dimensional resistance formula, obtained from the
-Euler--Lagrange equation
-$h'(\phi_S'')^{-1}e^{-\phi_S}=\text{constant}$.  Here $\Delta=1$ on both layers.
-Moreover $\phi_S=o(1)$ uniformly on $I_S^+$ because the layer width satisfies
-$S\varepsilon\to0$, while
+This is in fact the minimum: the integrand is a coercive non-negative
+quadratic form in $h'$, with a strictly positive weight $w$ bounded above
+and below on the compact interval $\overline I=[a,b]$ (here $w$ is bounded
+above by $1/\eta$ and below by $\varepsilon/(S\|\kappa\|_\infty\,e^{O(S^{-2})})$,
+both strictly positive). The set of admissible $h$ is the affine subspace
+$\{h_0+W_0^{1,2}(I)\}$ with $h_0$ a fixed admissible interpolant, and $J$ is
+strictly convex coercive on this subspace, so a minimizer exists and is
+unique. The Euler--Lagrange formula above gives that minimizer.
+
+By construction \eqref{eq:gS}, $g_S$ restricted to $I_S^+$ has $g_S(1-\varepsilon)
+=0$, $g_S(1+\varepsilon)=1$, and
+$g_S'(x)=\phi''_S(x)e^{\phi_S(x)}\big/\int_{I_S^+}\phi''_S e^{\phi_S}$,
+which is exactly the Euler--Lagrange minimizer with $\Delta=1$. The same holds
+on $I_S^-$ with $\Delta=-1$ (since $g_S$ ranges from $1$ at $-1-\varepsilon$
+to $0$ at $-1+\varepsilon$, sign of $\Delta$ is opposite, but $\Delta^2=1$ in
+either case). Outside the layers $g_S$ is constant, so $g_S'\equiv 0$ on
+$C_S\cup E_S$. Therefore
 \[
-  \int_{I_S^+}\phi_S''=S+O(\eta\varepsilon)=S+o(S).
+  \mathcal E_{\phi_S}(g_S)
+  =\frac{1}{Z_S}\Biggl(\int_{I_S^+}\frac{(g_S')^2}{\phi''_S}e^{-\phi_S}\,dx
+                 +\int_{I_S^-}\frac{(g_S')^2}{\phi''_S}e^{-\phi_S}\,dx\Biggr)
+  =\frac{1}{Z_S}\bigl(J^*_{I_S^+}+J^*_{I_S^-}\bigr),
 \]
-Thus $\int_{I_S^+}\phi_S''e^{\phi_S}=S+o(S)$.
+and by the formula above with $\Delta^2=1$ on each layer and the symmetry
+$\int_{I_S^+}\phi''_S e^{\phi_S}=\int_{I_S^-}\phi''_S e^{\phi_S}$,
+\[
+  \mathcal E_{\phi_S}(g_S)
+  =\frac{2}{Z_S\int_{I_S^+}\phi''_S\,e^{\phi_S}\,dx}.
+\]
+The asymptotic statement now follows from
+Lemma~\ref{lem:phi-bounds}(d).
 \end{proof}
 
 \begin{lemma}\label{lem:variance}
 The variance of $g_S$ satisfies
 \[
-  \Var_{\rho_S}(g_S)=\frac{2+o(1)}{Z_S S}.
+  \Var_{\rho_S}(g_S)
+  = q_S(1-q_S)+O(S^{-3})
+  = \frac{1}{S}-\frac{2}{S^2}+O(S^{-3}).
 \]
 \end{lemma}
 
 \begin{proof}
-The two exterior tails have total $\rho_S$-mass
+On $E_S$, $g_S\equiv 1$; on $C_S$, $g_S\equiv 0$; on $T_S$, $0\le g_S\le 1$.
+Hence
 \[
-  q_S=\rho_S((-\infty,-1-\varepsilon]\cup[1+\varepsilon,\infty))
-      =\frac{2+o(1)}{Z_S S}
+  \int g_S\,d\rho_S
+  = \rho_S(E_S)+\int_{T_S}g_S\,d\rho_S
+  = q_S+\mathcal R_1,\qquad |\mathcal R_1|\le t_S=O(S^{-3}),
 \]
-by \eqref{eq:normalization}.  The transition layers have mass $o(S^{-1})$, since
-their length is $O(\varepsilon)$ and $e^{-\phi_S}=1+o(1)$ there.  Hence
-$g_S$ differs in $L^2(\rho_S)$ by $o(S^{-1/2})$ from the indicator of the two
-exterior tails.  Therefore
 \[
-  \Var_{\rho_S}(g_S)=q_S(1-q_S)+o(S^{-1})
-  =\frac{2+o(1)}{Z_S S}.
+  \int g_S^2\,d\rho_S
+  = \rho_S(E_S)+\int_{T_S}g_S^2\,d\rho_S
+  = q_S+\mathcal R_2,\qquad |\mathcal R_2|\le t_S=O(S^{-3}),
+\]
+by Lemma~\ref{lem:normalization}(c). Therefore
+\[
+  \Var_{\rho_S}(g_S)
+  =(q_S+\mathcal R_2)-(q_S+\mathcal R_1)^2
+  = q_S-q_S^2+\bigl(\mathcal R_2-2q_S\mathcal R_1-\mathcal R_1^2\bigr)
+  = q_S(1-q_S)+O(S^{-3}),
+\]
+where in the last step we used $q_S=O(S^{-1})$ to absorb $-2q_S\mathcal R_1
+=O(S^{-4})$ and $\mathcal R_1^2=O(S^{-6})$ into the $O(S^{-3})$ error.
+
+Substituting $q_S=1/S-1/S^2+O(S^{-3})$ from
+Lemma~\ref{lem:normalization}(c),
+\[
+  q_S^2
+  =\frac{1}{S^2}\Bigl(1-\frac{1}{S}+O(S^{-2})\Bigr)^{\!2}
+  =\frac{1}{S^2}-\frac{2}{S^3}+O(S^{-4}),
+\]
+hence
+\[
+  q_S(1-q_S)=q_S-q_S^2
+  =\Bigl(\tfrac{1}{S}-\tfrac{1}{S^2}\Bigr)-\Bigl(\tfrac{1}{S^2}-\tfrac{2}{S^3}\Bigr)+O(S^{-3})
+  =\tfrac{1}{S}-\tfrac{2}{S^2}+O(S^{-3}). \qedhere
 \]
 \end{proof}
 
-\section{Conclusion}
+\section{\texorpdfstring{The spectral gap above
+$\mathcal O_{\mathrm{BL},\phi_S}$ closes}{The spectral gap above OBL closes}}
 
 Let
 \[
-  f_S=g_S-\int g_S\,d\rho_S .
+  c_S := \int_{\mathbb R} g_S\,d\rho_S,\qquad
+  f_S := g_S - c_S.
 \]
-Subtracting a constant does not change the BL energy or the variance, so
-\[
-  \delta_{\mathrm{BL},\phi_S}(f_S)
-  =
-  \mathcal E_{\phi_S}(g_S)-\Var_{\rho_S}(g_S).
-\]
-By the Brascamp--Lieb inequality this quantity is non-negative, and Lemmas
-\ref{lem:energy}--\ref{lem:variance} give
-\[
-  \frac{\mathcal E_{\phi_S}(g_S)}{\Var_{\rho_S}(g_S)}\longrightarrow 1.
-\]
-Equivalently,
-\[
-  \frac{\delta_{\mathrm{BL},\phi_S}(f_S)}
-       {\Var_{\rho_S}(f_S)}
-  =
-  \frac{\mathcal E_{\phi_S}(g_S)}{\Var_{\rho_S}(g_S)}-1
-  \longrightarrow 0.
-\]
+Since $g_S$ is even and $\rho_S$ is even, $c_S\in\mathbb R$ and $f_S$ is even
+with $\rho_S$-mean zero. The Brascamp--Lieb deficit and the variance are
+unchanged by additive constants, so
+\begin{equation}\label{eq:fS-vs-gS}
+  \mathcal E_{\phi_S}(f_S)=\mathcal E_{\phi_S}(g_S),\qquad
+  \Var_{\rho_S}(f_S)=\Var_{\rho_S}(g_S),\qquad
+  \delta_{\mathrm{BL},\phi_S}(f_S)=\delta_{\mathrm{BL},\phi_S}(g_S).
+\end{equation}
 
-Since $\phi_S$ is even, $\phi_S'$ is odd.  The function $f_S$ is even and has
-mean zero.  Therefore $f_S$ is orthogonal in $L^2(\rho_S)$ both to constants and
-to $\phi_S'$, i.e. to the whole one-dimensional optimizer space
-$\mathcal O_{\mathrm{BL},\phi_S}=\{a\phi_S'+b\}$.  Thus
-\[
-  \dist_{L^2(\rho_S)}(f_S,\mathcal O_{\mathrm{BL},\phi_S})^2
-  =
-  \|f_S\|_{L^2(\rho_S)}^2
-  =
-  \Var_{\rho_S}(g_S).
-\]
+\begin{lemma}\label{lem:orth}
+$f_S$ is orthogonal in $L^2(\rho_S)$ to the optimizer space
+$\mathcal O_{\mathrm{BL},\phi_S}=\mathrm{span}_{\mathbb R}\{1,\phi'_S\}$.
 Consequently
 \[
-  \frac{
-  \dist_{L^2(\rho_S)}(f_S,\mathcal O_{\mathrm{BL},\phi_S})^2}
-  {\delta_{\mathrm{BL},\phi_S}(f_S)}
-  =
-  \frac{\Var_{\rho_S}(g_S)}
-       {\mathcal E_{\phi_S}(g_S)-\Var_{\rho_S}(g_S)}
-  \longrightarrow+\infty .
+  \dist_{L^2(\rho_S)}(f_S,\mathcal O_{\mathrm{BL},\phi_S})^2
+  =\|f_S\|_{L^2(\rho_S)}^2
+  =\Var_{\rho_S}(g_S).
 \]
-No universal $L^2$ stability constant can therefore exist.  This proves
-Theorem~\ref{thm:l2-fails} in dimension one.
+\end{lemma}
 
-For dimension $d>1$, take the product potential
+\begin{proof}
+$\langle f_S,1\rangle_{L^2(\rho_S)}=\int f_S\,d\rho_S=0$ by construction. For
+the second generator, since $f_S$ is even, $\phi'_S$ is odd, and $e^{-\phi_S}$
+is even, the integrand $f_S(x)\phi'_S(x)e^{-\phi_S(x)}$ is an odd function in
+$L^1(\mathbb R)$, so
 \[
-  \Phi_S(x,y)=\phi_S(x)+\frac{|y|^2}{2},
-  \qquad (x,y)\in\mathbb R\times\mathbb R^{d-1},
+  \langle f_S,\phi'_S\rangle_{L^2(\rho_S)}
+  =\frac{1}{Z_S}\int_{\mathbb R}f_S(x)\phi'_S(x)e^{-\phi_S(x)}\,dx
+  =0.
 \]
-and the test function $F_S(x,y)=f_S(x)$.  The product structure leaves the
-variance and BL energy unchanged.  Moreover $F_S$ is orthogonal to constants,
-to the odd function $\phi_S'(x)$, and to all Gaussian coordinate functions
-$y_1,\ldots,y_{d-1}$.  Hence its $L^2$ distance to the full optimizer space for
-$\Phi_S$ is still its $L^2$ norm, and the same divergent ratio proves the claim
-in every fixed dimension.
+Since $\phi'_S$ is non-constant (it ranges over an interval containing
+$\pm S$), the two generators $1$ and $\phi'_S$ are linearly independent in
+$L^2(\rho_S)$, so $f_S\perp\mathcal O_{\mathrm{BL},\phi_S}$. The distance
+formula follows from $\|f_S\|^2=\int f_S^2\,d\rho_S=\Var_{\rho_S}(g_S)$,
+since $f_S$ has $\rho_S$-mean zero.
+\end{proof}
 
-\begin{remark}
-The earlier idea of using only an unbounded ordinary Poincare constant is not
-sufficient: the Brascamp--Lieb form is affinely invariant, while the Euclidean
-Poincare constant is not.  The construction above instead creates an actual
-near-equality mode for the BL Rayleigh quotient outside the optimizer space.
+\begin{proposition}\label{prop:asymptotics}
+With the choice \eqref{eq:specific-choice}, as $S\to\infty$,
+\[
+  \mathcal E_{\phi_S}(f_S) = \frac{1}{S}-\frac{1}{S^2}+O(S^{-3}),
+  \qquad
+  \Var_{\rho_S}(f_S) = \frac{1}{S}-\frac{2}{S^2}+O(S^{-3}),
+\]
+and consequently
+\[
+  \delta_{\mathrm{BL},\phi_S}(f_S)
+  = \frac{1}{S^2}+O(S^{-3}).
+\]
+In particular $\delta_{\mathrm{BL},\phi_S}(f_S)>0$ for all sufficiently
+large~$S$, and the Brascamp--Lieb Rayleigh quotient
+$\mathcal E_{\phi_S}(f_S)/\Var_{\rho_S}(f_S)$ converges to~$1$ from above at
+rate $1/S$.
+\end{proposition}
+
+\begin{proof}
+Combining Lemma~\ref{lem:energy} with the identity
+$2/(Z_S\,S)=q_S\cdot\bigl(1+O(S^{-2})\bigr)$ from
+Lemma~\ref{lem:normalization}(c) (alternatively, computing directly:
+$2/(Z_S S)=1/(S+1+O(S^{-2}))=1/S-1/S^2+O(S^{-3})$),
+\[
+  \mathcal E_{\phi_S}(g_S)
+  =\frac{2}{Z_S\,S}\bigl(1+O(S^{-2})\bigr)
+  =\Bigl(\tfrac{1}{S}-\tfrac{1}{S^2}+O(S^{-3})\Bigr)\bigl(1+O(S^{-2})\bigr)
+  =\tfrac{1}{S}-\tfrac{1}{S^2}+O(S^{-3}).
+\]
+Lemma~\ref{lem:variance} gives the variance asymptotics. Subtracting,
+\[
+  \delta_{\mathrm{BL},\phi_S}(f_S)
+  =\mathcal E_{\phi_S}(g_S)-\Var_{\rho_S}(g_S)
+  =\Bigl(\tfrac{1}{S}-\tfrac{1}{S^2}\Bigr)
+   -\Bigl(\tfrac{1}{S}-\tfrac{2}{S^2}\Bigr)+O(S^{-3})
+  =\tfrac{1}{S^2}+O(S^{-3}).
+\]
+The displayed asymptotic implies $\delta_{\mathrm{BL},\phi_S}(f_S)>0$ for all
+sufficiently large~$S$.
+\end{proof}
+
+\begin{theorem}[1D part of Theorem~\ref{thm:l2-fails}]\label{thm:1d}
+With the choice \eqref{eq:specific-choice} and the test function $f_S$
+defined above,
+\[
+  \frac{\dist_{L^2(\rho_S)}(f_S,\mathcal O_{\mathrm{BL},\phi_S})^2}
+       {\delta_{\mathrm{BL},\phi_S}(f_S)}
+  =S\bigl(1+O(S^{-1})\bigr)\xrightarrow[S\to\infty]{}+\infty.
+\]
+Therefore the constant in any putative inequality
+\eqref{eq:would-be-stability} must blow up at rate at least~$\sqrt S$.
+\end{theorem}
+
+\begin{proof}
+By Lemma~\ref{lem:orth} and Lemma~\ref{lem:variance},
+\[
+  \dist_{L^2(\rho_S)}(f_S,\mathcal O_{\mathrm{BL},\phi_S})^2
+  =\Var_{\rho_S}(g_S)
+  =\tfrac{1}{S}-\tfrac{2}{S^2}+O(S^{-3}).
+\]
+Combined with $\delta_{\mathrm{BL},\phi_S}(f_S)=1/S^2+O(S^{-3})$ from
+Proposition~\ref{prop:asymptotics},
+\[
+  \frac{\dist^2}{\delta_{\mathrm{BL}}}
+  =\frac{1/S-2/S^2+O(S^{-3})}{1/S^2+O(S^{-3})}
+  =\frac{(1/S)\bigl(1-2/S+O(S^{-2})\bigr)}
+        {(1/S^2)\bigl(1+O(S^{-1})\bigr)}
+  =S\bigl(1+O(S^{-1})\bigr).
+\]
+Equivalently $\dist/\delta_{\mathrm{BL}}^{1/2}=\sqrt S\,\bigl(1+O(S^{-1})\bigr)$,
+so any constant in \eqref{eq:would-be-stability} must satisfy
+$C\ge\sqrt S\,(1+o(1))$.
+\end{proof}
+
+\subsection*{Higher dimensions}
+
+Fix $d\ge 2$ and define the product potential
+\[
+  \Phi_S(x,y):=\phi_S(x)+\frac{|y|^2}{2},
+  \qquad (x,y)\in\mathbb R\times\mathbb R^{d-1}.
+\]
+Then $\Phi_S$ is $C^\infty$, strictly convex (as a sum of strictly convex
+functions in disjoint variables), with
+$D^2\Phi_S=\mathrm{diag}(\phi''_S(x),I_{d-1})$ and
+$(D^2\Phi_S)^{-1}=\mathrm{diag}(1/\phi''_S(x),I_{d-1})$. The associated Gibbs
+measure is the product
+$\rho_{\Phi_S}=\rho_S\otimes\gamma_{d-1}$, with $\gamma_{d-1}$ the standard
+Gaussian on $\mathbb R^{d-1}$. The optimizer space is
+\[
+  \mathcal O_{\mathrm{BL},\Phi_S}
+  =\bigl\{a\cdot\nabla\Phi_S+b: a\in\mathbb R^d,b\in\mathbb R\bigr\}
+  =\mathrm{span}_{\mathbb R}\bigl\{1,\,\phi'_S(x),\,y_1,\dots,y_{d-1}\bigr\},
+\]
+a $(d+1)$-dimensional subspace of $L^2(\rho_{\Phi_S})$.
+
+Set $F_S(x,y):=f_S(x)$, so $\nabla F_S=(f_S'(x),0_{\mathbb R^{d-1}})$ and
+$(D^2\Phi_S)^{-1}\nabla F_S=(f_S'(x)/\phi''_S(x),0)$. Therefore
+\[
+  \bigl\langle (D^2\Phi_S)^{-1}\nabla F_S,\nabla F_S\bigr\rangle
+  =\frac{(f_S'(x))^2}{\phi''_S(x)}
+  \qquad\text{pointwise}.
+\]
+Fubini and $\int d\gamma_{d-1}=1$ give
+\[
+  \int_{\mathbb R^d}\bigl\langle (D^2\Phi_S)^{-1}\nabla F_S,\nabla F_S\bigr\rangle
+   \,d\rho_{\Phi_S}
+  =\int_{\mathbb R}\frac{(f_S')^2}{\phi''_S}\,d\rho_S
+  =\mathcal E_{\phi_S}(f_S),
+\]
+\[
+  \int F_S\,d\rho_{\Phi_S}=\int f_S\,d\rho_S=0,\qquad
+  \Var_{\rho_{\Phi_S}}(F_S)=\int f_S^2\,d\rho_S=\Var_{\rho_S}(f_S),
+\]
+hence
+$\delta_{\mathrm{BL},\Phi_S}(F_S)=\delta_{\mathrm{BL},\phi_S}(f_S)$.
+
+Orthogonality of $F_S$ to each generator of $\mathcal O_{\mathrm{BL},\Phi_S}$:
+\[
+  \langle F_S,1\rangle_{L^2(\rho_{\Phi_S})}=\int f_S\,d\rho_S=0,
+\]
+\[
+  \langle F_S,\phi'_S\rangle_{L^2(\rho_{\Phi_S})}
+  =\Bigl(\int f_S\,\phi'_S\,d\rho_S\Bigr)\Bigl(\int d\gamma_{d-1}\Bigr)
+  =0\cdot 1=0
+  \quad\text{by Lemma~\ref{lem:orth}},
+\]
+\[
+  \langle F_S,y_j\rangle_{L^2(\rho_{\Phi_S})}
+  =\Bigl(\int f_S\,d\rho_S\Bigr)\Bigl(\int y_j\,d\gamma_{d-1}\Bigr)
+  =0\cdot 0=0,
+  \quad j=1,\dots,d-1.
+\]
+Hence $F_S\perp\mathcal O_{\mathrm{BL},\Phi_S}$ in $L^2(\rho_{\Phi_S})$, so
+\[
+  \dist_{L^2(\rho_{\Phi_S})}(F_S,\mathcal O_{\mathrm{BL},\Phi_S})^2
+  =\|F_S\|_{L^2(\rho_{\Phi_S})}^2
+  =\|f_S\|_{L^2(\rho_S)}^2,
+\]
+and the divergent ratio of Theorem~\ref{thm:1d} is unchanged when one passes
+from $(\phi_S,f_S)$ to $(\Phi_S,F_S)$. This proves
+Theorem~\ref{thm:l2-fails} in every dimension $d\ge 1$.\hfill$\square$
+
+\begin{remark}[On the failure of the Poincar\'e route]\label{rem:affine}
+The Brascamp--Lieb Dirichlet form is invariant under affine reparametrizations
+of the underlying space: for $T(x)=Ax+b$ with $A\in GL_d(\mathbb R)$, set
+$\widetilde\phi:=\phi\circ T^{-1}$ and $\widetilde f:=f\circ T^{-1}$. Then
+$\rho_{\widetilde\phi}=T_\#\rho_\phi$, $D^2\widetilde\phi(y)=
+A^{-T}D^2\phi(T^{-1}y)A^{-1}$, $\nabla\widetilde f(y)=A^{-T}\nabla f(T^{-1}y)$,
+and a direct computation yields
+\[
+  \mathcal E_{\widetilde\phi}(\widetilde f)=\mathcal E_\phi(f),\qquad
+  \Var_{\rho_{\widetilde\phi}}(\widetilde f)=\Var_{\rho_\phi}(f),\qquad
+  \mathcal O_{\mathrm{BL},\widetilde\phi}=\mathcal O_{\mathrm{BL},\phi}\circ T^{-1}.
+\]
+The pushforward $L^2$-distance to the optimizer space is also preserved:
+$\dist_{L^2(\rho_{\widetilde\phi})}(\widetilde f,\mathcal O_{\mathrm{BL},
+\widetilde\phi})=\dist_{L^2(\rho_\phi)}(f,\mathcal O_{\mathrm{BL},\phi})$.
+Therefore the ratio
+$\dist_{L^2}^2/\delta_{\mathrm{BL}}$ is an affine invariant of $(\phi,f)$.
+
+The Euclidean Poincar\'e constant $\lambda_1(\rho_\phi)^{-1}$, by contrast,
+\emph{is not} affinely invariant: stretching a measure by an anisotropic
+diagonal matrix multiplies it by the squared anisotropy ratio. Any attempt to
+make the would-be $L^2$-stability constant blow up by exhibiting log-concave
+measures with unbounded ordinary Poincar\'e constant (such as long thin
+rectangles) is therefore doomed: the stretching that creates the large
+Poincar\'e constant is precisely the affine map under which the
+Brascamp--Lieb deficit, the $L^2$-distance to the optimizer space, and the
+optimizer space itself transform covariantly, leaving the relevant ratio
+unchanged.
+
+The construction above evades this obstruction by creating a genuinely new
+near-eigenmode of the Brascamp--Lieb operator $L_{\phi_S}$, in the orthogonal
+complement of $\mathcal O_{\mathrm{BL},\phi_S}$ rather than within an affine
+copy of it. Concretely, the even function $f_S$ realizes a Rayleigh quotient
+$\mathcal E_{\phi_S}(f_S)/\Var_{\rho_S}(f_S)\to 1$ even though $f_S$ stays
+orthogonal to the entire optimizer space $\{1,\phi'_S\}$; this reflects the
+spectral collapse described after Theorem~\ref{thm:l2-fails} and is invariant
+under affine reparametrization.
 \end{remark}
 
 \begin{thebibliography}{10}
@@ -255,9 +746,9 @@ arXiv:2511.22636v2.
 \bibitem{BL76}
 H.~J. Brascamp and E.~H. Lieb,
 \textit{On extensions of the Brunn--Minkowski and Pr\'ekopa--Leindler theorems,
-including inequalities for log-concave functions, and with an application to the
-diffusion equation},
-J. Funct. Anal. 22 (1976), 366--389.
+including inequalities for log-concave functions, and with an application to
+the diffusion equation},
+J.~Funct.~Anal. 22 (1976), 366--389.
 \end{thebibliography}
 
 \end{document}

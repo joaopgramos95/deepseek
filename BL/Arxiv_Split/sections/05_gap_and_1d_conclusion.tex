@@ -1,0 +1,118 @@
+\section{\texorpdfstring{The spectral gap above
+$\mathcal O_{\mathrm{BL},\phi_S}$ closes}{The spectral gap above OBL closes}}
+
+Let
+\[
+  c_S := \int_{\mathbb R} g_S\,d\rho_S,\qquad
+  f_S := g_S - c_S.
+\]
+Since $g_S$ is even and $\rho_S$ is even, $c_S\in\mathbb R$ and $f_S$ is even
+with $\rho_S$-mean zero. The Brascamp--Lieb deficit and the variance are
+unchanged by additive constants, so
+\begin{equation}\label{eq:fS-vs-gS}
+  \mathcal E_{\phi_S}(f_S)=\mathcal E_{\phi_S}(g_S),\qquad
+  \Var_{\rho_S}(f_S)=\Var_{\rho_S}(g_S),\qquad
+  \delta_{\mathrm{BL},\phi_S}(f_S)=\delta_{\mathrm{BL},\phi_S}(g_S).
+\end{equation}
+
+\begin{lemma}\label{lem:orth}
+$f_S$ is orthogonal in $L^2(\rho_S)$ to the optimizer space
+$\mathcal O_{\mathrm{BL},\phi_S}=\mathrm{span}_{\mathbb R}\{1,\phi'_S\}$.
+Consequently
+\[
+  \dist_{L^2(\rho_S)}(f_S,\mathcal O_{\mathrm{BL},\phi_S})^2
+  =\|f_S\|_{L^2(\rho_S)}^2
+  =\Var_{\rho_S}(g_S).
+\]
+\end{lemma}
+
+\begin{proof}
+$\langle f_S,1\rangle_{L^2(\rho_S)}=\int f_S\,d\rho_S=0$ by construction. For
+the second generator, since $f_S$ is even, $\phi'_S$ is odd, and $e^{-\phi_S}$
+is even, the integrand $f_S(x)\phi'_S(x)e^{-\phi_S(x)}$ is an odd function in
+$L^1(\mathbb R)$, so
+\[
+  \langle f_S,\phi'_S\rangle_{L^2(\rho_S)}
+  =\frac{1}{Z_S}\int_{\mathbb R}f_S(x)\phi'_S(x)e^{-\phi_S(x)}\,dx
+  =0.
+\]
+Since $\phi'_S$ is non-constant (it ranges over an interval containing
+$\pm S$), the two generators $1$ and $\phi'_S$ are linearly independent in
+$L^2(\rho_S)$, so $f_S\perp\mathcal O_{\mathrm{BL},\phi_S}$. The distance
+formula follows from $\|f_S\|^2=\int f_S^2\,d\rho_S=\Var_{\rho_S}(g_S)$,
+since $f_S$ has $\rho_S$-mean zero.
+\end{proof}
+
+\begin{proposition}\label{prop:asymptotics}
+With the choice \eqref{eq:specific-choice}, as $S\to\infty$,
+\[
+  \mathcal E_{\phi_S}(f_S) = \frac{1}{S}-\frac{1}{S^2}+O(S^{-3}),
+  \qquad
+  \Var_{\rho_S}(f_S) = \frac{1}{S}-\frac{2}{S^2}+O(S^{-3}),
+\]
+and consequently
+\[
+  \delta_{\mathrm{BL},\phi_S}(f_S)
+  = \frac{1}{S^2}+O(S^{-3}).
+\]
+In particular $\delta_{\mathrm{BL},\phi_S}(f_S)>0$ for all sufficiently
+large~$S$, and the Brascamp--Lieb Rayleigh quotient
+$\mathcal E_{\phi_S}(f_S)/\Var_{\rho_S}(f_S)$ converges to~$1$ from above at
+rate $1/S$.
+\end{proposition}
+
+\begin{proof}
+Combining Lemma~\ref{lem:energy} with the identity
+$2/(Z_S\,S)=q_S\cdot\bigl(1+O(S^{-2})\bigr)$ from
+Lemma~\ref{lem:normalization}(c) (alternatively, computing directly:
+$2/(Z_S S)=1/(S+1+O(S^{-2}))=1/S-1/S^2+O(S^{-3})$),
+\[
+  \mathcal E_{\phi_S}(g_S)
+  =\frac{2}{Z_S\,S}\bigl(1+O(S^{-2})\bigr)
+  =\Bigl(\tfrac{1}{S}-\tfrac{1}{S^2}+O(S^{-3})\Bigr)\bigl(1+O(S^{-2})\bigr)
+  =\tfrac{1}{S}-\tfrac{1}{S^2}+O(S^{-3}).
+\]
+Lemma~\ref{lem:variance} gives the variance asymptotics. Subtracting,
+\[
+  \delta_{\mathrm{BL},\phi_S}(f_S)
+  =\mathcal E_{\phi_S}(g_S)-\Var_{\rho_S}(g_S)
+  =\Bigl(\tfrac{1}{S}-\tfrac{1}{S^2}\Bigr)
+   -\Bigl(\tfrac{1}{S}-\tfrac{2}{S^2}\Bigr)+O(S^{-3})
+  =\tfrac{1}{S^2}+O(S^{-3}).
+\]
+The displayed asymptotic implies $\delta_{\mathrm{BL},\phi_S}(f_S)>0$ for all
+sufficiently large~$S$.
+\end{proof}
+
+\begin{theorem}[1D part of Theorem~\ref{thm:l2-fails}]\label{thm:1d}
+With the choice \eqref{eq:specific-choice} and the test function $f_S$
+defined above,
+\[
+  \frac{\dist_{L^2(\rho_S)}(f_S,\mathcal O_{\mathrm{BL},\phi_S})^2}
+       {\delta_{\mathrm{BL},\phi_S}(f_S)}
+  =S\bigl(1+O(S^{-1})\bigr)\xrightarrow[S\to\infty]{}+\infty.
+\]
+Therefore the constant in any putative inequality
+\eqref{eq:would-be-stability} must blow up at rate at least~$\sqrt S$.
+\end{theorem}
+
+\begin{proof}
+By Lemma~\ref{lem:orth} and Lemma~\ref{lem:variance},
+\[
+  \dist_{L^2(\rho_S)}(f_S,\mathcal O_{\mathrm{BL},\phi_S})^2
+  =\Var_{\rho_S}(g_S)
+  =\tfrac{1}{S}-\tfrac{2}{S^2}+O(S^{-3}).
+\]
+Combined with $\delta_{\mathrm{BL},\phi_S}(f_S)=1/S^2+O(S^{-3})$ from
+Proposition~\ref{prop:asymptotics},
+\[
+  \frac{\dist^2}{\delta_{\mathrm{BL}}}
+  =\frac{1/S-2/S^2+O(S^{-3})}{1/S^2+O(S^{-3})}
+  =\frac{(1/S)\bigl(1-2/S+O(S^{-2})\bigr)}
+        {(1/S^2)\bigl(1+O(S^{-1})\bigr)}
+  =S\bigl(1+O(S^{-1})\bigr).
+\]
+Equivalently $\dist/\delta_{\mathrm{BL}}^{1/2}=\sqrt S\,\bigl(1+O(S^{-1})\bigr)$,
+so any constant in \eqref{eq:would-be-stability} must satisfy
+$C\ge\sqrt S\,(1+o(1))$.
+\end{proof}
