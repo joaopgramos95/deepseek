@@ -190,10 +190,11 @@ lemma g_S_core_eq_zero (hS : 0 < S) {x : ℝ}
   unfold g_S
   have hxabs : |x| ≤ 1 - epsOf S := by
     rcases hx with ⟨h1, h2⟩
-    rcases le_or_lt 0 x with hx0 | hx0
+    rcases le_or_gt 0 x with hx0 | hx0
     · rw [abs_of_nonneg hx0]; exact h2
     · rw [abs_of_neg hx0]; linarith
-  simp [hxabs]
+  classical
+  rw [if_pos hxabs]
 
 /-- On the exterior, `g_S ≡ 1`. -/
 lemma g_S_exterior_eq_one (hS : 0 < S) {x : ℝ}
@@ -203,41 +204,42 @@ lemma g_S_exterior_eq_one (hS : 0 < S) {x : ℝ}
   have h1 : ¬ |x| ≤ 1 - epsOf S := by
     intro h
     have : epsOf S < 0 := by
-      have := lt_of_le_of_lt h hxabs
+      have hh : 1 + epsOf S < 1 - epsOf S := lt_of_lt_of_le hxabs h
       linarith
     linarith [epsOf_pos hS]
   have h2 : ¬ |x| < 1 + epsOf S := not_lt.mpr (le_of_lt hxabs)
-  simp [h1, h2]
+  classical
+  rw [if_neg h1, if_neg h2]
 
 /-- On the positive layer, `g_S(x) = N_S(|x|) / A_S`. -/
-lemma g_S_layer_pos_eq (hS : 0 < S) {x : ℝ} (hx : x ∈ layerPos S) :
+lemma g_S_layer_pos_eq (hS : 1 < S) {x : ℝ} (hx : x ∈ layerPos S) :
     g_S S x = N_S S |x| / A_S S := by
+  have hSpos : 0 < S := lt_trans zero_lt_one hS
   rcases hx with ⟨h1, h2⟩
-  have hx_pos : 0 < x := by
-    have h_eps_lt : epsOf S < 1 := by
-      have := epsOf_pos hS
-      nlinarith [epsOf_pos hS, h1]
-    linarith
+  have h_eps_lt : epsOf S < 1 := epsOf_lt_one hS
+  have hx_pos : 0 < x := by linarith
   have hxabs : |x| = x := abs_of_pos hx_pos
   unfold g_S
   have hnotle : ¬ |x| ≤ 1 - epsOf S := by
     rw [hxabs]; push_neg; exact h1
   have hlt : |x| < 1 + epsOf S := by rw [hxabs]; exact h2
-  simp [hnotle, hlt]
+  classical
+  rw [if_neg hnotle, if_pos hlt]
 
 /-- On the negative layer, `g_S(x) = N_S(|x|) / A_S`. -/
-lemma g_S_layer_neg_eq (hS : 0 < S) {x : ℝ} (hx : x ∈ layerNeg S) :
+lemma g_S_layer_neg_eq (hS : 1 < S) {x : ℝ} (hx : x ∈ layerNeg S) :
     g_S S x = N_S S |x| / A_S S := by
+  have hSpos : 0 < S := lt_trans zero_lt_one hS
   rcases hx with ⟨h1, h2⟩
-  have hx_neg : x < 0 := by
-    have := epsOf_pos hS
-    linarith
+  have h_eps_lt : epsOf S < 1 := epsOf_lt_one hS
+  have hx_neg : x < 0 := by linarith
   have hxabs : |x| = -x := abs_of_neg hx_neg
   unfold g_S
   have hnotle : ¬ |x| ≤ 1 - epsOf S := by
     rw [hxabs]; push_neg; linarith
   have hlt : |x| < 1 + epsOf S := by rw [hxabs]; linarith
-  simp [hnotle, hlt]
+  classical
+  rw [if_neg hnotle, if_pos hlt]
 
 /-- Endpoint value: `N_S(1 - ε) = 0`. -/
 lemma N_S_left_endpoint (S : ℝ) : N_S S (1 - epsOf S) = 0 := by
@@ -253,25 +255,25 @@ lemma N_S_right_endpoint {S : ℝ} (hS : 1 < S) :
 /-- `g_S` at the left layer boundary equals `0`. -/
 lemma g_S_at_left_layer_boundary (hS : 1 < S) :
     g_S S (1 - epsOf S) = 0 := by
-  have hSpos : 0 < S := lt_trans zero_lt_one hS
   -- `|1 - ε| = 1 - ε ≤ 1 - ε`.
   unfold g_S
   have hle : |1 - epsOf S| ≤ 1 - epsOf S := by
     have h_eps_lt : epsOf S < 1 := epsOf_lt_one hS
     have h_nonneg : 0 ≤ 1 - epsOf S := by linarith
     rw [abs_of_nonneg h_nonneg]
-  simp [hle]
+  classical
+  rw [if_pos hle]
 
 /-- `g_S` at the negative left boundary equals `0`. -/
 lemma g_S_at_neg_left_layer_boundary (hS : 1 < S) :
     g_S S (-(1 - epsOf S)) = 0 := by
-  have hSpos : 0 < S := lt_trans zero_lt_one hS
   unfold g_S
   have h_eps_lt : epsOf S < 1 := epsOf_lt_one hS
   have h_nonneg : 0 ≤ 1 - epsOf S := by linarith
   have hle : |-(1 - epsOf S)| ≤ 1 - epsOf S := by
     rw [abs_neg, abs_of_nonneg h_nonneg]
-  simp [hle]
+  classical
+  rw [if_pos hle]
 
 /-- `g_S` at the right layer boundary equals `1`. -/
 lemma g_S_at_right_layer_boundary (hS : 1 < S) :
@@ -282,10 +284,11 @@ lemma g_S_at_right_layer_boundary (hS : 1 < S) :
   have hpos : 0 ≤ 1 + epsOf S := by linarith
   have habs : |1 + epsOf S| = 1 + epsOf S := abs_of_nonneg hpos
   have h1 : ¬ |1 + epsOf S| ≤ 1 - epsOf S := by
-    rw [habs]; push_neg; linarith
+    rw [habs]; linarith
   have h2 : ¬ |1 + epsOf S| < 1 + epsOf S := by
-    rw [habs]; push_neg
-  simp [h1, h2]
+    rw [habs]; linarith
+  classical
+  rw [if_neg h1, if_neg h2]
 
 /-- `g_S` at the negative right boundary equals `1`. -/
 lemma g_S_at_neg_right_layer_boundary (hS : 1 < S) :
@@ -297,10 +300,11 @@ lemma g_S_at_neg_right_layer_boundary (hS : 1 < S) :
   have habs : |-(1 + epsOf S)| = 1 + epsOf S := by
     rw [abs_neg, abs_of_nonneg hpos]
   have h1 : ¬ |-(1 + epsOf S)| ≤ 1 - epsOf S := by
-    rw [habs]; push_neg; linarith
+    rw [habs]; linarith
   have h2 : ¬ |-(1 + epsOf S)| < 1 + epsOf S := by
-    rw [habs]; push_neg
-  simp [h1, h2]
+    rw [habs]; linarith
+  classical
+  rw [if_neg h1, if_neg h2]
 
 end EndpointAndRange
 
@@ -448,7 +452,7 @@ lemma hasDerivAt_g_S_core {S : ℝ} (hS : 1 < S) {x : ℝ}
     exact g_S_core_eq_zero hSpos (hball hy)
   -- derivative of a function that is eventually 0 is 0.
   exact (hasDerivAt_const x (0 : ℝ)).congr_of_eventuallyEq (by
-    filter_upwards [h_nbhd] with y hy using hy.symm)
+    filter_upwards [h_nbhd] with y hy using hy)
 
 /-- On the open exterior `(1+ε, ∞)` or `(-∞, -1-ε)`, `g_S` is locally `1`, so
 `(g_S)'(x) = 0`. -/
@@ -494,7 +498,7 @@ lemma hasDerivAt_g_S_exterior {S : ℝ} (hS : 1 < S) {x : ℝ}
       filter_upwards [Metric.ball_mem_nhds x hr_pos] with y hy
       exact g_S_exterior_eq_one hSpos (h_sub hy)
   exact (hasDerivAt_const x (1 : ℝ)).congr_of_eventuallyEq (by
-    filter_upwards [h_nbhd] with y hy using hy.symm)
+    filter_upwards [h_nbhd] with y hy using hy)
 
 /-! ## Continuity of `g_S`
 
@@ -518,18 +522,23 @@ piecewise according to the formulas above. -/
 
 /-- The piecewise derivative representative of `g_S`. -/
 noncomputable def g_S' (S : ℝ) (x : ℝ) : ℝ :=
+  open Classical in
   if x ∈ layerPos S then phi_S'' S x * Real.exp (phi_S S x) / A_S S
   else if x ∈ layerNeg S then -(phi_S'' S x * Real.exp (phi_S S x)) / A_S S
   else 0
 
 lemma g_S'_layer_pos {S : ℝ} {x : ℝ} (hx : x ∈ layerPos S) :
     g_S' S x = phi_S'' S x * Real.exp (phi_S S x) / A_S S := by
-  unfold g_S'; simp [hx]
+  classical
+  unfold g_S'
+  rw [if_pos hx]
 
 lemma g_S'_layer_neg {S : ℝ} {x : ℝ}
     (hx : x ∈ layerNeg S) (hxnotpos : x ∉ layerPos S) :
     g_S' S x = -(phi_S'' S x * Real.exp (phi_S S x)) / A_S S := by
-  unfold g_S'; simp [hx, hxnotpos]
+  classical
+  unfold g_S'
+  rw [if_neg hxnotpos, if_pos hx]
 
 lemma g_S'_layers_disjoint {S : ℝ} (hS : 1 < S) (x : ℝ) :
     ¬ (x ∈ layerPos S ∧ x ∈ layerNeg S) := by
@@ -545,7 +554,9 @@ lemma g_S'_layers_disjoint {S : ℝ} (hS : 1 < S) (x : ℝ) :
 lemma g_S'_off_layers {S : ℝ} {x : ℝ}
     (hxnotpos : x ∉ layerPos S) (hxnotneg : x ∉ layerNeg S) :
     g_S' S x = 0 := by
-  unfold g_S'; simp [hxnotpos, hxnotneg]
+  classical
+  unfold g_S'
+  rw [if_neg hxnotpos, if_neg hxnotneg]
 
 /-- The Brascamp--Lieb energy of an integrand with respect to `ρ_φ`,
 specialised to our piecewise derivative representative. -/
@@ -639,10 +650,10 @@ axiom integral_g_S_sq_eq_q_plus_error {S : ℝ} (hS : 1 < S) :
 
 /-- **Variance of `g_S`** equals `q_S(1-q_S) + O(S^{-3})`.
 
-The remainder is bounded by `3 t_S S`: this combines `|q_S| ≤ 1`, `|R₁| ≤ t_S`,
+The remainder is bounded by `4 t_S S`: this combines `|q_S| ≤ 1`, `|R₁| ≤ t_S`,
 `|R₂| ≤ t_S`, and `t_S ≤ 1`. -/
 lemma Var_phi_g_S {S : ℝ} (hS : 1 < S) :
-    ∃ R : ℝ, |R| ≤ 3 * t_S S ∧
+    ∃ R : ℝ, |R| ≤ 4 * t_S S ∧
       Var_phi S (g_S S) = q_S S * (1 - q_S S) + R := by
   obtain ⟨R₁, hR₁, hint₁⟩ := integral_g_S_eq_q_plus_error hS
   obtain ⟨R₂, hR₂, hint₂⟩ := integral_g_S_sq_eq_q_plus_error hS
@@ -658,11 +669,12 @@ lemma Var_phi_g_S {S : ℝ} (hS : 1 < S) :
     -- Bound each term.
     have hT1 : |R₂| ≤ t_S S := hR2_abs
     have hT2 : |2 * q_S S * R₁| ≤ 2 * t_S S := by
-      have : |2 * q_S S * R₁| = 2 * |q_S S| * |R₁| := by
+      have heq : |2 * q_S S * R₁| = 2 * |q_S S| * |R₁| := by
         rw [show (2 : ℝ) * q_S S * R₁ = 2 * (q_S S * R₁) from by ring,
             abs_mul, abs_mul]
-        simp [abs_of_pos (by norm_num : (0:ℝ) < 2)]
-      rw [this]
+        rw [abs_of_pos (by norm_num : (0:ℝ) < 2)]
+        ring
+      rw [heq]
       nlinarith
     have hT3_abs : |R₁^2| ≤ t_S S := by
       rw [abs_of_nonneg (sq_nonneg _)]
@@ -694,7 +706,7 @@ lemma Var_phi_g_S_isBigO :
   -- Step 1: |Var − q(1−q)| ≤ 3 · t_S for S > 1.
   have hbound :
       ∀ᶠ S in Filter.atTop,
-        ‖Var_phi S (g_S S) - q_S S * (1 - q_S S)‖ ≤ 3 * ‖t_S S‖ := by
+        ‖Var_phi S (g_S S) - q_S S * (1 - q_S S)‖ ≤ 4 * ‖t_S S‖ := by
     rw [Filter.eventually_atTop]
     refine ⟨2, fun S hS => ?_⟩
     have hS' : (1 : ℝ) < S := by linarith
@@ -706,7 +718,7 @@ lemma Var_phi_g_S_isBigO :
     rw [hkey, abs_of_nonneg hnn]
     exact hR
   -- Step 2: combine with t_S = O(S^{-3}).
-  exact (IsBigO.of_bound (3 : ℝ) hbound).trans t_S_asymp
+  exact (IsBigO.of_bound (4 : ℝ) hbound).trans t_S_asymp
 
 /-- Combining `Var_phi_g_S_isBigO` with `q_S_asymp` and the algebraic
 expansion of `q(1-q)` we obtain `Var ρ_S g_S = 1/S - 2/S^2 + O(S^{-3})`. -/
@@ -724,8 +736,6 @@ noncomputable def varEnergyRatio (S : ℝ) : ℝ :=
 lemma varEnergyRatio_eq {S : ℝ} (hS : 1 < S) :
     varEnergyRatio S = Var_phi S (g_S S) * (Z_S S * A_S S) / 2 := by
   unfold varEnergyRatio
-  rw [E_phi_g_S_eq hS]
-  rw [div_div_eq_mul_div]
-  ring
+  rw [E_phi_g_S_eq hS, div_div_eq_mul_div]
 
 end L2Counterexample

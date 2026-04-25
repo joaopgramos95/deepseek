@@ -26,6 +26,7 @@ mathlib API in `Mathlib/Analysis/Calculus/BumpFunction/Normed.lean`.
 noncomputable section
 
 open MeasureTheory Set Metric
+open scoped ContDiff
 
 namespace L2Counterexample
 
@@ -56,7 +57,7 @@ theorem kappa_nonneg (x : ℝ) : 0 ≤ kappa x :=
   kappaBump.nonneg_normed x
 
 /-- `kappa` is smooth of every order. -/
-theorem kappa_contDiff : ContDiff ℝ ⊤ kappa :=
+theorem kappa_contDiff : ContDiff ℝ ∞ kappa :=
   kappaBump.contDiff_normed
 
 /-- `kappa` is continuous. -/
@@ -69,15 +70,22 @@ theorem kappa_hasCompactSupport : HasCompactSupport kappa :=
 
 /-- The support of `kappa` is the open interval `(-1, 1)`. -/
 theorem kappa_support_eq : Function.support kappa = Set.Ioo (-1 : ℝ) 1 := by
-  have h := kappaBump.support_normed_eq (μ := volume)
+  have h : Function.support kappa = Metric.ball (0 : ℝ) kappaBump.rOut :=
+    kappaBump.support_normed_eq (μ := volume)
+  rw [h]
   -- `Metric.ball (0 : ℝ) 1 = Set.Ioo (-1) 1`
-  simpa [kappaBump, Real.ball_eq_Ioo, zero_sub, zero_add] using h
+  show Metric.ball (0 : ℝ) (1 : ℝ) = Set.Ioo (-1 : ℝ) 1
+  rw [Real.ball_eq_Ioo]
+  ring_nf
 
 /-- The topological support of `kappa` is the closed interval `[-1, 1]`. -/
 theorem kappa_tsupport_eq : tsupport kappa = Set.Icc (-1 : ℝ) 1 := by
-  have h := kappaBump.tsupport_normed_eq (μ := volume)
-  -- `Metric.closedBall (0 : ℝ) 1 = Set.Icc (-1) 1`
-  simpa [kappaBump, Real.closedBall_eq_Icc, zero_sub, zero_add] using h
+  have h : tsupport kappa = Metric.closedBall (0 : ℝ) kappaBump.rOut :=
+    kappaBump.tsupport_normed_eq (μ := volume)
+  rw [h]
+  show Metric.closedBall (0 : ℝ) (1 : ℝ) = Set.Icc (-1 : ℝ) 1
+  rw [Real.closedBall_eq_Icc]
+  ring_nf
 
 /-- `kappa` is supported in `[-1, 1]`. -/
 theorem kappa_tsupport_subset : tsupport kappa ⊆ Set.Icc (-1 : ℝ) 1 := by
@@ -180,8 +188,8 @@ theorem kappa_intervalIntegral (a b : ℝ) (ha : a ≤ -1) (hb : 1 ≤ b) :
   rw [← h]
   -- Convert `Icc a b` to `Ioc a b`: they differ by the singleton `{a}` which
   -- has measure zero.
-  refine (MeasureTheory.setIntegral_congr_set ?_).symm
-  exact Set.Ioc_ae_eq_Icc
+  refine MeasureTheory.setIntegral_congr_set ?_
+  exact Ioc_ae_eq_Icc (μ := volume) (a := a) (b := b)
 
 /-! ## Existence statement
 
@@ -191,7 +199,7 @@ existential statement to a concrete definition. -/
 /-- Existence of a smooth, even, compactly supported probability bump. -/
 theorem bump_exists :
     ∃ κ : ℝ → ℝ,
-      ContDiff ℝ ⊤ κ ∧
+      ContDiff ℝ ∞ κ ∧
       (∀ x, 0 ≤ κ x) ∧
       (∀ x, 1 < |x| → κ x = 0) ∧
       (∀ x, κ (-x) = κ x) ∧

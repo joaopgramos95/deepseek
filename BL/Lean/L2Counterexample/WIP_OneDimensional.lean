@@ -225,22 +225,24 @@ This is the key lemma behind the parity orthogonality. -/
 lemma integral_odd_of_reflection_invariant
     {mu : Measure ℝ} (h_symm : mu.map (fun x : ℝ => -x) = mu)
     {u : ℝ → ℝ} (h_odd : ∀ x, u (-x) = -u x)
-    (h_meas : AEMeasurable u mu) (h_int : Integrable u mu) :
+    (_h_meas : AEMeasurable u mu) (h_int : Integrable u mu) :
     ∫ x, u x ∂mu = 0 := by
   -- Substitute `x ↦ -x`: using reflection-invariance,
   --   ∫ u dmu = ∫ u dmu.map(neg) = ∫ u(-x) dmu = -∫ u dmu.
   have h_meas_neg : Measurable (fun x : ℝ => -x) := measurable_neg
+  have h_aestrong : AEStronglyMeasurable u (mu.map (fun x : ℝ => -x)) := by
+    rw [h_symm]; exact h_int.aestronglyMeasurable
   have h1 : ∫ x, u x ∂mu = ∫ x, u (-x) ∂mu := by
     -- `mu` is the pushforward under `neg`, so integrate against the pushforward.
-    have := MeasureTheory.integral_map (μ := mu) (f := fun x : ℝ => -x)
-              (g := u) h_meas_neg.aemeasurable h_meas
-    rw [h_symm] at this
-    -- `this : ∫ y, u y ∂mu = ∫ x, u (-x) ∂mu`
-    simpa using this
+    have hmap := MeasureTheory.integral_map (μ := mu) (φ := fun x : ℝ => -x)
+                  (f := u) h_meas_neg.aemeasurable h_aestrong
+    rw [h_symm] at hmap
+    -- hmap : ∫ y, u y ∂mu = ∫ x, u ((fun x => -x) x) ∂mu
+    simpa using hmap
   -- Combine with oddness.
   have h2 : ∫ x, u (-x) ∂mu = -∫ x, u x ∂mu := by
     have h_eq : (fun x => u (-x)) = fun x => -u x := funext h_odd
-    rw [h_eq, integral_neg]
+    rw [h_eq, MeasureTheory.integral_neg]
   linarith [h1, h2]
 
 /-! ### Evenness of `f_S`, zero mean, and parity orthogonality
@@ -360,11 +362,13 @@ lemma inner_toLp_eq_integral
     (hu : MemLp u 2 (rho_S S)) (hv : MemLp v 2 (rho_S S)) :
     @inner ℝ _ _ (hu.toLp u) (hv.toLp v) = ∫ x, u x * v x ∂(rho_S S) := by
   -- Use `Lp.inner_def` together with `MemLp.coeFn_toLp`.
-  -- This unfolds the definition `⟨f,g⟩ = ∫ f(x) * g(x) dμ` for real `L^2`.
-  simp only [L2.inner_def, RCLike.inner_apply, conj_trivial]
+  rw [L2.inner_def]
   refine integral_congr_ae ?_
   filter_upwards [hu.coeFn_toLp, hv.coeFn_toLp] with x hxu hxv
   rw [hxu, hxv]
+  -- For ℝ as inner product space, `inner ℝ a b = b * a`. Compute via `re`.
+  show RCLike.re (v x * (starRingEnd ℝ) (u x)) = u x * v x
+  simp [mul_comm]
 
 /-- `f_S ⟂ 1` in `L²(rho_S)`. -/
 lemma ffLp_perp_oneLp (S : ℝ) :
@@ -390,11 +394,12 @@ lemma ffLp_perp_optSubspace (S : ℝ) :
   refine Submodule.span_induction (p := fun z _ => @inner ℝ _ _ (ffLp S) z = 0)
     (hx := hy) ?_ ?_ ?_ ?_
   · -- generators: y = oneLp S or y = phiDerLp S
-    rintro z (rfl | rfl)
+    rintro z hz
+    rcases hz with rfl | hz_singleton
     · exact ffLp_perp_oneLp S
-    · rw [Set.mem_singleton_iff] at *
-      -- if z ∈ {phiDerLp S}, then z = phiDerLp S
-      subst z
+    · -- z ∈ {phiDerLp S}, so z = phiDerLp S
+      rw [Set.mem_singleton_iff] at hz_singleton
+      subst hz_singleton
       exact ffLp_perp_phiDerLp S
   · -- zero
     simp
@@ -418,7 +423,8 @@ instance optSubspace_fd (S : ℝ) :
     FiniteDimensional ℝ (optSubspace S) := by
   -- Span of a finite set is finite-dimensional.
   unfold optSubspace
-  exact FiniteDimensional.span_of_finite ℝ (Set.finite_insert _ (Set.finite_singleton _))
+  exact FiniteDimensional.span_of_finite ℝ
+    ((Set.finite_singleton _).insert _)
 
 /-- `O_S` is (topologically) complete. -/
 instance optSubspace_complete (S : ℝ) :
@@ -428,7 +434,7 @@ instance optSubspace_complete (S : ℝ) :
 /-- `O_S` is closed as a subset of `L²(rho_S)`. -/
 lemma optSubspace_isClosed (S : ℝ) :
     IsClosed ((optSubspace S : Submodule ℝ (L2RhoS S)) : Set (L2RhoS S)) :=
-  Submodule.isClosed_of_finiteDimensional (optSubspace S)
+  Submodule.closed_of_finiteDimensional (optSubspace S)
 
 /-- **Distance identity.** `dist(f_S, O_S)² = ‖f_S‖²`. Since `f_S ⟂ O_S`
 and `0 ∈ O_S`, the orthogonal projection of `f_S` onto the closed
@@ -455,31 +461,26 @@ lemma dist_ffLp_optSubspace_sq_eq (S : ℝ) :
   have h_lower : ∀ y ∈ K, ‖x‖ ≤ ‖x - y‖ := by
     intro y hy
     have hperp : @inner ℝ _ _ x y = 0 := hx_perp y hy
-    -- ‖x - y‖² = ‖x‖² - 2·⟨x,y⟩ + ‖y‖² = ‖x‖² + ‖y‖²
     have h_sq : ‖x - y‖ ^ 2 = ‖x‖ ^ 2 + ‖y‖ ^ 2 := by
-      rw [@norm_sub_sq_real]
-      have : @inner ℝ _ _ x y = 0 := hperp
-      linarith
+      rw [norm_sub_sq_real, hperp]; ring
     have h_mono : ‖x‖ ^ 2 ≤ ‖x - y‖ ^ 2 := by
-      rw [h_sq]; have : 0 ≤ ‖y‖ ^ 2 := by positivity; linarith
-    exact abs_le_of_sq_le_sq' (by
-      have hx_nn : 0 ≤ ‖x‖ := norm_nonneg _
-      have hxy_nn : 0 ≤ ‖x - y‖ := norm_nonneg _
-      nlinarith [h_mono, hx_nn, hxy_nn]) (norm_nonneg _) |>.2
+      have hy_nn : 0 ≤ ‖y‖ ^ 2 := sq_nonneg _
+      linarith [h_sq]
+    have hx_nn : 0 ≤ ‖x‖ := norm_nonneg _
+    have hxy_nn : 0 ≤ ‖x - y‖ := norm_nonneg _
+    nlinarith [h_mono, hx_nn, hxy_nn, sq_nonneg (‖x - y‖ - ‖x‖)]
   -- `infDist x K = ‖x‖`.
+  have hK_nonempty : (K : Set (L2RhoS S)).Nonempty := ⟨0, hzero_mem⟩
   have h_inf_lb : ‖x‖ ≤ Metric.infDist x (K : Set (L2RhoS S)) := by
-    refine le_csInf ⟨‖x - 0‖, by
-      refine ⟨0, ?_, ?_⟩
-      · exact hzero_mem
-      · rfl⟩ ?_
-    rintro d ⟨y, hy, rfl⟩
+    rw [Metric.le_infDist hK_nonempty]
+    intro y hy
     rw [dist_eq_norm]
     exact h_lower y hy
   have h_inf_ub : Metric.infDist x (K : Set (L2RhoS S)) ≤ ‖x‖ := by
-    have : Metric.infDist x (K : Set (L2RhoS S)) ≤ dist x 0 := by
-      exact Metric.infDist_le_dist_of_mem hzero_mem
-    rw [dist_zero_right] at this
-    exact this
+    have hbd : Metric.infDist x (K : Set (L2RhoS S)) ≤ dist x 0 :=
+      Metric.infDist_le_dist_of_mem hzero_mem
+    rw [dist_zero_right] at hbd
+    exact hbd
   have h_inf_eq : Metric.infDist x (K : Set (L2RhoS S)) = ‖x‖ :=
     le_antisymm h_inf_ub h_inf_lb
   rw [h_inf_eq]
@@ -493,12 +494,18 @@ Var_{rho_S}(f_S)` (translation-invariance of variance).
 /-- The squared `L²` norm of `f_S` equals `∫ f_S² d rho_S` (definition). -/
 lemma norm_ffLp_sq_eq_integral (S : ℝ) :
     ‖ffLp S‖ ^ 2 = ∫ x, (ff_S S x) ^ 2 ∂(rho_S S) := by
-  unfold ffLp
-  -- `‖u.toLp‖² = ∫ |u|² = ∫ u²` for real `u ∈ L²`.
-  rw [MemLp.norm_toLp]
-  -- `MemLp.norm_toLp` returns `(∫ ‖u x‖^2)^(1/2)` via `eLpNorm`. We
-  -- rewrite it into the real-valued version.
-  sorry
+  -- For a real Hilbert space, `‖x‖² = ⟨x, x⟩`, and the L²-inner product
+  -- of `u.toLp` with itself is `∫ u² dμ`.
+  have hinner :
+      @inner ℝ _ _ (ffLp S) (ffLp S) = ∫ x, ff_S S x * ff_S S x ∂(rho_S S) := by
+    unfold ffLp
+    exact inner_toLp_eq_integral (ff_S_memL2 S) (ff_S_memL2 S)
+  have hnorm_sq : ‖ffLp S‖ ^ 2 = @inner ℝ _ _ (ffLp S) (ffLp S) :=
+    (real_inner_self_eq_norm_sq (ffLp S)).symm
+  rw [hnorm_sq, hinner]
+  refine integral_congr_ae ?_
+  filter_upwards with x
+  ring
 
 /-- `‖f_S‖² = Var rho_S f_S`. -/
 lemma norm_ffLp_sq_eq_var (S : ℝ) :
@@ -572,12 +579,15 @@ lemma delta_phi_S_eventually_pos :
   have hS_big : 2 * (C + 1) ≤ S :=
     le_trans (le_max_right _ _) (le_trans (le_max_right _ _) hS)
   have hSpos : 0 < S := lt_of_lt_of_le one_pos hS_ge_one
-  have h := hbd S hS1
+  have h' := hbd S hS1
+  have h : |delta_phi_S S - 1 / S ^ 2| ≤ C * S ^ (-(3:ℤ)) := h'
   -- delta ≥ 1/S^2 - C / S^3
   have hS2_pos : 0 < S ^ 2 := by positivity
   have hS3_pos : 0 < S ^ 3 := by positivity
+  have hSne : S ≠ 0 := hSpos.ne'
   have hpow : S ^ (-(3:ℤ)) = 1 / S ^ 3 := by
-    rw [zpow_neg]; simp [zpow_natCast]
+    rw [show (-(3:ℤ)) = -((3 : ℕ) : ℤ) from rfl, zpow_neg,
+        zpow_natCast, one_div]
   rw [hpow] at h
   have hlb : 1 / S ^ 2 - C * (1 / S ^ 3) ≤ delta_phi_S S := by
     have hsub := (abs_sub_le_iff.1 h).2
@@ -586,24 +596,18 @@ lemma delta_phi_S_eventually_pos :
   have hSgC : C + 1 ≤ S := by linarith
   have : C < S := by linarith
   have h_key : C * (1 / S ^ 3) < 1 / S ^ 2 := by
-    rw [div_lt_div_iff]
-    · have : C * 1 * S ^ 2 < 1 * S ^ 3 := by
-        have hC_nn_or : 0 ≤ C ∨ C < 0 := le_or_lt 0 C
-        rcases hC_nn_or with hC_nn | hC_neg
-        · have hS2_le_S3 : C * S ^ 2 ≤ S * S ^ 2 := by
-            nlinarith [sq_nonneg S]
-          have : S * S ^ 2 = S ^ 3 := by ring
-          nlinarith
-        · have : C * S ^ 2 ≤ 0 := by
-            have := sq_nonneg S
-            nlinarith
-          have : C * S ^ 2 < S ^ 3 := by
-            have : 0 < S ^ 3 := hS3_pos
-            linarith
-          linarith
-      linarith
-    · exact hS3_pos
-    · exact hS2_pos
+    rw [show C * (1 / S ^ 3) = C / S ^ 3 from by ring]
+    rw [div_lt_div_iff₀ hS3_pos hS2_pos]
+    have hC_nn_or : 0 ≤ C ∨ C < 0 := le_or_gt 0 C
+    rcases hC_nn_or with hC_nn | hC_neg
+    · have hS2_le_S3 : C * S ^ 2 ≤ S * S ^ 2 := by
+        nlinarith [sq_nonneg S]
+      have hcube : S * S ^ 2 = S ^ 3 := by ring
+      nlinarith
+    · have hCsq_le : C * S ^ 2 ≤ 0 := by
+        have := sq_nonneg S
+        nlinarith
+      nlinarith [hS3_pos]
   linarith
 
 /-! ### Ratio divergence
@@ -628,136 +632,116 @@ lemma var_over_delta_unbounded :
   intro K
   obtain ⟨C₁, S₁, hS₁_pos, hV⟩ := Var_f_S_asymp
   obtain ⟨C₂, S₂, hS₂_pos, hD⟩ := delta_phi_S_asymp
-  -- Pick `S` large enough so that:
-  --   Var ≥ 1/S - 2/S² - C₁/S³
-  --   delta ≤ 1/S² + C₂/S³
-  --   and 1/S - 2/S² - C₁/S³ > K · (1/S² + C₂/S³)
-  -- i.e. S·(stuff) dominates. Concretely S ≥ max{S₁, S₂, |K|+bigC, 1}.
-  refine ⟨max (max S₁ S₂) (max 1 (2 * (|K| + C₁ + C₂ + |K| * C₂ + 4))), ?_, ?_⟩
+  -- Step 1: deduce that the constants `C₁, C₂` from the BigOInv axioms are
+  -- nonnegative. Since `|...| ≥ 0` and `S^(-3) > 0`, the bound forces it.
+  have hpow_pos₁ : 0 < S₁ ^ (-(3 : ℤ)) := zpow_pos hS₁_pos _
+  have hpow_pos₂ : 0 < S₂ ^ (-(3 : ℤ)) := zpow_pos hS₂_pos _
+  have hC₁_nn : 0 ≤ C₁ := by
+    have hb := hV S₁ le_rfl
+    have habs_nn : 0 ≤ |Var_f_S S₁ - (fun S => 1 / S - 2 / S ^ 2) S₁| :=
+      abs_nonneg _
+    by_contra hneg
+    push_neg at hneg
+    have hlt : C₁ * S₁ ^ (-(3 : ℤ)) < 0 := mul_neg_of_neg_of_pos hneg hpow_pos₁
+    linarith
+  have hC₂_nn : 0 ≤ C₂ := by
+    have hb := hD S₂ le_rfl
+    have habs_nn : 0 ≤ |delta_phi_S S₂ - (fun S => 1 / S ^ 2) S₂| :=
+      abs_nonneg _
+    by_contra hneg
+    push_neg at hneg
+    have hlt : C₂ * S₂ ^ (-(3 : ℤ)) < 0 := mul_neg_of_neg_of_pos hneg hpow_pos₂
+    linarith
+  have hKnn : 0 ≤ |K| := abs_nonneg _
+  have hKC₂_nn : 0 ≤ |K| * C₂ := mul_nonneg hKnn hC₂_nn
+  -- Threshold: `S ≥ max{S₁, S₂, max(1, 4M)}` with
+  -- `M := |K| + C₁ + |K|·C₂ + 4 ≥ 4`.
+  refine ⟨max (max S₁ S₂) (max 1 (4 * (|K| + C₁ + |K| * C₂ + 4))), ?_, ?_⟩
   · exact lt_max_of_lt_right (lt_max_of_lt_left one_pos)
   intro S hS
-  have hS₁le : S₁ ≤ S := le_trans (le_max_left _ _) (le_trans (le_max_left _ _) hS)
-  have hS₂le : S₂ ≤ S := le_trans (le_max_right _ _) (le_trans (le_max_left _ _) hS)
+  have hS₁le : S₁ ≤ S :=
+    le_trans (le_max_left _ _) (le_trans (le_max_left _ _) hS)
+  have hS₂le : S₂ ≤ S :=
+    le_trans (le_max_right _ _) (le_trans (le_max_left _ _) hS)
   have hS_ge_one : 1 ≤ S :=
     le_trans (le_max_left _ _) (le_trans (le_max_right _ _) hS)
-  have hS_big : 2 * (|K| + C₁ + C₂ + |K| * C₂ + 4) ≤ S :=
+  have hS_big : 4 * (|K| + C₁ + |K| * C₂ + 4) ≤ S :=
     le_trans (le_max_right _ _) (le_trans (le_max_right _ _) hS)
-  have hSpos : 0 < S := lt_of_lt_of_le one_pos hS_ge_one
+  have hSpos : 0 < S := by linarith
   have hS2_pos : 0 < S ^ 2 := by positivity
   have hS3_pos : 0 < S ^ 3 := by positivity
-  have hpow : S ^ (-(3:ℤ)) = 1 / S ^ 3 := by
-    rw [zpow_neg]; simp [zpow_natCast]
-  -- Lower bound on Var.
-  have hVbd := hV S hS₁le
+  have hSne : S ≠ 0 := hSpos.ne'
+  have hpow : S ^ (-(3 : ℤ)) = 1 / S ^ 3 := by
+    rw [show (-(3 : ℤ)) = -((3 : ℕ) : ℤ) from rfl, zpow_neg,
+        zpow_natCast, one_div]
+  -- Step 2: `Var_f_S S ≥ (1/S - 2/S²) - C₁/S³`.
+  have hVbd' := hV S hS₁le
+  have hVbd : |Var_f_S S - (1 / S - 2 / S ^ 2)| ≤ C₁ * S ^ (-(3 : ℤ)) := hVbd'
   rw [hpow] at hVbd
   have hV_lb : 1 / S - 2 / S ^ 2 - C₁ * (1 / S ^ 3) ≤ Var_f_S S := by
     have := (abs_sub_le_iff.1 hVbd).2
     linarith
-  -- Upper bound on delta.
-  have hDbd := hD S hS₂le
+  -- Step 3: `delta_phi_S S ≤ 1/S² + C₂/S³`.
+  have hDbd' := hD S hS₂le
+  have hDbd : |delta_phi_S S - 1 / S ^ 2| ≤ C₂ * S ^ (-(3 : ℤ)) := hDbd'
   rw [hpow] at hDbd
   have hD_ub : delta_phi_S S ≤ 1 / S ^ 2 + C₂ * (1 / S ^ 3) := by
     have := (abs_sub_le_iff.1 hDbd).1
     linarith
-  -- Now: K · delta ≤ K · (1/S² + C₂/S³) ≤ |K|·(1/S² + C₂/S³).
-  have hK_le : K * delta_phi_S S ≤ |K| * (1 / S ^ 2 + C₂ * (1 / S ^ 3)) := by
-    have hrhs_nn : 0 ≤ 1 / S ^ 2 + C₂ * (1 / S ^ 3) := by
-      have hS3inv_nn : 0 ≤ 1 / S ^ 3 := by positivity
-      -- If C₂ ≥ 0 easy; else we don't know, but we can still bound trivially
-      by_cases hC : 0 ≤ C₂
-      · have : 0 ≤ C₂ * (1 / S ^ 3) := mul_nonneg hC hS3inv_nn
-        have : 0 ≤ 1 / S ^ 2 := by positivity
-        linarith
-      · push_neg at hC
-        -- In this case the lower bound on delta (nonnegative eventually) still
-        -- gives `hD_ub ≥ delta ≥ 0` only when `1/S² + C₂/S³ ≥ 0`. Since we
-        -- took `S ≥ 1`, `1/S² ≥ 1/S³ · S ≥ 1/S³`, hence
-        -- `1/S² + C₂/S³ ≥ (1 - |C₂|)/S³`; this is not necessarily ≥ 0.
-        -- We fall back on: `S ≥ 2(|C₂|+1)` ⇒ `1/S² ≥ |C₂|/S³ + 1/S³`. So
-        -- certainly `1/S² + C₂/S³ ≥ 1/S³ > 0`.
-        have hS_ge : 2 * (|K| + C₁ + C₂ + |K| * C₂ + 4) ≤ S := hS_big
-        have hS_ge' : |C₂| + 1 ≤ S := by
-          have h1 : |C₂| ≤ |C₂| := le_refl _
-          have h2 : C₂ ≤ |C₂| := le_abs_self _
-          -- S ≥ 2(|C₂| + 1), so S ≥ |C₂|+1+(|C₂|+1) ≥ |C₂|+1.
-          -- We use the weaker bound 8 ≤ 2 (|K| + C₁ + C₂ + |K|·C₂ + 4)
-          -- plus |C₂| - C₂ ≤ 2|C₂| ≤ ... this is getting convoluted, so use
-          -- direct computations via nlinarith.
-          have habs_sq : C₂ ≤ |C₂| := le_abs_self _
-          nlinarith [abs_nonneg C₂]
-        have hC₂_abs_le_S : -C₂ ≤ S := by
-          have : -C₂ ≤ |C₂| := neg_abs_le _
-          linarith
-        -- Bound `1/S² + C₂/S³ ≥ 1/S² - |C₂|/S³ ≥ (S - |C₂|)/S³ ≥ 1/S³ > 0`
-        have h_Sle : |C₂| ≤ S := by linarith
-        have : (|C₂| : ℝ) / S ^ 3 ≤ 1 / S ^ 2 := by
-          rw [div_le_div_iff hS3_pos hS2_pos]
-          have : |C₂| * S ^ 2 ≤ S * S ^ 2 := by
-            have := sq_nonneg S
-            nlinarith
-          have : S * S ^ 2 = S ^ 3 := by ring
-          nlinarith
-        have h1 : -|C₂| * (1 / S ^ 3) ≤ C₂ * (1 / S ^ 3) := by
-          have habs : -|C₂| ≤ C₂ := neg_abs_le _
-          have hpos : 0 ≤ 1 / S ^ 3 := by positivity
-          nlinarith
-        have h_sum : 0 ≤ 1 / S ^ 2 + (-|C₂|) * (1 / S ^ 3) := by
-          have : |C₂| / S ^ 3 ≤ 1 / S ^ 2 := ‹_›
-          nlinarith
-        linarith
-    -- Now compare `K · delta ≤ |K| · delta_bound`:
-    rcases le_or_lt 0 (delta_phi_S S) with hdelta_nn | hdelta_neg
-    · rcases le_or_lt 0 K with hK_nn | hK_neg
-      · calc K * delta_phi_S S ≤ K * (1 / S ^ 2 + C₂ * (1 / S ^ 3)) :=
-              mul_le_mul_of_nonneg_left hD_ub hK_nn
-            _ = |K| * (1 / S ^ 2 + C₂ * (1 / S ^ 3)) := by
-              rw [abs_of_nonneg hK_nn]
-      · -- K < 0
-        have hK_abs : |K| = -K := abs_of_neg hK_neg
-        have : K * delta_phi_S S ≤ 0 := by
-          exact mul_nonpos_of_nonpos_of_nonneg hK_neg.le hdelta_nn
-        have : K * delta_phi_S S ≤ |K| * (1 / S ^ 2 + C₂ * (1 / S ^ 3)) := by
-          have habs_nn : 0 ≤ |K| := abs_nonneg _
-          have : 0 ≤ |K| * (1 / S ^ 2 + C₂ * (1 / S ^ 3)) :=
-            mul_nonneg habs_nn hrhs_nn
-          linarith
-        exact this
-    · -- delta_phi_S S < 0: we still bound via |K| · delta_bound ≥ 0 ≥ K · delta.
-      have hK_delta_neg : K * delta_phi_S S ≤ |K| * |delta_phi_S S| := by
-        have hprod : |K * delta_phi_S S| ≤ |K| * |delta_phi_S S| := by
-          rw [abs_mul]
-        exact le_trans (le_abs_self _) hprod
-      have : |K| * |delta_phi_S S| ≤ |K| * (1 / S ^ 2 + C₂ * (1 / S ^ 3)) := by
-        have habs_nn : 0 ≤ |K| := abs_nonneg _
-        apply mul_le_mul_of_nonneg_left _ habs_nn
-        rw [abs_of_neg hdelta_neg]
-        linarith
-      linarith
-  -- Bring together: we need Var > K · delta, i.e.
-  --   (1/S - 2/S² - C₁/S³) > |K|·(1/S² + C₂/S³)
-  -- Multiply both sides by S³ > 0:
-  --   S² - 2 S - C₁ > |K|·(S + C₂)
-  -- i.e. S² > 2 S + C₁ + |K|·S + |K|·C₂
-  -- For S ≥ max(2, 2(|K| + C₁ + C₂ + |K|·C₂ + 4)) the LHS dominates.
+  -- Step 4: `|delta_phi_S S| ≤ 1/S² + C₂/S³` (using `|·|` triangle inequality).
+  have h_invS2_pos : 0 < (1 : ℝ) / S ^ 2 := by positivity
+  have h_C₂_S3_nn : 0 ≤ C₂ * (1 / S ^ 3) :=
+    mul_nonneg hC₂_nn (by positivity)
+  have h_bound_pos : 0 < 1 / S ^ 2 + C₂ * (1 / S ^ 3) := by linarith
+  have h_delta_abs : |delta_phi_S S| ≤ 1 / S ^ 2 + C₂ * (1 / S ^ 3) := by
+    have h_decomp : delta_phi_S S = (delta_phi_S S - 1 / S ^ 2) + 1 / S ^ 2 := by
+      ring
+    have h_abs_decomp :
+        |delta_phi_S S| ≤ |delta_phi_S S - 1 / S ^ 2| + |(1 : ℝ) / S ^ 2| := by
+      conv_lhs => rw [h_decomp]
+      exact abs_add_le _ _
+    have h_inv_abs : |(1 : ℝ) / S ^ 2| = 1 / S ^ 2 :=
+      abs_of_pos h_invS2_pos
+    rw [h_inv_abs] at h_abs_decomp
+    linarith
+  -- Step 5: `K * delta_phi_S S ≤ |K| * (1/S² + C₂/S³)`.
+  have hKd_bd : K * delta_phi_S S ≤ |K| * (1 / S ^ 2 + C₂ * (1 / S ^ 3)) := by
+    have h1 : K * delta_phi_S S ≤ |K * delta_phi_S S| := le_abs_self _
+    rw [abs_mul] at h1
+    have h2 : |K| * |delta_phi_S S| ≤ |K| * (1 / S ^ 2 + C₂ * (1 / S ^ 3)) :=
+      mul_le_mul_of_nonneg_left h_delta_abs hKnn
+    linarith
+  -- Step 6: Main quadratic inequality
+  --   `(|K| + 2) * S + C₁ + |K| * C₂ < S^2`,
+  -- using `S ≥ 4 * (|K| + C₁ + |K|*C₂ + 4)` and `S ≥ 1`.
+  have h_S_sq : 4 * (|K| + C₁ + |K| * C₂ + 4) * S ≤ S ^ 2 := by
+    have hsq : S ^ 2 = S * S := sq S
+    rw [hsq]
+    exact mul_le_mul hS_big le_rfl hSpos.le hSpos.le
+  -- The two main monotonicities `C₁ ≤ C₁ * S` and `|K|*C₂ ≤ |K|*C₂ * S`
+  -- (valid since the multiplicands are nonneg and `S ≥ 1`).
+  have hC₁_le_C₁S : C₁ ≤ C₁ * S := by nlinarith
+  have hKC₂_le_KC₂S : |K| * C₂ ≤ |K| * C₂ * S := by nlinarith
+  have h_main_sq : (|K| + 2) * S + C₁ + |K| * C₂ < S ^ 2 := by
+    nlinarith [h_S_sq, hC₁_le_C₁S, hKC₂_le_KC₂S, hKnn, hC₁_nn, hKC₂_nn,
+      hSpos, hS_ge_one, mul_nonneg hKnn hSpos.le]
+  -- Step 7: Convert to the divided form via `S^3 > 0`.
+  have h_arr : |K| * S + |K| * C₂ < S ^ 2 - 2 * S - C₁ := by linarith
   have h_target :
       |K| * (1 / S ^ 2 + C₂ * (1 / S ^ 3)) <
       1 / S - 2 / S ^ 2 - C₁ * (1 / S ^ 3) := by
-    -- Multiply through by `S^3 > 0`:
-    rw [show (1 : ℝ) / S = S^2 / S^3 by field_simp; ring]
-    rw [show (2 : ℝ) / S^2 = 2 * S / S^3 by field_simp; ring]
-    rw [show (C₁ : ℝ) * (1 / S^3) = C₁ / S^3 by ring]
-    rw [show (|K| : ℝ) * (1 / S^2 + C₂ * (1 / S^3)) =
-        (|K| * S + |K| * C₂) / S^3 by field_simp; ring]
-    rw [div_lt_div_iff hS3_pos hS3_pos]
-    ring_nf
-    -- Goal: (|K| * S + |K| * C₂) * S^3 < (S^2 - 2 S - C₁) * S^3
-    -- Simplify to: |K| * S + |K| * C₂ < S^2 - 2 S - C₁
-    -- i.e. S^2 > 2S + |K|·S + C₁ + |K|·C₂
-    nlinarith [hS_big, sq_nonneg (S - (|K| + 2)), abs_nonneg K, hSpos,
-      sq_nonneg S, abs_nonneg (C₂ : ℝ), abs_nonneg (C₁ : ℝ)]
-  -- Chain the estimates.
-  have := lt_of_le_of_lt hK_le h_target
-  linarith
+    have h_lhs_eq :
+        |K| * (1 / S ^ 2 + C₂ * (1 / S ^ 3))
+          = (|K| * S + |K| * C₂) / S ^ 3 := by
+      field_simp
+    have h_rhs_eq :
+        1 / S - 2 / S ^ 2 - C₁ * (1 / S ^ 3)
+          = (S ^ 2 - 2 * S - C₁) / S ^ 3 := by
+      field_simp
+    rw [h_lhs_eq, h_rhs_eq, div_lt_div_iff₀ hS3_pos hS3_pos]
+    exact mul_lt_mul_of_pos_right h_arr hS3_pos
+  -- Step 8: chain.
+  exact lt_of_le_of_lt hKd_bd (lt_of_lt_of_le h_target hV_lb)
 
 /-! ## Admissible class and the main theorem
 
@@ -816,9 +800,11 @@ theorem no_uniform_L2_stability_one_dim :
   --   Var_f_S S > (C²+1) · delta_phi_S S.
   obtain ⟨S₀_pos, hS₀_pos_pos, hpos⟩ := delta_phi_S_eventually_pos
   obtain ⟨S₀_rat, _, hrat⟩ := var_over_delta_unbounded (C ^ 2 + 1)
-  set S := max S₀_pos S₀_rat + 1
-  have hS_ge1 : S₀_pos ≤ S := by unfold_let S; linarith [le_max_left S₀_pos S₀_rat]
-  have hS_ge2 : S₀_rat ≤ S := by unfold_let S; linarith [le_max_right S₀_pos S₀_rat]
+  set S := max S₀_pos S₀_rat + 1 with hS_def
+  have hS_ge1 : S₀_pos ≤ S := by
+    rw [hS_def]; linarith [le_max_left S₀_pos S₀_rat]
+  have hS_ge2 : S₀_rat ≤ S := by
+    rw [hS_def]; linarith [le_max_right S₀_pos S₀_rat]
   have hdelta_pos : 0 < delta_phi_S S := hpos S hS_ge1
   have hratio : (C ^ 2 + 1) * delta_phi_S S < Var_f_S S := hrat S hS_ge2
   -- Build the blueprint datum.
@@ -841,7 +827,7 @@ theorem no_uniform_L2_stability_one_dim :
     -- forces LHS = 0, hence D.distSq = 0.
     by_cases hC_nn : 0 ≤ C * Real.sqrt D.deft
     · have h_sq : (Real.sqrt D.distSq) ^ 2 ≤ (C * Real.sqrt D.deft) ^ 2 := by
-        exact pow_le_pow_left h_sqrt_dist_nn hbound 2
+        exact pow_le_pow_left₀ h_sqrt_dist_nn hbound 2
       have h_lhs : (Real.sqrt D.distSq) ^ 2 = D.distSq :=
         Real.sq_sqrt D.distSq_nonneg
       have h_rhs_expand : (C * Real.sqrt D.deft) ^ 2 = C ^ 2 * D.deft := by

@@ -36,16 +36,16 @@ variable {f : ℝ → ℝ}
 
 -- to_mathlib: Mathlib/MeasureTheory/Integral/Bochner.lean
 /-- The integral of an integrable odd real-valued function over `ℝ` is zero. -/
-theorem integral_eq_zero_of_odd (hf : Function.Odd f) (hInt : Integrable f) :
+theorem integral_eq_zero_of_odd (hf : Function.Odd f) (_hInt : Integrable f) :
     ∫ x, f x = 0 := by
-  -- `x ↦ -x` is measure-preserving for Lebesgue measure on `ℝ`.
-  have hmeas : MeasurePreserving (fun x : ℝ => -x) volume volume :=
-    Measure.measurePreserving_neg volume
-  have h1 : ∫ x, f (-x) = ∫ x, f x := hmeas.integral_comp' f
+  -- The Lebesgue measure on `ℝ` is invariant under negation, so
+  -- `∫ x, f (-x) = ∫ x, f x`. Combined with oddness this forces the integral
+  -- to equal its own negation.
+  have h1 : ∫ x, f (-x) = ∫ x, f x := integral_neg_eq_self f volume
   have h2 : ∫ x, f (-x) = -∫ x, f x := by
     have hpt : ∀ x, f (-x) = -f x := hf
     simp only [hpt, integral_neg]
-  have hzero : ∫ x, f x = -∫ x, f x := by rw [← h1, h2]
+  have hzero : ∫ x, f x = -∫ x, f x := h1.symm.trans h2
   linarith
 
 -- to_mathlib: Mathlib/MeasureTheory/Integral/IntervalIntegral/Basic.lean
@@ -57,11 +57,12 @@ theorem intervalIntegral_eq_zero_of_odd (hf : Function.Odd f) (a : ℝ) :
     ∫ x in (-a)..a, f x = 0 := by
   have hcomp : ∫ x in (-a)..a, f (-x) = ∫ x in (-a)..a, f x := by
     have h := intervalIntegral.integral_comp_neg (a := -a) (b := a) (f := f)
-    simpa using h
+    rw [neg_neg] at h
+    exact h
   have hneg : ∫ x in (-a)..a, f (-x) = -∫ x in (-a)..a, f x := by
     have heq : (fun x => f (-x)) = fun x => -f x := funext hf
     rw [heq, intervalIntegral.integral_neg]
-  have h : ∫ x in (-a)..a, f x = -∫ x in (-a)..a, f x := by rw [← hcomp, hneg]
+  have h : ∫ x in (-a)..a, f x = -∫ x in (-a)..a, f x := hcomp.symm.trans hneg
   linarith
 
 end Parity

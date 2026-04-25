@@ -71,7 +71,7 @@ lemma BigOInv.add {f g f' g' : ℝ → ℝ} {k : ℕ}
   have habs : |f S + f' S - (g S + g' S)| ≤ |f S - g S| + |f' S - g' S| := by
     have hrw : f S + f' S - (g S + g' S) = (f S - g S) + (f' S - g' S) := by ring
     rw [hrw]
-    exact abs_add _ _
+    exact abs_add_le _ _
   calc |f S + f' S - (g S + g' S)|
       ≤ |f S - g S| + |f' S - g' S| := habs
     _ ≤ C * S ^ (-(k : ℤ)) + C' * S ^ (-(k : ℤ)) := by linarith
@@ -259,7 +259,7 @@ axiom integral_sq_exp_neg_Ici (a : ℝ) (ha : 0 < a) :
 lemma one_sub_exp_neg_le (v : ℝ) (hv : 0 ≤ v) :
     0 ≤ 1 - Real.exp (-v) ∧ 1 - Real.exp (-v) ≤ v := by
   refine ⟨?_, ?_⟩
-  · have h := Real.exp_neg_le_one_of_nonneg hv
+  · have h : Real.exp (-v) ≤ 1 := Real.exp_le_one_iff.mpr (by linarith)
     linarith
   · have h := Real.add_one_le_exp (-v)
     have hexp_pos := Real.exp_pos (-v)
@@ -392,7 +392,8 @@ lemma exists_S_Z_S_ge_one : ∃ S₀ : ℝ, 0 < S₀ ∧ ∀ S, S₀ ≤ S → 1
       have hSgeC : C ≤ S := by linarith
       have hSS : S ≤ S ^ 3 := by
         have h1 : 1 ≤ S := le_trans (by norm_num) hS2
-        nlinarith
+        have hSpow : S ^ 1 ≤ S ^ 3 := pow_le_pow_right₀ h1 (by norm_num)
+        simpa using hSpow
       have hCleS3 : C ≤ S ^ 3 := le_trans hSgeC hSS
       have hrecip : C / S ^ 3 ≤ 1 := by
         rw [div_le_one hS3_pos]; exact hCleS3
@@ -412,7 +413,8 @@ lemma exists_S_q_S_lt_one : ∃ S₀ : ℝ, 0 < S₀ ∧ ∀ S, S₀ ≤ S → q
   have hS2 : (2 : ℝ) ≤ S :=
     le_trans (le_max_left _ _) (le_trans (le_max_right _ _) hS)
   have hSpos : 0 < S := lt_of_lt_of_le (by norm_num : (0:ℝ) < 2) hS2
-  have hb := hbd S hS₁le
+  have hb' := hbd S hS₁le
+  have hb : |q_S S - (1 / S - 1 / S ^ 2)| ≤ C * S ^ (-(3 : ℤ)) := hb'
   have hpow : S ^ (-(3 : ℤ)) = 1 / S ^ 3 := zpow_negNat S 3 hSpos.ne'
   rw [hpow] at hb
   -- `|q_S - (1/S - 1/S²)| ≤ C / S^3`, and `1/S - 1/S² + C/S³ < 1` for large S.
@@ -420,7 +422,7 @@ lemma exists_S_q_S_lt_one : ∃ S₀ : ℝ, 0 < S₀ ∧ ∀ S, S₀ ≤ S → q
   -- q_S ≤ 1/S - 1/S² + C/S³
   have hS3_pos : 0 < S ^ 3 := by positivity
   have h_one_S : (1:ℝ) / S ≤ 1 / 2 := by
-    rw [div_le_div_iff hSpos (by norm_num : (0:ℝ) < 2)]
+    rw [div_le_div_iff₀ hSpos (by norm_num : (0:ℝ) < 2)]
     linarith
   have h_C_S3 : C * (1 / S ^ 3) ≤ |C| * (1 / S ^ 3) := by
     have : 0 ≤ 1 / S ^ 3 := by positivity
@@ -429,7 +431,7 @@ lemma exists_S_q_S_lt_one : ∃ S₀ : ℝ, 0 < S₀ ∧ ∀ S, S₀ ≤ S → q
   have hS3_ge_8 : (8:ℝ) ≤ S ^ 3 := by nlinarith
   have h_abs_S3 : |C| * (1 / S ^ 3) ≤ |C| / 8 := by
     have : 1 / S ^ 3 ≤ 1 / 8 := by
-      rw [div_le_div_iff hS3_pos (by norm_num : (0:ℝ) < 8)]
+      rw [div_le_div_iff₀ hS3_pos (by norm_num : (0:ℝ) < 8)]
       linarith
     have h1 := mul_le_mul_of_nonneg_left this (abs_nonneg C)
     linarith
@@ -453,7 +455,7 @@ lemma exists_S_q_S_lt_one : ∃ S₀ : ℝ, 0 < S₀ ∧ ∀ S, S₀ ≤ S → q
       (le_trans (le_max_right _ _) (le_trans (le_max_right _ _) hS))
   -- 1/S ≤ 1/4
   have h_one_S' : (1:ℝ) / S ≤ 1 / 4 := by
-    rw [div_le_div_iff hSpos (by norm_num : (0:ℝ) < 4)]; linarith
+    rw [div_le_div_iff₀ hSpos (by norm_num : (0:ℝ) < 4)]; linarith
   -- |C|/S^3 ≤ 1/2.
   have habs_C_S3_bd : |C| / S ^ 3 ≤ 1 / 2 := by
     have habs_nn : 0 ≤ |C| := abs_nonneg _
@@ -465,7 +467,7 @@ lemma exists_S_q_S_lt_one : ∃ S₀ : ℝ, 0 < S₀ ∧ ∀ S, S₀ ≤ S → q
     have hS3_ge_S : S ≤ S ^ 3 := by nlinarith
     have hS3_ge_2C2 : 2 * |C| + 2 ≤ S ^ 3 := le_trans hSge2C hS3_ge_S
     have hS3_pos' : 0 < S ^ 3 := hS3_pos
-    rw [div_le_div_iff hS3_pos' (by norm_num : (0:ℝ) < 2)]
+    rw [div_le_div_iff₀ hS3_pos' (by norm_num : (0:ℝ) < 2)]
     have : |C| * 2 ≤ (2 * |C| + 2) * 1 := by linarith
     nlinarith
   -- Combine

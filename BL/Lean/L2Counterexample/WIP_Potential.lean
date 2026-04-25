@@ -19,7 +19,7 @@ properties used below as `axiom`s inside this file, matching item 1 of
 noncomputable section
 
 open MeasureTheory Set intervalIntegral
-open scoped Topology
+open scoped Topology ContDiff
 
 namespace L2Counterexample
 
@@ -34,7 +34,7 @@ WIP→main swap happens. -/
 /-- Smooth compactly supported even probability bump. -/
 axiom kappa : ℝ → ℝ
 
-axiom kappa_contDiff : ContDiff ℝ ⊤ kappa
+axiom kappa_contDiff : ContDiff ℝ ∞ kappa
 
 axiom kappa_nonneg (x : ℝ) : 0 ≤ kappa x
 
@@ -131,15 +131,15 @@ lemma deriv_deriv_phi {h : ℝ → ℝ} (hcont : Continuous h) :
 
 /-! ### Smoothness -/
 
-lemma psi_contDiff {h : ℝ → ℝ} (hsmooth : ContDiff ℝ ⊤ h) :
-    ContDiff ℝ ⊤ (psi h) := by
+lemma psi_contDiff {h : ℝ → ℝ} (hsmooth : ContDiff ℝ ∞ h) :
+    ContDiff ℝ ∞ (psi h) := by
   rw [contDiff_infty_iff_deriv]
   refine ⟨psi_differentiable hsmooth.continuous, ?_⟩
   rw [deriv_psi hsmooth.continuous]
   exact hsmooth
 
-lemma phi_contDiff {h : ℝ → ℝ} (hsmooth : ContDiff ℝ ⊤ h) :
-    ContDiff ℝ ⊤ (phi h) := by
+lemma phi_contDiff {h : ℝ → ℝ} (hsmooth : ContDiff ℝ ∞ h) :
+    ContDiff ℝ ∞ (phi h) := by
   rw [contDiff_infty_iff_deriv]
   refine ⟨phi_differentiable hsmooth.continuous, ?_⟩
   rw [deriv_phi hsmooth.continuous]
@@ -192,7 +192,7 @@ lemma phi_neg_of_even {h : ℝ → ℝ} (heven : ∀ x, h (-x) = h x) (x : ℝ) 
     intro u _
     exact psi_neg_of_even heven u
   rw [heq]
-  rw [integral_neg]
+  rw [intervalIntegral.integral_neg]
   ring
 
 /-! ### Strict convexity and quadratic lower bound
@@ -223,7 +223,7 @@ lemma phi_ge_quadratic {h : ℝ → ℝ} {η : ℝ} (hcont : Continuous h)
   -- We'll instead directly bound using FTC twice:
   --   `psi h x ≥ η * x` when `x ≥ 0` and `psi h x ≤ η * x` when `x ≤ 0`.
   --   hence `phi h x ≥ η * x² / 2`.
-  rcases le_or_lt 0 x with hx | hx
+  rcases le_or_gt 0 x with hx | hx
   · -- x ≥ 0 case.
     -- Step 1: `psi h t ≥ η t` for `t ≥ 0`.
     have hpsi_lb : ∀ t, 0 ≤ t → η * t ≤ psi h t := by
@@ -271,10 +271,10 @@ lemma phi_ge_quadratic {h : ℝ → ℝ} {η : ℝ} (hcont : Continuous h)
       have hconst : ∫ _ in (t:ℝ)..0, (η : ℝ) = η * (0 - t) := by
         rw [intervalIntegral.integral_const, smul_eq_mul]; ring
       -- Flip endpoints on both sides using `integral_symm`.
-      have flip1 : ∫ _ in (0:ℝ)..t, (η : ℝ) = -(∫ _ in t..0, (η : ℝ)) := by
-        rw [integral_symm 0 t]
-      have flip2 : ∫ s in (0:ℝ)..t, h s = -(∫ s in (t:ℝ)..0, h s) := by
-        rw [integral_symm 0 t]
+      have flip1 : ∫ _ in (0:ℝ)..t, (η : ℝ) = -(∫ _ in t..0, (η : ℝ)) :=
+        integral_symm t 0
+      have flip2 : ∫ s in (0:ℝ)..t, h s = -(∫ s in (t:ℝ)..0, h s) :=
+        integral_symm t 0
       rw [flip2]
       have hneg : -(∫ s in (t:ℝ)..0, h s) ≤ -(∫ _ in (t:ℝ)..0, (η : ℝ)) := by
         linarith
@@ -298,10 +298,10 @@ lemma phi_ge_quadratic {h : ℝ → ℝ} {η : ℝ} (hcont : Continuous h)
       rw [integral_id]
       ring
     -- Now flip both sides.
-    have hflip_psi : ∫ u in (0:ℝ)..x, psi h u = -(∫ u in x..0, psi h u) := by
-      rw [integral_symm 0 x]
-    have hflip_lin : ∫ u in (0:ℝ)..x, η * u = -(∫ u in x..0, η * u) := by
-      rw [integral_symm 0 x]
+    have hflip_psi : ∫ u in (0:ℝ)..x, psi h u = -(∫ u in x..0, psi h u) :=
+      integral_symm x 0
+    have hflip_lin : ∫ u in (0:ℝ)..x, η * u = -(∫ u in x..0, η * u) :=
+      integral_symm x 0
     have hlin_neg : ∫ u in (0:ℝ)..x, η * u = η * x ^ 2 / 2 := by
       rw [hflip_lin, hlin]; ring
     -- From `hmono`: `∫ u in x..0, psi h u ≤ ∫ u in x..0, η u = -(η x²/2)`.
@@ -350,27 +350,27 @@ def phi_Sc (S : ℝ) : ℝ → ℝ := phi (phiPP_S S)
 /-! ### Smoothness and identities for `phiPP_S`, `phiP_S`, `phi_Sc` -/
 
 /-- `phi''_S` is smooth (for `S ≠ 0`, the shift-rescaled bumps are smooth). -/
-lemma phiPP_S_contDiff {S : ℝ} (hS : 0 < S) : ContDiff ℝ ⊤ (phiPP_S S) := by
+lemma phiPP_S_contDiff {S : ℝ} (hS : 0 < S) : ContDiff ℝ ∞ (phiPP_S S) := by
   unfold phiPP_S
-  have h1 : ContDiff ℝ ⊤ (fun x : ℝ => (x - 1) / eps_S S) := by fun_prop
-  have h2 : ContDiff ℝ ⊤ (fun x : ℝ => (x + 1) / eps_S S) := by fun_prop
-  have hk1 : ContDiff ℝ ⊤ (fun x : ℝ => kappa ((x - 1) / eps_S S)) :=
+  have h1 : ContDiff ℝ ∞ (fun x : ℝ => (x - 1) / eps_S S) := by fun_prop
+  have h2 : ContDiff ℝ ∞ (fun x : ℝ => (x + 1) / eps_S S) := by fun_prop
+  have hk1 : ContDiff ℝ ∞ (fun x : ℝ => kappa ((x - 1) / eps_S S)) :=
     kappa_contDiff.comp h1
-  have hk2 : ContDiff ℝ ⊤ (fun x : ℝ => kappa ((x + 1) / eps_S S)) :=
+  have hk2 : ContDiff ℝ ∞ (fun x : ℝ => kappa ((x + 1) / eps_S S)) :=
     kappa_contDiff.comp h2
-  have hs1 : ContDiff ℝ ⊤ (fun x : ℝ => (S / eps_S S) * kappa ((x - 1) / eps_S S)) :=
+  have hs1 : ContDiff ℝ ∞ (fun x : ℝ => (S / eps_S S) * kappa ((x - 1) / eps_S S)) :=
     contDiff_const.mul hk1
-  have hs2 : ContDiff ℝ ⊤ (fun x : ℝ => (S / eps_S S) * kappa ((x + 1) / eps_S S)) :=
+  have hs2 : ContDiff ℝ ∞ (fun x : ℝ => (S / eps_S S) * kappa ((x + 1) / eps_S S)) :=
     contDiff_const.mul hk2
   exact (contDiff_const.add hs1).add hs2
 
 lemma phiPP_S_continuous {S : ℝ} (hS : 0 < S) : Continuous (phiPP_S S) :=
   (phiPP_S_contDiff hS).continuous
 
-lemma phiP_S_contDiff {S : ℝ} (hS : 0 < S) : ContDiff ℝ ⊤ (phiP_S S) :=
+lemma phiP_S_contDiff {S : ℝ} (hS : 0 < S) : ContDiff ℝ ∞ (phiP_S S) :=
   psi_contDiff (phiPP_S_contDiff hS)
 
-lemma phi_Sc_contDiff {S : ℝ} (hS : 0 < S) : ContDiff ℝ ⊤ (phi_Sc S) :=
+lemma phi_Sc_contDiff {S : ℝ} (hS : 0 < S) : ContDiff ℝ ∞ (phi_Sc S) :=
   phi_contDiff (phiPP_S_contDiff hS)
 
 @[simp] lemma phiP_S_zero (S : ℝ) : phiP_S S 0 = 0 := psi_zero _
@@ -394,7 +394,8 @@ lemma deriv_deriv_phi_Sc {S : ℝ} (hS : 0 < S) :
 lemma phiPP_S_ge_eta {S : ℝ} (hS : 0 < S) (x : ℝ) :
     eta_S S ≤ phiPP_S S x := by
   unfold phiPP_S
-  have hS_over : 0 ≤ S / eps_S S := by positivity
+  have heps_pos : 0 < eps_S S := eps_S_pos hS
+  have hS_over : 0 ≤ S / eps_S S := div_nonneg hS.le heps_pos.le
   have h1 : 0 ≤ (S / eps_S S) * kappa ((x - 1) / eps_S S) :=
     mul_nonneg hS_over (kappa_nonneg _)
   have h2 : 0 ≤ (S / eps_S S) * kappa ((x + 1) / eps_S S) :=
@@ -621,7 +622,7 @@ lemma phiP_S_core {S x : ℝ} (hS : 0 < S) (hx : |x| ≤ 1 - eps_S S) :
     intro t ht
     apply phiPP_S_core hS
     have habs_t : |t| ≤ |x| := by
-      rcases le_or_lt 0 x with hx_sgn | hx_sgn
+      rcases le_or_gt 0 x with hx_sgn | hx_sgn
       · -- x ≥ 0: uIcc 0 x = Icc 0 x.
         have huicc : Set.uIcc (0:ℝ) x = Set.Icc 0 x := by
           rw [Set.uIcc_of_le hx_sgn]
@@ -633,7 +634,7 @@ lemma phiP_S_core {S x : ℝ} (hS : 0 < S) (hx : |x| ≤ 1 - eps_S S) :
           rw [Set.uIcc_comm, Set.uIcc_of_le hx_sgn.le]
         rw [huicc, Set.mem_Icc] at ht
         rw [abs_of_neg hx_sgn]
-        exact abs_le.mpr ⟨ht.1, by linarith [ht.2]⟩
+        exact abs_le.mpr ⟨by linarith [ht.1], by linarith [ht.2]⟩
     linarith [habs_t, hx]
   have hint_eq : ∫ t in (0:ℝ)..x, phiPP_S S t = ∫ t in (0:ℝ)..x, eta_S S := by
     apply integral_congr
@@ -652,7 +653,7 @@ lemma phi_Sc_core {S x : ℝ} (hS : 0 < S) (hx : |x| ≤ 1 - eps_S S) :
   have hcore_eq : ∀ u ∈ Set.uIcc (0:ℝ) x, psi (phiPP_S S) u = eta_S S * u := by
     intro u hu
     have habs_u : |u| ≤ 1 - eps_S S := by
-      rcases le_or_lt 0 x with hx_sgn | hx_sgn
+      rcases le_or_gt 0 x with hx_sgn | hx_sgn
       · have huicc : Set.uIcc (0:ℝ) x = Set.Icc 0 x := Set.uIcc_of_le hx_sgn
         rw [huicc, Set.mem_Icc] at hu
         have habs_u_x : |u| ≤ x := abs_le.mpr ⟨by linarith [hu.1], hu.2⟩

@@ -370,9 +370,9 @@ theorem F_S_orth_one (S : ℝ) (d : ℕ) :
 theorem F_S_orth_phi' (S : ℝ) (d : ℕ) :
     ∫ p, F_S S d p * gen_phi' S d p ∂(rho_Phi_S S d) = 0 := by
   have hfun : (fun p : ProdSpace d => F_S S d p * gen_phi' S d p)
-        = (fun p => f_S S p.1 * phi'_S S p.1) := by
+        = (fun p => (fun x => f_S S x * phi'_S S x) p.1) := by
     funext p; simp [gen_phi', F_S, mul_comm]
-  rw [hfun, integral_prod_first_coord]
+  rw [hfun, integral_prod_first_coord S d (fun x => f_S S x * phi'_S S x)]
   -- ∫ f_S(x) * φ'_S(x) dρ = ∫ φ'_S(x) * f_S(x) dρ = 0
   have h := f_S_orth_phi'_S S
   simpa [mul_comm] using h
