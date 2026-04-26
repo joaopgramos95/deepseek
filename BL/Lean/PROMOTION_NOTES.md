@@ -7,11 +7,11 @@
 | Basic.lean              |      0 |
 | Bump.lean               |      0 |
 | Potential.lean          |      0 |
-| Normalization.lean      |      7 |
+| Normalization.lean      |      6 |
 | TestFunction.lean       |      1 |
-| OneDimensional.lean     |      5 |
+| OneDimensional.lean     |      4 |
 | HigherDimensional.lean  |      5 |
-| **Total**               | **18** |
+| **Total**               | **16** |
 
 `lake build L2Counterexample` succeeds. Zero `sorry` remaining.
 
@@ -35,6 +35,11 @@
        linearity; bridge IsBigO → BigOInv1D)
 18  → tail_gaussian_bound (1 - exp(-v) ≤ v with v = η u²/2;
        integrate ∫ exp(-S̃u) · η u²/2 = η/S̃³ via Gamma-function helper)
+17  → tailInt_S_asymp (decompose tailInt_S = A · I, then bound
+       (A−1)·I, I − 1/S̃, 1/S̃ − 1/S each by const/S³ for S ≥ 1)
+16  → EE_phi_S_asymp (via E_phi_g_S_eq + Z_S_asymp + A_S_asymp
+       + S²·Z_S·A_S ≥ S³/2 from `exists_S_Z_S_ge_one` and
+       √(2·C_A) bound on A_S ≥ S/2)
 ```
 
 ## Axioms discharged in this round
