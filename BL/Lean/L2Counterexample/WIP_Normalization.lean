@@ -362,10 +362,121 @@ The two-sided bound
 is a direct consequence of `1 - e^{-v} ≤ v` applied pointwise to
 `v = η u²/2`. -/
 
-axiom tail_gaussian_bound (S : ℝ) (hS : 1 ≤ S) :
+/-- Helper: `IntegrableOn (exp(-(a · u))) (Ici 0)` for `a > 0`. -/
+private lemma integrableOn_exp_neg_mul_Ici {a : ℝ} (ha : 0 < a) :
+    IntegrableOn (fun u => Real.exp (-(a * u))) (Set.Ici (0 : ℝ)) := by
+  rw [integrableOn_Ici_iff_integrableOn_Ioi]
+  have h_int :
+      IntegrableOn (fun u : ℝ => u ^ (0 : ℝ) * Real.exp (-a * u ^ (1 : ℝ)))
+        (Set.Ioi 0) :=
+    integrableOn_rpow_mul_exp_neg_mul_rpow
+      (by norm_num : (-1 : ℝ) < 0) (le_refl 1) ha
+  refine h_int.congr_fun ?_ measurableSet_Ioi
+  intro u hu
+  have hu_pos : 0 < u := hu
+  show u ^ (0 : ℝ) * Real.exp (-a * u ^ (1 : ℝ)) = Real.exp (-(a * u))
+  rw [Real.rpow_zero, Real.rpow_one, one_mul, neg_mul]
+
+theorem tail_gaussian_bound (S : ℝ) (hS : 1 ≤ S) :
     let I := ∫ u in Set.Ici (0 : ℝ),
                 Real.exp (-(tildeS S * u) - eta_S S * u ^ 2 / 2)
-    0 ≤ 1 / tildeS S - I ∧ 1 / tildeS S - I ≤ eta_S S / tildeS S ^ 3
+    0 ≤ 1 / tildeS S - I ∧ 1 / tildeS S - I ≤ eta_S S / tildeS S ^ 3 := by
+  have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS
+  have htildeS_pos : 0 < tildeS S := tildeS_pos hS
+  have heta_pos : 0 < eta_S S := eta_S_pos hSpos
+  have heta_nn : 0 ≤ eta_S S := heta_pos.le
+  have htildeS_nn : 0 ≤ tildeS S := htildeS_pos.le
+  -- J(u) := exp(-(tildeS · u)), the "no Gaussian factor" integrand.
+  -- h(u) := exp(-(tildeS · u) - eta · u² / 2), the actual integrand.
+  set J : ℝ → ℝ := fun u => Real.exp (-(tildeS S * u)) with hJ_def
+  set h : ℝ → ℝ := fun u =>
+    Real.exp (-(tildeS S * u) - eta_S S * u ^ 2 / 2) with hh_def
+  -- Integrability.
+  have h_int_J : IntegrableOn J (Set.Ici (0 : ℝ)) :=
+    integrableOn_exp_neg_mul_Ici htildeS_pos
+  have h_int_h : IntegrableOn h (Set.Ici (0 : ℝ)) :=
+    exp_negGaussianTail_integrableOn (tildeS S) (eta_S S) htildeS_pos heta_pos
+  -- Pointwise: J - h = exp(-(tildeS u)) · (1 - exp(-η u²/2)) ≥ 0.
+  have h_diff_eq : ∀ u : ℝ,
+      J u - h u
+        = Real.exp (-(tildeS S * u)) * (1 - Real.exp (-(eta_S S * u^2 / 2))) := by
+    intro u
+    simp only [J, h, hJ_def, hh_def]
+    rw [show -(tildeS S * u) - eta_S S * u^2 / 2
+          = -(tildeS S * u) + (-(eta_S S * u^2 / 2)) from by ring,
+        Real.exp_add]
+    ring
+  have h_diff_nn : ∀ u, 0 ≤ J u - h u := by
+    intro u
+    rw [h_diff_eq u]
+    refine mul_nonneg (Real.exp_pos _).le ?_
+    have hv_nn : 0 ≤ eta_S S * u^2 / 2 := by
+      have : 0 ≤ u^2 := sq_nonneg _
+      positivity
+    exact (one_sub_exp_neg_le _ hv_nn).1
+  -- Pointwise: J - h ≤ exp(-(tildeS u)) · (η u² / 2).
+  have h_diff_ub : ∀ u, J u - h u
+      ≤ Real.exp (-(tildeS S * u)) * (eta_S S * u^2 / 2) := by
+    intro u
+    rw [h_diff_eq u]
+    refine mul_le_mul_of_nonneg_left ?_ (Real.exp_pos _).le
+    have hv_nn : 0 ≤ eta_S S * u^2 / 2 := by positivity
+    exact (one_sub_exp_neg_le _ hv_nn).2
+  -- The integral 1/S̃ - I = ∫ (J - h).
+  have h_int_diff : (1 : ℝ) / tildeS S - ∫ u in Set.Ici 0, h u
+      = ∫ u in Set.Ici 0, J u - h u := by
+    rw [integral_sub h_int_J h_int_h]
+    -- ∫ J = 1/tildeS S
+    have h_J_int : ∫ u in Set.Ici 0, J u = 1 / tildeS S :=
+      integral_exp_neg_Ici (tildeS S) htildeS_pos
+    rw [h_J_int]
+  -- Lower bound (a): 0 ≤ 1/S̃ - I.
+  refine ⟨?_, ?_⟩
+  · rw [h_int_diff]
+    apply setIntegral_nonneg measurableSet_Ici
+    intro u _
+    exact h_diff_nn u
+  -- Upper bound (b): 1/S̃ - I ≤ η/S̃³.
+  · rw [h_int_diff]
+    -- ∫ (J - h) ≤ ∫ exp(-tildeS u) · (η u²/2)
+    have h_ub : ∫ u in Set.Ici 0, J u - h u
+        ≤ ∫ u in Set.Ici 0, Real.exp (-(tildeS S * u)) * (eta_S S * u^2 / 2) := by
+      apply setIntegral_mono_on (h_int_J.sub h_int_h)
+        ?_ measurableSet_Ici (fun u _ => h_diff_ub u)
+      -- Integrability of the upper bound function.
+      have h_factor : (fun u : ℝ => Real.exp (-(tildeS S * u)) * (eta_S S * u^2 / 2))
+                    = (fun u => (eta_S S / 2) * (u^2 * Real.exp (-(tildeS S * u)))) := by
+        funext u; ring
+      rw [h_factor]
+      refine Integrable.const_mul ?_ _
+      -- u^2 · exp(-tildeS u) is integrable on Ici 0
+      have h_intGamma : IntegrableOn
+          (fun u : ℝ => u ^ (2 : ℝ) * Real.exp (-tildeS S * u ^ (1 : ℝ)))
+          (Set.Ioi 0) :=
+        integrableOn_rpow_mul_exp_neg_mul_rpow
+          (by norm_num : (-1 : ℝ) < 2) (le_refl 1) htildeS_pos
+      have h_intGamma_Ici :
+          IntegrableOn (fun u : ℝ => u^2 * Real.exp (-(tildeS S * u))) (Set.Ici (0 : ℝ)) := by
+        rw [integrableOn_Ici_iff_integrableOn_Ioi]
+        refine h_intGamma.congr_fun ?_ measurableSet_Ioi
+        intro u hu
+        have hu_pos : 0 < u := hu
+        show u ^ (2 : ℝ) * Real.exp (-tildeS S * u ^ (1 : ℝ))
+              = u^2 * Real.exp (-(tildeS S * u))
+        rw [show ((2 : ℝ)) = ((2 : ℕ) : ℝ) from by norm_num,
+            Real.rpow_natCast, Real.rpow_one, neg_mul]
+      exact h_intGamma_Ici
+    -- Compute the upper bound integral: (η/2) · ∫ u² exp(-tildeS u) = (η/2) · (2/tildeS³) = η/tildeS³.
+    have h_compute : ∫ u in Set.Ici 0,
+        Real.exp (-(tildeS S * u)) * (eta_S S * u^2 / 2)
+        = eta_S S / tildeS S ^ 3 := by
+      have h_factor : (fun u : ℝ => Real.exp (-(tildeS S * u)) * (eta_S S * u^2 / 2))
+                    = (fun u => (eta_S S / 2) * (u^2 * Real.exp (-(tildeS S * u)))) := by
+        funext u; ring
+      rw [h_factor, integral_const_mul,
+          integral_sq_exp_neg_Ici (tildeS S) htildeS_pos]
+      field_simp
+    linarith [h_ub, h_compute]
 
 /-! ## Asymptotic blueprint lemmas
 
