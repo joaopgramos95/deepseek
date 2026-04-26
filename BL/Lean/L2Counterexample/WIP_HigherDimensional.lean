@@ -350,23 +350,35 @@ The bridging axioms below are the only places non-trivial measure theory
 enters this file.
 -/
 
-/-- Bridging axiom 1: integral of a function depending only on the first
-coordinate, against the product measure, equals the 1-D integral times
-`γ_{d-1}(univ) = 1`. This is Fubini for `∫ g(x) d(ρ ⊗ γ) = ∫ g dρ`.
+/-- Integral of a function depending only on the first coordinate,
+against the product measure, equals the 1-D integral.
 
-(Provable as a theorem with an `AEStronglyMeasurable` hypothesis on `g`,
-but kept as an axiom here to avoid threading the measurability through
-all call sites; the practical functions used (`f_S`, `phiDer_S`, etc.)
-are all continuous hence trivially measurable.) -/
-axiom integral_prod_first_coord (S : ℝ) (d : ℕ) (g : ℝ → ℝ) :
-    ∫ p, g p.1 ∂(rho_Phi_S S d) = ∫ x, g x ∂(rho_S S)
+Proof: write `g p.1 = g p.1 * 1`, then apply `MeasureTheory.integral_prod_mul`.
+The integral of `1` against `stdGaussian` is `1` (probability measure). -/
+theorem integral_prod_first_coord (S : ℝ) (d : ℕ) (g : ℝ → ℝ) :
+    ∫ p, g p.1 ∂(rho_Phi_S S d) = ∫ x, g x ∂(rho_S S) := by
+  unfold rho_Phi_S
+  have h_eq : ∀ p : ℝ × (Fin (d - 1) → ℝ), g p.1
+            = g p.1 * (fun _ : (Fin (d - 1) → ℝ) => (1 : ℝ)) p.2 := by
+    intro p; rw [mul_one]
+  rw [show (fun p : ℝ × (Fin (d - 1) → ℝ) => g p.1)
+        = (fun p => g p.1 * (fun _ : (Fin (d - 1) → ℝ) => (1 : ℝ)) p.2)
+        from funext h_eq]
+  rw [MeasureTheory.integral_prod_mul g (fun _ : (Fin (d - 1) → ℝ) => (1 : ℝ))]
+  -- ∫ 1 ∂stdGaussian = 1 (probability measure)
+  have h_one : ∫ _ : (Fin (d - 1) → ℝ), (1 : ℝ) ∂(stdGaussian (d - 1)) = 1 :=
+    stdGaussian_integral_one (d - 1)
+  rw [h_one]
+  ring
 
-/-- Bridging axiom 2: integral of a separable product `g(x) * h(y)`
-against the product measure factorises. -/
-axiom integral_prod_separable (S : ℝ) (d : ℕ)
+/-- Integral of a separable product `g(x) * h(y)` against the product
+measure factorises. Direct application of `MeasureTheory.integral_prod_mul`. -/
+theorem integral_prod_separable (S : ℝ) (d : ℕ)
     (g : ℝ → ℝ) (h : (Fin (d - 1) → ℝ) → ℝ) :
     ∫ p, g p.1 * h p.2 ∂(rho_Phi_S S d)
-      = (∫ x, g x ∂(rho_S S)) * (∫ y, h y ∂(stdGaussian (d - 1)))
+      = (∫ x, g x ∂(rho_S S)) * (∫ y, h y ∂(stdGaussian (d - 1))) := by
+  unfold rho_Phi_S
+  exact MeasureTheory.integral_prod_mul g h
 
 /-- Brascamp–Lieb energy of the product test function. We *define* it to
 equal the upstream `E_phi_S S` so that downstream files can rewrite. -/
