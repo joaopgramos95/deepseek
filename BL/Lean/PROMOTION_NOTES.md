@@ -7,11 +7,11 @@
 | Basic.lean              |      0 |
 | Bump.lean               |      0 |
 | Potential.lean          |      0 |
-| Normalization.lean      |      1 |
+| Normalization.lean      |      0 |
 | TestFunction.lean       |      0 |
 | OneDimensional.lean     |      4 |
 | HigherDimensional.lean  |      0 |
-| **Total**               | **5**  |
+| **Total**               | **4**  |
 
 Note: `Z_S_asymp` was attempted but the full proof (partitioning
 `∫ exp(-φ_S)` over core/layer/tail with three separate Taylor-style
@@ -32,16 +32,15 @@ Combined with `tailInt_S_asymp`, this gives `(36 + 2·C_tail)/S^3`.
 `@[instance] axiom stdGaussian_isProb` doesn't start with `axiom`, so
 the simple grep pattern `^axiom` missed it.)
 
-Remaining 5 axioms by category:
-* **Normalization (1)**: `Z_S_asymp` — `Z_S = 2 + 2/S + O(S^{-3})`.
-  Requires partitioning `∫ exp(-φ_S)` over core/layer/tail and bounding
-  each piece via `phi_S_quadratic_lower`, `phi_S_layer_small`,
-  `phi_S_le_of_le`, plus the proven `tailInt_S_asymp`.
-* **OneDimensional (4)**: `rho_S_isProb`, `rho_S_reflection_invariant`,
-  `phiDer_S_memL2`, `g_S_memL2` — unconditional forms; the conditional
-  `0 < S` versions are derivable, but call sites use these as instances
-  without `0 < S` available. (Note: `rho_S_isProb` is technically false
-  at `S = 0` since `rho_S 0` is the zero measure.)
+Remaining 4 axioms (all in OneDimensional):
+* `rho_S_isProb`, `rho_S_reflection_invariant`, `phiDer_S_memL2`,
+  `g_S_memL2` — unconditional forms; the conditional `0 < S` versions
+  are derivable, but call sites use these as instances without
+  `0 < S` available. (Note: `rho_S_isProb` is technically false at
+  `S = 0` since `rho_S 0` is the zero measure.)
+
+**Six of seven files are now fully axiom-free** (Basic, Bump, Potential,
+Normalization, TestFunction, HigherDimensional).
 
 `lake build L2Counterexample` succeeds. Zero `sorry` remaining.
 
@@ -94,6 +93,10 @@ Remaining 5 axioms by category:
 5   → phi_S_boundary_small (IBP `phi_S(b) = ∫_0^b (b-t)·φ''_S(t) dt`
        plus split at t=1-ε with `phiDer2_S_core` and
        `integral_phiDer2_S_layer`)
+4   → Z_S_asymp (Normalization now axiom-free): four structural
+       helpers (`Z_S_eq_two_half_integral`, `half_int_eq_inner_plus_tail`,
+       `inner_int_diff_bd`, `int_phi_S_bound`) plus `tailInt_S_asymp`
+       give `|Z_S − (2 + 2/S)| ≤ (3 + 4·C_φ + 2·C_tail)/S³`
 ```
 
 ## Axioms discharged in this round
