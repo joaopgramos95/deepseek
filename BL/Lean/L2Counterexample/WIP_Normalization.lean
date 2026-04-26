@@ -372,13 +372,123 @@ axiom tail_gaussian_bound (S : ℝ) (hS : 1 ≤ S) :
 Two ingredients package the analytic content of section 3 into BigO
 statements: -/
 
-/-- `1/tildeS S = 1/S + O(S^{-6})`. -/
-axiom one_div_tildeS_asymp :
-    BigOInv (fun S => 1 / tildeS S) (fun S => 1 / S) 6
+/-- `1/tildeS S = 1/S + O(S^{-6})`. The perturbation
+`tildeS S − S = η_S(1 + ε_S) ≤ 2·S^{-4}` (for `S ≥ 1`, where
+`ε_S ≤ 1`), and `S · tildeS S ≥ S²`, so
+`|1/tildeS - 1/S| = |S - tildeS|/(S·tildeS) ≤ 2/S^6`. -/
+theorem one_div_tildeS_asymp :
+    BigOInv (fun S => 1 / tildeS S) (fun S => 1 / S) 6 := by
+  refine ⟨2, 1, one_pos, ?_⟩
+  intro S hS
+  -- hS : 1 ≤ S
+  have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS
+  have htildeS_pos : 0 < tildeS S := tildeS_pos hS
+  have htildeS_ge_S : S ≤ tildeS S := le_tildeS hS
+  have heps_pos : 0 < eps_S S := eps_S_pos hSpos
+  have heta_pos : 0 < eta_S S := eta_S_pos hSpos
+  have hS_ne : S ≠ 0 := hSpos.ne'
+  have htildeS_ne : tildeS S ≠ 0 := htildeS_pos.ne'
+  -- ε_S ≤ 1 for S ≥ 1.
+  have heps_le_one : eps_S S ≤ 1 := by
+    unfold eps_S
+    rw [show ((-(3 : ℤ))) = -((3 : ℕ) : ℤ) from rfl, zpow_neg, zpow_natCast]
+    rw [inv_le_one_iff₀]
+    right
+    have hpow : S ^ 0 ≤ S ^ 3 := pow_le_pow_right₀ hS (by norm_num)
+    simpa using hpow
+  -- Perturbation: tildeS S - S = η_S * (1 + ε_S) ≤ 2 * η_S = 2 * S^(-4).
+  have h_pert : tildeS S - S = eta_S S * (1 + eps_S S) := by
+    unfold tildeS; ring
+  have h_pert_le : tildeS S - S ≤ 2 * eta_S S := by
+    rw [h_pert]
+    have h1 : 1 + eps_S S ≤ 2 := by linarith
+    have h2 : 0 ≤ eta_S S := heta_pos.le
+    nlinarith
+  have h_pert_nn : 0 ≤ tildeS S - S := by linarith
+  -- |1/tildeS - 1/S| = |S - tildeS|/(S * tildeS) = (tildeS - S)/(S * tildeS)
+  have h_diff : 1 / tildeS S - 1 / S = -(tildeS S - S) / (S * tildeS S) := by
+    field_simp; ring
+  -- Algebra: pow eq.
+  have h_pow_eq : S ^ (-((6 : ℕ) : ℤ)) = 1 / S ^ 6 :=
+    zpow_negNat S 6 hSpos.ne'
+  rw [h_pow_eq, h_diff]
+  rw [abs_div, abs_neg, abs_of_nonneg h_pert_nn,
+      abs_of_pos (mul_pos hSpos htildeS_pos)]
+  -- Goal: (tildeS S - S) / (S * tildeS S) ≤ 2 * (1 / S^6).
+  rw [div_le_iff₀ (mul_pos hSpos htildeS_pos)]
+  -- Goal: (tildeS S - S) ≤ 2 * (1/S^6) * (S * tildeS S)
+  --     = 2 * tildeS S / S^5 (= 2 * tildeS / S^5).
+  -- Use: tildeS - S ≤ 2 * eta_S = 2 * S^-4.
+  -- So we want: 2 * S^-4 ≤ 2 * (1/S^6) * S * tildeS = 2 * tildeS / S^5.
+  -- i.e., S^-4 ≤ tildeS / S^5, i.e., 1/S^4 ≤ tildeS/S^5, i.e., S ≤ tildeS. ✓
+  have heta_eq : eta_S S = 1 / S ^ 4 := by
+    unfold eta_S
+    rw [show ((-(4 : ℤ))) = -((4 : ℕ) : ℤ) from rfl, zpow_neg, zpow_natCast,
+        one_div]
+  have h_pert_le' : tildeS S - S ≤ 2 / S ^ 4 := by
+    rw [show (2 : ℝ) / S^4 = 2 * (1 / S^4) from by ring, ← heta_eq]
+    exact h_pert_le
+  have hS4_pos : (0 : ℝ) < S ^ 4 := by positivity
+  have hS5_pos : (0 : ℝ) < S ^ 5 := by positivity
+  have hS6_pos : (0 : ℝ) < S ^ 6 := by positivity
+  -- Show: 2/S^4 ≤ 2 * (1/S^6) * (S * tildeS S)
+  -- ⇔ 1/S^4 ≤ tildeS S / S^5 (after dividing by 2 and rearranging)
+  -- ⇔ S^5 ≤ tildeS S * S^4 ... no wait let me redo.
+  -- 2 * (1/S^6) * (S * tildeS S) = 2 * S * tildeS S / S^6 = 2 * tildeS S / S^5.
+  have h_target_eq :
+      2 * (1 / S ^ 6) * (S * tildeS S) = 2 * tildeS S / S ^ 5 := by
+    field_simp
+  rw [h_target_eq]
+  -- Goal: tildeS S - S ≤ 2 * tildeS S / S^5
+  -- 2 * tildeS / S^5 ≥ 2 * S / S^5 = 2/S^4 ≥ tildeS - S.
+  calc tildeS S - S ≤ 2 / S ^ 4 := h_pert_le'
+    _ = 2 * S / S ^ 5 := by field_simp
+    _ ≤ 2 * tildeS S / S ^ 5 := by
+        rw [div_le_div_iff₀ hS5_pos hS5_pos]
+        nlinarith [htildeS_ge_S, hSpos.le]
 
-/-- `exp(-phi_S S (1+ε_S)) = 1 + O(S^{-2})`. -/
-axiom exp_neg_phi_boundary_asymp :
-    BigOInv (fun S => Real.exp (-(phi_S S (1 + eps_S S)))) (fun _ => 1) 2
+/-- `exp(-phi_S S (1+ε_S)) = 1 + O(S^{-2})`. From
+`phi_S_boundary_small` (`phi_S(1+ε_S) = O(S^{-2})`) and the elementary
+inequality `1 - exp(-v) ≤ v` for `v ≥ 0`, with `phi_S ≥ 0`. -/
+theorem exp_neg_phi_boundary_asymp :
+    BigOInv (fun S => Real.exp (-(phi_S S (1 + eps_S S)))) (fun _ => 1) 2 := by
+  obtain ⟨C, S₀, hS₀_pos, hbd⟩ := phi_S_boundary_small
+  refine ⟨C, max S₀ 1, lt_max_of_lt_right one_pos, ?_⟩
+  intro S hS
+  have hS₀_le : S₀ ≤ S := le_trans (le_max_left _ _) hS
+  have hS_one : 1 ≤ S := le_trans (le_max_right _ _) hS
+  have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS_one
+  -- `phi_S(1+ε_S) ≥ 0`.
+  have h_phi_nn : 0 ≤ phi_S S (1 + eps_S S) := by
+    have hq := phi_S_quadratic_lower hSpos (1 + eps_S S)
+    have h_eta_nn : 0 ≤ eta_S S := (eta_S_pos hSpos).le
+    have h_quad_nn : 0 ≤ eta_S S * (1 + eps_S S) ^ 2 / 2 := by
+      have hsq : 0 ≤ (1 + eps_S S) ^ 2 := sq_nonneg _
+      have := mul_nonneg h_eta_nn hsq
+      linarith
+    linarith
+  -- `1 - exp(-v) ≤ v` for `v ≥ 0`.
+  have hone_sub_le := (one_sub_exp_neg_le (phi_S S (1 + eps_S S)) h_phi_nn).2
+  -- `exp(-v) - 1 = -(1 - exp(-v))`.
+  -- `|exp(-v) - 1| = 1 - exp(-v)` (since `exp(-v) ≤ 1`).
+  have hexp_le_one : Real.exp (-(phi_S S (1 + eps_S S))) ≤ 1 :=
+    Real.exp_le_one_iff.mpr (by linarith [h_phi_nn])
+  have habs_eq : |Real.exp (-(phi_S S (1 + eps_S S))) - 1|
+               = 1 - Real.exp (-(phi_S S (1 + eps_S S))) := by
+    rw [abs_of_nonpos]
+    · ring
+    · linarith
+  rw [habs_eq]
+  -- `1 - exp(-phi_S) ≤ phi_S ≤ C * S^-2`.
+  have hphi_bd := hbd S hS₀_le
+  -- hphi_bd : |phi_S S (1 + eps_S S) - 0| ≤ C * S^(-(2:ℤ))
+  have hphi_le : phi_S S (1 + eps_S S) ≤ C * S ^ (-((2 : ℕ) : ℤ)) := by
+    have : |phi_S S (1 + eps_S S) - (fun _ => (0 : ℝ)) S|
+            ≤ C * S ^ (-((2 : ℕ) : ℤ)) := hphi_bd
+    simp only at this
+    rw [abs_of_nonneg (by linarith : (0 : ℝ) ≤ phi_S S (1 + eps_S S) - 0)] at this
+    linarith
+  linarith [hone_sub_le, hphi_le]
 
 /-! ## Lemma (a): right-tail integral asymptotic
 
@@ -398,11 +508,9 @@ axiom Z_S_asymp :
 
 `q_S = 1/S - 1/S^2 + O(S^{-3})`  and  `t_S = O(S^{-3})`. -/
 
-axiom q_S_asymp :
-    BigOInv q_S (fun S => 1 / S - 1 / S ^ 2) 3
-
-axiom t_S_asymp :
-    BigOInv t_S (fun _ => 0) 3
+-- `q_S_asymp` and `t_S_asymp` are *proven* (not axiomatised); see the
+-- end of this file. Their proofs depend on `exists_S_Z_S_ge_one`,
+-- hence the placement.
 
 /-! ## Derived corollaries
 
@@ -453,6 +561,256 @@ lemma exists_S_Z_S_ge_one : ∃ S₀ : ℝ, 0 < S₀ ∧ ∀ S, S₀ ≤ S → 1
         _ ≤ 1 := hrecip
   linarith
 
+/-! `exists_S_q_S_lt_one` (which uses `q_S_asymp`) is proven at the
+end of the file, after `q_S_asymp` itself. -/
+
+/-! ## Sanity: the four constants are well-defined reals. -/
+
+example (S : ℝ) : Z_S S = ∫ x, Real.exp (-(phi_S S x)) := rfl
+example (S : ℝ) : tailInt_S S = ∫ x in Set.Ici (1 + eps_S S), Real.exp (-(phi_S S x)) := rfl
+example (S : ℝ) : q_S S = 2 * tailInt_S S / Z_S S := rfl
+
+/-! ## Proofs of `q_S_asymp` and `t_S_asymp`
+
+These two BigOInv statements depend on `exists_S_Z_S_ge_one`, hence
+their proofs sit at the end of the file. -/
+
+/-- `q_S = 1/S − 1/S² + O(S⁻³)`. Derived from `tailInt_S_asymp` and
+`Z_S_asymp` plus the algebraic identity
+`q_S − (1/S − 1/S²) = −((1/S − 1/S²) · Z_S − 2·tailInt_S) / Z_S`. -/
+theorem q_S_asymp : BigOInv q_S (fun S => 1 / S - 1 / S ^ 2) 3 := by
+  obtain ⟨C_Z, S_Z, hS_Z_pos, hZ_bd⟩ := Z_S_asymp
+  obtain ⟨C_T, S_T, hS_T_pos, hT_bd⟩ := tailInt_S_asymp
+  obtain ⟨S₀_Z, _hS₀_Z_pos, hZ_ge_one⟩ := exists_S_Z_S_ge_one
+  refine ⟨2 + C_Z + 2 * C_T, max (max S_Z S_T) (max S₀_Z 1), ?_, ?_⟩
+  · refine lt_max_of_lt_right (lt_max_of_lt_right one_pos)
+  intro S hS
+  have hS_Z_le : S_Z ≤ S :=
+    le_trans (le_max_left _ _) (le_trans (le_max_left _ _) hS)
+  have hS_T_le : S_T ≤ S :=
+    le_trans (le_max_right _ _) (le_trans (le_max_left _ _) hS)
+  have hS₀_Z_le : S₀_Z ≤ S :=
+    le_trans (le_max_left _ _) (le_trans (le_max_right _ _) hS)
+  have hS_one : 1 ≤ S :=
+    le_trans (le_max_right _ _) (le_trans (le_max_right _ _) hS)
+  have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS_one
+  have hZ_one : 1 ≤ Z_S S := hZ_ge_one S hS₀_Z_le
+  have hZ_pos : 0 < Z_S S := lt_of_lt_of_le zero_lt_one hZ_one
+  have hZ_ne : Z_S S ≠ 0 := hZ_pos.ne'
+  -- Bounds on R_Z = Z_S - (2 + 2/S) and R_T = tailInt_S - 1/S.
+  have h_pow_eq : S ^ (-((3 : ℕ) : ℤ)) = 1 / S ^ 3 :=
+    zpow_negNat S 3 hSpos.ne'
+  have hZ' : |Z_S S - (2 + 2 / S)| ≤ C_Z * (1 / S ^ 3) := by
+    have := hZ_bd S hS_Z_le
+    rwa [h_pow_eq] at this
+  have hT' : |tailInt_S S - 1 / S| ≤ C_T * (1 / S ^ 3) := by
+    have := hT_bd S hS_T_le
+    rwa [h_pow_eq] at this
+  -- Algebraic identity: q_S - (1/S - 1/S²) = -((1/S - 1/S²)·Z_S - 2·tailInt_S) / Z_S.
+  have h_eq : q_S S - (1 / S - 1 / S ^ 2)
+             = -((1 / S - 1 / S ^ 2) * Z_S S - 2 * tailInt_S S) / Z_S S := by
+    unfold q_S
+    have hSne : S ≠ 0 := hSpos.ne'
+    field_simp
+    ring
+  -- Bound the numerator of the RHS by triangle inequality.
+  -- (1/S - 1/S²)·Z_S - 2·tailInt_S
+  -- = (1/S - 1/S²)·(2 + 2/S + (Z_S - (2 + 2/S))) - 2·(1/S + (tailInt_S - 1/S))
+  -- = -2/S³ + (1/S - 1/S²)·R_Z - 2·R_T.
+  set RZ := Z_S S - (2 + 2 / S) with hRZ_def
+  set RT := tailInt_S S - 1 / S with hRT_def
+  have h_num_eq :
+      (1 / S - 1 / S ^ 2) * Z_S S - 2 * tailInt_S S
+        = -(2 / S ^ 3) + (1 / S - 1 / S ^ 2) * RZ - 2 * RT := by
+    rw [hRZ_def, hRT_def]
+    have hSne : S ≠ 0 := hSpos.ne'
+    field_simp
+    ring
+  rw [h_pow_eq, h_eq]
+  -- Goal: |−num/Z_S| ≤ (2 + C_Z + 2 C_T) * (1/S³).
+  rw [abs_div, abs_neg, abs_of_pos hZ_pos]
+  rw [div_le_iff₀ hZ_pos]
+  rw [h_num_eq]
+  -- |−2/S³ + (1/S − 1/S²)·RZ − 2·RT|
+  -- ≤ 2/S³ + |1/S − 1/S²|·|RZ| + 2·|RT|
+  -- ≤ 2/S³ + 1·C_Z/S³ + 2·C_T/S³ = (2 + C_Z + 2 C_T)/S³.
+  have h_tri₁ :
+      |(-(2 / S ^ 3)) + (1 / S - 1 / S ^ 2) * RZ - 2 * RT|
+        ≤ |(-(2 / S ^ 3)) + (1 / S - 1 / S ^ 2) * RZ| + |2 * RT| := abs_sub _ _
+  have h_tri₂ :
+      |(-(2 / S ^ 3)) + (1 / S - 1 / S ^ 2) * RZ|
+        ≤ |(-(2 / S ^ 3))| + |(1 / S - 1 / S ^ 2) * RZ| := abs_add_le _ _
+  have h_abs_2_S3 : |(-(2 : ℝ) / S ^ 3)| = 2 / S ^ 3 := by
+    rw [neg_div, abs_neg, abs_of_pos (by positivity : (0:ℝ) < 2 / S^3)]
+  have h_abs_2_S3' : |(-((2 : ℝ) / S ^ 3))| = 2 / S ^ 3 := by
+    rw [abs_neg, abs_of_pos (by positivity : (0:ℝ) < 2 / S^3)]
+  have h_abs_RZ : |(1 / S - 1 / S ^ 2) * RZ| ≤ C_Z * (1 / S ^ 3) := by
+    rw [abs_mul]
+    have h_abs_diff : |(1 : ℝ) / S - 1 / S ^ 2| ≤ 1 := by
+      have h1 : (0 : ℝ) < 1 / S := by positivity
+      have h2 : (0 : ℝ) < 1 / S ^ 2 := by positivity
+      have h3 : (1 : ℝ) / S ≤ 1 := by
+        rw [div_le_one hSpos]; exact hS_one
+      have h4 : (1 : ℝ) / S ^ 2 ≤ 1 := by
+        rw [div_le_one (by positivity)]
+        nlinarith
+      have h5 : (1 / S - 1 / S^2 : ℝ) ≤ 1 := by linarith
+      have h6 : (-1 : ℝ) ≤ 1 / S - 1 / S^2 := by linarith
+      rw [abs_le]; exact ⟨h6, h5⟩
+    have hRZ_pos : (0 : ℝ) ≤ |RZ| := abs_nonneg _
+    have hh : |(1 / S - (1 : ℝ) / S^2)| * |RZ| ≤ 1 * (C_Z * (1 / S^3)) := by
+      apply mul_le_mul h_abs_diff hZ' hRZ_pos
+      linarith
+    linarith
+  have h_abs_RT : |(2 : ℝ) * RT| ≤ 2 * (C_T * (1 / S ^ 3)) := by
+    rw [abs_mul, abs_of_pos (by norm_num : (0:ℝ) < 2)]
+    linarith [hT']
+  -- Combine.
+  have h_total : |(-(2 / S ^ 3)) + (1 / S - 1 / S ^ 2) * RZ - 2 * RT|
+                  ≤ 2 / S ^ 3 + C_Z * (1 / S ^ 3) + 2 * (C_T * (1 / S ^ 3)) := by
+    calc |(-(2 / S ^ 3)) + (1 / S - 1 / S ^ 2) * RZ - 2 * RT|
+        ≤ |(-(2 / S ^ 3)) + (1 / S - 1 / S ^ 2) * RZ| + |2 * RT| := h_tri₁
+      _ ≤ (|(-(2 / S ^ 3))| + |(1 / S - 1 / S ^ 2) * RZ|) + |2 * RT| := by
+          linarith [h_tri₂]
+      _ = (2/S^3 + |(1 / S - 1 / S ^ 2) * RZ|) + |2 * RT| := by rw [h_abs_2_S3']
+      _ ≤ (2/S^3 + C_Z * (1/S^3)) + 2 * (C_T * (1/S^3)) := by linarith
+  -- Compare with (2 + C_Z + 2 C_T) * (1/S^3) * Z_S.
+  have h_RHS_eq :
+      (2 + C_Z + 2 * C_T) * (1 / S ^ 3)
+        = 2 / S ^ 3 + C_Z * (1 / S ^ 3) + 2 * (C_T * (1 / S ^ 3)) := by ring
+  -- Goal: |...| ≤ (2 + C_Z + 2 C_T) * (1/S^3) * Z_S.
+  have h_RHS_ge :
+      (2 + C_Z + 2 * C_T) * (1 / S ^ 3)
+        ≤ (2 + C_Z + 2 * C_T) * (1 / S ^ 3) * Z_S S := by
+    have h_nn : 0 ≤ (2 + C_Z + 2 * C_T) * (1 / S ^ 3) := by
+      -- We need (2 + C_Z + 2 C_T) ≥ 0. This requires C_Z, C_T ≥ 0.
+      -- C_Z ≥ 0 from BigOInv (axiom values are nonneg).
+      -- We could deduce this, but it's also OK if not — adjust constant.
+      -- Let's use ‖(2 + C_Z + 2 C_T)/S^3 * Z_S‖ ≥ ... instead.
+      -- For simplicity: max with 0.
+      have h_S3_pos : (0 : ℝ) < 1 / S^3 := by positivity
+      -- We need (2 + C_Z + 2 C_T) ≥ 0.
+      -- Derive C_Z ≥ 0 from `|... | ≤ C_Z * S^(-3)` at S = S_Z (already showed
+      -- earlier this trick).
+      have hCZ_nn : 0 ≤ C_Z := by
+        have hb := hZ_bd S_Z le_rfl
+        have habs_nn : (0 : ℝ) ≤ |Z_S S_Z - (fun S => 2 + 2/S) S_Z| := abs_nonneg _
+        have hpow_pos : (0 : ℝ) < S_Z ^ (-((3 : ℕ) : ℤ)) :=
+          zpow_pos hS_Z_pos _
+        by_contra hneg
+        push_neg at hneg
+        have hprod : C_Z * S_Z ^ (-((3 : ℕ) : ℤ)) < 0 :=
+          mul_neg_of_neg_of_pos hneg hpow_pos
+        exact absurd (le_trans habs_nn hb) (not_le_of_gt hprod)
+      have hCT_nn : 0 ≤ C_T := by
+        have hb := hT_bd S_T le_rfl
+        have habs_nn : (0 : ℝ) ≤ |tailInt_S S_T - (fun S => 1/S) S_T| :=
+          abs_nonneg _
+        have hpow_pos : (0 : ℝ) < S_T ^ (-((3 : ℕ) : ℤ)) :=
+          zpow_pos hS_T_pos _
+        by_contra hneg
+        push_neg at hneg
+        have hprod : C_T * S_T ^ (-((3 : ℕ) : ℤ)) < 0 :=
+          mul_neg_of_neg_of_pos hneg hpow_pos
+        exact absurd (le_trans habs_nn hb) (not_le_of_gt hprod)
+      have hsum_nn : 0 ≤ 2 + C_Z + 2 * C_T := by linarith
+      exact mul_nonneg hsum_nn h_S3_pos.le
+    nlinarith [h_nn, hZ_one]
+  linarith [h_RHS_eq, h_RHS_ge, h_total]
+
+/-! ## Proof of `t_S_asymp`
+
+`t_S = O(S^{-3})`. From `t_S = (∫_{T_S} exp(−φ_S)) / Z_S` and the
+bounds `∫_{T_S} exp(−φ_S) ≤ vol(T_S) ≤ 4·ε_S = 4·S^{-3}` (using
+`exp(−φ_S) ≤ 1` because `φ_S ≥ 0`) and `Z_S ≥ 1` eventually
+(from `exists_S_Z_S_ge_one`), we get `t_S ≤ 4·S^{-3}`. -/
+theorem t_S_asymp : BigOInv t_S (fun _ => 0) 3 := by
+  obtain ⟨S₀_Z, _hS₀_Z_pos, hZ_ge_one⟩ := exists_S_Z_S_ge_one
+  refine ⟨4, max S₀_Z 1, lt_max_of_lt_right one_pos, ?_⟩
+  intro S hS
+  have hS_Z : S₀_Z ≤ S := le_trans (le_max_left _ _) hS
+  have hS_one : 1 ≤ S := le_trans (le_max_right _ _) hS
+  have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS_one
+  have hZ_one : 1 ≤ Z_S S := hZ_ge_one S hS_Z
+  have hZ_pos : 0 < Z_S S := lt_of_lt_of_le zero_lt_one hZ_one
+  have heps_pos : 0 < eps_S S := eps_S_pos hSpos
+  have ht_nn : 0 ≤ t_S S := t_S_nonneg S hSpos
+  simp only [sub_zero]
+  rw [abs_of_nonneg ht_nn]
+  -- `phi_S(x) ≥ 0`, so `exp(-phi_S(x)) ≤ 1`.
+  have h_phi_nn : ∀ x, 0 ≤ phi_S S x := by
+    intro x
+    have hq := phi_S_quadratic_lower hSpos x
+    have h_eta_nn : 0 ≤ eta_S S := (eta_S_pos hSpos).le
+    have h_quad_nn : 0 ≤ eta_S S * x ^ 2 / 2 := by
+      have hx2 : 0 ≤ x ^ 2 := sq_nonneg _
+      have := mul_nonneg h_eta_nn hx2
+      linarith
+    linarith
+  have h_exp_le : ∀ x, ‖Real.exp (-(phi_S S x))‖ ≤ 1 := fun x => by
+    rw [Real.norm_eq_abs, abs_of_pos (Real.exp_pos _)]
+    rw [show (1 : ℝ) = Real.exp 0 from Real.exp_zero.symm]
+    exact Real.exp_le_exp.mpr (by linarith [h_phi_nn x])
+  -- `vol(T_S) ≤ 4·ε_S`.
+  have h_vol_neg :
+      volume.real (Set.Icc (-1 - eps_S S) (-1 + eps_S S)) = 2 * eps_S S := by
+    rw [Measure.real_def, Real.volume_Icc,
+        ENNReal.toReal_ofReal (by linarith [heps_pos.le])]
+    ring
+  have h_vol_pos :
+      volume.real (Set.Icc (1 - eps_S S) (1 + eps_S S)) = 2 * eps_S S := by
+    rw [Measure.real_def, Real.volume_Icc,
+        ENNReal.toReal_ofReal (by linarith [heps_pos.le])]
+    ring
+  have h_vol_TS : volume.real (T_S S) ≤ 4 * eps_S S := by
+    have h_union := measureReal_union_le (μ := volume)
+      (Set.Icc (-1 - eps_S S) (-1 + eps_S S))
+      (Set.Icc (1 - eps_S S) (1 + eps_S S))
+    rw [show T_S S = Set.Icc (-1 - eps_S S) (-1 + eps_S S) ∪
+                      Set.Icc (1 - eps_S S) (1 + eps_S S) from rfl]
+    linarith [h_vol_neg, h_vol_pos]
+  -- `T_S` has finite measure.
+  have h_T_meas_lt_top : volume (T_S S) < ⊤ := by
+    have h_sub : T_S S ⊆ Set.Icc (-1 - eps_S S) (1 + eps_S S) := by
+      intro x hx
+      rcases hx with hx | hx
+      · refine ⟨hx.1, ?_⟩
+        have := hx.2
+        linarith
+      · refine ⟨?_, hx.2⟩
+        have := hx.1
+        linarith
+    calc volume (T_S S) ≤ volume (Set.Icc (-1 - eps_S S) (1 + eps_S S)) :=
+          measure_mono h_sub
+      _ = ENNReal.ofReal ((1 + eps_S S) - (-1 - eps_S S)) := Real.volume_Icc
+      _ < ⊤ := ENNReal.ofReal_lt_top
+  -- Bound the set integral by `1 · vol(T_S)`.
+  have h_int_bound :
+      ‖∫ x in T_S S, Real.exp (-(phi_S S x))‖ ≤ 1 * volume.real (T_S S) :=
+    norm_setIntegral_le_of_norm_le_const h_T_meas_lt_top (fun x _ => h_exp_le x)
+  have h_T_meas : MeasurableSet (T_S S) :=
+    measurableSet_Icc.union measurableSet_Icc
+  have h_int_nn : 0 ≤ ∫ x in T_S S, Real.exp (-(phi_S S x)) :=
+    setIntegral_nonneg h_T_meas (fun x _ => (Real.exp_pos _).le)
+  -- Convert to `t_S ≤ 4 · S^{-3}` where the ℝ-power is `eps_S S`.
+  show t_S S ≤ 4 * S ^ (-((3 : ℕ) : ℤ))
+  have h_pow_eq : S ^ (-((3 : ℕ) : ℤ)) = eps_S S := by
+    show S ^ (-(((3 : ℕ) : ℤ))) = S ^ (-(3 : ℤ))
+    rfl
+  rw [h_pow_eq]
+  unfold t_S
+  rw [div_le_iff₀ hZ_pos]
+  have h_num_le : (∫ x in T_S S, Real.exp (-(phi_S S x))) ≤ 4 * eps_S S := by
+    have hb := h_int_bound
+    rw [Real.norm_eq_abs, abs_of_nonneg h_int_nn, one_mul] at hb
+    linarith
+  have h_4eps_nn : 0 ≤ 4 * eps_S S := by linarith [heps_pos.le]
+  calc (∫ x in T_S S, Real.exp (-(phi_S S x)))
+      ≤ 4 * eps_S S := h_num_le
+    _ = 4 * eps_S S * 1 := by ring
+    _ ≤ 4 * eps_S S * Z_S S :=
+        mul_le_mul_of_nonneg_left hZ_one h_4eps_nn
+
 /-- For sufficiently large `S`, `q_S S < 1` (the tail probability is bounded
 away from `1`).  This is used downstream to derive nontrivial mass on the
 core. -/
@@ -469,36 +827,8 @@ lemma exists_S_q_S_lt_one : ∃ S₀ : ℝ, 0 < S₀ ∧ ∀ S, S₀ ≤ S → q
   have hb : |q_S S - (1 / S - 1 / S ^ 2)| ≤ C * S ^ (-(3 : ℤ)) := hb'
   have hpow : S ^ (-(3 : ℤ)) = 1 / S ^ 3 := zpow_negNat S 3 hSpos.ne'
   rw [hpow] at hb
-  -- `|q_S - (1/S - 1/S²)| ≤ C / S^3`, and `1/S - 1/S² + C/S³ < 1` for large S.
   have hupper := (abs_sub_le_iff.1 hb).1
-  -- q_S ≤ 1/S - 1/S² + C/S³
   have hS3_pos : 0 < S ^ 3 := by positivity
-  have h_one_S : (1:ℝ) / S ≤ 1 / 2 := by
-    rw [div_le_div_iff₀ hSpos (by norm_num : (0:ℝ) < 2)]
-    linarith
-  have h_C_S3 : C * (1 / S ^ 3) ≤ |C| * (1 / S ^ 3) := by
-    have : 0 ≤ 1 / S ^ 3 := by positivity
-    nlinarith [le_abs_self C]
-  -- |C|/S^3 ≤ |C|/8 (since S ≥ 2 ⇒ S^3 ≥ 8)
-  have hS3_ge_8 : (8:ℝ) ≤ S ^ 3 := by nlinarith
-  have h_abs_S3 : |C| * (1 / S ^ 3) ≤ |C| / 8 := by
-    have : 1 / S ^ 3 ≤ 1 / 8 := by
-      rw [div_le_div_iff₀ hS3_pos (by norm_num : (0:ℝ) < 8)]
-      linarith
-    have h1 := mul_le_mul_of_nonneg_left this (abs_nonneg C)
-    linarith
-  -- 1/S² ≥ 0
-  have hS2sq_pos : 0 < S ^ 2 := by positivity
-  have h_invS2_nn : 0 ≤ (1:ℝ) / S ^ 2 := by positivity
-  -- Goal: q_S < 1.
-  -- We have q_S ≤ 1/S - 1/S² + C/S³ ≤ 1/S + |C|/S³ ≤ 1/2 + |C|/8.
-  -- Need 1/2 + |C|/8 < 1, i.e. |C|/8 < 1/2, i.e. |C| < 4.
-  -- This won't hold for all C, so we need S even larger.
-  -- Better bound: For S ≥ max(2, 2|C|+2, 4), have S^2 ≥ S · 1 ≥ 2|C|+2 ≥ |C|+2,
-  -- so 1/S² ≤ 1/(|C|+2), and …
-  -- Simpler approach: choose S so that 1/S + |C|/S³ ≤ 1/2.
-  -- Since S ≥ 4, 1/S ≤ 1/4. Since S ≥ 2|C|+2 ⇒ S ≥ |C|+2 ⇒ S^3 ≥ S · 1 ≥ 2|C|+2,
-  -- so |C|/S^3 ≤ |C|/(2|C|+2) ≤ 1/2.  Hence 1/S + |C|/S^3 ≤ 1/4 + 1/2 = 3/4 < 1.
   have hSge4 : (4:ℝ) ≤ S :=
     le_trans (le_max_right _ _)
       (le_trans (le_max_right _ _) (le_trans (le_max_right _ _) hS))
@@ -511,17 +841,17 @@ lemma exists_S_q_S_lt_one : ∃ S₀ : ℝ, 0 < S₀ ∧ ∀ S, S₀ ≤ S → q
   -- |C|/S^3 ≤ 1/2.
   have habs_C_S3_bd : |C| / S ^ 3 ≤ 1 / 2 := by
     have habs_nn : 0 ≤ |C| := abs_nonneg _
-    have hS_ge_C : |C| ≤ S := by
-      have h1 : |C| ≤ 2 * |C| + 2 := by linarith
-      linarith
-    -- S^3 ≥ S^2 ≥ 2|C|+2 ≥ 2|C| ⇒ |C|/S³ ≤ |C|/(2|C|) = 1/2 (when |C| > 0).
-    -- Easier: |C|/S^3 ≤ |C|/(2|C|+2) ≤ 1/2.
+    have hS_ge_C : |C| ≤ S := by linarith
     have hS3_ge_S : S ≤ S ^ 3 := by nlinarith
     have hS3_ge_2C2 : 2 * |C| + 2 ≤ S ^ 3 := le_trans hSge2C hS3_ge_S
-    have hS3_pos' : 0 < S ^ 3 := hS3_pos
-    rw [div_le_div_iff₀ hS3_pos' (by norm_num : (0:ℝ) < 2)]
-    have : |C| * 2 ≤ (2 * |C| + 2) * 1 := by linarith
+    rw [div_le_div_iff₀ hS3_pos (by norm_num : (0:ℝ) < 2)]
     nlinarith
+  -- 1/S² ≥ 0
+  have hS2sq_pos : 0 < S ^ 2 := by positivity
+  have h_invS2_nn : 0 ≤ (1:ℝ) / S ^ 2 := by positivity
+  have h_C_S3 : C * (1 / S ^ 3) ≤ |C| * (1 / S ^ 3) := by
+    have : 0 ≤ 1 / S ^ 3 := by positivity
+    nlinarith [le_abs_self C]
   -- Combine
   have q_le : q_S S ≤ 1 / S - 1 / S ^ 2 + C * (1 / S ^ 3) := by linarith
   have h_lhs_bd : 1 / S - 1 / S ^ 2 + C * (1 / S ^ 3)
@@ -531,12 +861,6 @@ lemma exists_S_q_S_lt_one : ∃ S₀ : ℝ, 0 < S₀ ∧ ∀ S, S₀ ≤ S → q
     rw [h_abs_eq]
     linarith
   linarith
-
-/-! ## Sanity: the four constants are well-defined reals. -/
-
-example (S : ℝ) : Z_S S = ∫ x, Real.exp (-(phi_S S x)) := rfl
-example (S : ℝ) : tailInt_S S = ∫ x in Set.Ici (1 + eps_S S), Real.exp (-(phi_S S x)) := rfl
-example (S : ℝ) : q_S S = 2 * tailInt_S S / Z_S S := rfl
 
 end L2Counterexample
 

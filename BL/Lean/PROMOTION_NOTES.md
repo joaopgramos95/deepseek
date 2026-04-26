@@ -7,105 +7,89 @@
 | Basic.lean              |      0 |
 | Bump.lean               |      0 |
 | Potential.lean          |      0 |
-| Normalization.lean      |     12 |
+| Normalization.lean      |      8 |
 | TestFunction.lean       |     11 |
 | OneDimensional.lean     |      6 |
 | HigherDimensional.lean  |      6 |
-| **Total**               | **35** |
+| **Total**               | **31** |
 
 `lake build L2Counterexample` succeeds. Zero `sorry` remaining.
 
-The previous state had **61 axioms**; the current cleanup discharged
-**26**, mostly by:
+## Cumulative axiom history
 
-* deriving measurability from `phi_S_contDiff` etc. (Norm and OneDim);
-* using `MemLp.mul'` / Hölder triple `(2,2,1)` for `phiDer_gg_integrable`;
-* defining `Var_f_S` as the integral (so `Var_gg_eq_Var_ff` becomes
-  `rfl`) and `EE_phi_S` as `E_phi (g_S' S)`;
-* defining `rho_S` concretely as
-  `volume.withDensity (fun x => ENNReal.ofReal ((Z_S S)⁻¹ · exp(−φ_S x)))`,
-  letting us prove `rho_S_isProb_of_pos`;
-* `Z_S_pos` from `integral_exp_pos`;
-* `exp_negPhiS_integrableOn_tail` from `Integrable.integrableOn`;
-* `integral_exp_neg_Ici` and `integral_sq_exp_neg_Ici` from
-  `Real.integral_rpow_mul_exp_neg_mul_Ioi` (specialisations at α = 1
-  and α = 3);
-* `exp_negGaussianTail_integrableOn` by bounding `exp(−Au − Bu²/2)`
-  by the Gaussian `exp(−B/2 · u²)`;
-* `phiDer_gg_integrable` via `MemLp.mul'`;
-* `t_S_le_one` and `t_S_nonneg_axiom` from `setIntegral_le_integral`
-  and `Normalization.t_S_nonneg`;
-* `q_S_abs_le_two` (the blueprint claims `≤ 1`; we use the looser
-  `≤ 2` so we can avoid the symmetry argument). The variance bound
-  is updated from `4 t_S` to `6 t_S`, which is harmless for the
-  asymptotic conclusion;
-* HigherDim's `f_S, E_phi_S, Var_phi_S, distSq_phi_S, delta_phi_S_HD`
-  axioms are now *aliases* for `OneDimensional.{ff_S, EE_phi_S,
-  Var_f_S, Var_f_S, delta_phi_S}`, so `delta_phi_S_HD_eventually_pos`,
-  `distSq_phi_S_over_delta_unbounded`, `no_uniform_L2_stability_1D`,
-  `f_S_integral_zero`, `f_S_orth_phiDer_S` reduce to OneDim theorems.
+```
+61  → initial
+35  → previous round (measurability, rho_S as withDensity, MemLp.mul',
+                       Z_S_pos, integrals via Gamma, q_S_abs_le_two,
+                       HigherDim aliasing, etc.)
+31  → this round (t_S_asymp, q_S_asymp, one_div_tildeS_asymp,
+                   exp_neg_phi_boundary_asymp)
+```
 
-## What's left as axioms
+## Axioms discharged in this round
 
-### Asymptotic axioms (not currently tractable)
+* `Normalization.t_S_asymp` proved by:
+  - bounding `∫_{T_S} exp(−φ_S) ≤ vol(T_S) ≤ 4·ε_S = 4·S^{−3}` (via
+    `norm_setIntegral_le_of_norm_le_const` plus `measureReal_union_le`
+    on the two `Icc` pieces);
+  - using `Z_S ≥ 1` eventually (`exists_S_Z_S_ge_one`).
+* `Normalization.q_S_asymp` proved by the algebraic identity
+  `q_S − (1/S − 1/S²) = −((1/S − 1/S²)·Z_S − 2·tailInt_S) / Z_S`
+  combined with the BigOInv bounds on `Z_S − (2 + 2/S)` and
+  `tailInt_S − 1/S`.
+* `Normalization.one_div_tildeS_asymp` proved by
+  `|1/tildeS − 1/S| = (tildeS − S)/(S·tildeS) ≤ (2·η_S)/S² = 2·S^{−6}`.
+* `Normalization.exp_neg_phi_boundary_asymp` proved by
+  `|exp(−φ_S(1+ε_S)) − 1| = 1 − exp(−φ_S(1+ε_S)) ≤ φ_S(1+ε_S) ≤ C·S^{−2}`.
 
-These are deep analytic results whose proofs require substantial real
-analysis infrastructure. Listed in approximate order of difficulty:
+To preserve the topological order required by Lean (definitions before
+uses), `q_S_asymp` and `t_S_asymp` are placed at the end of
+`Normalization.lean` (after `exists_S_Z_S_ge_one`), and
+`exists_S_q_S_lt_one` is moved after `q_S_asymp`.
 
-* `Normalization.tailInt_S_asymp` (`tailInt_S = 1/S + O(S⁻³)`).
-* `Normalization.Z_S_asymp` (`Z_S = 2 + 2/S + O(S⁻³)`).
-* `Normalization.q_S_asymp` (`q_S = 1/S − 1/S² + O(S⁻³)`) — derivable
-  from the previous two by BigOInv algebra.
-* `Normalization.t_S_asymp`.
-* `Normalization.tail_gaussian_bound` — quantitative bound, derivable
-  from `integral_exp_neg_Ici`, `integral_sq_exp_neg_Ici`,
-  `one_sub_exp_neg_le`, monotonicity. Tractable but extensive.
-* `Normalization.one_div_tildeS_asymp`.
-* `Normalization.exp_neg_phi_boundary_asymp`.
-* `Normalization.phi_S_boundary_small`.
-* `Normalization.phi_S_layer_small`.
-* `OneDimensional.EE_phi_S_asymp`.
-* `OneDimensional.Var_f_S_asymp`.
-* `TestFunction.A_S_asymp`.
-* `TestFunction.Var_phi_g_S_expansion`. (Sketch attempted; algebra is
-  doable but the IsBigO / linarith chain ran into multiple subgoals
-  that need patient hand-holding.)
+## What remains as axioms (31)
 
-### Other axioms
+The remaining 31 axioms encode genuinely deep analytic facts. In rough
+order of difficulty:
 
-* `Normalization.phi_S_tail` (regional formula for `phi_S` on the tail).
-  Provable from FTC + a missing `phiDer_S_ext_right` lemma in Potential.
-* `Normalization.exp_negPhiS_integrable` — Gaussian domination, requires
-  bounding `exp(-phi_S) ≤ exp(-eta·x²/2)` and combining with Gaussian
-  integrability.
-* `OneDimensional.rho_S_isProb` (unconditional axiom-instance) — kept
-  alongside the proven `rho_S_isProb_of_pos`. Removing requires
-  threading a `0 < S` hypothesis through every downstream `MemLp` /
-  `Integrable` site.
-* `OneDimensional.rho_S_reflection_invariant` — a clean proof exists
-  modulo measurability of `phi_S`, which itself needs `0 < S`.
-* `OneDimensional.phiDer_S_memL2`, `g_S_memL2` — L² membership,
-  unconditional, used by ff_S_memL2 (which doesn't have S>0 in scope).
-* `TestFunction.A_S_symm` — change of variables `t ↦ -t`.
-* `TestFunction.hasDerivAt_g_S_layer_pos`, `hasDerivAt_g_S_layer_neg` —
-  derivative formulas, FTC.
-* `TestFunction.g_S_continuous` — piecewise continuity, gluing argument.
-* `TestFunction.layerLebesgueEnergyPos_eq`, `layerLebesgueEnergyNeg_eq`,
-  `E_phi_g_S_eq` — explicit energy identities.
-* `TestFunction.integral_g_S_eq_q_plus_error`,
-  `integral_g_S_sq_eq_q_plus_error` — measure decomposition.
-* `HigherDimensional.stdGaussian`, `stdGaussian_isProb`,
-  `stdGaussian_first_moment` — Mathlib has `MeasureTheory.Measure.gaussianReal`
-  but lifting to `Fin n → ℝ` via product measure is real work.
-* `HigherDimensional.integral_prod_first_coord`,
-  `integral_prod_separable` — Fubini bridges; need integrability
-  hypotheses or a careful "non-integrable case" argument.
-* `HigherDimensional.prodSpace_iso_euclidean` — linear isometric
-  equivalence, standard but boilerplate.
+### Tractable in further rounds (with ~50–150 lines each)
+
+* `tail_gaussian_bound` — sketched in comments; uses the proven
+  `integral_exp_neg_Ici`, `integral_sq_exp_neg_Ici`,
+  `one_sub_exp_neg_le`, plus integration monotonicity.
+* `Var_phi_g_S_expansion` — derivable from `Var_phi_g_S_isBigO` and
+  `q_S_isBigO` via algebraic expansion of `q(1−q)`. Three attempts
+  in this round failed at the level of Lean's `Asymptotics.IsBigO`
+  bookkeeping; the math is correct but the proof is extremely
+  tedious without dedicated tactics.
+* `g_S_continuous` — piecewise gluing argument; uses
+  `Continuous.piecewise` from Mathlib.
+
+### Less tractable
+
+* The remaining `Normalization` axioms (`tailInt_S_tail_eq`,
+  `tailInt_S_asymp`, `Z_S_asymp`, `phi_S_tail`, `phi_S_boundary_small`,
+  `phi_S_layer_small`, `exp_negPhiS_integrable`) — encode the change-
+  of-variables and asymptotic bookkeeping of section 3 of the paper.
+  Each requires substantive measure-theory / real-analysis Lean code.
+* `TestFunction` axioms `A_S_symm, A_S_asymp, hasDerivAt_g_S_layer_*,
+  layerLebesgueEnergyPos/Neg_eq, E_phi_g_S_eq,
+  integral_g_S_eq_q_plus_error, integral_g_S_sq_eq_q_plus_error` —
+  encode the test-function calculations of section 4.
+* `OneDimensional.{rho_S_isProb, rho_S_reflection_invariant,
+  phiDer_S_memL2, g_S_memL2, EE_phi_S_asymp, Var_f_S_asymp}` —
+  measure-theoretic and L²-membership facts (the first two have
+  proofs sketched in this file's comments).
+* `HigherDimensional.{stdGaussian, stdGaussian_isProb,
+  stdGaussian_first_moment, integral_prod_first_coord,
+  integral_prod_separable, prodSpace_iso_euclidean}` — Mathlib has
+  the underlying tools (`gaussianReal`, `Measure.pi`,
+  `MeasureTheory.integral_prod`) but lifting them to this file's
+  forms requires careful integrability hypotheses.
 
 ## Naming canon
 
-(Unchanged from previous round; reproduced for completeness.)
+(Unchanged; reproduced for completeness.)
 
 | Concept                        | Canonical name      | Defined in           |
 |--------------------------------|---------------------|----------------------|
@@ -125,6 +109,6 @@ analysis infrastructure. Listed in approximate order of difficulty:
 
 ## WIP files
 
-Each `WIP_*.lean` is identical to its canonical counterpart. Future agents
-edit the WIP files; the orchestrator promotes by `cp` and re-runs
-`lake build`.
+Each `WIP_*.lean` is identical to its canonical counterpart. Future
+agents edit the WIP files; the orchestrator promotes by `cp` and
+re-runs `lake build`.
