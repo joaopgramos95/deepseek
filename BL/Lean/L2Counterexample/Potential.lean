@@ -283,7 +283,7 @@ lemma phi_ge_quadratic {h : ℝ → ℝ} {η : ℝ} (hcont : Continuous h)
 /-! ## The scaled potential family `phi_S`
 
 Parameters `epsilon S = S^{-3}`, `eta S = S^{-4}`. We define
-`phi''_S` (as `phiPP_S`), its antiderivative `phi'_S` (`phiP_S`), and the
+`phi''_S` (as `phiDer2_S`), its antiderivative `phi'_S` (`phiDer_S`), and the
 potential `phi_S` itself. -/
 
 /-- Parameter `ε_S = S^{-3}`. -/
@@ -302,24 +302,24 @@ lemma eta_S_pos {S : ℝ} (hS : 0 < S) : 0 < eta_S S := by
 
 /-- Scaled second derivative
 `phi''_S x = η_S + (S/ε_S) · κ((x-1)/ε_S) + (S/ε_S) · κ((x+1)/ε_S)`. -/
-def phiPP_S (S x : ℝ) : ℝ :=
+def phiDer2_S (S x : ℝ) : ℝ :=
   eta_S S
     + (S / eps_S S) * kappa ((x - 1) / eps_S S)
     + (S / eps_S S) * kappa ((x + 1) / eps_S S)
 
 /-- Scaled first derivative `phi'_S`, defined as the oriented integral of
 `phi''_S` from `0`. -/
-def phiP_S (S : ℝ) : ℝ → ℝ := psi (phiPP_S S)
+def phiDer_S (S : ℝ) : ℝ → ℝ := psi (phiDer2_S S)
 
 /-- Scaled potential `phi_S`, defined as the oriented integral of `phi'_S`
 from `0`. -/
-def phi_Sc (S : ℝ) : ℝ → ℝ := phi (phiPP_S S)
+def phi_S (S : ℝ) : ℝ → ℝ := phi (phiDer2_S S)
 
-/-! ### Smoothness and identities for `phiPP_S`, `phiP_S`, `phi_Sc` -/
+/-! ### Smoothness and identities for `phiDer2_S`, `phiDer_S`, `phi_S` -/
 
 /-- `phi''_S` is smooth (for `S ≠ 0`, the shift-rescaled bumps are smooth). -/
-lemma phiPP_S_contDiff {S : ℝ} (hS : 0 < S) : ContDiff ℝ ∞ (phiPP_S S) := by
-  unfold phiPP_S
+lemma phiDer2_S_contDiff {S : ℝ} (hS : 0 < S) : ContDiff ℝ ∞ (phiDer2_S S) := by
+  unfold phiDer2_S
   have h1 : ContDiff ℝ ∞ (fun x : ℝ => (x - 1) / eps_S S) := by fun_prop
   have h2 : ContDiff ℝ ∞ (fun x : ℝ => (x + 1) / eps_S S) := by fun_prop
   have hk1 : ContDiff ℝ ∞ (fun x : ℝ => kappa ((x - 1) / eps_S S)) :=
@@ -332,36 +332,36 @@ lemma phiPP_S_contDiff {S : ℝ} (hS : 0 < S) : ContDiff ℝ ∞ (phiPP_S S) := 
     contDiff_const.mul hk2
   exact (contDiff_const.add hs1).add hs2
 
-lemma phiPP_S_continuous {S : ℝ} (hS : 0 < S) : Continuous (phiPP_S S) :=
-  (phiPP_S_contDiff hS).continuous
+lemma phiDer2_S_continuous {S : ℝ} (hS : 0 < S) : Continuous (phiDer2_S S) :=
+  (phiDer2_S_contDiff hS).continuous
 
-lemma phiP_S_contDiff {S : ℝ} (hS : 0 < S) : ContDiff ℝ ∞ (phiP_S S) :=
-  psi_contDiff (phiPP_S_contDiff hS)
+lemma phiDer_S_contDiff {S : ℝ} (hS : 0 < S) : ContDiff ℝ ∞ (phiDer_S S) :=
+  psi_contDiff (phiDer2_S_contDiff hS)
 
-lemma phi_Sc_contDiff {S : ℝ} (hS : 0 < S) : ContDiff ℝ ∞ (phi_Sc S) :=
-  phi_contDiff (phiPP_S_contDiff hS)
+lemma phi_S_contDiff {S : ℝ} (hS : 0 < S) : ContDiff ℝ ∞ (phi_S S) :=
+  phi_contDiff (phiDer2_S_contDiff hS)
 
-@[simp] lemma phiP_S_zero (S : ℝ) : phiP_S S 0 = 0 := psi_zero _
-@[simp] lemma phi_Sc_zero (S : ℝ) : phi_Sc S 0 = 0 := phi_zero _
+@[simp] lemma phiDer_S_zero (S : ℝ) : phiDer_S S 0 = 0 := psi_zero _
+@[simp] lemma phi_S_zero (S : ℝ) : phi_S S 0 = 0 := phi_zero _
 
-lemma deriv_phi_Sc {S : ℝ} (hS : 0 < S) : deriv (phi_Sc S) = phiP_S S := by
-  unfold phi_Sc phiP_S
-  exact deriv_phi (phiPP_S_continuous hS)
+lemma deriv_phi_S {S : ℝ} (hS : 0 < S) : deriv (phi_S S) = phiDer_S S := by
+  unfold phi_S phiDer_S
+  exact deriv_phi (phiDer2_S_continuous hS)
 
-lemma deriv_phiP_S {S : ℝ} (hS : 0 < S) : deriv (phiP_S S) = phiPP_S S := by
-  unfold phiP_S
-  exact deriv_psi (phiPP_S_continuous hS)
+lemma deriv_phiDer_S {S : ℝ} (hS : 0 < S) : deriv (phiDer_S S) = phiDer2_S S := by
+  unfold phiDer_S
+  exact deriv_psi (phiDer2_S_continuous hS)
 
-lemma deriv_deriv_phi_Sc {S : ℝ} (hS : 0 < S) :
-    deriv (deriv (phi_Sc S)) = phiPP_S S := by
-  rw [deriv_phi_Sc hS, deriv_phiP_S hS]
+lemma deriv_deriv_phi_S {S : ℝ} (hS : 0 < S) :
+    deriv (deriv (phi_S S)) = phiDer2_S S := by
+  rw [deriv_phi_S hS, deriv_phiDer_S hS]
 
 /-! ### Lower bound `phi''_S ≥ η_S` -/
 
 /-- The quadratic layer term is nonnegative, since `κ ≥ 0` and `S/ε_S > 0`. -/
-lemma phiPP_S_ge_eta {S : ℝ} (hS : 0 < S) (x : ℝ) :
-    eta_S S ≤ phiPP_S S x := by
-  unfold phiPP_S
+lemma phiDer2_S_ge_eta {S : ℝ} (hS : 0 < S) (x : ℝ) :
+    eta_S S ≤ phiDer2_S S x := by
+  unfold phiDer2_S
   have heps_pos : 0 < eps_S S := eps_S_pos hS
   have hS_over : 0 ≤ S / eps_S S := div_nonneg hS.le heps_pos.le
   have h1 : 0 ≤ (S / eps_S S) * kappa ((x - 1) / eps_S S) :=
@@ -370,12 +370,13 @@ lemma phiPP_S_ge_eta {S : ℝ} (hS : 0 < S) (x : ℝ) :
     mul_nonneg hS_over (kappa_nonneg _)
   linarith
 
-/-! ### Evenness of `phi''_S`, odd of `phi'_S`, evenness of `phi_Sc` -/
+/-! ### Evenness of `phi''_S`, odd of `phi'_S`, evenness of `phi_S` -/
 
-/-- `phi''_S` is even. -/
-lemma phiPP_S_even {S : ℝ} (hS : 0 < S) (x : ℝ) : phiPP_S S (-x) = phiPP_S S x := by
-  unfold phiPP_S
-  have heps_ne : eps_S S ≠ 0 := (eps_S_pos hS).ne'
+/-- `phi''_S` is even. The hypothesis `0 < S` is *not* required: the proof
+only relies on the evenness of `kappa` and arithmetic on the rescaled
+arguments, both of which are unconditional. -/
+lemma phiDer2_S_even (S x : ℝ) : phiDer2_S S (-x) = phiDer2_S S x := by
+  unfold phiDer2_S
   -- `(-x - 1)/ε = -(x+1)/ε`, so its κ-value equals κ((x+1)/ε) by evenness.
   have ha : kappa ((-x - 1) / eps_S S) = kappa ((x + 1) / eps_S S) := by
     have : (-x - 1) / eps_S S = -((x + 1) / eps_S S) := by ring
@@ -391,22 +392,22 @@ lemma phiPP_S_even {S : ℝ} (hS : 0 < S) (x : ℝ) : phiPP_S S (-x) = phiPP_S S
   ring
 
 /-- `phi'_S` is odd. -/
-lemma phiP_S_neg {S : ℝ} (hS : 0 < S) (x : ℝ) : phiP_S S (-x) = -phiP_S S x := by
-  unfold phiP_S
-  exact psi_neg_of_even (phiPP_S_even hS) x
+lemma phiDer_S_odd (S x : ℝ) : phiDer_S S (-x) = -phiDer_S S x := by
+  unfold phiDer_S
+  exact psi_neg_of_even (phiDer2_S_even S) x
 
 /-- `phi_S` is even. -/
-lemma phi_Sc_neg {S : ℝ} (hS : 0 < S) (x : ℝ) : phi_Sc S (-x) = phi_Sc S x := by
-  unfold phi_Sc
-  exact phi_neg_of_even (phiPP_S_even hS) x
+lemma phi_S_even (S x : ℝ) : phi_S S (-x) = phi_S S x := by
+  unfold phi_S
+  exact phi_neg_of_even (phiDer2_S_even S) x
 
 /-! ### Regional formulas for `phi''_S`
 
 **Core region**: for `|x| ≤ 1 - ε_S` (with `ε_S < 1`) both bumps vanish and
 `phi''_S x = η_S`. -/
 
-lemma phiPP_S_core {S x : ℝ} (hS : 0 < S) (hx : |x| ≤ 1 - eps_S S) :
-    phiPP_S S x = eta_S S := by
+lemma phiDer2_S_core {S x : ℝ} (hS : 0 < S) (hx : |x| ≤ 1 - eps_S S) :
+    phiDer2_S S x = eta_S S := by
   have heps_pos : 0 < eps_S S := eps_S_pos hS
   have heps_ne : eps_S S ≠ 0 := heps_pos.ne'
   -- From `|x| ≤ 1 - ε_S` we get `|x - 1|/ε_S ≥ 1` and `|x + 1|/ε_S ≥ 1`,
@@ -439,14 +440,14 @@ lemma phiPP_S_core {S x : ℝ} (hS : 0 < S) (hx : |x| ≤ 1 - eps_S S) :
     exact h2
   have hk1 : kappa ((x - 1) / eps_S S) = 0 := kappa_eq_zero_of_abs_ge_one habs1
   have hk2 : kappa ((x + 1) / eps_S S) = 0 := kappa_eq_zero_of_abs_ge_one habs2
-  unfold phiPP_S
+  unfold phiDer2_S
   rw [hk1, hk2]
   ring
 
 /-- Exterior region right: for `x ≥ 1 + ε_S`, both bumps vanish and
 `phi''_S x = η_S`. -/
-lemma phiPP_S_ext_right {S x : ℝ} (hS : 0 < S) (hx : 1 + eps_S S ≤ x) :
-    phiPP_S S x = eta_S S := by
+lemma phiDer2_S_ext_right {S x : ℝ} (hS : 0 < S) (hx : 1 + eps_S S ≤ x) :
+    phiDer2_S S x = eta_S S := by
   have heps_pos : 0 < eps_S S := eps_S_pos hS
   have heps_ne : eps_S S ≠ 0 := heps_pos.ne'
   -- `x - 1 ≥ ε_S > 0` so `|x - 1| = x - 1 ≥ ε_S`, hence `|(x-1)/ε_S| ≥ 1`.
@@ -465,17 +466,17 @@ lemma phiPP_S_ext_right {S x : ℝ} (hS : 0 < S) (hx : 1 + eps_S S ≤ x) :
     exact h2
   have hk1 : kappa ((x - 1) / eps_S S) = 0 := kappa_eq_zero_of_abs_ge_one habs1
   have hk2 : kappa ((x + 1) / eps_S S) = 0 := kappa_eq_zero_of_abs_ge_one habs2
-  unfold phiPP_S
+  unfold phiDer2_S
   rw [hk1, hk2]; ring
 
 /-- Exterior region left: for `x ≤ -1 - ε_S`, both bumps vanish and
 `phi''_S x = η_S`. -/
-lemma phiPP_S_ext_left {S x : ℝ} (hS : 0 < S) (hx : x ≤ -1 - eps_S S) :
-    phiPP_S S x = eta_S S := by
+lemma phiDer2_S_ext_left {S x : ℝ} (hS : 0 < S) (hx : x ≤ -1 - eps_S S) :
+    phiDer2_S S x = eta_S S := by
   -- Use evenness: `phi''_S x = phi''_S (-x)`, and `-x ≥ 1 + ε_S`.
   have hnx : 1 + eps_S S ≤ -x := by linarith
-  have := phiPP_S_ext_right (S := S) (x := -x) hS hnx
-  rw [phiPP_S_even hS] at this
+  have := phiDer2_S_ext_right (S := S) (x := -x) hS hnx
+  rw [phiDer2_S_even] at this
   exact this
 
 /-! ### Support scaling identities
@@ -580,15 +581,15 @@ equals `phi_S(x) - phi_S(1+ε)`).
 -/
 
 /-- Core formula: `phi'_S(x) = η_S · x` for `|x| ≤ 1 - ε_S`. -/
-lemma phiP_S_core {S x : ℝ} (hS : 0 < S) (hx : |x| ≤ 1 - eps_S S) :
-    phiP_S S x = eta_S S * x := by
+lemma phiDer_S_core {S x : ℝ} (hS : 0 < S) (hx : |x| ≤ 1 - eps_S S) :
+    phiDer_S S x = eta_S S * x := by
   -- On the whole interval `[-|x|, |x|] ⊆ [-(1-ε), 1-ε]`, `phi''_S = η_S`.
-  unfold phiP_S psi
+  unfold phiDer_S psi
   -- `∫ t in 0..x, phi''_S t = ∫ t in 0..x, η_S`, since on the integration
   -- range `t` satisfies `|t| ≤ |x| ≤ 1 - ε_S`.
-  have hcore_eq : ∀ t ∈ Set.uIcc (0:ℝ) x, phiPP_S S t = eta_S S := by
+  have hcore_eq : ∀ t ∈ Set.uIcc (0:ℝ) x, phiDer2_S S t = eta_S S := by
     intro t ht
-    apply phiPP_S_core hS
+    apply phiDer2_S_core hS
     have habs_t : |t| ≤ |x| := by
       rcases le_or_gt 0 x with hx_sgn | hx_sgn
       · -- x ≥ 0: uIcc 0 x = Icc 0 x.
@@ -604,7 +605,7 @@ lemma phiP_S_core {S x : ℝ} (hS : 0 < S) (hx : |x| ≤ 1 - eps_S S) :
         rw [abs_of_neg hx_sgn]
         exact abs_le.mpr ⟨by linarith [ht.1], by linarith [ht.2]⟩
     linarith [habs_t, hx]
-  have hint_eq : ∫ t in (0:ℝ)..x, phiPP_S S t = ∫ t in (0:ℝ)..x, eta_S S := by
+  have hint_eq : ∫ t in (0:ℝ)..x, phiDer2_S S t = ∫ t in (0:ℝ)..x, eta_S S := by
     apply integral_congr
     exact hcore_eq
   rw [hint_eq]
@@ -612,13 +613,13 @@ lemma phiP_S_core {S x : ℝ} (hS : 0 < S) (hx : |x| ≤ 1 - eps_S S) :
   ring
 
 /-- Core formula for `phi_S`: `phi_S(x) = η_S · x² / 2` for `|x| ≤ 1 - ε_S`. -/
-lemma phi_Sc_core {S x : ℝ} (hS : 0 < S) (hx : |x| ≤ 1 - eps_S S) :
-    phi_Sc S x = eta_S S * x ^ 2 / 2 := by
-  unfold phi_Sc phi
-  -- `phi_Sc S x = ∫ u in 0..x, psi (phiPP_S S) u = ∫ u in 0..x, η_S u`.
-  -- On the integration range, `|u| ≤ |x| ≤ 1 - ε_S`, so by `phiP_S_core`,
-  -- `psi (phiPP_S S) u = η_S · u`.
-  have hcore_eq : ∀ u ∈ Set.uIcc (0:ℝ) x, psi (phiPP_S S) u = eta_S S * u := by
+lemma phi_S_core {S x : ℝ} (hS : 0 < S) (hx : |x| ≤ 1 - eps_S S) :
+    phi_S S x = eta_S S * x ^ 2 / 2 := by
+  unfold phi_S phi
+  -- `phi_S S x = ∫ u in 0..x, psi (phiDer2_S S) u = ∫ u in 0..x, η_S u`.
+  -- On the integration range, `|u| ≤ |x| ≤ 1 - ε_S`, so by `phiDer_S_core`,
+  -- `psi (phiDer2_S S) u = η_S · u`.
+  have hcore_eq : ∀ u ∈ Set.uIcc (0:ℝ) x, psi (phiDer2_S S) u = eta_S S * u := by
     intro u hu
     have habs_u : |u| ≤ 1 - eps_S S := by
       rcases le_or_gt 0 x with hx_sgn | hx_sgn
@@ -633,12 +634,12 @@ lemma phi_Sc_core {S x : ℝ} (hS : 0 < S) (hx : |x| ≤ 1 - eps_S S) :
         have habs_u_negx : |u| ≤ -x := abs_le.mpr ⟨by linarith [hu.1], by linarith [hu.2]⟩
         have : |u| ≤ |x| := by rw [abs_of_neg hx_sgn]; exact habs_u_negx
         linarith [this, hx]
-    -- The core formula `psi (phiPP_S S) u = phiP_S S u = eta_S * u` follows.
-    have := phiP_S_core hS habs_u
-    -- `phiP_S S u = psi (phiPP_S S) u` by definition.
-    unfold phiP_S at this
+    -- The core formula `psi (phiDer2_S S) u = phiDer_S S u = eta_S * u` follows.
+    have := phiDer_S_core hS habs_u
+    -- `phiDer_S S u = psi (phiDer2_S S) u` by definition.
+    unfold phiDer_S at this
     exact this
-  have hint_eq : ∫ u in (0:ℝ)..x, psi (phiPP_S S) u =
+  have hint_eq : ∫ u in (0:ℝ)..x, psi (phiDer2_S S) u =
       ∫ u in (0:ℝ)..x, eta_S S * u := by
     apply integral_congr
     exact hcore_eq
@@ -650,19 +651,19 @@ lemma phi_Sc_core {S x : ℝ} (hS : 0 < S) (hx : |x| ≤ 1 - eps_S S) :
 /-! ### Additional useful positivity -/
 
 /-- `phi''_S > 0` for `S > 0`. -/
-lemma phiPP_S_pos {S : ℝ} (hS : 0 < S) (x : ℝ) : 0 < phiPP_S S x :=
-  lt_of_lt_of_le (eta_S_pos hS) (phiPP_S_ge_eta hS x)
+lemma phiDer2_S_pos {S : ℝ} (hS : 0 < S) (x : ℝ) : 0 < phiDer2_S S x :=
+  lt_of_lt_of_le (eta_S_pos hS) (phiDer2_S_ge_eta hS x)
 
 /-- Strict convexity of `phi_S`. -/
-lemma strictConvexOn_phi_Sc {S : ℝ} (hS : 0 < S) :
-    StrictConvexOn ℝ Set.univ (phi_Sc S) := by
-  unfold phi_Sc
-  exact strictConvexOn_phi (phiPP_S_continuous hS) (eta_S_pos hS)
-    (phiPP_S_ge_eta hS)
+lemma strictConvexOn_phi_S {S : ℝ} (hS : 0 < S) :
+    StrictConvexOn ℝ Set.univ (phi_S S) := by
+  unfold phi_S
+  exact strictConvexOn_phi (phiDer2_S_continuous hS) (eta_S_pos hS)
+    (phiDer2_S_ge_eta hS)
 
 /-- Quadratic lower bound for `phi_S`. -/
-lemma phi_Sc_ge_quadratic {S : ℝ} (hS : 0 < S) (x : ℝ) :
-    eta_S S * x ^ 2 / 2 ≤ phi_Sc S x :=
-  phi_ge_quadratic (phiPP_S_continuous hS) (eta_S_pos hS).le (phiPP_S_ge_eta hS) x
+lemma phi_S_quadratic_lower {S : ℝ} (hS : 0 < S) (x : ℝ) :
+    eta_S S * x ^ 2 / 2 ≤ phi_S S x :=
+  phi_ge_quadratic (phiDer2_S_continuous hS) (eta_S_pos hS).le (phiDer2_S_ge_eta hS) x
 
 end L2Counterexample

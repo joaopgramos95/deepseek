@@ -4,7 +4,7 @@ import L2Counterexample.Potential
 # Normalization and asymptotics (WIP)
 
 This is the editable WIP version of `Normalization.lean`. It formalises the
-normalising constants `Z_S`, `A_S`, `q_S`, `t_S` of section 3 of the
+normalising constants `Z_S`, `tailInt_S`, `q_S`, `t_S` of section 3 of the
 counterexample paper, together with their tail asymptotic expansions.
 
 ## Layered approach
@@ -13,15 +13,15 @@ counterexample paper, together with their tail asymptotic expansions.
 files may axiomatise the upstream API while keeping the present file
 sorry-free, we declare:
 
-1.  The potential family `phi_S`, the parameters `epsS`, `etaS`, and the
+1.  The potential family `phi_S`, the parameters `eps_S`, `eta_S`, and the
     qualitative facts about `phi_S` (measurability, evenness, the quadratic
     lower bound, the regional formulas) used in section 3 of the paper.
 2.  The two analytic black-box facts that depend on `phi_S` and would
     otherwise pull in heavy measure-theoretic / change-of-variables
     arguments:
     - the change-of-variables identity for the tail integral
-      (`A_S_tail_eq`);
-    - the symmetric decomposition `Z_S = 2 (∫_core + ∫_layer + A_S)`
+      (`tailInt_S_tail_eq`);
+    - the symmetric decomposition `Z_S = 2 (∫_core + ∫_layer + tailInt_S)`
       (`Z_S_decomposition`).
 3.  Two elementary exponential integrals (Laplace transforms `1/a` and
     `2/a^3`) that should land in `Mathlib`.
@@ -108,69 +108,51 @@ lemma BigOInv.const_mul {f g : ℝ → ℝ} {k : ℕ} (c : ℝ) (h : BigOInv f g
     apply mul_le_mul_of_nonneg_left hb (abs_nonneg _)
   linarith [h1]
 
-/-! ## Parameters and the potential -/
+/-! ## Parameters
 
-/-- The parameter `ε_S = S^{-3}` used in the paper. -/
-def epsS (S : ℝ) : ℝ := S ^ (-(3 : ℤ))
+`eps_S` and `eta_S` are imported from `L2Counterexample.Potential`. We
+collect a few elementary positivity / nonnegativity lemmas about them
+here for downstream convenience. -/
 
-/-- The parameter `η_S = S^{-4}` used in the paper. -/
-def etaS (S : ℝ) : ℝ := S ^ (-(4 : ℤ))
+lemma eps_S_nonneg {S : ℝ} (hS : 0 < S) : 0 ≤ eps_S S := (eps_S_pos hS).le
 
-lemma epsS_pos {S : ℝ} (hS : 0 < S) : 0 < epsS S := by
-  unfold epsS
-  exact zpow_pos hS _
-
-lemma etaS_pos {S : ℝ} (hS : 0 < S) : 0 < etaS S := by
-  unfold etaS
-  exact zpow_pos hS _
-
-lemma epsS_nonneg {S : ℝ} (hS : 0 < S) : 0 ≤ epsS S := (epsS_pos hS).le
-
-lemma etaS_nonneg {S : ℝ} (hS : 0 < S) : 0 ≤ etaS S := (etaS_pos hS).le
+lemma eta_S_nonneg {S : ℝ} (hS : 0 < S) : 0 ≤ eta_S S := (eta_S_pos hS).le
 
 /-- Helper: `S ^ (-k:ℤ) = 1 / S^k` for `S ≠ 0`. -/
-lemma zpow_negNat (S : ℝ) (k : ℕ) (hS : S ≠ 0) :
+lemma zpow_negNat (S : ℝ) (k : ℕ) (_hS : S ≠ 0) :
     S ^ (-(k : ℤ)) = 1 / S ^ k := by
   rw [zpow_neg, zpow_natCast, one_div]
 
-/-! ## Axiomatised potential interface
+/-! ## Potential interface (extra facts not provided by `Potential.lean`)
 
-We declare `phi_S S x` as a black-box smooth potential satisfying the shape
-required by the blueprint. -/
+`phi_S` itself, evenness `phi_S_even`, the quadratic lower bound
+`phi_S_quadratic_lower`, and the core region formula `phi_S_core` are
+already provided by `L2Counterexample.Potential`. Here we record the
+remaining facts needed for the asymptotic estimates of section 3. -/
 
-/-- The (axiomatised) potential family from `Potential.lean`. -/
-axiom phi_S : ℝ → ℝ → ℝ
-
-/-- `phi_S S ·` is measurable. -/
+/-- `phi_S S ·` is measurable. (Will eventually follow from continuity
+of `phi_S S` proved in `Potential.lean`, but is recorded here as an
+axiom for now to avoid pulling in the full smoothness chain.) -/
 axiom phi_S_measurable (S : ℝ) : Measurable (fun x => phi_S S x)
 
-/-- Evenness of `phi_S S` in `x`. -/
-axiom phi_S_even (S x : ℝ) : phi_S S (-x) = phi_S S x
-
-/-- Quadratic lower bound `phi_S S x ≥ η_S · x^2 / 2`. -/
-axiom phi_S_quadratic_lower (S x : ℝ) (hS : 0 < S) :
-    etaS S * x ^ 2 / 2 ≤ phi_S S x
-
-/-- Core region formula `phi_S S x = η_S · x^2 / 2` for `|x| ≤ 1 - ε_S`. -/
-axiom phi_S_core (S x : ℝ) (hS : 0 < S) (hx : |x| ≤ 1 - epsS S) :
-    phi_S S x = etaS S * x ^ 2 / 2
-
-/-- Tail region formula. -/
-axiom phi_S_tail (S x : ℝ) (hS : 0 < S) (hx : 1 + epsS S ≤ x) :
+/-- Tail region formula (the right-half analogue of `phi_S_core` for
+`x ≥ 1 + ε_S`). Not yet derived from `Potential.lean`'s building
+blocks. -/
+axiom phi_S_tail (S x : ℝ) (hS : 0 < S) (hx : 1 + eps_S S ≤ x) :
     phi_S S x
-      = phi_S S (1 + epsS S)
-        + S * (x - 1 - epsS S)
-        + etaS S / 2 * (x ^ 2 - (1 + epsS S) ^ 2)
+      = phi_S S (1 + eps_S S)
+        + S * (x - 1 - eps_S S)
+        + eta_S S / 2 * (x ^ 2 - (1 + eps_S S) ^ 2)
 
 /-- Smallness at the layer boundary: `phi_S S (1+ε_S) = O(S^{-2})`. -/
 axiom phi_S_boundary_small :
-    BigOInv (fun S => phi_S S (1 + epsS S)) (fun _ => 0) 2
+    BigOInv (fun S => phi_S S (1 + eps_S S)) (fun _ => 0) 2
 
 /-- Uniform smallness on the layer for `exp(-phi_S)`: `|exp(-phi_S(x)) - 1| =
 O(S^{-2})` when `|x-1| ≤ ε_S`. -/
 axiom phi_S_layer_small :
     ∃ C S₀ : ℝ, 0 < S₀ ∧ ∀ S, S₀ ≤ S → ∀ x,
-      |x - 1| ≤ epsS S → |Real.exp (-(phi_S S x)) - 1| ≤ C * S ^ (-(2 : ℤ))
+      |x - 1| ≤ eps_S S → |Real.exp (-(phi_S S x)) - 1| ≤ C * S ^ (-(2 : ℤ))
 
 /-! ## Integrability -/
 
@@ -180,7 +162,7 @@ axiom exp_negPhiS_integrable (S : ℝ) (hS : 0 < S) :
 
 /-- Integrability on the tail half-line. -/
 axiom exp_negPhiS_integrableOn_tail (S : ℝ) (hS : 0 < S) :
-    IntegrableOn (fun x => Real.exp (-(phi_S S x))) (Set.Ici (1 + epsS S))
+    IntegrableOn (fun x => Real.exp (-(phi_S S x))) (Set.Ici (1 + eps_S S))
 
 /-- Integrability of the Gaussian-tail integrand on `[0,∞)`. -/
 axiom exp_negGaussianTail_integrableOn (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
@@ -192,15 +174,15 @@ axiom exp_negGaussianTail_integrableOn (A B : ℝ) (hA : 0 < A) (hB : 0 < B) :
 def Z_S (S : ℝ) : ℝ := ∫ x, Real.exp (-(phi_S S x))
 
 /-- The right-tail exponential integral
-`A_S = ∫_{1+ε_S}^{∞} exp(-phi_S S) dx`. -/
-def A_S (S : ℝ) : ℝ := ∫ x in Set.Ici (1 + epsS S), Real.exp (-(phi_S S x))
+`tailInt_S = ∫_{1+ε_S}^{∞} exp(-phi_S S) dx`. -/
+def tailInt_S (S : ℝ) : ℝ := ∫ x in Set.Ici (1 + eps_S S), Real.exp (-(phi_S S x))
 
-/-- The tail probability mass `q_S = (2/Z_S) · A_S`. -/
-def q_S (S : ℝ) : ℝ := 2 * A_S S / Z_S S
+/-- The tail probability mass `q_S = (2/Z_S) · tailInt_S`. -/
+def q_S (S : ℝ) : ℝ := 2 * tailInt_S S / Z_S S
 
 /-- The two-sided layer set `T_S = [-1-ε_S, -1+ε_S] ∪ [1-ε_S, 1+ε_S]`. -/
 def T_S (S : ℝ) : Set ℝ :=
-  Set.Icc (-1 - epsS S) (-1 + epsS S) ∪ Set.Icc (1 - epsS S) (1 + epsS S)
+  Set.Icc (-1 - eps_S S) (-1 + eps_S S) ∪ Set.Icc (1 - eps_S S) (1 + eps_S S)
 
 /-- The layer mass `t_S = ρ_S(T_S)`. -/
 def t_S (S : ℝ) : ℝ :=
@@ -220,14 +202,14 @@ axiom Z_S_pos (S : ℝ) (hS : 0 < S) : 0 < Z_S S
 
 lemma Z_S_ne_zero (S : ℝ) (hS : 0 < S) : Z_S S ≠ 0 := (Z_S_pos S hS).ne'
 
-lemma A_S_nonneg (S : ℝ) (hS : 0 < S) : 0 ≤ A_S S := by
-  unfold A_S
+lemma tailInt_S_nonneg (S : ℝ) (hS : 0 < S) : 0 ≤ tailInt_S S := by
+  unfold tailInt_S
   exact setIntegral_nonneg measurableSet_Ici (fun x _ => exp_negPhiS_nonneg S x)
 
 lemma q_S_nonneg (S : ℝ) (hS : 0 < S) : 0 ≤ q_S S := by
   unfold q_S
-  have h1 : 0 ≤ 2 * A_S S := by
-    have := A_S_nonneg S hS
+  have h1 : 0 ≤ 2 * tailInt_S S := by
+    have := tailInt_S_nonneg S hS
     positivity
   exact div_nonneg h1 (Z_S_pos S hS).le
 
@@ -279,29 +261,29 @@ integrand becomes
 `exp(-phi_S (1+ε_S)) · exp(-(S+η(1+ε)) u - η u^2 / 2)`. -/
 
 /-- Exponent in the transformed tail integrand. -/
-def tildeS (S : ℝ) : ℝ := S + etaS S * (1 + epsS S)
+def tildeS (S : ℝ) : ℝ := S + eta_S S * (1 + eps_S S)
 
 lemma tildeS_pos {S : ℝ} (hS : 1 ≤ S) : 0 < tildeS S := by
   unfold tildeS
   have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS
-  have h1 : 0 ≤ etaS S * (1 + epsS S) :=
-    mul_nonneg (etaS_pos hSpos).le (by linarith [(epsS_pos hSpos).le])
+  have h1 : 0 ≤ eta_S S * (1 + eps_S S) :=
+    mul_nonneg (eta_S_pos hSpos).le (by linarith [(eps_S_pos hSpos).le])
   linarith
 
 /-- Lower bound `S ≤ tildeS S` (the perturbation is nonneg). -/
 lemma le_tildeS {S : ℝ} (hS : 1 ≤ S) : S ≤ tildeS S := by
   unfold tildeS
   have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS
-  have : 0 ≤ etaS S * (1 + epsS S) :=
-    mul_nonneg (etaS_pos hSpos).le (by linarith [(epsS_pos hSpos).le])
+  have : 0 ≤ eta_S S * (1 + eps_S S) :=
+    mul_nonneg (eta_S_pos hSpos).le (by linarith [(eps_S_pos hSpos).le])
   linarith
 
 /-- Change-of-variables identity for the tail integral. -/
-axiom A_S_tail_eq (S : ℝ) (hS : 1 ≤ S) :
-    A_S S
-      = Real.exp (-(phi_S S (1 + epsS S)))
+axiom tailInt_S_tail_eq (S : ℝ) (hS : 1 ≤ S) :
+    tailInt_S S
+      = Real.exp (-(phi_S S (1 + eps_S S)))
           * ∫ u in Set.Ici (0 : ℝ),
-              Real.exp (-(tildeS S * u) - etaS S * u ^ 2 / 2)
+              Real.exp (-(tildeS S * u) - eta_S S * u ^ 2 / 2)
 
 /-! ## Asymptotics of the Gaussian-tail integral
 
@@ -312,8 +294,8 @@ is a direct consequence of `1 - e^{-v} ≤ v` applied pointwise to
 
 axiom tail_gaussian_bound (S : ℝ) (hS : 1 ≤ S) :
     let I := ∫ u in Set.Ici (0 : ℝ),
-                Real.exp (-(tildeS S * u) - etaS S * u ^ 2 / 2)
-    0 ≤ 1 / tildeS S - I ∧ 1 / tildeS S - I ≤ etaS S / tildeS S ^ 3
+                Real.exp (-(tildeS S * u) - eta_S S * u ^ 2 / 2)
+    0 ≤ 1 / tildeS S - I ∧ 1 / tildeS S - I ≤ eta_S S / tildeS S ^ 3
 
 /-! ## Asymptotic blueprint lemmas
 
@@ -326,14 +308,14 @@ axiom one_div_tildeS_asymp :
 
 /-- `exp(-phi_S S (1+ε_S)) = 1 + O(S^{-2})`. -/
 axiom exp_neg_phi_boundary_asymp :
-    BigOInv (fun S => Real.exp (-(phi_S S (1 + epsS S)))) (fun _ => 1) 2
+    BigOInv (fun S => Real.exp (-(phi_S S (1 + eps_S S)))) (fun _ => 1) 2
 
 /-! ## Lemma (a): right-tail integral asymptotic
 
-`A_S = 1/S + O(S^{-3})`. -/
+`tailInt_S = 1/S + O(S^{-3})`. -/
 
-axiom A_S_asymp :
-    BigOInv A_S (fun S => 1 / S) 3
+axiom tailInt_S_asymp :
+    BigOInv tailInt_S (fun S => 1 / S) 3
 
 /-! ## Lemma (b): normalisation constant asymptotic
 
@@ -483,8 +465,8 @@ lemma exists_S_q_S_lt_one : ∃ S₀ : ℝ, 0 < S₀ ∧ ∀ S, S₀ ≤ S → q
 /-! ## Sanity: the four constants are well-defined reals. -/
 
 example (S : ℝ) : Z_S S = ∫ x, Real.exp (-(phi_S S x)) := rfl
-example (S : ℝ) : A_S S = ∫ x in Set.Ici (1 + epsS S), Real.exp (-(phi_S S x)) := rfl
-example (S : ℝ) : q_S S = 2 * A_S S / Z_S S := rfl
+example (S : ℝ) : tailInt_S S = ∫ x in Set.Ici (1 + eps_S S), Real.exp (-(phi_S S x)) := rfl
+example (S : ℝ) : q_S S = 2 * tailInt_S S / Z_S S := rfl
 
 end L2Counterexample
 

@@ -23,7 +23,7 @@ abstract pointer and do not exploit it in the proofs.
 ## Structure of the proof
 
 For the one-dimensional construction (`OneDimensional.lean`) we declare
-*local axioms* for `phi_S, phi'_S, phi''_S, f_S, rho_S, E_phi_S,
+*local axioms* for `phi_S, phiDer_S, phiDer2_S, f_S, rho_S, E_phi_S,
 delta_phi_S` and the asymptotic identities the upstream file is expected
 to deliver. These axioms are stated at the blueprint signatures level;
 the file is sorry-free in the sense that no `sorry` remains.
@@ -31,14 +31,14 @@ the file is sorry-free in the sense that no `sorry` remains.
 The product side is proven concretely:
 
 * `productPotential S d (x, y) = phi_S S x + ‖y‖² / 2`;
-* `productHessianDiag S d x i = phi''_S S x` if `i = 0`, else `1`;
-* `productInvHessianDiag S d x i = (phi''_S S x)⁻¹` if `i = 0`, else `1`;
+* `productHessianDiag S d x i = phiDer2_S S x` if `i = 0`, else `1`;
+* `productInvHessianDiag S d x i = (phiDer2_S S x)⁻¹` if `i = 0`, else `1`;
 * `productMeasure S d = rho_S S ⊗ γ_{d-1}`;
 * `productTestFun S d (x, y) = f_S S x`;
 * `productEnergy = onedimEnergy`, `productVar = onedimVar`,
   `productDeficit = onedimDeficit`;
 * `F_S` is orthogonal to each generator of the optimizer space
-  `span ℝ {1, phi'_S, y_1, …, y_{d-1}}` under `ρ_S ⊗ γ_{d-1}`.
+  `span ℝ {1, phiDer_S, y_1, …, y_{d-1}}` under `ρ_S ⊗ γ_{d-1}`.
 
 Finally we deliver the umbrella theorem:
 
@@ -70,63 +70,56 @@ blueprint signatures and will become theorems once the upstream file is
 filled in. See `big_tasks.md` items #1–#13 for the construction.
 -/
 
-/-- Smooth strictly convex 1-dimensional potential `φ_S : ℝ → ℝ`. -/
-axiom phi_S : ℝ → ℝ → ℝ
-/-- First derivative `φ'_S`. -/
-axiom phi'_S : ℝ → ℝ → ℝ
-/-- Second derivative `φ''_S`. Strictly positive everywhere. -/
-axiom phi''_S : ℝ → ℝ → ℝ
-/-- Strict positivity of the second derivative. -/
-axiom phi''_S_pos (S x : ℝ) : 0 < phi''_S S x
+/-! `phi_S, phiDer_S, phiDer2_S, eps_S, eta_S` come from `Potential.lean`.
+`Z_S, q_S, t_S` come from `Normalization.lean`. `rho_S, A_S, g_S` come
+from `TestFunction.lean`. `delta_phi_S` and the related 1D theorems come
+from `OneDimensional.lean`. -/
 
-/-- Normalizing constant `Z_S = ∫ exp(-φ_S)`. -/
-axiom Z_S : ℝ → ℝ
-/-- Positivity of `Z_S`. -/
-axiom Z_S_pos (S : ℝ) : 0 < Z_S S
-
-/-- The 1-dimensional Gibbs probability measure `ρ_S` with density
-`Z_S^{-1} exp(-φ_S)` on `ℝ`. -/
-axiom rho_S : ℝ → MeasureTheory.Measure ℝ
-/-- `ρ_S` is a probability measure. -/
-@[instance] axiom rho_S_isProb (S : ℝ) : IsProbabilityMeasure (rho_S S)
-
-/-- The 1-dimensional test function `f_S : ℝ → ℝ`. -/
+/-- HigherDim-local 1D test function (kept as an opaque axiom; in the
+final consolidation it will be unified with `OneDimensional.ff_S`). -/
 axiom f_S : ℝ → ℝ → ℝ
 
-/-- 1D Brascamp–Lieb energy `E_{φ_S}(f_S) = ∫ (f'_S)² / φ''_S dρ_S`. -/
+/-- HigherDim-local 1D Brascamp–Lieb energy. -/
 axiom E_phi_S : ℝ → ℝ
-/-- 1D variance `Var_{ρ_S}(f_S)`. -/
+
+/-- HigherDim-local 1D variance. -/
 axiom Var_phi_S : ℝ → ℝ
-/-- 1D deficit `δ_{φ_S}(f_S) = E_{φ_S}(f_S) - Var_{ρ_S}(f_S)`. -/
-axiom delta_phi_S : ℝ → ℝ
-/-- 1D squared distance from `f_S` to the optimizer span `{1, φ'_S}`. -/
+
+/-- HigherDim-local 1D squared distance from `f_S` to the optimizer
+span `{1, φ'_S}`. -/
 axiom distSq_phi_S : ℝ → ℝ
 
-/-- Definitional unfolding of the deficit. -/
-axiom delta_phi_S_def (S : ℝ) : delta_phi_S S = E_phi_S S - Var_phi_S S
+/-- The HigherDim-local 1D deficit `δ = E − Var`. Distinct symbol from
+`OneDimensional.delta_phi_S` because the underlying `E_phi_S, Var_phi_S`
+above are distinct from `OneDimensional.EE_phi_S, Var_f_S`. -/
+noncomputable def delta_phi_S_HD (S : ℝ) : ℝ := E_phi_S S - Var_phi_S S
 
-/-- Eventually the deficit is strictly positive (cf. `big_tasks.md` #13). -/
-axiom delta_phi_S_eventually_pos :
-    ∃ S₀ : ℝ, ∀ S : ℝ, S₀ ≤ S → 0 < delta_phi_S S
+@[simp] lemma delta_phi_S_HD_def (S : ℝ) :
+    delta_phi_S_HD S = E_phi_S S - Var_phi_S S := rfl
 
-/-- One-dimensional divergence of the ratio: `distSq / δ → ∞` (cf. blueprint). -/
+/-- Eventually the HigherDim-local deficit is strictly positive
+(downstream of `big_tasks.md` #13). -/
+axiom delta_phi_S_HD_eventually_pos :
+    ∃ S₀ : ℝ, ∀ S : ℝ, S₀ ≤ S → 0 < delta_phi_S_HD S
+
+/-- One-dimensional divergence of the ratio: `distSq / δ → ∞`. -/
 axiom distSq_phi_S_over_delta_unbounded :
     ∀ K : ℝ, ∃ S₀ : ℝ, ∀ S : ℝ, S₀ ≤ S →
-      0 < delta_phi_S S → K * delta_phi_S S < distSq_phi_S S
+      0 < delta_phi_S_HD S → K * delta_phi_S_HD S < distSq_phi_S S
 
 /-- Final 1D no-uniform-stability statement, packaged as an axiom for use
 in the `d = 1` branch of the umbrella theorem. -/
 axiom no_uniform_L2_stability_1D :
     ¬ ∃ C : ℝ, ∀ S : ℝ,
-        0 < delta_phi_S S → distSq_phi_S S ≤ C ^ 2 * delta_phi_S S
+        0 < delta_phi_S_HD S → distSq_phi_S S ≤ C ^ 2 * delta_phi_S_HD S
 
 /-- `f_S` integrates to zero against `ρ_S` (centred test function). -/
 axiom f_S_integral_zero (S : ℝ) :
     ∫ x, f_S S x ∂(rho_S S) = 0
 
 /-- `f_S` is orthogonal to `φ'_S` in `L²(ρ_S)` (parity package). -/
-axiom f_S_orth_phi'_S (S : ℝ) :
-    ∫ x, phi'_S S x * f_S S x ∂(rho_S S) = 0
+axiom f_S_orth_phiDer_S (S : ℝ) :
+    ∫ x, phiDer_S S x * f_S S x ∂(rho_S S) = 0
 
 /-! ## §2. Standard Gaussian on `Fin (d-1) → ℝ`
 
@@ -197,8 +190,8 @@ instance rho_Phi_S_isProb (S : ℝ) (d : ℕ) :
 /-! ## §4. Block-diagonal Hessian (slot-level identities)
 
 We do not formalise the full Hessian operator; we record the slot-wise
-diagonal entries `phi''_S S x` and `1` and the inverse identity
-`(diag(phi''_S, I))⁻¹ = diag(1/phi''_S, I)` as a slot-level pointwise
+diagonal entries `phiDer2_S S x` and `1` and the inverse identity
+`(diag(phiDer2_S, I))⁻¹ = diag(1/phiDer2_S, I)` as a slot-level pointwise
 identity. The block-diagonal matrix `Matrix.blockDiagonal` is referenced
 through the abstract index function.
 -/
@@ -206,35 +199,36 @@ through the abstract index function.
 /-- Diagonal entry of the Hessian of `Phi_S` at slot `i`, regarded as an
 index in `Fin d` (slot 0 = the `x`-axis, slot `≥ 1` = the `y`-axes). -/
 noncomputable def hessianDiag (S : ℝ) (d : ℕ) (x : ℝ) (i : Fin d) : ℝ :=
-  if (i : ℕ) = 0 then phi''_S S x else 1
+  if (i : ℕ) = 0 then phiDer2_S S x else 1
 
 /-- Inverse Hessian diagonal entry. -/
 noncomputable def invHessianDiag (S : ℝ) (d : ℕ) (x : ℝ) (i : Fin d) : ℝ :=
-  if (i : ℕ) = 0 then (phi''_S S x)⁻¹ else 1
+  if (i : ℕ) = 0 then (phiDer2_S S x)⁻¹ else 1
 
-/-- Strict positivity of the Hessian diagonal. -/
-theorem hessianDiag_pos (S : ℝ) (d : ℕ) (x : ℝ) (i : Fin d) :
+/-- Strict positivity of the Hessian diagonal. Requires `0 < S` (because
+the underlying `phiDer2_S_pos` does). -/
+theorem hessianDiag_pos {S : ℝ} (hS : 0 < S) (d : ℕ) (x : ℝ) (i : Fin d) :
     0 < hessianDiag S d x i := by
   unfold hessianDiag
   split_ifs with h
-  · exact phi''_S_pos S x
+  · exact phiDer2_S_pos hS x
   · exact one_pos
 
-/-- Strict positivity of the inverse Hessian diagonal. -/
-theorem invHessianDiag_pos (S : ℝ) (d : ℕ) (x : ℝ) (i : Fin d) :
+/-- Strict positivity of the inverse Hessian diagonal. Requires `0 < S`. -/
+theorem invHessianDiag_pos {S : ℝ} (hS : 0 < S) (d : ℕ) (x : ℝ) (i : Fin d) :
     0 < invHessianDiag S d x i := by
   unfold invHessianDiag
   split_ifs with h
-  · exact inv_pos.mpr (phi''_S_pos S x)
+  · exact inv_pos.mpr (phiDer2_S_pos hS x)
   · exact one_pos
 
 /-- Hessian × inverse-Hessian on each diagonal slot is `1`. This is the
 slot-level statement of `(D² Φ_S)·(D² Φ_S)⁻¹ = I`. -/
-theorem hessianDiag_mul_inv (S : ℝ) (d : ℕ) (x : ℝ) (i : Fin d) :
+theorem hessianDiag_mul_inv {S : ℝ} (hS : 0 < S) (d : ℕ) (x : ℝ) (i : Fin d) :
     hessianDiag S d x i * invHessianDiag S d x i = 1 := by
   unfold hessianDiag invHessianDiag
   split_ifs with h
-  · exact mul_inv_cancel₀ (ne_of_gt (phi''_S_pos S x))
+  · exact mul_inv_cancel₀ (ne_of_gt (phiDer2_S_pos hS x))
   · exact mul_one _
 
 /-- Block-diagonal Hessian matrix (full `d × d` representation). -/
@@ -257,15 +251,16 @@ theorem hessianMatrix_apply_diag (S : ℝ) (d : ℕ) (x : ℝ) (i : Fin d) :
     hessianMatrix S d x i i = hessianDiag S d x i := by
   simp [hessianMatrix]
 
-/-- Matrix product `H · H⁻¹ = I`, slot-wise (diagonal matrices commute). -/
-theorem hessianMatrix_mul_inv (S : ℝ) (d : ℕ) (x : ℝ) :
+/-- Matrix product `H · H⁻¹ = I`, slot-wise (diagonal matrices commute).
+Requires `0 < S`. -/
+theorem hessianMatrix_mul_inv {S : ℝ} (hS : 0 < S) (d : ℕ) (x : ℝ) :
     hessianMatrix S d x * invHessianMatrix S d x = 1 := by
   unfold hessianMatrix invHessianMatrix
   rw [Matrix.diagonal_mul_diagonal]
   ext i j
   by_cases hij : i = j
   · subst hij
-    simp [Matrix.diagonal_apply_eq, hessianDiag_mul_inv]
+    simp [Matrix.diagonal_apply_eq, hessianDiag_mul_inv hS]
   · simp [Matrix.diagonal_apply_ne _ hij, Matrix.one_apply, hij]
 
 /-! ## §5. Product invariants: `Z_{Phi_S}`, `E_{Phi_S}`, `Var`, `δ`
@@ -320,9 +315,9 @@ noncomputable def productDistSq (S : ℝ) (d : ℕ) : ℝ := distSq_phi_S S
     productDistSq S d = distSq_phi_S S := rfl
 
 theorem productDeficit_eq (S : ℝ) (d : ℕ) :
-    productDeficit S d = delta_phi_S S := by
+    productDeficit S d = delta_phi_S_HD S := by
   unfold productDeficit
-  rw [productEnergy_eq, productVar_eq, delta_phi_S_def]
+  rw [productEnergy_eq, productVar_eq, delta_phi_S_HD_def]
 
 /-- Pointwise integral identity: `∫ F_S d(ρ ⊗ γ) = ∫ f_S dρ`. -/
 theorem integral_F_S (S : ℝ) (d : ℕ) :
@@ -351,7 +346,7 @@ noncomputable def gen_one (_ : ℝ) (d : ℕ) : ProdSpace d → ℝ := fun _ => 
 
 /-- The generator `g_phi'(x, y) = φ'_S(x)`. -/
 noncomputable def gen_phi' (S : ℝ) (d : ℕ) : ProdSpace d → ℝ :=
-  fun p => phi'_S S p.1
+  fun p => phiDer_S S p.1
 
 /-- The generator `g_y_j(x, y) = y j`. -/
 noncomputable def gen_y (_ : ℝ) (d : ℕ) (j : Fin (d - 1)) :
@@ -370,11 +365,11 @@ theorem F_S_orth_one (S : ℝ) (d : ℕ) :
 theorem F_S_orth_phi' (S : ℝ) (d : ℕ) :
     ∫ p, F_S S d p * gen_phi' S d p ∂(rho_Phi_S S d) = 0 := by
   have hfun : (fun p : ProdSpace d => F_S S d p * gen_phi' S d p)
-        = (fun p => (fun x => f_S S x * phi'_S S x) p.1) := by
+        = (fun p => (fun x => f_S S x * phiDer_S S x) p.1) := by
     funext p; simp [gen_phi', F_S, mul_comm]
-  rw [hfun, integral_prod_first_coord S d (fun x => f_S S x * phi'_S S x)]
+  rw [hfun, integral_prod_first_coord S d (fun x => f_S S x * phiDer_S S x)]
   -- ∫ f_S(x) * φ'_S(x) dρ = ∫ φ'_S(x) * f_S(x) dρ = 0
-  have h := f_S_orth_phi'_S S
+  have h := f_S_orth_phiDer_S S
   simpa [mul_comm] using h
 
 /-- Orthogonality of `F_S` to each Gaussian coordinate generator `y_j`. -/
@@ -402,7 +397,7 @@ non-existence theorem via `productDistSq_eq` and `productDeficit_eq`.
 /-- Eventual positivity of the product deficit. -/
 theorem productDeficit_eventually_pos (d : ℕ) :
     ∃ S₀ : ℝ, ∀ S : ℝ, S₀ ≤ S → 0 < productDeficit S d := by
-  obtain ⟨S₀, h⟩ := delta_phi_S_eventually_pos
+  obtain ⟨S₀, h⟩ := delta_phi_S_HD_eventually_pos
   refine ⟨S₀, fun S hS => ?_⟩
   rw [productDeficit_eq]
   exact h S hS
@@ -414,7 +409,7 @@ theorem productDistSq_over_deficit_unbounded (d : ℕ) :
   intro K
   obtain ⟨S₀, h⟩ := distSq_phi_S_over_delta_unbounded K
   refine ⟨S₀, fun S hS hpos => ?_⟩
-  have hpos1 : 0 < delta_phi_S S := by rwa [productDeficit_eq] at hpos
+  have hpos1 : 0 < delta_phi_S_HD S := by rwa [productDeficit_eq] at hpos
   have h1 := h S hS hpos1
   rw [productDistSq_eq, productDeficit_eq]
   exact h1

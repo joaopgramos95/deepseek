@@ -75,46 +75,20 @@ replaced by the corresponding theorem. The signatures match the blueprint
 verbatim.
 -/
 
-/-- The one-dimensional potential `phi_S : ℝ → ℝ`. -/
-axiom phi_S : ℝ → ℝ → ℝ
+/-! ### Upstream symbols
 
-/-- The derivative `phi'_S : ℝ → ℝ`. -/
-axiom phiDer_S : ℝ → ℝ → ℝ
+`phi_S, phiDer_S, phiDer2_S, eps_S, eta_S, phi_S_even, phiDer_S_odd,
+phiDer2_S_even` are imported from `L2Counterexample.Potential`.
+`Z_S, q_S, t_S, tailInt_S` come from `L2Counterexample.Normalization`.
+`A_S, rho_S, g_S, g_S_even` come from `L2Counterexample.TestFunction`. -/
 
-/-- The second derivative `phi''_S : ℝ → ℝ`. -/
-axiom phiDer2_S : ℝ → ℝ → ℝ
-
-/-- The partition function `Z_S = ∫ exp(-phi_S)`. -/
-axiom ZZ_S : ℝ → ℝ
-
-/-- The layer normalizer `A_S`. -/
-axiom AA_S : ℝ → ℝ
-
-/-- The real-valued piecewise test function `g_S : ℝ → ℝ`. -/
-axiom gg_S : ℝ → ℝ → ℝ
-
-/-- The probability measure `rho_S` on `ℝ` with density
-`Z_S^{-1} exp(-phi_S)`. -/
-axiom rho_S : ℝ → Measure ℝ
-
-/-- `rho_S` is a probability measure. -/
+/-- `rho_S` is a probability measure. (TestFunction does not yet
+endow `rho_S` with this instance.) -/
 axiom rho_S_isProb (S : ℝ) : IsProbabilityMeasure (rho_S S)
 
 attribute [instance] rho_S_isProb
 
 /-! ### Parity and basic identities (blueprint §05 eq. (a)--(e)) -/
-
-/-- `phi_S S` is even in `x`. -/
-axiom phi_S_even (S x : ℝ) : phi_S S (-x) = phi_S S x
-
-/-- `phi'_S S` is odd in `x`. -/
-axiom phiDer_S_odd (S x : ℝ) : phiDer_S S (-x) = -phiDer_S S x
-
-/-- `phi''_S S` is even in `x`. -/
-axiom phiDer2_S_even (S x : ℝ) : phiDer2_S S (-x) = phiDer2_S S x
-
-/-- `g_S S` is even in `x` (blueprint Lemma 4.3). -/
-axiom gg_S_even (S x : ℝ) : gg_S S (-x) = gg_S S x
 
 /-- The density `exp(-phi_S)` is even (immediate from `phi_S_even`). -/
 lemma exp_neg_phi_S_even (S x : ℝ) :
@@ -132,7 +106,7 @@ axiom rho_S_reflection_invariant (S : ℝ) :
 axiom phiDer_S_measurable (S : ℝ) : Measurable (phiDer_S S)
 
 /-- Measurability of `g_S`. -/
-axiom gg_S_measurable (S : ℝ) : Measurable (gg_S S)
+axiom g_S_measurable (S : ℝ) : Measurable (g_S S)
 
 /-! ### `L^2` membership and integrability (blueprint §05)
 
@@ -144,13 +118,13 @@ axiom phiDer_S_memL2 (S : ℝ) :
     MemLp (phiDer_S S) 2 (rho_S S)
 
 /-- `g_S ∈ L^2(rho_S)`. -/
-axiom gg_S_memL2 (S : ℝ) :
-    MemLp (gg_S S) 2 (rho_S S)
+axiom g_S_memL2 (S : ℝ) :
+    MemLp (g_S S) 2 (rho_S S)
 
 /-- `phi'_S · g_S ∈ L^1(rho_S)` (Cauchy-Schwarz from the two `L²`
 hypotheses). -/
 axiom phiDer_gg_integrable (S : ℝ) :
-    Integrable (fun x => phiDer_S S x * gg_S S x) (rho_S S)
+    Integrable (fun x => phiDer_S S x * g_S S x) (rho_S S)
 
 /-! ### Upstream energy/variance identities
 
@@ -164,16 +138,16 @@ The concrete one-dimensional test function is `f_S := g_S - c_S` where
 -/
 
 /-- The centering constant `c_S := ∫ g_S d rho_S`. -/
-def cc_S (S : ℝ) : ℝ := ∫ x, gg_S S x ∂(rho_S S)
+def cc_S (S : ℝ) : ℝ := ∫ x, g_S S x ∂(rho_S S)
 
 /-- The centered test function `f_S := g_S - c_S`. -/
-def ff_S (S : ℝ) (x : ℝ) : ℝ := gg_S S x - cc_S S
+def ff_S (S : ℝ) (x : ℝ) : ℝ := g_S S x - cc_S S
 
 /-- `f_S ∈ L^2(rho_S)` (since `g_S` is, and we subtract a scalar times
 the constant function `1`, which is in `L^p` for every finite measure). -/
 lemma ff_S_memL2 (S : ℝ) : MemLp (ff_S S) 2 (rho_S S) := by
   -- `MemLp.sub` together with `memLp_const`.
-  have h1 : MemLp (gg_S S) 2 (rho_S S) := gg_S_memL2 S
+  have h1 : MemLp (g_S S) 2 (rho_S S) := g_S_memL2 S
   have h2 : MemLp (fun _ : ℝ => cc_S S) 2 (rho_S S) :=
     memLp_const (cc_S S)
   exact h1.sub h2
@@ -198,7 +172,7 @@ def delta_phi_S (S : ℝ) : ℝ := EE_phi_S S - Var_f_S S
 is the translation-invariance of variance applied to subtraction of the
 constant `c_S`. -/
 axiom Var_gg_eq_Var_ff (S : ℝ) :
-    (∫ x, (gg_S S x - cc_S S) ^ 2 ∂(rho_S S)) = Var_f_S S
+    (∫ x, (g_S S x - cc_S S) ^ 2 ∂(rho_S S)) = Var_f_S S
 
 /-! ### Asymptotic evaluations (blueprint §04, §05) -/
 
@@ -255,11 +229,11 @@ consequences.
 /-- `f_S` is even (from evenness of `g_S` and `c_S` being a scalar). -/
 lemma ff_S_even (S x : ℝ) : ff_S S (-x) = ff_S S x := by
   unfold ff_S
-  rw [gg_S_even]
+  rw [g_S_even]
 
 /-- The centering constant is an integral of an even function, hence
 well defined. (Stated by `rfl` for downstream convenience.) -/
-lemma cc_S_def (S : ℝ) : cc_S S = ∫ x, gg_S S x ∂(rho_S S) := rfl
+lemma cc_S_def (S : ℝ) : cc_S S = ∫ x, g_S S x ∂(rho_S S) := rfl
 
 /-- **Centering identity.** `∫ f_S d rho_S = 0`.
 
@@ -267,7 +241,7 @@ By definition of `c_S`, since `rho_S` is a probability measure. -/
 lemma integral_ff_S (S : ℝ) : ∫ x, ff_S S x ∂(rho_S S) = 0 := by
   unfold ff_S
   -- `∫ (g - c) = ∫ g - c` since rho is a probability measure.
-  have h_int : Integrable (gg_S S) (rho_S S) := (gg_S_memL2 S).integrable (by norm_num)
+  have h_int : Integrable (g_S S) (rho_S S) := (g_S_memL2 S).integrable (by norm_num)
   rw [integral_sub h_int (integrable_const _)]
   have h_const : ∫ _ : ℝ, cc_S S ∂(rho_S S) = cc_S S := by
     simp [MeasureTheory.integral_const, measure_univ]
@@ -292,14 +266,14 @@ lemma integral_ff_phiDer_zero (S : ℝ) :
   -- (for the second).
   have h_phi_int : Integrable (phiDer_S S) (rho_S S) :=
     (phiDer_S_memL2 S).integrable (by norm_num)
-  have h_gg_phi : Integrable (fun x => gg_S S x * phiDer_S S x) (rho_S S) := by
+  have h_gg_phi : Integrable (fun x => g_S S x * phiDer_S S x) (rho_S S) := by
     -- Use commutativity with the axiomatised integrability of phi'·g.
-    have : Integrable (fun x => phiDer_S S x * gg_S S x) (rho_S S) :=
+    have : Integrable (fun x => phiDer_S S x * g_S S x) (rho_S S) :=
       phiDer_gg_integrable S
     simpa [mul_comm] using this
   have h_int : Integrable (fun x => ff_S S x * phiDer_S S x) (rho_S S) := by
     have : (fun x => ff_S S x * phiDer_S S x) =
-        fun x => gg_S S x * phiDer_S S x - cc_S S * phiDer_S S x := by
+        fun x => g_S S x * phiDer_S S x - cc_S S * phiDer_S S x := by
       funext x; unfold ff_S; ring
     rw [this]
     exact h_gg_phi.sub (h_phi_int.const_mul (cc_S S))
