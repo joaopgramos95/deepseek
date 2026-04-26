@@ -137,13 +137,64 @@ theorem phi_S_measurable {S : ℝ} (hS : 0 < S) :
   (phi_S_contDiff hS).continuous.measurable
 
 /-- Tail region formula (the right-half analogue of `phi_S_core` for
-`x ≥ 1 + ε_S`). Not yet derived from `Potential.lean`'s building
-blocks. -/
-axiom phi_S_tail (S x : ℝ) (hS : 0 < S) (hx : 1 + eps_S S ≤ x) :
+`x ≥ 1 + ε_S`). Requires `1 ≤ S` (the `0 < S` form is mathematically
+equivalent but the proof is more delicate without `eps_S ≤ 1`).
+
+Proof: `phi_S(x) - phi_S(1+ε) = ∫_{1+ε}^x phi'_S(t) dt` (FTC), and on
+`[1+ε, x]`, `phi'_S(t) = S + η_S·t` (via `phiDer_S_tail`). Integrate. -/
+theorem phi_S_tail (S x : ℝ) (hS : 1 ≤ S) (hx : 1 + eps_S S ≤ x) :
     phi_S S x
       = phi_S S (1 + eps_S S)
         + S * (x - 1 - eps_S S)
-        + eta_S S / 2 * (x ^ 2 - (1 + eps_S S) ^ 2)
+        + eta_S S / 2 * (x ^ 2 - (1 + eps_S S) ^ 2) := by
+  have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS
+  have heps_pos : 0 < eps_S S := eps_S_pos hSpos
+  -- Step 1: phi_S(x) - phi_S(1+ε) = ∫_{1+ε}^x phi'_S(t) dt.
+  have h_phi_deriv : ∀ s, HasDerivAt (phi_S S) (phiDer_S S s) s := by
+    intro s
+    have h_eq : phiDer_S S = deriv (phi_S S) := (deriv_phi_S hSpos).symm
+    rw [h_eq]
+    have h_diff : Differentiable ℝ (phi_S S) :=
+      (phi_S_contDiff hSpos).differentiable (by simp)
+    exact (h_diff s).hasDerivAt
+  have h_int_phi'_int : IntervalIntegrable (phiDer_S S) MeasureTheory.volume
+      (1 + eps_S S) x :=
+    (phiDer_S_contDiff hSpos).continuous.intervalIntegrable _ _
+  have h_ftc : ∫ t in (1 + eps_S S)..x, phiDer_S S t
+             = phi_S S x - phi_S S (1 + eps_S S) :=
+    intervalIntegral.integral_eq_sub_of_hasDerivAt
+      (fun s _ => h_phi_deriv s) h_int_phi'_int
+  -- Step 2: on [1+ε, x], phi'_S(t) = S + eta_S · t.
+  have h_tail_eq : ∀ t ∈ Set.uIcc (1 + eps_S S) x,
+      phiDer_S S t = S + eta_S S * t := by
+    intro t ht
+    rw [Set.uIcc_of_le (by linarith), Set.mem_Icc] at ht
+    exact phiDer_S_tail hS ht.1
+  -- Step 3: ∫_{1+ε}^x (S + eta_S·t) dt = S(x-(1+ε)) + eta_S/2(x² - (1+ε)²).
+  have h_int_simp : ∫ t in (1 + eps_S S)..x, phiDer_S S t
+                  = ∫ t in (1 + eps_S S)..x, (S + eta_S S * t) := by
+    rw [intervalIntegral.integral_congr h_tail_eq]
+  have h_int_const : ∫ _ in (1 + eps_S S)..x, S = S * (x - (1 + eps_S S)) := by
+    rw [intervalIntegral.integral_const, smul_eq_mul]; ring
+  have h_int_lin : ∫ t in (1 + eps_S S)..x, eta_S S * t
+                 = eta_S S / 2 * (x ^ 2 - (1 + eps_S S) ^ 2) := by
+    rw [intervalIntegral.integral_const_mul, integral_id]
+    ring
+  have h_int_eq : ∫ t in (1 + eps_S S)..x, (S + eta_S S * t)
+                = S * (x - (1 + eps_S S))
+                  + eta_S S / 2 * (x ^ 2 - (1 + eps_S S) ^ 2) := by
+    have h_split :
+      ∫ t in (1 + eps_S S)..x, (S + eta_S S * t)
+        = (∫ _ in (1 + eps_S S)..x, S) + (∫ t in (1 + eps_S S)..x, eta_S S * t) := by
+      have h_int1 : IntervalIntegrable (fun _ : ℝ => S) MeasureTheory.volume
+          (1 + eps_S S) x := intervalIntegral.intervalIntegrable_const
+      have h_int2 : IntervalIntegrable (fun t : ℝ => eta_S S * t) MeasureTheory.volume
+          (1 + eps_S S) x :=
+        (continuous_const.mul continuous_id).intervalIntegrable _ _
+      simp_rw [← intervalIntegral.integral_add h_int1 h_int2]
+    rw [h_split, h_int_const, h_int_lin]
+  rw [h_int_simp, h_int_eq] at h_ftc
+  linarith [h_ftc]
 
 /-- Smallness at the layer boundary: `phi_S S (1+ε_S) = O(S^{-2})`. -/
 axiom phi_S_boundary_small :
@@ -505,7 +556,7 @@ theorem tailInt_S_tail_eq (S : ℝ) (hS : 1 ≤ S) :
     have hu_nn : 0 ≤ u := hu
     -- u + (1 + ε_S) ≥ 1 + ε_S, so apply phi_S_tail.
     have h_x_ge : 1 + eps_S S ≤ u + (1 + eps_S S) := by linarith
-    have h_phi := phi_S_tail S (u + (1 + eps_S S)) hSpos h_x_ge
+    have h_phi := phi_S_tail S (u + (1 + eps_S S)) hS h_x_ge
     show Real.exp (-(phi_S S (u + (1 + eps_S S))))
        = Real.exp (-(phi_S S (1 + eps_S S)))
          * Real.exp (-(tildeS S * u) - eta_S S * u^2 / 2)

@@ -179,60 +179,8 @@ theorem t_S_isBigO :
   have h := BigOInv.toIsBigO_aux L2Counterexample.t_S_asymp
   simpa using h
 
-/-- Helper: on `[1 - ε_S, 1 + ε_S]` (with `eps_S ≤ 1`), the second bump
-`κ((t+1)/ε_S)` vanishes pointwise. -/
-private lemma kappa_shift_right_zero_on_layer {S t : ℝ} (hS : 1 ≤ S)
-    (ht : t ∈ Set.uIcc (1 - eps_S S) (1 + eps_S S)) :
-    kappa ((t + 1) / eps_S S) = 0 := by
-  have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS
-  have heps_pos : 0 < eps_S S := eps_S_pos hSpos
-  have heps_le_one : eps_S S ≤ 1 := by
-    unfold eps_S
-    rw [show ((-(3 : ℤ))) = -((3 : ℕ) : ℤ) from rfl, zpow_neg, zpow_natCast]
-    exact inv_le_one_of_one_le₀ (one_le_pow₀ hS)
-  have h_le : 1 - eps_S S ≤ 1 + eps_S S := by linarith
-  rw [Set.uIcc_of_le h_le, Set.mem_Icc] at ht
-  -- t ≥ 1 - ε, so t + 1 ≥ 2 - ε ≥ 1 (since ε ≤ 1).
-  have h_t_plus_1 : 1 ≤ (t + 1) / eps_S S := by
-    rw [le_div_iff₀ heps_pos]
-    linarith [ht.1]
-  apply kappa_eq_zero_of_abs_ge_one
-  rw [abs_of_pos (by linarith : (0 : ℝ) < (t + 1) / eps_S S)]
-  exact h_t_plus_1
-
-/-- Helper: integral of `phi''_S` on the positive layer
-`[1-ε, 1+ε]` equals `S + 2·η_S·ε`. -/
-private lemma integral_phiDer2_S_layer {S : ℝ} (hS : 1 ≤ S) :
-    ∫ t in (1 - eps_S S)..(1 + eps_S S), phiDer2_S S t
-      = S + 2 * eta_S S * eps_S S := by
-  have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS
-  have heps_pos : 0 < eps_S S := eps_S_pos hSpos
-  have heps_ne : eps_S S ≠ 0 := heps_pos.ne'
-  -- Replace the integrand with the simplified form (third kappa = 0 on layer).
-  have h_eq_on_layer : ∀ t ∈ Set.uIcc (1 - eps_S S) (1 + eps_S S),
-      phiDer2_S S t = eta_S S + (S / eps_S S) * kappa ((t - 1) / eps_S S) := by
-    intro t ht
-    have h3 : kappa ((t + 1) / eps_S S) = 0 :=
-      kappa_shift_right_zero_on_layer hS ht
-    unfold phiDer2_S
-    rw [h3, mul_zero, add_zero]
-  rw [intervalIntegral.integral_congr h_eq_on_layer]
-  -- Integral of (eta_S + first kappa) = ∫ eta_S + ∫ first kappa.
-  have h_int_eta : IntervalIntegrable (fun _ : ℝ => eta_S S) MeasureTheory.volume
-      (1 - eps_S S) (1 + eps_S S) :=
-    intervalIntegrable_const
-  have h_int_kappa : IntervalIntegrable
-      (fun t => (S / eps_S S) * kappa ((t - 1) / eps_S S)) MeasureTheory.volume
-      (1 - eps_S S) (1 + eps_S S) := by
-    refine (continuous_const.mul ?_).intervalIntegrable _ _
-    refine kappa_continuous.comp ?_
-    continuity
-  rw [intervalIntegral.integral_add h_int_eta h_int_kappa]
-  -- ∫ eta_S = eta_S · 2ε.
-  rw [intervalIntegral.integral_const, smul_eq_mul]
-  -- ∫ (S/ε)·κ((t-1)/ε) = S.
-  rw [kappa_scaled_integral_right hSpos]
-  ring
+-- (`kappa_shift_right_zero_on_layer` and `integral_phiDer2_S_layer` were
+-- moved to `Potential.lean` so `Normalization.lean` can use them.)
 
 /-- Asymptotic `A_S - S = O(S^{-1})`.
 

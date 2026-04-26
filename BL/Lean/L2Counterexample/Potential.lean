@@ -567,6 +567,130 @@ lemma kappa_scaled_integral_left {S : ℝ} (hS : 0 < S) :
   rw [step4, mul_one]
   field_simp
 
+/-- Helper: on the layer `[1-ε, 1+ε]` (with `eps_S ≤ 1`), the bump
+`κ((t+1)/ε)` vanishes pointwise (since `(t+1)/ε ≥ 1`). -/
+lemma kappa_shift_right_zero_on_layer {S t : ℝ} (hS : 1 ≤ S)
+    (ht : t ∈ Set.uIcc (1 - eps_S S) (1 + eps_S S)) :
+    kappa ((t + 1) / eps_S S) = 0 := by
+  have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS
+  have heps_pos : 0 < eps_S S := eps_S_pos hSpos
+  have heps_le_one : eps_S S ≤ 1 := by
+    unfold eps_S
+    rw [show ((-(3 : ℤ))) = -((3 : ℕ) : ℤ) from rfl, zpow_neg, zpow_natCast]
+    exact inv_le_one_of_one_le₀ (one_le_pow₀ hS)
+  have h_le : 1 - eps_S S ≤ 1 + eps_S S := by linarith
+  rw [Set.uIcc_of_le h_le, Set.mem_Icc] at ht
+  have h_t_plus_1 : 1 ≤ (t + 1) / eps_S S := by
+    rw [le_div_iff₀ heps_pos]
+    linarith [ht.1]
+  apply kappa_eq_zero_of_abs_ge_one
+  rw [abs_of_pos (by linarith : (0 : ℝ) < (t + 1) / eps_S S)]
+  exact h_t_plus_1
+
+/-- Integral of `phi''_S` on the positive layer `[1-ε, 1+ε]` equals
+`S + 2·η_S·ε`. -/
+lemma integral_phiDer2_S_layer {S : ℝ} (hS : 1 ≤ S) :
+    ∫ t in (1 - eps_S S)..(1 + eps_S S), phiDer2_S S t
+      = S + 2 * eta_S S * eps_S S := by
+  have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS
+  have heps_pos : 0 < eps_S S := eps_S_pos hSpos
+  have heps_ne : eps_S S ≠ 0 := heps_pos.ne'
+  -- Replace integrand with simplified form (third kappa vanishes on layer).
+  have h_eq_on_layer : ∀ t ∈ Set.uIcc (1 - eps_S S) (1 + eps_S S),
+      phiDer2_S S t = eta_S S + (S / eps_S S) * kappa ((t - 1) / eps_S S) := by
+    intro t ht
+    have h3 : kappa ((t + 1) / eps_S S) = 0 :=
+      kappa_shift_right_zero_on_layer hS ht
+    unfold phiDer2_S
+    rw [h3, mul_zero, add_zero]
+  rw [intervalIntegral.integral_congr h_eq_on_layer]
+  -- Decompose ∫ (eta + first kappa) = ∫ eta + ∫ first kappa.
+  have h_int_eta : IntervalIntegrable (fun _ : ℝ => eta_S S) MeasureTheory.volume
+      (1 - eps_S S) (1 + eps_S S) :=
+    intervalIntegral.intervalIntegrable_const
+  have h_int_kappa : IntervalIntegrable
+      (fun t => (S / eps_S S) * kappa ((t - 1) / eps_S S)) MeasureTheory.volume
+      (1 - eps_S S) (1 + eps_S S) := by
+    refine (continuous_const.mul ?_).intervalIntegrable _ _
+    refine kappa_continuous.comp ?_
+    continuity
+  rw [intervalIntegral.integral_add h_int_eta h_int_kappa]
+  rw [intervalIntegral.integral_const, smul_eq_mul]
+  rw [kappa_scaled_integral_right hSpos]
+  ring
+
+/-- `phi'_S(1+ε_S) = η_S·(1+ε_S) + S` for `1 ≤ S`.
+
+Proof: split `phi'_S(1+ε) = ∫_0^{1+ε} phi''_S` at `t = 1-ε`. The first
+piece is `eta_S(1-ε)` (using `phi''_S = eta_S` on the core); the second
+piece is `S + 2·eta_S·ε` (via `integral_phiDer2_S_layer`). -/
+lemma phiDer_S_at_one_plus_eps {S : ℝ} (hS : 1 ≤ S) :
+    phiDer_S S (1 + eps_S S) = eta_S S * (1 + eps_S S) + S := by
+  have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS
+  have heps_pos : 0 < eps_S S := eps_S_pos hSpos
+  have h1eps_nn : (0 : ℝ) ≤ 1 - eps_S S := by
+    have heps_le_one : eps_S S ≤ 1 := by
+      unfold eps_S
+      rw [show ((-(3 : ℤ))) = -((3 : ℕ) : ℤ) from rfl, zpow_neg, zpow_natCast]
+      exact inv_le_one_of_one_le₀ (one_le_pow₀ hS)
+    linarith
+  -- Split the integral: ∫_0^{1+ε} = ∫_0^{1-ε} + ∫_{1-ε}^{1+ε}
+  have h_int1 : IntervalIntegrable (phiDer2_S S) MeasureTheory.volume 0 (1 - eps_S S) :=
+    (phiDer2_S_continuous hSpos).intervalIntegrable _ _
+  have h_int2 : IntervalIntegrable (phiDer2_S S) MeasureTheory.volume
+      (1 - eps_S S) (1 + eps_S S) :=
+    (phiDer2_S_continuous hSpos).intervalIntegrable _ _
+  unfold phiDer_S psi
+  rw [(intervalIntegral.integral_add_adjacent_intervals h_int1 h_int2).symm]
+  -- ∫_0^{1-ε} phi''_S = eta_S · (1-ε) using phiDer2_S_core.
+  have h_core : ∀ t ∈ Set.uIcc (0:ℝ) (1 - eps_S S), phiDer2_S S t = eta_S S := by
+    intro t ht
+    apply phiDer2_S_core hSpos
+    rw [Set.uIcc_of_le h1eps_nn, Set.mem_Icc] at ht
+    rw [abs_of_nonneg ht.1]; exact ht.2
+  rw [intervalIntegral.integral_congr h_core]
+  rw [intervalIntegral.integral_const, smul_eq_mul]
+  rw [integral_phiDer2_S_layer hS]
+  ring
+
+/-- `phi'_S(t) = S + η_S · t` for `t ≥ 1+ε_S` (where `1 ≤ S`). On the
+tail, both bumps vanish so `phi''_S = η_S`, and the boundary value is
+`phi'_S(1+ε) = η_S·(1+ε) + S`. -/
+lemma phiDer_S_tail {S t : ℝ} (hS : 1 ≤ S) (ht : 1 + eps_S S ≤ t) :
+    phiDer_S S t = S + eta_S S * t := by
+  have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS
+  have heps_pos : 0 < eps_S S := eps_S_pos hSpos
+  -- phi'_S(t) - phi'_S(1+ε) = ∫_{1+ε}^t phi''_S(s) ds = ∫_{1+ε}^t eta_S ds.
+  have h_v_deriv : ∀ s, HasDerivAt (phiDer_S S) (phiDer2_S S s) s := by
+    intro s
+    have h_eq : phiDer2_S S = deriv (phiDer_S S) := (deriv_phiDer_S hSpos).symm
+    rw [h_eq]
+    have h_diff : Differentiable ℝ (phiDer_S S) :=
+      (phiDer_S_contDiff hSpos).differentiable (by simp)
+    exact (h_diff s).hasDerivAt
+  have h_v'_int : IntervalIntegrable (phiDer2_S S) MeasureTheory.volume
+      (1 + eps_S S) t :=
+    (phiDer2_S_continuous hSpos).intervalIntegrable _ _
+  have h_ftc : ∫ s in (1 + eps_S S)..t, phiDer2_S S s
+             = phiDer_S S t - phiDer_S S (1 + eps_S S) :=
+    intervalIntegral.integral_eq_sub_of_hasDerivAt
+      (fun s _ => h_v_deriv s) h_v'_int
+  -- ∫_{1+ε}^t phi''_S = ∫_{1+ε}^t eta_S = eta_S · (t - (1+ε))
+  have h_tail_eq : ∀ s ∈ Set.uIcc (1 + eps_S S) t, phiDer2_S S s = eta_S S := by
+    intro s hs
+    rw [Set.uIcc_of_le (by linarith), Set.mem_Icc] at hs
+    exact phiDer2_S_ext_right hSpos hs.1
+  have h_int_eta : ∫ s in (1 + eps_S S)..t, phiDer2_S S s
+                 = eta_S S * (t - (1 + eps_S S)) := by
+    rw [intervalIntegral.integral_congr h_tail_eq]
+    rw [intervalIntegral.integral_const, smul_eq_mul]
+    ring
+  -- Combine: phi'_S(t) - phi'_S(1+ε) = eta_S(t-(1+ε)).
+  rw [h_int_eta] at h_ftc
+  -- phi'_S(1+ε) = eta_S(1+ε) + S
+  have h_boundary := phiDer_S_at_one_plus_eps hS
+  linarith [h_ftc, h_boundary]
+
 /-! ### Regional formulas for `phi'_S` and `phi_S`
 
 On the core region `[-(1-ε), 1-ε]` both bumps vanish, so `phi''_S = η_S`
