@@ -1099,11 +1099,76 @@ theorem t_S_le_one {S : ℝ} (hS_large : 1 < S) : t_S S ≤ 1 := by
 theorem t_S_nonneg_axiom {S : ℝ} (hS : 1 < S) : 0 ≤ t_S S :=
   t_S_nonneg S (lt_trans zero_lt_one hS)
 
-/-- **Mean of `g_S`**: `∫ g_S ∂ρ_S = q_S + O(S^{-3})`. -/
-axiom integral_g_S_eq_q_plus_error {S : ℝ} (hS : 1 < S) :
-  ∃ R : ℝ, |R| ≤ t_S S ∧ ∫ x, g_S S x ∂(rho_S S) = q_S S + R
+/-- Helper: integral against `ρ_S` rewritten as a Lebesgue integral with
+the density factor `(Z_S)⁻¹·exp(-φ_S)`. -/
+private lemma integral_rho_S_eq {S : ℝ} (hS : 1 < S) (f : ℝ → ℝ) :
+    ∫ x, f x ∂(rho_S S)
+      = ∫ x, ((Z_S S)⁻¹ * Real.exp (-(phi_S S x))) * f x := by
+  have hSpos : 0 < S := lt_trans zero_lt_one hS
+  have hZ_pos : 0 < Z_S S := Z_S_pos_TF hS
+  unfold rho_S
+  have h_meas_density : Measurable fun x =>
+        ENNReal.ofReal ((Z_S S)⁻¹ * Real.exp (-(phi_S S x))) := by
+    refine ENNReal.measurable_ofReal.comp ?_
+    refine measurable_const.mul ?_
+    exact Real.measurable_exp.comp (phi_S_measurable hSpos).neg
+  have h_lt_top : ∀ᵐ x ∂(volume : Measure ℝ),
+        ENNReal.ofReal ((Z_S S)⁻¹ * Real.exp (-(phi_S S x))) < ⊤ :=
+    Filter.Eventually.of_forall (fun _ => ENNReal.ofReal_lt_top)
+  rw [integral_withDensity_eq_integral_toReal_smul h_meas_density h_lt_top]
+  refine integral_congr_ae (Filter.Eventually.of_forall fun x => ?_)
+  have h_nn : 0 ≤ (Z_S S)⁻¹ * Real.exp (-(phi_S S x)) :=
+    mul_nonneg (inv_nonneg.mpr hZ_pos.le) (Real.exp_pos _).le
+  show (ENNReal.ofReal ((Z_S S)⁻¹ * Real.exp (-(phi_S S x)))).toReal • f x
+       = (Z_S S)⁻¹ * Real.exp (-(phi_S S x)) * f x
+  rw [smul_eq_mul, ENNReal.toReal_ofReal h_nn]
 
-/-- **Second moment of `g_S`**: `∫ g_S^2 ∂ρ_S = q_S + O(S^{-3})`. -/
+/-- Helper (set version): set integral against `ρ_S` rewritten as a
+Lebesgue set integral with density factor `(Z_S)⁻¹·exp(-φ_S)`. -/
+private lemma setIntegral_rho_S_eq {S : ℝ} (hS : 1 < S) (s : Set ℝ)
+    (hs : MeasurableSet s) (f : ℝ → ℝ) :
+    ∫ x in s, f x ∂(rho_S S)
+      = ∫ x in s, ((Z_S S)⁻¹ * Real.exp (-(phi_S S x))) * f x := by
+  rw [(integral_indicator hs).symm, integral_rho_S_eq hS,
+      ← integral_indicator hs]
+  refine integral_congr_ae (Filter.Eventually.of_forall fun x => ?_)
+  by_cases hx : x ∈ s
+  · simp [Set.indicator_of_mem hx]
+  · simp [Set.indicator_of_notMem hx]
+
+/-- Helper: `ρ_S` measure of a measurable set equals
+`(1/Z_S) · ∫_s exp(-φ_S)`. -/
+private lemma rho_S_set_eq {S : ℝ} (hS : 1 < S) (s : Set ℝ)
+    (hs : MeasurableSet s) :
+    ∫ _ in s, (1 : ℝ) ∂(rho_S S)
+      = (Z_S S)⁻¹ * ∫ x in s, Real.exp (-(phi_S S x)) := by
+  rw [setIntegral_rho_S_eq hS s hs]
+  rw [← MeasureTheory.integral_const_mul]
+  congr 1
+  funext x; ring
+
+/-- The integral of `g_S` against `ρ_S` decomposed via the partition
+`{|x| ≤ 1-ε} ∪ ((1-ε, 1+ε) ∪ (-1-ε, -1+ε)) ∪ {|x| ≥ 1+ε}`:
+the core contributes `0`, the layers contribute the remainder `R`,
+and the exterior contributes `q_S` (by symmetry). -/
+theorem integral_g_S_eq_q_plus_error {S : ℝ} (hS : 1 < S) :
+    ∃ R : ℝ, |R| ≤ t_S S ∧ ∫ x, g_S S x ∂(rho_S S) = q_S S + R := by
+  have hSpos : 0 < S := lt_trans zero_lt_one hS
+  have hZ_pos : 0 < Z_S S := Z_S_pos_TF hS
+  have hZ_ne : Z_S S ≠ 0 := hZ_pos.ne'
+  have hε_pos : 0 < eps_S S := eps_S_pos hSpos
+  have hε_lt : eps_S S < 1 := eps_S_lt_one hS
+  -- Witness for R: integral over the layers.
+  refine ⟨∫ x in transitionRegion S, g_S S x ∂(rho_S S), ?_, ?_⟩
+  · -- |R| ≤ t_S: bound the layer integral by ρ_S(T_S) = t_S.
+    sorry
+  · sorry
+
+/-- **Second moment of `g_S`**: `∫ g_S^2 ∂ρ_S = q_S + O(S^{-3})`.
+
+Proof analogous to `integral_g_S_eq_q_plus_error` since `g_S² = g_S` on
+core (where both equal `0`) and on exterior (where both equal `1`); on
+the layers, `g_S² ∈ [0, 1]` so the same `t_S`-bound applies. -/
 axiom integral_g_S_sq_eq_q_plus_error {S : ℝ} (hS : 1 < S) :
   ∃ R : ℝ, |R| ≤ t_S S ∧ ∫ x, (g_S S x)^2 ∂(rho_S S) = q_S S + R
 
