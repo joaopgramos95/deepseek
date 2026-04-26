@@ -1239,14 +1239,54 @@ private lemma Z_S_eq_two_half_integral {S : ℝ} (hS : 0 < S) :
     exact h_ioi_eq_ici
   rw [h_left]; ring
 
+/-- Decomposition: `∫_{Ici 0} exp(-φ_S) = ∫_0^{1+ε} exp(-φ_S) + tailInt_S`. -/
+private lemma half_int_eq_inner_plus_tail {S : ℝ} (hS : 0 < S) :
+    ∫ x in Set.Ici (0:ℝ), Real.exp (-(phi_S S x))
+      = (∫ x in (0:ℝ)..(1 + eps_S S), Real.exp (-(phi_S S x))) + tailInt_S S := by
+  have heps_pos : 0 < eps_S S := eps_S_pos hS
+  have h_int_full : Integrable (fun x => Real.exp (-(phi_S S x))) :=
+    exp_negPhiS_integrable S hS
+  have h_set_eq : Set.Ici (0:ℝ) = Set.Icc 0 (1 + eps_S S) ∪ Set.Ioi (1 + eps_S S) := by
+    ext x
+    simp only [Set.mem_Ici, Set.mem_Icc, Set.mem_Ioi, Set.mem_union]
+    constructor
+    · intro h
+      rcases le_or_gt x (1 + eps_S S) with h1 | h1
+      · left; exact ⟨h, h1⟩
+      · right; exact h1
+    · rintro (⟨h1, _⟩ | h)
+      · exact h1
+      · linarith
+  have h_disj : Disjoint (Set.Icc (0:ℝ) (1 + eps_S S)) (Set.Ioi (1 + eps_S S)) := by
+    rw [Set.disjoint_iff_inter_eq_empty]
+    ext x
+    simp only [Set.mem_inter_iff, Set.mem_Icc, Set.mem_Ioi, Set.mem_empty_iff_false,
+               iff_false]
+    intro h
+    linarith [h.1.2, h.2]
+  have h_int_a : IntegrableOn (fun x => Real.exp (-(phi_S S x)))
+      (Set.Icc 0 (1 + eps_S S)) := h_int_full.integrableOn
+  have h_int_b : IntegrableOn (fun x => Real.exp (-(phi_S S x)))
+      (Set.Ioi (1 + eps_S S)) := h_int_full.integrableOn
+  rw [h_set_eq, MeasureTheory.setIntegral_union h_disj measurableSet_Ioi h_int_a h_int_b]
+  have h_icc_eq : ∫ x in Set.Icc 0 (1 + eps_S S), Real.exp (-(phi_S S x))
+                = ∫ x in (0:ℝ)..(1 + eps_S S), Real.exp (-(phi_S S x)) := by
+    rw [intervalIntegral.integral_of_le (by linarith : (0:ℝ) ≤ 1 + eps_S S)]
+    exact MeasureTheory.setIntegral_congr_set Ioc_ae_eq_Icc.symm
+  have h_tail_eq : ∫ x in Set.Ioi (1 + eps_S S), Real.exp (-(phi_S S x))
+                 = tailInt_S S := by
+    unfold tailInt_S
+    exact MeasureTheory.setIntegral_congr_set Ioi_ae_eq_Ici
+  rw [h_icc_eq, h_tail_eq]
+
 /-- `Z_S = 2 + 2/S + O(S^{-3})`. The proof requires partitioning
 `∫ exp(-φ_S)` into core `[0, 1-ε]`, layer `[1-ε, 1+ε]` and tail
 `[1+ε, ∞)` — about 200 lines of tedious analytic bookkeeping that
-the session ran out of time to complete. The symmetry helper
-`Z_S_eq_two_half_integral` is provided above as a starting point;
-the axiomatised statement is mathematically true (combine
-`phi_S_quadratic_lower`, `phi_S_layer_small`, `phi_S_le_of_le`,
-`tailInt_S_asymp` with bounds on each region). -/
+the session ran out of time to complete. The two structural helpers
+`Z_S_eq_two_half_integral` and `half_int_eq_inner_plus_tail` are
+provided as a starting point; the axiomatised statement is
+mathematically true (combine `phi_S_quadratic_lower`, `phi_S_layer_small`,
+`phi_S_le_of_le`, `tailInt_S_asymp` with bounds on each region). -/
 axiom Z_S_asymp :
     BigOInv Z_S (fun S => 2 + 2 / S) 3
 
