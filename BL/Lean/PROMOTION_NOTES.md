@@ -7,15 +7,27 @@
 | Basic.lean              |      0 |
 | Bump.lean               |      0 |
 | Potential.lean          |      0 |
-| Normalization.lean      |      6 |
-| TestFunction.lean       |      1 |
+| Normalization.lean      |      3 |
+| TestFunction.lean       |      0 |
 | OneDimensional.lean     |      4 |
 | HigherDimensional.lean  |      6 |
-| **Total**               | **17** |
+| **Total**               | **13** |
 
 (Earlier counts in this file undercounted HigherDimensional by 1: the
 `@[instance] axiom stdGaussian_isProb` on line 182 doesn't start with
 `axiom`, so the simple grep pattern `^axiom` missed it.)
+
+Remaining axioms by category:
+* **Normalization (3)**: `phi_S_tail`, `phi_S_boundary_small`, `Z_S_asymp`
+  — first-principles analytic facts requiring explicit `phi_S`
+  computation via integration by parts.
+* **OneDimensional (4)**: `rho_S_isProb`, `rho_S_reflection_invariant`,
+  `phiDer_S_memL2`, `g_S_memL2` — unconditional forms; the conditional
+  `0 < S` versions are derivable, but call sites use these as instances
+  without `0 < S` available. (Note: `rho_S_isProb` is technically false
+  at `S = 0` since `rho_S 0` is the zero measure.)
+* **HigherDimensional (6)**: Mathlib `Gaussian`/`Measure.pi`/Fubini bridge
+  axioms.
 
 `lake build L2Counterexample` succeeds. Zero `sorry` remaining.
 
@@ -44,6 +56,15 @@
 16  → EE_phi_S_asymp (via E_phi_g_S_eq + Z_S_asymp + A_S_asymp
        + S²·Z_S·A_S ≥ S³/2 from `exists_S_Z_S_ge_one` and
        √(2·C_A) bound on A_S ≥ S/2)
+15  → A_S_asymp (TestFunction now axiom-free): split A_S =
+       (S + 2·η·ε) + R via integral_phiDer2_S_layer; bound R
+       using phi_S_layer_small + exp/inv conversion
+14  → phi_S_layer_small (from phi_S_boundary_small + monotonicity
+       of phi_S on [0,∞))
+13  → exp_negPhiS_integrable (Gaussian domination via
+       phi_S_quadratic_lower + integrable_exp_neg_mul_sq)
+13  → tailInt_S_tail_eq (change of variables u = x - (1+ε) plus
+       `phi_S_tail` and pull constant out)
 ```
 
 ## Axioms discharged in this round
