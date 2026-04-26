@@ -10,14 +10,14 @@
 | Normalization.lean      |      3 |
 | TestFunction.lean       |      0 |
 | OneDimensional.lean     |      4 |
-| HigherDimensional.lean  |      6 |
-| **Total**               | **13** |
+| HigherDimensional.lean  |      0 |
+| **Total**               | **7**  |
 
 (Earlier counts in this file undercounted HigherDimensional by 1: the
-`@[instance] axiom stdGaussian_isProb` on line 182 doesn't start with
-`axiom`, so the simple grep pattern `^axiom` missed it.)
+`@[instance] axiom stdGaussian_isProb` doesn't start with `axiom`, so
+the simple grep pattern `^axiom` missed it.)
 
-Remaining axioms by category:
+Remaining 7 axioms by category:
 * **Normalization (3)**: `phi_S_tail`, `phi_S_boundary_small`, `Z_S_asymp`
   — first-principles analytic facts requiring explicit `phi_S`
   computation via integration by parts.
@@ -26,8 +26,6 @@ Remaining axioms by category:
   `0 < S` versions are derivable, but call sites use these as instances
   without `0 < S` available. (Note: `rho_S_isProb` is technically false
   at `S = 0` since `rho_S 0` is the zero measure.)
-* **HigherDimensional (6)**: Mathlib `Gaussian`/`Measure.pi`/Fubini bridge
-  axioms.
 
 `lake build L2Counterexample` succeeds. Zero `sorry` remaining.
 
@@ -65,6 +63,15 @@ Remaining axioms by category:
        phi_S_quadratic_lower + integrable_exp_neg_mul_sq)
 13  → tailInt_S_tail_eq (change of variables u = x - (1+ε) plus
        `phi_S_tail` and pull constant out)
+10  → stdGaussian + stdGaussian_isProb + stdGaussian_first_moment via
+       Mathlib's `Measure.pi (gaussianReal 0 1)` plus
+       `measurePreserving_eval` and `integral_id_gaussianReal`
+9   → prodSpace_iso_euclidean removed (was unused; false for d ≥ 2
+       because Prod uses sup-norm and EuclideanSpace uses ℓ² norm)
+7   → integral_prod_first_coord + integral_prod_separable via
+       `MeasureTheory.integral_prod_mul` (unconditional in Mathlib);
+       the first-coord version uses `g(p.1) = g(p.1) * 1` plus
+       `stdGaussian_integral_one = 1`
 ```
 
 ## Axioms discharged in this round
