@@ -605,8 +605,164 @@ theorem exp_neg_phi_boundary_asymp :
 
 `tailInt_S = 1/S + O(S^{-3})`. -/
 
-axiom tailInt_S_asymp :
-    BigOInv tailInt_S (fun S => 1 / S) 3
+/-- `tailInt_S S = 1/S + O(S^{-3})`. Combines:
+* `tailInt_S_tail_eq`: `tailInt_S = exp(-φ_S(1+ε)) · I` where I is the
+  Gaussian-tail integral;
+* `tail_gaussian_bound`: `0 ≤ 1/S̃ - I ≤ η/S̃³`;
+* `one_div_tildeS_asymp`: `|1/S̃ - 1/S| ≤ 2/S^6`;
+* `exp_neg_phi_boundary_asymp`: `|exp(-φ_S(1+ε)) - 1| ≤ C/S²`. -/
+theorem tailInt_S_asymp : BigOInv tailInt_S (fun S => 1 / S) 3 := by
+  obtain ⟨C_φ, S_φ, hS_φ_pos, h_φ_bd⟩ := exp_neg_phi_boundary_asymp
+  obtain ⟨C_oot, S_oot, hS_oot_pos, h_oot_bd⟩ := one_div_tildeS_asymp
+  -- C constant for the bound on |C_φ| nonnegativity (extracted from positive eval).
+  have hC_φ_nn : 0 ≤ C_φ := by
+    have h : |Real.exp (-(phi_S S_φ (1 + eps_S S_φ))) - 1|
+        ≤ C_φ * S_φ ^ (-(2 : ℤ)) := h_φ_bd S_φ le_rfl
+    have h_abs_nn : 0 ≤ |Real.exp (-(phi_S S_φ (1 + eps_S S_φ))) - 1| := abs_nonneg _
+    have h_pow_pos : (0 : ℝ) < S_φ ^ (-(2 : ℤ)) := zpow_pos hS_φ_pos _
+    nlinarith
+  have hC_oot_nn : 0 ≤ C_oot := by
+    have h : |1 / tildeS S_oot - 1 / S_oot| ≤ C_oot * S_oot ^ (-(6 : ℤ)) :=
+      h_oot_bd S_oot le_rfl
+    have h_abs_nn : 0 ≤ |1 / tildeS S_oot - 1 / S_oot| := abs_nonneg _
+    have h_pow_pos : (0 : ℝ) < S_oot ^ (-(6 : ℤ)) := zpow_pos hS_oot_pos _
+    nlinarith
+  refine ⟨1 + C_φ + C_oot, max (max S_φ S_oot) 1,
+          lt_max_of_lt_right one_pos, ?_⟩
+  intro S hS
+  have hS_φ : S_φ ≤ S :=
+    le_trans (le_max_left _ _) (le_trans (le_max_left _ _) hS)
+  have hS_oot : S_oot ≤ S :=
+    le_trans (le_max_right _ _) (le_trans (le_max_left _ _) hS)
+  have hS_one : (1 : ℝ) ≤ S := le_trans (le_max_right _ _) hS
+  have hSpos : 0 < S := lt_of_lt_of_le zero_lt_one hS_one
+  have htildeS_pos : 0 < tildeS S := tildeS_pos hS_one
+  have hS_le_tildeS : S ≤ tildeS S := le_tildeS hS_one
+  have heta_pos : 0 < eta_S S := eta_S_pos hSpos
+  have hS3_pos : (0 : ℝ) < S^3 := by positivity
+  have hS4_pos : (0 : ℝ) < S^4 := by positivity
+  have hS6_pos : (0 : ℝ) < S^6 := by positivity
+  have hS7_pos : (0 : ℝ) < S^7 := by positivity
+  -- Convert S^(-k:ℤ) to 1/S^k.
+  have h_S2_eq : (S : ℝ)^(-(2:ℤ)) = 1/S^2 := by
+    rw [show (-(2:ℤ)) = -((2:ℕ) : ℤ) from rfl, zpow_neg, zpow_natCast, one_div]
+  have h_S3_eq : (S : ℝ)^(-(3:ℤ)) = 1/S^3 := by
+    rw [show (-(3:ℤ)) = -((3:ℕ) : ℤ) from rfl, zpow_neg, zpow_natCast, one_div]
+  have h_S6_eq : (S : ℝ)^(-(6:ℤ)) = 1/S^6 := by
+    rw [show (-(6:ℤ)) = -((6:ℕ) : ℤ) from rfl, zpow_neg, zpow_natCast, one_div]
+  -- Apply tailInt_S_tail_eq.
+  rw [tailInt_S_tail_eq S hS_one]
+  set A := Real.exp (-(phi_S S (1 + eps_S S))) with hA_def
+  set I := ∫ u in Set.Ici (0 : ℝ),
+              Real.exp (-(tildeS S * u) - eta_S S * u ^ 2 / 2) with hI_def
+  -- Bounds.
+  have hA_bd_raw : |A - (fun _ : ℝ => (1 : ℝ)) S| ≤ C_φ * S^(-(2:ℤ)) :=
+    h_φ_bd S hS_φ
+  have hA_bd : |A - 1| ≤ C_φ * (1/S^2) := by
+    rw [show (fun _ : ℝ => (1 : ℝ)) S = 1 from rfl, h_S2_eq] at hA_bd_raw
+    exact hA_bd_raw
+  have hr1_bd_raw : |1/tildeS S - 1/S| ≤ C_oot * S^(-(6:ℤ)) :=
+    h_oot_bd S hS_oot
+  have hr1_bd : |1/tildeS S - 1/S| ≤ C_oot * (1/S^6) := by
+    rw [h_S6_eq] at hr1_bd_raw; exact hr1_bd_raw
+  have ⟨h_diff_nn, h_diff_ub⟩ := tail_gaussian_bound S hS_one
+  -- I ≥ 0 (integrand positive).
+  have hI_nn : 0 ≤ I := by
+    apply setIntegral_nonneg measurableSet_Ici
+    intros u _
+    exact (Real.exp_pos _).le
+  -- I ≤ 1/tildeS (from the lower bound h_diff_nn).
+  have hI_le_tilde : I ≤ 1/tildeS S := by linarith
+  -- 1/tildeS ≤ 1/S.
+  have h_tilde_le_S : 1/tildeS S ≤ 1/S := one_div_le_one_div_of_le hSpos hS_le_tildeS
+  -- |I| ≤ 1/S.
+  have hI_abs : |I| ≤ 1/S := by
+    rw [abs_of_nonneg hI_nn]; linarith
+  -- Decomposition.
+  have h_decomp : A * I - 1/S
+      = (A - 1) * I + (I - 1/tildeS S) + (1/tildeS S - 1/S) := by ring
+  -- Triangle inequality.
+  have h_tri : |A * I - 1/S|
+      ≤ |A - 1| * |I| + |I - 1/tildeS S| + |1/tildeS S - 1/S| := by
+    rw [h_decomp]
+    have h1 := abs_add_le ((A - 1) * I + (I - 1/tildeS S)) (1/tildeS S - 1/S)
+    have h2 := abs_add_le ((A - 1) * I) (I - 1/tildeS S)
+    have h3 : |(A - 1) * I| = |A - 1| * |I| := abs_mul _ _
+    linarith
+  -- Bound 1: |A-1|·|I| ≤ (C_φ/S²)·(1/S) = C_φ/S³.
+  have hbound1 : |A - 1| * |I| ≤ C_φ * (1/S^3) := by
+    have h1 : |A - 1| * |I| ≤ (C_φ * (1/S^2)) * (1/S) := by
+      refine mul_le_mul hA_bd hI_abs (abs_nonneg _) ?_
+      have : (0 : ℝ) ≤ 1/S^2 := by positivity
+      exact mul_nonneg hC_φ_nn this
+    have h_eq : (C_φ * (1/S^2)) * (1/S) = C_φ * (1/S^3) := by
+      have : (S : ℝ)^2 * S = S^3 := by ring
+      field_simp
+    linarith
+  -- Bound 2: |I - 1/tildeS| ≤ 1/S^3.
+  -- |I - 1/tildeS| = 1/tildeS - I ≤ eta/tildeS^3 = (1/S^4)/tildeS^3 ≤ 1/S^7 ≤ 1/S^3.
+  have hbound2 : |I - 1/tildeS S| ≤ 1/S^3 := by
+    -- |I - 1/tildeS| = 1/tildeS - I
+    have h_abs_eq : |I - 1/tildeS S| = 1/tildeS S - I := by
+      rw [show I - 1/tildeS S = -(1/tildeS S - I) from by ring, abs_neg,
+          abs_of_nonneg h_diff_nn]
+    -- ≤ eta/tildeS^3
+    have h_le_eta : 1/tildeS S - I ≤ eta_S S / tildeS S^3 := h_diff_ub
+    -- eta_S S = 1/S^4
+    have h_eta_eq : eta_S S = 1/S^4 := by
+      unfold eta_S
+      rw [show (-(4:ℤ)) = -((4:ℕ) : ℤ) from rfl, zpow_neg, zpow_natCast, one_div]
+    -- 1/S^4 / tildeS^3 ≤ 1/S^7
+    have htildeS3_pos : (0 : ℝ) < tildeS S ^ 3 := by positivity
+    have hS_le_tildeS_3 : S^3 ≤ tildeS S ^ 3 := by
+      have h := pow_le_pow_left₀ hSpos.le hS_le_tildeS 3
+      exact h
+    have h_inv_le : (1 : ℝ)/(tildeS S ^ 3) ≤ 1/S^3 :=
+      one_div_le_one_div_of_le hS3_pos hS_le_tildeS_3
+    have h_eta_inv : eta_S S / tildeS S ^ 3 = (1/S^4) * (1/tildeS S^3) := by
+      rw [h_eta_eq]
+      field_simp
+    have h_step1 : (1/S^4) * (1/tildeS S^3) ≤ (1/S^4) * (1/S^3) := by
+      have : (0 : ℝ) ≤ 1/S^4 := by positivity
+      exact mul_le_mul_of_nonneg_left h_inv_le this
+    have h_step2 : (1/S^4) * (1/S^3) = 1/S^7 := by
+      have h_eq : (S : ℝ)^4 * S^3 = S^7 := by ring
+      field_simp
+    have h_S7_le_S3 : (1 : ℝ)/S^7 ≤ 1/S^3 := by
+      have hS_pow : S^3 ≤ S^7 := by
+        have h_S3_pow : S^3 ≤ S^3 * S^4 := by
+          have hS4_ge_one : (1 : ℝ) ≤ S^4 := one_le_pow₀ hS_one
+          nlinarith
+        have heq : S^3 * S^4 = S^7 := by ring
+        linarith
+      exact one_div_le_one_div_of_le hS3_pos hS_pow
+    -- chain
+    rw [h_abs_eq]
+    calc 1/tildeS S - I ≤ eta_S S / tildeS S ^ 3 := h_le_eta
+      _ = (1/S^4) * (1/tildeS S^3) := h_eta_inv
+      _ ≤ (1/S^4) * (1/S^3) := h_step1
+      _ = 1/S^7 := h_step2
+      _ ≤ 1/S^3 := h_S7_le_S3
+  -- Bound 3: |1/tildeS - 1/S| ≤ C_oot/S^6 ≤ C_oot/S^3.
+  have hbound3 : |1/tildeS S - 1/S| ≤ C_oot * (1/S^3) := by
+    refine le_trans hr1_bd ?_
+    have h_S6_le_S3 : (1 : ℝ)/S^6 ≤ 1/S^3 := by
+      have h_S3_pow : S^3 ≤ S^3 * S^3 := by
+        have hS3_ge_one : (1 : ℝ) ≤ S^3 := one_le_pow₀ hS_one
+        nlinarith
+      have heq : S^3 * S^3 = S^6 := by ring
+      have hS_pow : S^3 ≤ S^6 := by linarith
+      exact one_div_le_one_div_of_le hS3_pos hS_pow
+    exact mul_le_mul_of_nonneg_left h_S6_le_S3 hC_oot_nn
+  -- Sum: |A·I - 1/S| ≤ (C_φ + 1 + C_oot) * (1/S^3) = (1 + C_φ + C_oot) * (1/S^3).
+  have h_total : |A * I - 1/S| ≤ (1 + C_φ + C_oot) * (1/S^3) := by
+    have : |A - 1| * |I| + |I - 1/tildeS S| + |1/tildeS S - 1/S|
+         ≤ C_φ * (1/S^3) + 1/S^3 + C_oot * (1/S^3) := by linarith
+    linarith [h_tri, this]
+  -- Convert (1/S^3) back to S^(-3:ℤ).
+  show |A * I - 1/S| ≤ (1 + C_φ + C_oot) * S^(-(3:ℤ))
+  rw [h_S3_eq]
+  exact h_total
 
 /-! ## Lemma (b): normalisation constant asymptotic
 
