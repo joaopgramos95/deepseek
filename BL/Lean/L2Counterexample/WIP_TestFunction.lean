@@ -104,12 +104,41 @@ lemma A_S_intervalIntegral_def {S : ℝ} (_hS_large : 1 < S) :
         phiDer2_S S t * Real.exp (phi_S S t) = A_S S := rfl
 
 /-- Symmetry of the layer integrals: the integral over `I_S^-` equals the
-integral over `I_S^+`. Follows from evenness of `φ_S` and `φ''_S` plus a
-change of variables; recorded here as an axiom pending the measure-theoretic
-proof. -/
-axiom A_S_symm {S : ℝ} (hS_large : 1 < S) :
-  ∫ t in Set.Ioo (-1 - eps_S S) (-1 + eps_S S),
-      phiDer2_S S t * Real.exp (phi_S S t) = A_S S
+integral over `I_S^+`. Follows from evenness of `φ_S` and `φ''_S` plus the
+change of variables `t ↦ -t`. -/
+theorem A_S_symm {S : ℝ} (hS_large : 1 < S) :
+    ∫ t in Set.Ioo (-1 - eps_S S) (-1 + eps_S S),
+        phiDer2_S S t * Real.exp (phi_S S t) = A_S S := by
+  have hSpos : 0 < S := lt_trans zero_lt_one hS_large
+  have hε_pos : 0 < eps_S S := eps_S_pos hSpos
+  have h_le : -1 - eps_S S ≤ -1 + eps_S S := by linarith
+  -- Step 1: convert set integral to interval integral.
+  have step1 : ∫ t in Set.Ioo (-1 - eps_S S) (-1 + eps_S S),
+                  phiDer2_S S t * Real.exp (phi_S S t)
+             = ∫ t in (-1 - eps_S S)..(-1 + eps_S S),
+                  phiDer2_S S t * Real.exp (phi_S S t) := by
+    rw [intervalIntegral.integral_of_le h_le]
+    exact MeasureTheory.setIntegral_congr_set Ioo_ae_eq_Ioc
+  -- Step 2: substitute via evenness of the integrand.
+  have step2 : ∫ t in (-1 - eps_S S)..(-1 + eps_S S),
+                  phiDer2_S S t * Real.exp (phi_S S t)
+             = ∫ t in (-1 - eps_S S)..(-1 + eps_S S),
+                  phiDer2_S S (-t) * Real.exp (phi_S S (-t)) := by
+    refine intervalIntegral.integral_congr ?_
+    intro t _
+    simp [phiDer2_S_even, phi_S_even]
+  -- Step 3: change of variables `t ↦ -t`.
+  have step3 : ∫ t in (-1 - eps_S S)..(-1 + eps_S S),
+                  phiDer2_S S (-t) * Real.exp (phi_S S (-t))
+             = ∫ t in -(-1 + eps_S S)..-(-1 - eps_S S),
+                  phiDer2_S S t * Real.exp (phi_S S t) :=
+    intervalIntegral.integral_comp_neg
+      (fun t => phiDer2_S S t * Real.exp (phi_S S t))
+  -- Simplify endpoints and conclude.
+  have h_eq1 : -(-1 + eps_S S) = 1 - eps_S S := by ring
+  have h_eq2 : -(-1 - eps_S S) = 1 + eps_S S := by ring
+  rw [step1, step2, step3, h_eq1, h_eq2]
+  rfl
 
 /-- Positivity of the layer normalizer. The integrand
 `φ''_S(t) · exp(φ_S(t))` is strictly positive (`phiDer2_S_pos` and
@@ -417,23 +446,146 @@ absolute value, which lies in upstream measure-theoretic infrastructure. -/
 /-- Derivative formula on the positive layer: for `x ∈ (1-ε, 1+ε)`,
 `(g_S)'(x) = φ''_S(x) · exp(φ_S(x)) / A_S`.
 
-Justification (informal): on `layerPos S`, `g_S y = N_S S y / A_S` because
-`y > 0` so `|y| = y`. By FTC for the interval-integral
-defining `N_S`, the derivative of `N_S` at `y` is
-`φ''_S(y) · exp(φ_S(y))`. -/
-axiom hasDerivAt_g_S_layer_pos {S : ℝ} (hS : 1 < S) {x : ℝ}
+Proof: on `layerPos S`, `g_S y = N_S S |y| / A_S` (definition).
+Since `x > 0`, `|y| = y` in a neighborhood of `x`, so
+`g_S = (N_S ∘ id) / A_S` near `x`. By FTC, `N_S` has derivative
+`φ''_S · exp(φ_S)` at `x`; dividing by the constant `A_S` gives the
+claim. -/
+theorem hasDerivAt_g_S_layer_pos {S : ℝ} (hS : 1 < S) {x : ℝ}
     (hx : x ∈ layerPos S) :
     HasDerivAt (g_S S)
-      (phiDer2_S S x * Real.exp (phi_S S x) / A_S S) x
+      (phiDer2_S S x * Real.exp (phi_S S x) / A_S S) x := by
+  have hSpos : 0 < S := lt_trans zero_lt_one hS
+  have heps_pos : 0 < eps_S S := eps_S_pos hSpos
+  have heps_lt_one : eps_S S < 1 := eps_S_lt_one hS
+  -- `x > 0` since `1-ε < x` and `0 < 1-ε`.
+  have hx_pos : 0 < x := by
+    have h1 : 1 - eps_S S < x := hx.1
+    linarith
+  have habs_x : |x| = x := abs_of_pos hx_pos
+  -- Continuity of the integrand.
+  have h_integrand_cont : Continuous
+      (fun t => phiDer2_S S t * Real.exp (phi_S S t)) :=
+    (phiDer2_S_continuous hSpos).mul
+      (Real.continuous_exp.comp (phi_S_contDiff hSpos).continuous)
+  -- FTC for `N_S`.
+  have h_int_int : ∀ a b, IntervalIntegrable
+                      (fun t => phiDer2_S S t * Real.exp (phi_S S t))
+                      MeasureTheory.volume a b :=
+    phi_integrand_intervalIntegrable hSpos
+  have h_FTC : HasDerivAt (N_S S)
+                (phiDer2_S S x * Real.exp (phi_S S x)) x := by
+    show HasDerivAt
+      (fun r => ∫ t in (1 - eps_S S)..r, phiDer2_S S t * Real.exp (phi_S S t))
+      (phiDer2_S S x * Real.exp (phi_S S x)) x
+    refine intervalIntegral.integral_hasDerivAt_right (h_int_int _ _) ?_ ?_
+    · exact h_integrand_cont.stronglyMeasurable.stronglyMeasurableAtFilter
+    · exact h_integrand_cont.continuousAt
+  -- For y > 0, `|y| = y`, so `N_S ∘ |·| = N_S` near x.
+  have h_abs_id_eq : (fun y : ℝ => |y|) =ᶠ[nhds x] (fun y => y) := by
+    filter_upwards [Ioi_mem_nhds hx_pos] with y hy
+    exact abs_of_pos hy
+  have h_abs : HasDerivAt (fun y : ℝ => |y|) 1 x :=
+    (hasDerivAt_id x).congr_of_eventuallyEq h_abs_id_eq
+  -- Chain rule: `N_S ∘ |·|` has derivative `integrand(|x|) * 1 = integrand(x)` at x.
+  have h_FTC_at_abs : HasDerivAt (N_S S)
+                        (phiDer2_S S x * Real.exp (phi_S S x)) (|x|) := by
+    rw [habs_x]; exact h_FTC
+  have h_comp : HasDerivAt (fun y => N_S S |y|)
+                  (phiDer2_S S x * Real.exp (phi_S S x) * 1) x :=
+    h_FTC_at_abs.comp x h_abs
+  -- Divide by A_S.
+  have h_div : HasDerivAt (fun y => N_S S |y| / A_S S)
+                  (phiDer2_S S x * Real.exp (phi_S S x) * 1 / A_S S) x :=
+    h_comp.div_const _
+  -- `g_S y = N_S(|y|) / A_S` for y in `layerPos S` (in particular near x).
+  have h_layer_open : IsOpen (layerPos S) := isOpen_Ioo
+  have h_nhd : layerPos S ∈ nhds x := h_layer_open.mem_nhds hx
+  have h_g_eq : (g_S S) =ᶠ[nhds x] (fun y => N_S S |y| / A_S S) := by
+    filter_upwards [h_nhd] with y hy
+    exact g_S_layer_pos_eq hS hy
+  -- Conclude via congruence.
+  have h_final : HasDerivAt (g_S S)
+                  (phiDer2_S S x * Real.exp (phi_S S x) * 1 / A_S S) x :=
+    h_div.congr_of_eventuallyEq h_g_eq
+  simpa using h_final
 
 /-- Derivative formula on the negative layer: for `x ∈ (-1-ε, -1+ε)`,
 `(g_S)'(x) = -φ''_S(x) · exp(φ_S(x)) / A_S`.
 
 (The minus sign comes from `d|x|/dx = -1` on `(-∞, 0)`.) -/
-axiom hasDerivAt_g_S_layer_neg {S : ℝ} (hS : 1 < S) {x : ℝ}
+theorem hasDerivAt_g_S_layer_neg {S : ℝ} (hS : 1 < S) {x : ℝ}
     (hx : x ∈ layerNeg S) :
     HasDerivAt (g_S S)
-      (-(phiDer2_S S x * Real.exp (phi_S S x)) / A_S S) x
+      (-(phiDer2_S S x * Real.exp (phi_S S x)) / A_S S) x := by
+  have hSpos : 0 < S := lt_trans zero_lt_one hS
+  have heps_pos : 0 < eps_S S := eps_S_pos hSpos
+  have heps_lt_one : eps_S S < 1 := eps_S_lt_one hS
+  -- `x < 0` since `x < -1 + ε < 0`.
+  have hx_neg : x < 0 := by
+    have h2 : x < -1 + eps_S S := hx.2
+    linarith
+  have habs_x : |x| = -x := abs_of_neg hx_neg
+  have hnegx_pos : 0 < -x := neg_pos.mpr hx_neg
+  -- Continuity of the integrand.
+  have h_integrand_cont : Continuous
+      (fun t => phiDer2_S S t * Real.exp (phi_S S t)) :=
+    (phiDer2_S_continuous hSpos).mul
+      (Real.continuous_exp.comp (phi_S_contDiff hSpos).continuous)
+  -- FTC for `N_S` at `-x`.
+  have h_int_int : ∀ a b, IntervalIntegrable
+                      (fun t => phiDer2_S S t * Real.exp (phi_S S t))
+                      MeasureTheory.volume a b :=
+    phi_integrand_intervalIntegrable hSpos
+  have h_FTC_at_negx : HasDerivAt (N_S S)
+                (phiDer2_S S (-x) * Real.exp (phi_S S (-x))) (-x) := by
+    show HasDerivAt
+      (fun r => ∫ t in (1 - eps_S S)..r, phiDer2_S S t * Real.exp (phi_S S t))
+      (phiDer2_S S (-x) * Real.exp (phi_S S (-x))) (-x)
+    refine intervalIntegral.integral_hasDerivAt_right (h_int_int _ _) ?_ ?_
+    · exact h_integrand_cont.stronglyMeasurable.stronglyMeasurableAtFilter
+    · exact h_integrand_cont.continuousAt
+  -- Use evenness to rewrite the values at `-x` as values at `x`.
+  have h_phi_eq : phi_S S (-x) = phi_S S x := phi_S_even S x
+  have h_phiDer2_eq : phiDer2_S S (-x) = phiDer2_S S x := phiDer2_S_even S x
+  have h_FTC_at_negx' : HasDerivAt (N_S S)
+                (phiDer2_S S x * Real.exp (phi_S S x)) (-x) := by
+    rw [← h_phi_eq, ← h_phiDer2_eq]; exact h_FTC_at_negx
+  -- For y < 0, `|y| = -y`, so `|·|` has derivative `-1` at x.
+  have h_abs_neg_eq : (fun y : ℝ => |y|) =ᶠ[nhds x] (fun y => -y) := by
+    filter_upwards [Iio_mem_nhds hx_neg] with y hy
+    exact abs_of_neg hy
+  have h_neg : HasDerivAt (fun y : ℝ => -y) (-1) x := (hasDerivAt_id x).neg
+  have h_abs : HasDerivAt (fun y : ℝ => |y|) (-1) x :=
+    h_neg.congr_of_eventuallyEq h_abs_neg_eq
+  -- Chain rule: at `(|x|) = -x`, `N_S` has derivative `integrand(x)`,
+  -- and `|·|` has derivative `-1` at `x`, so the composite has derivative
+  -- `integrand(x) * (-1) = -integrand(x)`.
+  have h_FTC_at_abs : HasDerivAt (N_S S)
+                        (phiDer2_S S x * Real.exp (phi_S S x)) (|x|) := by
+    rw [habs_x]; exact h_FTC_at_negx'
+  have h_comp : HasDerivAt (fun y => N_S S |y|)
+                  (phiDer2_S S x * Real.exp (phi_S S x) * (-1)) x :=
+    h_FTC_at_abs.comp x h_abs
+  -- Divide by A_S.
+  have h_div : HasDerivAt (fun y => N_S S |y| / A_S S)
+                  (phiDer2_S S x * Real.exp (phi_S S x) * (-1) / A_S S) x :=
+    h_comp.div_const _
+  -- `g_S y = N_S(|y|) / A_S` for y in `layerNeg S` (in particular near x).
+  have h_layer_open : IsOpen (layerNeg S) := isOpen_Ioo
+  have h_nhd : layerNeg S ∈ nhds x := h_layer_open.mem_nhds hx
+  have h_g_eq : (g_S S) =ᶠ[nhds x] (fun y => N_S S |y| / A_S S) := by
+    filter_upwards [h_nhd] with y hy
+    exact g_S_layer_neg_eq hS hy
+  -- Conclude via congruence.
+  have h_final : HasDerivAt (g_S S)
+                  (phiDer2_S S x * Real.exp (phi_S S x) * (-1) / A_S S) x :=
+    h_div.congr_of_eventuallyEq h_g_eq
+  -- Rearrange `a * (-1) / b = -(a) / b`.
+  have h_rewrite : phiDer2_S S x * Real.exp (phi_S S x) * (-1) / A_S S
+                 = -(phiDer2_S S x * Real.exp (phi_S S x)) / A_S S := by
+    ring
+  rw [← h_rewrite]; exact h_final
 
 /-- On the open core `(-1+ε, 1-ε)`, `g_S` is locally constant, so
 `(g_S)'(x) = 0`. -/
@@ -530,8 +682,66 @@ lemmas is encapsulated by the following axiom; the elementary statement is
 "piecewise functions agreeing at the boundaries of contiguous intervals are
 continuous". -/
 
-/-- `g_S` is continuous as a function of `x`. -/
-axiom g_S_continuous {S : ℝ} (hS : 1 < S) : Continuous (g_S S)
+/-- `g_S` is continuous as a function of `x`. The proof glues two
+nested `if-then-else` pieces via `Continuous.if_le`, using that:
+
+* `N_S` is continuous (FTC for primitives of continuous functions);
+* `|·|` is continuous;
+* the boundary values match: `N_S(1−ε)/A_S = 0/A_S = 0` and
+  `N_S(1+ε)/A_S = A_S/A_S = 1`. -/
+theorem g_S_continuous {S : ℝ} (hS : 1 < S) : Continuous (g_S S) := by
+  have hSpos : 0 < S := lt_trans zero_lt_one hS
+  have heps_pos : 0 < eps_S S := eps_S_pos hSpos
+  have hA_pos : 0 < A_S S := A_S_pos hS
+  have hA_ne : A_S S ≠ 0 := hA_pos.ne'
+  -- Step 1: `N_S` is continuous via FTC.
+  have h_int_int : ∀ a b, IntervalIntegrable
+                    (fun t => phiDer2_S S t * Real.exp (phi_S S t))
+                    MeasureTheory.volume a b :=
+    phi_integrand_intervalIntegrable hSpos
+  have h_N_cont : Continuous (N_S S) := by
+    show Continuous (fun r => ∫ t in (1 - eps_S S)..r,
+                        phiDer2_S S t * Real.exp (phi_S S t))
+    exact intervalIntegral.continuous_primitive h_int_int (1 - eps_S S)
+  have h_abs_cont : Continuous (fun x : ℝ => |x|) := continuous_abs
+  have h_N_abs_cont : Continuous (fun x : ℝ => N_S S |x|) :=
+    h_N_cont.comp h_abs_cont
+  have h_div_cont : Continuous (fun x : ℝ => N_S S |x| / A_S S) :=
+    h_N_abs_cont.div_const _
+  -- Step 2: the inner if-then-else is continuous.
+  -- Convert `if |x| < 1+ε then ... else 1` to `if 1+ε ≤ |x| then 1 else ...`
+  -- so we can apply `Continuous.if_le`.
+  have h_inner_cont : Continuous (fun x : ℝ =>
+      if |x| < 1 + eps_S S then N_S S |x| / A_S S else 1) := by
+    have h_eq : (fun x : ℝ =>
+        if |x| < 1 + eps_S S then N_S S |x| / A_S S else 1) =
+        (fun x : ℝ =>
+          if 1 + eps_S S ≤ |x| then 1 else N_S S |x| / A_S S) := by
+      funext x
+      by_cases h : |x| < 1 + eps_S S
+      · rw [if_pos h, if_neg (not_le.mpr h)]
+      · rw [if_neg h, if_pos (le_of_not_gt h)]
+    rw [h_eq]
+    refine Continuous.if_le continuous_const h_div_cont continuous_const
+      h_abs_cont ?_
+    intro x hx
+    -- hx : 1 + eps_S S = |x|; show 1 = N_S |x| / A_S.
+    rw [← hx]
+    rw [N_S_right_endpoint hS]
+    field_simp
+  -- Step 3: the outer if-then-else is continuous.
+  show Continuous (fun x : ℝ =>
+      if |x| ≤ 1 - eps_S S then 0
+      else if |x| < 1 + eps_S S then N_S S |x| / A_S S else 1)
+  refine Continuous.if_le continuous_const h_inner_cont h_abs_cont
+    continuous_const ?_
+  intro x hx
+  -- hx : |x| = 1 - eps_S S; show 0 = (inner expression).
+  -- Since 1 - eps < 1 + eps, the inner branch is N_S(|x|)/A_S = 0/A_S = 0.
+  have h_lt : |x| < 1 + eps_S S := by linarith [hx, heps_pos]
+  rw [if_pos h_lt, hx]
+  rw [N_S_left_endpoint S]
+  ring
 
 /-! ## Concrete energy/deficit definitions for the constructed family
 
@@ -614,17 +824,209 @@ noncomputable def layerLebesgueEnergyNeg (S : ℝ) : ℝ :=
 because `(g'_S)^2 = (φ''_S · exp(φ_S))^2 / A_S^2`, hence
 `(g'_S)^2 / φ''_S · exp(-φ_S) = φ''_S · exp(φ_S) / A_S^2`, whose integral
 over `I_S^+` is `A_S / A_S^2 = 1 / A_S`. -/
-axiom layerLebesgueEnergyPos_eq {S : ℝ} (hS : 1 < S) :
-  layerLebesgueEnergyPos S = 1 / A_S S
+theorem layerLebesgueEnergyPos_eq {S : ℝ} (hS : 1 < S) :
+    layerLebesgueEnergyPos S = 1 / A_S S := by
+  have hSpos : 0 < S := lt_trans zero_lt_one hS
+  have hε_pos : 0 < eps_S S := eps_S_pos hSpos
+  have hA_pos : 0 < A_S S := A_S_pos hS
+  have hA_ne : A_S S ≠ 0 := hA_pos.ne'
+  have h_le : 1 - eps_S S ≤ 1 + eps_S S := by linarith
+  -- Pointwise simplification of the integrand on `layerPos S`.
+  have h_simp : ∀ x ∈ layerPos S,
+      (g_S' S x)^2 / phiDer2_S S x * Real.exp (-(phi_S S x))
+        = phiDer2_S S x * Real.exp (phi_S S x) / (A_S S)^2 := by
+    intro x hx
+    have hphi_pos : 0 < phiDer2_S S x := phiDer2_S_pos hSpos x
+    have hphi_ne : phiDer2_S S x ≠ 0 := hphi_pos.ne'
+    have hexp_ne : Real.exp (phi_S S x) ≠ 0 := (Real.exp_pos _).ne'
+    rw [g_S'_layer_pos hx, Real.exp_neg]
+    field_simp
+  -- Apply congruence on the integral.
+  unfold layerLebesgueEnergyPos
+  rw [show layerPos S = Set.Ioo (1 - eps_S S) (1 + eps_S S) from rfl]
+  rw [MeasureTheory.setIntegral_congr_fun measurableSet_Ioo h_simp]
+  -- Pull out the constant denominator `(A_S)^2`.
+  rw [MeasureTheory.integral_div]
+  -- The set integral over Ioo equals A_S.
+  have h_set_to_int :
+      ∫ x in Set.Ioo (1 - eps_S S) (1 + eps_S S),
+          phiDer2_S S x * Real.exp (phi_S S x) = A_S S := by
+    show ∫ x in Set.Ioo (1 - eps_S S) (1 + eps_S S),
+            phiDer2_S S x * Real.exp (phi_S S x) =
+          ∫ x in (1 - eps_S S)..(1 + eps_S S),
+            phiDer2_S S x * Real.exp (phi_S S x)
+    rw [intervalIntegral.integral_of_le h_le]
+    exact MeasureTheory.setIntegral_congr_set Ioo_ae_eq_Ioc
+  rw [h_set_to_int]
+  rw [pow_two]
+  field_simp
 
 /-- Analogous identity on `I_S^-` using the symmetry of `φ_S`, `φ''_S`. -/
-axiom layerLebesgueEnergyNeg_eq {S : ℝ} (hS : 1 < S) :
-  layerLebesgueEnergyNeg S = 1 / A_S S
+theorem layerLebesgueEnergyNeg_eq {S : ℝ} (hS : 1 < S) :
+    layerLebesgueEnergyNeg S = 1 / A_S S := by
+  have hSpos : 0 < S := lt_trans zero_lt_one hS
+  have hε_pos : 0 < eps_S S := eps_S_pos hSpos
+  have hA_pos : 0 < A_S S := A_S_pos hS
+  have hA_ne : A_S S ≠ 0 := hA_pos.ne'
+  -- On `layerNeg S` we have `g_S' x = -(phiDer2_S x * exp(phi_S x)) / A_S`,
+  -- and squaring kills the sign, so the integrand has the same form as on
+  -- `layerPos`. Reduce to the previous theorem via `A_S_symm`.
+  have h_simp : ∀ x ∈ layerNeg S,
+      (g_S' S x)^2 / phiDer2_S S x * Real.exp (-(phi_S S x))
+        = phiDer2_S S x * Real.exp (phi_S S x) / (A_S S)^2 := by
+    intro x hx
+    have hphi_pos : 0 < phiDer2_S S x := phiDer2_S_pos hSpos x
+    have hphi_ne : phiDer2_S S x ≠ 0 := hphi_pos.ne'
+    have hexp_ne : Real.exp (phi_S S x) ≠ 0 := (Real.exp_pos _).ne'
+    -- `x` is not in `layerPos` since the layers are disjoint.
+    have hxnotpos : x ∉ layerPos S := by
+      intro hxpos
+      exact g_S'_layers_disjoint hS x ⟨hxpos, hx⟩
+    rw [g_S'_layer_neg hx hxnotpos, Real.exp_neg]
+    field_simp
+  unfold layerLebesgueEnergyNeg
+  rw [show layerNeg S = Set.Ioo (-1 - eps_S S) (-1 + eps_S S) from rfl]
+  rw [MeasureTheory.setIntegral_congr_fun measurableSet_Ioo h_simp]
+  rw [MeasureTheory.integral_div]
+  -- The set integral over `Ioo (-1-ε) (-1+ε)` equals `A_S` by `A_S_symm`.
+  rw [A_S_symm hS]
+  rw [pow_two]
+  field_simp
 
 /-- **Energy identity.** The Brascamp--Lieb energy of `g_S` (with the
-specified derivative representative) equals `2 / (Z_S · A_S)`. -/
-axiom E_phi_g_S_eq {S : ℝ} (hS : 1 < S) :
-  E_phi S (g_S' S) = 2 / (Z_S S * A_S S)
+specified derivative representative) equals `2 / (Z_S · A_S)`.
+
+Proof outline: rewrite the `ρ_S` integral as a Lebesgue integral with
+density factor `(Z_S)⁻¹·exp(-φ_S)` (via `withDensity`), pull the constant
+out, and observe that the integrand vanishes outside `layerPos ∪ layerNeg`.
+The split over the disjoint layers reduces to
+`layerLebesgueEnergyPos + layerLebesgueEnergyNeg = 2/A_S`. -/
+theorem E_phi_g_S_eq {S : ℝ} (hS : 1 < S) :
+    E_phi S (g_S' S) = 2 / (Z_S S * A_S S) := by
+  have hSpos : 0 < S := lt_trans zero_lt_one hS
+  have hZ_pos : 0 < Z_S S := Z_S_pos_TF hS
+  have hZ_ne : Z_S S ≠ 0 := hZ_pos.ne'
+  have hA_pos : 0 < A_S S := A_S_pos hS
+  have hA_ne : A_S S ≠ 0 := hA_pos.ne'
+  have hε_pos : 0 < eps_S S := eps_S_pos hSpos
+  -- Step 1: rewrite the `ρ_S` integral via `withDensity`.
+  unfold E_phi rho_S
+  have h_meas_density : Measurable fun x =>
+        ENNReal.ofReal ((Z_S S)⁻¹ * Real.exp (-(phi_S S x))) := by
+    refine ENNReal.measurable_ofReal.comp ?_
+    refine measurable_const.mul ?_
+    exact Real.measurable_exp.comp (phi_S_measurable hSpos).neg
+  have h_lt_top : ∀ᵐ x ∂(volume : Measure ℝ),
+        ENNReal.ofReal ((Z_S S)⁻¹ * Real.exp (-(phi_S S x))) < ⊤ :=
+    Filter.Eventually.of_forall (fun _ => ENNReal.ofReal_lt_top)
+  rw [integral_withDensity_eq_integral_toReal_smul h_meas_density h_lt_top]
+  -- Define the Lebesgue integrand `h`.
+  set h := fun x => (g_S' S x)^2 / phiDer2_S S x * Real.exp (-(phi_S S x))
+    with h_def
+  -- Step 2: simplify the integrand and pull `(Z_S)⁻¹` out.
+  have h_pointwise : ∀ x,
+      (ENNReal.ofReal ((Z_S S)⁻¹ * Real.exp (-(phi_S S x)))).toReal •
+        ((g_S' S x)^2 / phiDer2_S S x)
+      = (Z_S S)⁻¹ * h x := by
+    intro x
+    have h_nn : 0 ≤ (Z_S S)⁻¹ * Real.exp (-(phi_S S x)) :=
+      mul_nonneg (inv_nonneg.mpr hZ_pos.le) (Real.exp_pos _).le
+    rw [smul_eq_mul, ENNReal.toReal_ofReal h_nn]
+    show (Z_S S)⁻¹ * Real.exp (-(phi_S S x)) * ((g_S' S x)^2 / phiDer2_S S x) =
+         (Z_S S)⁻¹ * h x
+    simp only [h_def]; ring
+  rw [show (fun x => (ENNReal.ofReal ((Z_S S)⁻¹ * Real.exp (-(phi_S S x)))).toReal •
+            ((g_S' S x)^2 / phiDer2_S S x))
+        = (fun x => (Z_S S)⁻¹ * h x) from funext h_pointwise]
+  rw [MeasureTheory.integral_const_mul]
+  -- Step 3: show that `∫ h ∂volume = 2/A_S`.
+  -- 3.1: `h` vanishes off `layerPos ∪ layerNeg`.
+  have h_off : ∀ x, x ∉ layerPos S ∪ layerNeg S → h x = 0 := by
+    intro x hx
+    rw [Set.mem_union, not_or] at hx
+    simp [h_def, g_S'_off_layers hx.1 hx.2]
+  -- 3.2: closed-form rewrite of `h` on each layer.
+  have h_simp_pos : ∀ x ∈ layerPos S,
+      h x = phiDer2_S S x * Real.exp (phi_S S x) / (A_S S)^2 := by
+    intro x hx
+    have hphi_ne : phiDer2_S S x ≠ 0 := (phiDer2_S_pos hSpos x).ne'
+    have hexp_ne : Real.exp (phi_S S x) ≠ 0 := (Real.exp_pos _).ne'
+    simp only [h_def]
+    rw [g_S'_layer_pos hx, Real.exp_neg]
+    field_simp
+  have h_simp_neg : ∀ x ∈ layerNeg S,
+      h x = phiDer2_S S x * Real.exp (phi_S S x) / (A_S S)^2 := by
+    intro x hx
+    have hphi_ne : phiDer2_S S x ≠ 0 := (phiDer2_S_pos hSpos x).ne'
+    have hexp_ne : Real.exp (phi_S S x) ≠ 0 := (Real.exp_pos _).ne'
+    have hxnotpos : x ∉ layerPos S := fun hxpos =>
+      g_S'_layers_disjoint hS x ⟨hxpos, hx⟩
+    simp only [h_def]
+    rw [g_S'_layer_neg hx hxnotpos, Real.exp_neg]
+    field_simp
+  -- 3.3: integrability of the closed form on Icc, hence on each layer.
+  have h_form_cont : Continuous
+      (fun x => phiDer2_S S x * Real.exp (phi_S S x) / (A_S S)^2) :=
+    ((phiDer2_S_continuous hSpos).mul
+      (Real.continuous_exp.comp (phi_S_contDiff hSpos).continuous)).div_const _
+  have h_form_int_pos : IntegrableOn
+      (fun x => phiDer2_S S x * Real.exp (phi_S S x) / (A_S S)^2)
+      (layerPos S) :=
+    (h_form_cont.integrableOn_Icc).mono_set Set.Ioo_subset_Icc_self
+  have h_form_int_neg : IntegrableOn
+      (fun x => phiDer2_S S x * Real.exp (phi_S S x) / (A_S S)^2)
+      (layerNeg S) :=
+    (h_form_cont.integrableOn_Icc).mono_set Set.Ioo_subset_Icc_self
+  -- Transfer to `h` via `IntegrableOn.congr_fun`.
+  have h_int_h_pos : IntegrableOn h (layerPos S) :=
+    (h_form_int_pos.congr_fun (fun x hx => (h_simp_pos x hx).symm)
+      measurableSet_Ioo)
+  have h_int_h_neg : IntegrableOn h (layerNeg S) :=
+    (h_form_int_neg.congr_fun (fun x hx => (h_simp_neg x hx).symm)
+      measurableSet_Ioo)
+  -- 3.4: split `∫ h` over `layerPos ∪ layerNeg` and the complement.
+  -- Since `h = 0` off the union, ∫ over the complement is 0; and
+  -- the union splits via disjointness.
+  have h_disj : Disjoint (layerPos S) (layerNeg S) := by
+    rw [Set.disjoint_iff_inter_eq_empty]; ext x
+    simp only [Set.mem_inter_iff, Set.mem_empty_iff_false, iff_false, not_and]
+    exact fun hp hn => g_S'_layers_disjoint hS x ⟨hp, hn⟩
+  have h_meas_pos : MeasurableSet (layerPos S) := measurableSet_Ioo
+  have h_meas_neg : MeasurableSet (layerNeg S) := measurableSet_Ioo
+  have h_meas_union : MeasurableSet (layerPos S ∪ layerNeg S) :=
+    h_meas_pos.union h_meas_neg
+  have h_int_h_union : IntegrableOn h (layerPos S ∪ layerNeg S) :=
+    h_int_h_pos.union h_int_h_neg
+  -- `h` is integrable on `ℝ`: it equals its restriction to the
+  -- bounded set, and the integrand on the complement is 0.
+  have h_h_integrable : Integrable h := by
+    -- h equals the indicator of (layerPos ∪ layerNeg) applied to itself;
+    -- the indicator is integrable iff the restriction is.
+    have h_eq_indic : h = (layerPos S ∪ layerNeg S).indicator h := by
+      funext x
+      by_cases hx : x ∈ layerPos S ∪ layerNeg S
+      · rw [Set.indicator_of_mem hx]
+      · rw [Set.indicator_of_notMem hx, h_off x hx]
+    rw [h_eq_indic]
+    exact (integrable_indicator_iff h_meas_union).mpr h_int_h_union
+  have h_split : ∫ x, h x = (∫ x in layerPos S, h x) + (∫ x in layerNeg S, h x) := by
+    have h1 : ∫ x, h x = ∫ x in layerPos S ∪ layerNeg S, h x := by
+      rw [← integral_add_compl h_meas_union h_h_integrable]
+      have h_compl_zero : ∫ x in (layerPos S ∪ layerNeg S)ᶜ, h x = 0 := by
+        apply integral_eq_zero_of_ae
+        refine (ae_restrict_iff' h_meas_union.compl).mpr ?_
+        exact Filter.Eventually.of_forall (fun x hx => h_off x hx)
+      rw [h_compl_zero, add_zero]
+    rw [h1]
+    exact setIntegral_union h_disj h_meas_neg h_int_h_pos h_int_h_neg
+  -- Reduce each set integral via the closed-form rewrite.
+  have h_int_pos_eq : (∫ x in layerPos S, h x) = layerLebesgueEnergyPos S := rfl
+  have h_int_neg_eq : (∫ x in layerNeg S, h x) = layerLebesgueEnergyNeg S := rfl
+  rw [h_split, h_int_pos_eq, h_int_neg_eq,
+      layerLebesgueEnergyPos_eq hS, layerLebesgueEnergyNeg_eq hS]
+  -- Final algebra: (Z_S)⁻¹ * (1/A_S + 1/A_S) = 2/(Z_S * A_S).
+  field_simp
+  ring
 
 /-- Sum of the two layer Lebesgue energies equals `2 / A_S`. -/
 lemma layer_lebesgue_energy_sum {S : ℝ} (hS : 1 < S) :
