@@ -10,8 +10,12 @@
 | Normalization.lean      |      6 |
 | TestFunction.lean       |      1 |
 | OneDimensional.lean     |      4 |
-| HigherDimensional.lean  |      5 |
-| **Total**               | **16** |
+| HigherDimensional.lean  |      6 |
+| **Total**               | **17** |
+
+(Earlier counts in this file undercounted HigherDimensional by 1: the
+`@[instance] axiom stdGaussian_isProb` on line 182 doesn't start with
+`axiom`, so the simple grep pattern `^axiom` missed it.)
 
 `lake build L2Counterexample` succeeds. Zero `sorry` remaining.
 
