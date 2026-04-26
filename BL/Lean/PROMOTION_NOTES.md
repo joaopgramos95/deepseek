@@ -7,20 +7,21 @@
 | Basic.lean              |      0 |
 | Bump.lean               |      0 |
 | Potential.lean          |      0 |
-| Normalization.lean      |      3 |
+| Normalization.lean      |      1 |
 | TestFunction.lean       |      0 |
 | OneDimensional.lean     |      4 |
 | HigherDimensional.lean  |      0 |
-| **Total**               | **7**  |
+| **Total**               | **5**  |
 
 (Earlier counts in this file undercounted HigherDimensional by 1: the
 `@[instance] axiom stdGaussian_isProb` doesn't start with `axiom`, so
 the simple grep pattern `^axiom` missed it.)
 
-Remaining 7 axioms by category:
-* **Normalization (3)**: `phi_S_tail`, `phi_S_boundary_small`, `Z_S_asymp`
-  — first-principles analytic facts requiring explicit `phi_S`
-  computation via integration by parts.
+Remaining 5 axioms by category:
+* **Normalization (1)**: `Z_S_asymp` — `Z_S = 2 + 2/S + O(S^{-3})`.
+  Requires partitioning `∫ exp(-φ_S)` over core/layer/tail and bounding
+  each piece via `phi_S_quadratic_lower`, `phi_S_layer_small`,
+  `phi_S_le_of_le`, plus the proven `tailInt_S_asymp`.
 * **OneDimensional (4)**: `rho_S_isProb`, `rho_S_reflection_invariant`,
   `phiDer_S_memL2`, `g_S_memL2` — unconditional forms; the conditional
   `0 < S` versions are derivable, but call sites use these as instances
@@ -72,6 +73,12 @@ Remaining 7 axioms by category:
        `MeasureTheory.integral_prod_mul` (unconditional in Mathlib);
        the first-coord version uses `g(p.1) = g(p.1) * 1` plus
        `stdGaussian_integral_one = 1`
+6   → phi_S_tail (FTC twice + new helpers `phiDer_S_at_one_plus_eps`
+       and `phiDer_S_tail` in Potential.lean; the layer integral
+       lemma was moved from TestFunction to Potential)
+5   → phi_S_boundary_small (IBP `phi_S(b) = ∫_0^b (b-t)·φ''_S(t) dt`
+       plus split at t=1-ε with `phiDer2_S_core` and
+       `integral_phiDer2_S_layer`)
 ```
 
 ## Axioms discharged in this round
