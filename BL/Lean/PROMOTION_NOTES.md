@@ -62,15 +62,8 @@ Combined with `tailInt_S_asymp`, this gives `(36 + 2·C_tail)/S^3`.
 `@[instance] axiom stdGaussian_isProb` doesn't start with `axiom`, so
 the simple grep pattern `^axiom` missed it.)
 
-Remaining 4 axioms (all in OneDimensional):
-* `rho_S_isProb`, `rho_S_reflection_invariant`, `phiDer_S_memL2`,
-  `g_S_memL2` — unconditional forms; the conditional `0 < S` versions
-  are derivable, but call sites use these as instances without
-  `0 < S` available. (Note: `rho_S_isProb` is technically false at
-  `S = 0` since `rho_S 0` is the zero measure.)
-
-**Six of seven files are now fully axiom-free** (Basic, Bump, Potential,
-Normalization, TestFunction, HigherDimensional).
+**All seven files are now fully axiom-free** (Basic, Bump, Potential,
+Normalization, TestFunction, OneDimensional, HigherDimensional).
 
 `lake build L2Counterexample` succeeds. Zero `sorry` remaining.
 
@@ -127,6 +120,16 @@ Normalization, TestFunction, HigherDimensional).
        helpers (`Z_S_eq_two_half_integral`, `half_int_eq_inner_plus_tail`,
        `inner_int_diff_bd`, `int_phi_S_bound`) plus `tailInt_S_asymp`
        give `|Z_S − (2 + 2/S)| ≤ (3 + 4·C_φ + 2·C_tail)/S³`
+2   → rho_S_isProb + rho_S_reflection_invariant: `rho_S` redefined to
+       fall back to `Measure.dirac 0` for `S ≤ 0`, so the unconditional
+       forms become provable; the `0 < S` branch keeps the original
+       withDensity definition.
+0   → g_S_memL2 + phiDer_S_memL2 (OneDimensional now axiom-free):
+       generalize `A_S_pos`/`g_S_*` lemmas from `1 < S` to `0 < S`;
+       prove `phi''_S` bounded, hence `|phi'_S(x)| ≤ K·|x|`; combine
+       with `id ∈ L²(ρ_S)` (Gaussian decay via `phi_S_quadratic_lower`
+       and `integrable_rpow_mul_exp_neg_mul_sq`). For `S ≤ 0`, the
+       dirac fallback discharges via `eLpNorm_dirac`.
 ```
 
 ## Axioms discharged in this round
@@ -165,42 +168,15 @@ uses), `q_S_asymp` and `t_S_asymp` are placed at the end of
 `Normalization.lean` (after `exists_S_Z_S_ge_one`), and
 `exists_S_q_S_lt_one` is moved after `q_S_asymp`.
 
-## What remains as axioms (23)
+## What remains as axioms
 
-### TestFunction.lean (4 remaining)
-
-* `A_S_asymp` — `A_S − S = O(S⁻¹)` as `S → ∞`. Genuinely asymptotic.
-* `integral_g_S_eq_q_plus_error` — expansion of `∫ g_S dρ_S = q_S + R`
-  with `|R| ≤ t_S`. Requires splitting over core / layers / exterior,
-  using `g_S = 0` on core and `g_S = 1` on exterior, plus the symmetry
-  identity `tailInt_S(left) = tailInt_S(right)` from `phi_S_even`.
-* `integral_g_S_sq_eq_q_plus_error` — analogous for `g_S²`.
-* `Var_phi_g_S_expansion` — derivable from `Var_phi_g_S_isBigO` and
-  `q_S_isBigO`; previous attempts failed on `Asymptotics.IsBigO`
-  bookkeeping.
-
-### Normalization.lean (8 remaining)
-
-* `phi_S_tail`, `phi_S_boundary_small`, `phi_S_layer_small`,
-  `tailInt_S_tail_eq`, `tail_gaussian_bound`, `tailInt_S_asymp`,
-  `Z_S_asymp` — change-of-variables and asymptotic bookkeeping for
-  the partition function.
-* `exp_negPhiS_integrable` — Gaussian-domination integrability.
-
-### OneDimensional.lean (6 remaining)
-
-* `rho_S_isProb`, `rho_S_reflection_invariant` — proofs sketched in
-  comments; the unconditional form needs `0 < S` for measurability.
-* `phiDer_S_memL2`, `g_S_memL2` — L² membership for inner products.
-* `EE_phi_S_asymp`, `Var_f_S_asymp` — final asymptotics.
-
-### HigherDimensional.lean (5 remaining)
-
-* `stdGaussian`, `stdGaussian_isProb`, `stdGaussian_first_moment`,
-  `integral_prod_first_coord`, `integral_prod_separable`,
-  `prodSpace_iso_euclidean` — Mathlib has `gaussianReal`,
-  `Measure.pi`, `MeasureTheory.integral_prod`; lifting to this file's
-  forms is a substantial task.
+None. The pipeline is unconditionally proved from Mathlib in every
+imported file (`Basic`, `Bump`, `Potential`, `Normalization`,
+`TestFunction`, `OneDimensional`, `HigherDimensional`). The only
+remaining trust roots are Mathlib itself and Lean's three standard
+axioms (`propext`, `Classical.choice`, `Quot.sound`). To verify, add
+`#print axioms <theorem>` after a headline result and inspect the
+output.
 
 ## Naming canon
 
@@ -226,4 +202,8 @@ uses), `q_S_asymp` and `t_S_asymp` are placed at the end of
 
 Each `WIP_*.lean` is identical to its canonical counterpart. Future
 agents edit the WIP files; the orchestrator promotes by `cp` and
-re-runs `lake build`.
+re-runs `lake build`. After the final round (4 → 0), the proofs of
+`rho_S_isProb`, `rho_S_reflection_invariant`, `g_S_memL2`, and
+`phiDer_S_memL2` were committed directly to `OneDimensional.lean`,
+and `WIP_OneDimensional.lean` has been resynced from canonical so
+the invariant holds again.

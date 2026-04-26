@@ -194,29 +194,256 @@ boundedness `0 ≤ g_S ≤ 1` and finiteness of `rho_S` (see
 kept because downstream `ff_S_memL2` and the inner-product lemmas use
 it without an `S > 1` hypothesis. -/
 
-/-- `phi'_S ∈ L^2(rho_S)`. The proof would combine `phi_S_quadratic_lower`
-with the Gaussian-tail integrability of `rho_S` to bound the L²-norm of
-the linear-growth function `phiDer_S`; we keep it as an axiom pending the
-analytic chain. -/
-axiom phiDer_S_memL2 (S : ℝ) :
-    MemLp (phiDer_S S) 2 (rho_S S)
+/-! ### Helpers: generalize `A_S_pos`, `g_S_*` lemmas to `0 < S`
 
-/-- `g_S ∈ L^2(rho_S)`. Kept as an axiom for the unconditional form
-used by downstream `ff_S_memL2`. The conditional version
-`g_S_memL2_of_one_lt` below has a real proof. -/
-axiom g_S_memL2 (S : ℝ) :
-    MemLp (g_S S) 2 (rho_S S)
+The lemmas in `TestFunction` are stated with `1 < S` because that is the
+range used downstream; the proofs only need `0 < S`. We re-state the
+necessary pieces here at the weaker hypothesis. -/
+
+private lemma A_S_pos_of_pos {S : ℝ} (hS : 0 < S) : 0 < A_S S := by
+  have heps : 0 < eps_S S := eps_S_pos hS
+  have hlt : 1 - eps_S S < 1 + eps_S S := by linarith
+  have h_int_pos : ∀ t, 0 < phiDer2_S S t * Real.exp (phi_S S t) := fun t =>
+    mul_pos (phiDer2_S_pos hS t) (Real.exp_pos _)
+  have h_cont : Continuous (fun t => phiDer2_S S t * Real.exp (phi_S S t)) :=
+    (phiDer2_S_continuous hS).mul
+      (Real.continuous_exp.comp (phi_S_contDiff hS).continuous)
+  unfold A_S
+  exact intervalIntegral.intervalIntegral_pos_of_pos
+    (h_cont.intervalIntegrable _ _) h_int_pos hlt
+
+private lemma g_S_le_one_of_pos {S : ℝ} (hS : 0 < S) (x : ℝ) : g_S S x ≤ 1 := by
+  unfold g_S
+  split_ifs with h1 h2
+  · exact zero_le_one
+  · push_neg at h1
+    have h_le : |x| ≤ 1 + eps_S S := le_of_lt h2
+    have hmono := N_S_mono hS h_le
+    have hrhs : N_S S (1 + eps_S S) = A_S S := rfl
+    have hpos := A_S_pos_of_pos hS
+    rw [div_le_one hpos]
+    linarith
+  · exact le_refl _
+
+private lemma g_S_nonneg_of_pos {S : ℝ} (hS : 0 < S) (x : ℝ) : 0 ≤ g_S S x := by
+  unfold g_S
+  split_ifs with h1 h2
+  · exact le_refl _
+  · push_neg at h1
+    have hge : 1 - eps_S S ≤ |x| := le_of_lt h1
+    have hN := N_S_nonneg hS hge
+    exact div_nonneg hN (le_of_lt (A_S_pos_of_pos hS))
+  · exact zero_le_one
+
+private lemma g_S_continuous_of_pos {S : ℝ} (hS : 0 < S) : Continuous (g_S S) := by
+  have heps_pos : 0 < eps_S S := eps_S_pos hS
+  have hA_pos : 0 < A_S S := A_S_pos_of_pos hS
+  have hA_ne : A_S S ≠ 0 := hA_pos.ne'
+  have h_int_int : ∀ a b, IntervalIntegrable
+                    (fun t => phiDer2_S S t * Real.exp (phi_S S t))
+                    MeasureTheory.volume a b :=
+    phi_integrand_intervalIntegrable hS
+  have h_N_cont : Continuous (N_S S) := by
+    show Continuous (fun r => ∫ t in (1 - eps_S S)..r,
+                        phiDer2_S S t * Real.exp (phi_S S t))
+    exact intervalIntegral.continuous_primitive h_int_int (1 - eps_S S)
+  have h_abs_cont : Continuous (fun x : ℝ => |x|) := continuous_abs
+  have h_N_abs_cont : Continuous (fun x : ℝ => N_S S |x|) :=
+    h_N_cont.comp h_abs_cont
+  have h_div_cont : Continuous (fun x : ℝ => N_S S |x| / A_S S) :=
+    h_N_abs_cont.div_const _
+  have h_inner_cont : Continuous (fun x : ℝ =>
+      if |x| < 1 + eps_S S then N_S S |x| / A_S S else 1) := by
+    have h_eq : (fun x : ℝ =>
+        if |x| < 1 + eps_S S then N_S S |x| / A_S S else 1) =
+        (fun x : ℝ =>
+          if 1 + eps_S S ≤ |x| then 1 else N_S S |x| / A_S S) := by
+      funext x
+      by_cases h : |x| < 1 + eps_S S
+      · rw [if_pos h, if_neg (not_le.mpr h)]
+      · rw [if_neg h, if_pos (le_of_not_gt h)]
+    rw [h_eq]
+    refine Continuous.if_le continuous_const h_div_cont continuous_const
+      h_abs_cont ?_
+    intro x hx
+    rw [← hx]
+    show (1 : ℝ) = N_S S (1 + eps_S S) / A_S S
+    show (1 : ℝ) = A_S S / A_S S
+    field_simp
+  show Continuous (fun x : ℝ =>
+      if |x| ≤ 1 - eps_S S then 0
+      else if |x| < 1 + eps_S S then N_S S |x| / A_S S else 1)
+  refine Continuous.if_le continuous_const h_inner_cont h_abs_cont
+    continuous_const ?_
+  intro x hx
+  have h_lt : |x| < 1 + eps_S S := by linarith [hx, heps_pos]
+  rw [if_pos h_lt, hx]
+  rw [N_S_left_endpoint S]
+  ring
+
+/-- Helper: any function is in `MemLp f p (Measure.dirac a)` for `p ≠ 0`,
+because `eLpNorm f p (dirac a) = ‖f a‖ₑ < ∞`. -/
+private lemma memLp_dirac_real (f : ℝ → ℝ) {p : ENNReal} (a : ℝ) (hp : p ≠ 0) :
+    MemLp f p (Measure.dirac a) := by
+  refine ⟨aestronglyMeasurable_dirac, ?_⟩
+  rw [eLpNorm_dirac f a hp]
+  exact enorm_lt_top
+
+/-! ### Helpers for `phiDer_S_memL2`: bound on `phiDer_S` and `id ∈ L²(ρ_S)` -/
+
+/-- `phi''_S` is bounded above by `eta_S + 2·M_κ·S/ε_S`, where `M_κ` is
+the upper bound on the bump `kappa`. -/
+private lemma phiDer2_S_bounded {S : ℝ} (hS : 0 < S) :
+    ∃ M, 0 ≤ M ∧ ∀ x, phiDer2_S S x ≤ M := by
+  obtain ⟨M_k, hM_k_nn, hM_k_le⟩ := kappa_bounded
+  have heps_pos : 0 < eps_S S := eps_S_pos hS
+  have hSeps_nn : 0 ≤ S / eps_S S := div_nonneg hS.le heps_pos.le
+  refine ⟨eta_S S + 2 * (S / eps_S S) * M_k, ?_, ?_⟩
+  · have h1 : 0 ≤ eta_S S := (eta_S_pos hS).le
+    have h2 : 0 ≤ 2 * (S / eps_S S) * M_k := by positivity
+    linarith
+  · intro x
+    unfold phiDer2_S
+    have h1 : (S / eps_S S) * kappa ((x - 1) / eps_S S) ≤ (S / eps_S S) * M_k :=
+      mul_le_mul_of_nonneg_left (hM_k_le _) hSeps_nn
+    have h2 : (S / eps_S S) * kappa ((x + 1) / eps_S S) ≤ (S / eps_S S) * M_k :=
+      mul_le_mul_of_nonneg_left (hM_k_le _) hSeps_nn
+    linarith
+
+/-- Linear bound on `phi'_S`: `|phi'_S(x)| ≤ K·|x|` for some `K`,
+since `phi''_S` is bounded and `phi'_S(0) = 0`. -/
+private lemma phiDer_S_abs_le {S : ℝ} (hS : 0 < S) :
+    ∃ K, 0 ≤ K ∧ ∀ x, |phiDer_S S x| ≤ K * |x| := by
+  obtain ⟨M, hM_nn, hM_le⟩ := phiDer2_S_bounded hS
+  refine ⟨M, hM_nn, ?_⟩
+  intro x
+  unfold phiDer_S psi
+  have h_norm : ∀ y ∈ Set.uIoc 0 x, ‖phiDer2_S S y‖ ≤ M := by
+    intro y _
+    rw [Real.norm_eq_abs]
+    have hy_pos : 0 ≤ phiDer2_S S y := (phiDer2_S_pos hS y).le
+    rw [abs_of_nonneg hy_pos]
+    exact hM_le y
+  have h_bd := intervalIntegral.norm_integral_le_of_norm_le_const h_norm
+  rw [Real.norm_eq_abs] at h_bd
+  have h_eq : |x - 0| = |x| := by ring_nf
+  rw [h_eq] at h_bd
+  exact h_bd
+
+/-- `id : ℝ → ℝ` lies in `L²(ρ_S)` for `0 < S`: this follows from the
+Gaussian decay of the density (via `phi_S_quadratic_lower`) and the
+integrability `Integrable (x² · exp(-η/2·x²))`. -/
+private lemma id_memL2_of_pos {S : ℝ} (hS : 0 < S) :
+    MemLp (fun x : ℝ => x) 2 (rho_S S) := by
+  have h_meas : AEStronglyMeasurable (fun x : ℝ => x) (rho_S S) :=
+    measurable_id.aestronglyMeasurable
+  rw [memLp_two_iff_integrable_sq h_meas]
+  rw [rho_S_of_pos hS]
+  have h_meas_density : Measurable (fun x =>
+      ENNReal.ofReal ((Z_S S)⁻¹ * Real.exp (-(phi_S S x)))) :=
+    ENNReal.measurable_ofReal.comp
+      (measurable_const.mul (Real.measurable_exp.comp (phi_S_measurable hS).neg))
+  have h_density_lt_top : ∀ᵐ (x : ℝ),
+      ENNReal.ofReal ((Z_S S)⁻¹ * Real.exp (-(phi_S S x))) < (⊤ : ENNReal) :=
+    Filter.Eventually.of_forall fun _ => ENNReal.ofReal_lt_top
+  rw [integrable_withDensity_iff_integrable_smul' h_meas_density h_density_lt_top]
+  have hZ_pos : 0 < Z_S S := Z_S_pos S hS
+  have hZ_inv_pos : 0 < (Z_S S)⁻¹ := inv_pos.mpr hZ_pos
+  have h_eq_funext : (fun x =>
+      (ENNReal.ofReal ((Z_S S)⁻¹ * Real.exp (-(phi_S S x)))).toReal • x^2) =
+      (fun x => (Z_S S)⁻¹ * Real.exp (-(phi_S S x)) * x^2) := by
+    funext x
+    have h_nn : 0 ≤ (Z_S S)⁻¹ * Real.exp (-(phi_S S x)) :=
+      mul_nonneg hZ_inv_pos.le (Real.exp_pos _).le
+    rw [ENNReal.toReal_ofReal h_nn]
+    rfl
+  rw [h_eq_funext]
+  -- Bound by Gaussian.
+  have heta_pos : 0 < eta_S S := eta_S_pos hS
+  have hetaH : 0 < eta_S S / 2 := by linarith
+  have h_int_base_rpow : Integrable (fun x : ℝ =>
+      x ^ (2 : ℝ) * Real.exp (-(eta_S S / 2) * x ^ 2)) :=
+    integrable_rpow_mul_exp_neg_mul_sq (b := eta_S S / 2) (s := 2)
+      hetaH (by norm_num)
+  have h_int_base : Integrable (fun x : ℝ =>
+      x^2 * Real.exp (-(eta_S S / 2) * x ^ 2)) := by
+    refine (integrable_congr ?_).mp h_int_base_rpow
+    filter_upwards with x
+    congr 1
+    rw [show (2:ℝ) = ((2:ℕ):ℝ) from by norm_num, Real.rpow_natCast]
+  have h_dom_int : Integrable (fun x : ℝ =>
+      (Z_S S)⁻¹ * (x^2 * Real.exp (-(eta_S S / 2) * x ^ 2))) :=
+    h_int_base.const_mul _
+  refine h_dom_int.mono' ?_ ?_
+  · apply Measurable.aestronglyMeasurable
+    refine Measurable.mul ?_ (measurable_id.pow_const _)
+    refine Measurable.mul measurable_const ?_
+    exact Real.measurable_exp.comp (phi_S_measurable hS).neg
+  · refine Filter.Eventually.of_forall (fun x => ?_)
+    have h_phi_lower := phi_S_quadratic_lower hS x
+    have h_exp_le : Real.exp (-(phi_S S x)) ≤ Real.exp (-(eta_S S / 2 * x ^ 2)) := by
+      apply Real.exp_le_exp.mpr; linarith
+    rw [Real.norm_eq_abs]
+    have h_lhs_nn : 0 ≤ (Z_S S)⁻¹ * Real.exp (-(phi_S S x)) * x^2 := by
+      have h1 : 0 ≤ (Z_S S)⁻¹ * Real.exp (-(phi_S S x)) :=
+        mul_nonneg hZ_inv_pos.le (Real.exp_pos _).le
+      exact mul_nonneg h1 (sq_nonneg _)
+    rw [abs_of_nonneg h_lhs_nn]
+    have h_exp_eq : -(eta_S S / 2) * x^2 = -(eta_S S / 2 * x^2) := by ring
+    rw [h_exp_eq]
+    have h_x2_nn : 0 ≤ x^2 := sq_nonneg _
+    have h1 : (Z_S S)⁻¹ * Real.exp (-(phi_S S x)) * x^2
+            ≤ (Z_S S)⁻¹ * Real.exp (-(eta_S S / 2 * x^2)) * x^2 := by
+      apply mul_le_mul_of_nonneg_right _ h_x2_nn
+      apply mul_le_mul_of_nonneg_left h_exp_le hZ_inv_pos.le
+    have h2 : (Z_S S)⁻¹ * Real.exp (-(eta_S S / 2 * x^2)) * x^2
+            = (Z_S S)⁻¹ * (x^2 * Real.exp (-(eta_S S / 2 * x^2))) := by ring
+    rw [h2] at h1
+    exact h1
+
+/-- `phi'_S ∈ L^2(rho_S)`, unconditionally. For `0 < S`, combines
+`phi_S_quadratic_lower` with the Gaussian-tail integrability of `rho_S`
+to bound the L²-norm of the linear-growth function `phiDer_S`
+(via `phiDer_S_abs_le` and `id_memL2_of_pos`). For `S ≤ 0`, `rho_S`
+falls back to `Measure.dirac 0`, where every function is L^p. -/
+theorem phiDer_S_memL2 (S : ℝ) :
+    MemLp (phiDer_S S) 2 (rho_S S) := by
+  by_cases hS : 0 < S
+  · obtain ⟨K, _, hK_le⟩ := phiDer_S_abs_le hS
+    have h_meas : AEStronglyMeasurable (phiDer_S S) (rho_S S) :=
+      (phiDer_S_contDiff hS).continuous.aestronglyMeasurable
+    have h_id_memL2 := id_memL2_of_pos hS
+    refine MemLp.of_le_mul (c := K) h_id_memL2 h_meas ?_
+    filter_upwards with x
+    rw [Real.norm_eq_abs, Real.norm_eq_abs]
+    exact hK_le x
+  · have h_eq : rho_S S = Measure.dirac 0 := by
+      unfold rho_S; rw [if_neg hS]
+    rw [h_eq]
+    exact memLp_dirac_real _ 0 (by norm_num)
+
+/-- `g_S ∈ L^2(rho_S)`, unconditionally. For `0 < S`, `g_S` is continuous
+and bounded in `[0, 1]`, and `rho_S` is a probability measure. For
+`S ≤ 0`, `rho_S = Measure.dirac 0` and the result is trivial. -/
+theorem g_S_memL2 (S : ℝ) :
+    MemLp (g_S S) 2 (rho_S S) := by
+  by_cases hS : 0 < S
+  · have h_meas : AEStronglyMeasurable (g_S S) (rho_S S) :=
+      (g_S_continuous_of_pos hS).aestronglyMeasurable
+    refine MemLp.of_bound h_meas 1 ?_
+    filter_upwards with x
+    rw [Real.norm_eq_abs, abs_of_nonneg (g_S_nonneg_of_pos hS x)]
+    exact g_S_le_one_of_pos hS x
+  · have h_eq : rho_S S = Measure.dirac 0 := by
+      unfold rho_S; rw [if_neg hS]
+    rw [h_eq]
+    exact memLp_dirac_real _ 0 (by norm_num)
 
 /-- The conditional, *proven* version of `g_S_memL2`: for `S > 1`,
 `g_S` is bounded in `[0, 1]` and `rho_S` is finite, hence `g_S ∈ L²`. -/
 theorem g_S_memL2_of_one_lt {S : ℝ} (hS_large : 1 < S) :
-    MemLp (g_S S) 2 (rho_S S) := by
-  have h_meas : AEStronglyMeasurable (g_S S) (rho_S S) :=
-    (g_S_continuous hS_large).aestronglyMeasurable
-  refine MemLp.of_bound h_meas 1 ?_
-  filter_upwards with x
-  rw [Real.norm_eq_abs, abs_of_nonneg (g_S_nonneg hS_large x)]
-  exact g_S_le_one hS_large x
+    MemLp (g_S S) 2 (rho_S S) :=
+  g_S_memL2 S
 
 /-- `phi'_S · g_S ∈ L^1(rho_S)` by Cauchy–Schwarz (Hölder triple
 `(2, 2, 1)`) applied to `phiDer_S_memL2` and `g_S_memL2`. -/
@@ -1206,6 +1433,10 @@ theorem no_uniform_L2_stability_one_dim :
   have : (C ^ 2 + 1) * delta_phi_S S ≤ C ^ 2 * delta_phi_S S := by
     exact le_trans hratio.le hC_sq
   nlinarith [this, hdelta_pos]
+
+/-- Audit trail: confirm the headline 1-D counterexample rests only on
+Mathlib + Lean's three standard axioms. -/
+#print axioms no_uniform_L2_stability_one_dim
 
 end L2Counterexample
 
