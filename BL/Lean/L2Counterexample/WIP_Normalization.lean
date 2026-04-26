@@ -245,9 +245,36 @@ theorem phi_S_layer_small :
 
 /-! ## Integrability -/
 
-/-- Integrability of `exp(-phi_S S)` (Gaussian domination). -/
-axiom exp_negPhiS_integrable (S : ℝ) (hS : 0 < S) :
-    Integrable (fun x => Real.exp (-(phi_S S x)))
+/-- Integrability of `exp(-phi_S S)` (Gaussian domination).
+
+Proof: `phi_S(x) ≥ η_S · x² / 2` (`phi_S_quadratic_lower`), so
+`exp(-phi_S(x)) ≤ exp(-η_S · x² / 2)`, which is Gaussian and integrable
+on `ℝ` by `integrable_exp_neg_mul_sq`. Apply Mathlib's domination
+criterion. -/
+theorem exp_negPhiS_integrable (S : ℝ) (hS : 0 < S) :
+    Integrable (fun x => Real.exp (-(phi_S S x))) := by
+  have heta_pos : 0 < eta_S S := eta_S_pos hS
+  have heta_half_pos : 0 < eta_S S / 2 := by linarith
+  -- Bound: exp(-phi_S(x)) ≤ exp(-(η_S/2) · x²).
+  have h_bd : ∀ x, Real.exp (-(phi_S S x))
+                  ≤ Real.exp (-(eta_S S / 2) * x ^ 2) := by
+    intro x
+    apply Real.exp_le_exp.mpr
+    have h_q := phi_S_quadratic_lower hS x
+    -- η_S/2 * x² ≤ phi_S(x), so -phi_S(x) ≤ -η_S/2 * x², so -phi_S(x) ≤ -(η_S/2)·x².
+    have h_eq : eta_S S * x^2 / 2 = (eta_S S / 2) * x^2 := by ring
+    linarith [h_q, h_eq]
+  -- Gaussian integrability.
+  have h_gauss : Integrable (fun x : ℝ => Real.exp (-(eta_S S / 2) * x ^ 2)) :=
+    integrable_exp_neg_mul_sq heta_half_pos
+  -- Apply domination.
+  have h_meas : AEStronglyMeasurable (fun x => Real.exp (-(phi_S S x))) volume :=
+    (Real.continuous_exp.comp (phi_S_contDiff hS).continuous.neg).aestronglyMeasurable
+  refine h_gauss.mono h_meas (Filter.Eventually.of_forall ?_)
+  intro x
+  rw [Real.norm_eq_abs, Real.norm_eq_abs,
+      abs_of_pos (Real.exp_pos _), abs_of_pos (Real.exp_pos _)]
+  exact h_bd x
 
 /-- Integrability on the tail half-line, derived from full integrability. -/
 theorem exp_negPhiS_integrableOn_tail (S : ℝ) (hS : 0 < S) :
