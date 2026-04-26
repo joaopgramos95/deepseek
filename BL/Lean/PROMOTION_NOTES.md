@@ -15,7 +15,18 @@
 
 Note: `Z_S_asymp` was attempted but the full proof (partitioning
 `∫ exp(-φ_S)` over core/layer/tail with three separate Taylor-style
-bounds) requires ~200 lines and was not completed in the session.
+bounds) requires ~200 lines and was not completed. **Two structural
+helpers are now in place** for a later attempt:
+* `Z_S_eq_two_half_integral`: `Z_S = 2 · ∫_{Ici 0} exp(-φ_S)` via
+  `phi_S_even` and `integral_comp_neg_Iic`.
+* `half_int_eq_inner_plus_tail`: `∫_{Ici 0} exp(-φ_S) =
+  ∫_0^{1+ε} exp(-φ_S) + tailInt_S` via `setIntegral_union`.
+
+What's left: bound `|∫_0^{1+ε} exp(-φ_S) - (1+ε)| ≤ ∫_0^{1+ε} φ_S(x) dx`
+(uses `Real.add_one_le_exp` for the lower bound `exp(-y) ≥ 1 - y`),
+then split this integral at `t = 1-ε` and bound each piece via
+`phi_S_core` and `phi_S_le_of_le` + `phi_S_boundary_small`.
+Combined with `tailInt_S_asymp`, this gives `(36 + 2·C_tail)/S^3`.
 
 (Earlier counts in this file undercounted HigherDimensional by 1: the
 `@[instance] axiom stdGaussian_isProb` doesn't start with `axiom`, so
