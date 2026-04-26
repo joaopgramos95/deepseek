@@ -1605,9 +1605,108 @@ lemma Var_phi_g_S_isBigO :
 
 /-- Combining `Var_phi_g_S_isBigO` with `q_S_asymp` and the algebraic
 expansion of `q(1-q)` we obtain `Var ρ_S g_S = 1/S - 2/S^2 + O(S^{-3})`. -/
-axiom Var_phi_g_S_expansion :
-  (fun S : ℝ => Var_phi S (g_S S) - (1/S - 2/S^2))
-    =O[Filter.atTop] fun S : ℝ => (S : ℝ)^(-3 : ℤ)
+theorem Var_phi_g_S_expansion :
+    (fun S : ℝ => Var_phi S (g_S S) - (1/S - 2/S^2))
+      =O[Filter.atTop] fun S : ℝ => (S : ℝ)^(-3 : ℤ) := by
+  -- Decompose: Var − (1/S − 2/S²) = (Var − q(1−q)) + (q(1−q) − (1/S − 2/S²)).
+  have h_split : (fun S : ℝ => Var_phi S (g_S S) - (1/S - 2/S^2))
+      = (fun S => (Var_phi S (g_S S) - q_S S * (1 - q_S S))
+          + (q_S S * (1 - q_S S) - (1/S - 2/S^2))) := by
+    funext S; ring
+  rw [h_split]
+  refine IsBigO.add Var_phi_g_S_isBigO ?_
+  -- Second piece: bound |q(1−q) − (1/S − 2/S²)| ≤ K · S^{−3} for S large.
+  obtain ⟨C, S₀, hS₀_pos, hr_b⟩ := q_S_asymp
+  -- C is necessarily nonneg.
+  have hC_nn : 0 ≤ C := by
+    have h := hr_b S₀ le_rfl
+    have h_abs_nn : 0 ≤ |q_S S₀ - (1/S₀ - 1/S₀^2)| := abs_nonneg _
+    have hS₀_pow_pos : 0 < S₀^(-(3:ℤ)) := zpow_pos hS₀_pos _
+    nlinarith
+  -- Witness K = 3 + 5C + C².
+  refine IsBigO.of_bound (3 + 5*C + C^2) ?_
+  rw [Filter.eventually_atTop]
+  refine ⟨max S₀ 1, fun S hS => ?_⟩
+  have hS_S₀ : S₀ ≤ S := le_trans (le_max_left _ _) hS
+  have hS_1 : (1 : ℝ) ≤ S := le_trans (le_max_right _ _) hS
+  have hS_pos : 0 < S := by linarith
+  have hSnz : S ≠ 0 := hS_pos.ne'
+  -- The bound from q_S_asymp.
+  have hr_bound := hr_b S hS_S₀
+  set r := q_S S - (1/S - 1/S^2) with hr_def
+  have hS3_pos : (0 : ℝ) < S^3 := by positivity
+  have hS4_pos : (0 : ℝ) < S^4 := by positivity
+  have hS6_pos : (0 : ℝ) < S^6 := by positivity
+  -- Translate the BigOInv bound to `|r| ≤ C / S^3`.
+  have h_zpow : (S : ℝ)^(-(3:ℤ)) = 1 / S^3 := by
+    rw [show (-(3:ℤ)) = -((3:ℕ) : ℤ) from rfl, zpow_neg, zpow_natCast]
+    rw [one_div]
+  have hr_bound' : |r| ≤ C / S^3 := by
+    calc |r| ≤ C * (S : ℝ)^(-(3:ℤ)) := hr_bound
+      _ = C * (1 / S^3) := by rw [h_zpow]
+      _ = C / S^3 := by ring
+  -- Algebraic identity.
+  have h_alg : q_S S * (1 - q_S S) - (1/S - 2/S^2)
+      = 2/S^3 - 1/S^4 + r * (1 - 2*(1/S - 1/S^2)) - r^2 := by
+    rw [hr_def]; ring
+  -- Bound |B(S)| ≤ 5 where B(S) := 1 - 2(1/S - 1/S²).
+  have hB_bound : |1 - 2*(1/S - 1/S^2)| ≤ 5 := by
+    have h2 : (1 : ℝ)/S ≤ 1 := by rw [div_le_one hS_pos]; exact hS_1
+    have h4 : (1 : ℝ)/S^2 ≤ 1 := by
+      rw [div_le_one (by positivity : (0:ℝ) < S^2)]
+      nlinarith
+    have h1 : (0 : ℝ) ≤ 1/S := by positivity
+    have h3 : (0 : ℝ) ≤ 1/S^2 := by positivity
+    rw [abs_le]; refine ⟨by nlinarith, by nlinarith⟩
+  -- ‖S^{-3}‖ = 1/S³.
+  have h_norm_eq : ‖(S : ℝ)^(-(3:ℤ))‖ = 1/S^3 := by
+    rw [Real.norm_eq_abs, h_zpow, abs_of_pos (by positivity : (0:ℝ) < 1/S^3)]
+  -- Power inequalities.
+  have h_s4_le_s3 : (1 : ℝ)/S^4 ≤ 1/S^3 := by
+    rw [div_le_div_iff_of_pos_left one_pos hS4_pos hS3_pos]
+    nlinarith
+  have h_s6_le_s3 : (1 : ℝ)/S^6 ≤ 1/S^3 := by
+    rw [div_le_div_iff_of_pos_left one_pos hS6_pos hS3_pos]
+    have hS3_ge_1 : (1 : ℝ) ≤ S^3 := by nlinarith [hS_1]
+    have hSS : S^6 = S^3 * S^3 := by ring
+    nlinarith [hS3_ge_1, hSS]
+  -- Bound each piece.
+  have habs2 : |(2 : ℝ)/S^3| = 2/S^3 := abs_of_pos (by positivity)
+  have habs3 : |(1 : ℝ)/S^4| = 1/S^4 := abs_of_pos (by positivity)
+  have habs_rB : |r * (1 - 2*(1/S - 1/S^2))| ≤ (C / S^3) * 5 := by
+    rw [abs_mul]
+    exact mul_le_mul hr_bound' hB_bound (abs_nonneg _) (by positivity)
+  have habs_rsq : |r^2| ≤ C^2 / S^3 := by
+    rw [show r^2 = r * r from sq r, abs_mul]
+    have h1 : |r| * |r| ≤ (C / S^3) * (C / S^3) :=
+      mul_le_mul hr_bound' hr_bound' (abs_nonneg _) (by positivity)
+    have h_eq : (C / S^3) * (C / S^3) = C^2 * (1/S^6) := by
+      field_simp
+    rw [h_eq] at h1
+    refine le_trans h1 ?_
+    have h2 : C^2 * (1/S^6) ≤ C^2 * (1/S^3) :=
+      mul_le_mul_of_nonneg_left h_s6_le_s3 (by positivity)
+    have h3 : C^2 * (1/S^3) = C^2 / S^3 := by field_simp
+    linarith
+  -- Triangle inequality decomposition.
+  rw [Real.norm_eq_abs, h_alg, h_norm_eq]
+  have h_tri1 : |2/S^3 - 1/S^4 + r * (1 - 2*(1/S - 1/S^2)) - r^2|
+              ≤ |2/S^3 - 1/S^4 + r * (1 - 2*(1/S - 1/S^2))| + |r^2| :=
+    abs_sub _ _
+  have h_tri2 : |2/S^3 - 1/S^4 + r * (1 - 2*(1/S - 1/S^2))|
+              ≤ |2/S^3 - 1/S^4| + |r * (1 - 2*(1/S - 1/S^2))| :=
+    abs_add_le _ _
+  have h_tri3 : |2/S^3 - 1/S^4| ≤ |2/S^3| + |1/S^4| := abs_sub _ _
+  -- Now combine: bound is at most 2/S³ + 1/S³ + 5C/S³ + C²/S³.
+  have h_combined : |2/S^3 - 1/S^4 + r * (1 - 2*(1/S - 1/S^2)) - r^2|
+              ≤ 2/S^3 + 1/S^3 + (C / S^3) * 5 + C^2 / S^3 := by
+    have h_s4_part : |1/S^4| ≤ 1/S^3 := by rw [habs3]; exact h_s4_le_s3
+    linarith
+  -- Final: equate to (3 + 5C + C²) * (1/S³).
+  have h_final_eq : 2/S^3 + 1/S^3 + (C / S^3) * 5 + C^2 / S^3
+                  = (3 + 5*C + C^2) * (1/S^3) := by
+    field_simp; ring
+  linarith
 
 /-! ## Ratio estimate pieces -/
 
