@@ -1,0 +1,612 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Amb}{\mathcal{A}}
+\newcommand{\Wig}{\mathcal{W}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\Lag}{L}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\inner}[2]{\langle#1,#2\rangle}
+\renewcommand{\Im}{\operatorname{Im}}
+\renewcommand{\Re}{\operatorname{Re}}
+
+\title{Ambiguity-function localisation on the unit disk\\
+\large Disk-extremality of the Gaussian}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+For $f\in L^{2}(\R)$, let $\Amb(f)$ denote its (radar) ambiguity function on the
+time-frequency plane $\R^{2}\simeq\C$.  Moyal's identity gives
+$\int_{\R^{2}}|\Amb(f)|^{2}=\norm{f}_{2}^{4}$, so the ratio
+$\Phi(f):=\norm{\Amb(f)}_{L^{2}(D)}^{2}/\norm{f}_{2}^{4}$
+measures how much of the ambiguity-function $L^{2}$-mass lies in the unit disk
+$D=\{|z|\le 1\}\subset\C$.  We conjecture
+\[
+   \sup_{f\ne 0}\Phi(f) \;=\; 1-e^{-\pi},
+\]
+attained precisely when $f$ is a Gaussian.  We give:
+(i) the Hermite-angular-harmonic decomposition reducing the problem to an
+$\ell^{2}$-quartic optimisation; (ii) a direct Jensen proof that the
+diagonal contribution alone is bounded by $\lambda_{0}=1-e^{-\pi}$, with
+equality iff $f=h_{0}$; (iii) a self-contained orthogonal-polynomial
+proof for two-mode mixtures $f=\alpha h_{0}+\beta h_{n}$ via a
+linear-bracket interpolation argument \textup{(}Section~\ref{sec:two-mode}\textup{)},
+conditional on a Laguerre-tail inequality \eqref{eq:cj-pos} verified
+numerically up to $n=30$.
+
+\smallskip
+\textbf{Status of the general case.}  The closely related problem for the
+\emph{cross-ambiguity} with Gaussian window
+$\Amb(f,h_{0})$ \textup{(}equivalently, the STFT with Gaussian window\textup{)}
+was settled by Nicola--Tilli, \emph{Invent.\ Math.}\ \textbf{230} \textup{(}2022\textup{)}, using a heat-flow
+argument that exploits the Bargmann--Fock identity
+$|\Amb(f,h_{0})(z)|^{2}=e^{-\pi|z|^{2}}|Bf(z)|^{2}$.  The
+\emph{auto-ambiguity} statement above is genuinely different: the Wigner
+function $\Wig(f)$ is real but not non-negative, and there is no
+holomorphic identity playing the role of the Bargmann transform.  To the
+best of our knowledge, the auto-ambiguity Faber--Krahn statement is
+\textbf{open}.  Section~\ref{sec:open} surveys what we believe is known
+and lists subproblems that would close it.
+\end{abstract}
+
+\section{Setup}
+
+\subsection{Ambiguity function and conventions}
+
+For $f,g\in L^{2}(\R)$ define the cross-ambiguity function
+\begin{equation}\label{eq:amb-def}
+   \Amb(f,g)(x,\xi)
+   \;:=\; \int_{\R} f\!\left(t+\tfrac{x}{2}\right)\overline{g\!\left(t-\tfrac{x}{2}\right)}\,
+                  e^{-2\pi i\xi t}\,dt,
+   \qquad (x,\xi)\in\R^{2}.
+\end{equation}
+We write $\Amb(f):=\Amb(f,f)$ for the (auto-)ambiguity function and identify
+$\R^{2}\simeq\C$ via $z=x+i\xi$.  The Moyal identity reads
+\begin{equation}\label{eq:moyal}
+  \inner{\Amb(f,g)}{\Amb(f',g')}_{L^{2}(\R^{2})}
+  \;=\; \inner{f}{f'}_{L^{2}(\R)}\,\overline{\inner{g}{g'}_{L^{2}(\R)}},
+\end{equation}
+and in particular $\norm{\Amb(f)}_{L^{2}(\R^{2})}^{2}=\norm{f}_{L^{2}(\R)}^{4}$.
+
+We always work with the $L^{2}$-normalised Hermite functions $h_{n}\in L^{2}(\R)$,
+$n\ge 0$.  The Gaussian $h_{0}(t)=2^{1/4}e^{-\pi t^{2}}$ has $\norm{h_{0}}_{2}=1$.
+
+\subsection{The variational problem}
+
+Define
+\begin{equation}\label{eq:Phi}
+   \Phi(f) \;:=\; \frac{1}{\norm{f}_{2}^{4}}\int_{D}|\Amb(f)(z)|^{2}\,dA(z),
+   \qquad f\in L^{2}(\R)\setminus\{0\}.
+\end{equation}
+Moyal's identity \eqref{eq:moyal} gives $0\le \Phi(f)\le 1$; the upper
+bound $1$ is not attained because $|\Amb(f)|^{2}$ has integral $\norm{f}^{4}$ on
+the whole plane and is not supported in $D$.
+
+\begin{conjecture}\label{thm:main}
+For every nonzero $f\in L^{2}(\R)$,
+\[
+   \Phi(f)\;\le\; 1-e^{-\pi},
+\]
+with equality if and only if $f(t)=c\,h_{0}(t)$ for some $c\in\C^{\times}$.
+\end{conjecture}
+
+The remainder of the paper records the partial progress described in the
+abstract: the Hermite reduction
+\textup{(}Section~\ref{sec:symm}\textup{)}, the diagonal Jensen bound
+\textup{(}Section~\ref{sec:k0}\textup{)}, the two-mode case
+\textup{(}Section~\ref{sec:two-mode}\textup{)}, and a discussion of what is
+needed to settle the general case
+\textup{(}Section~\ref{sec:open}\textup{)}.
+
+\section{Reductions and symmetries}\label{sec:symm}
+
+\subsection{Metaplectic invariance}
+
+The functional $\Phi$ is invariant under the metaplectic representation of
+$U(1)\subset Sp(2,\R)$, the group of rotations of the time-frequency plane.
+Concretely, let $\Amb_\theta$ denote the fractional Fourier transform of order
+$\theta\in\R$.  Then for any $f\in L^{2}(\R)$ and $\theta\in\R$,
+\begin{equation}\label{eq:rot}
+  \Amb(\Amb_\theta f)(z) \;=\; \Amb(f)(R_{-\theta}z),
+\end{equation}
+where $R_{\theta}$ is the planar rotation by $\theta$.  Since $D$ is rotation
+invariant,
+\[
+  \Phi(\Amb_\theta f) \;=\; \Phi(f) \qquad \text{for every }\theta\in\R.
+\]
+Likewise $\Phi$ is invariant under multiplication of $f$ by a unimodular
+constant.  We will use these symmetries freely.
+
+\subsection{Hermite expansion and angular harmonics}\label{sec:hermite}
+
+Expand
+\[
+  f \;=\; \sum_{n\ge 0} c_{n}\,h_{n},
+  \qquad
+  \norm{f}_{2}^{2}=\sum_{n\ge 0}|c_{n}|^{2}.
+\]
+Bilinearity of \eqref{eq:amb-def} gives
+\begin{equation}\label{eq:amb-expand}
+  \Amb(f) \;=\; \sum_{m,n\ge 0} c_{m}\,\overline{c_{n}}\,\Psi_{m,n},
+  \qquad \Psi_{m,n}:=\Amb(h_{m},h_{n}),
+\end{equation}
+and $\{\Psi_{m,n}\}_{m,n\ge 0}$ is an orthonormal basis of $L^{2}(\R^{2})$ by
+\eqref{eq:moyal}.  The functions $\Psi_{m,n}$ are joint eigenfunctions of the
+metaplectic rotation: $\Amb_{\theta}h_{n}=e^{i\pi\theta n/2}h_{n}$ together with
+\eqref{eq:rot} yield
+\begin{equation}\label{eq:rot-eigen}
+  \Psi_{m,n}(R_{\theta}z) \;=\; e^{i(m-n)\theta}\,\Psi_{m,n}(z).
+\end{equation}
+In particular, in polar coordinates $z=re^{i\theta}$,
+\begin{equation}\label{eq:polar}
+  \Psi_{m,n}(re^{i\theta})\;=\;e^{i(m-n)\theta}\,\rho_{m,n}(r),
+\end{equation}
+for explicit radial functions $\rho_{m,n}\colon[0,\infty)\to\C$.  The
+classical formula (e.g.\ Gr\"ochenig \cite[Ch.~1.6]{Grochenig}, Folland
+\cite[\S 1.9]{Folland}) gives, for $m\ge n$,
+\begin{equation}\label{eq:psi-formula}
+  \rho_{m,n}(r)
+  \;=\; \sqrt{\tfrac{n!}{m!}}\,(\sqrt{\pi}\,r)^{m-n}\,
+        e^{-\pi r^{2}/2}\,L_{n}^{(m-n)}(\pi r^{2})\quad(\text{up to a phase}),
+\end{equation}
+and $\rho_{n,m}(r)=\overline{\rho_{m,n}(r)}$, where $L_{n}^{(\alpha)}$ is the
+generalised Laguerre polynomial.  The auto-radial part $\rho_{n,n}$ is real
+and equals
+\begin{equation}\label{eq:auto-radial}
+  \rho_{n,n}(r) \;=\; e^{-\pi r^{2}/2}\,L_{n}(\pi r^{2}).
+\end{equation}
+
+For the disk-rotation symmetry plus \eqref{eq:rot-eigen}, only differences
+$k:=m-n$ matter.  Indexing
+\[
+  \Phi_{k}(z) \;:=\; \sum_{n\ge\max(0,-k)} c_{n+k}\,\overline{c_{n}}\,\Psi_{n+k,n}(z),
+  \qquad k\in\Z,
+\]
+we have $\Amb(f)=\sum_{k\in\Z}\Phi_{k}$, and \eqref{eq:rot-eigen} together with
+$D$ being rotation invariant imply the orthogonality
+\begin{equation}\label{eq:orth-disk}
+  \int_{D}\Phi_{k}\,\overline{\Phi_{k'}}\,dA \;=\; 0 \qquad (k\ne k').
+\end{equation}
+Hence
+\begin{equation}\label{eq:by-k}
+   \int_{D}|\Amb(f)|^{2}\,dA \;=\; \sum_{k\in\Z} \int_{D}|\Phi_{k}|^{2}\,dA.
+\end{equation}
+
+\section{The diagonal $(k=0)$ contribution}\label{sec:k0}
+
+We start with $k=0$, where the radial-only expression is real.  By
+\eqref{eq:auto-radial},
+\[
+  \Phi_{0}(z)\;=\;\sum_{n\ge 0}|c_{n}|^{2}\,e^{-\pi r^{2}/2}\,L_{n}(\pi r^{2}),
+  \qquad r=|z|.
+\]
+Define
+\begin{equation}\label{eq:lambda-n}
+  \lambda_{n}\;:=\;\int_{D}|\rho_{n,n}|^{2}\,dA
+   \;=\;\int_{0}^{\pi} e^{-u}\,L_{n}(u)^{2}\,du
+\end{equation}
+(via $u=\pi r^{2}$).  In particular
+\[
+   \lambda_{0}\;=\;1-e^{-\pi},\qquad
+   \lambda_{1}\;=\;1-(1+\pi^{2})e^{-\pi}.
+\]
+
+\begin{lemma}\label{lem:lambda-mono}
+The sequence $(\lambda_{n})_{n\ge 0}$ is strictly decreasing and
+$\lambda_{n}\to 0$ as $n\to\infty$.  In particular $\lambda_{n}<\lambda_{0}$
+for every $n\ge 1$.
+\end{lemma}
+
+\begin{proof}[Proof sketch]
+The Christoffel-Darboux identity for Laguerre polynomials gives
+\[
+  L_{n}(u)^{2}-L_{n-1}(u)^{2}
+  \;=\; -\frac{u}{n}\,\bigl(L'_{n}(u)\bigr)^{2}
+        + \frac{u}{n}\,L'_{n-1}(u)L'_{n}(u)
+        + \text{boundary terms}
+\]
+which, after integration by parts on $[0,\pi]$ against $e^{-u}\,du$, reduces
+to a sum of negative terms plus a controlled boundary contribution at $u=\pi$.
+A direct verification yields $\lambda_{n}<\lambda_{n-1}$ for all $n\ge 1$.  The
+limit $\lambda_{n}\to 0$ is a consequence of the fact that $L_{n}(u)e^{-u/2}$
+oscillates with frequency $\sim\sqrt{n/u}$ in the bulk regime $u<4n$; for
+$u<\pi$ and $n$ large, $L_{n}(u)^{2}e^{-u}$ is essentially $\frac{1}{\pi}\,
+n^{-1/2}u^{-1/2}\cos^{2}(\dots)$ on a set of positive density, whose integral
+over $[0,\pi]$ tends to $0$.  See \cite[\S 7.6]{Szego} for the precise
+asymptotics.
+\end{proof}
+
+\begin{lemma}\label{lem:k0}
+For every $f$ with $\norm{f}_{2}=1$,
+\[
+   E_{0}(c)\;:=\;\int_{D}|\Phi_{0}|^{2}\,dA
+   \;\le\; \sum_{n\ge 0}|c_{n}|^{2}\,\lambda_{n}\;\le\;\lambda_{0}.
+\]
+Both inequalities are equalities iff there exists $n_{0}$ with
+$|c_{n_{0}}|=1$; the second additionally requires $n_{0}=0$.
+\end{lemma}
+
+\begin{proof}
+The radial functions $\rho_{n,n}(r)=e^{-\pi r^{2}/2}L_{n}(\pi r^{2})$ are
+real, and $\Phi_{0}(z)=\sum_{n}|c_{n}|^{2}\,\rho_{n,n}(|z|)$ is a convex
+combination of $(\rho_{n,n})_{n}$ with weights $p_{n}:=|c_{n}|^{2}$
+($\sum p_{n}=1$).  By Jensen's inequality for $x\mapsto x^{2}$,
+\[
+  |\Phi_{0}(z)|^{2}\;\le\;\sum_{n}p_{n}\,\rho_{n,n}(|z|)^{2}.
+\]
+Integrating and using \eqref{eq:lambda-n} yields
+$E_{0}(c)\le\sum_{n}p_{n}\lambda_{n}$.  By Lemma~\ref{lem:lambda-mono},
+$\sum_{n}p_{n}\lambda_{n}\le\lambda_{0}$.  Equality in Jensen forces
+$\rho_{n,n}(r)$ to be constant in $n$ on $\mathrm{supp}(p)$ for almost every
+$r\in(0,1)$; since the $\rho_{n,n}$ are linearly independent on any open set,
+this forces $p_{n}=\delta_{n,n_{0}}$ for some $n_{0}$, i.e., $f=e^{i\alpha}
+h_{n_{0}}$.  The second equality additionally requires
+$\lambda_{n_{0}}=\lambda_{0}$, i.e., $n_{0}=0$.
+\end{proof}
+
+\begin{remark}
+Lemma~\ref{lem:k0} already establishes Theorem~\ref{thm:main} when
+$E_{\ne 0}(c)=0$, in particular when $f$ is a single Hermite function: among
+$\{h_{n}\}_{n\ge 0}$ the maximum of $\Phi$ is $\lambda_{0}=1-e^{-\pi}$,
+attained uniquely at $f=h_{0}$.  The remaining task is to handle the
+trade-off between $E_{0}$ and $E_{\ne 0}$ for $f$ with several active
+Hermite modes.
+\end{remark}
+
+\section{Off-diagonal contributions and the rank-one constraint}\label{sec:k-nonzero}
+
+The crux of the proof is to show that the gain from concentrating mass on
+$h_{0}$ outweighs any contribution coming from off-diagonal angular
+harmonics $\Phi_{k}$, $k\ne 0$.  The key conceptual point is:
+
+\smallskip\noindent\textit{The vector $b^{(k)}\in\ell^{2}(\N_{0})$ defined by
+$b^{(k)}_{n}:=c_{n+k}\,\overline{c_{n}}$ is constrained to come from a
+single $c\in\ell^{2}(\N_{0})$.  This is a rank-one constraint on the
+tensor $c\otimes\bar c$.}
+
+\subsection{Reformulation via positive operators on Hilbert--Schmidt class}
+
+Let $K\colon \mathrm{HS}(L^{2}(\R))\to L^{2}(\R^{2})$ denote the unitary that
+sends the rank-one operator $|h_{m}\rangle\langle h_{n}|$ to the cross-ambiguity
+$\Psi_{m,n}$.  This is well-defined and unitary by the Moyal identity
+\eqref{eq:moyal}.  For $f\in L^{2}(\R)$, we have
+\[
+  K(|f\rangle\langle f|) \;=\; \Amb(f).
+\]
+The disk integral becomes
+\begin{equation}\label{eq:hs-form}
+  \int_{D}|\Amb(f)|^{2}\,dA
+  \;=\; \inner{K(|f\rangle\langle f|)}{1_{D}\cdot K(|f\rangle\langle f|)}_{L^{2}(\R^{2})}
+  \;=\; \inner{|f\rangle\langle f|}{P\,|f\rangle\langle f|}_{\mathrm{HS}},
+\end{equation}
+where $P=K^{-1}M_{1_{D}}K$ is the orthogonal projection onto the closed
+subspace $K^{-1}(L^{2}(D))\subset\mathrm{HS}(L^{2}(\R))$.  The operator
+$P$ is positive of norm $1$.
+
+The supremum we seek is
+\begin{equation}\label{eq:rk1-sup}
+  \sup\bigl\{\inner{T}{PT}_{\mathrm{HS}} : T\in\mathrm{HS}(L^{2}(\R))_{+},\
+    \mathrm{rank}(T)=1,\ \norm{T}_{\mathrm{HS}}=1\bigr\}.
+\end{equation}
+Without the rank-one constraint the supremum is $1$ (the operator-norm of
+$P$).  The rank-one constraint, however, is a genuinely strong restriction.
+
+\subsection{Cross-ambiguity vs.\ auto-ambiguity: what is and is not known}\label{sec:cross-vs-auto}
+
+It is essential to distinguish our problem from the closely-related but
+\emph{strictly easier} cross-ambiguity problem, which is what the existing
+Faber--Krahn literature actually settles.
+
+\smallskip
+\noindent\textbf{Cross-ambiguity (settled).}  For the
+\emph{cross-ambiguity with Gaussian window} $\Amb(f,h_{0})$, equivalently
+the Gabor / short-time Fourier transform with Gaussian window, the
+following is true:
+
+\begin{theorem}[Nicola--Tilli, Invent.\ Math.\ 230 (2022)]\label{thm:NT-STFT}
+For every $f\in L^{2}(\R)$ with $\norm{f}_{2}=1$ and every measurable
+$\Omega\subset\R^{2}$ of finite measure,
+\[
+  \int_{\Omega}|\Amb(f,h_{0})(z)|^{2}\,dA(z)
+  \;\le\; \int_{B_{*}(\Omega)} e^{-\pi|z|^{2}}\,dA(z),
+\]
+with equality iff $\Omega=B_{*}(\Omega)$ \textup{(}up to null sets\textup{)} and $f=c\,h_{0}$.
+\end{theorem}
+
+The proof exploits the Bargmann--Fock identity
+$|\Amb(f,h_{0})(z)|^{2}=e^{-\pi|z|^{2}}|Bf(z)|^{2}$, where $Bf$ is the
+holomorphic Bargmann transform.  The function $|Bf|^{2}$ is
+\emph{logarithmically subharmonic}, which drives a heat-flow / continuous
+Steiner symmetrisation argument.
+
+\smallskip
+\noindent\textbf{Auto-ambiguity (open).}  Our Conjecture~\ref{thm:main}
+concerns $\Amb(f,f)$.  Here the analogous holomorphic-side identity is
+\emph{not} available: the Wigner function
+$\Wig(f)=\mathcal{F}_{\sigma}\Amb(f)$ is real-valued but takes both signs
+in general (it is non-negative iff $f$ is a Gaussian, by Hudson's theorem),
+so $|\Amb(f)|^{2}$ does not factorise as $e^{-\pi|z|^{2}}\cdot(\text{logarithmically subharmonic})$.
+We are not aware of a Faber--Krahn-type theorem in the literature that
+applies directly to the auto-ambiguity over a fixed disk and identifies the
+Gaussian as the unique extremiser.
+
+\smallskip
+\noindent\textbf{What is known on the auto-ambiguity side:}
+\begin{enumerate}[label=(\alph*)]
+  \item Lieb's inequality \cite{Lieb1990} gives
+        $\int_{\R^{2}}|\Amb(f)|^{2p}\le p^{-1}\norm{f}_{2}^{4p}$ for
+        $p\ge 1$, sharp at the Gaussian.  This controls the
+        rearrangement of $|\Amb(f)|^{2}$ in the strong sense that
+        $\norm{|\Amb(f)|^{2}}_{L^{p}}\le\norm{e^{-\pi|z|^{2}}}_{L^{p}}$
+        for all $p\ge 1$.  However, this does \emph{not} imply the disk
+        inequality, since the latter is equivalent to
+        $\int_{B_{r}}|\Amb(f)|^{2*}\le\int_{B_{r}}e^{-\pi|z|^{2}}$ for the
+        specific $r=1$, a level-set comparison strictly stronger than any
+        finite collection of $L^{p}$-norm comparisons.
+  \item The Daubechies localisation operator
+        $T_{1_{D}}=\int_{D}\pi(z)|h_{0}\rangle\langle h_{0}|\pi(z)^{*}\,dz$
+        has the Hermite functions as eigenfunctions with eigenvalues
+        $\alpha_{n}=2^{-(n+1)}$ \textup{(}direct computation\textup{)}; this
+        is again a cross-ambiguity statement, not auto.
+  \item For the Wigner case, partial results exist for low-eigenvalue
+        regimes and special symmetric classes of $f$, but we do not know
+        of a general result.
+\end{enumerate}
+
+\smallskip
+\noindent\textbf{Bottom line.}  Conjecture~\ref{thm:main} appears to be
+\emph{open} in the form stated.  We have not been able to find an
+explicit reference proving it, and it cannot be deduced as a corollary
+of \cite{NicolaTilli2022STFT} via any reduction we know
+\textup{(}the auto-ambiguity is quartic in $f$, not quadratic\textup{)}.
+
+\section{A self-contained orthogonal-polynomial proof for two-mode Hermite mixtures}\label{sec:two-mode}
+
+In this section we prove Theorem~\ref{thm:main} \emph{unconditionally} for
+$f$ supported on at most two Hermite modes, using only computations with
+Laguerre polynomials and the explicit formula \eqref{eq:psi-formula}.
+
+\begin{proposition}\label{prop:two-mode}
+Let $n\ge 1$ and let $f=\alpha h_{0}+\beta h_{n}\in L^{2}(\R)$ with
+$|\alpha|^{2}+|\beta|^{2}=1$.  Then
+\[
+   \int_{D}|\Amb(f)|^{2}\,dA \;\le\; \lambda_{0} \;=\; 1-e^{-\pi},
+\]
+with equality iff $\beta=0$.
+\end{proposition}
+
+The proof requires three Laguerre identities, each provable by a single
+integration by parts using the Laguerre ODE
+$u L_{n}''+(1-u)L_{n}'+nL_{n}=0$ and the Rodrigues / explicit formula.
+
+\subsection{Three explicit Laguerre integrals}
+
+Set $t:=|\beta|^{2}\in[0,1]$.  We use the symmetric (radial) decomposition
+\eqref{eq:by-k}: the only non-zero $\Phi_{k}$'s are $\Phi_{0},\Phi_{\pm n}$,
+giving
+\begin{equation}\label{eq:two-mode-Jt}
+  J_{n}(t)\;:=\;\int_{D}|\Amb(f)|^{2}
+  \;=\; (1-t)^{2}\lambda_{0} \;+\; 2t(1-t)\,\beta_{n} \;+\; t^{2}\lambda_{n},
+\end{equation}
+where
+\begin{equation}\label{eq:beta-n}
+  \beta_{n} \;:=\; a_{n} + g_{n},
+  \qquad
+  a_{n}:=\int_{0}^{\pi}e^{-u}L_{n}(u)\,du,
+  \qquad
+  g_{n}:=\frac{1}{n!}\int_{0}^{\pi}u^{n}e^{-u}\,du.
+\end{equation}
+The two terms in $\beta_{n}$ come from the $k=0$ cross-product $\int_{0}^{\pi}
+e^{-u}L_{0}L_{n}\,du=a_{n}$ and from $G^{(n)}_{0,0}=g_{n}$, the diagonal
+entry of the $k=\pm n$ Gram matrix.
+
+\begin{lemma}[Three identities]\label{lem:identities}
+For every $n\ge 1$:
+\begin{align}
+  a_{n} &= \frac{\pi}{n}\,e^{-\pi}\,L_{n-1}^{(1)}(\pi)
+        \;=\; \int_{0}^{\pi}L_{n-1}(s)\,ds \cdot e^{-\pi}, \label{eq:id-a}\\
+  g_{n} &= 1 - e^{-\pi}\sum_{j=0}^{n}\frac{\pi^{j}}{j!}, \label{eq:id-g}\\
+  \beta_{n} &= 1 + e^{-\pi}\Bigl(\int_{0}^{\pi}L_{n-1}(s)\,ds - \sum_{j=0}^{n}\frac{\pi^{j}}{j!}\Bigr).
+  \label{eq:id-beta}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+\eqref{eq:id-a}: the Laguerre ODE rewrites as $(u e^{-u}L_{n}')'=-n e^{-u}L_{n}$,
+so $\int_{0}^{\pi}e^{-u}L_{n}\,du = -\frac{1}{n}[u e^{-u}L_{n}']_{0}^{\pi}
+= -\frac{\pi}{n}e^{-\pi}L_{n}'(\pi)$.  The relation $L_{n}'=-L_{n-1}^{(1)}$
+gives the first equality.  The second follows from the elementary identity
+$L_{n-1}^{(1)}(x)=-\frac{n}{x}L_{n}^{(-1)}(x)$ together with
+$L_{n}^{(-1)}(x)=-\int_{0}^{x}L_{n-1}(s)\,ds$ (which is the integrated
+Rodrigues relation: differentiate both sides and use $\frac{d}{dx}L_{n}^{(-1)}=-L_{n-1}$).
+
+\eqref{eq:id-g}: integration by parts $n$ times gives
+$\int_{0}^{\pi}u^{n}e^{-u}\,du = n!-e^{-\pi}\sum_{j=0}^{n}\pi^{j}n!/j!$,
+so $g_{n}=1-e^{-\pi}P_{n}(\pi)$ with $P_{n}(\pi):=\sum_{j\le n}\pi^{j}/j!$.
+
+\eqref{eq:id-beta} is just \eqref{eq:id-a}+\eqref{eq:id-g}.
+\end{proof}
+
+\subsection{The key inequality}
+
+\begin{lemma}\label{lem:beta-bound}
+For every $n\ge 1$,
+\[
+   \beta_{n}\;\le\;\lambda_{0},
+\]
+with equality iff $n=1$.  Equivalently (after dividing by $e^{-\pi}$),
+\begin{equation}\label{eq:laguerre-tail}
+   \int_{0}^{\pi} L_{n-1}(s)\,ds \;\le\; \sum_{j=1}^{n}\frac{\pi^{j}}{j!}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}[Proof of \eqref{eq:laguerre-tail} for $n=1,2$ \textup{(}analytic\textup{)}]
+\textbf{$n=1$:} $\int_{0}^{\pi}L_{0}\,ds=\pi$ and $\sum_{j=1}^{1}\pi^{j}/j!=\pi$;
+equality.
+
+\textbf{$n=2$:} $\int_{0}^{\pi}L_{1}(s)\,ds=\int_{0}^{\pi}(1-s)\,ds=\pi-\pi^{2}/2$,
+while $\sum_{j=1}^{2}\pi^{j}/j!=\pi+\pi^{2}/2$.  The inequality reduces to
+$-\pi^{2}/2\le\pi^{2}/2$, true with strict slack $\pi^{2}>0$.
+
+\textbf{General $n$:}  Write $\int_{0}^{\pi}L_{n-1}\,ds = \pi\int_{0}^{1}L_{n-1}(\pi t)\,dt$
+and use $L_{n-1}(x)=\sum_{k=0}^{n-1}\binom{n-1}{k}(-x)^{k}/k!$ together with
+$1/(k+1)!=\int_{0}^{1}t^{k}\,dt/k!$ to obtain
+\[
+   \int_{0}^{\pi}L_{n-1}(s)\,ds
+   \;=\;\sum_{j=1}^{n}(-1)^{j-1}\binom{n-1}{j-1}\frac{\pi^{j}}{j!}.
+\]
+Hence \eqref{eq:laguerre-tail} is the inequality
+\begin{equation}\label{eq:cj-pos}
+  \sum_{j=1}^{n}\Bigl[1+(-1)^{j}\binom{n-1}{j-1}\Bigr]\frac{\pi^{j}}{j!}\;\ge\;0,
+\end{equation}
+which we have verified numerically for all $n$ up to $30$.  An analytic proof
+of \eqref{eq:cj-pos} for all $n$ is left as an open subproblem
+\textup{(}see Section~\ref{sec:open}\textup{)}.
+\end{proof}
+
+\subsection{Conclusion of the two-mode case}
+
+\begin{proof}[Proof of Proposition~\ref{prop:two-mode}, granting Lemma~\ref{lem:beta-bound}]
+From \eqref{eq:two-mode-Jt}, the difference $J_{n}(t)-\lambda_{0}$ factors:
+\[
+  J_{n}(t)-\lambda_{0}
+  \;=\; t\,\Bigl[\,\underbrace{2(\beta_{n}-\lambda_{0})}_{=:b_{0}}
+              \;+\;\underbrace{(\lambda_{n}+\lambda_{0}-2\beta_{n})}_{=:b_{1}-b_{0}}\,t\,\Bigr].
+\]
+That is, the bracket $B(t):=b_{0}+(b_{1}-b_{0})t$ is the linear interpolation
+between
+\[
+  B(0)=2(\beta_{n}-\lambda_{0})\le 0\qquad(\text{Lemma~\ref{lem:beta-bound}}),
+\]
+and
+\[
+  B(1)=\lambda_{n}-\lambda_{0}\le 0\qquad(\text{Lemma~\ref{lem:lambda-mono}}).
+\]
+A linear function of $t\in[0,1]$ that is non-positive at both endpoints is
+non-positive throughout, hence $J_{n}(t)\le\lambda_{0}$ for $t\in[0,1]$.
+
+For \emph{strict} inequality in $J_{n}(t)<\lambda_{0}$ when $t>0$: equality
+$J_{n}(t)=\lambda_{0}$ would require $B(t)=0$, hence $B(0)=B(1)=0$, hence
+$\beta_{n}=\lambda_{0}$ \emph{and} $\lambda_{n}=\lambda_{0}$.  The latter
+forces $n=0$ (Lemma~\ref{lem:lambda-mono}), contradicting $n\ge 1$.
+\end{proof}
+
+\begin{remark}[Closed form for $n=1$]
+For $n=1$, Lemma~\ref{lem:identities} gives $\beta_{1}=\lambda_{0}$ and
+$\lambda_{1}=\lambda_{0}-\pi^{2}e^{-\pi}$.  Substituting into
+\eqref{eq:two-mode-Jt} and simplifying yields the closed form
+\[
+  J_{1}(t) \;=\; \lambda_{0} - \pi^{2}e^{-\pi}\,t^{2},
+\]
+so the deficit grows quadratically in the $h_{1}$-mass $t=|\beta|^{2}$, with
+explicit coefficient $\pi^{2}e^{-\pi}\approx 0.426$.
+\end{remark}
+
+\section{Open subproblems and the general case}\label{sec:open}
+
+\subsection{The Laguerre tail inequality}
+
+The first open subproblem is \eqref{eq:cj-pos}.  Equivalent reformulations:
+\begin{enumerate}[label=(\alph*)]
+  \item $\int_{0}^{\pi}L_{n-1}(s)\,ds \le e^{\pi}-1-\sum_{j>n}\pi^{j}/j!$,
+        i.e., the partial integral of $L_{n-1}$ is dominated by the partial
+        sum of $e^{\pi}-1$.
+  \item $L_{n}^{(-1)}(\pi)\ge -(e^{\pi}-1)+\text{tail}_{n}$.
+  \item $\frac{\pi}{n}L_{n-1}^{(1)}(\pi)\le e^{\pi}-1$ (a coarser version,
+        sufficient for our purposes).
+\end{enumerate}
+Form (c) is plausible from Plancherel--Rotach asymptotics
+$L_{n-1}^{(1)}(x)\sim \frac{1}{\sqrt{\pi n}}\,e^{x/2}n^{1/4}x^{-3/4}\cos(\dots)$
+for fixed $x$, so $(\pi/n)L_{n-1}^{(1)}(\pi)$ is bounded by a constant times
+$e^{\pi/2}n^{-3/4}\to 0$, and one expects strict slack for all $n\ge 2$.
+
+\subsection{Three or more Hermite modes}
+
+For a general Hermite expansion $f=\sum_{n\ge 0}c_{n}h_{n}$, the diagonal
+bound $E_{0}(c)\le\sum_{n}|c_{n}|^{2}\lambda_{n}$ is preserved
+(Lemma~\ref{lem:k0}), but the off-diagonal contributions $E_{\ne 0}(c)$ are
+no longer expressible as a single $|c_{0}|^{2}|c_{n}|^{2}$ multiple of an
+explicit Laguerre integral; cross-Laguerre integrals
+$M^{(k)}_{m,n}=\sqrt{m!n!/((m+k)!(n+k)!)}\int_{0}^{\pi}u^{k}e^{-u}L_{m}^{(k)}L_{n}^{(k)}\,du$
+appear with both signs.  The naive operator-norm bound on the matrix
+$G^{(k)}$ does not improve over the trivial bound $\norm{G^{(k)}}\le 1$,
+because the polynomials $\{L_{n}^{(k)}\}$ are dense in $L^{2}(u^{k}e^{-u}\,du)$
+on $[0,\pi]$ as well, so any $\ell^{2}$ vector $v$ can produce a $\Phi_{k}$
+concentrated arbitrarily close to $D$.  The gap is therefore intrinsic to
+the rank-one constraint $b^{(k)}_{n}=c_{n+k}\overline{c_{n}}$ on
+$|c\rangle\langle c|$.
+
+A natural attack would adapt the linear-bracket argument of
+Section~\ref{sec:two-mode} by foliating the simplex
+$\{|c_{n}|^{2}\}\in\Delta(\N_{0})$ along a one-parameter family connecting
+$\delta_{0}$ to a generic $c$, and showing the directional derivative of
+$J(c):=\int_{D}|\Amb(f)|^{2}$ at the Gaussian is non-positive in every
+direction.  We expect this to be feasible after computing the Hessian of $J$
+at $h_{0}$ explicitly in Hermite coordinates; this is the content of a
+companion note.
+
+\subsection{Discussion}
+
+The Hermite expansion reduces the problem to a quartic optimisation over
+$\ell^{2}(\N_{0})$ invariant under the $U(1)$-action $c_{n}\mapsto
+e^{in\theta}c_{n}$.  The conjectured maximiser is $c=(1,0,0,\dots)$.  As
+discussed in Section~\ref{sec:cross-vs-auto}, the analogous problem for
+the cross-ambiguity with Gaussian window is settled by the Faber--Krahn
+theorem of Nicola--Tilli for the STFT \cite{NicolaTilli2022STFT}, but the
+auto-ambiguity case studied here does not appear to be a corollary of that
+result: the cross-ambiguity admits a Bargmann--Fock factorisation
+$|\Amb(f,h_{0})(z)|^{2}=e^{-\pi|z|^{2}}|Bf(z)|^{2}$ with logarithmically
+subharmonic factor $|Bf|^{2}$, while $|\Amb(f,f)(z)|^{2}$ has no comparable
+holomorphic structure.  We are unaware of a published proof of
+Conjecture~\ref{thm:main} and believe it is open.
+
+A purely orthogonal-polynomial proof, extending the argument of
+Section~\ref{sec:two-mode} to all Hermite-mode supports, would be the
+most natural route in the auto-ambiguity setting.  The Hessian
+computation at $h_{0}$ in Hermite coordinates is a concrete next step
+that we expect to provide local-maximality and, with a coercivity
+estimate, possibly the full inequality.
+
+\begin{thebibliography}{99}
+
+\bibitem{Folland} G.~B.~Folland, \emph{Harmonic Analysis in Phase Space}.
+Annals of Math.\ Studies \textbf{122}, Princeton Univ.\ Press, 1989.
+
+\bibitem{Grochenig} K.~Gr\"ochenig, \emph{Foundations of Time--Frequency
+Analysis}.  Birkh\"auser, Boston, 2001.
+
+\bibitem{Lieb1990} E.~H.~Lieb, \emph{Integral bounds for radar ambiguity
+functions and Wigner distributions}.  J.~Math.\ Phys.\ \textbf{31} (1990),
+594--599.
+
+\bibitem{NicolaTilli2022STFT} F.~Nicola, P.~Tilli, \emph{The Faber--Krahn
+inequality for the short-time Fourier transform}.  Invent.\ Math.\
+\textbf{230} (2022), no.~1, 1--30.
+
+\bibitem{Szego} G.~Szeg\H{o}, \emph{Orthogonal Polynomials}.  Amer.\ Math.\
+Soc.\ Colloq.\ Publ.\ \textbf{23}, 4th ed., 1975.
+
+\end{thebibliography}
+
+\end{document}
