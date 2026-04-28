@@ -1,5 +1,6 @@
 \documentclass[11pt]{amsart}
 
+\usepackage[margin=2.5cm]{geometry}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{hyperref}
 
@@ -676,6 +677,276 @@ constant: it shows that along the concrete family the ratio
 actually grows linearly in $S$. The Lean theorem packages only the exact
 non-existence statement from Theorem~\ref{thm:main}, but it is obtained from
 this stronger asymptotic behavior.
+\end{remark}
+
+\section{Intermediate \texorpdfstring{$L^p$}{Lp} distances}
+
+The preceding sections use the Hilbert space distance because the
+Brascamp--Lieb variance and the optimizer space are naturally expressed in
+$L^2$. The same construction, however, also rules out the direct $L^p$
+analogue of the square-root stability estimate for every fixed $1<p<2$.
+The only point to check is the size of the distance to the optimizer space in
+$L^p$.
+
+For a probability measure $\nu$ and a linear space $V\subset L^p(\nu)$, we use
+the notation
+\[
+  \dist_{L^p(\nu)}(h,V)
+  :=
+  \inf_{v\in V}\|h-v\|_{L^p(\nu)}.
+\]
+In the present one-dimensional example,
+\[
+  \cO_{\BL,\phi_S}=\spanop\{1,\phi'_S\}.
+\]
+Thus an element of the optimizer space has the form $a\phi'_S+b$.
+
+\begin{lemma}\label{lem:lp-distance-1d}
+Let $1\le p<\infty$ be fixed. Along the one-dimensional family constructed
+above,
+\[
+  \dist_{L^p(\rho_S)}(f_S,\cO_{\BL,\phi_S})^p
+  \asymp q_S,
+  \qquad S\to\infty.
+\]
+In particular, since $q_S\asymp S^{-1}$,
+\[
+  \dist_{L^p(\rho_S)}(f_S,\cO_{\BL,\phi_S})
+  \asymp S^{-1/p}.
+\]
+\end{lemma}
+
+\begin{proof}
+Recall that
+\[
+  f_S=g_S-c_S,
+  \qquad
+  c_S=\int_{\R}g_S\,d\rho_S.
+\]
+From Lemma~\ref{lem:normalization} and the proof of
+Lemma~\ref{lem:variance}, we have
+\[
+  c_S=q_S+O(t_S)=q_S+O(S^{-3}),
+  \qquad
+  q_S\asymp S^{-1},
+  \qquad
+  t_S=O(S^{-3}).
+\]
+Moreover $g_S=0$ on $C_S$, $g_S=1$ on $E_S$, and $0\le g_S\le 1$ on $T_S$.
+Therefore
+\[
+  f_S=-c_S \quad\text{on } C_S,
+  \qquad
+  f_S=1-c_S \quad\text{on } E_S,
+  \qquad
+  |f_S|\le 1+c_S \quad\text{on } T_S.
+\]
+Since $\rho_S(C_S)=1-q_S-t_S=1+O(S^{-1})$, the function is very small on most
+of the mass and of order one on a set of mass $q_S$.
+
+We first remove the odd optimizer direction. For every $a,b\in\R$, the
+function $f_S-b$ is even, while $\phi'_S$ is odd and $\rho_S$ is even. Pairing
+the points $x$ and $-x$ and using the convexity of $u\mapsto |u|^p$ gives
+\[
+  \frac{|f_S(x)-b-a\phi'_S(x)|^p
+        +|f_S(x)-b+a\phi'_S(x)|^p}{2}
+  \ge |f_S(x)-b|^p.
+\]
+After integration,
+\begin{equation}\label{eq:lp-drop-odd}
+  \|f_S-a\phi'_S-b\|_{L^p(\rho_S)}^p
+  \ge
+  \|f_S-b\|_{L^p(\rho_S)}^p.
+\end{equation}
+Thus the lower bound for the full optimizer space reduces to a lower bound
+against constants.
+
+Fix $b\in\R$. If $|b+c_S|\le 1/2$, then on $E_S$,
+\[
+  |f_S-b|=|1-c_S-b|=|1-(b+c_S)|\ge \frac12,
+\]
+and hence
+\[
+  \|f_S-b\|_{L^p(\rho_S)}^p\ge 2^{-p}q_S.
+\]
+If instead $|b+c_S|>1/2$, then on $C_S$,
+\[
+  |f_S-b|=|-c_S-b|>\frac12,
+\]
+so
+\[
+  \|f_S-b\|_{L^p(\rho_S)}^p
+  \ge 2^{-p}\rho_S(C_S).
+\]
+For all sufficiently large $S$, $\rho_S(C_S)\ge 1/2$ and $q_S\le 1$, so this
+second lower bound is also bounded below by a constant multiple of $q_S$.
+Together with \eqref{eq:lp-drop-odd}, this proves
+\[
+  \dist_{L^p(\rho_S)}(f_S,\cO_{\BL,\phi_S})^p\gtrsim q_S.
+\]
+
+For the reverse inequality, take the optimizer element to be $0$. Using the
+pointwise description above,
+\[
+  \|f_S\|_{L^p(\rho_S)}^p
+  \le
+  c_S^p\rho_S(C_S)+(1-c_S)^pq_S+(1+c_S)^pt_S.
+\]
+Here $c_S\asymp q_S$, $0<q_S<1$, and $t_S=O(S^{-3})=O(q_S)$, so the right-hand
+side is $O(q_S)$. Hence
+\[
+  \dist_{L^p(\rho_S)}(f_S,\cO_{\BL,\phi_S})^p
+  \le
+  \|f_S\|_{L^p(\rho_S)}^p
+  \lesssim q_S.
+\]
+The two estimates prove the lemma.
+\end{proof}
+
+\begin{theorem}\label{thm:lp-failure-1d}
+Let $1<p<2$ be fixed. Along the one-dimensional family constructed above,
+\[
+  \frac{\dist_{L^p(\rho_S)}(f_S,\cO_{\BL,\phi_S})}
+       {\delta_{\BL,\phi_S}(f_S)^{1/2}}
+  \asymp S^{1-1/p},
+\]
+and in particular the ratio tends to $+\infty$ as $S\to\infty$. Equivalently,
+\[
+  \frac{\dist_{L^p(\rho_S)}(f_S,\cO_{\BL,\phi_S})^2}
+       {\delta_{\BL,\phi_S}(f_S)}
+  \asymp S^{2-2/p}\to+\infty.
+\]
+Consequently there is no finite constant $C$ such that
+\[
+  \dist_{L^p(\rho_\phi)}(f,\cO_{\BL,\phi})
+  \le C\,\delta_{\BL,\phi}(f)^{1/2}
+\]
+holds simultaneously for all one-dimensional admissible data containing the
+family $(\phi_S,f_S)$.
+\end{theorem}
+
+\begin{proof}
+By Lemma~\ref{lem:lp-distance-1d},
+\[
+  \dist_{L^p(\rho_S)}(f_S,\cO_{\BL,\phi_S})
+  \asymp S^{-1/p}.
+\]
+By Proposition~\ref{prop:asymptotics},
+\[
+  \delta_{\BL,\phi_S}(f_S)^{1/2}
+  \asymp S^{-1}.
+\]
+Therefore
+\[
+  \frac{\dist_{L^p(\rho_S)}(f_S,\cO_{\BL,\phi_S})}
+       {\delta_{\BL,\phi_S}(f_S)^{1/2}}
+  \asymp
+  \frac{S^{-1/p}}{S^{-1}}
+  =
+  S^{1-1/p}.
+\]
+Since $p>1$, the exponent $1-1/p$ is positive, and the ratio diverges. Squaring
+the numerator gives the equivalent formulation with exponent $2-2/p$.
+\end{proof}
+
+\begin{theorem}\label{thm:lp-product}
+Let $d\ge 2$ and $1<p<2$ be fixed. Along the product family
+$(\Phi_{S,d},F_{S,d})$,
+\[
+  \frac{\dist_{L^p(\rho_{\Phi_{S,d}})}
+       (F_{S,d},\cO_{\BL,\Phi_{S,d}})}
+       {\delta_{\BL,\Phi_{S,d}}(F_{S,d})^{1/2}}
+  \asymp S^{1-1/p},
+  \qquad S\to\infty.
+\]
+In particular, for every finite $C$ there exists $S$ such that
+$\delta_{\BL,\Phi_{S,d}}(F_{S,d})>0$ and
+\[
+  \dist_{L^p(\rho_{\Phi_{S,d}})}
+       (F_{S,d},\cO_{\BL,\Phi_{S,d}})
+  >
+  C\,\delta_{\BL,\Phi_{S,d}}(F_{S,d})^{1/2}.
+\]
+\end{theorem}
+
+\begin{proof}
+As in the $L^2$ product argument,
+\[
+  \cO_{\BL,\Phi_{S,d}}
+  =
+  \spanop\{1,\phi'_S(x),y_1,\dots,y_{d-1}\}.
+\]
+Let
+\[
+  H(x,y):=F_{S,d}(x,y)-b=f_S(x)-b.
+\]
+This function is even in $x$ and invariant under every sign change
+$y_j\mapsto -y_j$. The probability measure
+$\rho_{\Phi_{S,d}}=\rho_S\otimes\gamma_{d-1}$ has the same symmetries, while
+$\phi'_S(x)$ is odd in $x$ and each $y_j$ is odd in its own Gaussian variable.
+Therefore, by averaging over the finite group generated by these sign changes
+and using convexity of $u\mapsto |u|^p$, for every
+$a\in\R$, $\alpha\in\R^{d-1}$, and $b\in\R$,
+\[
+  \|F_{S,d}-a\phi'_S-\alpha\cdot y-b\|_{L^p(\rho_{\Phi_{S,d}})}^p
+  \ge
+  \|F_{S,d}-b\|_{L^p(\rho_{\Phi_{S,d}})}^p.
+\]
+Since $F_{S,d}$ is independent of $y$, the right-hand side equals
+\[
+  \|f_S-b\|_{L^p(\rho_S)}^p.
+\]
+The lower-bound argument from Lemma~\ref{lem:lp-distance-1d}, applied to
+constants $b$, gives
+\[
+  \dist_{L^p(\rho_{\Phi_{S,d}})}
+       (F_{S,d},\cO_{\BL,\Phi_{S,d}})^p
+  \gtrsim q_S.
+\]
+Conversely, taking the zero optimizer gives
+\[
+  \dist_{L^p(\rho_{\Phi_{S,d}})}
+       (F_{S,d},\cO_{\BL,\Phi_{S,d}})^p
+  \le
+  \|F_{S,d}\|_{L^p(\rho_{\Phi_{S,d}})}^p
+  =
+  \|f_S\|_{L^p(\rho_S)}^p
+  \lesssim q_S.
+\]
+Thus the product-family $L^p$ distance has the same size as the
+one-dimensional one:
+\[
+  \dist_{L^p(\rho_{\Phi_{S,d}})}
+       (F_{S,d},\cO_{\BL,\Phi_{S,d}})
+  \asymp S^{-1/p}.
+\]
+The deficit is unchanged by the product lift, by \eqref{eq:prod-var}, so
+\[
+  \delta_{\BL,\Phi_{S,d}}(F_{S,d})^{1/2}
+  =
+  \delta_{\BL,\phi_S}(f_S)^{1/2}
+  \asymp S^{-1}.
+\]
+Dividing gives the claimed asymptotic ratio.
+\end{proof}
+
+\begin{remark}
+At $p=1$ the same computation is exactly borderline. Lemma~\ref{lem:lp-distance-1d}
+gives
+\[
+  \dist_{L^1(\rho_S)}(f_S,\cO_{\BL,\phi_S})
+  \asymp S^{-1},
+\]
+while Proposition~\ref{prop:asymptotics} gives
+\[
+  \delta_{\BL,\phi_S}(f_S)^{1/2}\asymp S^{-1}.
+\]
+Thus this counterexample does not contradict an $L^1$ square-root stability
+estimate. In fact, the companion paper \cite{BLpaper} proves precisely such a
+sharp uniform $L^1$ stability theorem for the Brascamp--Lieb deficit. The
+present construction shows that the topology in that theorem cannot be
+strengthened to any fixed $L^p$ topology with $p>1$ by a dimension-free
+constant of the same square-root form.
 \end{remark}
 
 \begin{thebibliography}{10}
