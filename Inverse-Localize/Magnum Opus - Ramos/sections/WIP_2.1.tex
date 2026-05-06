@@ -1,0 +1,428 @@
+\section{Preliminaries}
+
+\subsection{Properties of the Bargmann-Fock space} We briefly recall the connection between the Gaussian short-time Fourier transform
+(STFT) and the Bargmann--Fock space, which will be used systematically in what
+follows. Excellent references for the material in this subsection are
+\cite{Bargmann,Folland,Grochenig,Zhu}; see also
+\cite{Berezin,Berger-Coburn,Daubechies}.
+
+\medskip
+
+Let $\phi(x) = 2^{1/4} e^{-\pi x^2}$ be the normalized Gaussian. For $f \in L^2(\mathbb{R})$, its Gaussian STFT is
+\begin{equation}\label{eq:STFT}
+V_\phi f(x,\omega)
+= \int_{\mathbb{R}} f(t)\, \phi(x-t)\, e^{-2\pi i t \omega}\, dt.
+\end{equation}
+The Bargmann transform
+$\mathcal{B} : L^2(\mathbb{R}) \to \mathcal{F}^2(\mathbb{C})$ is defined by
+\begin{equation}\label{eq:Bargmann}
+(\mathcal{B}f)(z)
+= 2^{1/4} \int_{\mathbb{R}} f(t)\, e^{2\pi t z - \pi t^2 - \frac{\pi}{2} z^2}\, dt,
+\qquad z \in \mathbb{C}.
+\end{equation}
+It is well known that $\mathcal{B}$ is a unitary isomorphism onto the Bargmann--Fock
+space $\mathcal{F}^2(\mathbb{C})$, endowed with the norm
+\[
+\|F\|_{\mathcal{F}^2}^2
+= \int_{\mathbb{C}} |F(z)|^2 e^{-\pi |z|^2} \, dA(z).
+\]
+A direct computation shows that, for $z = x + i\omega$,
+\begin{equation}\label{eq:STFT-B}
+V_\phi f(x,-\omega)
+= e^{\pi i x \omega}\, (\mathcal{B}f)(z)\, e^{-\frac{\pi}{2}|z|^2}.
+\end{equation}
+In particular, setting $F = \mathcal{B}f$, one obtains
+\begin{equation}\label{eq:energy}
+\int_{\mathbb{R}^2} |V_\phi f(x,\omega)|^2 \, dx\, d\omega
+= \int_{\mathbb{C}} |F(z)|^2 e^{-\pi |z|^2} \, dA(z)
+= \|F\|_{\mathcal{F}^2}^2.
+\end{equation}
+
+\medskip
+
+\noindent
+\subsubsection*{Weyl operators and invariance.}
+For $a \in \mathbb{C}$, define the operator
+\begin{equation}\label{eq:Ta}
+(T_a F)(z) := e^{\pi a z - \frac{\pi}{2}|a|^2} F(z - a).
+\end{equation}
+Then $T_a$ is unitary on $\mathcal{F}^2(\mathbb{C})$. Indeed,
+\begin{align*}
+\|T_aF\|_{\mathcal F^2}^2
+&=
+\int_{\C} e^{2\pi \Re(az)-\pi |a|^2}\,|F(z-a)|^2 e^{-\pi |z|^2}\,dA(z) \\
+&=
+\int_{\C} |F(z-a)|^2 e^{-\pi |z-a|^2}\,dA(z)
+=
+\|F\|_{\mathcal F^2}^2,
+\end{align*}
+because
+\[
+2\Re(az)-|a|^2-|z|^2=-|z-a|^2.
+\]
+Moreover,
+\begin{equation}\label{eq:uF-translate}
+u_{T_a F}(z) = u_F(z - a).
+\end{equation}
+Indeed, since
+\(2\Re(az)-|a|^2-|z|^2 = -|z-a|^2\),
+\begin{equation}\label{eq:u-translation-global}
+u_{T_aF}(z)
+=
+|T_aF(z)|^2e^{-\pi |z|^2}
+=
+e^{2\pi\Re(az)-\pi|a|^2}|F(z-a)|^2e^{-\pi |z|^2}
+=
+|F(z-a)|^2e^{-\pi |z-a|^2}=u_F(z-a).
+\end{equation}
+In particular, the functionals $I_F$ defined by,
+for \(s>0\),
+\[
+I_F(s):=\sup_{|\Omega|=s}\int_\Omega u_F\,dA,
+\]
+satisfy, by the translation-invariance of the Lebesgue measure on \(\C\),
+\begin{equation}\label{eq:I-translation-global}
+I_{T_a F}(s) = I_F(s), \qquad a \in \mathbb{C},
+\end{equation}
+reflecting the invariance of the Gaussian STFT under time--frequency shifts;
+see \cite{Daubechies,Grochenig,Kulikov-Oliveira-Ramos,Goncalves-Oliveira-Steinerberger}.
+
+\medskip
+
+\noindent
+\subsubsection*{Connection with localization.}
+If $F = \mathcal{B}f$, then for every measurable $\Omega \subset \mathbb{C}$,
+\[
+\int_\Omega u_F \, dA
+= \int_{\widetilde{\Omega}} |V_\phi f(x,\omega)|^2 \, dx\, d\omega,
+\]
+where $\widetilde{\Omega} = \{(x,\omega) : (x,-\omega) \in \Omega\}$.
+Thus, concentration properties of the STFT are naturally encoded by the function
+\begin{equation}\label{eq:uF}
+u_F(z) := |F(z)|^2 e^{-\pi |z|^2}, \qquad z \in \mathbb{C},
+\end{equation}
+which is the main object of interest in the Bargmann--Fock setting, in terms of the
+quantities $I_F(s)$.
+
+\medskip
+
+We next collect a few elementary facts that will be used repeatedly.
+
+\begin{lemma}\label{lem:Fock-basic}
+Let $F,G \in \mathcal{F}^2(\mathbb{C})$. Then:
+\begin{enumerate}
+\item[(i)] The space $\mathcal{F}^2(\mathbb{C})$ is a reproducing kernel Hilbert space with kernel
+\[
+K_w(z) = e^{\pi z \overline{w}}, \qquad z,w \in \mathbb{C}.
+\]
+
+\item[(ii)] (Sharp pointwise bound) For every $z \in \mathbb{C}$,
+\[
+u_F(z) \le \|F\|_{\mathcal{F}^2}^2,
+\]
+and equality holds at some point if and only if $F$ is proportional to $F_w$
+for some $w \in \mathbb{C}$.
+
+\item[(iii)] $u_F(z) \to 0$ as $|z| \to \infty$.
+
+\item[(iv)] One has the estimate
+\[
+\|u_F - u_G\|_{L^1(\mathbb{C})}
+\le \big( \|F\|_{\mathcal{F}^2} + \|G\|_{\mathcal{F}^2} \big)
+\|F - G\|_{\mathcal{F}^2}.
+\]
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) For \(w\in \C\), the function \(K_w(z)=e^{\pi z\overline w}\) is entire and
+satisfies, after completing the square via
+\(2\Re(z\overline w)-|z|^2=-|z-w|^2+|w|^2\),
+\[
+\|K_w\|_{\mathcal F^2}^2
+=
+\int_{\C} e^{2\pi \Re(z\overline w)-\pi |z|^2}\,dA(z)
+=
+e^{\pi |w|^2}\int_{\C}e^{-\pi |z-w|^2}\,dA(z)
+=
+e^{\pi |w|^2},
+\]
+since the Gaussian \(e^{-\pi |\cdot|^2}\) integrates to \(1\) over \(\C\) (with
+the Lebesgue measure \(dA\) on \(\C\simeq \mathbb R^2\)). In particular
+\(K_w\in \mathcal F^2(\C)\). Now, expanding \(F\in \mathcal F^2(\C)\) along the
+orthonormal basis \(\{e_k\}_{k\geq 0}\) of Lemma \ref{lem:monomials} and using
+the Taylor expansion
+\(K_w(z)=\sum_{k\geq 0}\frac{\pi^k\overline w^k}{k!}z^k=\sum_{k\geq 0}\overline{e_k(w)}\,e_k(z)\),
+one obtains the reproducing identity
+\[
+\langle F,K_w\rangle_{\mathcal F^2}
+=
+\sum_{k\geq 0} a_k\,e_k(w)
+=
+F(w),
+\qquad F(z)=\sum_{k\geq 0}a_k e_k(z).
+\]
+Point evaluation is therefore continuous, and \(F\) is entire as a uniform
+limit on compact sets of polynomials. This is the standard description of the
+Bargmann--Fock space, see \cite{Bargmann,Folland,Grochenig,Zhu}.
+
+(ii) Applying Cauchy--Schwarz to the reproducing identity from (i),
+\begin{equation}\label{eq:pointwise}
+|F(z)|
+=
+|\langle F,K_z\rangle_{\mathcal F^2}|
+\le
+\|F\|_{\mathcal F^2}\,\|K_z\|_{\mathcal F^2}
+=
+\|F\|_{\mathcal F^2}\,e^{\frac{\pi}{2}|z|^2},
+\end{equation}
+which immediately gives \(u_F(z)=|F(z)|^2 e^{-\pi |z|^2}\le \|F\|_{\mathcal F^2}^2\).
+The case of equality at a point \(z=w\) corresponds to equality in
+Cauchy--Schwarz, that is, \(F=c\,K_w\) for some \(c\in \C\); writing
+\(F_w:=K_w\), this proves the rigidity statement. The sharpness of this
+pointwise bound goes back to \cite{Lieb}.
+
+(iii) Fix \(\varepsilon>0\), and choose a polynomial \(P\) such that
+\[
+\|F-P\|_{\mathcal F^2}<\varepsilon
+\]
+using the density of polynomials in \(\mathcal F^2(\C)\). By the pointwise bound from (ii),
+\[
+|F(z)-P(z)|e^{-\frac{\pi}{2}|z|^2}\le \varepsilon
+\qquad\text{for every }z\in \C.
+\]
+Since \(P\) is a polynomial,
+\[
+P(z)e^{-\frac{\pi}{2}|z|^2}\to 0
+\qquad\text{as }|z|\to\infty.
+\]
+Hence
+\[
+\limsup_{|z|\to\infty}|F(z)|e^{-\frac{\pi}{2}|z|^2}\le \varepsilon.
+\]
+As \(\varepsilon>0\) is arbitrary, we conclude that
+\[
+|F(z)|e^{-\frac{\pi}{2}|z|^2}\to 0,
+\]
+that is, \(u_F(z)\to 0\) as \(|z|\to\infty\).
+
+(iv) Writing
+\[
+|u_F - u_G|
+= \big||F|^2 - |G|^2\big| e^{-\pi|z|^2}
+\le |F-G|(|F|+|G|) e^{-\pi|z|^2},
+\]
+the claim follows by Cauchy--Schwarz.
+\end{proof}
+
+\medskip
+
+We now note the following crucial fact about the Bargmann transform: it
+transforms the basis of normalized Hermite functions \(\{h_k\}_{k\geq 0}\) on
+\(L^2(\R)\) (see \cite{Thangavelu}) onto normalized monomials, yielding a
+natural orthonormal basis on $\mathcal{F}^2(\C).$ More precisely, one has
+\(\mathcal B h_k=e_k\) for every \(k\ge 0\), see \cite{Bargmann,Folland,Grochenig}.
+
+\begin{lemma}\label{lem:monomials}
+The functions
+\[
+e_k(z) := b_k z^k, \qquad k \ge 0,
+\]
+form an orthonormal basis of $\mathcal{F}^2(\mathbb{C})$, where
+\[
+b_k = \left( \frac{\pi^k}{k!} \right)^{1/2}.
+\]
+In particular,
+\[
+\langle e_k, e_m \rangle_{\mathcal{F}^2} = \delta_{k,m}.
+\]
+\end{lemma}
+
+\begin{proof}
+Writing \(z=re^{i\theta}\) and using \(dA(z)=r\,dr\,d\theta\) on \(\C\),
+a direct computation in polar coordinates gives
+\[
+\int_{\mathbb{C}} |z|^{2k} e^{-\pi |z|^2}\,dA(z)
+= \int_0^{2\pi}\!\!\int_0^\infty r^{2k+1} e^{-\pi r^2}\,dr\,d\theta
+= 2\pi \int_0^\infty r^{2k+1} e^{-\pi r^2}\,dr
+= \frac{k!}{\pi^k},
+\]
+where the last identity follows from the substitution \(s=\pi r^2\), giving
+\(2\pi\int_0^\infty r^{2k+1}e^{-\pi r^2}\,dr=\pi^{-k}\int_0^\infty s^k e^{-s}\,ds
+=\pi^{-k}\Gamma(k+1)\). Thus
+\(\|z^k\|_{\mathcal{F}^2}^2 = \frac{k!}{\pi^k}\), which yields the normalization.
+For orthogonality, again writing \(z=re^{i\theta}\),
+\[
+\langle z^k,z^m\rangle_{\mathcal F^2}
+=
+\int_0^\infty r^{k+m+1}e^{-\pi r^2}\,dr\int_0^{2\pi}e^{i(k-m)\theta}\,d\theta
+=
+0
+\qquad\text{for }k\neq m.
+\]
+For completeness, observe that if \(F\in \mathcal F^2(\C)\) satisfies
+\(\langle F,e_k\rangle_{\mathcal F^2}=0\) for every \(k\ge 0\), then in
+particular all Taylor coefficients of \(F\) at the origin vanish: since
+\(F=\mathcal Bf\) for a unique \(f\in L^2(\R)\), and \(\mathcal Bh_k=e_k\) (so
+that \(\{e_k\}\) is the image of the orthonormal basis of Hermite functions
+under the unitary \(\mathcal B\)), the family \(\{e_k\}_{k\ge 0}\) is total in
+\(\mathcal F^2(\C)\). Equivalently, one may invoke directly the fact that any
+entire function of order at most \(2\) lying in \(\mathcal F^2(\C)\) is the
+limit of its Taylor polynomials in the Fock norm; see
+\cite{Bargmann,Zhu}.
+\end{proof}
+
+\medskip
+
+\begin{lemma}\label{lem:growth}
+Let $F \in \mathcal{F}^2(\mathbb{C})$. Then:
+\begin{enumerate}
+\item[(i)] $F$ admits the expansion
+\[
+F(z) = \sum_{k=0}^\infty a_k e_k(z),
+\qquad \sum_{k=0}^\infty |a_k|^2 = \|F\|_{\mathcal{F}^2}^2.
+\]
+
+\item[(ii)] (Growth bound) For every $z \in \mathbb{C}$,
+\[
+|F(z)| \le \|F\|_{\mathcal{F}^2} e^{\frac{\pi}{2}|z|^2}.
+\]
+
+\item[(iii)] (Derivative bounds) For every $z \in \mathbb{C}$,
+\[
+|F'(z)| \le C(1+|z|)\, \|F\|_{\mathcal{F}^2} e^{\frac{\pi}{2}|z|^2}.
+\]
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) follows from the orthonormal basis in Lemma \ref{lem:monomials}.
+
+(ii) follows from the reproducing kernel estimate:
+\[
+|F(z)| = |\langle F, K_z \rangle|
+\le \|F\|_{\mathcal{F}^2} \|K_z\|_{\mathcal{F}^2}
+= \|F\|_{\mathcal{F}^2} e^{\frac{\pi}{2}|z|^2}.
+\]
+
+(iii) Differentiating the reproducing identity
+\(F(z)=\langle F,K_z\rangle_{\mathcal F^2}\) in the parameter \(z\), and using
+\(\partial_z K_w(z) =\pi \overline{w}\,K_w(z)\) (which is to be read in the
+antiholomorphic variable \(w\), namely \(\overline{\partial_{\overline w}K_z(w)}=\pi w K_z(w)\)
+once one views \(z\mapsto K_z\) as an antiholomorphic family), we obtain
+\[
+F'(z)=\pi \langle F,\overline{w}K_z(w)\rangle_{\mathcal F^2}.
+\]
+Cauchy--Schwarz then gives
+\[
+|F'(z)|
+\le
+\pi \|F\|_{\mathcal F^2}\,\|\overline{w}K_z\|_{\mathcal F^2}.
+\]
+Now, by completing the square as in (i),
+\[
+\|\overline{w}K_z\|_{\mathcal F^2}^2
+=
+\int_{\C} |w|^2 e^{2\pi\Re(w\overline z)-\pi |w|^2}\,dA(w)
+=
+e^{\pi |z|^2}\int_{\C} |w+z|^2 e^{-\pi |w|^2}\,dA(w),
+\]
+after the change of variables \(w\mapsto w+z\). Expanding
+\(|w+z|^2=|w|^2+2\Re(w\overline z)+|z|^2\), and using that
+\(\int_\C e^{-\pi |w|^2}\,dA(w)=1\),
+\(\int_\C |w|^2 e^{-\pi |w|^2}\,dA(w)=\frac{1}{\pi}\), and
+\(\int_\C w\,e^{-\pi |w|^2}\,dA(w)=0\) (by rotational invariance), we conclude
+\[
+\int_{\C} |w+z|^2 e^{-\pi |w|^2}\,dA(w)
+=
+\frac{1}{\pi}+|z|^2
+\le
+C(1+|z|^2),
+\]
+for some absolute constant \(C>0\). Therefore
+\[
+|F'(z)| \le C(1+|z|)\,\|F\|_{\mathcal F^2}e^{\frac{\pi}{2}|z|^2}.
+\]
+\end{proof}
+
+\medskip
+
+\begin{lemma}\label{lem:max}
+Let $F \in \mathcal{F}^2(\mathbb{C})$ and set
+\[
+T := \sup_{z \in \mathbb{C}} u_F(z).
+\]
+Then $0 \le T \le \|F\|_{\mathcal{F}^2}^2$, and $T = \|F\|_{\mathcal{F}^2}^2$
+if and only if $F$ is proportional to $F_w$ for some $w \in \mathbb{C}$.
+\end{lemma}
+
+\begin{proof}
+The bound follows from Lemma \ref{lem:Fock-basic}(ii). The characterization of
+equality is the same as in the reproducing kernel inequality.
+    \end{proof}
+
+\medskip
+
+    We proceed with a few elementary facts.
+
+\begin{lemma}\label{lem:basic-properties-global}
+Let \(F,G\in \mathcal F^2(\C)\). Then:
+\begin{enumerate}
+    \item[(i)] \(I_F(s)\) is attained by a superlevel set of \(u_F\), and
+    \[
+    0\le I_F(s)\le \|F\|_{\mathcal F^2}^2.
+    \]
+    \item[(ii)] For every \(c\in \C\),
+    \[
+    I_{cF}(s)=|c|^2 I_F(s).
+    \]
+    \item[(iii)] One has the Lipschitz bound
+    \[
+    |I_F(s)-I_G(s)|
+    \le
+    \|u_F-u_G\|_{L^1(\C)}
+    \le
+    \big(\|F\|_{\mathcal F^2}+\|G\|_{\mathcal F^2}\big)\,
+    \|F-G\|_{\mathcal F^2}.
+    \]
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The identity
+\[
+\int_\C u_F\,dA=\int_\C |F(z)|^2e^{-\pi |z|^2}\,dA(z)=\|F\|_{\mathcal F^2}^2
+\]
+is immediate from the definition of the Fock norm. Since \(F\in\mathcal F^2\),
+the standard reproducing-kernel estimate implies that \(u_F\) is bounded and
+continuous, and in fact \(u_F(z)\to 0\) as \(|z|\to \infty\); thus
+\(u_F\in C_0(\C)\cap L^1(\C)\).
+
+The existence of a maximizing set for \(I_F(s)\), given by a superlevel set of
+\(u_F\), is the classical bathtub principle. The bound
+\[
+0\le I_F(s)\le \int_\C u_F\,dA=\|F\|_{\mathcal F^2}^2
+\]
+is immediate. The scaling identity in (ii) is obvious.
+
+For (iii), for every measurable \(\Omega\subset \C\) with \(|\Omega|=s\),
+\[
+\left|\int_\Omega u_F\,dA-\int_\Omega u_G\,dA\right|
+\le \int_\C |u_F-u_G|\,dA.
+\]
+Taking suprema over \(|\Omega|=s\) gives
+\[
+|I_F(s)-I_G(s)|\le \|u_F-u_G\|_{L^1(\C)}.
+\]
+Finally,
+\begin{align*}
+\|u_F-u_G\|_{L^1(\C)}
+&=
+\int_\C \big||F|^2-|G|^2\big|\,e^{-\pi |z|^2}\,dA \\
+&\le
+\int_\C |F-G|(|F|+|G|)e^{-\pi |z|^2}\,dA \\
+&\le
+\|F-G\|_{\mathcal F^2}\big(\|F\|_{\mathcal F^2}+\|G\|_{\mathcal F^2}\big)
+\end{align*}
+by Cauchy--Schwarz.
+\end{proof}

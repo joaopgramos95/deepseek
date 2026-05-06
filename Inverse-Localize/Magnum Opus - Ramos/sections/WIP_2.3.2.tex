@@ -1,0 +1,399 @@
+\subsubsection{A perturbative weighted quadrature-domain theorem}\label{app:cherednichenko-type}
+
+We now prove a local realization statement for weighted quadrature domains
+near a reference \(C^2\) domain. The result is a tailored, perturbative
+version of the classical setup of Cherednichenko \cite{Cherednichenko},
+adapted to the form needed in the proof of Theorem~\ref{thm:perturb}.
+Conceptually, the statement may also be viewed as a quantitative
+implicit-function counterpart of the variational characterization of
+quadrature domains studied by Gustafsson \cite{Gustafsson},
+Gustafsson--Shahgholian \cite{Gustafsson-Shahgholian},
+Shahgholian \cite{Shahgholian}, Karp \cite{Karp}, and
+Aharonov--Schiffer--Zalcman \cite{Aharonov-Schiffer-Zalcman}.
+
+\medskip
+\noindent\emph{Setup.}
+Fix a positive weight \(\mu\in C^2(\overline{U_2})\), where
+\(U_1\subset U_0\subset U_2\) are bounded \(C^2\) domains with
+\(\overline{U_1}\subset U_0\) and \(\overline{U_0}\subset U_2\).
+For a bounded measurable domain \(U\subset U_2\), define its weighted
+Cauchy transform by
+\[
+g_U(z):=\int_U \frac{\mu(w)}{z-w}\,dA(w),
+\qquad z\in \C\setminus \overline U.
+\]
+The function \(g_U\) is holomorphic on \(\C\setminus \overline U\), continuous up to
+\(\partial U\), and, in the sense of distributions on \(\C\),
+\[
+\partial_{\overline z}\, g_U \;=\; \pi\,\mu\,\mathbf{1}_U.
+\]
+At infinity it admits the expansion
+\[
+g_U(z)=\frac{1}{z}\int_U \mu(w)\,dA(w)+O(|z|^{-2}),
+\]
+so in particular \(\lim_{z\to\infty}g_U(z)=0\) and
+\(\lim_{z\to\infty}zg_U(z)=\int_U\mu\,dA>0\).
+
+As before, every domain \(U\) sufficiently \(C^2\)-close to \(U_0\) may be
+represented as a normal graph over \(\partial U_0\),
+\[
+\partial U
+=
+\{x+\varphi(x)\,\nu(x):x\in \partial U_0\},
+\]
+with \(\varphi\in C^2(\partial U_0)\) of small \(C^2\) norm, where \(\nu\)
+denotes the outward unit normal to \(\partial U_0\). We denote the resulting
+domain by \(U_\varphi\) and write \(\Phi_\varphi(x):=x+\varphi(x)\nu(x)\) for
+the boundary diffeomorphism, extended smoothly to a tubular neighborhood of
+\(\partial U_0\) (and by the identity outside) so as to define a
+diffeomorphism of \(\overline{U_2}\) onto itself.
+
+\begin{proposition}[\cite{Cherednichenko}]\label{prop:cherednichenko-tailored}
+Let \(U_1\subset U_0\subset U_2\) be bounded \(C^2\) domains, and let
+\(\mu\in C^2(\overline{U_2})\) satisfy
+\[
+\mu>0 \qquad \text{on }\overline{U_2}.
+\]
+Then there exist \(\rho>0\) and \(\varepsilon>0\) with the following property.
+
+Suppose \(g\) is holomorphic on \(\C\setminus \overline{U_1}\), continuous up
+to \(\partial U_1\), and satisfies
+\begin{equation}\label{eq:appendix-g-hypotheses}
+\lim_{z\to\infty} g(z)=0,
+\qquad
+\lim_{z\to\infty} z\,g(z)=c_0>0,
+\end{equation}
+together with
+\[
+\sup_{z\in \partial U_1}|g(z)-g_{U_0}(z)|<\varepsilon.
+\]
+Then there exists a unique function
+\(\varphi\in C^2(\partial U_0)\), with \(\|\varphi\|_{C^2(\partial U_0)}<\rho\),
+such that the associated domain \(U_\varphi\) satisfies
+\[
+U_1\subset U_\varphi\subset U_2
+\]
+and
+\[
+g_{U_\varphi}(z)=g(z)
+\qquad \text{for all } z\in \C\setminus \overline{U_\varphi}.
+\]
+Moreover, the assignment
+\[
+g\mapsto \varphi(g)
+\]
+is \(C^1\) with respect to the \(C^2(\partial U_1)\) topology on the trace
+data and the \(C^2(\partial U_0)\) topology on the boundary graph.
+\end{proposition}
+
+\begin{proof}
+The proof reduces matters to a boundary equation on \(\partial U_1\) and
+applies the implicit function theorem in suitable Banach spaces.
+
+\medskip
+\noindent\emph{Step 1: reduction to a boundary matching problem.}
+Both \(g\) and \(g_{U_\varphi}\) are holomorphic on
+\(\C\setminus \overline{U_\varphi}\) and vanish at infinity. As long as
+\(U_1\subset U_\varphi\), the curve \(\partial U_1\) lies in the (connected)
+unbounded component of \(\C\setminus \overline{U_\varphi}\). Suppose
+\begin{equation}\label{eq:boundary-equation-U1}
+g_{U_\varphi}(z)\;=\;g(z)
+\qquad \text{for all }z\in \partial U_1.
+\end{equation}
+The difference \(g_{U_\varphi}-g\) is then holomorphic on
+\(\C\setminus \overline{U_\varphi}\), continuous up to the boundary, vanishes
+at infinity, and vanishes on the closed curve \(\partial U_1\). Since the
+zero set of a non-trivial holomorphic function on a connected open set is
+discrete, vanishing on the one-dimensional set \(\partial U_1\) forces
+\(g_{U_\varphi}\equiv g\) on the unbounded component of
+\(\C\setminus \overline{U_\varphi}\). As both functions are holomorphic on
+the full open set \(\C\setminus \overline{U_\varphi}\), the identity theorem
+extends the equality to that whole open set.
+
+Thus it suffices to solve \eqref{eq:boundary-equation-U1}. We define
+\[
+\mathcal{G}:\;\varphi\;\longmapsto\;g_{U_\varphi}\big|_{\partial U_1},
+\]
+and view \(\mathcal{G}\) as a map between Banach spaces
+\[
+\mathcal{G}\colon\;
+\mathcal{O}\subset C^2(\partial U_0)\;\longrightarrow\;C^2(\partial U_1),
+\]
+defined on a small \(C^2\) neighborhood \(\mathcal{O}\) of \(0\), small
+enough that \(\overline{U_1}\subset U_\varphi\subset U_2\) for all
+\(\varphi\in \mathcal{O}\). Note that for such \(\varphi\), \(\partial U_1\)
+stays a positive distance from \(\overline{U_\varphi}\), so the integral
+defining \(g_{U_\varphi}\) is non-singular for \(z\in \partial U_1\).
+
+\medskip
+\noindent\emph{Step 2: \(C^1\) dependence of \(\mathcal{G}\) on \(\varphi\).}
+Performing the change of variables \(w=\Phi_\varphi(w')\) in the bulk integral
+yields
+\[
+g_{U_\varphi}(z)
+=
+\int_{U_0}
+\frac{\mu(\Phi_\varphi(w'))\,J_\varphi(w')}{z-\Phi_\varphi(w')}\,dA(w'),
+\qquad z\in \partial U_1,
+\]
+where \(J_\varphi=|\det D\Phi_\varphi|\). Because \(z\in \partial U_1\) keeps
+a uniform positive distance \(d_0>0\) from
+\(\overline{U_0}\) (and hence from \(\overline{U_\varphi}\) for all
+\(\varphi\) in a sufficiently small neighborhood of zero), the integrand is a
+smooth function of \((\varphi,w')\) and the differentiation in \(\varphi\)
+under the integral sign is fully justified by dominated convergence.
+Combined with the smoothness of \(\mu\) and of the dependence
+\(\varphi\mapsto \Phi_\varphi\), this gives that \(\mathcal{G}\) is of class
+\(C^1\) (in fact \(C^k\) whenever \(\mu\in C^k\)) from
+\(\mathcal{O}\subset C^2(\partial U_0)\) to \(C^2(\partial U_1)\).
+
+\medskip
+\noindent\emph{Step 3: Hadamard shape derivative.}
+We compute \(D\mathcal{G}(0)\). Let \(\psi\in C^2(\partial U_0)\) and set
+\(\varphi=t\psi\) for small \(t\in \R\). Writing
+\(U_{t\psi}\setminus U_0\) as the set swept out by the normal flow with
+speed \(\psi\) in time \(t\), one has, for \(z\in \partial U_1\) (so that
+\(z\notin \overline{U_{t\psi}}\) for \(|t|\) small),
+\[
+g_{U_{t\psi}}(z)-g_{U_0}(z)
+=
+\int_{U_{t\psi}\triangle U_0}\frac{\pm \mu(w)}{z-w}\,dA(w),
+\]
+with the sign \(+\) (resp.\ \(-\)) on \(U_{t\psi}\setminus U_0\) where
+\(\psi>0\) (resp.\ on \(U_0\setminus U_{t\psi}\) where \(\psi<0\)).
+Parametrizing the symmetric difference as a tubular shell of width
+\(t\psi(x)\) over \(\partial U_0\) and using the surface area element
+\(d\sigma\) on \(\partial U_0\), Fubini gives
+\[
+g_{U_{t\psi}}(z)-g_{U_0}(z)
+=
+\int_{\partial U_0}
+\Bigl(\int_0^{t\psi(x)}\frac{\mu(x+s\nu(x))}{z-x-s\nu(x)}\,ds\Bigr)\,d\sigma(x),
+\]
+which after dividing by \(t\) and letting \(t\to 0\) yields the standard
+Hadamard variation formula
+\begin{equation}\label{eq:appendix-shape-derivative-cauchy}
+D\mathcal{G}(0)[\psi](z)
+=
+\int_{\partial U_0}
+\frac{\mu(w)\,\psi(w)}{z-w}\,d\sigma(w),
+\qquad z\in \partial U_1.
+\end{equation}
+Thus the linearization is the (single-layer) Cauchy transform on
+\(\partial U_0\) of the boundary density \(\mu\psi\), restricted to
+\(\partial U_1\). We denote it by \(L\),
+\[
+L\psi(z):=\int_{\partial U_0}\frac{\mu(w)\,\psi(w)}{z-w}\,d\sigma(w),
+\qquad z\in \partial U_1.
+\]
+
+\medskip
+\noindent\emph{Step 4: invertibility of the linearization.}
+We show that \(L\) is an isomorphism between \(C^2(\partial U_0)\) and the
+natural trace space
+\[
+\mathcal{T}:=\Bigl\{H\big|_{\partial U_1}:H\text{ holomorphic on }
+\C\setminus \overline{U_1},\ H(\infty)=0\Bigr\}\cap C^2(\partial U_1),
+\]
+equipped with the \(C^2(\partial U_1)\) norm.
+
+\smallskip
+\emph{Injectivity.} Suppose \(L\psi\equiv 0\) on \(\partial U_1\). The
+Cauchy-type transform
+\[
+F(z):=\int_{\partial U_0}\frac{\mu(w)\,\psi(w)}{z-w}\,d\sigma(w)
+\]
+is holomorphic on \(\C\setminus \partial U_0\) and vanishes at infinity.
+By hypothesis \(F\equiv 0\) on \(\partial U_1\); the same identity-theorem
+argument as in Step~1 (applied on the connected open set
+\(\C\setminus \overline{U_0}\)) shows that
+\(F\equiv 0\) on \(\C\setminus \overline{U_0}\). The Sokhotski--Plemelj
+jump relations for the Cauchy integral on the \(C^2\) curve
+\(\partial U_0\) \cite[Ch.~III]{Garnett} yield, for every
+\(\zeta\in \partial U_0\) at which \(\mu\psi\) is continuous,
+\[
+F^{\mathrm{int}}(\zeta)-F^{\mathrm{ext}}(\zeta)
+\;=\;c_0\,\mu(\zeta)\psi(\zeta),
+\]
+where \(F^{\mathrm{int}}\) and \(F^{\mathrm{ext}}\) denote the
+non-tangential limits from the interior and the exterior of \(U_0\)
+respectively, and \(c_0\) is a non-zero constant depending only on the
+chosen orientation conventions for the kernel \(1/(z-w)\,d\sigma\)
+(in the standard convention with \(\partial U_0\) oriented counterclockwise
+and \(d\sigma\) the arclength measure, \(c_0\) equals a non-zero scalar
+multiple of the integrand of \(dw/d\sigma\) on \(\partial U_0\); the
+precise value is irrelevant here). Since \(F^{\mathrm{ext}}\equiv 0\) and
+\(\mu>0\) on \(\partial U_0\), this forces \(\psi\equiv 0\). Hence \(L\)
+is injective.
+
+\smallskip
+\emph{Surjectivity.} Let \(h\in \mathcal{T}\) and let \(H\) denote its
+unique holomorphic extension to \(\C\setminus \overline{U_1}\) vanishing at
+infinity. The annular region \(A:=U_0\setminus \overline{U_1}\) is
+contained in \(\C\setminus \overline{U_1}\), so \(H\) is holomorphic in a
+neighborhood of \(\overline{A}\); in particular the trace
+\(H|_{\partial U_0}\) is well defined, lies in \(C^2(\partial U_0)\), and
+depends continuously on \(h\) in the \(C^2\) topology by the Cauchy integral
+formula on \(\partial U_1\) (interior holomorphic regularity inside the
+annulus). We now seek a density \(\sigma_0\in C^2(\partial U_0)\) such that
+\[
+H(z)\;=\;\int_{\partial U_0}\frac{\sigma_0(w)}{z-w}\,d\sigma(w)
+\qquad \text{for all }z\in \C\setminus \overline{U_0}.
+\]
+Such a density is unique: if two densities \(\sigma_0\) and
+\(\sigma_0'\) produced the same Cauchy integral on
+\(\C\setminus \overline{U_0}\), then their difference \(\delta:=\sigma_0
+-\sigma_0'\) generates a Cauchy integral \(F\) with exterior limit
+\(F^{\mathrm{ext}}\equiv 0\). The standard Sokhotski--Plemelj jump
+relations \cite[Ch.~III]{Garnett} yield
+\(F^{\mathrm{int}}-F^{\mathrm{ext}}=c_0\,\delta\) at every continuity
+point of \(\delta\), with the same non-zero kernel constant \(c_0\) as
+above. With \(F^{\mathrm{ext}}\equiv 0\), the function \(F\) extends
+holomorphically across \(\partial U_0\) to the whole plane (and remains
+holomorphic) only if \(F^{\mathrm{int}}\equiv 0\) as well; combined with
+the vanishing of \(F\) at infinity this would force \(F\equiv 0\) and
+hence \(\delta\equiv 0\). One then verifies the consistency by noting
+that the \(C^2\) regularity of the curve and density guarantees that the
+non-tangential limits exist pointwise and the jump identity holds in the
+classical sense.
+
+Existence of \(\sigma_0\in C^2(\partial U_0)\) is the classical exterior
+Cauchy inversion problem on the \(C^2\) curve \(\partial U_0\). The
+boundary integral operator
+\[
+T\sigma_0(\zeta)
+\;:=\;\mathrm{p.v.}\!\int_{\partial U_0}
+\frac{\sigma_0(w)}{\zeta-w}\,d\sigma(w),\qquad \zeta\in\partial U_0,
+\]
+is a classical singular integral operator on the \(C^2\) curve, bounded on
+\(C^2(\partial U_0)\) by the standard mapping properties of the Cauchy
+transform on smooth curves \cite[Ch.~III]{Garnett}. Combining \(T\) with
+the Sokhotski--Plemelj jump identity gives, for the exterior boundary
+value of the Cauchy integral with density \(\sigma_0\),
+\[
+F^{\mathrm{ext}}(\zeta)\;=\;
+T\sigma_0(\zeta)-\tfrac{1}{2}\,c_0\,\sigma_0(\zeta),
+\]
+so that the exterior matching equation
+\(F^{\mathrm{ext}}=H|_{\partial U_0}\) becomes the integral equation
+\[
+T\sigma_0-\tfrac{1}{2}\,c_0\,\sigma_0
+\;=\;H\big|_{\partial U_0}
+\qquad \text{on }\partial U_0.
+\]
+The associated Fredholm theory (with \(T\) a compact perturbation of a
+multiple of the identity in the appropriate scale of H\"older spaces, see
+\cite[Ch.~III]{Garnett}) combined with the uniqueness statement just
+established yields, by the Fredholm alternative, a unique solution
+\(\sigma_0\in C^2(\partial U_0)\) depending continuously on
+\(H|_{\partial U_0}\), and hence on \(h\), in the \(C^2\) topology.
+
+Setting \(\psi:=\sigma_0/\mu\in C^2(\partial U_0)\) (which is admissible
+since \(\mu\geq c>0\) on \(\overline{U_2}\) and \(\mu\in C^2\)), we obtain
+\[
+L\psi(z)
+=\int_{\partial U_0}\frac{\mu(w)\psi(w)}{z-w}\,d\sigma(w)
+=\int_{\partial U_0}\frac{\sigma_0(w)}{z-w}\,d\sigma(w)
+=H(z)
+\qquad \text{for }z\in \partial U_1.
+\]
+Hence \(L\) is surjective onto \(\mathcal{T}\). Combining injectivity and
+surjectivity, \(L\) is a continuous bijection between the Banach spaces
+\(C^2(\partial U_0)\) and \(\mathcal{T}\); the open mapping theorem then
+guarantees that \(L^{-1}\colon \mathcal{T}\to C^2(\partial U_0)\) is
+bounded.
+
+\medskip
+\noindent\emph{Step 5: implicit function theorem.}
+We now have all ingredients to invoke the implicit function theorem
+between the Banach spaces
+\[
+X:=C^2(\partial U_0),\qquad
+Y:=\bigl\{H\big|_{\partial U_1}:H\text{ holom. on }
+\C\setminus \overline{U_1},\ H(\infty)=0\bigr\}\cap C^2(\partial U_1)
+=\mathcal{T},
+\]
+both equipped with the appropriate \(C^2\) norms. By Step~2, the map
+\(\mathcal{G}\colon\mathcal{O}\to Y\) is \(C^1\) on a neighborhood
+\(\mathcal{O}\subset X\) of \(0\), and by Step~4 its differential at
+\(0\) is the Banach isomorphism \(D\mathcal{G}(0)=L:X\to Y\). The
+implicit function theorem (in Banach spaces) therefore furnishes
+\(\rho_0>0\) and \(\varepsilon_0>0\) such that, for every
+\(\widetilde h\in Y\) with
+\(\|\widetilde h-\mathcal{G}(0)\|_{C^2(\partial U_1)}<\varepsilon_0\),
+there is a unique \(\varphi\in X\) with
+\(\|\varphi\|_{C^2(\partial U_0)}<\rho_0\) solving
+\(\mathcal{G}(\varphi)=\widetilde h\), and the assignment
+\(\widetilde h\mapsto \varphi\) is of class \(C^1\) from a
+neighborhood of \(\mathcal{G}(0)=g_{U_0}|_{\partial U_1}\) in \(Y\) to
+\(X\).
+
+To match the hypotheses of the proposition, we observe that any \(g\)
+holomorphic on \(\C\setminus \overline{U_1}\), continuous up to
+\(\partial U_1\), and satisfying \eqref{eq:appendix-g-hypotheses}, with
+\[
+\sup_{z\in\partial U_1}|g(z)-g_{U_0}(z)|<\varepsilon,
+\]
+is in particular bounded on \(\partial U_1\); since \(g-g_{U_0}\) is
+holomorphic on \(\C\setminus \overline{U_1}\) and vanishes at infinity,
+the Cauchy integral formula on a slightly larger smooth contour
+surrounding \(\partial U_1\) inside \(U_0\setminus \overline{U_1}\)
+upgrades the sup-norm bound on \(\partial U_1\) to a \(C^2\)-norm bound
+on \(\partial U_1\), namely
+\[
+\|g-g_{U_0}\|_{C^2(\partial U_1)}\;\leq\;C\,
+\sup_{z\in\partial U_1}|g(z)-g_{U_0}(z)|,
+\]
+with a constant \(C\) depending only on \(U_0\), \(U_1\), and \(\mu\).
+Choosing \(\varepsilon\) so that \(C\varepsilon<\varepsilon_0\), and
+setting \(\rho:=\rho_0\), the IFT yields the unique
+\(\varphi\in C^2(\partial U_0)\) with the asserted properties; in
+particular \(g\mapsto\varphi(g)\) is \(C^1\) with respect to the
+\(C^2(\partial U_1)\) norm on the trace data, as claimed.
+
+By Step~1, the boundary equality \(g_{U_\varphi}=g\) on \(\partial U_1\)
+extends to all of \(\C\setminus \overline{U_\varphi}\) by holomorphic
+continuation.
+
+Finally, the geometric inclusion
+\(U_1\subset U_\varphi\subset U_2\) follows from a uniform tubular
+neighborhood argument. Set
+\[
+d_1:=\mathrm{dist}(\partial U_1,\partial U_0)>0,\qquad
+d_2:=\mathrm{dist}(\partial U_0,\partial U_2)>0,
+\]
+which are strictly positive by the standing assumption
+\(\overline{U_1}\subset U_0\) and \(\overline{U_0}\subset U_2\). For
+\(\varphi\in C^2(\partial U_0)\) with
+\(\|\varphi\|_{C^0(\partial U_0)}<\min(d_1,d_2)\), each boundary point of
+\(U_\varphi\) lies within distance \(\|\varphi\|_{C^0}\) of \(\partial U_0\),
+so \(\partial U_\varphi\) is contained in the open tubular neighborhood
+\(\{x:\mathrm{dist}(x,\partial U_0)<\min(d_1,d_2)\}\), which is in turn
+contained in \(U_2\setminus \overline{U_1}\). Combined with the fact that
+\(U_\varphi\) is a normal-graph perturbation of \(U_0\) (so its topological
+position relative to \(\partial U_0\) is preserved for small \(\varphi\)),
+this forces \(U_1\subset U_\varphi\subset U_2\). Since the inclusion
+\(C^2(\partial U_0)\hookrightarrow C^0(\partial U_0)\) is continuous,
+shrinking \(\rho\) if necessary ensures the smallness condition above.
+This proves the proposition.
+\end{proof}
+
+\begin{remark}
+The only delicate point in
+Proposition~\ref{prop:cherednichenko-tailored} is the invertibility of the
+linearized map. The mechanism is that the Cauchy transform of a boundary
+density is determined by its trace on any inner contour (by holomorphic
+continuation through the annulus), and the Sokhotski--Plemelj jump relation
+then recovers the density itself. Positivity of \(\mu\) is what allows one
+to pass from \(\mu\psi\) back to \(\psi\); the same proof would fail at any
+point where \(\mu\) vanishes.
+\end{remark}
+
+\medskip
+
+We postpone the proof of Theorem~\ref{thm:eig-loc-U} until after the
+perturbative inverse theorem. The same inverse/free-boundary mechanism used
+to construct domains for prescribed eigenfunctions also recovers the
+classical Abreu--D\"orfler disk theorem in the simply connected setting; see
+Section~\ref{sec:classical-rigidity} below.
+

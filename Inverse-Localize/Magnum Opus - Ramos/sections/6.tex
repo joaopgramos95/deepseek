@@ -1,0 +1,661 @@
+\section{Local maximizers for the Faber--Krahn problem in the Gaussian STFT setting}
+
+The purpose of this section is to establish a local rigidity statement for the
+Faber--Krahn problem associated with the Gaussian STFT. The global problem,
+solved in \cite{Nicola-Tilli}, asserts that, among measurable subsets of \(\C\)
+of fixed measure, the centered disk uniquely maximizes the first eigenvalue of
+the Gaussian STFT localization operator. Here we show that this rigidity is
+already visible at the \emph{local} level: any set whose first eigenvalue cannot
+be increased by small symmetric-difference perturbations must, up to a
+translation, be a disk. This complements the quantitative stability result of
+\cite{Gomez-Guerra-Ramos-Tilli} and provides the variational counterpart of the
+inverse-spectral analysis carried out in the previous sections.
+
+We work throughout in the Bargmann--Fock representation; we refer the reader to
+\cite{Bargmann,Folland,Grochenig} for the relevant background. Thus, if
+\(F\in \mathcal F^2(\C)\) is the Bargmann transform of \(f\in L^2(\R)\), then
+\[
+|\mathcal V_\varphi f(z)|^2 = |F(z)|^2 e^{-\pi |z|^2},
+\]
+up to the normalization already fixed in the previous sections. Accordingly, for
+\(F\in \mathcal F^2(\C)\) we set
+\[
+u_F(z):=|F(z)|^2 e^{-\pi |z|^2}.
+\]
+
+For a measurable set \(\Omega\subset \C\), let
+\[
+\lambda_{1,\varphi}(\Omega)
+:=
+\sup_{\|f\|_2=1}\int_\Omega |\mathcal V_\varphi f(z)|^2\,dz.
+\]
+We say that \(\Omega\) is a \emph{local maximizer} for \(\lambda_{1,\varphi}\) under the
+measure constraint if there exists \(\delta_0>0\) such that, whenever
+\(E\subset \C\) is measurable, \(|E|=|\Omega|\), and
+\[
+\int_\C |\mathbf 1_\Omega-\mathbf 1_E|\,e^{-\pi |z|^2}\,dz<\delta_0,
+\]
+one has
+\[
+\lambda_{1,\varphi}(\Omega)\ge \lambda_{1,\varphi}(E).
+\]
+
+We now prove the local rigidity statement announced in the introduction. The
+proof proceeds in six steps. Steps 1--3 are essentially the analogues, in our
+setting, of standard arguments in the Faber--Krahn theory: \(\Sigma\) is forced
+to be a level set of \(u_F\), the corresponding eigenvalue is simple, and a
+first-variation identity ties \(F\) to a divergence-free vector field built from
+holomorphic data. The crucial new ingredient lies in Step 4, where we show that
+the \emph{derivative} \(F'\) is again a first eigenfunction. Combined with the
+simplicity from Step 2, this forces \(F\) to satisfy a first-order linear ODE,
+and hence to be a Gaussian. Once this is in place, Steps 5--6 use the Weyl
+invariance of the Bargmann--Fock setting and a one-dimensional rearrangement
+argument to identify \(\Sigma\) with a centered disk.
+
+\begin{proof}[Proof of the local-maximizer theorem]
+Let \(\Sigma\subset \C\) be a local maximizer for \(\lambda_{1,\varphi}\) under
+the measure constraint, and let \(F\in \mathcal F^2(\C)\) be a normalized first
+eigenfunction for the localization operator associated with \(\Sigma\).
+Equivalently,
+\begin{equation}\label{eq:eigenvalue-equation}
+\int_\Sigma H(z)\overline{F(z)}\,d\mu(z)
+=
+\lambda_{1,\varphi}(\Sigma)\int_\C H(z)\overline{F(z)}\,d\mu(z)
+\end{equation}
+for every \(H\in \mathcal F^2(\C)\), where
+\[
+d\mu(z):=e^{-\pi |z|^2}\,dA(z).
+\]
+
+\medskip
+\noindent
+{\bf Step 1: \(\Sigma\) is a superlevel set of \(u_F\).}
+
+We claim that there exists \(t_0\ge 0\) such that, up to sets of measure zero,
+\begin{equation}\label{eq:superlevel-claim}
+\Sigma=\{u_F>t_0\}.
+\end{equation}
+
+The strategy is a bathtub-style perturbation argument: if \(\Sigma\) were not a
+superlevel set of \(u_F\), one could move a small piece of \(\Sigma\) where
+\(u_F\) is small to a region where \(u_F\) is larger, increasing the
+localization integral while preserving Lebesgue measure and remaining within
+the local-maximizer neighborhood of \(\Sigma\).
+
+Recall that \(F\) is admissible in the variational problem defining
+\(\lambda_{1,\varphi}(\Sigma')\) for any measurable set \(\Sigma'\) of finite
+measure. In particular,
+\[
+\lambda_{1,\varphi}(\Sigma')\ge \int_{\Sigma'} u_F\,dA,
+\qquad
+\lambda_{1,\varphi}(\Sigma)= \int_\Sigma u_F\,dA,
+\]
+the latter equality holding because \(F\) is the actual eigenfunction for
+\(\Sigma\). It therefore suffices to find a competitor \(\Sigma'\) with
+\(|\Sigma'|=|\Sigma|\), close to \(\Sigma\) in the sense of weighted symmetric
+difference, and with \(\int_{\Sigma'} u_F\,dA>\int_\Sigma u_F\,dA\); that would
+violate local maximality.
+
+Suppose, for the sake of contradiction, that \eqref{eq:superlevel-claim} fails.
+Choose, by the layer-cake representation, the unique \(t_0\ge 0\) such that
+\[
+A:=\{u_F>t_0\}\quad\text{satisfies}\quad |A|=|\Sigma|;
+\]
+then \(A\) and \(\Sigma\) do not coincide a.e., so both \(A\setminus\Sigma\) and
+\(\Sigma\setminus A\) have positive Lebesgue measure (and in fact positive
+weighted measure, since \(e^{-\pi|z|^2}>0\) everywhere).
+
+We now perform the bathtub construction explicitly. By inner regularity of the
+Lebesgue measure, choose an open subset
+\(S'\subset A\setminus\Sigma\) and an open subset
+\(T'\subset \Sigma\setminus A\) with \(|S'|,|T'|>0\). Replacing each by a
+sufficiently small open subset, we may further assume
+\(\int_{S'}d\mu,\,\int_{T'}d\mu<\delta_0/4\). Since the Lebesgue measure
+restricted to a fixed open set has the intermediate-value property, we may
+choose subsets \(S\subset S'\) and \(T\subset T'\) with the common Lebesgue
+measure
+\[
+|S|=|T|=\tfrac12\min(|S'|,|T'|)>0.
+\]
+Then
+\[
+\int_\C (\mathbf 1_S+\mathbf 1_T)\,e^{-\pi |z|^2}\,dz<\tfrac{\delta_0}{2}<\delta_0.
+\]
+Define
+\[
+\Sigma':=(\Sigma\setminus T)\cup S.
+\]
+Then \(|\Sigma'|=|\Sigma|\) and
+\[
+\int_\C |\mathbf 1_\Sigma-\mathbf 1_{\Sigma'}|e^{-\pi |z|^2}\,dz
+=\int_\C(\mathbf 1_S+\mathbf 1_T)e^{-\pi|z|^2}\,dz<\delta_0.
+\]
+On the other hand, by construction,
+\[
+u_F(z)>t_0 \quad \text{on } S\subset A,
+\qquad
+u_F(z)\le t_0 \quad \text{on } T\subset \Sigma\setminus A.
+\]
+Moreover, since \(u_F\) is continuous and \(S\subset A=\{u_F>t_0\}\) is open
+with positive measure, we may by shrinking \(S\) further assume that there
+exists \(\eta>0\) with \(u_F\ge t_0+\eta\) on \(S\). It then follows that
+\[
+\int_S u_F\,dA \ge (t_0+\eta)\,|S|,
+\qquad
+\int_T u_F\,dA \le t_0\,|T|=t_0\,|S|,
+\]
+and hence
+\[
+\int_{\Sigma'} u_F\,dA
+=
+\int_\Sigma u_F\,dA + \int_S u_F\,dA-\int_T u_F\,dA
+\ge \int_\Sigma u_F\,dA + \eta\,|S|
+>
+\int_\Sigma u_F\,dA.
+\]
+Since \(F\) is admissible for the variational problem defining
+\(\lambda_{1,\varphi}(\Sigma')\),
+\[
+\lambda_{1,\varphi}(\Sigma')
+\ge \int_{\Sigma'} u_F\,dA
+>
+\int_\Sigma u_F\,dA
+=
+\lambda_{1,\varphi}(\Sigma),
+\]
+contradicting the local maximality of \(\Sigma\). This proves
+\eqref{eq:superlevel-claim}.
+
+In particular, since \(u_F\) is real-analytic outside the (discrete) zero set of
+\(F\), \(u_F\) is constant on \(\partial \Sigma\) in the sense that there exists
+\(c_\Sigma\ge 0\) with
+\begin{equation}\label{eq:boundary-level-set-new}
+u_F(z)=c_\Sigma
+\qquad \text{for } z\in \partial \Sigma.
+\end{equation}
+We will see in Step 2 that \(F\) does not vanish on \(\overline\Sigma\), and in
+particular \(c_\Sigma>0\).
+
+\medskip
+\noindent
+{\bf Step 2: simplicity of the first eigenvalue.}
+
+We claim that the first eigenvalue \(\lambda_{1,\varphi}(\Sigma)\) is simple.
+The argument uses a modular-deformation principle: any two first eigenfunctions
+have the same modulus on \(\partial\Sigma\) up to a constant, and a holomorphic
+function with constant modulus on a connected open set must itself be constant.
+This kind of argument plays a role also in the stability analysis of
+\cite{Gomez-Guerra-Ramos-Tilli}.
+
+Suppose, for contradiction, that \(G\in \mathcal F^2(\C)\) is another first
+eigenfunction, linearly independent of \(F\). Step 1 applied to \(G\) shows that
+\(\Sigma\) is also a superlevel set of \(u_G\); hence there exists
+\(c'_\Sigma\ge 0\) such that
+\[
+u_G(z)=c'_\Sigma
+\qquad\text{for } z\in \partial \Sigma.
+\]
+Equivalently,
+\[
+|F(z)|^2 e^{-\pi |z|^2}=c_\Sigma,
+\qquad
+|G(z)|^2 e^{-\pi |z|^2}=c'_\Sigma,
+\qquad z\in \partial \Sigma.
+\]
+
+We next observe that first eigenfunctions are zero-free in the interior of
+\(\Sigma\). Indeed, by Step 1 we have \(u_F>c_\Sigma\) on the (open) interior of
+\(\Sigma\). Since
+\[
+u_F=|F|^2 e^{-\pi |z|^2}
+\]
+and the Gaussian factor \(e^{-\pi|z|^2}\) is strictly positive everywhere, this
+yields \(|F|>0\) throughout the interior of \(\Sigma\); the same applies to
+\(|G|\). In particular, \(c_\Sigma>0\) and \(c'_\Sigma>0\). Moreover, since
+\(F,G\) are entire and continuous, \(|F|>0\) on a neighborhood of any compact
+subset of \(\Sigma^\circ\); by Step 1, we may take a slight enlargement of
+\(\Sigma\) (still a superlevel set of \(u_F\)) on which \(|F|,|G|>0\), so we may
+work on a connected open set \(U\Supset \Sigma\) where both \(F\) and \(G\) are
+zero-free.
+
+The ratio \(F/G\) is holomorphic and nowhere zero on \(U\), and the function
+\[
+\log \left|\frac{F}{G}\right|
+=
+\frac12 \log \frac{|F|^2}{|G|^2}
+=
+\frac12 \log \frac{u_F}{u_G}
+\]
+is harmonic on \(U\): it is the real part of any local branch of
+\(\log(F/G)\), which is well defined on simply connected subsets, and harmonic
+in any case as the logarithm of the modulus of a zero-free holomorphic
+function. Note that the Gaussian factors cancel inside the logarithm, so on
+\(\partial \Sigma\) by \eqref{eq:boundary-level-set-new} this function equals
+the constant \(\frac12\log(c_\Sigma/c'_\Sigma)\). By the maximum principle
+applied separately on each connected component of \(\Sigma\), the function
+\(\log|F/G|\) is constant on each component. Hence
+\[
+\left|\frac{F}{G}\right| \equiv \text{constant}
+\qquad \text{on each connected component of } \Sigma.
+\]
+A nonconstant holomorphic function is open, so a holomorphic function with
+constant modulus on a connected open set must itself be constant. Therefore
+\[
+F=\gamma_j G
+\qquad \text{on each connected component } \Sigma_j\text{ of } \Sigma.
+\]
+The relation \(F=\gamma_j G\) is an identity between two entire functions on a
+set with an accumulation point; the analytic continuation principle gives
+\(F=\gamma_j G\) on all of \(\C\) for any single \(j\). In particular all
+\(\gamma_j\) coincide, and \(F\) and \(G\) are linearly dependent, contradicting
+our assumption. This proves simplicity.
+
+\medskip
+\noindent
+{\bf Step 3: a first-variation identity.}
+
+By Step 2, the eigenfunction \(F\) is determined up to a unimodular constant.
+We now derive a first-variation identity satisfied by \(F\), based on the fact
+that \(\Sigma\) is a level set of \(u_F\) and that holomorphic vector fields are
+divergence-free.
+
+The function \(u_F=|F|^2e^{-\pi|z|^2}\) is real-analytic on
+\(\C\setminus\{F=0\}\), since \(F\) is entire and the exponential factor is
+real-analytic. By Step 2, \(F\) does not vanish in the interior of \(\Sigma\),
+and by the argument of Step 4 below it does not vanish on \(\overline\Sigma\)
+either; so \(u_F\) is in fact real-analytic on a neighborhood of
+\(\overline\Sigma\). The boundary \(\partial\Sigma\) is therefore a level set
+of a non-constant real-analytic function and so is the union of finitely many
+real-analytic arcs, plus a possible finite set of singular points where
+\(\nabla u_F\) vanishes (see, e.g., the standard local structure of
+real-analytic varieties). In particular, \(\partial\Sigma\) is Lipschitz, and
+\(C^1\) away from the critical set of \(u_F\); the divergence theorem applies
+to \(\Sigma\) for any \(C^1\)-vector field on a neighborhood of
+\(\overline\Sigma\), the singular boundary points forming a set of
+one-dimensional Hausdorff measure zero.
+
+Let \(\psi\) be holomorphic on an open neighborhood \(V\) of
+\(\overline \Sigma\), and write
+\[
+\psi=u+iv
+\]
+with \(u,v\) real-valued. Consider the real vector field
+\[
+X_\psi:=(u,-v).
+\]
+Since \(\psi\) is holomorphic, the Cauchy--Riemann equations
+\[
+u_x=v_y,
+\qquad
+u_y=-v_x,
+\]
+imply
+\[
+\operatorname{div}X_\psi=u_x+(-v)_y=u_x-v_y=0
+\qquad \text{in }V.
+\]
+Because \(u_F\equiv c_\Sigma\) on \(\partial\Sigma\), the divergence theorem on
+\(\Sigma\) gives
+\[
+\int_\Sigma \langle \nabla u_F, X_\psi\rangle\,dA
+=
+\int_\Sigma \operatorname{div}(u_F X_\psi)\,dA
+=
+\int_{\partial \Sigma} u_F\, X_\psi\cdot \nu\, d\mathcal H^1
+=
+c_\Sigma\int_{\partial \Sigma} X_\psi\cdot \nu\, d\mathcal H^1
+=
+0,
+\]
+where the last equality uses
+\(\int_{\partial\Sigma}X_\psi\cdot\nu\,d\mathcal H^1
+=\int_\Sigma\operatorname{div}X_\psi\,dA=0\) by Cauchy--Riemann. Since
+\(u_F=|F|^2e^{-\pi |z|^2}\) and
+\(\nabla(e^{-\pi|z|^2})=-2\pi e^{-\pi|z|^2}(x,y)\), this becomes
+\begin{equation}\label{eq:vector-field-identity-real-new}
+0=
+\int_\Sigma
+\left(
+\langle \nabla |F|^2,X_\psi\rangle
+-
+2\pi |F|^2 \langle z,X_\psi\rangle
+\right)
+\,d\mu.
+\end{equation}
+
+We now express \eqref{eq:vector-field-identity-real-new} in complex notation.
+A direct computation, using \(\partial_z|F|^2=F'\overline F\) and
+\(\partial_{\bar z}|F|^2=F\overline{F'}\), gives
+\[
+\partial_x |F|^2 = F'\overline F+\overline{F'}F = 2\Re(F'\overline F),
+\qquad
+\partial_y |F|^2 = i(F'\overline F-\overline{F'}F) = -2\Im(F'\overline F).
+\]
+Writing \(\psi=u+iv\) and recalling \(X_\psi=(u,-v)\),
+\[
+\langle \nabla |F|^2,X_\psi\rangle
+=
+2u\,\Re(F'\overline F)+2v\,\Im(F'\overline F)
+=
+2\,\Re\!\big(\overline{\psi}\,F'\overline F\big)
+=
+2\,\Re\!\big(\psi\,\overline{F'}F\big),
+\]
+where in the last equality we used \(\Re w=\Re\overline w\). Likewise, writing
+\(z=x+iy\),
+\[
+\langle z,X_\psi\rangle
+=
+xu+y(-v)
+=
+xu-yv
+=
+\Re\big((x+iy)(u+iv)\big)
+=
+\Re(z\psi).
+\]
+Substituting these expressions into
+\eqref{eq:vector-field-identity-real-new}, we obtain
+\[
+0=
+\Re\!\int_\Sigma
+\psi(z)\Big(\overline{F'(z)}\,F(z)-\pi z\,|F(z)|^2\Big)\,d\mu(z).
+\]
+Replacing \(\psi\) by \(i\psi\) (which is also holomorphic on \(V\)) gives the
+analogous identity for the imaginary part:
+\[
+0=
+\Im\!\int_\Sigma
+\psi(z)\Big(\overline{F'(z)}\,F(z)-\pi z\,|F(z)|^2\Big)\,d\mu(z).
+\]
+Combining the two,
+\begin{equation}\label{eq:orthogonality-main-new}
+0=
+\int_\Sigma
+\psi(z)\,F(z)\Big(\overline{F'(z)}-\pi z\,\overline{F(z)}\Big)\,d\mu(z),
+\end{equation}
+which holds for every holomorphic \(\psi\) on a neighborhood of
+\(\overline \Sigma\). Equivalently, after factoring out \(F(z)\) inside the
+integrand,
+\begin{equation*}
+0=
+\int_\Sigma
+\psi(z)\Big(\overline{F'(z)}\,F(z)-\pi z\,|F(z)|^2\Big)\,d\mu(z).
+\end{equation*}
+The form \eqref{eq:orthogonality-main-new} is the one used in Step 4.
+
+\medskip
+\noindent
+{\bf Step 4: \(F'\) is again a first eigenfunction.}
+
+This step is the crux of the argument and is the main new ingredient compared
+to classical Faber--Krahn rigidity proofs. Rather than working with general
+test functions in the eigenvalue equation, we exploit the divergence identity
+\eqref{eq:orthogonality-main-new} together with a clever choice of test
+function involving the reproducing kernel of the Fock space. The end result is
+that \emph{the derivative} \(F'\) of any first eigenfunction is itself a first
+eigenfunction; since the eigenspace is one-dimensional by Step 2, this forces
+a first-order ODE on \(F\), and hence pins down \(F\) up to translation as a
+Gaussian.
+
+For every \(w\in \C\), set
+\[
+K_w(z):=e^{\pi \overline w z};
+\]
+this is the reproducing kernel of \(\mathcal F^2(\C)\) at the point \(w\), in
+the sense that
+\begin{equation}\label{eq:reproducing-kernel}
+\int_\C H(z)\,e^{\pi w \overline z}\,d\mu(z)=H(w),
+\qquad H\in\mathcal F^2(\C);
+\end{equation}
+see, e.g., \cite[Ch.~1]{Folland} or \cite{Bargmann}. Equivalently,
+\(\langle H,K_w\rangle_{\mathcal F^2}=H(w)\).
+
+By Step 1, after replacing \(\Sigma\) by the corresponding superlevel-set
+representative if necessary, we may suppose that
+\[
+\Sigma=\{u_F>c_\Sigma\}.
+\]
+In particular, \(u_F\ge c_\Sigma>0\) on \(\overline \Sigma\). Since
+\(u_F(z)=|F(z)|^2e^{-\pi |z|^2}\), it follows that \(F\) has no zeros on
+\(\overline \Sigma\). By continuity of \(F\) and the compactness of
+\(\overline \Sigma\), there exists an open neighborhood
+\(V\supset \overline \Sigma\) on which \(F\) has no zeros. Hence, for every
+\(w\in \C\), the function
+\[
+\psi_w(z):=\frac{K_w(z)}{F(z)}=\frac{e^{\pi\overline wz}}{F(z)}
+\]
+is holomorphic on \(V\). Applying \eqref{eq:orthogonality-main-new} with
+\(\psi=\psi_w\), so that
+\(\psi_w(z)F(z)=e^{\pi\overline w z}\), we obtain
+\[
+0=
+\int_\Sigma
+e^{\pi \overline wz}
+\Big(\overline{F'(z)}-\pi z\,\overline{F(z)}\Big)\,d\mu(z),
+\]
+or, separating the two terms,
+\begin{equation}\label{eq:key-kernel-identity-new}
+\int_\Sigma
+e^{\pi \overline wz}\overline{F'(z)}\,d\mu(z)
+=
+\int_\Sigma
+\pi z\,e^{\pi \overline wz}\overline{F(z)}\,d\mu(z).
+\end{equation}
+
+We now relate the right-hand side of \eqref{eq:key-kernel-identity-new} to
+\(\overline{F'(w)}\) using the eigenvalue equation
+\eqref{eq:eigenvalue-equation} together with the reproducing identity
+\eqref{eq:reproducing-kernel}. Choosing
+\[
+H(z):=z\,e^{\pi\overline w z}\in \mathcal F^2(\C)
+\]
+(the product of the kernel \(K_w\) by the polynomial \(z\); both factors
+preserve membership in \(\mathcal F^2\)) in \eqref{eq:eigenvalue-equation}, we
+obtain
+\begin{equation}\label{eq:eigvalue-applied}
+\int_\Sigma z\, e^{\pi \overline wz}\,\overline{F(z)}\,d\mu(z)
+=
+\lambda_{1,\varphi}(\Sigma)\int_\C z\, e^{\pi \overline wz}\,\overline{F(z)}\,d\mu(z).
+\end{equation}
+On the other hand, taking complex conjugates in \eqref{eq:reproducing-kernel}
+applied to \(F\) at the point \(w\), one finds
+\[
+\int_\C e^{\pi \overline wz}\,\overline{F(z)}\,d\mu(z)=\overline{F(w)}.
+\]
+Both sides depend on \(w\) through the antiholomorphic variable
+\(\overline w\); we differentiate with respect to \(\overline w\), exchanging
+differentiation and integration on the left. The interchange is legitimate by
+the dominated convergence theorem: locally in \(w\), the integrand
+\(\partial_{\overline w}(e^{\pi\overline wz}\overline{F(z)})
+=\pi z\,e^{\pi\overline wz}\overline{F(z)}\) is dominated by an
+\(L^1(d\mu)\) function on \(\C\), as a consequence of the Cauchy--Schwarz
+inequality and the fact that \(F\in \mathcal F^2(\C)\) and the Fock-space norm
+of \(zK_w\) is locally bounded. We conclude
+\[
+\pi\int_\C z\, e^{\pi \overline wz}\,\overline{F(z)}\,d\mu(z)
+=
+\overline{F'(w)}.
+\]
+Multiplying \eqref{eq:eigvalue-applied} by \(\pi\) and substituting,
+\[
+\pi\int_\Sigma z\, e^{\pi \overline wz}\,\overline{F(z)}\,d\mu(z)
+=
+\lambda_{1,\varphi}(\Sigma)\,\overline{F'(w)}.
+\]
+Combining this with \eqref{eq:key-kernel-identity-new},
+\[
+\int_\Sigma e^{\pi \overline wz}\,\overline{F'(z)}\,d\mu(z)
+=
+\lambda_{1,\varphi}(\Sigma)\,\overline{F'(w)},
+\qquad w\in \C.
+\]
+Taking complex conjugates, this is exactly the eigenvalue equation
+\eqref{eq:eigenvalue-equation} applied with \(F\) replaced by \(F'\) (and an
+arbitrary \(K_w\) playing the role of the test function). Since the linear
+span of \(\{K_w\}_{w\in\C}\) is dense in \(\mathcal F^2(\C)\), the identity
+extends to every \(H\in\mathcal F^2(\C)\), and we conclude that \(F'\) is a
+first eigenfunction of the localization operator on \(\Sigma\), with eigenvalue
+\(\lambda_{1,\varphi}(\Sigma)\).
+
+By the simplicity established in Step 2,
+\[
+F'=\theta F
+\]
+for some constant \(\theta\in \C\). Solving this ODE gives
+\[
+F(z)=C e^{\theta z},
+\]
+for some nonzero constant \(C\).
+
+\medskip
+\noindent
+{\bf Step 5: reduction to the constant eigenfunction.}
+
+We now use the Weyl invariance of the Bargmann--Fock setting to reduce the
+analysis to the case \(F\equiv 1\). Recall from \eqref{eq:Ta} that, for
+\(a\in\C\), the Weyl translation
+\[
+(T_a F)(z)= e^{\pi a z-\frac{\pi}{2}|a|^2}\,F(z-a)
+\]
+is unitary on \(\mathcal F^2(\C)\) and satisfies
+\(u_{T_aF}(z)=u_F(z-a)\). In particular, \(T_a\) maps eigenfunctions of the
+localization operator on \(\Sigma\) to eigenfunctions of the localization
+operator on the translated set \(\Sigma+a\), with the same eigenvalue, and the
+quantity \(\int_\Sigma u_F\,dA\) is invariant under the simultaneous
+substitutions \(F\mapsto T_aF\) and \(\Sigma\mapsto \Sigma+a\).
+
+We claim that we may choose \(a\in\C\) so that \(T_{-a}F\) is a constant
+function. Indeed, by Step 4, \(F(z)=Ce^{\theta z}\) for some \(C,\theta\in\C\)
+with \(C\ne 0\). Compute, using the identity
+\(u_{T_{-a}F}(z)=u_F(z+a)\):
+\[
+u_{T_{-a}F}(z)=|F(z+a)|^2 e^{-\pi|z+a|^2}
+=|C|^2 e^{2\Re(\theta(z+a))}\,e^{-\pi|z+a|^2}.
+\]
+Expanding,
+\[
+2\Re(\theta(z+a))-\pi|z+a|^2
+=
+2\Re(\theta z)+2\Re(\theta a)-\pi|z|^2-2\pi\Re(\overline a z)-\pi|a|^2.
+\]
+The linear terms in \(z\) on the right cancel if and only if
+\(2\Re(\theta z)=2\pi\Re(\overline a z)\) for every \(z\in\C\), which is the
+condition \(\overline a=\theta/\pi\), i.e.
+\[
+a:=\frac{\overline\theta}{\pi}.
+\]
+With this choice,
+\[
+u_{T_{-a}F}(z)=|C'|^2 e^{-\pi|z|^2},
+\qquad
+|C'|^2:=|C|^2 e^{2\Re(\theta a)-\pi|a|^2}=|C|^2 e^{|\theta|^2/\pi}.
+\]
+Since \(T_{-a}F\) is entire and \(|T_{-a}F(z)|^2 e^{-\pi|z|^2}=|C'|^2
+e^{-\pi|z|^2}\), it follows that \(|T_{-a}F|\equiv|C'|\) is constant; a
+holomorphic function with constant modulus is constant, hence
+\(T_{-a}F\equiv C''\) for some \(C''\in\C\) with \(|C''|=|C'|\). Normalizing,
+we may absorb the unimodular constant into the eigenfunction and assume
+\[
+F\equiv 1
+\]
+after the change \(\Sigma\rightsquigarrow \Sigma-a\) (and the corresponding
+unitary substitution \(F\rightsquigarrow T_{-a}F\)).
+
+In this normalization the ground state \(h_0\) (corresponding to
+\(F\equiv 1\) in Bargmann--Fock coordinates) is an eigenfunction of the
+localization operator of \(\Sigma\). Since \(\Sigma\) is a level set of
+\(u_F(z) = e^{-\pi |z|^2}\), and the latter is a strictly radial function of
+\(|z|\), the set \(\Sigma\) is itself radial; in particular, it is either a
+centered disk or a finite union of centered annuli. The next step rules out
+the annular configurations and identifies \(\Sigma\) with the disk.
+
+\medskip
+\noindent
+{\bf Step 6: exclusion of annuli and conclusion.}
+
+It remains to verify that, among radial sets of prescribed measure, the only
+local maximizer is the centered disk. Although this is essentially automatic
+after Step 5, we record the standard rearrangement argument since it makes
+explicit \emph{why} no annular local maximizer can exist; this provides the
+endpoint matching the global Faber--Krahn theorem of \cite{Nicola-Tilli}.
+
+If \(\Sigma\) is radial, write
+\[
+\widetilde \Sigma:=\{r>0:\ re^{it}\in \Sigma \text{ for some } t\in [0,2\pi)\}.
+\]
+By Step 1 and the Lipschitz regularity established in Step 3,
+\(\widetilde \Sigma\) is open and is a finite union of disjoint open intervals:
+\[
+\widetilde \Sigma=\bigcup_{j=1}^N (a_j,b_j),
+\qquad
+0\le a_1<b_1\le a_2<b_2\le \cdots\le a_N<b_N.
+\]
+Then, using \(\int re^{-\pi r^2}\,dr=-\frac{1}{2\pi}e^{-\pi r^2}\),
+\[
+\int_\Sigma e^{-\pi |z|^2}\,dA(z)
+=
+2\pi \int_{\widetilde \Sigma} r e^{-\pi r^2}\,dr
+=
+\sum_{j=1}^N \big(e^{-\pi a_j^2}-e^{-\pi b_j^2}\big),
+\]
+under the constraint
+\[
+|\Sigma|
+=
+2\pi \int_{\widetilde \Sigma} r\,dr
+=
+\pi \sum_{j=1}^N (b_j^2-a_j^2).
+\]
+We are therefore led to the optimization problem
+\begin{equation}\label{eq:radial-opt}
+\text{maximize}\qquad
+\sum_{j=1}^N \big(e^{-\pi a_j^2}-e^{-\pi b_j^2}\big)
+\qquad \text{subject to}\qquad
+\sum_{j=1}^N (b_j^2-a_j^2)=c,
+\end{equation}
+where \(c=|\Sigma|/\pi\) is fixed. Substituting \(s_j:=a_j^2\),
+\(t_j:=b_j^2\) (with \(0\le s_1<t_1\le s_2<\cdots\)), and writing
+\(\Phi(x):=e^{-\pi x}\), \eqref{eq:radial-opt} becomes
+\[
+\text{maximize}\qquad
+\sum_{j=1}^N \big(\Phi(s_j)-\Phi(t_j)\big)
+\qquad \text{subject to}\qquad
+\sum_{j=1}^N (t_j-s_j)=c.
+\]
+The function \(\Phi\) is strictly convex and strictly decreasing on
+\([0,\infty)\); its derivative \(-\Phi'(\sigma)=\pi e^{-\pi\sigma}\) is strictly
+decreasing in \(\sigma\). For any \(t>s\ge 0\),
+\[
+\Phi(s)-\Phi(t)
+=
+\int_s^t (-\Phi'(\sigma))\,d\sigma,
+\]
+so
+\[
+\sum_{j=1}^N\big(\Phi(s_j)-\Phi(t_j)\big)
+=
+\int_{\widetilde\Sigma_2}(-\Phi'(\sigma))\,d\sigma,
+\qquad
+\widetilde\Sigma_2:=\bigcup_{j=1}^N (s_j,t_j).
+\]
+The set \(\widetilde\Sigma_2\subset[0,\infty)\) has Lebesgue measure equal to
+\(c\), and the integrand \(-\Phi'\) is strictly decreasing in \(\sigma\). The
+bathtub principle (or, equivalently, a direct rearrangement argument) shows
+that, among all measurable subsets of \([0,\infty)\) of total Lebesgue measure
+\(c\), the integral \(\int_{\widetilde\Sigma_2}(-\Phi'(\sigma))\,d\sigma\) is
+strictly maximized by the leftmost interval \((0,c)\). This corresponds to
+\(N=1\), \(s_1=0\), \(t_1=c\), i.e.
+\[
+\widetilde \Sigma=(0,R),
+\qquad R:=\sqrt c,
+\]
+and equivalently \(\Sigma\) is the centered disk \(D_R\) with
+\(|D_R|=|\Sigma|\). Any annular configuration (\(N\ge 2\), or \(N=1\) with
+\(s_1>0\)) produces a strictly smaller value of \(\int_\Sigma u_F\,dA\), and is
+therefore not a local maximizer.
+
+We conclude that every local maximizer of \(\lambda_{1,\varphi}\) under the
+measure constraint is, up to translation, a disk.
+\end{proof}
+

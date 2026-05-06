@@ -1,0 +1,533 @@
+% WIP draft for Section 5 (GGRT sharpness).
+\section{Proof of Theorem \ref{thm:GGRT-sharp}}
+
+We prove that the quantitative stability estimate in Corollary~1.4 of
+\cite{Gomez-Guerra-Ramos-Tilli}, which builds on the rigidity result of
+\cite{Nicola-Tilli} characterizing the disk as the unique optimizer of the
+first localization eigenvalue, is sharp. The proof proceeds by constructing a
+family of domains which are perturbations of the disk, whose first localization
+eigenvalue has the same first-order behaviour as the disk, but whose distance
+to the class of disks is of order $\varepsilon$.
+
+\begin{proof}[Proof of Theorem~\ref{thm:GGRT-sharp}]
+Fix
+\[
+\lambda_0:=1-e^{-\pi},
+\]
+which is the eigenvalue of the localization operator of the unit disk $D_1$
+associated with the ground state $h_0$. For $\varepsilon$ small, define
+\[
+P_\varepsilon(w):=1+\varepsilon w^2.
+\]
+By Theorem~\ref{thm:perturb}, applied with \(\lambda=\lambda_0\) and
+\(P_\varepsilon(w)=1+\varepsilon w^2\), for all sufficiently small
+\(|\varepsilon|\) there exists a domain \(U_\varepsilon\) such that
+\begin{equation}\label{eq:functiona-P-eps-new}
+\int_{U_\varepsilon} P_\varepsilon(z)e^{\pi \overline zw}e^{-\pi|z|^2}\,dA(z)
+=
+\lambda_0 P_\varepsilon(w),
+\qquad w\in\C.
+\end{equation}
+Moreover, by construction, $U_\varepsilon$ is a $C^2$ perturbation of the unit
+disk. Hence, after possibly shrinking the range of admissible $\varepsilon$,
+its boundary can be written as
+\begin{equation}\label{eq:def-u-eps-new}
+\partial U_\varepsilon
+=
+\{(1+\varphi_\varepsilon(y))y:\ y\in \mathbb S^1\},
+\end{equation}
+where
+\[
+\varphi_\varepsilon\in C^2(\mathbb S^1),
+\qquad
+\|\varphi_\varepsilon\|_{C^2(\mathbb S^1)}\lesssim |\varepsilon|.
+\]
+The map
+\[
+\varepsilon\mapsto \varphi_\varepsilon
+\]
+may in fact be chosen \(C^1\) as a map from a neighborhood of \(0\) into
+\(C^1(\mathbb S^1)\). To see this, we briefly retrace the proof of
+Theorem~\ref{thm:perturb}. The construction proceeds in two steps: first, an
+Isakov-type step which converts the weighted quadrature identity into a free
+boundary problem of obstacle type, and second, the regularity/uniqueness step
+which produces \(\varphi_\varepsilon\) via an implicit-function-theorem
+argument. In both steps, the unknown is the solution of an equation of the form
+\(F(\varepsilon,\varphi)=0\), where
+\[
+F:(-\varepsilon_0,\varepsilon_0)\times \mathcal U\to \mathcal V
+\]
+is a \(C^1\) map between open subsets of suitable Banach spaces, with
+\(F(0,0)=0\) and \(\partial_\varphi F(0,0)\) invertible (the invertibility being
+the linearization computed at the disk, which is a Fredholm operator of index
+zero whose kernel is removed by the normalization fixing the centroid and the
+total area at first order). Since the polynomial \(P_\varepsilon(z)=1+\varepsilon z^2\)
+depends polynomially on \(\varepsilon\), the dependence of \(F\) on
+\(\varepsilon\) is \(C^\infty\). The \(C^1\) version of the implicit function
+theorem in Banach spaces then yields a \(C^1\) branch
+\(\varepsilon\mapsto \varphi_\varepsilon\) into \(C^1(\mathbb S^1)\). We
+therefore write
+\[
+\dot\varphi_0(y):=
+\left.\partial_\varepsilon\right|_{\varepsilon=0}\varphi_\varepsilon(y).
+\]
+
+\medskip
+\noindent
+{\bf Step 1: first variation of the eigenvalue identity.} We differentiate \eqref{eq:functiona-P-eps-new} at $\varepsilon=0$.
+Since \(P_\varepsilon\to 1\) in \(C^\infty\) and
+\(\varepsilon\mapsto \varphi_\varepsilon\) is \(C^1\) into \(C^1(\mathbb S^1)\),
+all terms in \eqref{eq:functiona-P-eps-new} are differentiable at
+\(\varepsilon=0\). Since $U_\varepsilon$ is given by a normal graph over
+$\mathbb S^1$, we apply Reynolds' transport formula. Concretely, in polar
+coordinates \(z=re^{it}\), for any smooth test function \(H\) we have
+\[
+\int_{U_\varepsilon} H(z)\,dA(z)
+=
+\int_0^{2\pi}\int_0^{1+\varphi_\varepsilon(e^{it})}
+H(re^{it})\,r\,dr\,dt.
+\]
+Differentiating in \(\varepsilon\) at \(\varepsilon=0\) and using the
+fundamental theorem of calculus,
+\[
+\left.\frac{d}{d\varepsilon}\right|_{\varepsilon=0}
+\int_{U_\varepsilon} H(z)\,dA(z)
+=
+\int_0^{2\pi}\dot\varphi_0(e^{it})H(e^{it})\,dt
+=
+\int_{\mathbb S^1}\dot\varphi_0(z)H(z)\,d\mathcal H^1(z),
+\]
+where the factor \(r=1\) on the unit circle has been absorbed into the
+arc-length measure. This is precisely Reynolds' transport identity:
+\[
+\left.\frac{d}{d\varepsilon}\right|_{\varepsilon=0}
+\int_{U_\varepsilon} H(z)\,dA(z)
+=
+\int_{\mathbb S^1} \dot\varphi_0(z)H(z)\,d\mathcal H^1(z).
+\]
+Applying this to
+\[
+H(z)=e^{\pi \overline zw}e^{-\pi|z|^2},
+\]
+and differentiating the factor $P_\varepsilon(z)=1+\varepsilon z^2$, we obtain
+\begin{equation}\label{eq:first-variation-identity-new}
+\int_{\mathbb S^1}
+\dot\varphi_0(z)e^{\pi \overline zw}e^{-\pi|z|^2}\,d\mathcal H^1(z)
++
+\int_{D_1} z^2 e^{\pi \overline zw}e^{-\pi|z|^2}\,dA(z)
+=
+\lambda_0 w^2.
+\end{equation}
+Since $D_1$ is radial, the monomial $z^2$ is an eigenfunction of the
+localization operator of $D_1$; therefore there exists $\lambda_2>0$ such that
+\[
+\int_{D_1} z^2 e^{\pi \overline zw}e^{-\pi|z|^2}\,dA(z)=\lambda_2 w^2.
+\]
+Hence \eqref{eq:first-variation-identity-new} becomes
+\begin{equation}\label{eq:boundary-identity-new}
+\int_{\mathbb S^1}
+\dot\varphi_0(z)e^{\pi \overline zw}e^{-\pi|z|^2}\,d\mathcal H^1(z)
+=
+(\lambda_0-\lambda_2)w^2.
+\end{equation}
+In fact, \(\lambda_2\) can be computed explicitly. Expanding
+\(e^{\pi \overline zw}=\sum_{n\geq 0}\frac{\pi^n}{n!}\overline z^{\,n}w^n\)
+and using orthogonality of the monomials \(\overline z^{\,n}\) over the disk,
+the only term contributing to \(w^2\) is the one with \(n=2\):
+\[
+\int_{D_1} z^2 e^{\pi \overline zw}e^{-\pi|z|^2}\,dA(z)
+=
+\frac{\pi^2}{2}w^2\int_{D_1}z^2\overline z^{\,2}e^{-\pi|z|^2}\,dA(z)
+=
+\frac{\pi^2}{2}w^2\int_{D_1}|z|^4 e^{-\pi|z|^2}\,dA(z).
+\]
+Passing to polar coordinates and integrating by parts twice,
+\[
+\int_{D_1}|z|^4 e^{-\pi|z|^2}\,dA(z)
+=
+2\pi\int_0^1 r^4 e^{-\pi r^2}\,r\,dr
+=
+\pi\int_0^1 s^2 e^{-\pi s}\,ds
+\]
+where we substituted \(s=r^2\). A direct computation, integrating by parts
+twice, yields
+\[
+\pi\int_0^1 s^2 e^{-\pi s}\,ds
+=
+\frac{2}{\pi^2}\Bigl(1-\Bigl(1+\pi+\frac{\pi^2}{2}\Bigr)e^{-\pi}\Bigr).
+\]
+Multiplying by \(\frac{\pi^2}{2}\), we obtain
+\[
+\lambda_2
+=
+\frac{\pi^2}{2}\int_{D_1}|z|^4e^{-\pi|z|^2}\,dA(z)
+=
+1-\Bigl(1+\pi+\frac{\pi^2}{2}\Bigr)e^{-\pi}.
+\]
+Therefore
+\[
+\lambda_0-\lambda_2
+=
+(1-e^{-\pi})-\Bigl(1-\Bigl(1+\pi+\frac{\pi^2}{2}\Bigr)e^{-\pi}\Bigr)
+=
+\pi\Bigl(1+\frac{\pi}{2}\Bigr)e^{-\pi}>0,
+\]
+so the coefficient of \(w^2\) on the right-hand side is indeed nonzero.
+In particular, since $|z|=1$ on $\mathbb S^1$, we may rewrite this as
+\begin{equation}\label{eq:boundary-identity-circle-new}
+e^{-\pi}
+\int_{\mathbb S^1}
+\dot\varphi_0(z)e^{\pi \overline zw}\,d\mathcal H^1(z)
+=
+(\lambda_0-\lambda_2)w^2.
+\end{equation}
+
+Setting $w=0$ gives
+\begin{equation}\label{eq:cancellation-f-0-new}
+\int_{\mathbb S^1}\dot\varphi_0\,d\mathcal H^1=0.
+\end{equation}
+
+\medskip
+\noindent
+{\bf Step 2: identification of the leading mode.} Expanding
+\[
+e^{\pi \overline zw}
+=
+\sum_{n\geq 0}\frac{\pi^n}{n!}\overline z^{\,n}w^n,
+\]
+and comparing coefficients in \eqref{eq:boundary-identity-circle-new}, we find
+\[
+\int_{\mathbb S^1}\dot\varphi_0(z)\overline z^{\,n}\,d\mathcal H^1(z)=0
+\qquad \text{for all } n\neq 2,
+\]
+whereas the coefficient corresponding to $n=2$ is nonzero. Since
+$\dot\varphi_0$ is real-valued, it follows that
+\begin{equation}\label{eq:mode-decomposition-new}
+\dot\varphi_0(e^{it})
+=
+a\cos(2t)+b\sin(2t)
+\end{equation}
+for some pair $(a,b)\neq (0,0)$. In particular,
+\begin{equation}\label{eq:l1-nontrivial-new}
+\int_{\mathbb S^1} |\dot\varphi_0|\,d\mathcal H^1>0.
+\end{equation}
+
+\medskip
+\noindent
+{\bf Step 3: normalization of the area.} The area of $U_\varepsilon$ is given by
+\begin{equation}\label{eq:area-u-eps-new}
+|U_\varepsilon|
+=
+\frac12\int_{\mathbb S^1} (1+\varphi_\varepsilon(y))^2\,d\mathcal H^1(y).
+\end{equation}
+Since
+\[
+\varphi_\varepsilon
+=
+\varepsilon \dot\varphi_0 + O(\varepsilon^2)
+\quad \text{in } C^1(\mathbb S^1),
+\]
+and \eqref{eq:cancellation-f-0-new} gives the vanishing of the first-order
+term, we obtain from \eqref{eq:area-u-eps-new}
+\begin{equation}\label{eq:measure-close-u-eps-new}
+|U_\varepsilon|=\pi+O(\varepsilon^2).
+\end{equation}
+
+Let
+\[
+r_\varepsilon:=\sqrt{\frac{\pi}{|U_\varepsilon|}},
+\qquad
+\widetilde U_\varepsilon:=r_\varepsilon U_\varepsilon.
+\]
+Then $|\widetilde U_\varepsilon|=\pi$, and by
+\eqref{eq:measure-close-u-eps-new},
+\[
+r_\varepsilon=1+O(\varepsilon^2).
+\]
+Hence $\widetilde U_\varepsilon$ still admits a normal graph representation
+\[
+\partial \widetilde U_\varepsilon
+=
+\{(1+\widetilde\varphi_\varepsilon(y))y:\ y\in \mathbb S^1\},
+\]
+with
+\[
+\widetilde\varphi_\varepsilon
+=
+\varepsilon \dot\varphi_0 + O(\varepsilon^2)
+\quad \text{in } C^1(\mathbb S^1).
+\]
+Thus the area normalization does not alter the first-order deformation.
+
+\medskip
+\noindent
+{\bf Step 4: distance from the centered disk.} Since both $\widetilde U_\varepsilon$ and $D_1$ are star-shaped with respect to
+the origin, the symmetric difference may be computed in polar coordinates:
+\[
+|\widetilde U_\varepsilon \triangle D_1|
+=
+\frac12\int_{\mathbb S^1}
+\left|(1+\widetilde\varphi_\varepsilon(y))^2-1\right|
+\,d\mathcal H^1(y).
+\]
+Since \(\widetilde\varphi_\varepsilon=\varepsilon\dot\varphi_0+O(\varepsilon^2)\)
+in \(C^1(\mathbb S^1)\), we have in particular
+\(\|\widetilde\varphi_\varepsilon\|_{L^\infty(\mathbb S^1)}\lesssim |\varepsilon|\),
+whence \(\widetilde\varphi_\varepsilon^2=O(\varepsilon^2)\) in
+\(L^\infty(\mathbb S^1)\). Hence
+\[
+(1+\widetilde\varphi_\varepsilon)^2-1
+=
+2\widetilde\varphi_\varepsilon+\widetilde\varphi_\varepsilon^2
+=
+2\varepsilon \dot\varphi_0 + O(\varepsilon^2)
+\quad \text{in } L^\infty(\mathbb S^1),
+\]
+where the implied constant depends only on the \(C^1\)-norm bound on
+\(\widetilde\varphi_\varepsilon\). Therefore
+\[
+|\widetilde U_\varepsilon \triangle D_1|
+=
+\frac12\int_{\mathbb S^1}
+\left|2\varepsilon \dot\varphi_0 + O(\varepsilon^2)\right|
+\,d\mathcal H^1.
+\]
+Set \(\alpha:=\int_{\mathbb S^1}|\dot\varphi_0|\,d\mathcal H^1\). By
+\eqref{eq:l1-nontrivial-new}, \(\alpha>0\). The reverse triangle inequality in
+\(L^1\) and the \(O(\varepsilon^2)\) remainder give
+\[
+\int_{\mathbb S^1}\bigl|2\varepsilon\dot\varphi_0+O(\varepsilon^2)\bigr|\,d\mathcal H^1
+\geq
+2|\varepsilon|\alpha-O(\varepsilon^2)
+\]
+and similarly the upper bound
+\[
+\int_{\mathbb S^1}\bigl|2\varepsilon\dot\varphi_0+O(\varepsilon^2)\bigr|\,d\mathcal H^1
+\leq
+2|\varepsilon|\alpha+O(\varepsilon^2).
+\]
+Consequently there exist constants $c,C>0$ such that
+\begin{equation}\label{eq:distance-centered-disk-new}
+c|\varepsilon|
+\leq
+|\widetilde U_\varepsilon \triangle D_1|
+\leq
+C|\varepsilon|
+\end{equation}
+for all sufficiently small $\varepsilon$.
+
+\medskip
+\noindent
+{\bf Step 5: comparison with arbitrary disks.} Let $D$ be any disk of area $\pi$. Then $D=D_1+a$ for some $a\in \C$. We first consider disks whose centers are not too close to the origin.
+Since
+\[
+|D_1\triangle (D_1+a)|
+\gtrsim \min\{|a|,1\},
+\]
+the triangle inequality and \eqref{eq:distance-centered-disk-new} imply that
+there exists $K\gg 1$ such that, if $|a|\geq K|\varepsilon|$, then
+\begin{equation}\label{eq:far-disks-new}
+|\widetilde U_\varepsilon \triangle D|
+\geq
+|D_1\triangle D|-|\widetilde U_\varepsilon\triangle D_1|
+\gtrsim
+|a|-C|\varepsilon|
+\gtrsim
+|\varepsilon|.
+\end{equation}
+
+It remains to consider disks whose centers satisfy $|a|\leq K|\varepsilon|$.
+Write
+\[
+a=\eta \varepsilon e^{i\theta},
+\qquad
+|\eta|\leq K,
+\quad
+\theta\in [0,2\pi).
+\]
+We claim that, for $\varepsilon$ sufficiently small, the translated domain
+\[
+\widetilde U_\varepsilon-a
+\]
+is still a normal graph over $\mathbb S^1$:
+\[
+\partial(\widetilde U_\varepsilon-a)
+=
+\{(1+\psi_\varepsilon^{\theta,\eta}(y))y:\ y\in \mathbb S^1\},
+\]
+with
+\[
+\psi_\varepsilon^{\theta,\eta}\in C^1(\mathbb S^1),
+\qquad
+\|\psi_\varepsilon^{\theta,\eta}\|_{C^1}\lesssim |\varepsilon|,
+\]
+uniformly in $(\theta,\eta)$ with $|\eta|\leq K$. This follows because
+$\widetilde U_\varepsilon$ is already an $O(\varepsilon)$-$C^1$ perturbation of
+$D_1$, and the translation vector $a$ is also of order $\varepsilon$. We now compute the first-order term of $\psi_\varepsilon^{\theta,\eta}$.
+A translation by $a$ contributes, to first order in $\varepsilon$, the normal
+displacement
+\[
+-\eta \Re(e^{-i\theta}y).
+\]
+Indeed, for \(y\in \mathbb S^1\),
+\[
+|y-a|
+=
+\bigl(1-2\Re(\overline y a)+|a|^2\bigr)^{1/2}
+=
+1-\Re(\overline y a)+O(|a|^2),
+\]
+uniformly in \(y\), and here \(a=\eta\varepsilon e^{i\theta}\).
+Therefore
+\begin{equation}\label{eq:psi-expansion-new}
+\psi_\varepsilon^{\theta,\eta}(y)
+=
+\varepsilon\Big(\dot\varphi_0(y)-\eta \Re(e^{-i\theta}y)\Big)
++
+O(\varepsilon^2)
+\quad \text{in } C^1(\mathbb S^1),
+\end{equation}
+uniformly for $|\eta|\leq K$.
+
+Define
+\[
+g^{\theta,\eta}(y)
+:=
+\dot\varphi_0(y)-\eta \Re(e^{-i\theta}y).
+\]
+Using \eqref{eq:mode-decomposition-new}, we see that $g^{\theta,\eta}$ belongs
+to the finite-dimensional space spanned by the first and second harmonics.
+More precisely,
+\[
+g^{\theta,\eta}(e^{it})
+=
+a\cos(2t)+b\sin(2t)-\eta \cos(t-\theta).
+\]
+The second-harmonic part is independent of $(\theta,\eta)$ and nonzero, because
+$(a,b)\neq (0,0)$. To extract a uniform \(L^1\) lower bound, note that
+\(g^{\theta,\eta}\) lies in the \(4\)-dimensional space
+\[
+V:=\mathrm{span}\bigl\{\cos t,\sin t,\cos 2t,\sin 2t\bigr\}\subset L^1(\mathbb S^1).
+\]
+On this finite-dimensional space, all norms are equivalent; in particular, the
+\(L^1(\mathbb S^1)\) and \(L^\infty(\mathbb S^1)\) norms are equivalent, and
+convergence in coefficients is equivalent to convergence in any of these norms. The map
+\[
+(\theta,\eta)\in [0,2\pi)\times [-K,K]\longmapsto g^{\theta,\eta}\in V
+\]
+is continuous, and its image
+\[
+\mathcal G_K:=\{g^{\theta,\eta}:\ \theta\in[0,2\pi),\ |\eta|\leq K\}
+\]
+is the continuous image of a compact set, hence compact in \(V\). Moreover, the
+\((\cos 2t,\sin 2t)\)-coefficients of every \(g^{\theta,\eta}\) are exactly
+\((a,b)\neq (0,0)\), independent of \((\theta,\eta)\); thus \(0\notin
+\mathcal G_K\). The function \(g\mapsto\|g\|_{L^1(\mathbb S^1)}\) is continuous
+and strictly positive on \(V\setminus\{0\}\), so it attains a positive minimum
+on the compact set \(\mathcal G_K\). It follows that there exists
+$\delta_K>0$ such that
+\begin{equation}\label{eq:uniform-l1-lower-new}
+\int_{\mathbb S^1}|g^{\theta,\eta}(y)|\,d\mathcal H^1(y)\geq \delta_K
+\qquad
+\text{for all }\theta\in[0,2\pi),\ |\eta|\leq K.
+\end{equation}
+
+Now,
+\[
+|\widetilde U_\varepsilon \triangle D|
+=
+|(\widetilde U_\varepsilon-a)\triangle D_1|.
+\]
+Since $\widetilde U_\varepsilon-a$ is star-shaped with radial graph
+$1+\psi_\varepsilon^{\theta,\eta}$, the same polar-coordinate computation as in
+Step~4 gives
+\[
+|(\widetilde U_\varepsilon-a)\triangle D_1|
+=
+\frac12\int_{\mathbb S^1}
+\left|(1+\psi_\varepsilon^{\theta,\eta}(y))^2-1\right|
+\,d\mathcal H^1(y).
+\]
+Using \eqref{eq:psi-expansion-new},
+\[
+(1+\psi_\varepsilon^{\theta,\eta})^2-1
+=
+2\varepsilon g^{\theta,\eta}+O(\varepsilon^2)
+\quad \text{in } L^\infty(\mathbb S^1),
+\]
+uniformly for $|\eta|\leq K$. Thus, by \eqref{eq:uniform-l1-lower-new},
+there exists $c_K>0$ such that
+\begin{equation}\label{eq:near-disks-new}
+|\widetilde U_\varepsilon \triangle D|
+=
+|(\widetilde U_\varepsilon-a)\triangle D_1|
+\geq
+c_K |\varepsilon|
+\end{equation}
+whenever $|a|\leq K|\varepsilon|$. Combining \eqref{eq:far-disks-new} and \eqref{eq:near-disks-new}, we conclude
+that
+\[
+\inf_{\substack{D \text{ disk}\\ |D|=\pi}}
+|\widetilde U_\varepsilon \triangle D|
+\gtrsim |\varepsilon|.
+\]
+Since \(r_\varepsilon=1+O(\varepsilon^2)\), the dilation from \(U_\varepsilon\)
+to \(\widetilde U_\varepsilon\) changes the set only by
+\[
+|\widetilde U_\varepsilon\triangle U_\varepsilon|=O(\varepsilon^2),
+\]
+and therefore does not affect the first-order distance estimate. Thus the
+area-normalized family \(\widetilde U_\varepsilon\) remains at
+symmetric-difference distance \(\gtrsim |\varepsilon|\) from the class of
+disks.
+
+\medskip
+\noindent
+{\bf Step 6: square-root sharpness of the deficit estimate.} It remains to translate the distance estimate into the corresponding deficit
+estimate. Recall that, by construction via Theorem~\ref{thm:perturb}, the
+first localization eigenvalue of \(U_\varepsilon\) equals \(\lambda_0\)
+\emph{exactly}, since \eqref{eq:functiona-P-eps-new} states that
+\(P_\varepsilon\) is an eigenfunction with eigenvalue \(\lambda_0\) for the
+localization operator on \(U_\varepsilon\), and a standard variational
+argument shows that this is the principal eigenvalue. By
+\eqref{eq:measure-close-u-eps-new},
+\(|U_\varepsilon|=\pi+O(\varepsilon^2)\), and rescaling by
+\(r_\varepsilon=1+O(\varepsilon^2)\) to area \(\pi\) changes the eigenvalue
+only at order \(O(\varepsilon^2)\) (since the localization operator scales
+analytically in the dilation parameter, and the disk is a critical point for
+this scaling). It follows that the eigenvalue deficit of
+\(\widetilde U_\varepsilon\) with respect to the disk satisfies
+\[
+\lambda_0-\lambda(\widetilde U_\varepsilon)=O(\varepsilon^2),
+\]
+where \(\lambda(\widetilde U_\varepsilon)\) denotes the first localization
+eigenvalue of \(\widetilde U_\varepsilon\). On the other hand, by Step~5,
+the symmetric-difference asymmetry satisfies
+\[
+\inf_{\substack{D\text{ disk}\\ |D|=\pi}}|\widetilde U_\varepsilon\triangle D|
+\gtrsim |\varepsilon|.
+\]
+Comparing the two,
+\[
+\inf_{\substack{D\text{ disk}\\ |D|=\pi}}|\widetilde U_\varepsilon\triangle D|
+\gtrsim |\varepsilon|
+\simeq
+\sqrt{\lambda_0-\lambda(\widetilde U_\varepsilon)}.
+\]
+This shows that the inequality
+\[
+\inf_{\substack{D\text{ disk}\\ |D|=\pi}}
+|\Omega\triangle D|
+\lesssim
+\sqrt{\lambda_0-\lambda(\Omega)}
+\]
+of Corollary~1.4 in \cite{Gomez-Guerra-Ramos-Tilli} is square-root-tight along
+the family \(\widetilde U_\varepsilon\): the deficit is of order
+\(\varepsilon^2\), the asymmetry is of order \(\varepsilon\), and so the
+square root of the deficit and the asymmetry are of comparable size. This
+exhibits the optimality of the exponent \(1/2\) and concludes the proof of the
+sharpness of the estimate in Corollary~1.4 of
+\cite{Gomez-Guerra-Ramos-Tilli}, complementing the rigidity result of
+\cite{Nicola-Tilli}.
+
+\end{proof}

@@ -1,0 +1,141 @@
+\section{Introduction}
+
+\subsection{Time--frequency localization and the Gaussian model}
+
+The study of time--frequency concentration lies at the heart of modern harmonic analysis, with deep connections to signal processing, mathematical physics, and phase--space methods; see, for instance, \cite{Grochenig,Mallat,Folland}. A central object in this theory is the \emph{short-time Fourier transform} (STFT), defined for a function $f \in L^2(\mathbb R)$ and a window $\varphi \in L^2(\mathbb R)$ by
+\[
+V_\varphi f(x,\omega) = \int_{\mathbb R} f(t)\,\overline{\varphi(t-x)}\,e^{-2\pi i t \omega}\,dt.
+\]
+This transform encodes the joint time--frequency content of $f$, and its squared modulus $|V_\varphi f|^2$ provides a phase--space energy density. Understanding how this energy can be concentrated in regions of the time--frequency plane is a fundamental problem, with both theoretical and applied significance.
+
+In applications ranging from signal recovery to uncertainty principles, one is often interested in maximizing the quantity
+\[
+\int_\Omega |V_\varphi f(x,\omega)|^2\,dx\,d\omega
+\]
+over functions $f$ of unit norm and over sets $\Omega$ of prescribed measure. This leads naturally to the study of \emph{time--frequency localization operators}, introduced by Daubechies in \cite{Daubechies} and further developed in \cite{Daubechies-Paul,Ramanathan-Topiwala-Weyl,Ramanathan-Topiwala-Spectrogram,Cordero-Grochenig,Boggiatto-Cordero-Grochenig,Bayer-Grochenig,Kisil-CrossToeplitz,Nicola-Tilli-2,Ramos-time-frequency}. For general windows, sharp concentration bounds are notoriously elusive, and Lieb's uncertainty principle \cite{Lieb} remains a fundamental benchmark; see also \cite{abreu2021donoho} for related large-sieve phenomena in modulation and polyanalytic Fock spaces. In the Gaussian setting, by contrast, these operators acquire a particularly rigid structure: via the Bargmann transform \cite{Bargmann}, they can be realized as Toeplitz-type integral operators on the Bargmann--Fock space, and the problem becomes one of complex analysis in weighted spaces; compare \cite{Berezin,Berger-Coburn-Symbol,Berger-Coburn,Berger-Coburn-Heat,Zhu,Grochenig,Folland}. In this picture, the STFT is intertwined with an entire function whose weighted modulus encodes the concentration properties of the signal, and geometric questions translate into analytic ones.
+
+\subsection{Spectral and geometric interplay}
+
+A central theme in this area is the interplay between the \emph{spectral properties} of localization operators and the \emph{geometry} of the underlying domains. In the Gaussian case, Nicola and Tilli proved the sharp Faber--Krahn inequality for the STFT, showing that disks maximize concentration among all measurable sets of a fixed measure \cite{Nicola-Tilli}; see also \cite{Nicola-Tilli-2,Bastianoni-Cordero-Nicola,Bastianoni-Teofanov} for complementary spectral and regularity results on localization operators. The stability theory for this variational problem was subsequently developed in \cite{Gomez-Guerra-Ramos-Tilli}, where quantitative control of both the first eigenfunction and the Fraenkel asymmetry is obtained from the spectral deficit. Related concentration questions for other transforms, including wavelet transforms, have been investigated in \cite{Ramos-Tilli}.
+
+From a complementary perspective, one may pose inverse questions: to what extent does spectral information determine the geometry of the localization domain? Conversely, given a function, can one construct a domain for which it is an eigenfunction of the associated localization operator? The first systematic result in this direction is due to Abreu and D\"orfler \cite{Abreu-Doerfler}, who showed that if a Hermite function is an eigenfunction of a localization operator on a simply connected domain, then the domain must be a disk. This inverse viewpoint sits naturally within the broader circle of ideas surrounding weighted quadrature identities, free-boundary problems, and inverse potential theory: classical results of Aharonov, Schiffer, and Zalcman \cite{Aharonov-Schiffer-Zalcman} characterize disks via mean-value identities for harmonic functions; Karp \cite{Karp} and Cherednichenko \cite{Cherednichenko} address inverse problems for Newtonian potentials; Gustafsson and collaborators \cite{Gustafsson,Gustafsson-Shahgholian,Shahgholian} develop the theory of quadrature domains and obstacle problems; and Isakov's monograph \cite{Isakov} provides the perturbative framework for inverse source problems that we shall employ. The inverse viewpoint is also tied to the special role of Gaussian decay and Hermite structures in the Bargmann model; see \cite{Kulikov-Oliveira-Ramos,Goncalves-Oliveira-Steinerberger,Thangavelu}.
+
+\subsection{Eigenfunctions as geometric data}
+
+The guiding principle of the present paper is that, for Gaussian localization operators, eigenfunctions should be regarded as \emph{geometric data}. More precisely, the eigenfunction should determine the domain in rigid situations, and the possibility of prescribing the eigenfunction should in turn have strong consequences for nearby variational problems. The three main threads of the paper are organized around this idea:
+\begin{enumerate}
+\item rigid eigenfunctions force rigid domains;
+\item near the Gaussian, one can prescribe the eigenfunction and construct the corresponding localization domain;
+\item once such an eigenfunction-to-domain mechanism is available, it can be used to analyze sharpness and extremizers in concentration inequalities.
+\end{enumerate}
+
+The present work contributes to this line of research by developing a unified inverse and free-boundary framework for Gaussian time--frequency localization operators. Our approach builds on, and extends, the rigidity result of Abreu and D\"orfler \cite{Abreu-Doerfler}, the variational theory of Nicola and Tilli \cite{Nicola-Tilli,Nicola-Tilli-2}, and the quantitative stability theorems of G\'omez, Guerra, Ramos, and Tilli \cite{Gomez-Guerra-Ramos-Tilli}. At the technical level, our arguments also draw on ideas from inverse potential problems and quadrature-domain theory, in the spirit of \cite{Isakov,Cherednichenko,Gustafsson,Gustafsson-Shahgholian,Shahgholian}. In this way, the paper places localization operators squarely within the broader free-boundary and inverse-potential framework suggested by the Gaussian Bargmann model.
+
+Despite these advances, two fundamental questions have remained open. First, no general construction of localization domains associated with prescribed near-Gaussian functions has been available, beyond a handful of highly symmetric examples. Second, the role of eigenfunction rigidity in variational concentration problems has not been clarified, leaving the sharpness of recent stability inequalities and the structure of local maximizers out of reach. The results of the present paper address these questions in a unified manner.
+
+\subsection{An inverse construction near the Gaussian}
+
+Our first main result is the constructive half of this picture. It shows that, near the Gaussian, one can indeed prescribe the eigenfunction and realize it through a suitable localization domain.
+
+\begin{theorem}\label{thm:perturb}
+Let $\lambda\in (0,1)$ and $N\in\mathbb N$. There exists $\varepsilon_0(\lambda,N)>0$ such that if
+\[
+f_0 = h_0 + \sum_{k=1}^N a_k h_k
+\]
+satisfies $\max_k |a_k|<\varepsilon_0$, then there exists a domain $U_\lambda$ such that
+\[
+\mathcal L_{U_\lambda} f_0 = \lambda f_0 .
+\]
+\end{theorem}
+
+This theorem provides, to the best of our knowledge, the first systematic construction of localization domains associated with nontrivial linear combinations of Hermite functions. In particular, it supplies the inverse counterpart to the Abreu--D\"orfler rigidity phenomenon: rather than deducing the domain from a rigid eigenfunction, we construct domains starting from prescribed near-Gaussian eigenfunctions. The dependence of $\varepsilon_0$ on $\lambda$ and $N$ is explicit in our argument, and reflects the size of the spectral gap of the disk localization operator on the relevant Hermite subspace.
+
+The proof proceeds in three stages, combining tools from free-boundary problems and complex analysis. First, we reformulate the eigenvalue equation in the Bargmann--Fock space as a nonlinear integral identity for the squared modulus of an entire function with polynomial growth. Applying a suitable differential operator, we reduce the problem to that of constructing a domain satisfying a weighted identity that is reminiscent of a quadrature condition.
+
+Next, we produce an approximate solution by solving a free-boundary problem of obstacle type. This is achieved through a perturbative theorem of Isakov \cite{Isakov}, which provides a domain whose associated logarithmic potential satisfies a prescribed equation under small perturbations of the source. This step yields a domain for which the desired identity holds up to a controlled error.
+
+In the third stage, we refine this construction using a weighted quadrature-domain theorem in the spirit of \cite{Gustafsson,Gustafsson-Shahgholian,Shahgholian}. Viewing the problem through the lens of complex analysis, we interpret the identity as a condition on a weighted Cauchy transform, and a perturbative implicit-function argument allows us to deform the approximate domain so that the identity becomes exact. Finally, we show that the resulting function satisfies the original eigenvalue equation by analyzing an associated differential operator and ruling out nontrivial obstructions through growth estimates. The combination of these steps yields a robust local inverse theory.
+
+A noteworthy aspect of this construction is that it reaches well beyond monomial-type eigenfunctions, the only case previously accessible by direct symmetry arguments. Our theorem shows that a much broader class of near-Gaussian functions can be realized spectrally, opening the door to a richer inverse theory and revealing new connections with nonlinear potential theory and weighted quadrature domains in the spirit of \cite{Gustafsson-Shahgholian,Shahgholian}.
+
+\subsection{A new proof of the Abreu--D\"orfler rigidity theorem}
+
+The same free-boundary framework also yields the rigid half of the correspondence, namely a short recovery of the classical theorem of Abreu and D\"orfler.
+
+More precisely, we provide two new proofs of the Abreu--D\"orfler rigidity result based on our methods: one through the local radiality mechanism for the logarithmic potential, and a second through a holomorphic auxiliary function attached to the associated Poisson problem.
+
+\begin{theorem}\label{thm:eig-loc-U}
+Let $U$ be a simply connected bounded domain. If a Hermite function is an eigenfunction of the localization operator associated with $U$, then $U$ is a disk.
+\end{theorem}
+
+The proof transports the eigenvalue equation to the Bargmann--Fock space, where Hermite functions correspond to monomials and the localization operator becomes an integral operator with reproducing-kernel structure. In this setting, the eigenvalue equation translates into a functional identity involving exponential generating functions. Differentiating appropriately and invoking a Paley--Wiener type argument, we reduce the problem to the vanishing of a Fourier transform along complex lines.
+
+This allows us to apply a divisibility lemma of Ehrenpreis--Malgrange type, which produces a logarithmic potential solving a Poisson equation with source supported on the domain. The decisive insight is that the spectral assumption imposes strong constraints on this potential: it must exhibit a form of radial behavior on the boundary. In the simply connected setting, this constraint forces the domain to be a disk, recovering the Abreu--D\"orfler rigidity theorem from the same inverse/free-boundary perspective.
+
+\subsection{Sharpness of the GGRT stability inequality}
+
+We now turn to consequences of this inverse point of view. Our first application concerns the quantitative stability theorem of G\'omez, Guerra, Ramos, and Tilli for the Faber--Krahn inequality for the Gaussian STFT. In the formulation most relevant here, if $U\subset \R^2$ is a measurable set of finite positive measure, $\lambda_1(U)$ denotes the first eigenvalue of the associated localization operator, and $f_U$ is a corresponding $L^2$-normalized first eigenfunction, then Corollary~1.4 of \cite{Gomez-Guerra-Ramos-Tilli} gives the bounds
+\[
+\min_{z_0\in\C,\ |c|=1}\|f_U-c\phi_{z_0}\|_{L^2(\R)}
+\leq
+C e^{|U|/2}
+\left(
+1-\frac{\lambda_1(U)}{1-e^{-|U|}}
+\right)^{1/2},
+\]
+and
+\[
+\mathcal A(U)
+\leq
+K(|U|)
+\left(
+1-\frac{\lambda_1(U)}{1-e^{-|U|}}
+\right)^{1/2},
+\]
+where $\phi_{z_0}$ ranges over the Gaussian optimizers and $\mathcal A(U)$ denotes the Fraenkel asymmetry of $U$.
+
+Our perturbative inverse theorem provides the missing input needed to test this stability estimate on genuine spectral data. Starting from a prescribed polynomial perturbation of the Gaussian, Theorem~\ref{thm:perturb} produces an exact eigenpair $(U_\varepsilon,f_\varepsilon)$ for the localization operator, with $U_\varepsilon$ a smooth perturbation of the disk and $f_\varepsilon$ a corresponding first eigenfunction. The constructive direction of the paper thus yields explicit near-extremizers, against which one can compare the size of the spectral deficit with the actual geometric displacement of the domain from the class of disks. The resulting one-parameter family shows that the square-root dependence in Corollary~1.4 of \cite{Gomez-Guerra-Ramos-Tilli} is the best possible.
+
+\begin{theorem} \label{thm:GGRT-sharp}
+The exponent $1/2$ in Corollary~1.4 of \cite{Gomez-Guerra-Ramos-Tilli} is optimal. More precisely, the powers of the deficit
+\[
+1-\frac{\lambda_1(U)}{1-e^{-|U|}}
+\]
+appearing in both the eigenfunction estimate and the Fraenkel-asymmetry estimate there cannot be replaced by $\beta$ for any $\beta>1/2$.
+\end{theorem}
+
+The argument rests on constructing a carefully chosen family of perturbations of the disk via the inverse theorem above. Starting from a polynomial perturbation of the ground-state Hermite function, we obtain a family of domains whose geometry deviates from that of a disk at first order. A detailed asymptotic analysis of the eigenvalue equation, including a first-variation computation by a transport formula, then identifies the leading Fourier modes of the boundary deformation.
+
+This analysis shows that the deformation is governed by second-order harmonics, which cannot be eliminated by translations of the disk. Comparing the perturbed domains with arbitrary disks then yields lower bounds on their symmetric difference that match the upper bounds in the stability estimate of \cite{Gomez-Guerra-Ramos-Tilli}. The proof combines spectral perturbation theory, geometric measure estimates, and harmonic analysis on the circle, illustrating how inverse constructions can be used to probe the sharpness of variational inequalities.
+
+\subsection{Local maximizers are disks}
+
+We next connect this eigenfunction-to-domain philosophy to variational problems. Our fourth main result concerns the structure of local maximizers for Gaussian time--frequency concentration.
+
+\begin{theorem}
+Any local maximizer of $\lambda_{1,\varphi}$ under a measure constraint is, up to translation, a disk.
+\end{theorem}
+
+The proof relies on combining variational arguments with the inverse spectral perspective developed earlier. We first show that any local maximizer must coincide with a superlevel set of the density associated with its first eigenfunction in the Bargmann--Fock space. This reduces the geometric problem to a functional one.
+
+We then analyze the spectral properties of the localization operator at a maximizer, showing that the first eigenvalue is simple and that derivatives of the eigenfunction remain eigenfunctions. This strong rigidity property forces the maximizing eigenfunction into a Gaussian form. Once this is known, the corresponding domain is determined as well, and one concludes that the only admissible configuration is a disk. The argument thus shows that extremizers are governed by the same rigidity mechanism that underlies the inverse theory.
+
+\subsection{A new proof of the Nicola--Tilli theorem}
+
+Finally, we address the global variational problem and recover the Nicola--Tilli theorem from the same perspective.
+
+\begin{theorem}[New proof of Nicola--Tilli]
+Disks maximize Gaussian time--frequency concentration among all sets of fixed measure.
+\end{theorem}
+
+Our proof is based on a concentration--compactness argument in the Bargmann--Fock space. We consider maximizing sequences and analyze their possible limiting behavior, ruling out vanishing and dichotomy scenarios using the structure of the Fock space and the invariance properties of the STFT. This yields the existence of a maximizer. Related concentration--compactness methods have recently been used in nearby time--frequency concentration problems, notably by Nicola, Romero, and Trapasso for ambiguity-function type concentration functionals \cite{Nicola-Romero-Trapasso}; see also \cite{Marceca-Romero-Speckbacher,Samuelsen} for recent work on Fourier concentration operators, and \cite{Fulsche-Hagger} for closely related developments in the polyanalytic Fock-space setting.
+
+We then combine this existence result with the rigidity of local maximizers established earlier. Since any global maximizer is, in particular, a local maximizer, its eigenfunction is rigid and therefore determines the maximizing domain. This provides a new conceptual route to the Nicola--Tilli theorem, avoiding rearrangement inequalities and instead relying on inverse and free-boundary methods. The argument highlights the power of treating eigenfunctions as geometric data.
+
+\subsection{Organization of the paper}
+
+The paper is organized as follows. In Section~2 we review the Bargmann--Fock representation and establish several auxiliary results, including a key divisibility lemma and perturbative free-boundary theorems. Section~3 is devoted to the perturbative inverse construction underlying Theorem~\ref{thm:perturb}. Section~4 explains how the same machinery recovers the classical theorem of Abreu and D\"orfler in the simply connected case (Theorem~\ref{thm:eig-loc-U}). Section~5 contains the sharpness result, Theorem~\ref{thm:GGRT-sharp}, while the remaining sections are devoted to variational applications, culminating in the new proof of the Nicola--Tilli theorem.
+
+\medskip
+
+In summary, the results of this paper establish a bridge between time--frequency analysis, inverse spectral theory, and free-boundary problems in potential theory. This perspective not only resolves several open problems, but also supplies a flexible and robust framework for studying a wide range of questions in phase--space analysis.

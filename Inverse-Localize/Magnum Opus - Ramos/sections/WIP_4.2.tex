@@ -1,0 +1,233 @@
+% WIP draft for Section 4.2 (rigidity second proof).
+\subsection{Second proof}
+
+\begin{proof}[Second proof of Theorem \ref{thm:eig-loc-U}]
+We keep the notation
+\[
+f(|z|):=|z|^{2k}e^{-\pi|z|^2},
+\qquad
+c:=c(\lambda,k),
+\]
+from the first proof. The argument below is in the spirit of the holomorphic
+moving-plane/quadrature-domain methods of \cite{Aharonov-Schiffer-Zalcman,Gustafsson,Karp},
+in that we exploit the existence of a holomorphic function on \(U\) with prescribed real
+boundary values to recover full radial symmetry. Starting again from \eqref{eq:fourier-delta} and
+applying Lemma~\ref{lemma:fourier-to-fboundary}, we obtain a compactly supported distributional
+solution of
+\begin{equation}\label{eq:potato-second-proof}
+\Delta u=f(|z|)\mathbf{1}_U-c\,\delta_0
+\qquad\text{in }\mathcal D'(\R^2).
+\end{equation}
+Using the planar fundamental solution \((2\pi)^{-1}\log|z|\), we may write
+\begin{equation}\label{eq:explicit-u-second-proof}
+u(z):=\frac{1}{2\pi}\int_U \log|z-z'|\,f(|z'|)\,dA(z')-\frac{c}{2\pi}\log|z|.
+\end{equation}
+By \eqref{eq:potential}, this function satisfies
+\[
+u\equiv 0
+\qquad\text{on }\R^2\setminus (U\cup\{0\}).
+\]
+
+We first show that \(0\in U\). Since the singular term in
+\eqref{eq:potato-second-proof} is \(-c\delta_0\), one must have \(0\in\overline U\). If
+\(0\in\partial U\), then there exist exterior points \(z_j\to 0\) with
+\[
+u(z_j)=0.
+\]
+On the other hand, the first term in \eqref{eq:explicit-u-second-proof} remains finite as
+\(z\to 0\), because \(f\in L^\infty(U)\) and \(\log|z-z'|\) is locally integrable, whereas the
+second term equals \(-\frac{c}{2\pi}\log|z|\to +\infty\). This contradicts the exterior identity
+\(u(z_j)=0\). Hence \(0\notin\partial U\), and therefore
+\[
+0\in U.
+\]
+
+We next show directly from \eqref{eq:explicit-u-second-proof} that
+\[
+u\in C^1(\R^2\setminus\{0\}).
+\]
+Indeed, if we write
+\[
+g(z):=f(|z|)\mathbf{1}_U(z)\in L^\infty_c(\R^2),
+\]
+then
+\[
+u(z)=\frac{1}{2\pi}\int_{\R^2}\log|z-z'|\,g(z')\,dA(z')-\frac{c}{2\pi}\log|z|.
+\]
+Since the kernel \(K(\zeta)=\zeta/|\zeta|^2\) belongs to \(L^1_{\mathrm{loc}}(\R^2)\) (note that
+\(|K(\zeta)|=|\zeta|^{-1}\), which is integrable on bounded subsets of \(\R^2\)), the translation
+map \(z\mapsto K(z-\cdot)\) is continuous in \(L^1_{\mathrm{loc}}(\R^2)\) by the standard density
+argument: continuous compactly supported functions are dense in \(L^1_{\mathrm{loc}}\), and for
+each such function continuity of translations is immediate. Together with \(g\in L^\infty_c(\R^2)\),
+this implies that the convolution
+\[
+(K\ast g)(z):=\int_{\R^2}\frac{z-z'}{|z-z'|^2}\,g(z')\,dA(z')
+\]
+is a continuous function of \(z\in\R^2\). On the other hand, a direct distributional computation
+shows
+\[
+\nabla\!\left(\int_{\R^2}\log|z-z'|\,g(z')\,dA(z')\right)=K\ast g
+\qquad\text{in }\mathcal D'(\R^2),
+\]
+so the gradient of the convolution \(\log|\cdot|\ast g\) coincides almost everywhere with the
+continuous function \(K\ast g\). It follows that \(\log|\cdot|\ast g\) is of class \(C^1\) on
+\(\R^2\), and hence \(u\in C^1(\R^2\setminus\{0\})\) (the only obstruction to global \(C^1\)
+regularity being the explicit logarithmic singularity at the origin coming from the
+\(-\frac{c}{2\pi}\log|z|\) term).
+
+Now let \(z_*\in\partial U\). Since \(0\in U\), the boundary point \(z_*\) is bounded away from
+\(0\); fix a small ball \(B_\rho(z_*)\Subset \R^2\setminus\{0\}\). On the exterior open set
+\(\R^2\setminus \overline U\) we have \(u\equiv 0\), so \(\nabla u\equiv 0\) there. As
+\(\partial U\) is contained in the boundary of the exterior, every \(z_*\in\partial U\) is a limit
+of exterior points \(z_j\to z_*\) along which \(\nabla u(z_j)=0\). By the \(C^1\) regularity of
+\(u\) on \(B_\rho(z_*)\), the gradient \(\nabla u\) is continuous at \(z_*\), and we conclude
+\(\nabla u(z_*)=0\). In complex notation \(\partial_z=\tfrac{1}{2}(\partial_x-i\partial_y)\), this
+yields
+\begin{equation}\label{eq:dz-zero-second-proof}
+\partial_z u=0
+\qquad\text{on }\partial U.
+\end{equation}
+We emphasize that \emph{no} boundary regularity of \(\partial U\) has been used at this point, in
+contrast with the first proof: the vanishing of \(\nabla u\) on \(\partial U\) is forced solely by
+exterior continuity, which in turn is supplied by the explicit
+formula~\eqref{eq:explicit-u-second-proof}.
+
+Define
+\[
+\Phi(t):=\int_0^t s^k e^{-\pi s}\,ds
+\qquad\text{and}\qquad
+\Psi(z):=\frac{\Phi(|z|^2)}{z},
+\quad z\neq 0.
+\]
+A direct computation, using \(|z|^2=z\bar z\) and \(\partial_{\bar z}(z\bar z)=z\), gives, for
+\(z\neq 0\),
+\[
+\partial_{\bar z}\Psi(z)
+=
+\frac{\Phi'(|z|^2)\,\partial_{\bar z}(|z|^2)}{z}
+=
+\frac{|z|^{2k}e^{-\pi|z|^2}\cdot z}{z}
+=
+|z|^{2k}e^{-\pi|z|^2}
+=
+f(|z|).
+\]
+At the origin, the apparent singularity \(1/z\) is integrable against the vanishing factor
+\(\Phi(|z|^2)\): since \(k\ge 0\) and \(\Phi(t)=\int_0^t s^k e^{-\pi s}\,ds=O(t^{k+1})\) as
+\(t\to 0\), we have \(\Psi(z)=O(|z|^{2k+1})\) near \(z=0\), so \(\Psi\in L^\infty_{\mathrm{loc}}\)
+(in fact continuous, with \(\Psi(0)=0\)). Consequently, the identity
+\(\partial_{\bar z}\Psi=f(|z|)\) persists in the distributional sense on all of \(U\); no extra
+\(\delta_0\) contribution arises at the origin.
+
+Recall also the standard identity
+\[
+\partial_{\bar z}\!\left(\frac{1}{z}\right)=\pi\delta_0
+\qquad\text{in }\mathcal D'(\R^2),
+\]
+which is equivalent to the fact that \(\frac{1}{\pi z}\) is a fundamental solution of
+\(\partial_{\bar z}\); equivalently, \(\Delta\log|z|=4\partial_z\partial_{\bar z}\log|z|=2\pi\delta_0\)
+combined with \(\partial_z\log|z|=\frac{1}{2z}\). Now set
+\[
+F(z):=4\partial_z u(z)-\Psi(z)+\frac{c}{\pi z},
+\qquad z\in U\setminus\{0\}.
+\]
+Using \(\Delta=4\partial_z\partial_{\bar z}\), the relation \(\partial_{\bar z}(1/z)=\pi\delta_0\),
+the computation of \(\partial_{\bar z}\Psi\) above, and \eqref{eq:potato-second-proof}, we
+compute, in \(\mathcal D'(U)\),
+\[
+\partial_{\bar z}F
+=
+4\partial_z\partial_{\bar z}u-\partial_{\bar z}\Psi+\frac{c}{\pi}\partial_{\bar z}\!\left(\frac{1}{z}\right)
+=
+\Delta u-f(|z|)+c\,\delta_0
+=
+\bigl(f(|z|)-c\delta_0\bigr)-f(|z|)+c\delta_0
+=0.
+\]
+Hence \(F\) is a distributional solution of the Cauchy--Riemann equation on \(U\), and by
+Weyl's lemma (or, equivalently, hypoellipticity of \(\partial_{\bar z}\)) it is represented by a
+genuine holomorphic function on \(U\); the apparent pole of \(\Psi\) and of \(c/(\pi z)\) at the
+origin is exactly cancelled by the contribution of the singular term \(-c\delta_0\) in
+\eqref{eq:potato-second-proof} arriving through \(4\partial_z\partial_{\bar z}u\). Thus \(F\) is
+holomorphic on all of \(U\).
+
+Define
+\[
+W(z):=\pi z\,F(z).
+\]
+Then \(W\) is holomorphic on \(U\) and \(W(0)=0\). Since \(\partial_z u\) is continuous up to
+\(\partial U\), so is \(W\), and by \eqref{eq:dz-zero-second-proof},
+\[
+W|_{\partial U}
+=
+\pi z\left(4\partial_z u-\frac{\Phi(|z|^2)}{z}+\frac{c}{\pi z}\right)\Big|_{\partial U}
+=
+c-\pi\Phi(|z|^2).
+\]
+In particular, \(W|_{\partial U}\) is real-valued. The imaginary part of \(W\) is therefore
+harmonic in \(U\), continuous up to \(\partial U\), and vanishes on \(\partial U\). By the
+maximum principle,
+\[
+\Im W\equiv 0
+\qquad\text{in }U.
+\]
+Since a holomorphic function with zero imaginary part is constant, there exists \(\kappa\in\R\)
+such that
+\[
+W\equiv \kappa
+\qquad\text{in }U.
+\]
+
+Restricting to the boundary, and using that \(W\) is continuous up to \(\partial U\) with
+boundary value \(c-\pi\Phi(|z|^2)\), we obtain
+\[
+c-\pi\Phi(|z|^2)=\kappa
+\qquad\text{for all }z\in\partial U.
+\]
+The function \(t\mapsto \Phi(t)=\int_0^t s^k e^{-\pi s}\,ds\) has derivative
+\(\Phi'(t)=t^k e^{-\pi t}>0\) for \(t>0\), hence is strictly increasing on \([0,\infty)\). The
+identity above therefore forces \(|z|^2\) to take a single value on \(\partial U\), i.e.\ \(|z|\)
+is constant on \(\partial U\). Consequently \(\partial U\) is contained in a circle centered at
+the origin. Let \(R>0\) be such that
+\(\partial U\subset \{|z|=R\}\). Since \(U\) is open and connected, it cannot meet both
+\(\{|z|<R\}\) and \(\{|z|>R\}\), because these are disjoint open sets and \(U\cap \{|z|=R\}=\varnothing\).
+As \(U\) is bounded, we must therefore have \(U\subset \{|z|<R\}\). If this inclusion were strict,
+then \(\{|z|<R\}\setminus U\) would contain a point, and hence, being open, would contribute a
+boundary point of \(U\) lying strictly inside the disk \(\{|z|<R\}\), contradicting
+\(\partial U\subset \{|z|=R\}\). Therefore
+\[
+U=\{|z|<R\}
+\]
+that is, \(U\) is a disk.
+\end{proof}
+
+\begin{remark}
+The two proofs use the boundary assumptions in rather different ways, and it is instructive to
+keep careful track of the regularity bookkeeping.
+
+In the first proof, once the logarithmic potential \(\Psi_U\) is written explicitly, no elliptic
+boundary regularity is needed to conclude that \(\Psi_U\in C^1(\R^2\setminus\{0\})\): this follows
+directly from convolution with the locally integrable kernel \(\nabla\log|z|\), exactly as in the
+\(L^1_{\mathrm{loc}}\)-translation argument used here for \eqref{eq:explicit-u-second-proof}. Thus
+the local radiality argument itself only uses continuity of the gradient up to the boundary. The
+genuine extra input appears only in the final geometric step, where one needs that, near a suitable
+point \(x_0\in \partial U\), the set \(\partial U\cap B_r(x_0)\) contains a nontrivial boundary
+arc, so that the radii attained there form an interval. Accordingly, the first proof does not
+really need \(C^2\) regularity; it works under any hypothesis guaranteeing such a local arc
+structure, for instance when \(U\) is a Jordan domain. In particular, any Lipschitz, \(C^1\), or
+\(C^2\) boundary is more than sufficient.
+
+By contrast, the second proof does not use any boundary regularity at all. The explicit formula
+\eqref{eq:explicit-u-second-proof} already yields \(u\in C^1(\R^2\setminus\{0\})\), and since
+\(u\equiv 0\) on the exterior open set \(\R^2\setminus \overline U\), continuity implies that both
+\(u\) and \(\nabla u\) vanish on \(\partial U\) -- precisely the boundary information packaged in
+\eqref{eq:dz-zero-second-proof}. This is exactly the input needed to construct the holomorphic
+function \(W=\pi z F\) and conclude that \(|z|\) is constant on \(\partial U\). Hence the second
+proof recovers the theorem under the original assumptions of Abreu and D\"orfler
+\cite{Abreu-Doerfler}, namely for arbitrary bounded simply connected domains, with no boundary
+smoothness hypothesis. The mechanism is also conceptually closer to the classical
+quadrature-domain rigidity results of \cite{Aharonov-Schiffer-Zalcman,Gustafsson,Karp}, where the
+existence of a holomorphic function on \(U\) with real boundary values forces the boundary to lie
+on a level set of a real-analytic function, here the elementary radial function
+\(z\mapsto |z|^2\).
+\end{remark}

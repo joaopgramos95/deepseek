@@ -1,0 +1,239 @@
+\subsection{From time-frequency analysis to free boundary problems}
+
+Having translated, in the previous subsection, the time--frequency
+localization problem into a question about the vanishing of a Fourier
+transform along the two complex lines $\eta=\pm i\xi$, we now bridge the gap
+between this Fourier-analytic statement and the free boundary formulation
+that will dominate the remainder of the paper. The bridge is provided by a
+divisibility lemma of Ehrenpreis--Malgrange flavour: any compactly supported
+distribution whose Fourier transform vanishes on the characteristic variety
+$\{\eta=\pm i\xi\}$ of the Laplacian must be the Laplacian of a compactly
+supported $L^2$ function which, in our setting, is moreover continuous off a
+finite set of points.
+
+In order to state the lemma cleanly, we make precise the class of
+distributions with which we work. We say that a compactly supported
+distribution $\omega$ is a \emph{singular-continuous free measure} if it
+defines a (finite, signed) Radon measure on $\R^2$ whose Lebesgue
+decomposition with respect to planar Lebesgue measure $\mathrm{d}x\,
+\mathrm{d}y$ takes the form
+\[
+\omega = \omega_{\mathrm{ac}} + \omega_{\mathrm{pp}}
+       = f\,\mathrm{d}x\,\mathrm{d}y + \sum_{j=1}^N c_j\,\delta_{p_j},
+\]
+with $f\in L^1(\R^2)$ compactly supported, $c_j\in \R\setminus\{0\}$, and
+$p_1,\ldots,p_N\in \R^2$ pairwise distinct. In other words, the continuous
+singular part $\omega_{\mathrm{cs}}$ in the Lebesgue--Radon--Nikodym
+decomposition $\omega=\omega_{\mathrm{ac}}+\omega_{\mathrm{cs}}+
+\omega_{\mathrm{pp}}$ is required to vanish identically, and the pure
+point part is finite. The terminology \emph{free measure} is suggested by
+the role of $\omega$ as the right-hand side of a free boundary problem
+arising in the next subsection.
+
+\begin{lemma}\label{lemma:fourier-to-fboundary}
+Let $\omega\in \mathcal{S}'(\R^2)$ be a compactly supported singular-continuous
+free distribution such that
+\[
+\widehat{\omega}(w,\pm iw)=0,\qquad \forall w\in\C.
+\]
+Then there exist a finite set $P\subset \R^2$ and a compactly supported
+function $u\in L^2(\R^2)$ such that
+\[
+\Delta u=\omega
+\]
+in the sense of distributions, and
+\[
+u\in C(\R^2\setminus P).
+\]
+\end{lemma}
+
+\begin{proof}
+By the Paley--Wiener--Schwartz theorem (see, e.g.,
+\cite[Theorem~7.3.1]{Hormander} or \cite[\S 9.3]{Folland}), the Fourier
+transform $\widehat\omega(\xi,\eta)$ extends to an entire function on $\C^2$
+of exponential type, satisfying the bound
+\[
+|\widehat\omega(\xi,\eta)|\le C(1+|\xi|+|\eta|)^{N}\,e^{R(|\Im\xi|+|\Im\eta|)}
+\]
+for some $C,R>0$ and some integer $N\ge 0$ depending on the order of
+$\omega$, where $R$ is the radius of any disk containing
+$\operatorname{supp}\omega$. In particular, $\widehat\omega$ admits an
+everywhere convergent power series expansion
+\[
+\widehat{\omega}(\xi,\eta)=\sum_{k,l\ge 0} a_{k,l}\,\xi^k\eta^l,
+\qquad (\xi,\eta)\in\C^2.
+\]
+Using the vanishing hypothesis on the complex lines $\eta=\pm i\xi$, we may
+group terms by total homogeneity: setting $\eta=\pm iw$, $\xi=w$, and
+collecting powers of $w$,
+\[
+0=\widehat{\omega}(w,\pm iw)
+   =\sum_{n\ge 0}\Bigl(\sum_{k=0}^n a_{k,n-k}(\pm i)^{\,n-k}\Bigr)w^n,
+\qquad \forall w\in\C.
+\]
+Since this holds for all $w\in\C$, comparing coefficients yields
+\[
+\sum_{k=0}^n a_{k,n-k}(\pm i)^{\,n-k}=0,\qquad \forall n\ge 0.
+\]
+For each $n\ge 0$, define the auxiliary one-variable polynomial
+\[
+p_n(t):=\sum_{k=0}^n a_{k,n-k}\, t^{\,n-k}.
+\]
+The two scalar equations above precisely say that $p_n(\pm i)=0$, so
+$(t-i)(t+i)=t^2+1$ divides $p_n(t)$. Hence we may write
+\[
+p_n(t)=(t^2+1)\,q_n(t),
+\]
+with $q_n$ a polynomial of degree at most $n-2$ (and $q_n\equiv 0$ when
+$n<2$).
+
+We now reassemble the homogeneous pieces. Let
+\[
+H_n(\xi,\eta):=\sum_{k=0}^n a_{k,n-k}\,\xi^k\eta^{\,n-k},
+\qquad n\ge 0,
+\]
+so that $\widehat\omega=\sum_{n\ge 0}H_n$ is the decomposition of
+$\widehat\omega$ into homogeneous components (of degree $n$). The argument
+above shows that each $H_n$ vanishes on the two complex lines
+$\eta=\pm i\xi$, hence is divisible, as a homogeneous polynomial in two
+variables, by $\xi^2+\eta^2$. Concretely,
+\[
+H_n(\xi,\eta)=(\xi^2+\eta^2)\,G_{n-2}(\xi,\eta)
+\]
+for a (uniquely determined) homogeneous polynomial $G_{n-2}$ of degree
+$n-2$, with $G_{n-2}\equiv 0$ for $n<2$. Summing the homogeneous pieces, the
+formal series
+\[
+F(\xi,\eta):=\sum_{n\ge 2} G_{n-2}(\xi,\eta)
+\]
+converges absolutely on every polydisc on which $\widehat\omega$ does, and
+defines an entire function on $\C^2$ satisfying
+\[
+\widehat{\omega}(\xi,\eta)=(\xi^2+\eta^2)\,F(\xi,\eta).
+\]
+Since $\widehat\omega$ has a zero of order at least two at the origin
+(coming from the vanishing of $H_0$ and $H_1$, which is forced by
+$p_0(\pm i)=p_1(\pm i)=0$), this factorization is consistent at $0$ and $F$
+is entire there as well.
+
+We next quantify the size of $F$ on $\R^2$. Since $\omega$ is a finite
+(signed) Radon measure with compact support, its Fourier transform is in
+fact bounded on $\R^2$:
+\[
+|\widehat{\omega}(\xi,\eta)|\le \|\omega\|_{\mathrm{TV}},
+\qquad (\xi,\eta)\in\R^2,
+\]
+where $\|\omega\|_{\mathrm{TV}}$ is the total variation; equivalently,
+the Paley--Wiener bound holds with $N=0$. On $\R^2$, $\xi^2+\eta^2=
+|\xi|^2+|\eta|^2$, so for $|\xi|^2+|\eta|^2\ge 1$ we have $\xi^2+\eta^2
+\ge \tfrac{1}{2}(1+|\xi|^2+|\eta|^2)$, whence
+\[
+|F(\xi,\eta)|=\frac{|\widehat\omega(\xi,\eta)|}{\xi^2+\eta^2}
+\le \frac{2\|\omega\|_{\mathrm{TV}}}{1+|\xi|^2+|\eta|^2},
+\qquad |\xi|^2+|\eta|^2\ge 1.
+\]
+Near the origin, $F$ is entire (as established above) and hence bounded;
+absorbing this region into the constants we obtain
+\[
+|F(\xi,\eta)|\le \frac{C''}{1+|\xi|^2+|\eta|^2},
+\qquad (\xi,\eta)\in\R^2,
+\]
+for some $C''>0$. Therefore $F|_{\R^2}\in L^2(\R^2)\cap L^1(\R^2)$. On
+$\C^2$, the analogous Paley--Wiener-type bound
+\[
+|F(\xi,\eta)|\le C'\,
+\frac{e^{R(|\Im \xi|+|\Im \eta|)}}{1+|\xi|^2+|\eta|^2}
+\]
+follows from the same argument off a neighbourhood of $\{\xi^2+\eta^2=0\}$
+and from boundedness of $F$ on a fixed compact neighbourhood of $0$ inside
+$\C^2$, after enlarging $C'$ if necessary.
+
+By the Paley--Wiener--Schwartz theorem applied in the reverse direction
+(see again \cite[Theorem~7.3.1]{Hormander}), the entire function $F$
+satisfies an exponential-type bound on $\C^2$ with the same exponential
+rate $R$ as $\widehat\omega$, and integrable decay along $\R^2$, so it is
+the Fourier--Laplace transform of a distribution of order $\le N$
+compactly supported in the closed disk $\overline{B(0,R)}$. The $L^2$
+bound on the real locus shows that this distribution is, in fact, an
+$L^2(\R^2)$ function. Let $u\in L^2(\R^2)$ denote this compactly supported
+representative, characterised by $\widehat u = F$ on $\R^2$ and
+$\operatorname{supp} u\subset \overline{B(0,R)}$.
+
+Computing distributional Laplacians on the Fourier side, with the
+convention $\widehat g(\xi,\eta)=\int g(x,y)e^{-2\pi i(x\xi+y\eta)}\,
+\mathrm{d}x\,\mathrm{d}y$, we have
+\[
+\widehat{\Delta u}(\xi,\eta) = -4\pi^2(\xi^2+\eta^2)\,\widehat{u}(\xi,\eta)
+= -4\pi^2(\xi^2+\eta^2)\,F(\xi,\eta) = -4\pi^2\,\widehat\omega(\xi,\eta);
+\]
+with any other standard normalisation, the same identity holds up to a
+nonzero real multiplicative factor. In all cases, $\Delta u$ is a constant
+nonzero real multiple of $\omega$. Replacing $u$ by $\lambda u$ for the
+appropriate (nonzero, real) $\lambda$ -- this is the harmless rescaling
+referred to above -- we may, and do, assume that
+\[
+\Delta u = \omega
+\]
+in the sense of distributions. The rescaling preserves all the previously
+established properties of $u$: compact support, membership in $L^2(\R^2)$,
+and the Fourier identity $\widehat u = \lambda F$.
+
+To pin down $u$ pointwise, observe that since $\omega$ is a compactly
+supported Radon measure on $\R^2$, the convolution
+\[
+v(x,y) := \frac{1}{2\pi}(\log|\cdot|*\omega)(x,y)
+\]
+is a well-defined locally integrable function on $\R^2$ which solves
+$\Delta v = \omega$ in the sense of distributions; here $G(z)=\log|z|$ is
+(up to the standard normalisation $\tfrac{1}{2\pi}$) the fundamental solution
+of the Laplacian in $\R^2$, see, e.g., \cite[Ch.~II]{Garnett} or
+\cite[\S 6.2]{Folland} for the relevant logarithmic-potential theory, and
+\cite{Aharonov-Schiffer-Zalcman} for related representations in the planar
+quadrature-domain context. The difference $u-v$ is then a tempered
+distribution which is harmonic on $\R^2$ (since
+$\Delta(u-v)=\omega-\omega=0$), and hence, being harmonic, real-analytic.
+Outside the union of the supports of $u$ and $\omega$, the function $v$ is
+in fact real-analytic and grows at most logarithmically at infinity, with
+$v(x)=\frac{M}{2\pi}\log|x|+O(|x|^{-1})$ as $|x|\to\infty$ where
+$M=\omega(\R^2)$, while $u$ vanishes there because of its compact support.
+Hence $u-v$ is harmonic on $\R^2$ and grows at most logarithmically at
+infinity; a standard refinement of the harmonic Liouville theorem (any
+harmonic function on $\R^2$ growing slower than a polynomial of degree $1$
+is constant) then forces $u-v$ to be a constant, and this constant must
+vanish to be consistent with $u\in L^2(\R^2)$ and the local integrability
+of $v$. Equivalently, and more transparently: by the compact support of
+$\omega$ together with $\widehat u = F$ on $\R^2$, the function $u$ is
+uniquely determined among compactly supported $L^2$ solutions of
+$\Delta u = \omega$, since any two such would differ by an entire $L^2$
+function which is harmonic, hence vanishes. Thus
+\[
+u(x,y)=\frac{1}{2\pi}\int_{\R^2}\log|(x,y)-(x',y')|\,\mathrm{d}\omega(x',y'),
+\]
+the logarithmic potential of $\omega$.
+
+We finally analyse the regularity of $u$. Decomposing
+$\omega = f\,\mathrm{d}x\,\mathrm{d}y+\sum_{j=1}^N c_j\,\delta_{p_j}$ as in
+the definition of singular-continuous free measure, we obtain
+correspondingly
+\[
+u(x,y)=\frac{1}{2\pi}\int_{\R^2}\log|(x,y)-(x',y')|\,f(x',y')\,
+\mathrm{d}x'\mathrm{d}y'
++\frac{1}{2\pi}\sum_{j=1}^N c_j\,\log|(x,y)-p_j|.
+\]
+The first summand is the logarithmic potential of the $L^1$, compactly
+supported density $f$ and is therefore continuous on all of $\R^2$ -- this
+is a classical fact, see e.g.\ \cite[Ch.~II, Theorem~1.3]{Garnett} or
+\cite[\S 6.2]{Folland}. It is here that the absence of a continuous
+singular part in $\omega$ is essential: a generic continuous singular
+measure (e.g.\ the Hausdorff measure on a Cantor-type set of positive
+$1$-capacity) gives rise to a logarithmic potential which need not be
+continuous, only quasi-continuous, and the conclusion of the lemma would
+fail in that generality. Each term $\log|(x,y)-p_j|$ is continuous on
+$\R^2\setminus\{p_j\}$, with a logarithmic singularity at $p_j$. Setting
+$P:=\{p_1,\ldots,p_N\}$, we conclude that $u\in C(\R^2\setminus P)$, as
+claimed. The fact that $u$ is compactly supported has already been
+established in the construction above and is consistent with the
+representation as a logarithmic potential, which differs from a compactly
+supported function only by a globally harmonic correction that, as
+explained, must vanish identically.
+\end{proof}

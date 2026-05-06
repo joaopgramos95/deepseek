@@ -1,0 +1,377 @@
+% Final Section 4.1.
+\section{A Classical Rigidity Corollary}\label{sec:classical-rigidity}
+
+The localization operator $\mathcal{L}_U$ on the Bargmann--Fock space is
+diagonalized by Hermite functions whenever $U$ is a disk centered at the
+origin: this is an immediate consequence of the rotational symmetry of $U$
+together with the radial structure of the Hermite weight. The converse
+question, raised by Abreu and D\"orfler, asks whether eigenfunction status of
+even a \emph{single} Hermite function already forces the underlying domain to
+be a disk. The next theorem records a positive answer in the simply connected
+$C^2$ regime.
+
+\begin{theorem}[Abreu--D\"orfler rigidity]\label{thm:eig-loc-U}
+Let $U\subset \C$ be a simply connected bounded domain with $C^2$ boundary,
+and let $h_k$ be a Hermite function ($k\ge 0$). If $h_k$ is an eigenfunction
+of the localization operator $\mathcal{L}_U$, then $U$ is a disk.
+\end{theorem}
+
+We will give two proofs of Theorem~\ref{thm:eig-loc-U}. The first, presented
+below, leverages the Fourier-analytic machinery developed earlier in the
+paper, reducing the question to a free boundary problem for a logarithmic
+potential. The second, in the next subsection, proceeds along more
+classical complex-analytic lines.
+
+\subsection{First proof}
+
+\begin{proof}[First proof under the additional assumption that $\partial U$ is $C^2$]
+The Bargmann transform of the Hermite function $h_k$ is a nonzero scalar
+multiple of the monomial $z^k$. Thus, arguing as in
+\cite{Abreu-Doerfler}, the assumption that $h_k$ is an eigenfunction of
+the localization operator $\mathcal{L}_U$ is equivalent to the identity
+\[
+\int_U z^k\, e^{\pi w\overline{z}}\, e^{-\pi |z|^2}\,dA(z)
+=\lambda\, w^k,
+\qquad w\in \C.
+\]
+Both sides are entire functions of $w$. Since $U$ is bounded and the
+weight $e^{-\pi|z|^2}$ is integrable, the dominated convergence
+theorem applied to difference quotients shows that for each
+multi-index $\alpha$ in $w$, the partial derivative
+$\partial_w^\alpha$ commutes with the integral on the left-hand side;
+the absolute integrability of $|z|^{|\alpha|+k} e^{\pi
+|w||z|}e^{-\pi|z|^2}\mathbf{1}_U$ for fixed $w$ provides the required
+local majorant. Iterating $k$ times, we obtain
+\[
+\frac{1}{(\pi)^k}\,\partial_w^k
+\Big[\int_U z^k\, e^{\pi w\overline{z}}\, e^{-\pi |z|^2}\,dA(z)\Big]
+=\int_U z^k\overline{z}^k\, e^{\pi w\overline{z}}\, e^{-\pi |z|^2}\,dA(z)
+=\int_U |z|^{2k}\, e^{\pi w\overline{z}}\, e^{-\pi |z|^2}\,dA(z).
+\]
+On the right-hand side, $\partial_w^k(\lambda w^k)=\lambda\,k!$.
+Setting $c(\lambda,k):=\lambda\,k!/\pi^k\in\R$ and using
+$\mathbf{1}_U$ to extend the integration to $\C$, we obtain
+\begin{equation}\label{eq:fourier-delta}
+\int_{\C} \mathbf{1}_U(z)\,|z|^{2k}\,e^{-\pi |z|^2}\, e^{\pi \overline{z}\, w}\,dA(z)
+=c(\lambda,k),
+\end{equation}
+for some real constant $c(\lambda,k)$.
+
+Consider now the compactly supported distribution
+\[
+\eta:=|z|^{2k}e^{-\pi |z|^2}\mathbf{1}_U(z)-c(\lambda,k)\,\delta_0,
+\]
+which has compact support in any closed ball containing $U\cup\{0\}$.
+Writing $z=x+iy$ and $w\in \C$, we may rewrite the exponential factor in
+\eqref{eq:fourier-delta} as
+\[
+e^{\pi \overline{z}\, w}=e^{\pi(x-iy)w}=e^{\pi xw}\, e^{-i\pi yw}.
+\]
+Hence \eqref{eq:fourier-delta} implies that the Fourier transform
+$\widehat{\eta}$, viewed as an entire function on $\C^2$ via Paley--Wiener,
+satisfies
+\[
+\widehat{\eta}(w,-iw)=0,\qquad \forall w\in\C.
+\]
+Since $c(\lambda,k)\in \R$, taking complex conjugates in
+\eqref{eq:fourier-delta} after replacing $w$ by $\overline{w}$ also yields
+\[
+\widehat{\eta}(w,iw)=0,\qquad \forall w\in\C.
+\]
+
+Applying Lemma~\ref{lemma:fourier-to-fboundary} to the distribution
+$\eta$, we obtain a function $u\in L^2(\R^2)$ such that
+\begin{equation}\label{eq:potato}
+\Delta u=f(|z|)\,\mathbf{1}_U-c(\lambda,k)\,\delta_0
+\end{equation}
+in the sense of distributions, where
+\[
+f(|z|)=|z|^{2k}e^{-\pi |z|^2}.
+\]
+Writing $u$ explicitly as a logarithmic potential of the right-hand side
+of \eqref{eq:potato}, we conclude that $U$ satisfies
+\begin{equation}\label{eq:potential}
+\int_U \log|z-z'|\, f(|z'|)\,dA(z')
+=c(\lambda,k)\,\log|z|,
+\qquad z\in \C\setminus (U\cup\{0\}).
+\end{equation}
+
+\medskip
+
+\noindent\emph{Reduction to $0\notin U$.}\quad
+Suppose first that $0\in U$, and pick $\rho>0$ small enough that
+$\overline{D_\rho(0)}\subset U$. The radial measure
+$f(|z|)\,\mathbf{1}_{D_\rho(0)}\,dA$ generates a logarithmic potential
+\[
+\Phi_\rho(z):=\int_{D_\rho(0)} \log|z-z'|\, f(|z'|)\,dA(z'),
+\]
+which, by Newton's shell theorem in the plane, is radial; outside
+$D_\rho(0)$ it equals
+\[
+\Phi_\rho(z)=\Big(\int_{D_\rho(0)}f(|z'|)\,dA(z')\Big)\log|z|+\text{const}.
+\]
+Subtracting $D_\rho(0)$ from $U$ thus preserves identity
+\eqref{eq:potential} on the complement of the new set, at the cost of
+replacing the constant $c(\lambda,k)$ by another real constant. Hence we
+may assume $0\notin U$. Moreover, $0\notin \partial U$, because the
+left-hand side of \eqref{eq:potential} stays bounded as $z\to 0$, whereas
+the right-hand side diverges to $-\infty$ if $c(\lambda,k)\neq 0$.
+The case $c(\lambda,k)=0$ is incompatible with the integral being
+positive at $z=0$, so it is also excluded.
+
+\medskip
+
+Define the logarithmic potential
+\[
+\Psi_U(z):=\int_U \log|z-z'|\, f(|z'|)\,dA(z').
+\]
+We claim that $\Psi_U$ is \emph{locally radial}: for each $z_0\in U$,
+there exists a ball $B(z_0)\subset U$ such that $\Psi_U$ agrees on
+$B(z_0)$ with a radial function of $|z|$.
+
+To prove this, let $B\supset U$ be a ball centered at $0$, and define
+\[
+\Phi(z):=\int_B \log|z-z'|\, f(|z'|)\,dA(z').
+\]
+Since both $B$ and the weight $f(|z'|)$ are radial, $\Phi$ is radial; in
+particular, $\nabla \Phi(z)$ is parallel to $z$ for every $z\in \R^2$.
+Furthermore, on the interior of $B$,
+\[
+\Delta \Phi(z)=2\pi\, f(|z|).
+\]
+
+Now $\Psi_U$ satisfies \eqref{eq:potential} on the unbounded
+component of $\C\setminus(U\cup\{0\})$. Differentiating that identity
+in $z$ for $z\not\in \overline{U}\cup\{0\}$ gives
+\[
+\nabla \Psi_U(z)=c(\lambda,k)\,\frac{z}{|z|^2},
+\qquad z\in \C\setminus(\overline{U}\cup\{0\}).
+\]
+The classical jump relations for the single-layer / volume logarithmic
+potential of an $L^\infty$ density on a $C^2$ domain (see, e.g.,
+\cite{Gustafsson}) imply that $\nabla\Psi_U$ extends continuously
+across $\partial U$ from \emph{both} sides, and the boundary values
+agree. Hence on $\partial U$,
+\[
+\nabla \Psi_U(z)=c(\lambda,k)\,\frac{z}{|z|^2},
+\qquad z\in \partial U,
+\]
+which is, in particular, parallel to $z$. Therefore the difference
+\[
+v:=\Psi_U-\Phi
+\]
+satisfies $\Delta v=2\pi f(|z|)\mathbf 1_U-2\pi f(|z|)\mathbf 1_B
+=-2\pi f(|z|)\mathbf 1_{B\setminus U}$ in the sense of distributions
+on $B$, so $v$ is harmonic in $U$ and in $B\setminus\overline{U}$, and
+on $\partial U$ satisfies
+\[
+\nabla v(x)\ \text{is parallel to}\ x.
+\]
+The next lemma converts this gradient condition into local radiality of $v$.
+
+\begin{lemma}\label{lem:harmonic-locally-radial}
+Let $V\subset \R^2$ be a domain, and suppose there exists a harmonic
+function $v\in C^1(\overline{V})$ such that $\nabla v(x)$ is parallel to
+$x$ for every $x\in \partial V$. Then $\nabla v(x)$ is parallel to $x$
+for every $x\in V$. In particular, on every circle
+$S=\{|x|=r\}\subset \R^2$, the function $v$ is constant on every
+connected component of $S\cap V$.
+\end{lemma}
+
+\begin{proof}
+Consider the angular derivative
+\[
+g(x):=x_1\,\partial_2 v(x)-x_2\,\partial_1 v(x)
+=\partial_\theta v(x),
+\]
+which equals the tangential derivative of $v$ along the circle
+through $x$ centered at $0$. A direct computation gives
+\[
+\Delta g
+=x_1\,\Delta(\partial_2 v)-x_2\,\Delta(\partial_1 v)
++2\big(\partial_1\partial_2 v-\partial_2\partial_1 v\big)
+=0,
+\]
+since $v$ is harmonic and partial derivatives of harmonic functions
+are themselves harmonic. By the boundary hypothesis, $\nabla v(x)$ is
+parallel to $x$ on $\partial V$, so $g\equiv 0$ on $\partial V$.
+Together with $g\in C(\overline{V})$, the maximum principle for
+harmonic functions yields $g\equiv 0$ in $V$. Hence $\nabla v(x)$ is
+parallel to $x$ at every interior point as well, and on any circle
+$S=\{|x|=r\}$ the tangential derivative $\partial_\theta v$ vanishes
+on $S\cap V$. Therefore $v$ is constant on each connected component
+of $S\cap V$.
+\end{proof}
+
+Applying Lemma~\ref{lem:harmonic-locally-radial} on small subdomains
+$V\subset U$ where $v$ is harmonic and $C^1$ up to the boundary, we
+conclude that $v$ is locally radial on $U$. Since $\Phi$ is globally
+radial, so is $\Psi_U=\Phi+v$, locally on $U$.
+
+\begin{lemma}\label{lem:local-to-global-radial}
+Let \(W\subset \R^2\setminus\{0\}\) be a connected open set, and let
+\(u\in C(W)\). Suppose that for every \(x\in W\) there exist \(r_x>0\)
+and a scalar function \(\phi_x\) such that
+\[
+u(y)=\phi_x(|y|)
+\qquad\text{for all } y\in B(x,r_x)\subset W.
+\]
+Then there exists a single scalar function \(\phi\), defined on the
+interval
+\[
+I_W:=\{|y|:y\in W\},
+\]
+such that
+\[
+u(y)=\phi(|y|)
+\qquad\text{for all } y\in W.
+\]
+\end{lemma}
+
+\begin{proof}
+For each \(x\in W\), choose a ball \(B_x:=B(x,r_x)\subset W\) on which
+\(u\) is a radial function of \(|y|\), with profile $\phi_x$. We
+first note that whenever $B_x\cap B_{x'}\ne\emptyset$,
+\[
+\phi_x(|y|)=u(y)=\phi_{x'}(|y|)
+\qquad\text{for every }y\in B_x\cap B_{x'}.
+\]
+Since $B_x\cap B_{x'}$ is open and avoids the origin, the map $y\mapsto
+|y|$ is a submersion on it, so the set of radii it attains contains a
+nontrivial open interval on which $\phi_x$ and $\phi_{x'}$ agree.
+
+Fix $x_*\in W$ and define a candidate function $\phi$ on $I_W$ as
+follows. Given $y\in W$, connect $x_*$ to $y$ by a polygonal path in
+$W$, which exists because $W$ is open and connected. Its image is
+compact, hence covered by finitely many balls
+$B_{x_1},\dots,B_{x_m}$ with successive nonempty overlaps and
+$x_1=x_*$, $y\in B_{x_m}$. The previous paragraph implies $\phi_{x_j}$
+and $\phi_{x_{j+1}}$ agree on a nontrivial interval of radii, so by
+analytic-continuation along the chain we may unambiguously set
+$\phi(|y|):=\phi_{x_m}(|y|)$. Independence of the chain follows from
+the same overlap argument: any two chains from $x_*$ to $y$ can be
+interleaved into a single chain, and successive overlaps force the
+final value to coincide. Hence $\phi$ is well-defined on $I_W$ and
+satisfies $u(y)=\phi(|y|)$ for every $y\in W$.
+\end{proof}
+
+We now conclude the proof. Since \(U\) is simply connected and bounded,
+it suffices to rule out the possibility that \(U\) fails to be a disk
+centered at the origin. Suppose therefore, for contradiction, that
+\(U\) is not such a disk. Then \(\partial U\) is not a single circle
+centered at $0$, so there exist radii \(0<r_1<r_2\) such that the
+annulus
+\[
+A:=\{z\in \R^2:\ r_1<|z|<r_2\}
+\]
+meets both $U$ and $\partial U$ in a non-trivial way; in particular,
+we may pick a point
+\[
+x_0\in \partial U\cap A.
+\]
+Let
+\[
+\widetilde{U}_0:=U\cap B_r(x_0),
+\]
+for $r>0$ sufficiently small that $\widetilde U_0$ is connected and
+$0\notin \overline{\widetilde U_0}$. Since \(\Psi_U\) is locally radial
+in \(U\), Lemma~\ref{lem:local-to-global-radial} applied to
+$W=\widetilde U_0$ yields a scalar function \(\psi_U\) on
+$I_{\widetilde U_0}$ such that
+\[
+\Psi_U(x)=\psi_U(|x|),\qquad x\in \widetilde{U}_0.
+\]
+
+On the other hand, by \eqref{eq:potential} and standard regularity for
+logarithmic potentials with $C^2$ boundary, the gradient $\nabla\Psi_U$
+extends continuously across $\partial U$, and for $z\in\partial U$ we
+have
+\[
+\nabla \Psi_U(z)=c\,\frac{z}{|z|^2}
+\]
+for the same constant $c=c(\lambda,k)\in \R$ as in
+\eqref{eq:potential}. Combining this with $\Psi_U(x)=\psi_U(|x|)$ on
+$\widetilde U_0$ and passing to $z\in \partial \widetilde U_0\cap
+\partial U$ from the inside,
+\[
+\psi_U'(|z|)\,\frac{z}{|z|}=c\,\frac{z}{|z|^2},
+\qquad z\in \partial U\cap \overline{B_r(x_0)},
+\]
+hence
+\[
+\psi_U'(r)=\frac{c}{r}
+\]
+for every $r$ in the set of radii attained by points of
+$\partial U\cap \overline{B_r(x_0)}$. Since $\partial U$ is a $C^2$
+curve, we may, after shrinking $r$ once more, parametrize
+$\partial U\cap B_r(x_0)$ by a $C^2$ embedding
+$\gamma:(-\varepsilon,\varepsilon)\to \R^2$ with $\gamma(0)=x_0$.
+Because $\partial U$ is not a circle centered at $0$, the function
+$t\mapsto |\gamma(t)|$ is not constant on any subinterval; by choosing
+$x_0\in\partial U\cap A$ at which $|\gamma|$ is non-constant on every
+neighbourhood (such points form an open dense subset of $\partial
+U\cap A$ when $\partial U$ is not a circle centered at $0$), we may
+further assume that the derivative
+$\frac{d}{dt}|\gamma(t)|\big|_{t=0}\ne 0$. Hence by the open-mapping
+property for $C^1$ functions of one variable with nonzero derivative,
+the image of $|\gamma|$ contains a nontrivial open interval
+\(I\subset (r_1,r_2)\).
+Therefore
+\[
+\psi_U'(r)=\frac{c}{r}
+\qquad\text{for every }r\in I,
+\]
+whence
+\[
+\psi_U(r)=c\log r+C_0,
+\qquad r\in I,
+\]
+for some real constant $C_0$.
+
+Let
+\[
+W_I:=\{x\in \widetilde U_0:\ |x|\in I\}.
+\]
+Then \(W_I\) is a nonempty open subset of \(U\), and on \(W_I\),
+\[
+\Psi_U(x)=c\log|x|+C_0.
+\]
+Hence
+\[
+\Delta \Psi_U\equiv 0 \qquad \text{in } W_I,
+\]
+since the origin is excluded from $\widetilde U_0$. On the other hand,
+distribution-theoretically,
+\[
+\Delta \Psi_U=2\pi\, f(|z|)\,\mathbf{1}_U-c\,\delta_0
+\]
+in $\C$, so on the open set $W_I\subset U\setminus\{0\}$ we have
+\[
+\Delta \Psi_U=2\pi\, f(|z|)=2\pi\, |z|^{2k}e^{-\pi |z|^2}.
+\]
+The right-hand side vanishes only at the origin, which lies outside
+$W_I$, while the left-hand side just shown to be $0$ on $W_I$ — a
+contradiction. This rules out the case in which $U$ is not a disk
+centered at $0$, completing the proof.
+\end{proof}
+
+\begin{remark}
+The structure of the argument above is in the spirit of
+\cite{Aharonov-Schiffer-Zalcman}, where logarithmic-potential
+rigidity statements were derived from Schiffer-style overdetermined
+boundary conditions, and of the quadrature-domain literature
+\cite{Gustafsson,Gustafsson-Shahgholian,Shahgholian,Karp}, in which
+the regularity of free boundaries and the matching of an interior
+potential with the Newtonian potential of a radially symmetric
+density play a central role. Concretely, identity
+\eqref{eq:potential} can be read as saying that $U$ is a
+\emph{generalized quadrature domain} for the radial weight $f(|z|)$,
+with quadrature data concentrated at the origin. From this perspective,
+the conclusion that $U$ is a disk is a (sharp) instance of the
+classical principle that radial quadrature data forces a radial
+domain. The role of the $C^2$ boundary regularity is concentrated
+in the boundary extension of $\nabla\Psi_U$ and in the
+open-interval-of-radii argument that ends the proof; both can be
+relaxed at the cost of additional technicalities, which we will
+revisit in the second proof.
+\end{remark}

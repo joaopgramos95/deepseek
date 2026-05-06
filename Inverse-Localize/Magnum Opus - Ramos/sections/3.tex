@@ -1,0 +1,516 @@
+\section{Proof of Theorem \ref{thm:perturb}}
+
+\begin{proof}[Proof of Theorem \ref{thm:perturb}]
+We again use the Bargmann transform. Let
+\[
+P(z)=1+\sum_{k=1}^N b_k z^k,
+\]
+where the coefficients $b_k$ are chosen so that the Bargmann transform of
+\[
+f_0=h_0+\sum_{k=1}^N a_k h_k
+\]
+is exactly $P$. Then the condition that $f_0$ be an eigenfunction of $\mathcal{L}_U$ with eigenvalue $\lambda$ is equivalent to
+\begin{equation}\label{eq:eigenfunction-general-new}
+\int_U P(z)e^{-\pi|z|^2}e^{\pi \overline z w}\,dA(z)=\lambda P(w),
+\qquad w\in \C.
+\end{equation}
+The proof proceeds in four steps. In Step~0 we apply a polynomial differential operator $P(\partial_w/\pi)$ to \eqref{eq:eigenfunction-general-new} in order to symmetrize the integrand and reduce matters to a moment identity for $|P|^2 e^{-\pi|z|^2}$. In Step~1 we construct an auxiliary radially symmetric domain $U_0$ for which the corresponding eigenvalue is the constant function $\lambda$; this is achieved by perturbing a Daubechies disk via the Isakov free-boundary scheme of Proposition~\ref{prop:isakov-tailored}. In Step~2 we use a Laplace transform in the variable $w$ to convert the polynomial right-hand side $\lambda Q(w)$ into the rational right-hand side required by Proposition~\ref{prop:cherednichenko-tailored} and produce a domain $U$ satisfying the symmetrized moment identity. Finally, in Step~3 we invert the differentiation of Step~0 by analyzing the entire solutions of the constant-coefficient ODE $P(\partial_w/\pi)H=0$ and ruling out nontrivial exponential solutions through a growth estimate.
+
+\medskip
+\noindent\textbf{Step 0: a first reduction.}
+For a polynomial
+\[
+R(z)=\alpha_0+\alpha_1 z+\cdots+\alpha_n z^n,
+\]
+define the differential operator
+\[
+R(\partial_w/\pi):=\sum_{k=0}^n \alpha_k\Big(\frac{\partial_w}{\pi}\Big)^k.
+\]
+We apply $P(\partial_w/\pi)$ to both sides of \eqref{eq:eigenfunction-general-new}. The right-hand side is the polynomial $\lambda P(w)$, on which the differential operator acts in the obvious way. For the left-hand side, write
+\[
+F(w):=\int_U P(z)e^{-\pi|z|^2}e^{\pi \overline z w}\,dA(z).
+\]
+Since $U$ is bounded, the integrand is jointly continuous on $\overline U\times \C$, and for every compact set $K\subset\C$ and every nonnegative integer $j$ one has the uniform bound
+\[
+\big|\partial_w^{\,j}\big(P(z)e^{-\pi|z|^2}e^{\pi\overline z w}\big)\big|
+\le
+\big(\pi\,\sup_{z\in U}|z|\big)^{j}\,\sup_{z\in U}\!\big(|P(z)|e^{-\pi|z|^2}\big)\,e^{\pi(\sup_{z\in U}|z|)\sup_{w\in K}|w|},
+\]
+valid for $(z,w)\in U\times K$. The right-hand side is integrable on the bounded set $U$, so dominated convergence justifies differentiating under the integral sign arbitrarily often, and $F$ is entire. Combining this with the identity
+\[
+\Big(\frac{\partial_w}{\pi}\Big)^j e^{\pi \overline z w}=\overline z^{\,j} e^{\pi \overline z w},
+\]
+we obtain
+\[
+P(\partial_w/\pi)F(w)
+=
+\int_U P(z)\,\overline{P(z)}\,e^{-\pi|z|^2}e^{\pi\overline z w}\,dA(z)
+=
+\int_U |P(z)|^2 e^{-\pi|z|^2}e^{\pi\overline z w}\,dA(z).
+\]
+Hence \eqref{eq:eigenfunction-general-new} is equivalent to
+\begin{equation}\label{eq:almost-reduced-new}
+\int_U |P(z)|^2 e^{-\pi|z|^2} e^{\pi \overline z w}\,dA(z)=\lambda Q(w),
+\qquad w\in\C,
+\end{equation}
+where
+\[
+Q(w):=P(\partial_w/\pi)\big(P(w)\big).
+\]
+Strictly speaking, applying $P(\partial_w/\pi)$ only gives the implication \eqref{eq:eigenfunction-general-new}~$\Rightarrow$~\eqref{eq:almost-reduced-new}; the converse implication will be recovered in Step~3 by an ODE-theoretic argument. Our first task is therefore to construct a domain $U$ satisfying \eqref{eq:almost-reduced-new}.
+
+\medskip
+\noindent\textbf{Step 1: construction of an auxiliary domain.}
+We begin by constructing a $C^2$ domain $U_0$, close to a fixed disk, for which
+\begin{equation}\label{eq:first-domain-new}
+\int_{U_0} |P(z)|^2 e^{-\pi|z|^2} e^{\pi \overline z w}\,dA(z)=\lambda,
+\qquad w\in\C.
+\end{equation}
+Note that \eqref{eq:first-domain-new} is the special case of \eqref{eq:almost-reduced-new} in which the right-hand side is the constant $\lambda$; it will serve as the unperturbed reference for Step~2.
+
+Let $\psi\in C_c^\infty(\C)$ be a nonnegative radial function such that
+\[
+\supp \psi \subset D_2(0)\setminus D_1(0),
+\qquad
+\int_\C \psi\,dA=1,
+\]
+and set
+\[
+\psi_\delta(z):=\delta^{-2}\psi(z/\delta),\qquad 0<\delta<1.
+\]
+Then $\psi_\delta$ has total mass one and $\supp\psi_\delta\subset D_{2\delta}(0)\setminus D_\delta(0)$. Since $\psi_\delta$ is radial, expanding $e^{\pi\overline z w}=\sum_{j\ge 0}(\pi\overline z w)^j/j!$ and integrating in polar coordinates kills every angular harmonic with $j\ge 1$, so that
+\[
+\int_{\C} \psi_\delta(z)e^{-\pi|z|^2}e^{\pi \overline z w}\,dA(z)=c_\delta,
+\qquad w\in\C,
+\]
+where
+\[
+c_\delta:=\int_{\C}\psi_\delta(z)e^{-\pi|z|^2}\,dA(z)>0.
+\]
+Note that $c_\delta\to 1$ as $\delta\to 0$. Hence \eqref{eq:first-domain-new} is equivalent to
+\begin{equation}\label{eq:second-domain-new}
+\int_{U_0} |P(z)|^2 e^{-\pi|z|^2} e^{\pi \overline z w}\,dA(z)
+=
+\frac{\lambda}{c_\delta}
+\int_{\C}\psi_\delta(z)e^{-\pi|z|^2}e^{\pi \overline z w}\,dA(z).
+\end{equation}
+
+We shall construct a compactly supported distributional solution of the Poisson equation
+\begin{equation}\label{eq:inverse-first-new}
+\Delta u_0
+=
+-|P(z)|^2 e^{-\pi|z|^2}\mathbf{1}_{U_0}
++\frac{\lambda}{c_\delta}\psi_\delta(z)e^{-\pi|z|^2}.
+\end{equation}
+Once such a solution has been constructed, the moment identity \eqref{eq:first-domain-new} follows by applying the same Fourier-analytic divisibility argument used in the proof of Theorem~\ref{thm:eig-loc-U} to the corresponding compactly supported distribution
+\[
+\omega_0:=
+|P(z)|^2e^{-\pi|z|^2}\mathbf 1_{U_0}
+-\frac{\lambda}{c_\delta}\psi_\delta(z)e^{-\pi|z|^2}.
+\]
+Indeed, \eqref{eq:inverse-first-new} says exactly that $\Delta u_0=-\omega_0$, and since $u_0$ is compactly supported, the vanishing of $\widehat{\omega_0}$ on the two characteristic lines of the Bargmann transform is equivalent to \eqref{eq:first-domain-new}.
+
+\smallskip
+\emph{Unperturbed reference.} We first treat the unperturbed case $P\equiv 1$. By the theorem of Daubechies \cite{Daubechies}, there exists a disk $D_0$ centered at the origin such that
+\[
+\int_{D_0} e^{-\pi|z|^2}e^{\pi \overline z w}\,dA(z)=\lambda,
+\qquad w\in\C.
+\]
+Equivalently, $\Delta u_*=-e^{-\pi|z|^2}\mathbf 1_{D_0}+\lambda\,\delta_0$ admits a compactly supported radial solution $u_*$. This solution is unique among compactly supported distributional solutions: by radial symmetry, the Poisson equation reduces to the ODE
+\[
+\frac{1}{r}\big(r u_*'(r)\big)'=-e^{-\pi r^2}\mathbf 1_{(0,r_0)}(r),\qquad r>0,
+\]
+together with the asymptotic condition $u_*'(r)\sim \lambda/(2\pi r)$ as $r\to 0^+$ enforced by the distributional source $\lambda\delta_0$. Integrating twice with the natural boundary condition that $u_*$ vanish for $r\ge r_0$ gives a unique radial profile. Explicitly,
+\[
+u_*(r)=\frac{\lambda}{2\pi}\log\frac{r_0}{r}-\int_r^{r_0}\frac{1}{s}\int_0^{s}\rho\,e^{-\pi\rho^2}\,d\rho\,ds,
+\qquad 0<r\le r_0,
+\]
+and $u_*\equiv 0$ for $r\ge r_0$, where $r_0$ is the radius of $D_0$. From this explicit formula one verifies directly:
+\begin{itemize}
+\item $-\Delta u_*=e^{-\pi|z|^2}>0$ on $D_0\setminus\{0\}$, so $u_*$ is superharmonic on $D_0\setminus\{0\}$;
+\item $u_*=0$ on $\partial D_0$;
+\item the logarithmic singularity created by the mass $\lambda\delta_0$ has positive coefficient $\lambda/(2\pi)$, so $u_*(r)\to+\infty$ as $r\to 0^+$.
+\end{itemize}
+By the maximum principle for superharmonic functions, $u_*>0$ throughout $D_0\setminus\{0\}$, and in particular $u_*>0$ on every compact subset of $D_0\setminus\{0\}$.
+
+For $\delta$ small enough that $\supp\psi_\delta\subset D_0$, the same argument yields a compactly supported radial solution $\widetilde u_0$ of
+\begin{equation}\label{eq:unperturbed-free-boundary-new}
+\Delta \widetilde u_0
+=
+- e^{-\pi|z|^2}\mathbf{1}_{D_0}
++\frac{\lambda}{c_\delta}\psi_\delta(z)e^{-\pi|z|^2},
+\end{equation}
+and $\widetilde u_0$ is uniquely determined among compactly supported radial distributional solutions by the same ODE reduction (the smooth radial source on the right-hand side replaces the Dirac mass, and the requirements of compact support and continuity through the origin pin down the integration constants).
+
+We claim that, for $\delta$ sufficiently small,
+\[
+\widetilde u_0>0 \qquad \text{in } D_0.
+\]
+To see this, we first verify that
+\begin{equation}\label{eq:psi-delta-to-mass}
+\frac{\lambda}{c_\delta}\,\psi_\delta(z)\,e^{-\pi|z|^2}\xrightarrow[\delta\to 0]{}\lambda\,\delta_0
+\qquad \text{in }\mathcal D'(\C).
+\end{equation}
+Indeed, for any $\varphi\in C_c^\infty(\C)$,
+\[
+\Big\langle \frac{\lambda}{c_\delta}\psi_\delta\, e^{-\pi|\cdot|^2},\varphi\Big\rangle
+=
+\frac{\lambda}{c_\delta}\int_\C \psi_\delta(z)\,e^{-\pi|z|^2}\varphi(z)\,dA(z).
+\]
+Decompose $\varphi(z)e^{-\pi|z|^2}=\varphi(0)+r(z)$ with $r$ continuous and $r(0)=0$; then
+\[
+\frac{1}{c_\delta}\int_\C \psi_\delta(z)\,e^{-\pi|z|^2}\varphi(z)\,dA(z)
+=
+\varphi(0)\cdot\frac{1}{c_\delta}\int_\C\psi_\delta(z)e^{-\pi|z|^2}\,dA(z)
++
+\frac{1}{c_\delta}\int_\C\psi_\delta(z)\,r(z)\,dA(z).
+\]
+The first summand equals $\varphi(0)$. The second is bounded in absolute value by $c_\delta^{-1}\,\|\psi_\delta\|_{L^1}\,\sup_{|z|\le 2\delta}|r(z)|=c_\delta^{-1}\sup_{|z|\le 2\delta}|r(z)|\to 0$ as $\delta\to 0$, since $r$ is continuous, $r(0)=0$, and $c_\delta\to 1$. Multiplying by $\lambda$ proves \eqref{eq:psi-delta-to-mass}.
+
+In particular, $\Delta\widetilde u_0\to\Delta u_*$ in $\mathcal D'(\C)$. To upgrade this to local uniform convergence, we use the Newtonian-potential representations of $\widetilde u_0$ and $u_*$ together with the harmonic correction enforcing compact support: writing
+\[
+\widetilde u_0(z)
+=
+\frac{1}{2\pi}\int_\C \log\frac{1}{|z-\zeta|}\Big(-e^{-\pi|\zeta|^2}\mathbf 1_{D_0}(\zeta)+\frac{\lambda}{c_\delta}\psi_\delta(\zeta)e^{-\pi|\zeta|^2}\Big)dA(\zeta)+h_\delta(z),
+\]
+\[
+u_*(z)
+=
+\frac{1}{2\pi}\int_\C \log\frac{1}{|z-\zeta|}\Big(-e^{-\pi|\zeta|^2}\mathbf 1_{D_0}(\zeta)\Big)dA(\zeta)+\frac{\lambda}{2\pi}\log\frac{1}{|z|}+h_*(z),
+\]
+where $h_\delta,h_*$ are harmonic functions chosen so as to enforce compact support, the contribution from $-e^{-\pi|\zeta|^2}\mathbf 1_{D_0}$ cancels in the difference and one is left with
+\[
+\widetilde u_0(z)-u_*(z)
+=
+\frac{\lambda}{2\pi}\Big(\int_\C \log\frac{1}{|z-\zeta|}\frac{1}{c_\delta}\psi_\delta(\zeta)e^{-\pi|\zeta|^2}\,dA(\zeta)-\log\frac{1}{|z|}\Big)+\big(h_\delta(z)-h_*(z)\big).
+\]
+By dominated convergence applied to the logarithmic potential with kernel uniformly bounded on compact subsets of $\overline D_0\setminus\{0\}$, together with \eqref{eq:psi-delta-to-mass}, the displayed difference tends to zero locally uniformly on $\overline D_0\setminus\{0\}$. Combined with interior elliptic regularity for $\Delta(\widetilde u_0-u_*)$, which is harmonic on any compact subset of $D_0\setminus\{0\}$ once $\delta$ is so small that $\supp\psi_\delta$ is contained in any prescribed neighborhood of the origin, this gives
+\[
+\widetilde u_0\xrightarrow[\delta\to 0]{}u_* \qquad \text{locally uniformly on $\overline D_0\setminus\{0\}$}.
+\]
+Since $u_*$ is strictly positive on every compact subset of $D_0\setminus\{0\}$ and continuous up to $\partial D_0$ where it vanishes, this implies $\widetilde u_0>0$ on every fixed compact subset of $D_0\setminus\{0\}$ for all $\delta$ small enough; the strict inequality $u_*>0$ at interior points provides the room needed to absorb the local-uniform error. On the small annulus $\delta\le|z|\le 2\delta$, where $\psi_\delta$ is supported, the explicit profile near the origin shows that $\widetilde u_0$ is comparable to a truncated logarithm $-\log(|z|/r_0)$ shifted by an $O(1)$ smooth correction, and is therefore strictly positive. We conclude that $\widetilde u_0>0$ throughout $D_0$ for $\delta>0$ small.
+
+\smallskip
+\emph{Perturbed problem via Isakov.}
+We now invoke the perturbative free-boundary theorem of Isakov \cite{Isakov}, given by Proposition~\ref{prop:isakov-tailored}, verifying its hypotheses carefully. Set
+\[
+f_0(z):=e^{-\pi|z|^2}\Big(1-\frac{\lambda}{c_\delta}\psi_\delta(z)\Big).
+\]
+Since $\psi_\delta\in C_c^\infty(\C)$, we have $f_0\in C^\infty(\R^2)$, hence in particular $f_0\in C^5(\R^2)$. If $\delta$ is chosen so small that $\supp\psi_\delta\subset D_0$, then on $\partial D_0$,
+\[
+f_0(z)=e^{-\pi|z|^2}>0.
+\]
+Define
+\[
+v_0:=-\widetilde u_0.
+\]
+Then \eqref{eq:unperturbed-free-boundary-new} becomes
+\[
+-\Delta v_0=f_0\,\mathbf{1}_{D_0}
+\qquad \text{in }\C,
+\]
+with $v_0=0$ on $\partial D_0$ and $v_0<0$ in $D_0$, by the positivity of $\widetilde u_0$ established above. Thus all hypotheses of Proposition~\ref{prop:isakov-tailored} are satisfied with $\Omega_0=D_0$.
+
+For the perturbed source, define
+\[
+f(z):=e^{-\pi|z|^2}\Big(|P(z)|^2-\frac{\lambda}{c_\delta}\psi_\delta(z)\Big).
+\]
+Since $P$ is a polynomial, $f\in C^\infty(\R^2)$ as well. Moreover, for any fixed disk $\Omega'\supset D_0$, the $C^5(\Omega')$-norm of $f-f_0$ is controlled by the coefficients of $P-1$: writing
+\[
+|P(z)|^2-1=\sum_{k=1}^N b_k z^k+\sum_{k=1}^N \overline{b_k}\,\overline z^{\,k}+\sum_{k,\ell=1}^N b_k\overline{b_\ell}\,z^k\overline z^{\,\ell},
+\]
+which is a polynomial in $z,\overline z$ that vanishes when all $b_k=0$ and depends polynomially on the coefficients, a standard estimate yields
+\[
+\|f-f_0\|_{C^5(\Omega')}\le C(\Omega',N,\lambda)\max_{1\le k\le N}|b_k|.
+\]
+Hence, if the coefficients $b_k$ are sufficiently small, we may arrange that
+\[
+\|f-f_0\|_{C^5(\Omega')}<\varepsilon_1,
+\]
+where $\varepsilon_1$ is the smallness threshold furnished by Proposition~\ref{prop:isakov-tailored}. Applying that proposition, we obtain a $C^2$ domain $U_0$ and a function $v$ such that
+\[
+-\Delta v=f\,\mathbf{1}_{U_0}
+\qquad \text{in }\C,
+\]
+with $v=0$ outside $U_0$ and $v<0$ in $U_0$. Set
+\[
+u_0:=-v.
+\]
+Then
+\[
+\Delta u_0=f\,\mathbf{1}_{U_0}.
+\]
+If the perturbation is sufficiently small, then $U_0$ is a small $C^2$ deformation of $D_0$, and since $\supp\psi_\delta\subset D_0$ we still have
+\[
+\supp\psi_\delta\subset U_0.
+\]
+Therefore
+\[
+\Delta u_0
+=
+-|P(z)|^2e^{-\pi|z|^2}\mathbf{1}_{U_0}
++\frac{\lambda}{c_\delta}\psi_\delta(z)e^{-\pi|z|^2},
+\]
+so \eqref{eq:inverse-first-new} holds. This proves \eqref{eq:first-domain-new}, and completes Step~1: we have produced a $C^2$ domain $U_0$, lying in a small $C^2$-neighborhood of the Daubechies disk $D_0$, on which the symmetrized moment identity holds with constant right-hand side $\lambda$. We will use $U_0$ in Step~2 as the unperturbed reference for the application of Proposition~\ref{prop:cherednichenko-tailored}.
+
+\medskip
+\noindent\textbf{Step 2: construction of a domain satisfying \eqref{eq:almost-reduced-new}.}
+With the auxiliary domain $U_0$ at our disposal, we now seek a $C^2$ domain $U$ for which the right-hand side of the moment identity is the polynomial $\lambda Q(w)$ rather than the constant $\lambda$. The crucial observation is that integrating the parameter $w$ along the positive real axis against an exponential weight converts \eqref{eq:almost-reduced-new} into an explicit identity for a weighted Cauchy transform; this is exactly the form to which Proposition~\ref{prop:cherednichenko-tailored} of Cherednichenko \cite{Cherednichenko} applies. The reformulation we are about to perform is closely related to the quadrature-domain framework developed in \cite{Gustafsson,Gustafsson-Shahgholian,Karp,Shahgholian}.
+
+Restrict \eqref{eq:almost-reduced-new} to real values $w=t>0$, multiply by $e^{-\pi \zeta t}$, and integrate in $t>0$. If
+\[
+\zeta>\sup_{z\in U}|z|,
+\]
+the integrand of the resulting double integral is absolutely integrable: indeed, for real $\zeta>\sup_{z\in U}|z|$,
+\[
+\Re(\overline z-\zeta)\le |z|-\zeta<0
+\qquad \text{for every } z\in U,
+\]
+so
+\[
+\int_U \int_0^\infty \big|e^{\pi(\overline z-\zeta)t}\big|\,dt\,|P(z)|^2 e^{-\pi|z|^2}\,dA(z)
+\le
+\int_U \frac{|P(z)|^2 e^{-\pi|z|^2}}{\pi(\zeta-|z|)}\,dA(z)<\infty,
+\]
+because $U$ is bounded. Fubini's theorem therefore applies and yields
+\[
+\int_U \left(\int_0^\infty e^{\pi(\overline z-\zeta)t}\,dt\right)|P(z)|^2e^{-\pi|z|^2}\,dA(z)
+=
+\lambda\int_0^\infty e^{-\pi\zeta t}Q(t)\,dt.
+\]
+Writing
+\[
+Q(w)=\alpha_0+\alpha_1 w+\cdots+\alpha_n w^n,
+\]
+we obtain
+\[
+\frac{1}{\pi}\int_U \frac{|P(z)|^2e^{-\pi|z|^2}}{\zeta-\overline z}\,dA(z)
+=
+\lambda \sum_{k=0}^n \alpha_k \int_0^\infty e^{-\pi \zeta t} t^k\,dt.
+\]
+Since
+\[
+\int_0^\infty e^{-\pi \zeta t} t^k\,dt
+=
+\frac{\Gamma(k+1)}{(\pi \zeta)^{k+1}},
+\]
+it follows that
+\[
+\frac{1}{\pi}\int_U \frac{|P(z)|^2e^{-\pi|z|^2}}{\zeta-\overline z}\,dA(z)
+=
+\lambda \sum_{k=0}^n \alpha_k \frac{\Gamma(k+1)}{\pi^{k+1}\zeta^{k+1}}.
+\]
+
+To put this into the form of a weighted Cauchy transform, let
+\[
+V:=\overline U,
+\qquad
+\mu(w):=|P(\overline w)|^2 e^{-\pi|w|^2}.
+\]
+The change of variables $w=\overline z$ yields
+\[
+\int_U \frac{|P(z)|^2e^{-\pi|z|^2}}{\zeta-\overline z}\,dA(z)
+=
+\int_V \frac{\mu(w)}{\zeta-w}\,dA(w)
+=
+g_V(\zeta).
+\]
+Hence
+\begin{equation}\label{eq:analytic-construct-new}
+g_V(\zeta)
+=
+\lambda \sum_{k=0}^n \alpha_k \frac{\Gamma(k+1)}{\pi^k \zeta^{k+1}},
+\qquad \zeta\in \R_+, \ \zeta\gg 1.
+\end{equation}
+Since both sides are holomorphic for large $\zeta$, analytic continuation gives the desired identity on $\C\setminus V$.
+
+Conversely, suppose a domain $V$ satisfies \eqref{eq:analytic-construct-new}. Expanding $1/(\zeta-w)=\sum_{k\ge 0}w^k/\zeta^{k+1}$ for $|\zeta|$ large and matching coefficients yields the moments
+\[
+\int_V w^k\mu(w)\,dA(w)=\lambda\,\alpha_k\,\frac{\Gamma(k+1)}{\pi^k},
+\qquad 0\le k\le n,
+\]
+together with the vanishing of the corresponding moments for $k>n$ (since $Q$ has degree $n$). These moment identities recover \eqref{eq:almost-reduced-new} for the conjugate domain $U=\overline V$ via the Laplace-transform calculation read in reverse, in conjunction with the identity theorem for entire functions. Thus the conjugation $V=\overline U$ is merely a bookkeeping device that places the kernel in the form $1/(\zeta-w)$ required by the weighted Cauchy transform formalism.
+
+Let $g$ denote the rational function on the right-hand side of \eqref{eq:analytic-construct-new}. We now verify the hypotheses of Proposition~\ref{prop:cherednichenko-tailored}. Since
+\[
+Q(w)=P(\partial_w/\pi)\big(P(w)\big),
+\]
+and $P(0)=1$, the constant term of $Q$ is
+\[
+Q(0)=1+\sum_{k=1}^N \frac{k!}{\pi^k} b_k^2.
+\]
+In particular, if the coefficients $b_k$ are sufficiently small, then
+\[
+Q(0)>0,
+\]
+so the leading term in the expansion of $g$ at infinity is
+\[
+\frac{\lambda Q(0)}{z},
+\]
+and consequently
+\[
+g(z)\to 0,
+\qquad
+z\,g(z)\to \lambda Q(0)>0
+\qquad \text{as } z\to\infty.
+\]
+Thus \eqref{eq:appendix-g-hypotheses} holds, with $c_0=\lambda Q(0)$.
+
+We next verify the closeness condition on $\partial U_1$. Since $U_0$ was obtained in Step~1 as a small perturbation of the Daubechies disk $D_0$, we choose $U_1\subset U_0\subset U_2$ to be concentric disks (centered at the center of $D_0$) with radii, say, $(1-10^{-3})$ and $(1+10^{-3})$ times the radius of $D_0$. By Step~1,
+\[
+\int_{U_0}|P(z)|^2e^{-\pi|z|^2}e^{\pi \overline zw}\,dA(z)=\lambda,
+\qquad w\in \C.
+\]
+Repeating the Laplace-transform argument above, with the constant $\lambda$ in place of the polynomial $\lambda Q(w)$, gives
+\[
+g_{U_0}(z)=\frac{\lambda}{z}
+\qquad \text{for } z\in \C\setminus \overline{U_0},
+\]
+where $g_{U_0}$ denotes the weighted Cauchy transform of the conjugate domain $\overline{U_0}$ with weight $\mu(w)=|P(\overline w)|^2e^{-\pi|w|^2}$. Consequently, on $\partial U_1$,
+\[
+g(z)-g_{U_0}(z)
+=
+\lambda \sum_{k=1}^n \alpha_k \frac{\Gamma(k+1)}{\pi^k z^{k+1}}
++
+\lambda\,(Q(0)-1)\,\frac1z .
+\]
+Since $\partial U_1$ is a fixed circle staying a positive distance from the origin, it follows that
+\[
+\sup_{z\in \partial U_1}|g(z)-g_{U_0}(z)|
+\le
+C(U_1,\lambda)\Big(|Q(0)-1|+\sum_{k=1}^n |\alpha_k|\Big).
+\]
+Each coefficient $\alpha_k$ of $Q-1$ depends polynomially on the coefficients of $P-1$, with no constant term, and therefore tends to zero with $\max_{1\le j\le N}|b_j|$. Hence, by choosing the coefficients sufficiently small, we may ensure that
+\[
+\sup_{z\in \partial U_1}|g(z)-g_{U_0}(z)|<\varepsilon_0,
+\]
+where $\varepsilon_0$ is the smallness threshold provided by Proposition~\ref{prop:cherednichenko-tailored}. Applying that proposition, we obtain a $C^2$ domain $\widetilde U$ such that
+\[
+g_{\widetilde U}(z)=g(z),
+\qquad z\in \C\setminus \widetilde U.
+\]
+Replacing $\widetilde U$ by its conjugate if necessary, we obtain a domain $U$ satisfying \eqref{eq:almost-reduced-new}.
+
+Finally, since $U\subset U_2$ and $U_2$ is fixed once $\lambda$ is fixed, by shrinking the admissible size of the coefficients of $P-1$ once more we may ensure that
+\[
+P(z)\neq 0
+\qquad \text{for all } z\in U_2.
+\]
+In particular,
+\[
+P(z)\neq 0
+\qquad \text{for all } z\in U.
+\]
+This non-vanishing of $P$ on $U$ will play no direct role until Step~3, where it is needed to push the zeros of the characteristic polynomial $\widetilde P(\zeta)=P(\zeta/\pi)$ to large modulus.
+
+\medskip
+\noindent\textbf{Step 3: recovery of the original eigenvalue equation.}
+It remains to upgrade the symmetrized identity \eqref{eq:almost-reduced-new} to the original equation \eqref{eq:eigenfunction-general-new}. Define
+\[
+G(w):=\int_U P(z)e^{-\pi|z|^2}e^{\pi \overline z w}\,dA(z),
+\qquad w\in\C.
+\]
+Then $G$ is entire (the integrand is entire in $w$, and the dominated-convergence justification of differentiation under the integral sign carried out in Step~0 applies verbatim with $P$ in place of $|P|^2$). By construction, \eqref{eq:almost-reduced-new} holds, so applying $P(\partial_w/\pi)$ to $G$ yields, by the same argument as in Step~0,
+\[
+P(\partial_w/\pi)G(w)=\int_U|P(z)|^2 e^{-\pi|z|^2}e^{\pi\overline z w}\,dA(z)=\lambda Q(w)=P(\partial_w/\pi)(\lambda P)(w),
+\qquad w\in \C.
+\]
+Hence
+\[
+H:=G-\lambda P
+\]
+is an entire function satisfying the constant-coefficient linear differential equation
+\[
+P(\partial_w/\pi)H=0.
+\]
+
+Introduce the characteristic polynomial of this operator,
+\[
+\widetilde P(\zeta):=P(\zeta/\pi),
+\]
+and let $\zeta_1,\dots,\zeta_\ell$ be its zeros, with multiplicities $m_1,\dots,m_\ell$. By the structure theorem for entire solutions of constant-coefficient linear differential equations of finite exponential type (see e.g.\ \cite[Ch.\ XII]{Hormander}), every entire solution of
+\[
+P(\partial_w/\pi)H=0
+\]
+of at most exponential type is of the form
+\begin{equation}\label{eq:exp-decomposition-step3}
+H(w)=\sum_{j=1}^\ell R_j(w)\,e^{\zeta_j w},
+\end{equation}
+where each $R_j$ is a polynomial of degree strictly less than $m_j$.
+
+We will reach a contradiction by showing that all $R_j$ must vanish. First, since $P$ has no zeros on $U_2$, and the zeros of $\widetilde P(\zeta)=P(\zeta/\pi)$ are obtained by scaling those of $P$ by the factor $\pi$, by choosing the coefficients of $P-1$ sufficiently small we may guarantee that all zeros of $\widetilde P$ stay at distance at least $10\sup_{z\in U}|z|$ from the origin:
+\[
+|\zeta_j|>10\sup_{z\in U}|z|=:10M,
+\qquad 1\le j\le \ell.
+\]
+(Indeed, the roots of $\widetilde P$ depend continuously on its coefficients, and at $b=0$ the polynomial $\widetilde P$ degenerates to the constant $1$, which has no roots; for small $b$ the roots therefore lie in any prescribed neighborhood of infinity.)
+
+Next, we establish an upper bound on $H$ from its definition. Since $P$ is a fixed polynomial of degree $\le N$ and $U$ is bounded with $M=\sup_{z\in U}|z|$,
+\[
+|G(w)|
+\le
+\int_U |P(z)|e^{-\pi|z|^2}e^{\pi |z||w|}\,dA(z)
+\le
+\Big(\sup_{z\in U}|P(z)|e^{-\pi|z|^2}\Big)\,|U|\,e^{\pi M|w|}
+\le
+C(1+|w|)^N e^{\pi M|w|},
+\qquad w\in\C,
+\]
+where the first inequality uses $|e^{\pi\overline z w}|\le e^{\pi|z||w|}$ and in the last inequality we have absorbed $\sup_{z\in U}|P(z)|\le C_0(1+M)^N$ and the area $|U|$ into the constant $C$. Since every polynomial is dominated by $e^{\varepsilon |w|}$ for arbitrary $\varepsilon>0$, it follows that for every $\varepsilon>0$ there exists $C_\varepsilon>0$ such that
+\[
+|G(w)|\le C_\varepsilon e^{(\pi+\varepsilon)M|w|},
+\qquad w\in \C.
+\]
+As $\lambda P(w)$ grows only polynomially in $|w|$, the same estimate holds for $H$:
+\[
+|H(w)|\le C'_\varepsilon e^{(\pi+\varepsilon)M|w|}.
+\]
+In particular, $H$ has finite exponential type at most $\pi M$, which justifies the use of \eqref{eq:exp-decomposition-step3}.
+
+Suppose, for contradiction, that some $R_j$ is not identically zero. By a small generic rotation of the coordinate $w$ if necessary, we may assume that the zeros $\zeta_j$ are arranged so that there is a unique $\zeta_1$ realizing
+\[
+|\zeta_1|=\max_j |\zeta_j|
+\qquad\text{and}\qquad
+R_1\not\equiv 0,
+\]
+and that, for every other zero $\zeta_j$ with $j\ne 1$,
+\[
+\Re(\zeta_j\overline{\zeta_1})<|\zeta_1|^2.
+\]
+(The strict inequality $\Re(\zeta_j\overline{\zeta_1})\le |\zeta_j||\zeta_1|<|\zeta_1|^2$ holds automatically when $|\zeta_j|<|\zeta_1|$; ties at maximal modulus are broken by the rotation.) Then, along the ray
+\[
+w=t\,\overline{\zeta_1},
+\qquad t>0,
+\]
+the term $R_1(w)e^{\zeta_1 w}$ has modulus $|R_1(t\overline{\zeta_1})|e^{t|\zeta_1|^2}$, while every other term $R_j(w)e^{\zeta_j w}$ has modulus bounded by a polynomial in $t$ times $e^{t\,\Re(\zeta_j\overline{\zeta_1})}$, with $\Re(\zeta_j\overline{\zeta_1})<|\zeta_1|^2$. Hence the dominant exponential term yields
+\[
+|H(t\overline{\zeta_1})|\ge c\,e^{t|\zeta_1|^2}
+\]
+for all sufficiently large $t$, with $c>0$.
+
+Evaluating the upper bound on $H$ at $w=t\overline{\zeta_1}$ gives
+\[
+|H(t\overline{\zeta_1})|
+\le
+C'_\varepsilon e^{(\pi+\varepsilon)Mt|\zeta_1|}.
+\]
+Comparing with the lower bound $|H(t\overline{\zeta_1})|\ge c\,e^{t|\zeta_1|^2}$ and letting $t\to\infty$, we obtain
+\[
+|\zeta_1|^2\le (\pi+\varepsilon)M|\zeta_1|,
+\qquad\text{i.e.,}\qquad
+|\zeta_1|\le (\pi+\varepsilon)M.
+\]
+Since $\varepsilon>0$ is arbitrary, this gives
+\[
+|\zeta_1|\le \pi M,
+\]
+contradicting our choice $|\zeta_1|>10M$ (recall that $\pi<10$). Hence every $R_j$ vanishes identically, so
+\[
+H\equiv 0.
+\]
+Equivalently,
+\[
+G=\lambda P,
+\]
+which is exactly \eqref{eq:eigenfunction-general-new}. This proves that $P$, and therefore $f_0$, is an eigenfunction of the localization operator associated with the domain $U$ with eigenvalue $\lambda$.
+\end{proof}

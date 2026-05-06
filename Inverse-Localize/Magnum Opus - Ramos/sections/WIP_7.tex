@@ -1,0 +1,947 @@
+\section{Global maximizers for the Faber--Krahn problem in the Gaussian STFT setting}
+
+In this section we prove existence of global maximizers for the Gaussian
+time-frequency concentration problem under a measure constraint, and then
+combine that existence result with the local rigidity theorem from the previous
+section to recover the disk as the unique maximizer, up to translation. The
+strategy is by now classical in time-frequency analysis: a profile decomposition
+in the spirit of P.-L.~Lions' concentration-compactness, transplanted to the
+Fock space via the Bargmann transform, dichotomizes the loss of compactness of a
+maximizing sequence into the action of the Weyl translation group. A vanishing
+remainder is then ruled out by an iterative extraction whose maximality forces
+all the energy to remain captured by the extracted profiles. Closely related
+arguments have appeared in the time-frequency setting in
+\cite{Nicola-Romero-Trapasso, Marceca-Romero-Speckbacher, Fulsche-Hagger,
+Samuelsen}, and the disk-rigidity result we recover is the celebrated theorem
+of Nicola--Tilli \cite{Nicola-Tilli, Nicola-Tilli-2}.
+
+Since the Bargmann transform is unitary, the variational problem may be written
+on the Fock space side as
+\[
+M(s):=\sup_{|\Omega|=s}\lambda_{1,\varphi}(\Omega)
+=
+\sup_{\|F\|_{\mathcal F^2}=1} I_F(s).
+\]
+Here, and throughout the section, we exploit the translation invariance
+\eqref{eq:I-translation-global} together with the pointwise identity
+\eqref{eq:u-translation-global} (cf.\ also \eqref{eq:uF-translate}), the
+basic regularity properties recorded in Lemma~\ref{lem:basic-properties-global},
+and the elementary properties of the Fock space gathered in
+Lemma~\ref{lem:Fock-basic}.
+
+We begin with a Weyl-orthogonality lemma that captures the asymptotic
+decoupling of two functions whose translation parameters drift apart. This
+plays the role of \emph{Pythagorean orthogonality at infinity} on the Fock
+space.
+
+\begin{lemma}\label{lem:weyl-orthogonality-global}
+Let \(F,G\in \mathcal F^2(\C)\), and let \(\{a_k\}\subset \C\) satisfy
+\(|a_k|\to \infty\). Then
+\[
+T_{a_k}G \rightharpoonup 0
+\qquad\text{weakly in }\mathcal F^2(\C),
+\]
+and in particular
+\[
+\langle F,T_{a_k}G\rangle_{\mathcal F^2}\to 0.
+\]
+Consequently,
+\[
+\|F+T_{a_k}G\|_{\mathcal F^2}^2
+=
+\|F\|_{\mathcal F^2}^2+\|G\|_{\mathcal F^2}^2+o(1).
+\]
+More generally, if \(|a_k-b_k|\to\infty\), then
+\[
+\langle T_{a_k}F,T_{b_k}G\rangle_{\mathcal F^2}\to 0.
+\]
+\end{lemma}
+
+\begin{proof}
+Using unitarity of the Weyl operators \(T_a\) on \(\mathcal F^2(\C)\) (cf.\
+\eqref{eq:Ta}),
+\[
+\langle F,T_{a_k}G\rangle_{\mathcal F^2}
+=
+\langle T_{-a_k}F,G\rangle_{\mathcal F^2}.
+\]
+Now \(T_{-a_k}F\) is bounded in \(\mathcal F^2\) by unitarity, and the
+identity \eqref{eq:u-translation-global} (equivalently
+\eqref{eq:uF-translate}) yields
+\[
+u_{T_{-a_k}F}(z)=u_F(z+a_k)\qquad (z\in\C),
+\]
+so that the densities \(u_{T_{-a_k}F}\) drift uniformly to infinity.
+Equivalently, since \(u_F\in C_0(\C)\) by Lemma~\ref{lem:Fock-basic}(iii), for
+every compact \(K\subset \C\),
+\[
+\sup_{z\in K}|T_{-a_k}F(z)|e^{-\pi |z|^2/2}
+=
+\sup_{z\in K}u_{T_{-a_k}F}(z)^{1/2}
+=
+\sup_{z\in K}u_F(z+a_k)^{1/2}\to 0.
+\]
+Hence \(T_{-a_k}F\to 0\) locally uniformly. Combining this with the
+boundedness of \(\{T_{-a_k}F\}\) in \(\mathcal F^2(\C)\), and using the fact
+that the linear span of the reproducing kernels \(\{K_w\}_{w\in\C}\) is dense
+in \(\mathcal F^2\), we conclude that \(T_{-a_k}F\rightharpoonup 0\) weakly in
+\(\mathcal F^2\); in particular \(\langle T_{-a_k}F,G\rangle\to 0\). This
+proves the first claim.
+
+For the norm decoupling, expand the square:
+\[
+\|F+T_{a_k}G\|_{\mathcal F^2}^2
+=
+\|F\|_{\mathcal F^2}^2+\|T_{a_k}G\|_{\mathcal F^2}^2
++2\Re\langle F,T_{a_k}G\rangle_{\mathcal F^2}
+=
+\|F\|_{\mathcal F^2}^2+\|G\|_{\mathcal F^2}^2+o(1),
+\]
+where we used unitarity of \(T_{a_k}\) and the cross-term decay just proved.
+
+Finally, the general case reduces to the first by writing
+\[
+\langle T_{a_k}F,T_{b_k}G\rangle_{\mathcal F^2}
+=
+\langle F,T_{-a_k}T_{b_k}G\rangle_{\mathcal F^2}
+=
+e^{i\theta_k}\langle F,T_{b_k-a_k}G\rangle_{\mathcal F^2},
+\]
+for some real phase \(\theta_k\) coming from the cocycle of the Weyl
+representation; since this phase factor has modulus one, the conclusion
+follows from \(|b_k-a_k|\to\infty\).
+\end{proof}
+
+The next lemma compares the density of a finite sum of widely separated
+translates with the density of each individual translate. The precise statement
+is what makes the profile decomposition compatible with the variational
+quantities \(I_F(s)\), since these depend only on the densities and not on
+the phases of the underlying functions.
+
+\begin{lemma}\label{lem:pointwise-decoupling-global}
+Fix \(J\ge 1\), let \(G^{(1)},\dots,G^{(J)}\in \mathcal F^2(\C)\), and let
+\(\{a_k^{(j)}\}_{k\ge 1}\subset \C\) for \(1\le j\le J\) satisfy
+\[
+|a_k^{(j)}-a_k^{(\ell)}|\to\infty
+\qquad\text{whenever }j\neq \ell.
+\]
+For each \(k\), set
+\[
+S_k:=\sum_{j=1}^J T_{a_k^{(j)}}G^{(j)}.
+\]
+Then the following hold.
+\begin{enumerate}
+\item[(i)] For every \(R>0\) and every \(1\le j\le J\),
+\[
+\sup_{z\in D_R(a_k^{(j)})}
+\big|u_{S_k}(z)-u_{T_{a_k^{(j)}}G^{(j)}}(z)\big|
+\to 0
+\qquad (k\to\infty).
+\]
+
+\item[(ii)] For every \(R>0\), if
+\[
+E_{k,R}:=\C\setminus \bigcup_{j=1}^J D_R(a_k^{(j)}),
+\]
+then
+\[
+\limsup_{k\to\infty}\sup_{z\in E_{k,R}}u_{S_k}(z)
+\le
+\left(
+\sum_{j=1}^J
+\sup_{\zeta\in \C\setminus D_R} u_{G^{(j)}}(\zeta)^{1/2}
+\right)^2.
+\]
+In particular, given \(\varepsilon>0\), there exists \(R_\varepsilon>0\) such that
+for every \(R\ge R_\varepsilon\),
+\[
+\sup_{z\in E_{k,R}}u_{S_k}(z)\le \varepsilon
+\]
+for all sufficiently large \(k\).
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Throughout the proof we use repeatedly the identity
+\[
+u_{T_a F}(z)=u_F(z-a),
+\qquad z,a\in \C,
+\]
+which is \eqref{eq:u-translation-global} (equivalently
+\eqref{eq:uF-translate}); together with the elementary subadditivity
+\[
+u_{F+G}(z)^{1/2}\le u_F(z)^{1/2}+u_G(z)^{1/2},
+\qquad z\in\C,
+\]
+which follows from the definition \(u_F=|F|^2 e^{-\pi |z|^2}\) and the
+triangle inequality applied to \(|F+G|\le |F|+|G|\).
+
+\medskip
+\noindent\emph{Proof of (i).}
+Fix \(R>0\) and \(j\in\{1,\dots,J\}\). Write
+\[
+S_k=T_{a_k^{(j)}}G^{(j)}+H_{k,j},
+\qquad
+H_{k,j}:=\sum_{\ell\neq j} T_{a_k^{(\ell)}}G^{(\ell)}.
+\]
+For every \(z\in \C\), the elementary inequality
+\(\big||a+b|^2-|a|^2\big|\le 2|a|\,|b|+|b|^2\) yields
+\begin{align*}
+\big|u_{S_k}(z)-u_{T_{a_k^{(j)}}G^{(j)}}(z)\big|
+&=
+e^{-\pi |z|^2}
+\big||T_{a_k^{(j)}}G^{(j)}(z)+H_{k,j}(z)|^2
+-|T_{a_k^{(j)}}G^{(j)}(z)|^2\big| \\
+&\le
+2\,u_{T_{a_k^{(j)}}G^{(j)}}(z)^{1/2}u_{H_{k,j}}(z)^{1/2}
++u_{H_{k,j}}(z).
+\end{align*}
+By Lemma~\ref{lem:Fock-basic}(ii),
+\[
+u_{T_{a_k^{(j)}}G^{(j)}}(z)\le \|G^{(j)}\|_{\mathcal F^2}^2
+\qquad \text{for every }z\in\C\text{ and every }k.
+\]
+Thus, to prove (i) it is enough to show that
+\[
+\sup_{z\in D_R(a_k^{(j)})} u_{H_{k,j}}(z)\to 0.
+\]
+
+For \(z\in D_R(a_k^{(j)})\) and \(\ell\neq j\),
+\[
+z-a_k^{(\ell)}\in D_R(a_k^{(j)}-a_k^{(\ell)}).
+\]
+Since \(|a_k^{(j)}-a_k^{(\ell)}|\to\infty\),
+\[
+\operatorname{dist}\big(D_R(a_k^{(j)}-a_k^{(\ell)}),0\big)
+\ge |a_k^{(j)}-a_k^{(\ell)}|-R\to\infty.
+\]
+Because \(u_{G^{(\ell)}}\in C_0(\C)\) by Lemma~\ref{lem:Fock-basic}(iii),
+\[
+\sup_{z\in D_R(a_k^{(j)})} u_{T_{a_k^{(\ell)}}G^{(\ell)}}(z)
+=
+\sup_{\zeta\in D_R(a_k^{(j)}-a_k^{(\ell)})} u_{G^{(\ell)}}(\zeta)
+\xrightarrow[k\to\infty]{} 0.
+\]
+The subadditivity of \(u_F^{1/2}\) yields
+\[
+u_{H_{k,j}}(z)^{1/2}
+\le
+\sum_{\ell\neq j} u_{T_{a_k^{(\ell)}}G^{(\ell)}}(z)^{1/2},
+\]
+so the preceding convergence implies
+\[
+\sup_{z\in D_R(a_k^{(j)})} u_{H_{k,j}}(z)^{1/2}\to 0.
+\]
+This proves (i).
+
+\medskip
+\noindent\emph{Proof of (ii).}
+Fix \(R>0\) and \(z\in E_{k,R}\). By definition, \(z\notin D_R(a_k^{(j)})\)
+for every \(j\), and hence \(|z-a_k^{(j)}|\ge R\). Therefore
+\[
+u_{T_{a_k^{(j)}}G^{(j)}}(z)
+=
+u_{G^{(j)}}(z-a_k^{(j)})
+\le
+\sup_{\zeta\in \C\setminus D_R}u_{G^{(j)}}(\zeta).
+\]
+Using again the subadditivity of \(u_F^{1/2}\),
+\[
+u_{S_k}(z)^{1/2}
+\le
+\sum_{j=1}^J u_{T_{a_k^{(j)}}G^{(j)}}(z)^{1/2}
+\le
+\sum_{j=1}^J \sup_{\zeta\in \C\setminus D_R}u_{G^{(j)}}(\zeta)^{1/2}.
+\]
+Squaring yields
+\[
+u_{S_k}(z)
+\le
+\left(
+\sum_{j=1}^J \sup_{\zeta\in \C\setminus D_R}u_{G^{(j)}}(\zeta)^{1/2}
+\right)^2.
+\]
+Taking the supremum over \(z\in E_{k,R}\) proves the displayed estimate in
+(ii). Since each \(u_{G^{(j)}}\in C_0(\C)\), the right-hand side tends to
+\(0\) as \(R\to\infty\); the final claim follows by choosing
+\(R_\varepsilon\) so that the displayed bracket is at most
+\(\sqrt{\varepsilon}\).
+\end{proof}
+
+The next lemma is a robust uniform-density perturbation estimate. Concretely,
+it says that adding to a bounded sequence in \(\mathcal F^2(\C)\) a residue
+whose density vanishes uniformly leaves the density essentially unchanged in
+\(L^\infty\). This will be applied with \(S_k\) the truncated profile sum and
+\(R_k\) the residual of the profile decomposition.
+
+\begin{lemma}\label{lem:density-perturbation-global}
+Let \(\{S_k\}\subset \mathcal F^2(\C)\) be bounded and let
+\(\{R_k\}\subset \mathcal F^2(\C)\) satisfy
+\[
+\|u_{R_k}\|_{L^\infty(\C)}\to 0.
+\]
+Then
+\[
+\|u_{S_k+R_k}-u_{S_k}\|_{L^\infty(\C)}\to 0.
+\]
+More precisely, if \(\sup_k \|S_k\|_{\mathcal F^2}\le M\), then
+\[
+\|u_{S_k+R_k}-u_{S_k}\|_{L^\infty(\C)}
+\le
+2M\,\|u_{R_k}\|_{L^\infty(\C)}^{1/2}
++\|u_{R_k}\|_{L^\infty(\C)}.
+\]
+\end{lemma}
+
+\begin{proof}
+For every \(z\in \C\),
+\begin{align*}
+\big|u_{S_k+R_k}(z)-u_{S_k}(z)\big|
+&=
+e^{-\pi |z|^2}\big||S_k(z)+R_k(z)|^2-|S_k(z)|^2\big| \\
+&\le
+2\,u_{S_k}(z)^{1/2}u_{R_k}(z)^{1/2}
++u_{R_k}(z),
+\end{align*}
+again by the elementary inequality
+\(\big||a+b|^2-|a|^2\big|\le 2|a|\,|b|+|b|^2\). By
+Lemma~\ref{lem:Fock-basic}(ii),
+\[
+u_{S_k}(z)\le \|S_k\|_{\mathcal F^2}^2\le M^2
+\qquad (z\in\C).
+\]
+Hence
+\[
+\big|u_{S_k+R_k}(z)-u_{S_k}(z)\big|
+\le
+2M\,\|u_{R_k}\|_{L^\infty}^{1/2}
++\|u_{R_k}\|_{L^\infty}.
+\]
+Taking the supremum over \(z\) yields the claim.
+\end{proof}
+
+The next lemma supplies the soft input on the function \(s\mapsto I_F(s)\)
+that will be used at the end of the variational argument. It is essentially a
+consequence of the bathtub principle and the basic regularity of \(u_F\),
+already noted in Lemma~\ref{lem:basic-properties-global}.
+
+\begin{lemma}\label{lem:I-continuity-global}
+Let \(F\in \mathcal F^2(\C)\). Then the function
+\[
+s\mapsto I_F(s)
+\]
+is finite, nondecreasing, and continuous on \([0,\infty)\).
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:basic-properties-global},
+\(u_F\in C_0(\C)\cap L^1(\C)\), so \(I_F(s)\) is finite for every \(s\ge 0\)
+and bounded above by \(\|F\|_{\mathcal F^2}^2\). Monotonicity is immediate
+from the definition of \(I_F(s)\) as a supremum over \(|\Omega|=s\): if
+\(s_1\le s_2\), every admissible set for \(s_1\) can be enlarged to a set of
+measure \(s_2\) without decreasing the integral, since \(u_F\ge 0\).
+
+To prove continuity, write \(u:=u_F\) and let \(u^*\) denote the decreasing
+rearrangement of \(u\) on \([0,\infty)\). Since \(u\in C_0(\C)\cap L^1(\C)\),
+\(u^*\in L^1([0,\infty))\) and is equimeasurable with \(u\). The bathtub
+principle yields
+\[
+I_F(s)=\int_0^s u^*(\tau)\,d\tau,\qquad s\ge 0.
+\]
+The right-hand side is the integral of an
+\(L^1_{\mathrm{loc}}([0,\infty))\) function over \([0,s]\) and is therefore
+absolutely continuous, hence continuous, in \(s\).
+\end{proof}
+
+The next result is the profile decomposition adapted to the present setting,
+in the spirit of P.-L.~Lions' concentration-compactness method. Although the
+overall scheme is by now standard, we spell out the points used in the
+sequel; the version stated here is a Fock-space variant of profile
+decompositions used in time-frequency analysis, see e.g.\
+\cite{Nicola-Romero-Trapasso, Marceca-Romero-Speckbacher, Fulsche-Hagger,
+Samuelsen}.
+
+\begin{proposition}[Profile decomposition in the Fock space]\label{prop:profile-global}
+Let \(\{F_k\}_{k\ge 1}\subset \mathcal F^2(\C)\) be a bounded sequence. Then,
+after passing to a subsequence, there exist profiles
+\[
+G^{(j)}\in \mathcal F^2(\C),
+\qquad j\ge 1,
+\]
+and sequences of points
+\[
+a_k^{(j)}\in \C,
+\qquad j\ge 1,\ k\ge 1,
+\]
+such that:
+\begin{enumerate}
+    \item[(i)] for each \(j\neq \ell\),
+    \[
+    |a_k^{(j)}-a_k^{(\ell)}|\to \infty
+    \qquad (k\to \infty);
+    \]
+    \item[(ii)] for every \(J\ge 1\), if
+    \[
+    R_k^{(J)}
+    :=
+    F_k-\sum_{j=1}^J T_{a_k^{(j)}}G^{(j)},
+    \]
+    then
+    \[
+    T_{-a_k^{(j)}}R_k^{(J)}\to 0
+    \qquad\text{locally uniformly on }\C
+    \]
+    for every \(1\le j\le J\);
+    \item[(iii)] for every \(J\ge 1\),
+    \[
+    \|F_k\|_{\mathcal F^2}^2
+    =
+    \sum_{j=1}^J \|G^{(j)}\|_{\mathcal F^2}^2
+    +\|R_k^{(J)}\|_{\mathcal F^2}^2
+    +o_k(1);
+    \]
+    \item[(iv)]
+    \[
+    \lim_{J\to\infty}\left(\limsup_{k\to\infty}
+    \|u_{R_k^{(J)}}\|_{L^\infty(\C)}\right)=0.
+    \]
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+We argue by the standard iterative extraction scheme, but spell out the points
+used in the rest of the section. Throughout, we say that a function in
+\(\mathcal F^2(\C)\) is \emph{nontrivial} if it is not identically zero.
+
+\medskip
+\noindent\emph{Extraction of the first profile.}
+If
+\[
+\limsup_{k\to\infty}\|u_{F_k}\|_{L^\infty(\C)}=0,
+\]
+there is nothing to prove: take all profiles equal to zero, all centers
+arbitrary (say zero), and observe that (i)--(iii) hold trivially while (iv)
+holds by hypothesis. Otherwise, after passing to a subsequence, choose
+\(a_k^{(1)}\in \C\) such that
+\[
+u_{F_k}(a_k^{(1)})\ge \tfrac12\|u_{F_k}\|_{L^\infty(\C)}.
+\]
+By \eqref{eq:I-translation-global} and the density-translation identity
+\eqref{eq:u-translation-global}, the sequence \(T_{-a_k^{(1)}}F_k\) has the
+same Fock norm and the corresponding density translated; relabelling, we may
+assume \(a_k^{(1)}=0\). Since \(\{F_k\}\) is bounded in \(\mathcal F^2(\C)\),
+the reproducing-kernel bound \(|F_k(z)|\le \|F_k\|_{\mathcal F^2}\,
+e^{\pi |z|^2/2}\) (Lemma~\ref{lem:growth}(ii)) makes \(\{F_k\}\) a normal
+family of entire functions on every compact subset of \(\C\). Passing to a
+subsequence and applying Montel's theorem, \(F_k\to G^{(1)}\) locally
+uniformly on \(\C\), with \(G^{(1)}\in\mathcal F^2(\C)\) by Fatou's lemma. By
+the choice of \(a_k^{(1)}=0\),
+\[
+u_{G^{(1)}}(0)=\lim_{k\to\infty}u_{F_k}(0)
+\ge \tfrac12 \limsup_{k\to\infty}\|u_{F_k}\|_{L^\infty(\C)}>0,
+\]
+so \(G^{(1)}\) is nontrivial. Set
+\[
+R_k^{(1)}:=F_k-G^{(1)}.
+\]
+
+\medskip
+\noindent\emph{Iteration.}
+Suppose profiles \(G^{(1)},\dots,G^{(J-1)}\) and centers
+\(a_k^{(1)},\dots,a_k^{(J-1)}\) have been extracted, with remainder
+\(R_k^{(J-1)}\). If
+\[
+\limsup_{k\to\infty}\|u_{R_k^{(J-1)}}\|_{L^\infty(\C)}=0,
+\]
+we stop, set \(G^{(j)}=0\) and \(a_k^{(j)}=0\) for all \(j\ge J\), and
+properties (i)--(iv) are easily seen to hold. Otherwise choose
+\(a_k^{(J)}\in\C\) so that
+\[
+u_{R_k^{(J-1)}}(a_k^{(J)})
+\ge \tfrac12\|u_{R_k^{(J-1)}}\|_{L^\infty(\C)}.
+\]
+Property (i) at this stage (proved below) forces
+\(|a_k^{(J)}-a_k^{(m)}|\to\infty\) for every \(m<J\). Granted this, the
+sequence \(\{T_{-a_k^{(J)}}R_k^{(J-1)}\}\) is bounded in \(\mathcal F^2\) (by
+unitarity of \(T_{-a_k^{(J)}}\) together with (iii) at stage \(J-1\)), so
+after passing to a further subsequence and applying Montel's theorem, it
+converges locally uniformly to some \(G^{(J)}\in\mathcal F^2(\C)\). By the
+choice of \(a_k^{(J)}\),
+\[
+u_{G^{(J)}}(0)
+\ge \tfrac12 \limsup_{k\to\infty}\|u_{R_k^{(J-1)}}\|_{L^\infty(\C)}>0,
+\]
+so \(G^{(J)}\) is nontrivial. Set
+\[
+R_k^{(J)}:=R_k^{(J-1)}-T_{a_k^{(J)}}G^{(J)}.
+\]
+Iterating either terminates at some finite step (in which case (iv) is
+immediate) or produces an infinite sequence of nontrivial profiles. By a
+standard diagonal extraction we obtain a single subsequence (still denoted
+\(\{F_k\}\)) for which all the partial decompositions are valid.
+
+\medskip
+\noindent\emph{Proof of (i).}
+Fix \(j<\ell\), and suppose for contradiction that
+\(|a_k^{(\ell)}-a_k^{(j)}|\) does not tend to infinity. After passing to a
+subsequence, \(|a_k^{(\ell)}-a_k^{(j)}|\le C\) for some constant \(C\). At
+the \(\ell\)-th step, by construction
+\[
+T_{-a_k^{(\ell)}}R_k^{(\ell-1)}\to G^{(\ell)}
+\qquad\text{locally uniformly on }\C,
+\]
+with \(G^{(\ell)}\) nontrivial. On the other hand, property (ii) verified up
+to stage \(\ell-1\) (proved below) gives
+\[
+T_{-a_k^{(j)}}R_k^{(\ell-1)}\to 0
+\qquad\text{locally uniformly on }\C.
+\]
+The Weyl identity
+\(T_{-a_k^{(\ell)}}=e^{i\theta_k}T_{-a_k^{(j)}}T_{a_k^{(j)}-a_k^{(\ell)}}\)
+(for an appropriate real phase \(\theta_k\) coming from the Weyl co-cycle, of
+modulus one) shows that
+\[
+T_{-a_k^{(\ell)}}R_k^{(\ell-1)}(z)
+=
+e^{i\theta_k}\big(T_{-a_k^{(j)}}R_k^{(\ell-1)}\big)\!
+\big(z-(a_k^{(\ell)}-a_k^{(j)})\big).
+\]
+Since \(|a_k^{(\ell)}-a_k^{(j)}|\le C\), the points
+\(z-(a_k^{(\ell)}-a_k^{(j)})\) remain in a fixed compact set as \(z\)
+varies over a compact set; so the local uniform convergence of
+\(T_{-a_k^{(j)}}R_k^{(\ell-1)}\) to \(0\) forces
+\(T_{-a_k^{(\ell)}}R_k^{(\ell-1)}\to 0\) locally uniformly as well.
+This contradicts the nontriviality of \(G^{(\ell)}\). Hence
+\[
+|a_k^{(j)}-a_k^{(\ell)}|\to\infty
+\qquad\text{whenever }j\neq \ell.
+\]
+
+\medskip
+\noindent\emph{Proof of (ii).}
+Fix \(J\ge 1\) and \(1\le j\le J\). By construction, at the \(j\)-th
+extraction step,
+\[
+T_{-a_k^{(j)}}R_k^{(j-1)}\to G^{(j)}
+\qquad\text{locally uniformly on }\C.
+\]
+Subtracting the \(j\)-th extracted profile,
+\[
+T_{-a_k^{(j)}}R_k^{(j)}
+=
+T_{-a_k^{(j)}}R_k^{(j-1)}-G^{(j)}
+\to 0
+\qquad\text{locally uniformly on }\C.
+\]
+For \(J>j\), since
+\[
+R_k^{(J)}
+=
+R_k^{(j)}-\sum_{\ell=j+1}^J T_{a_k^{(\ell)}}G^{(\ell)},
+\]
+the linearity of the Weyl operators yields
+\[
+T_{-a_k^{(j)}}R_k^{(J)}
+=
+T_{-a_k^{(j)}}R_k^{(j)}
+-\sum_{\ell=j+1}^J e^{i\theta_{k,\ell}}\,T_{a_k^{(\ell)}-a_k^{(j)}}G^{(\ell)}
+\]
+for some real phases \(\theta_{k,\ell}\) coming from the Weyl co-cycle. The
+first term tends to \(0\) locally uniformly by the previous paragraph. For
+each fixed \(\ell>j\), part (i) gives \(|a_k^{(\ell)}-a_k^{(j)}|\to\infty\),
+and the identity \(u_{T_b G}(z)=u_G(z-b)\) (i.e.\
+\eqref{eq:u-translation-global}) implies that
+\(T_{a_k^{(\ell)}-a_k^{(j)}}G^{(\ell)}\to 0\) locally uniformly in modulus
+(its density is \(u_{G^{(\ell)}}(z-(a_k^{(\ell)}-a_k^{(j)}))\to 0\) for
+\(z\) in a compact set, since \(u_{G^{(\ell)}}\in C_0(\C)\)). Thus
+\[
+T_{-a_k^{(j)}}R_k^{(J)}\to 0
+\qquad\text{locally uniformly on }\C,
+\]
+which is exactly (ii).
+
+\medskip
+\noindent\emph{Proof of (iii).}
+For fixed \(J\ge 1\),
+\[
+F_k=\sum_{j=1}^J T_{a_k^{(j)}}G^{(j)}+R_k^{(J)}.
+\]
+Expanding the squared \(\mathcal F^2\)-norm and using
+Lemma~\ref{lem:weyl-orthogonality-global} together with the pairwise
+divergence of the translation parameters from (i),
+\[
+\Big\|\sum_{j=1}^J T_{a_k^{(j)}}G^{(j)}\Big\|_{\mathcal F^2}^2
+=
+\sum_{j=1}^J \|G^{(j)}\|_{\mathcal F^2}^2+o_k(1).
+\]
+Moreover, since
+\[
+T_{-a_k^{(m)}}R_k^{(J)}\to 0
+\qquad\text{locally uniformly on }\C
+\]
+for every \(1\le m\le J\) by (ii), and the sequence
+\(\{T_{-a_k^{(m)}}R_k^{(J)}\}_k\) is bounded in \(\mathcal F^2\), the same
+weak-convergence argument as in
+Lemma~\ref{lem:weyl-orthogonality-global} yields
+\[
+\langle T_{a_k^{(m)}}G^{(m)},R_k^{(J)}\rangle_{\mathcal F^2}
+=
+\langle G^{(m)},T_{-a_k^{(m)}}R_k^{(J)}\rangle_{\mathcal F^2}\to 0,
+\]
+for every fixed \(m\). Expanding \(\|F_k\|_{\mathcal F^2}^2\) and collecting
+terms,
+\[
+\|F_k\|_{\mathcal F^2}^2
+=
+\sum_{j=1}^J \|G^{(j)}\|_{\mathcal F^2}^2
++\|R_k^{(J)}\|_{\mathcal F^2}^2
++o_k(1).
+\]
+In particular, since \(\|F_k\|_{\mathcal F^2}\) is bounded and the terms on
+the right are nonnegative, summing the profile-norm contributions over \(j\)
+yields the energy bound
+\begin{equation}\label{eq:energy-bound-profiles}
+\sum_{j\ge 1}\|G^{(j)}\|_{\mathcal F^2}^2
+\le \limsup_{k\to\infty}\|F_k\|_{\mathcal F^2}^2.
+\end{equation}
+This is the key compactness ingredient that controls the iteration and
+ensures (iv).
+
+\medskip
+\noindent\emph{Proof of (iv).}
+Set
+\[
+\eta_J:=\limsup_{k\to\infty}\|u_{R_k^{(J)}}\|_{L^\infty(\C)},
+\]
+which is monotone nonincreasing in \(J\) by construction (since
+\(R_k^{(J+1)}\) is obtained from \(R_k^{(J)}\) by extracting one further
+nontrivial profile). Let \(\eta_\infty:=\lim_{J\to\infty}\eta_J\); we must
+show \(\eta_\infty=0\). Suppose, for contradiction, that
+\(\eta_\infty\ge \delta>0\).
+
+By the iteration, at each stage \(J\) such that \(\eta_J\ge \delta\), the
+extracted profile \(G^{(J+1)}\) satisfies \(u_{G^{(J+1)}}(0)\ge \delta/2\) by
+construction. By Lemma~\ref{lem:Fock-basic}(ii),
+\[
+\|G^{(J+1)}\|_{\mathcal F^2}^2 \ge u_{G^{(J+1)}}(0)\ge \delta/2.
+\]
+If the iteration produced infinitely many such stages (which is the case
+under the assumption \(\eta_\infty\ge \delta\)), then
+\[
+\sum_{j\ge 1}\|G^{(j)}\|_{\mathcal F^2}^2=\infty,
+\]
+contradicting \eqref{eq:energy-bound-profiles}. Hence \(\eta_\infty=0\),
+proving (iv).
+\end{proof}
+
+We now turn to the global problem. The proof of existence consists of
+combining the profile decomposition with the elementary continuity properties
+of \(I_F(s)\), and using the homogeneity \(I_{cF}(s)=|c|^2 I_F(s)\) recorded
+in Lemma~\ref{lem:basic-properties-global}(ii) to redistribute mass to a
+single nontrivial profile.
+
+\begin{theorem}\label{thm:existence-global-maximizer}
+For every \(s>0\), there exists \(F_*\in \mathcal F^2(\C)\) with
+\(\|F_*\|_{\mathcal F^2}=1\) such that
+\[
+I_{F_*}(s)=M(s).
+\]
+Equivalently, there exists a measurable set \(\Omega_*\subset \C\) with
+\(|\Omega_*|=s\) such that
+\[
+\lambda_{1,\varphi}(\Omega_*)=M(s).
+\]
+\end{theorem}
+
+\begin{proof}
+Let \(\{F_k\}\subset \mathcal F^2(\C)\) be a maximizing sequence:
+\[
+\|F_k\|_{\mathcal F^2}=1,
+\qquad
+I_{F_k}(s)\to M(s).
+\]
+By replacing \(F_k\) with a Weyl translate if necessary, and using the
+translation invariance \eqref{eq:I-translation-global} together with
+\eqref{eq:u-translation-global}, we may suppose that
+\[
+u_{F_k}(0)=\|u_{F_k}\|_{L^\infty(\C)}.
+\]
+Note that \(M(s)>0\): indeed, taking \(F\equiv 1\), one has
+\(F\in \mathcal F^2(\C)\) with \(\|F\|_{\mathcal F^2}^2=1\) and density
+\(u_F(z)=e^{-\pi |z|^2}>0\) everywhere, so for any \(s>0\), \(I_F(s)>0\).
+Consequently, \(\|u_{F_k}\|_{L^\infty(\C)}\) is bounded below by a positive
+constant uniformly in \(k\); otherwise, for any \(\eta>0\) we would have
+\(\|u_{F_k}\|_{L^\infty}<\eta\) eventually, hence \(I_{F_k}(s)\le \eta s\),
+contradicting \(I_{F_k}(s)\to M(s)>0\).
+
+Applying Proposition~\ref{prop:profile-global}, after passing to a
+subsequence we may write
+\[
+F_k=\sum_{j=1}^J T_{a_k^{(j)}}G^{(j)}+R_k^{(J)}
+\]
+for every fixed \(J\ge 1\), with the conclusions of that proposition.
+
+\medskip
+\noindent\emph{Step 1: an upper bound for the limit.}
+Fix \(J\ge 1\) and let \(\Omega_k^{(J)}\) be a measurable set of measure
+\(s\) such that
+\[
+I_{F_k}(s)=\int_{\Omega_k^{(J)}} u_{F_k}\,dA;
+\]
+by Lemma~\ref{lem:basic-properties-global}(i) we may take
+\(\Omega_k^{(J)}\) to be a superlevel set of \(u_{F_k}\). Let
+\(\varepsilon>0\). Since \(u_{G^{(j)}}\in L^1(\C)\) for every \(j\) by
+Lemma~\ref{lem:basic-properties-global}, choose \(R>0\) so large that
+\[
+\int_{\C\setminus D_R} u_{G^{(j)}}\,dA<\varepsilon
+\qquad\text{for all } 1\le j\le J,
+\]
+and large enough that the conclusion of
+Lemma~\ref{lem:pointwise-decoupling-global}(ii) holds with this choice of
+\(R\). Since the translation parameters are pairwise divergent by
+Proposition~\ref{prop:profile-global}(i), for \(k\) large enough the disks
+\[
+D_R(a_k^{(1)}),\dots,D_R(a_k^{(J)})
+\]
+are pairwise disjoint. Write
+\[
+B_{k,j}:=D_R(a_k^{(j)}),
+\qquad
+E_{k,j}:=\Omega_k^{(J)}\cap B_{k,j},
+\qquad
+E_{k,0}:=\Omega_k^{(J)}\setminus \bigcup_{j=1}^J B_{k,j}.
+\]
+Set
+\[
+s_{k,j}:=|E_{k,j}|,
+\qquad 0\le j\le J.
+\]
+Then, since the \(\{B_{k,j}\}_{j=1}^J\) are disjoint and
+\(\Omega_k^{(J)}\) has measure \(s\),
+\[
+\sum_{j=0}^J s_{k,j}=s.
+\]
+
+Set
+\[
+S_k^{(J)}:=\sum_{j=1}^J T_{a_k^{(j)}}G^{(j)}.
+\]
+By Proposition~\ref{prop:profile-global}(iii), the sequence
+\(\{S_k^{(J)}\}_k\) is bounded in \(\mathcal F^2(\C)\), with bound
+\(\le 1+o_k(1)\). By Proposition~\ref{prop:profile-global}(iv), if \(J\) is
+taken sufficiently large then
+\[
+\limsup_{k\to\infty}\|u_{R_k^{(J)}}\|_{L^\infty(\C)}<\varepsilon^2.
+\]
+Lemma~\ref{lem:density-perturbation-global} therefore gives
+\[
+\|u_{F_k}-u_{S_k^{(J)}}\|_{L^\infty(\C)}\to 0
+\qquad (k\to\infty),
+\]
+and in particular, after taking \(k\) large enough,
+\begin{equation}\label{eq:density-approximation-global}
+\|u_{F_k}-u_{S_k^{(J)}}\|_{L^\infty(\C)}<\varepsilon.
+\end{equation}
+
+Now
+\[
+E_{k,0}
+=
+\Omega_k^{(J)}\setminus \bigcup_{j=1}^J B_{k,j}
+\subset
+\C\setminus \bigcup_{j=1}^J D_R(a_k^{(j)}).
+\]
+Lemma~\ref{lem:pointwise-decoupling-global}(i) gives, for each fixed
+\(j\in\{1,\dots,J\}\),
+\[
+\sup_{z\in B_{k,j}}
+\big|u_{S_k^{(J)}}(z)-u_{T_{a_k^{(j)}}G^{(j)}}(z)\big|\to 0
+\qquad (k\to\infty),
+\]
+while Lemma~\ref{lem:pointwise-decoupling-global}(ii) yields, for our
+choice of \(R\) and for \(k\) sufficiently large,
+\[
+\sup_{z\in E_{k,0}}u_{S_k^{(J)}}(z)\le \varepsilon.
+\]
+Combining these bounds with \eqref{eq:density-approximation-global}, we
+conclude that for all sufficiently large \(k\),
+\begin{enumerate}
+\item[(a)] on each \(B_{k,j}\),
+\[
+u_{F_k}(z)\le u_{T_{a_k^{(j)}}G^{(j)}}(z)+2\varepsilon;
+\]
+\item[(b)] on \(E_{k,0}\),
+\[
+u_{F_k}(z)\le 2\varepsilon.
+\]
+\end{enumerate}
+
+Therefore, decomposing the integral defining \(I_{F_k}(s)\) according to the
+partition \(\Omega_k^{(J)}=E_{k,0}\sqcup\bigsqcup_{j=1}^J E_{k,j}\),
+\begin{align*}
+I_{F_k}(s)
+&=
+\int_{\Omega_k^{(J)}} u_{F_k}\,dA \\
+&\le
+\sum_{j=1}^J \int_{E_{k,j}} u_{T_{a_k^{(j)}}G^{(j)}}\,dA
++2\varepsilon \sum_{j=0}^J |E_{k,j}| \\
+&=
+\sum_{j=1}^J \int_{E_{k,j}-a_k^{(j)}} u_{G^{(j)}}\,dA
++2\varepsilon s \\
+&\le
+\sum_{j=1}^J I_{G^{(j)}}(s_{k,j})
++2\varepsilon s,
+\end{align*}
+where in the next-to-last step we used the change of variables
+\(z\mapsto z-a_k^{(j)}\) together with \eqref{eq:u-translation-global}, and
+in the last step the definition of \(I_{G^{(j)}}(s_{k,j})\) as the supremum
+of \(\int_E u_{G^{(j)}}\,dA\) over sets of measure
+\(s_{k,j}=|E_{k,j}|=|E_{k,j}-a_k^{(j)}|\).
+
+Passing to a further subsequence if necessary, we may suppose
+\[
+s_{k,j}\to \sigma_j\in [0,s]
+\qquad (k\to\infty)
+\]
+for each \(1\le j\le J\). By the continuity of \(I_{G^{(j)}}\) in the
+measure parameter, given by Lemma~\ref{lem:I-continuity-global},
+\[
+M(s)=\lim_{k\to\infty}I_{F_k}(s)
+\le
+\sum_{j=1}^J I_{G^{(j)}}(\sigma_j)+2\varepsilon s.
+\]
+Since \(\varepsilon>0\) was arbitrary,
+\begin{equation}\label{eq:M-upper-profiles-global}
+M(s)\le \sum_{j=1}^J I_{G^{(j)}}(\sigma_j).
+\end{equation}
+
+\medskip
+\noindent\emph{Step 2: redistribution of mass and saturation of the bound.}
+We now use Lemma~\ref{lem:basic-properties-global}(ii). For each \(j\) with
+\(G^{(j)}\neq 0\), set
+\[
+\widehat G^{(j)}:=\frac{G^{(j)}}{\|G^{(j)}\|_{\mathcal F^2}},
+\qquad
+\|\widehat G^{(j)}\|_{\mathcal F^2}=1,
+\]
+and use the homogeneity \(I_{cF}(\sigma)=|c|^2 I_F(\sigma)\) (with
+\(c=\|G^{(j)}\|_{\mathcal F^2}\)) to obtain
+\[
+I_{G^{(j)}}(\sigma_j)
+=
+\|G^{(j)}\|_{\mathcal F^2}^2
+\,I_{\widehat G^{(j)}}(\sigma_j).
+\]
+Since \(\widehat G^{(j)}\) has unit \(\mathcal F^2\)-norm, by definition of
+\(M\) and the monotonicity of \(I_{\widehat G^{(j)}}\) given by
+Lemma~\ref{lem:I-continuity-global} (using \(\sigma_j\le s\)),
+\[
+I_{\widehat G^{(j)}}(\sigma_j)\le I_{\widehat G^{(j)}}(s)\le M(s).
+\]
+Hence
+\[
+I_{G^{(j)}}(\sigma_j)\le \|G^{(j)}\|_{\mathcal F^2}^2\, M(s).
+\]
+For \(j\) with \(G^{(j)}=0\) the inequality is trivial. Summing over
+\(1\le j\le J\) and using Proposition~\ref{prop:profile-global}(iii)
+together with the normalization \(\|F_k\|_{\mathcal F^2}^2=1\),
+\[
+\sum_{j=1}^J I_{G^{(j)}}(\sigma_j)
+\le
+M(s)\sum_{j=1}^J \|G^{(j)}\|_{\mathcal F^2}^2
+\le M(s).
+\]
+Combined with \eqref{eq:M-upper-profiles-global}, this yields
+\[
+M(s)\le \sum_{j=1}^J I_{G^{(j)}}(\sigma_j)\le M(s)
+\]
+for every \(J\). Therefore equality holds throughout for every \(J\), which
+forces
+\[
+\sum_{j\ge 1}\|G^{(j)}\|_{\mathcal F^2}^2=1
+\]
+(so the residual \(R_k^{(J)}\) carries no \(\mathcal F^2\)-mass in the
+limit), and moreover, for every \(j\) with \(G^{(j)}\neq 0\),
+\[
+I_{\widehat G^{(j)}}(\sigma_j)=M(s).
+\]
+By monotonicity of \(I_{\widehat G^{(j)}}\),
+\(I_{\widehat G^{(j)}}(s)\ge I_{\widehat G^{(j)}}(\sigma_j)=M(s)\); since
+\(M(s)\) is the supremum over unit-norm functions, we conclude
+\[
+I_{\widehat G^{(j)}}(s)=M(s).
+\]
+Thus every nonzero normalized profile is a global maximizer.
+
+\medskip
+\noindent\emph{Step 3: producing a maximizing set.}
+Choose any \(j_0\) with \(G^{(j_0)}\neq 0\) (such \(j_0\) exists since
+\(\sum_{j\ge 1}\|G^{(j)}\|_{\mathcal F^2}^2=1\)) and set
+\(F_*:=\widehat G^{(j_0)}\), so that
+\[
+\|F_*\|_{\mathcal F^2}=1,
+\qquad
+I_{F_*}(s)=M(s).
+\]
+By Lemma~\ref{lem:basic-properties-global}(i), there exists a superlevel
+set \(\Omega_*\) of \(u_{F_*}\) with \(|\Omega_*|=s\) and
+\[
+\int_{\Omega_*}u_{F_*}\,dA=I_{F_*}(s)=M(s).
+\]
+Then
+\[
+\lambda_{1,\varphi}(\Omega_*)\ge \int_{\Omega_*}u_{F_*}\,dA=M(s),
+\]
+while by definition of \(M(s)\) we have
+\(\lambda_{1,\varphi}(\Omega_*)\le M(s)\). Hence
+\[
+\lambda_{1,\varphi}(\Omega_*)=M(s),
+\]
+and \(\Omega_*\) is a global maximizer of measure \(s\).
+\end{proof}
+
+We may now identify the global maximizers, by combining the existence theorem
+above with the local-rigidity theorem of the previous section.
+
+\begin{theorem}\label{thm:global-maximizers-are-disks}
+For every \(s>0\), every global maximizer for
+\[
+\sup_{|\Omega|=s}\lambda_{1,\varphi}(\Omega)
+\]
+is, up to translation, a disk.
+\end{theorem}
+
+\begin{proof}
+Let \(\Omega_*\) be a global maximizer of measure \(s\) (which exists by
+Theorem~\ref{thm:existence-global-maximizer}). Then \(\Omega_*\) is, in
+particular, a local maximizer of \(\lambda_{1,\varphi}\) under the same
+measure constraint: every sufficiently small smooth deformation of
+\(\Omega_*\) preserving the measure \(|\Omega|=s\) yields a competitor
+whose value of \(\lambda_{1,\varphi}\) is at most
+\(M(s)=\lambda_{1,\varphi}(\Omega_*)\). The local-rigidity theorem proved in
+the previous section therefore applies: every such local maximizer is, up
+to translation, a disk. Since the problem is invariant under Weyl
+translations, this characterization is sharp.
+\end{proof}
+
+As an immediate consequence, we recover the classical Nicola--Tilli theorem
+\cite{Nicola-Tilli, Nicola-Tilli-2}.
+
+\begin{corollary}
+Among all measurable sets of prescribed measure, the disk maximizes Gaussian
+time-frequency concentration:
+\[
+\lambda_{1,\varphi}(\Omega)\le \lambda_{1,\varphi}(D)
+\]
+whenever \(|\Omega|=|D|\) and \(D\) is a disk.
+\end{corollary}
+
+\begin{proof}
+Existence of a global maximizer is given by
+Theorem~\ref{thm:existence-global-maximizer}, and
+Theorem~\ref{thm:global-maximizers-are-disks} shows that every such
+maximizer is a disk, up to translation. Since translation by an element of
+\(\C\) preserves both Lebesgue measure and the value of
+\(\lambda_{1,\varphi}\), the claim follows.
+\end{proof}
+
