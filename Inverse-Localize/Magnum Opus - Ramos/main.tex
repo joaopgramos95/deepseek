@@ -110,6 +110,7 @@
 
 
 \begin{document}
+\maketitle 
 \begin{abstract}
 We study Gaussian time--frequency localization operators through their Bargmann--Fock representation and develop an inverse and free-boundary approach to their spectral theory.
 
@@ -117,7 +118,6 @@ We develop a perturbative inverse theory showing that functions sufficiently clo
 
 In the second part of the paper we apply these inverse results to Faber--Krahn-type problems for Gaussian time--frequency concentration. We prove that local maximizers of the first localization eigenvalue under a measure constraint are necessarily disks, and we establish existence of global maximizers via a concentration--compactness argument in the Bargmann--Fock space, recovering the Nicola--Tilli theorem from this perspective.
 \end{abstract}
-\maketitle 
 
 \section{Introduction}
 
@@ -255,6 +255,10 @@ We then combine this existence result with the rigidity of local maximizers esta
 
 The paper is organized as follows. In Section~2 we review the Bargmann--Fock representation and establish several auxiliary results, including a key divisibility lemma and perturbative free-boundary theorems. Section~3 is devoted to the perturbative inverse construction. Section~4 explains how the same machinery recovers the classical theorem of Abreu and Dörfler in the simply connected case. Section~5 contains the sharpness result, while the remaining sections are devoted to variational applications, culminating in the new proof of the Nicola--Tilli theorem.
 
+\medskip
+
+In summary, the results of this paper establish a bridge between time--frequency analysis, inverse spectral theory, and free-boundary problems in potential theory. This perspective not only resolves several open problems, but also provides a flexible and robust framework for studying a wide range of questions in phase--space analysis. :contentReference[oaicite:0]{index=0}
+
 
 \section{Preliminaries}
 
@@ -316,7 +320,7 @@ because
 2\Re(az)-|a|^2-|z|^2=-|z-a|^2.
 \]
 Moreover,
-\begin{equation}\label{eq:u-translation-global}
+\begin{equation}\label{eq:uF-translate}
 u_{T_a F}(z) = u_F(z - a).
 \end{equation}
 Indeed,
@@ -335,9 +339,9 @@ for \(s>0\),
 I_F(s):=\sup_{|\Omega|=s}\int_\Omega u_F\,dA,
 \]
 satisfy
-\begin{equation}\label{eq:I-translation-global}
+\[
 I_{T_a F}(s) = I_F(s), \qquad a \in \mathbb{C},
-\end{equation}
+\]
 reflecting the invariance of the Gaussian STFT under time--frequency shifts.
 
 \medskip
@@ -370,9 +374,9 @@ K_w(z) = e^{\pi z \overline{w}}, \qquad z,w \in \mathbb{C}.
 \]
 
 \item[(ii)] (Sharp pointwise bound) For every $z \in \mathbb{C}$,
-\begin{equation}\label{eq:pointwise}
+\[
 u_F(z) \le \|F\|_{\mathcal{F}^2}^2,
-\end{equation}
+\]
 and equality holds at some point if and only if $F$ is proportional to $F_w$
 for some $w \in \mathbb{C}$.
 
@@ -722,7 +726,7 @@ where $P$ is the finite support of the atomic part of $\omega$.
 \subsection{Two perturbative auxiliary results}\label{app:auxiliary-results}
 
 In this appendix we prove two perturbative results used in the proof of
-Theorem 4. The first is a free-boundary stability
+Theorem~\ref{thm:local-perturbative}. The first is a free-boundary stability
 statement around a strictly negative obstacle-type solution. The second is a
 local realization theorem for weighted quadrature domains near a reference
 domain. Both statements are tailored to the setting of the present paper.
@@ -1173,6 +1177,14 @@ determined by its trace on any inner contour, and the standard jump relation the
 recovers the density itself. This is exactly the mechanism needed in the proof of
 Theorem~\ref{thm:perturb}.
 \end{remark}
+
+\medskip
+
+We postpone the proof of Theorem~\ref{thm:eig-loc-U} until after the perturbative
+inverse theorem. The same inverse/free-boundary mechanism used to construct
+domains for prescribed eigenfunctions also recovers the classical
+Abreu--D\"orfler disk theorem in the simply connected setting; see
+Section~\ref{sec:classical-rigidity} below.
 
 \section{Proof of Theorem \ref{thm:perturb}} 
 
@@ -3601,9 +3613,7 @@ disk up to translation. Since translation preserves both measure and the value o
 
 \noindent{\bf Question:} Can we construct domains with prescribed eigenfunctions, as long as the eigenfunction is sufficiently close to a Hermite function? 
 
-\begin{theorem}
-\label{thm:local-perturbative}
-Given $\lambda \in (0,1)$ and $N \in \mathbb{N},$ there is $\varepsilon_0(\lambda,N)>0$ such that, if a function $f_0 = h_0 + \sum_{k=0}^N a_k h_k$ satisfies $\max |a_k| < \varepsilon_0,$ then there is a domain $U_{\lambda}$ such that 
+\begin{theorem}\label{thm:local-perturbative} Given $\lambda \in (0,1)$ and $N \in \mathbb{N},$ there is $\varepsilon_0(\lambda,N)>0$ such that, if a function $f_0 = h_0 + \sum_{k=0}^N a_k h_k$ satisfies $\max |a_k| < \varepsilon_0,$ then there is a domain $U_{\lambda}$ such that 
 \[
 \mathcal{L}_{U_{\lambda}} f_0 = \lambda f_0. 
 \]
@@ -3685,7 +3695,7 @@ We may now conclude: indeed, if $U$ is not an annulus, then there are $r_1,r_2>0
 By continuity of the gradient, one has that $c \frac{z}{|z|^2} =\nabla \Psi_U(z) = \psi_U'(|z|) \cdot \frac{z}{|z|},$ which implies $\psi_U'(|z|) = \frac{c}{|z|}$ for $z \in \partial \tilde{U}_0,$ and thus also for $z \in \tilde{U}_0.$ But then a simple computation of the laplacian of $\Psi_U$ on $\tilde{U}_0$ implies $\Delta \Psi_U \equiv 0$ in $\tilde{U}_0,$ which contradicts the fact that $\Delta \Psi_U = c' \cdot f(|z|),$ as $f$ only vanishes at the origin. 
  \end{proof}
 
-\section{Proof of Theorem 4} 
+\section{Proof of Theorem \ref{thm:local-perturbative}} 
 
  \begin{proof}[Proof of the second result] Again, we employ the same Bargmann transform method used in the previous result: let $P(z) = 1 + \sum_{k =1}^N b_k z^k,$ where $b_k$ is such that the Bargmann transform of $a_k h_k$ equals $b_k z^k$. The problem of finding a domain $U$ with $f_0$ as eigenfunction of $\mathcal{L}_U$ is equivalent to the following relationship:
 \begin{equation}\label{eq:eigenfunction-general}  
@@ -3828,7 +3838,7 @@ $i \in \{1,\dots,l\}.$ In other words, we have concluded that $G = \lambda P,$ w
 
 We start by defining $P_{\varepsilon}(w) = 1+ \varepsilon w^2.$ Fix $\lambda_0 = 1 - e^{-\pi}.$ 
 
-According to Theorem 4, we know that, for each $\varepsilon > 0$ sufficiently small, there is a domain $U_{\varepsilon},$ which moreover may be taken to be a perturbation of the form 
+According to Theorem \ref{thm:local-perturbative}, we know that, for each $\varepsilon > 0$ sufficiently small, there is a domain $U_{\varepsilon},$ which moreover may be taken to be a perturbation of the form 
 \begin{equation}\label{eq:def-u-eps}
 \partial U_{\varepsilon} = \{ (1+\varphi_{\varepsilon}(y)) \cdot y, y \in \mathbb{S}^1\}
 \end{equation}
@@ -3836,7 +3846,7 @@ of the unit disk, such that
 \begin{equation}\label{eq:functiona-P-eps}
 \int_{U_{\varepsilon}} P_{\varepsilon}(z) e^{\pi \overline{z} w} e^{-\pi |z|^2} dA(z) = \lambda P_{\varepsilon}(w), \, \forall \, w \in \mathbb{C}. 
 \end{equation}
-The assertion about $U_{\varepsilon}$ being a perturbation of the unit ball of the form \eqref{eq:def-u-eps} may be proved as follows: first, notice that the method of proof of Theorem \ref{thm:isakov} yields directly that the domains so obtained are of the desired form. A thorough inspection of the proof of Proposition \ref{prop:auxiliary} shows that the same holds for the domains constructed there - that is, the domain $\tilde{U}$ from Proposition \ref{prop:auxiliary} may be taken to be a normal perturbation of the domain $U_0$ in that result. If both perturbations are small enough in absolute norm, we readily conclude that the domains constructed in Theorem 4 are still a smooth perturbation over the unit disk. 
+The assertion about $U_{\varepsilon}$ being a perturbation of the unit ball of the form \eqref{eq:def-u-eps} may be proved as follows: first, notice that the method of proof of Theorem \ref{thm:isakov} yields directly that the domains so obtained are of the desired form. A thorough inspection of the proof of Proposition \ref{prop:auxiliary} shows that the same holds for the domains constructed there - that is, the domain $\tilde{U}$ from Proposition \ref{prop:auxiliary} may be taken to be a normal perturbation of the domain $U_0$ in that result. If both perturbations are small enough in absolute norm, we readily conclude that the domains constructed in Theorem \ref{thm:local-perturbative} are still a smooth perturbation over the unit disk. 
 
 Let us suppose that $\varphi_{\varepsilon}$, defined as in \eqref{eq:def-u-eps}, are \emph{differentiable} in the parameter $\varepsilon \in (-\delta,\delta).$ In that case, let $f_0(y) := \partial_{\varepsilon}|_{\varepsilon = 0} \varphi_{\varepsilon}.$ A simple use of Reynold's formula in \eqref{eq:functiona-P-eps} shows, through differentiation in $\varepsilon$ and taking $\varepsilon \to 0,$ that 
 
