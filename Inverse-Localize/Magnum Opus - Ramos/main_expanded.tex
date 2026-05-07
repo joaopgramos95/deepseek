@@ -123,6 +123,7 @@ In the second part of the paper we apply these inverse results to Faber--Krahn-t
 % ==============================================================
 % Section 1: Introduction
 % ==============================================================
+
 \section{Introduction}
 
 \subsection{Time--frequency localization and the Gaussian model}
@@ -147,7 +148,7 @@ From a complementary perspective, one may pose inverse questions: to what extent
 
 \subsection{Eigenfunctions as geometric data}
 
-The guiding principle of the present paper is that, for Gaussian localization operators, eigenfunctions should be regarded as \emph{geometric data}. More precisely, the eigenfunction should determine the domain in rigid situations, and the possibility of prescribing the eigenfunction should in turn have strong consequences for nearby variational problems. The three main threads of the paper are organized around this idea:
+The guiding principle of the present paper is that, for Gaussian localization operators, eigenfunctions should be regarded as \emph{geometric data}. More precisely, in rigid situations the eigenfunction should determine the domain, and the ability to prescribe a near-Gaussian eigenfunction should in turn have strong consequences for nearby variational problems. The three main threads of the paper are organized around this idea:
 \begin{enumerate}
 \item rigid eigenfunctions force rigid domains;
 \item near the Gaussian, one can prescribe the eigenfunction and construct the corresponding localization domain;
@@ -198,6 +199,7 @@ Let $U$ be a simply connected bounded domain. If a Hermite function is an eigenf
 
 The proof transports the eigenvalue equation to the Bargmann--Fock space, where Hermite functions correspond to monomials and the localization operator becomes an integral operator with reproducing-kernel structure. In this setting, the eigenvalue equation translates into a functional identity involving exponential generating functions. Differentiating appropriately and invoking a Paley--Wiener type argument, we reduce the problem to the vanishing of a Fourier transform along complex lines.
 
+% TODO: add citation for Ehrenpreis--Malgrange division theorem (no bib entry exists yet)
 This allows us to apply a divisibility lemma of Ehrenpreis--Malgrange type, which produces a logarithmic potential solving a Poisson equation with source supported on the domain. The decisive insight is that the spectral assumption imposes strong constraints on this potential: it must exhibit a form of radial behavior on the boundary. In the simply connected setting, this constraint forces the domain to be a disk, recovering the Abreu--D\"orfler rigidity theorem from the same inverse/free-boundary perspective.
 
 \subsection{Sharpness of the GGRT stability inequality}
@@ -262,7 +264,7 @@ We then combine this existence result with the rigidity of local maximizers esta
 
 \subsection{Organization of the paper}
 
-The paper is organized as follows. In Section~2 we review the Bargmann--Fock representation and establish several auxiliary results, including the key divisibility lemma. Section~3 proves Theorem~\ref{thm:perturb}; the self-contained disk inverse theorem is proved there as part of the construction. Section~4 explains how the same machinery recovers the classical theorem of Abreu and D\"orfler in the simply connected case (Theorem~\ref{thm:eig-loc-U}). Section~5 contains the sharpness result, Theorem~\ref{thm:GGRT-sharp}, while the remaining sections are devoted to variational applications, culminating in the new proof of the Nicola--Tilli theorem.
+The paper is organized as follows. In Section~\ref{sec:preliminaries} we review the Bargmann--Fock representation and establish several auxiliary results, including the bridge from time--frequency analysis to free boundary problems via the key divisibility lemma. Section~\ref{sec:perturb-proof} proves Theorem~\ref{thm:perturb}; the self-contained disk inverse theorem is established there as part of the construction. Section~\ref{sec:classical-rigidity} explains how the same machinery recovers the classical theorem of Abreu and D\"orfler in the simply connected case (Theorem~\ref{thm:eig-loc-U}). Section~\ref{sec:GGRT-sharp} contains the sharpness result, Theorem~\ref{thm:GGRT-sharp}. Section~\ref{sec:local-max} establishes the local rigidity statement, showing that local maximizers of the Faber--Krahn problem in the Gaussian STFT setting are disks. Finally, Section~\ref{sec:global-max} proves existence of global maximizers via concentration--compactness in the Bargmann--Fock space and combines this with the local rigidity to give a new proof of the Nicola--Tilli theorem.
 
 \medskip
 
@@ -271,7 +273,8 @@ In summary, the results of this paper establish a bridge between time--frequency
 % ==============================================================
 % Section 2: Preliminaries
 % ==============================================================
-\section{Preliminaries}
+
+\section{Preliminaries}\label{sec:preliminaries}
 
 \subsection{Properties of the Bargmann-Fock space} We briefly recall the connection between the Gaussian short-time Fourier transform
 (STFT) and the Bargmann--Fock space, which will be used systematically in what
@@ -317,13 +320,13 @@ In particular, setting $F = \mathcal{B}f$, one obtains
 \subsubsection*{Weyl operators and invariance.}
 For $a \in \mathbb{C}$, define the operator
 \begin{equation}\label{eq:Ta}
-(T_a F)(z) := e^{\pi a z - \frac{\pi}{2}|a|^2} F(z - a).
+(T_a F)(z) := e^{\pi \overline{a} z - \frac{\pi}{2}|a|^2} F(z - a).
 \end{equation}
 Then $T_a$ is unitary on $\mathcal{F}^2(\mathbb{C})$. Indeed,
 \begin{align*}
 \|T_aF\|_{\mathcal F^2}^2
 &=
-\int_{\C} e^{2\pi \Re(az)-\pi |a|^2}\,|F(z-a)|^2 e^{-\pi |z|^2}\,dA(z) \\
+\int_{\C} e^{2\pi \Re(\overline{a}z)-\pi |a|^2}\,|F(z-a)|^2 e^{-\pi |z|^2}\,dA(z) \\
 &=
 \int_{\C} |F(z-a)|^2 e^{-\pi |z-a|^2}\,dA(z)
 =
@@ -331,20 +334,20 @@ Then $T_a$ is unitary on $\mathcal{F}^2(\mathbb{C})$. Indeed,
 \end{align*}
 because
 \[
-2\Re(az)-|a|^2-|z|^2=-|z-a|^2.
+2\Re(\overline{a}z)-|a|^2-|z|^2=-|z-a|^2.
 \]
 Moreover,
 \begin{equation}\label{eq:uF-translate}
 u_{T_a F}(z) = u_F(z - a).
 \end{equation}
 Indeed, since
-\(2\Re(az)-|a|^2-|z|^2 = -|z-a|^2\),
+\(2\Re(\overline{a}z)-|a|^2-|z|^2 = -|z-a|^2\),
 \begin{equation}\label{eq:u-translation-global}
 u_{T_aF}(z)
 =
 |T_aF(z)|^2e^{-\pi |z|^2}
 =
-e^{2\pi\Re(az)-\pi|a|^2}|F(z-a)|^2e^{-\pi |z|^2}
+e^{2\pi\Re(\overline{a}z)-\pi|a|^2}|F(z-a)|^2e^{-\pi |z|^2}
 =
 |F(z-a)|^2e^{-\pi |z-a|^2}=u_F(z-a).
 \end{equation}
@@ -393,8 +396,8 @@ K_w(z) = e^{\pi z \overline{w}}, \qquad z,w \in \mathbb{C}.
 \[
 u_F(z) \le \|F\|_{\mathcal{F}^2}^2,
 \]
-and equality holds at some point if and only if $F$ is proportional to $F_w$
-for some $w \in \mathbb{C}$.
+and equality holds at some point $w \in \mathbb{C}$ if and only if $F$ is
+proportional to the reproducing kernel $K_w$.
 
 \item[(iii)] $u_F(z) \to 0$ as $|z| \to \infty$.
 
@@ -450,9 +453,10 @@ Bargmann--Fock space, see \cite{Bargmann,Folland,Grochenig,Zhu}.
 \|F\|_{\mathcal F^2}\,e^{\frac{\pi}{2}|z|^2},
 \end{equation}
 which immediately gives \(u_F(z)=|F(z)|^2 e^{-\pi |z|^2}\le \|F\|_{\mathcal F^2}^2\).
-The case of equality at a point \(z=w\) corresponds to equality in
-Cauchy--Schwarz, that is, \(F=c\,K_w\) for some \(c\in \C\); writing
-\(F_w:=K_w\), this proves the rigidity statement. The sharpness of this
+Equality at a point \(z=w\) corresponds to equality in Cauchy--Schwarz, that is,
+\(F=c\,K_w\) for some \(c\in \C\); conversely, for \(F=c K_w\) one computes
+\(u_F(w)=|c|^2 e^{2\pi |w|^2}e^{-\pi |w|^2}=|c|^2 e^{\pi |w|^2}=|c|^2\|K_w\|_{\mathcal F^2}^2
+=\|F\|_{\mathcal F^2}^2\), proving the rigidity statement. The sharpness of this
 pointwise bound goes back to \cite{Lieb}.
 
 (iii) Fix \(\varepsilon>0\), and choose a polynomial \(P\) such that
@@ -533,16 +537,13 @@ For orthogonality, again writing \(z=re^{i\theta}\),
 0
 \qquad\text{for }k\neq m.
 \]
-For completeness, observe that if \(F\in \mathcal F^2(\C)\) satisfies
-\(\langle F,e_k\rangle_{\mathcal F^2}=0\) for every \(k\ge 0\), then in
-particular all Taylor coefficients of \(F\) at the origin vanish: since
-\(F=\mathcal Bf\) for a unique \(f\in L^2(\R)\), and \(\mathcal Bh_k=e_k\) (so
-that \(\{e_k\}\) is the image of the orthonormal basis of Hermite functions
-under the unitary \(\mathcal B\)), the family \(\{e_k\}_{k\ge 0}\) is total in
-\(\mathcal F^2(\C)\). Equivalently, one may invoke directly the fact that any
-entire function of order at most \(2\) lying in \(\mathcal F^2(\C)\) is the
-limit of its Taylor polynomials in the Fock norm; see
-\cite{Bargmann,Zhu}.
+For completeness, since \(\mathcal B\colon L^2(\R)\to \mathcal F^2(\C)\) is a
+unitary isomorphism and \(\mathcal Bh_k=e_k\) for every \(k\ge 0\), where
+\(\{h_k\}_{k\ge 0}\) is the orthonormal basis of Hermite functions on
+\(L^2(\R)\) (see \cite{Thangavelu}), the family \(\{e_k\}_{k\ge 0}\) is the
+image of an orthonormal basis under a unitary, hence itself an orthonormal
+basis of \(\mathcal F^2(\C)\). Equivalently, polynomials are dense in
+\(\mathcal F^2(\C)\); see \cite{Bargmann,Zhu}.
 \end{proof}
 
 \medskip
@@ -578,23 +579,25 @@ F(z) = \sum_{k=0}^\infty a_k e_k(z),
 = \|F\|_{\mathcal{F}^2} e^{\frac{\pi}{2}|z|^2}.
 \]
 
-(iii) Differentiating the reproducing identity
-\(F(z)=\langle F,K_z\rangle_{\mathcal F^2}\) in the parameter \(z\), and using
-\(\partial_z K_w(z) =\pi \overline{w}\,K_w(z)\) (which is to be read in the
-antiholomorphic variable \(w\), namely \(\overline{\partial_{\overline w}K_z(w)}=\pi w K_z(w)\)
-once one views \(z\mapsto K_z\) as an antiholomorphic family), we obtain
+(iii) Starting from the reproducing identity
+\(F(z)=\langle F,K_z\rangle_{\mathcal F^2}=\int_{\C}F(w)e^{\pi \overline{w}z}
+e^{-\pi |w|^2}\,dA(w)\) and differentiating in \(z\) under the integral sign
+(justified by the absolute convergence on compacta of \(z\), via the pointwise
+bound from (ii)), we obtain
 \[
-F'(z)=\pi \langle F,\overline{w}K_z(w)\rangle_{\mathcal F^2}.
+F'(z)=\pi \int_{\C}F(w)\,\overline{w}\,e^{\pi\overline{w}z}e^{-\pi |w|^2}\,dA(w)
+=\pi \langle F, w\,K_z\rangle_{\mathcal F^2},
 \]
-Cauchy--Schwarz then gives
+since \(\overline{wK_z(w)}=\overline{w}\,e^{\pi\overline{w}z}\). Cauchy--Schwarz
+then gives
 \[
 |F'(z)|
 \le
-\pi \|F\|_{\mathcal F^2}\,\|\overline{w}K_z\|_{\mathcal F^2}.
+\pi \|F\|_{\mathcal F^2}\,\|wK_z\|_{\mathcal F^2}.
 \]
 Now, by completing the square as in (i),
 \[
-\|\overline{w}K_z\|_{\mathcal F^2}^2
+\|wK_z\|_{\mathcal F^2}^2
 =
 \int_{\C} |w|^2 e^{2\pi\Re(w\overline z)-\pi |w|^2}\,dA(w)
 =
@@ -626,12 +629,13 @@ Let $F \in \mathcal{F}^2(\mathbb{C})$ and set
 T := \sup_{z \in \mathbb{C}} u_F(z).
 \]
 Then $0 \le T \le \|F\|_{\mathcal{F}^2}^2$, and $T = \|F\|_{\mathcal{F}^2}^2$
-if and only if $F$ is proportional to $F_w$ for some $w \in \mathbb{C}$.
+is attained if and only if $F$ is proportional to the reproducing kernel $K_w$
+for some $w \in \mathbb{C}$.
 \end{lemma}
 
 \begin{proof}
-The bound follows from Lemma \ref{lem:Fock-basic}(ii). The characterization of
-equality is the same as in the reproducing kernel inequality.
+The bound and the characterization of the equality case are immediate from
+Lemma~\ref{lem:Fock-basic}(ii).
     \end{proof}
 
 \medskip
@@ -666,13 +670,15 @@ The identity
 \[
 \int_\C u_F\,dA=\int_\C |F(z)|^2e^{-\pi |z|^2}\,dA(z)=\|F\|_{\mathcal F^2}^2
 \]
-is immediate from the definition of the Fock norm. Since \(F\in\mathcal F^2\),
-the standard reproducing-kernel estimate implies that \(u_F\) is bounded and
-continuous, and in fact \(u_F(z)\to 0\) as \(|z|\to \infty\); thus
+is immediate from the definition of the Fock norm. By
+Lemma~\ref{lem:Fock-basic}(ii)--(iii), \(u_F\) is bounded, continuous, and
+satisfies \(u_F(z)\to 0\) as \(|z|\to\infty\); thus
 \(u_F\in C_0(\C)\cap L^1(\C)\).
 
-The existence of a maximizing set for \(I_F(s)\), given by a superlevel set of
-\(u_F\), is the classical bathtub principle. The bound
+The existence of a maximizing set for \(I_F(s)\), of the form
+\(\{u_F>t\}\) (possibly together with part of \(\{u_F=t\}\)) with \(t\geq 0\)
+chosen so that the resulting set has measure \(s\), is the classical bathtub
+principle, which applies since \(u_F\in C_0(\C)\cap L^1(\C)\). The bound
 \[
 0\le I_F(s)\le \int_\C u_F\,dA=\|F\|_{\mathcal F^2}^2
 \]
@@ -699,6 +705,7 @@ Finally,
 \end{align*}
 by Cauchy--Schwarz.
 \end{proof}
+
 
 \subsection{From time-frequency analysis to free boundary problems}
 
@@ -751,7 +758,11 @@ u\in C(\R^2\setminus P).
 
 \begin{proof}
 By the Paley--Wiener--Schwartz theorem (see, e.g.,
-\cite[Theorem~7.3.1]{Hormander} or \cite[\S 9.3]{Folland}), the Fourier
+\cite{Hormander,Folland}), the Fourier
+% TODO(bib): the keys \texttt{Hormander} (Ark. Mat. 1991) and
+% \texttt{Folland} (Harmonic Analysis in Phase Space) do not contain
+% Paley--Wiener--Schwartz at the cited locations; a textbook entry
+% (Hormander Vol.~I or Rudin's Functional Analysis) should be added.
 transform $\widehat\omega(\xi,\eta)$ extends to an entire function on $\C^2$
 of exponential type, satisfying the bound
 \[
@@ -841,17 +852,35 @@ absorbing this region into the constants we obtain
 \qquad (\xi,\eta)\in\R^2,
 \]
 for some $C''>0$. Therefore $F|_{\R^2}\in L^2(\R^2)\cap L^1(\R^2)$. On
-$\C^2$, the analogous Paley--Wiener-type bound
+$\C^2$, $F$ is entire (by the formal-series construction above) and
+satisfies an exponential-type bound of the same rate $R$ as
+$\widehat\omega$. Indeed, on the open set
+$\Omega:=\{(\xi,\eta)\in\C^2:|\xi^2+\eta^2|\ge 1\}$ one has the pointwise
+estimate
 \[
-|F(\xi,\eta)|\le C'\,
-\frac{e^{R(|\Im \xi|+|\Im \eta|)}}{1+|\xi|^2+|\eta|^2}
+|F(\xi,\eta)|=\frac{|\widehat\omega(\xi,\eta)|}{|\xi^2+\eta^2|}
+\le C(1+|\xi|+|\eta|)^{N}\,e^{R(|\Im\xi|+|\Im\eta|)},
+\qquad (\xi,\eta)\in\Omega,
 \]
-follows from the same argument off a neighbourhood of $\{\xi^2+\eta^2=0\}$
-and from boundedness of $F$ on a fixed compact neighbourhood of $0$ inside
-$\C^2$, after enlarging $C'$ if necessary.
+by the Paley--Wiener bound on $\widehat\omega$. On the complement
+$\Omega^c=\{|\xi^2+\eta^2|<1\}$, the function $F$ is entire and the
+maximum modulus principle, applied on each complex line through a given
+point in $\Omega^c$ in a direction transverse to the variety
+$\{\xi^2+\eta^2=0\}$, bounds $|F|$ at points of $\Omega^c$ by a uniform
+constant times the supremum of $|F|$ on the boundary of a fixed thin
+tubular neighbourhood of that variety, where the previous estimate
+applies. Combining these two regimes and absorbing the resulting
+bookkeeping constant yields, after enlarging $C'$ if necessary,
+\[
+|F(\xi,\eta)|\le C'\,(1+|\xi|+|\eta|)^{N}\,
+e^{R(|\Im \xi|+|\Im \eta|)},
+\qquad (\xi,\eta)\in\C^2,
+\]
+which is the Paley--Wiener--Schwartz bound for a compactly supported
+distribution of order $\le N$ in $\overline{B(0,R)}$.
 
 By the Paley--Wiener--Schwartz theorem applied in the reverse direction
-(see again \cite[Theorem~7.3.1]{Hormander}), the entire function $F$
+(see again \cite{Hormander}), the entire function $F$
 satisfies an exponential-type bound on $\C^2$ with the same exponential
 rate $R$ as $\widehat\omega$, and integrable decay along $\R^2$, so it is
 the Fourier--Laplace transform of a distribution of order $\le N$
@@ -888,10 +917,17 @@ v(x,y) := \frac{1}{2\pi}(\log|\cdot|*\omega)(x,y)
 is a well-defined locally integrable function on $\R^2$ which solves
 $\Delta v = \omega$ in the sense of distributions; here $G(z)=\log|z|$ is
 (up to the standard normalisation $\tfrac{1}{2\pi}$) the fundamental solution
-of the Laplacian in $\R^2$, see, e.g., \cite[Ch.~II]{Garnett} or
-\cite[\S 6.2]{Folland} for the relevant logarithmic-potential theory, and
+of the Laplacian in $\R^2$, in the sense that
+$\Delta\bigl(\tfrac{1}{2\pi}\log|\cdot|\bigr)=\delta_0$, see, e.g.,
+\cite{Hormander} for the underlying distribution theory and
 \cite{Aharonov-Schiffer-Zalcman} for related representations in the planar
-quadrature-domain context. The difference $u-v$ is then a tempered
+quadrature-domain context.
+% TODO(bib): \texttt{Garnett} (Bounded Analytic Functions, GTM 236) does
+% not contain the previously-cited Ch.~II Thm~1.3 on continuity of
+% logarithmic potentials of bounded densities; consider adding Ransford
+% (Potential Theory in the Complex Plane) or Landkof (Foundations of
+% Modern Potential Theory) to the bibliography.
+The difference $u-v$ is then a tempered
 distribution which is harmonic on $\R^2$ (since
 $\Delta(u-v)=\omega-\omega=0$), and hence, being harmonic, real-analytic.
 Outside the union of the supports of $u$ and $\omega$, the function $v$ is
@@ -923,9 +959,16 @@ u(x,y)=\frac{1}{2\pi}\int_{\R^2}\log|(x,y)-(x',y')|\,f(x',y')\,
 +\frac{1}{2\pi}\sum_{j=1}^N c_j\,\log|(x,y)-p_j|.
 \]
 The first summand is the logarithmic potential of the bounded, compactly
-supported density \(f\) and is therefore continuous on all of \(\R^2\) -- this
-is a classical fact, see e.g.\ \cite[Ch.~II, Theorem~1.3]{Garnett} or
-\cite[\S 6.2]{Folland}. It is here that the absence of a continuous
+supported density \(f\in L^\infty(\R^2)\) and is therefore not merely
+continuous but in fact $C^{1,\alpha}(\R^2)$ for every $\alpha\in(0,1)$
+(by the standard Calder\'on--Zygmund / Schauder estimates applied to
+$\Delta=\partial_x^2+\partial_y^2$ with right-hand side in $L^\infty$
+of compact support, see, e.g., the Newtonian-potential discussion in
+\cite{Hormander}).
+The continuity used here is in fact elementary: by dominated convergence,
+$z\mapsto \int \log|z-w|\,f(w)\,\mathrm{d}A(w)$ is continuous since
+$\log|\cdot-w|$ is locally integrable in $w$ uniformly on compacta in $z$,
+and $f$ is bounded with compact support. It is here that the absence of a continuous
 singular part in $\omega$ is essential: a generic continuous singular
 measure (e.g.\ the Hausdorff measure on a Cantor-type set of positive
 $1$-capacity) gives rise to a logarithmic potential which need not be
@@ -950,7 +993,8 @@ Section~\ref{sec:classical-rigidity} below.
 % ==============================================================
 % Section 3
 % ==============================================================
-\section{Proof of Theorem \ref{thm:perturb}}
+
+\section{Proof of Theorem \ref{thm:perturb}}\label{sec:perturb-proof}
 
 \subsection{The disk inverse step}\label{subsec:disk-inverse-step}
 
@@ -1279,13 +1323,22 @@ Since \(U\) stays in a fixed neighborhood of \(D_{r_\lambda}\), we have
 \[
 |\zeta_j|>10M,\qquad 1\le j\le \ell .
 \]
-If some \(R_j\) were nonzero, choose one of maximal \(|\zeta_j|\) and call it
-\(\zeta_1\). Equal roots have already been grouped into the same polynomial
-coefficient \(R_1\), so for every competing root \(\zeta_j\ne\zeta_1\) one has
-\(\Re(\zeta_j\overline{\zeta_1})<|\zeta_1|^2\). Along
-\(w=t\overline{\zeta_1}\), \(t\to+\infty\), the term
-\(R_1(w)e^{\zeta_1w}\) dominates the remaining exponential-polynomial terms,
-so
+If some \(R_j\) were nonzero, choose one of maximal \(|\zeta_j|\) for which
+\(R_j\not\equiv0\) and relabel it \(\zeta_1\). Since the \(\zeta_j\) are
+\emph{distinct} (they are the distinct roots of \(\widetilde P^\#\)),
+the Cauchy--Schwarz inequality
+\(\Re(\zeta_j\overline{\zeta_1})\le|\zeta_j||\zeta_1|\) is strict whenever
+\(\zeta_j\ne\zeta_1\) and \(|\zeta_j|=|\zeta_1|\); when \(|\zeta_j|<|\zeta_1|\)
+strictness is automatic. Hence for every \(\zeta_j\ne\zeta_1\),
+\[
+\Re(\zeta_j\overline{\zeta_1})<|\zeta_1|^2 .
+\]
+Along \(w=t\overline{\zeta_1}\), \(t\to+\infty\), the term
+\(R_1(w)e^{\zeta_1w}\) has modulus \(|R_1(t\overline{\zeta_1})|e^{t|\zeta_1|^2}\),
+which grows like a positive power of \(t\) times \(e^{t|\zeta_1|^2}\)
+because \(R_1\not\equiv0\); every other term is bounded by a polynomial
+in \(t\) times \(e^{t\Re(\zeta_j\overline{\zeta_1})}\), with strictly smaller
+exponential rate. Therefore
 \[
 |H(t\overline{\zeta_1})|\ge c e^{t|\zeta_1|^2}
 \]
@@ -1309,535 +1362,11 @@ the inverse Bargmann transform \(f_0\) of \(P\) satisfies
 This proves the theorem.
 \end{proof}
 
-\iffalse
-The proof proceeds in four steps. In Step~0 we apply the coefficientwise conjugate differential operator $P^\#(\partial_w/\pi)$ to \eqref{eq:eigenfunction-general-new} in order to symmetrize the integrand and reduce matters to a moment identity for $|P|^2 e^{-\pi|z|^2}$. In Step~1 we construct an auxiliary radially symmetric domain $U_0$ for which the corresponding eigenvalue is the constant function $\lambda$; this is achieved by perturbing a Daubechies disk via the Isakov free-boundary scheme of Proposition~\ref{prop:isakov-tailored}. In Step~2 we use a Laplace transform in the variable $w$ to convert the polynomial right-hand side $\lambda Q(w)$ into the rational right-hand side required by Proposition~\ref{prop:cherednichenko-tailored} and produce a domain $U$ satisfying the symmetrized moment identity. Finally, in Step~3 we invert the differentiation of Step~0 by analyzing the entire solutions of the constant-coefficient ODE $P^\#(\partial_w/\pi)H=0$ and ruling out nontrivial exponential solutions through a growth estimate.
-
-\medskip
-\noindent\textbf{Step 0: a first reduction.}
-For a polynomial
-\[
-R(z)=\alpha_0+\alpha_1 z+\cdots+\alpha_n z^n,
-\]
-define the differential operator
-\[
-R(\partial_w/\pi):=\sum_{k=0}^n \alpha_k\Big(\frac{\partial_w}{\pi}\Big)^k.
-\]
-We apply $P^\#(\partial_w/\pi)$ to both sides of \eqref{eq:eigenfunction-general-new}. The right-hand side is the polynomial $\lambda P(w)$, on which the differential operator acts in the obvious way. For the left-hand side, write
-\[
-F(w):=\int_U P(z)e^{-\pi|z|^2}e^{\pi \overline z w}\,dA(z).
-\]
-Since $U$ is bounded, the integrand is jointly continuous on $\overline U\times \C$, and for every compact set $K\subset\C$ and every nonnegative integer $j$ one has the uniform bound
-\[
-\big|\partial_w^{\,j}\big(P(z)e^{-\pi|z|^2}e^{\pi\overline z w}\big)\big|
-\le
-\big(\pi\,\sup_{z\in U}|z|\big)^{j}\,\sup_{z\in U}\!\big(|P(z)|e^{-\pi|z|^2}\big)\,e^{\pi(\sup_{z\in U}|z|)\sup_{w\in K}|w|},
-\]
-valid for $(z,w)\in U\times K$. The right-hand side is integrable on the bounded set $U$, so dominated convergence justifies differentiating under the integral sign arbitrarily often, and $F$ is entire. Combining this with the identity
-\[
-\Big(\frac{\partial_w}{\pi}\Big)^j e^{\pi \overline z w}=\overline z^{\,j} e^{\pi \overline z w},
-\]
-we obtain
-\[
-P^\#(\partial_w/\pi)F(w)
-=
-\int_U P(z)\,\overline{P(z)}\,e^{-\pi|z|^2}e^{\pi\overline z w}\,dA(z)
-=
-\int_U |P(z)|^2 e^{-\pi|z|^2}e^{\pi\overline z w}\,dA(z).
-\]
-Hence \eqref{eq:eigenfunction-general-new} is equivalent to
-\begin{equation}\label{eq:almost-reduced-new}
-\int_U |P(z)|^2 e^{-\pi|z|^2} e^{\pi \overline z w}\,dA(z)=\lambda Q(w),
-\qquad w\in\C,
-\end{equation}
-where
-\[
-Q(w):=P^\#(\partial_w/\pi)\big(P(w)\big).
-\]
-Strictly speaking, applying $P^\#(\partial_w/\pi)$ only gives the implication \eqref{eq:eigenfunction-general-new}~$\Rightarrow$~\eqref{eq:almost-reduced-new}; the converse implication will be recovered in Step~3 by an ODE-theoretic argument. Our first task is therefore to construct a domain $U$ satisfying \eqref{eq:almost-reduced-new}.
-
-\medskip
-\noindent\textbf{Step 1: construction of an auxiliary domain.}
-We begin by constructing a $C^2$ domain $U_0$, close to a fixed disk, for which
-\begin{equation}\label{eq:first-domain-new}
-\int_{U_0} |P(z)|^2 e^{-\pi|z|^2} e^{\pi \overline z w}\,dA(z)=\lambda,
-\qquad w\in\C.
-\end{equation}
-Note that \eqref{eq:first-domain-new} is the special case of \eqref{eq:almost-reduced-new} in which the right-hand side is the constant $\lambda$; it will serve as the unperturbed reference for Step~2.
-
-Let $\psi\in C_c^\infty(\C)$ be a nonnegative radial function such that
-\[
-\supp \psi \subset D_2(0)\setminus D_1(0),
-\qquad
-\int_\C \psi\,dA=1,
-\]
-and set
-\[
-\psi_\delta(z):=\delta^{-2}\psi(z/\delta),\qquad 0<\delta<1.
-\]
-Then $\psi_\delta$ has total mass one and $\supp\psi_\delta\subset D_{2\delta}(0)\setminus D_\delta(0)$. Since $\psi_\delta$ is radial, expanding $e^{\pi\overline z w}=\sum_{j\ge 0}(\pi\overline z w)^j/j!$ and integrating in polar coordinates kills every angular harmonic with $j\ge 1$, so that
-\[
-\int_{\C} \psi_\delta(z)e^{-\pi|z|^2}e^{\pi \overline z w}\,dA(z)=c_\delta,
-\qquad w\in\C,
-\]
-where
-\[
-c_\delta:=\int_{\C}\psi_\delta(z)e^{-\pi|z|^2}\,dA(z)>0.
-\]
-Note that $c_\delta\to 1$ as $\delta\to 0$. Hence \eqref{eq:first-domain-new} is equivalent to
-\begin{equation}\label{eq:second-domain-new}
-\int_{U_0} |P(z)|^2 e^{-\pi|z|^2} e^{\pi \overline z w}\,dA(z)
-=
-\frac{\lambda}{c_\delta}
-\int_{\C}\psi_\delta(z)e^{-\pi|z|^2}e^{\pi \overline z w}\,dA(z).
-\end{equation}
-
-We shall construct a compactly supported distributional solution of the Poisson equation
-\begin{equation}\label{eq:inverse-first-new}
-\Delta u_0
-=
-|P(z)|^2 e^{-\pi|z|^2}\mathbf{1}_{U_0}
--\frac{\lambda}{c_\delta}\psi_\delta(z)e^{-\pi|z|^2}.
-\end{equation}
-Once such a solution has been constructed, the moment identity \eqref{eq:first-domain-new} follows by applying the same Fourier-analytic divisibility argument used in the proof of Theorem~\ref{thm:eig-loc-U} to the corresponding compactly supported distribution
-\[
-\omega_0:=
-|P(z)|^2e^{-\pi|z|^2}\mathbf 1_{U_0}
--\frac{\lambda}{c_\delta}\psi_\delta(z)e^{-\pi|z|^2}.
-\]
-Indeed, \eqref{eq:inverse-first-new} says exactly that $\Delta u_0=\omega_0$, and since $u_0$ is compactly supported, the vanishing of $\widehat{\omega_0}$ on the two characteristic lines of the Bargmann transform is equivalent to \eqref{eq:first-domain-new}.
-
-\smallskip
-\emph{Unperturbed reference.} We first treat the unperturbed case $P\equiv 1$. By the theorem of Daubechies \cite{Daubechies}, there exists a disk $D_0$ centered at the origin such that
-\[
-\int_{D_0} e^{-\pi|z|^2}e^{\pi \overline z w}\,dA(z)=\lambda,
-\qquad w\in\C.
-\]
-Equivalently, $\Delta u_*=e^{-\pi|z|^2}\mathbf 1_{D_0}-\lambda\,\delta_0$ admits a compactly supported radial solution $u_*$. This solution is unique among compactly supported distributional solutions: by radial symmetry, the Poisson equation reduces to the ODE
-\[
-\frac{1}{r}\big(r u_*'(r)\big)'=e^{-\pi r^2}\mathbf 1_{(0,r_0)}(r),\qquad r>0,
-\]
-together with the asymptotic condition $u_*'(r)\sim -\lambda/(2\pi r)$ as $r\to 0^+$ enforced by the distributional source \(-\lambda\delta_0\). Integrating twice with the natural boundary condition that $u_*$ vanish for $r\ge r_0$ gives a unique radial profile. Explicitly,
-\[
-u_*(r)=\frac{\lambda}{2\pi}\log\frac{r_0}{r}-\int_r^{r_0}\frac{1}{s}\int_0^{s}\rho\,e^{-\pi\rho^2}\,d\rho\,ds,
-\qquad 0<r\le r_0,
-\]
-and $u_*\equiv 0$ for $r\ge r_0$, where $r_0$ is the radius of $D_0$. From this explicit formula one verifies directly:
-\begin{itemize}
-\item $\Delta u_*=e^{-\pi|z|^2}>0$ on $D_0\setminus\{0\}$;
-\item $u_*=0$ on $\partial D_0$;
-\item the logarithmic singularity created by the mass \(-\lambda\delta_0\) has positive coefficient $\lambda/(2\pi)$ in \(\log(r_0/r)\), so $u_*(r)\to+\infty$ as $r\to 0^+$.
-\end{itemize}
-Equivalently, if \(A(s):=\int_0^s \rho e^{-\pi\rho^2}\,d\rho\), then the
-Daubechies identity gives \(A(r_0)=\lambda/(2\pi)\), and the displayed formula
-can be rewritten as
-\[
-u_*(r)=\int_r^{r_0}\frac{A(r_0)-A(s)}{s}\,ds>0,
-\qquad 0<r<r_0.
-\]
-In particular \(u_*>0\) on every compact subset of \(D_0\setminus\{0\}\).
-
-For $\delta$ small enough that $\supp\psi_\delta\subset D_0$, the same argument yields a compactly supported radial solution $\widetilde u_0$ of
-\begin{equation}\label{eq:unperturbed-free-boundary-new}
-\Delta \widetilde u_0
-=
-e^{-\pi|z|^2}\mathbf{1}_{D_0}
--\frac{\lambda}{c_\delta}\psi_\delta(z)e^{-\pi|z|^2},
-\end{equation}
-and $\widetilde u_0$ is uniquely determined among compactly supported radial distributional solutions by the same ODE reduction (the smooth radial source on the right-hand side replaces the Dirac mass, and the requirements of compact support and continuity through the origin pin down the integration constants).
-
-We claim that, for $\delta$ sufficiently small,
-\[
-\widetilde u_0>0 \qquad \text{in } D_0.
-\]
-To see this, we first verify that
-\begin{equation}\label{eq:psi-delta-to-mass}
-\frac{\lambda}{c_\delta}\,\psi_\delta(z)\,e^{-\pi|z|^2}\xrightarrow[\delta\to 0]{}\lambda\,\delta_0
-\qquad \text{in }\mathcal D'(\C).
-\end{equation}
-Indeed, for any $\varphi\in C_c^\infty(\C)$,
-\[
-\Big\langle \frac{\lambda}{c_\delta}\psi_\delta\, e^{-\pi|\cdot|^2},\varphi\Big\rangle
-=
-\frac{\lambda}{c_\delta}\int_\C \psi_\delta(z)\,e^{-\pi|z|^2}\varphi(z)\,dA(z).
-\]
-Decompose $\varphi(z)e^{-\pi|z|^2}=\varphi(0)+r(z)$ with $r$ continuous and $r(0)=0$; then
-\[
-\frac{1}{c_\delta}\int_\C \psi_\delta(z)\,e^{-\pi|z|^2}\varphi(z)\,dA(z)
-=
-\varphi(0)\cdot\frac{1}{c_\delta}\int_\C\psi_\delta(z)e^{-\pi|z|^2}\,dA(z)
-+
-\frac{1}{c_\delta}\int_\C\psi_\delta(z)\,r(z)\,dA(z).
-\]
-The first summand equals $\varphi(0)$. The second is bounded in absolute value by $c_\delta^{-1}\,\|\psi_\delta\|_{L^1}\,\sup_{|z|\le 2\delta}|r(z)|=c_\delta^{-1}\sup_{|z|\le 2\delta}|r(z)|\to 0$ as $\delta\to 0$, since $r$ is continuous, $r(0)=0$, and $c_\delta\to 1$. Multiplying by $\lambda$ proves \eqref{eq:psi-delta-to-mass}.
-
-In particular, $\Delta\widetilde u_0\to\Delta u_*$ in $\mathcal D'(\C)$. To upgrade this to local uniform convergence, we use the Newtonian-potential representations of $\widetilde u_0$ and $u_*$ together with the harmonic correction enforcing compact support: writing
-\[
-\widetilde u_0(z)
-=
-\frac{1}{2\pi}\int_\C \log\frac{1}{|z-\zeta|}\Big(-e^{-\pi|\zeta|^2}\mathbf 1_{D_0}(\zeta)+\frac{\lambda}{c_\delta}\psi_\delta(\zeta)e^{-\pi|\zeta|^2}\Big)dA(\zeta)+h_\delta(z),
-\]
-\[
-u_*(z)
-=
-\frac{1}{2\pi}\int_\C \log\frac{1}{|z-\zeta|}\Big(-e^{-\pi|\zeta|^2}\mathbf 1_{D_0}(\zeta)\Big)dA(\zeta)+\frac{\lambda}{2\pi}\log\frac{1}{|z|}+h_*(z),
-\]
-where $h_\delta,h_*$ are harmonic functions chosen so as to enforce compact support, the contribution from $-e^{-\pi|\zeta|^2}\mathbf 1_{D_0}$ cancels in the difference and one is left with
-\[
-\widetilde u_0(z)-u_*(z)
-=
-\frac{\lambda}{2\pi}\Big(\int_\C \log\frac{1}{|z-\zeta|}\frac{1}{c_\delta}\psi_\delta(\zeta)e^{-\pi|\zeta|^2}\,dA(\zeta)-\log\frac{1}{|z|}\Big)+\big(h_\delta(z)-h_*(z)\big).
-\]
-By dominated convergence applied to the logarithmic potential with kernel uniformly bounded on compact subsets of $\overline D_0\setminus\{0\}$, together with \eqref{eq:psi-delta-to-mass}, the displayed difference tends to zero locally uniformly on $\overline D_0\setminus\{0\}$. Combined with interior elliptic regularity for $\Delta(\widetilde u_0-u_*)$, which is harmonic on any compact subset of $D_0\setminus\{0\}$ once $\delta$ is so small that $\supp\psi_\delta$ is contained in any prescribed neighborhood of the origin, this gives
-\[
-\widetilde u_0\xrightarrow[\delta\to 0]{}u_* \qquad \text{locally uniformly on $\overline D_0\setminus\{0\}$}.
-\]
-Since $u_*$ is strictly positive on every compact subset of $D_0\setminus\{0\}$ and continuous up to $\partial D_0$ where it vanishes, this implies $\widetilde u_0>0$ on every fixed compact subset of $D_0\setminus\{0\}$ for all $\delta$ small enough; the strict inequality $u_*>0$ at interior points provides the room needed to absorb the local-uniform error. On the small annulus $\delta\le|z|\le 2\delta$, where $\psi_\delta$ is supported, the explicit profile near the origin shows that $\widetilde u_0$ is comparable to a truncated logarithm $-\log(|z|/r_0)$ shifted by an $O(1)$ smooth correction, and is therefore strictly positive. We conclude that $\widetilde u_0>0$ throughout $D_0$ for $\delta>0$ small.
-
-\smallskip
-\emph{Perturbed problem via Isakov.}
-We now invoke the perturbative free-boundary theorem of Isakov \cite{Isakov}, given by Proposition~\ref{prop:isakov-tailored}, verifying its hypotheses carefully. Set
-\[
-f_0(z):=e^{-\pi|z|^2}\Big(1-\frac{\lambda}{c_\delta}\psi_\delta(z)\Big).
-\]
-Since $\psi_\delta\in C_c^\infty(\C)$, we have $f_0\in C^\infty(\R^2)$, hence in particular $f_0\in C^5(\R^2)$. If $\delta$ is chosen so small that $\supp\psi_\delta\subset D_0$, then on $\partial D_0$,
-\[
-f_0(z)=e^{-\pi|z|^2}>0.
-\]
-Then \eqref{eq:unperturbed-free-boundary-new} becomes
-\[
-\Delta \widetilde u_0=f_0\,\mathbf{1}_{D_0}
-\qquad \text{in }\C,
-\]
-with \(\widetilde u_0=0\) on \(\C\setminus D_0\) and \(\widetilde u_0>0\) in \(D_0\), by the positivity established above. Since \(\widetilde u_0\) was constructed as the compactly supported radial solution of \eqref{eq:unperturbed-free-boundary-new}, it is \(C^1\) across \(\partial D_0\); equivalently \(\widetilde u_0=\partial_\nu \widetilde u_0=0\) on \(\partial D_0\). Thus all hypotheses of Proposition~\ref{prop:isakov-tailored} are satisfied with \(\Omega_0=D_0\).
-
-For the perturbed source, define
-\[
-f(z):=e^{-\pi|z|^2}\Big(|P(z)|^2-\frac{\lambda}{c_\delta}\psi_\delta(z)\Big).
-\]
-Since $P$ is a polynomial, $f\in C^\infty(\R^2)$ as well. Moreover, for any fixed disk $\Omega'\supset D_0$, the $C^5(\Omega')$-norm of $f-f_0$ is controlled by the coefficients of $P-1$: writing
-\[
-|P(z)|^2-1=\sum_{k=1}^N b_k z^k+\sum_{k=1}^N \overline{b_k}\,\overline z^{\,k}+\sum_{k,\ell=1}^N b_k\overline{b_\ell}\,z^k\overline z^{\,\ell},
-\]
-which is a polynomial in $z,\overline z$ that vanishes when all $b_k=0$ and depends polynomially on the coefficients, a standard estimate yields
-\[
-\|f-f_0\|_{C^5(\Omega')}\le C(\Omega',N,\lambda)\max_{1\le k\le N}|b_k|.
-\]
-Hence, if the coefficients $b_k$ are sufficiently small, we may arrange that
-\[
-\|f-f_0\|_{C^5(\Omega')}<\varepsilon_1,
-\]
-where $\varepsilon_1$ is the smallness threshold furnished by Proposition~\ref{prop:isakov-tailored}. Applying that proposition, we obtain a \(C^2\) domain \(U_0\), represented as a small normal deformation of \(D_0\), and a compactly supported function \(u_0\) such that
-\[
-\Delta u_0=f\,\mathbf{1}_{U_0}
-\qquad \text{in }\C,
-\]
-with \(u_0=0\) on \(\C\setminus U_0\), \(\partial_\nu u_0=0\) on \(\partial U_0\), and \(u_0>0\) in \(U_0\).
-If the perturbation is sufficiently small, then $U_0$ is a small $C^2$ deformation of $D_0$, and since $\supp\psi_\delta\subset D_0$ we still have
-\[
-\supp\psi_\delta\subset U_0.
-\]
-Therefore
-\[
-\Delta u_0
-=
-|P(z)|^2e^{-\pi|z|^2}\mathbf{1}_{U_0}
--\frac{\lambda}{c_\delta}\psi_\delta(z)e^{-\pi|z|^2},
-\]
-so \eqref{eq:inverse-first-new} holds. This proves \eqref{eq:first-domain-new}, and completes Step~1: we have produced a $C^2$ domain $U_0$, lying in a small $C^2$-neighborhood of the Daubechies disk $D_0$, on which the symmetrized moment identity holds with constant right-hand side $\lambda$. We will use $U_0$ in Step~2 as the unperturbed reference for the application of Proposition~\ref{prop:cherednichenko-tailored}.
-
-\medskip
-\noindent\textbf{Step 2: construction of a domain satisfying \eqref{eq:almost-reduced-new}.}
-With the auxiliary domain $U_0$ at our disposal, we now seek a $C^2$ domain $U$ for which the right-hand side of the moment identity is the polynomial $\lambda Q(w)$ rather than the constant $\lambda$. The crucial observation is that integrating the parameter $w$ along the positive real axis against an exponential weight converts \eqref{eq:almost-reduced-new} into an explicit identity for a weighted Cauchy transform; this is exactly the form to which Proposition~\ref{prop:cherednichenko-tailored} of Cherednichenko \cite{Cherednichenko} applies. The reformulation we are about to perform is closely related to the quadrature-domain framework developed in \cite{Gustafsson,Gustafsson-Shahgholian,Karp,Shahgholian}.
-
-Restrict \eqref{eq:almost-reduced-new} to real values $w=t>0$, multiply by $e^{-\pi \zeta t}$, and integrate in $t>0$. If
-\[
-\zeta>\sup_{z\in U}|z|,
-\]
-the integrand of the resulting double integral is absolutely integrable: indeed, for real $\zeta>\sup_{z\in U}|z|$,
-\[
-\Re(\overline z-\zeta)\le |z|-\zeta<0
-\qquad \text{for every } z\in U,
-\]
-so
-\[
-\int_U \int_0^\infty \big|e^{\pi(\overline z-\zeta)t}\big|\,dt\,|P(z)|^2 e^{-\pi|z|^2}\,dA(z)
-\le
-\int_U \frac{|P(z)|^2 e^{-\pi|z|^2}}{\pi(\zeta-|z|)}\,dA(z)<\infty,
-\]
-because $U$ is bounded. Fubini's theorem therefore applies and yields
-\[
-\int_U \left(\int_0^\infty e^{\pi(\overline z-\zeta)t}\,dt\right)|P(z)|^2e^{-\pi|z|^2}\,dA(z)
-=
-\lambda\int_0^\infty e^{-\pi\zeta t}Q(t)\,dt.
-\]
-Writing
-\[
-Q(w)=\alpha_0+\alpha_1 w+\cdots+\alpha_n w^n,
-\]
-we obtain
-\[
-\frac{1}{\pi}\int_U \frac{|P(z)|^2e^{-\pi|z|^2}}{\zeta-\overline z}\,dA(z)
-=
-\lambda \sum_{k=0}^n \alpha_k \int_0^\infty e^{-\pi \zeta t} t^k\,dt.
-\]
-Since
-\[
-\int_0^\infty e^{-\pi \zeta t} t^k\,dt
-=
-\frac{\Gamma(k+1)}{(\pi \zeta)^{k+1}},
-\]
-it follows that
-\[
-\frac{1}{\pi}\int_U \frac{|P(z)|^2e^{-\pi|z|^2}}{\zeta-\overline z}\,dA(z)
-=
-\lambda \sum_{k=0}^n \alpha_k \frac{\Gamma(k+1)}{\pi^{k+1}\zeta^{k+1}}.
-\]
-
-To put this into the form of a weighted Cauchy transform, write
-\[
-E^\ast:=\{\overline z:z\in E\}
-\]
-for reflection across the real axis, and let
-\[
-V:=U^\ast,
-\qquad
-\mu(w):=|P(\overline w)|^2 e^{-\pi|w|^2}.
-\]
-The change of variables $w=\overline z$ yields
-\[
-\int_U \frac{|P(z)|^2e^{-\pi|z|^2}}{\zeta-\overline z}\,dA(z)
-=
-\int_V \frac{\mu(w)}{\zeta-w}\,dA(w)
-=
-g_V(\zeta).
-\]
-Hence
-\begin{equation}\label{eq:analytic-construct-new}
-g_V(\zeta)
-=
-\lambda \sum_{k=0}^n \alpha_k \frac{\Gamma(k+1)}{\pi^k \zeta^{k+1}},
-\qquad \zeta\in \R_+, \ \zeta\gg 1.
-\end{equation}
-Since both sides are holomorphic for large $\zeta$, analytic continuation gives the desired identity on $\C\setminus\overline V$.
-
-Conversely, suppose a domain $V$ satisfies \eqref{eq:analytic-construct-new}. Expanding $1/(\zeta-w)=\sum_{k\ge 0}w^k/\zeta^{k+1}$ for $|\zeta|$ large and matching coefficients yields the moments
-\[
-\int_V w^k\mu(w)\,dA(w)=\lambda\,\alpha_k\,\frac{\Gamma(k+1)}{\pi^k},
-\qquad 0\le k\le n,
-\]
-together with the vanishing of the corresponding moments for $k>n$ (since $Q$ has degree $n$). These moment identities recover \eqref{eq:almost-reduced-new} for the reflected domain \(U=V^\ast\) via the Laplace-transform calculation read in reverse, in conjunction with the identity theorem for entire functions. Thus the reflection \(V=U^\ast\) is merely a bookkeeping device that places the kernel in the form $1/(\zeta-w)$ required by the weighted Cauchy transform formalism.
-
-Let $g$ denote the rational function on the right-hand side of \eqref{eq:analytic-construct-new}. We now verify the hypotheses of Proposition~\ref{prop:cherednichenko-tailored}. Since
-\[
-Q(w)=P^\#(\partial_w/\pi)\big(P(w)\big),
-\]
-and $P(0)=1$, the constant term of $Q$ is
-\[
-Q(0)=1+\sum_{k=1}^N \frac{k!}{\pi^k}|b_k|^2.
-\]
-In particular,
-\[
-Q(0)>0,
-\]
-so the leading term in the expansion of $g$ at infinity is
-\[
-\frac{\lambda Q(0)}{z},
-\]
-and consequently
-\[
-g(z)\to 0,
-\qquad
-z\,g(z)\to \lambda Q(0)>0
-\qquad \text{as } z\to\infty.
-\]
-Thus \eqref{eq:appendix-g-hypotheses} holds, with $c_0=\lambda Q(0)$.
-
-We next verify the rational-data smallness condition in Proposition~\ref{prop:cherednichenko-tailored}. The weighted Cauchy transform formulation is written for the reflected domain, so set
-\[
-V_0:=U_0^\ast.
-\]
-Since \(U_0\) was obtained in Step~1 as a small perturbation of the Daubechies disk \(D_0\), the reflected domain \(V_0\) is also a small perturbation of \(D_0\). We choose concentric disks \(V_1\) and \(V_2\), centered at the center of \(D_0\), with radii, say, \((1-10^{-3})\) and \((1+10^{-3})\) times the radius of \(D_0\), after shrinking the perturbation so that
-\[
-\overline{V_1}\subset V_0,\qquad \overline{V_0}\subset V_2 .
-\]
-By Step~1,
-\[
-\int_{U_0}|P(z)|^2e^{-\pi|z|^2}e^{\pi \overline zw}\,dA(z)=\lambda,
-\qquad w\in \C.
-\]
-Repeating the Laplace-transform argument above, with the constant $\lambda$ in place of the polynomial $\lambda Q(w)$, gives
-\[
-g_{V_0}(z)=\frac{\lambda}{z}
-\qquad \text{for } z\in \C\setminus \overline{V_0},
-\]
-where \(g_{V_0}\) denotes the weighted Cauchy transform with weight \(\mu(w)=|P(\overline w)|^2e^{-\pi|w|^2}\). Consequently, on \(\partial V_2\),
-\[
-g(z)-g_{V_0}(z)
-=
-\lambda \sum_{k=1}^n \alpha_k \frac{\Gamma(k+1)}{\pi^k z^{k+1}}
-+
-\lambda\,(Q(0)-1)\,\frac1z .
-\]
-The right-hand side belongs to the finite-dimensional real rational space
-\[
-\mathcal R_n:=\operatorname{span}_{\R}
-\{z^{-1},z^{-2},iz^{-2},\ldots,z^{-(n+1)},iz^{-(n+1)}\}.
-\]
-Every element of \(\mathcal R_n\) has real \(z^{-1}\)-coefficient. It is
-holomorphic on \(\C\setminus\overline{V_1}\), has only a pole at the origin,
-and vanishes at infinity. Since all norms on the finite-dimensional
-space \(\mathcal R_n\) are equivalent, there is a constant
-\(C(V_1,V_2,\lambda,n)\) such that
-\[
-\big\|(g-g_{V_0})|_{\partial V_2}\big\|_{C^2(\partial V_2)}
-\le
-C(V_1,V_2,\lambda,n)
-\Big(|Q(0)-1|+\sum_{k=1}^n |\alpha_k|\Big).
-\]
-Each coefficient \(\alpha_k\) of \(Q-1\) depends polynomially on the
-coefficients of \(P-1\) and their conjugates, with no constant term, and
-therefore tends to zero with \(\max_{1\le j\le N}|b_j|\). Hence, by choosing
-the coefficients sufficiently small, we may ensure that
-\[
-(g-g_{V_0})\in\mathcal R_n,
-\qquad
-\big\|(g-g_{V_0})|_{\partial V_2}\big\|_{C^2(\partial V_2)}<\varepsilon_0,
-\]
-where \(\varepsilon_0\) is the smallness threshold provided by Proposition~\ref{prop:cherednichenko-tailored}. Applying that proposition, we obtain a \(C^2\) domain \(\widetilde U\) such that
-\[
-g_{\widetilde U}(z)=g(z),
-\qquad z\in \C\setminus \overline{\widetilde U}.
-\]
-Setting \(U:=\widetilde U^\ast\), the converse part of the Laplace-transform argument gives \eqref{eq:almost-reduced-new}.
-
-Finally, since \(\widetilde U\subset V_2\), the domain \(U=\widetilde U^\ast\) is contained in \(V_2^\ast=V_2\), and \(V_2\) is fixed once \(\lambda\) is fixed. By shrinking the admissible size of the coefficients of \(P-1\) once more we may ensure that
-\[
-P^\#(z)\neq 0
-\qquad \text{for all } z\in V_2.
-\]
-In particular,
-\[
-P^\#(z)\neq 0
-\qquad \text{for all } z\in U.
-\]
-This non-vanishing of $P^\#$ on $U$ will play no direct role until Step~3, where it is needed to push the zeros of the characteristic polynomial $\widetilde P^\#(\zeta)=P^\#(\zeta/\pi)$ to large modulus.
-
-\medskip
-\noindent\textbf{Step 3: recovery of the original eigenvalue equation.}
-It remains to upgrade the symmetrized identity \eqref{eq:almost-reduced-new} to the original equation \eqref{eq:eigenfunction-general-new}. Define
-\[
-G(w):=\int_U P(z)e^{-\pi|z|^2}e^{\pi \overline z w}\,dA(z),
-\qquad w\in\C.
-\]
-Then $G$ is entire (the integrand is entire in $w$, and the dominated-convergence justification of differentiation under the integral sign carried out in Step~0 applies verbatim with $P$ in place of $|P|^2$). By construction, \eqref{eq:almost-reduced-new} holds, so applying $P^\#(\partial_w/\pi)$ to $G$ yields, by the same argument as in Step~0,
-\[
-P^\#(\partial_w/\pi)G(w)=\int_U|P(z)|^2 e^{-\pi|z|^2}e^{\pi\overline z w}\,dA(z)=\lambda Q(w)=P^\#(\partial_w/\pi)(\lambda P)(w),
-\qquad w\in \C.
-\]
-Hence
-\[
-H:=G-\lambda P
-\]
-is an entire function satisfying the constant-coefficient linear differential equation
-\[
-P^\#(\partial_w/\pi)H=0.
-\]
-
-Introduce the characteristic polynomial of this operator,
-\[
-\widetilde P^\#(\zeta):=P^\#(\zeta/\pi),
-\]
-and let $\zeta_1,\dots,\zeta_\ell$ be its zeros, with multiplicities $m_1,\dots,m_\ell$. By the structure theorem for entire solutions of constant-coefficient linear differential equations of finite exponential type (see e.g.\ \cite[Ch.\ XII]{Hormander}), every entire solution of
-\[
-P^\#(\partial_w/\pi)H=0
-\]
-of at most exponential type is of the form
-\begin{equation}\label{eq:exp-decomposition-step3}
-H(w)=\sum_{j=1}^\ell R_j(w)\,e^{\zeta_j w},
-\end{equation}
-where each $R_j$ is a polynomial of degree strictly less than $m_j$.
-
-We will reach a contradiction by showing that all $R_j$ must vanish. First, since $P^\#$ has no zeros on $V_2$, and the zeros of $\widetilde P^\#(\zeta)=P^\#(\zeta/\pi)$ are obtained by scaling those of $P^\#$ by the factor $\pi$, by choosing the coefficients of $P-1$ sufficiently small we may guarantee that all zeros of $\widetilde P^\#$ stay at distance at least $10\sup_{z\in U}|z|$ from the origin:
-\[
-|\zeta_j|>10\sup_{z\in U}|z|=:10M,
-\qquad 1\le j\le \ell.
-\]
-(Indeed, the roots of $\widetilde P^\#$ depend continuously on its coefficients, and at $b=0$ the polynomial $\widetilde P^\#$ degenerates to the constant $1$, which has no roots; for small $b$ the roots therefore lie in any prescribed neighborhood of infinity.)
-
-Next, we establish an upper bound on $H$ from its definition. Since $P$ is a fixed polynomial of degree $\le N$ and $U$ is bounded with $M=\sup_{z\in U}|z|$,
-\[
-|G(w)|
-\le
-\int_U |P(z)|e^{-\pi|z|^2}e^{\pi |z||w|}\,dA(z)
-\le
-\Big(\sup_{z\in U}|P(z)|e^{-\pi|z|^2}\Big)\,|U|\,e^{\pi M|w|}
-\le
-C(1+|w|)^N e^{\pi M|w|},
-\qquad w\in\C,
-\]
-where the first inequality uses $|e^{\pi\overline z w}|\le e^{\pi|z||w|}$ and in the last inequality we have absorbed $\sup_{z\in U}|P(z)|\le C_0(1+M)^N$ and the area $|U|$ into the constant $C$. Since every polynomial is dominated by $e^{\varepsilon |w|}$ for arbitrary $\varepsilon>0$, it follows that for every $\varepsilon>0$ there exists $C_\varepsilon>0$ such that
-\[
-|G(w)|\le C_\varepsilon e^{(\pi+\varepsilon)M|w|},
-\qquad w\in \C.
-\]
-As $\lambda P(w)$ grows only polynomially in $|w|$, the same estimate holds for $H$:
-\[
-|H(w)|\le C'_\varepsilon e^{(\pi+\varepsilon)M|w|}.
-\]
-In particular, $H$ has finite exponential type at most $\pi M$, which justifies the use of \eqref{eq:exp-decomposition-step3}.
-
-Suppose, for contradiction, that some $R_j$ is not identically zero. By a small generic rotation of the coordinate $w$ if necessary, we may assume that the zeros $\zeta_j$ are arranged so that there is a unique $\zeta_1$ realizing
-\[
-|\zeta_1|=\max_j |\zeta_j|
-\qquad\text{and}\qquad
-R_1\not\equiv 0,
-\]
-and that, for every other zero $\zeta_j$ with $j\ne 1$,
-\[
-\Re(\zeta_j\overline{\zeta_1})<|\zeta_1|^2.
-\]
-(The strict inequality $\Re(\zeta_j\overline{\zeta_1})\le |\zeta_j||\zeta_1|<|\zeta_1|^2$ holds automatically when $|\zeta_j|<|\zeta_1|$; ties at maximal modulus are broken by the rotation.) Then, along the ray
-\[
-w=t\,\overline{\zeta_1},
-\qquad t>0,
-\]
-the term $R_1(w)e^{\zeta_1 w}$ has modulus $|R_1(t\overline{\zeta_1})|e^{t|\zeta_1|^2}$, while every other term $R_j(w)e^{\zeta_j w}$ has modulus bounded by a polynomial in $t$ times $e^{t\,\Re(\zeta_j\overline{\zeta_1})}$, with $\Re(\zeta_j\overline{\zeta_1})<|\zeta_1|^2$. Hence the dominant exponential term yields
-\[
-|H(t\overline{\zeta_1})|\ge c\,e^{t|\zeta_1|^2}
-\]
-for all sufficiently large $t$, with $c>0$.
-
-Evaluating the upper bound on $H$ at $w=t\overline{\zeta_1}$ gives
-\[
-|H(t\overline{\zeta_1})|
-\le
-C'_\varepsilon e^{(\pi+\varepsilon)Mt|\zeta_1|}.
-\]
-Comparing with the lower bound $|H(t\overline{\zeta_1})|\ge c\,e^{t|\zeta_1|^2}$ and letting $t\to\infty$, we obtain
-\[
-|\zeta_1|^2\le (\pi+\varepsilon)M|\zeta_1|,
-\qquad\text{i.e.,}\qquad
-|\zeta_1|\le (\pi+\varepsilon)M.
-\]
-Since $\varepsilon>0$ is arbitrary, this gives
-\[
-|\zeta_1|\le \pi M,
-\]
-contradicting our choice $|\zeta_1|>10M$ (recall that $\pi<10$). Hence every $R_j$ vanishes identically, so
-\[
-H\equiv 0.
-\]
-Equivalently,
-\[
-G=\lambda P,
-\]
-which is exactly \eqref{eq:eigenfunction-general-new}. This proves that $P$, and therefore $f_0$, is an eigenfunction of the localization operator associated with the domain $U$ with eigenvalue $\lambda$.
-\end{proof}
-\fi
 
 % ==============================================================
 % Section 4
 % ==============================================================
+
 \section{A Classical Rigidity Corollary}\label{sec:classical-rigidity}
 
 The localization operator $\mathcal{L}_U$ on the Bargmann--Fock space is
@@ -1946,19 +1475,26 @@ $f(|z|)\,\mathbf{1}_{D_\rho(0)}\,dA$ generates a logarithmic potential
 \[
 \Phi_\rho(z):=\int_{D_\rho(0)} \log|z-z'|\, f(|z'|)\,dA(z'),
 \]
-which, by Newton's shell theorem in the plane, is radial; outside
+which, by the planar Newton shell theorem for logarithmic potentials of
+radial densities (see, e.g., \cite[Ch.~2]{Isakov}), is radial; outside
 $D_\rho(0)$ it equals
 \[
 \Phi_\rho(z)=\Big(\int_{D_\rho(0)}f(|z'|)\,dA(z')\Big)\log|z|+\text{const}.
 \]
-Subtracting $D_\rho(0)$ from $U$ thus preserves identity
-\eqref{eq:potential} on the complement of the new set, at the cost of
-replacing the constant $c(\lambda,k)$ by another real constant. Hence we
-may assume $0\notin U$. Moreover, $0\notin \partial U$, because the
-left-hand side of \eqref{eq:potential} stays bounded as $z\to 0$, whereas
-the right-hand side diverges to $-\infty$ if $c(\lambda,k)\neq 0$.
-The case $c(\lambda,k)=0$ is incompatible with the integral being
-positive at $z=0$, so it is also excluded.
+Subtracting the closed disk $\overline{D_\rho(0)}$ from $U$ thus preserves
+identity \eqref{eq:potential} on the complement of the new set, at the
+cost of replacing $c(\lambda,k)$ by $c(\lambda,k)-M_\rho$, where
+$M_\rho:=\int_{D_\rho(0)}f(|z'|)\,dA(z')>0$. The new domain
+$U':=U\setminus\overline{D_\rho(0)}$ satisfies
+$0\notin \overline{U'}$, so we may assume from now on that
+$0\notin \overline{U}$ in \eqref{eq:potential}, with $c(\lambda,k)$
+replaced (if needed) by the real constant $c(\lambda,k)-M_\rho$, which
+we continue to denote by $c(\lambda,k)$. Furthermore, this constant must
+be nonzero: comparing the two sides of \eqref{eq:potential} as
+$|z|\to\infty$ shows that the left-hand side behaves like
+$\big(\int_U f\,dA\big)\log|z|+O(|z|^{-1})$, while the right-hand side
+is $c(\lambda,k)\log|z|$, forcing
+$c(\lambda,k)=\int_U f(|z'|)\,dA(z')>0$.
 
 \medskip
 
@@ -2123,10 +1659,11 @@ $I_{\widetilde U_0}$ such that
 \Psi_U(x)=\psi_U(|x|),\qquad x\in \widetilde{U}_0.
 \]
 
-On the other hand, by \eqref{eq:potential} and standard regularity for
-logarithmic potentials with $C^2$ boundary, the gradient $\nabla\Psi_U$
-extends continuously across $\partial U$, and for $z\in\partial U$ we
-have
+On the other hand, by \eqref{eq:potential} and the continuity of the
+gradient of a volume logarithmic potential with bounded density across
+a $C^2$ boundary (see, e.g., \cite{Gustafsson,Isakov}), the gradient
+$\nabla\Psi_U$ extends continuously across $\partial U$, and for
+$z\in\partial U$ we have
 \[
 \nabla \Psi_U(z)=c\,\frac{z}{|z|^2}
 \]
@@ -2147,13 +1684,16 @@ $\partial U\cap \overline{B_r(x_0)}$. Since $\partial U$ is a $C^2$
 curve, we may, after shrinking $r$ once more, parametrize
 $\partial U\cap B_r(x_0)$ by a $C^2$ embedding
 $\gamma:(-\varepsilon,\varepsilon)\to \R^2$ with $\gamma(0)=x_0$.
-Because $\partial U$ is not a circle centered at $0$, the function
-$t\mapsto |\gamma(t)|$ is not constant on any subinterval; by choosing
-$x_0\in\partial U\cap A$ at which $|\gamma|$ is non-constant on every
-neighbourhood (such points form an open dense subset of $\partial
-U\cap A$ when $\partial U$ is not a circle centered at $0$), we may
-further assume that the derivative
-$\frac{d}{dt}|\gamma(t)|\big|_{t=0}\ne 0$. Hence by the open-mapping
+Because $\partial U$ is not a circle centered at $0$, the smooth
+function $t\mapsto |\gamma(t)|^2$ is non-constant on the connected
+$C^2$ arc $\partial U\cap A$. Hence its derivative does not vanish
+identically on any subinterval, and we may choose $x_0\in\partial U\cap A$
+so that
+\[
+\frac{d}{dt}|\gamma(t)|^2\Big|_{t=0}\ne 0,
+\]
+which is equivalent to $\frac{d}{dt}|\gamma(t)|\big|_{t=0}\ne 0$ since
+$|\gamma(0)|=|x_0|>0$. Hence by the open-mapping
 property for $C^1$ functions of one variable with nonzero derivative,
 the image of $|\gamma|$ contains a nontrivial open interval
 \(I\subset (r_1,r_2)\).
@@ -2182,11 +1722,13 @@ Hence
 \Delta \Psi_U\equiv 0 \qquad \text{in } W_I,
 \]
 since the origin is excluded from $\widetilde U_0$. On the other hand,
-distribution-theoretically,
+since $0\notin \overline{U}$, the logarithmic potential $\Psi_U$ has
+distributional Laplacian
 \[
-\Delta \Psi_U=2\pi\, f(|z|)\,\mathbf{1}_U-c\,\delta_0
+\Delta \Psi_U=2\pi\, f(|z|)\,\mathbf{1}_U
 \]
-in $\C$, so on the open set $W_I\subset U\setminus\{0\}$ we have
+in $\C$, with no contribution at the origin. Hence on the open set
+$W_I\subset U\setminus\{0\}$ we have
 \[
 \Delta \Psi_U=2\pi\, f(|z|)=2\pi\, |z|^{2k}e^{-\pi |z|^2}.
 \]
@@ -2216,6 +1758,7 @@ open-interval-of-radii argument that ends the proof; both can be
 relaxed at the cost of additional technicalities, which we will
 revisit in the second proof.
 \end{remark}
+
 
 \subsection{Second proof}
 
@@ -2272,12 +1815,14 @@ then
 \[
 u(z)=\frac{1}{2\pi}\int_{\R^2}\log|z-z'|\,g(z')\,dA(z')-\frac{c}{2\pi}\log|z|.
 \]
-Since the kernel \(K(\zeta)=\zeta/|\zeta|^2\) belongs to \(L^1_{\mathrm{loc}}(\R^2)\) (note that
-\(|K(\zeta)|=|\zeta|^{-1}\), which is integrable on bounded subsets of \(\R^2\)), the translation
-map \(z\mapsto K(z-\cdot)\) is continuous in \(L^1_{\mathrm{loc}}(\R^2)\) by the standard density
-argument: continuous compactly supported functions are dense in \(L^1_{\mathrm{loc}}\), and for
-each such function continuity of translations is immediate. Together with \(g\in L^\infty_c(\R^2)\),
-this implies that the convolution
+Since \(g\in L^\infty_c(\R^2)\), the only contribution to the integral defining the convolution
+\((K\ast g)(z)\) below comes from a fixed bounded set, so we may replace \(K\) by its restriction
+\(K\mathbf{1}_{B_R}\) for any sufficiently large ball \(B_R\). The kernel
+\(K(\zeta)=\zeta/|\zeta|^2\) satisfies \(|K(\zeta)|=|\zeta|^{-1}\), which is integrable on bounded
+subsets of \(\R^2\); hence \(K\mathbf{1}_{B_R}\in L^1(\R^2)\). It is a standard fact
+that the convolution of an \(L^1\) function with a bounded function is continuous
+(this follows from the density of \(C_c(\R^2)\) in \(L^1(\R^2)\) and continuity of translations in
+\(L^1\)), so
 \[
 (K\ast g)(z):=\int_{\R^2}\frac{z-z'}{|z-z'|^2}\,g(z')\,dA(z')
 \]
@@ -2331,8 +1876,9 @@ A direct computation, using \(|z|^2=z\bar z\) and \(\partial_{\bar z}(z\bar z)=z
 f(|z|).
 \]
 At the origin, the apparent singularity \(1/z\) is integrable against the vanishing factor
-\(\Phi(|z|^2)\): since \(k\ge 0\) and \(\Phi(t)=\int_0^t s^k e^{-\pi s}\,ds=O(t^{k+1})\) as
-\(t\to 0\), we have \(\Psi(z)=O(|z|^{2k+1})\) near \(z=0\), so \(\Psi\in L^\infty_{\mathrm{loc}}\)
+\(\Phi(|z|^2)\): since \(k\ge 0\) and \(s^k e^{-\pi s}\le s^k\) for \(s\ge 0\), we have
+\(\Phi(t)=\int_0^t s^k e^{-\pi s}\,ds\le \int_0^t s^k\,ds = t^{k+1}/(k+1)=O(t^{k+1})\) as
+\(t\to 0\). Hence \(\Psi(z)=O(|z|^{2k+1})\) near \(z=0\), so \(\Psi\in L^\infty_{\mathrm{loc}}\)
 (in fact continuous, with \(\Psi(0)=0\)). Consequently, the identity
 \(\partial_{\bar z}\Psi=f(|z|)\) persists in the distributional sense on all of \(U\); no extra
 \(\delta_0\) contribution arises at the origin.
@@ -2349,6 +1895,19 @@ combined with \(\partial_z\log|z|=\frac{1}{2z}\). Now set
 F(z):=4\partial_z u(z)-\Psi(z)+\frac{c}{\pi z},
 \qquad z\in U\setminus\{0\}.
 \]
+We first check that \(F\) defines a distribution on all of \(U\) (a~priori it is given only on
+\(U\setminus\{0\}\)). From \eqref{eq:explicit-u-second-proof} we have, near \(z=0\),
+\[
+4\partial_z u(z)
+=
+\frac{2}{\pi}\partial_z\!\left(\int_{\R^2}\log|z-z'|\,g(z')\,dA(z')\right)-\frac{c}{\pi z},
+\]
+where the first term is locally bounded near \(z=0\) (the Cauchy-type integral
+\(\int (z-z')^{-1} g(z')\,dA(z')\) of a bounded compactly supported function is locally
+integrable, by the same \(L^1_{\mathrm{loc}}\)-kernel argument as above). Adding \(-\Psi\)
+(continuous with \(\Psi(0)=0\)) and \(c/(\pi z)\) cancels the explicit \(1/z\)-singularity, so
+\(F\) is locally bounded near the origin and hence defines a distribution on \(U\).
+
 Using \(\Delta=4\partial_z\partial_{\bar z}\), the relation \(\partial_{\bar z}(1/z)=\pi\delta_0\),
 the computation of \(\partial_{\bar z}\Psi\) above, and \eqref{eq:potato-second-proof}, we
 compute, in \(\mathcal D'(U)\),
@@ -2362,12 +1921,12 @@ compute, in \(\mathcal D'(U)\),
 \bigl(f(|z|)-c\delta_0\bigr)-f(|z|)+c\delta_0
 =0.
 \]
-Hence \(F\) is a distributional solution of the Cauchy--Riemann equation on \(U\), and by
-Weyl's lemma (or, equivalently, hypoellipticity of \(\partial_{\bar z}\)) it is represented by a
-genuine holomorphic function on \(U\); the apparent pole of \(\Psi\) and of \(c/(\pi z)\) at the
-origin is exactly cancelled by the contribution of the singular term \(-c\delta_0\) in
-\eqref{eq:potato-second-proof} arriving through \(4\partial_z\partial_{\bar z}u\). Thus \(F\) is
-holomorphic on all of \(U\).
+The singular term \(-c\delta_0\) in \eqref{eq:potato-second-proof}, arriving through
+\(4\partial_z\partial_{\bar z}u=\Delta u\), is thus exactly cancelled by
+\((c/\pi)\partial_{\bar z}(1/z)=c\delta_0\). Hence \(F\) is a distributional solution of the
+Cauchy--Riemann equation \(\partial_{\bar z}F=0\) on \(U\), and by Weyl's lemma for
+\(\partial_{\bar z}\) (equivalently, hypoellipticity of the Cauchy--Riemann operator) it is
+represented by a genuine holomorphic function on \(U\).
 
 Define
 \[
@@ -2406,13 +1965,14 @@ The function \(t\mapsto \Phi(t)=\int_0^t s^k e^{-\pi s}\,ds\) has derivative
 \(\Phi'(t)=t^k e^{-\pi t}>0\) for \(t>0\), hence is strictly increasing on \([0,\infty)\). The
 identity above therefore forces \(|z|^2\) to take a single value on \(\partial U\), i.e.\ \(|z|\)
 is constant on \(\partial U\). Consequently \(\partial U\) is contained in a circle centered at
-the origin. Let \(R>0\) be such that
-\(\partial U\subset \{|z|=R\}\). Since \(U\) is open and connected, it cannot meet both
-\(\{|z|<R\}\) and \(\{|z|>R\}\), because these are disjoint open sets and \(U\cap \{|z|=R\}=\varnothing\).
-As \(U\) is bounded, we must therefore have \(U\subset \{|z|<R\}\). If this inclusion were strict,
-then \(\{|z|<R\}\setminus U\) would contain a point, and hence, being open, would contribute a
-boundary point of \(U\) lying strictly inside the disk \(\{|z|<R\}\), contradicting
-\(\partial U\subset \{|z|=R\}\). Therefore
+the origin. Let \(R>0\) be such that \(\partial U\subset \{|z|=R\}\). Since \(U\) is open and
+\(U\cap\partial U=\varnothing\), we have \(U\subset \{|z|<R\}\cup\{|z|>R\}\); since \(U\) is
+connected and the two pieces are disjoint open sets, \(U\) must lie entirely in one of them, and
+boundedness of \(U\) forces \(U\subset \{|z|<R\}\). If this inclusion were strict, pick
+\(z_1\in\{|z|<R\}\setminus U\) and \(z_0\in U\). The straight segment from \(z_0\) to \(z_1\) is
+contained in the convex set \(\{|z|<R\}\), and as it joins a point of \(U\) to a point of its
+complement it must cross \(\partial U\) at some \(z_*\); but then \(z_*\in\partial U\cap\{|z|<R\}\),
+contradicting \(\partial U\subset \{|z|=R\}\). Therefore
 \[
 U=\{|z|<R\}
 \]
@@ -2453,15 +2013,18 @@ on a level set of a real-analytic function, here the elementary radial function
 % ==============================================================
 % Section 5
 % ==============================================================
-\section{Proof of Theorem \ref{thm:GGRT-sharp}}
+
+\section{Proof of Theorem \ref{thm:GGRT-sharp}}\label{sec:GGRT-sharp}
 
 We prove that the quantitative stability estimate in Corollary~1.4 of
-\cite{Gomez-Guerra-Ramos-Tilli}, which builds on the rigidity result of
-\cite{Nicola-Tilli} characterizing the disk as the unique optimizer of the
-first localization eigenvalue, is sharp. The proof proceeds by constructing a
-family of domains which are perturbations of the disk, whose first localization
-eigenvalue has the same first-order behaviour as the disk, but whose distance
-to the class of disks is of order $\varepsilon$.
+\cite{Gomez-Guerra-Ramos-Tilli}, which builds on the Faber--Krahn rigidity
+result of \cite{Nicola-Tilli} characterizing the disk as the unique optimizer
+of the first localization eigenvalue (see also the foundational work of
+\cite{Daubechies} on the spectrum of the Daubechies localization operator on
+the disk), is sharp. The proof proceeds by constructing a family of domains
+which are perturbations of the disk, whose first localization eigenvalue has
+the same first-order behaviour as the disk, but whose distance to the class of
+disks is of order $\varepsilon$.
 
 \begin{proof}[Proof of Theorem~\ref{thm:GGRT-sharp}]
 Fix
@@ -2529,9 +2092,12 @@ therefore write
 Since \(P_\varepsilon\to 1\) in \(C^\infty\) and
 \(\varepsilon\mapsto \varphi_\varepsilon\) is \(C^1\) into \(C^1(\mathbb S^1)\),
 all terms in \eqref{eq:functiona-P-eps-new} are differentiable at
-\(\varepsilon=0\). Since $U_\varepsilon$ is given by a normal graph over
-$\mathbb S^1$, we apply Reynolds' transport formula. Concretely, in polar
-coordinates \(z=re^{it}\), for any smooth test function \(H\) we have
+\(\varepsilon=0\). Since $\partial U_\varepsilon$ is $C^2$ and admits the
+explicit normal graph parametrization \eqref{eq:def-u-eps-new} over
+$\mathbb S^1$ with $\varphi_\varepsilon$ depending $C^1$-smoothly on
+$\varepsilon$, the Reynolds transport identity reduces to a direct application
+of the fundamental theorem of calculus in polar coordinates. Concretely, with
+\(z=re^{it}\), for any smooth test function \(H\) we have
 \[
 \int_{U_\varepsilon} H(z)\,dA(z)
 =
@@ -2646,13 +2212,20 @@ e^{\pi \overline zw}
 =
 \sum_{n\geq 0}\frac{\pi^n}{n!}\overline z^{\,n}w^n,
 \]
-and comparing coefficients in \eqref{eq:boundary-identity-circle-new}, we find
+and matching the coefficient of $w^n$ on both sides of
+\eqref{eq:boundary-identity-circle-new}, we find
 \[
 \int_{\mathbb S^1}\dot\varphi_0(z)\overline z^{\,n}\,d\mathcal H^1(z)=0
 \qquad \text{for all } n\neq 2,
 \]
-whereas the coefficient corresponding to $n=2$ is nonzero. Since
-$\dot\varphi_0$ is real-valued, it follows that
+whereas the coefficient corresponding to $n=2$ equals
+$\frac{2}{\pi^2}(\lambda_0-\lambda_2)e^\pi\neq 0$. Since on $\mathbb S^1$
+we have $\overline z=e^{-it}$ when $z=e^{it}$, this says that the Fourier
+coefficient $\widehat{\dot\varphi_0}(n)$ vanishes for every $n\neq 2$. Since
+$\dot\varphi_0$ is real-valued, $\widehat{\dot\varphi_0}(-n)
+=\overline{\widehat{\dot\varphi_0}(n)}$, so the $n=-2$ mode is also nonzero
+and conjugate to the $n=2$ mode, while all other modes vanish. We conclude
+that
 \begin{equation}\label{eq:mode-decomposition-new}
 \dot\varphi_0(e^{it})
 =
@@ -2854,8 +2427,13 @@ g^{\theta,\eta}(e^{it})
 =
 a\cos(2t)+b\sin(2t)-\eta \cos(t-\theta).
 \]
-The second-harmonic part is independent of $(\theta,\eta)$ and nonzero, because
-$(a,b)\neq (0,0)$. To extract a uniform \(L^1\) lower bound, note that
+On the Fourier side this is the key cancellation point: the translation
+correction $-\eta\Re(e^{-i\theta}y)$ contributes only to the first harmonics
+(its Fourier modes are $\pm 1$), while the perturbation
+$\dot\varphi_0$ lives entirely in the second harmonics ($\pm 2$). Hence the
+second-harmonic component is invariant under the translation correction, and
+in particular the second-harmonic part of $g^{\theta,\eta}$ is independent of
+$(\theta,\eta)$ and nonzero, because $(a,b)\neq (0,0)$. To extract a uniform \(L^1\) lower bound, note that
 \(g^{\theta,\eta}\) lies in the \(4\)-dimensional space
 \[
 V:=\mathrm{span}\bigl\{\cos t,\sin t,\cos 2t,\sin 2t\bigr\}\subset L^1(\mathbb S^1).
@@ -2939,14 +2517,24 @@ estimate. Recall that, by construction via Theorem~\ref{thm:perturb}, the
 first localization eigenvalue of \(U_\varepsilon\) equals \(\lambda_0\)
 \emph{exactly}, since \eqref{eq:functiona-P-eps-new} states that
 \(P_\varepsilon\) is an eigenfunction with eigenvalue \(\lambda_0\) for the
-localization operator on \(U_\varepsilon\), and a standard variational
-argument shows that this is the principal eigenvalue. By
+localization operator on \(U_\varepsilon\). Indeed, since
+\(P_\varepsilon\to 1\) in \(C^\infty\) on compact sets and \(U_\varepsilon\to D_1\)
+in $C^2$, the principal eigenvalue \(\lambda_1(U_\varepsilon)\) and the
+corresponding $L^2$-normalized eigenfunction depend continuously on
+\(\varepsilon\) by standard analytic perturbation theory; for \(\varepsilon=0\),
+the principal eigenpair is precisely \((1-e^{-\pi},1)\) (where the constant
+function corresponds to the Hermite ground state $h_0$ in the Bargmann--Fock
+realization, cf.~\cite{Daubechies}). Hence for small \(|\varepsilon|\) the
+eigenpair \((\lambda_0,P_\varepsilon)\) provided by \eqref{eq:functiona-P-eps-new}
+is the principal one. By
 \eqref{eq:measure-close-u-eps-new},
 \(|U_\varepsilon|=\pi+O(\varepsilon^2)\), and rescaling by
-\(r_\varepsilon=1+O(\varepsilon^2)\) to area \(\pi\) changes the eigenvalue
-only at order \(O(\varepsilon^2)\) (since the localization operator scales
-analytically in the dilation parameter, and the disk is a critical point for
-this scaling). It follows that the eigenvalue deficit of
+\(r_\varepsilon=1+O(\varepsilon^2)\) to area \(\pi\) changes the principal
+eigenvalue at most by \(O(\varepsilon^2)\): since the localization operator
+on a dilated set $rU$ depends analytically on $r$, with derivative at $r=1$
+proportional to a boundary functional that vanishes on the disk by radial
+symmetry, the disk is a critical point of the dilation map, so the
+eigenvalue varies quadratically in \(r-1=O(\varepsilon^2)\). It follows that the eigenvalue deficit of
 \(\widetilde U_\varepsilon\) with respect to the disk satisfies
 \[
 \lambda_0-\lambda(\widetilde U_\varepsilon)=O(\varepsilon^2),
@@ -2986,7 +2574,8 @@ sharpness of the estimate in Corollary~1.4 of
 % ==============================================================
 % Section 6
 % ==============================================================
-\section{Local maximizers for the Faber--Krahn problem in the Gaussian STFT setting}
+
+\section{Local maximizers for the Faber--Krahn problem in the Gaussian STFT setting}\label{sec:local-max}
 
 The purpose of this section is to establish a local rigidity statement for the
 Faber--Krahn problem associated with the Gaussian STFT. The global problem,
@@ -3003,7 +2592,7 @@ We work throughout in the Bargmann--Fock representation; we refer the reader to
 \cite{Bargmann,Folland,Grochenig} for the relevant background. Thus, if
 \(F\in \mathcal F^2(\C)\) is the Bargmann transform of \(f\in L^2(\R)\), then
 \[
-|\mathcal V_\varphi f(z)|^2 = |F(z)|^2 e^{-\pi |z|^2},
+|V_\varphi f(z)|^2 = |F(z)|^2 e^{-\pi |z|^2},
 \]
 up to the normalization already fixed in the previous sections. Accordingly, for
 \(F\in \mathcal F^2(\C)\) we set
@@ -3015,7 +2604,7 @@ For a measurable set \(\Omega\subset \C\), let
 \[
 \lambda_{1,\varphi}(\Omega)
 :=
-\sup_{\|f\|_2=1}\int_\Omega |\mathcal V_\varphi f(z)|^2\,dz.
+\sup_{\|f\|_2=1}\int_\Omega |V_\varphi f(z)|^2\,dz.
 \]
 We say that \(\Omega\) is a \emph{local maximizer} for \(\lambda_{1,\varphi}\) under the
 measure constraint if there exists \(\delta_0>0\) such that, whenever
@@ -3085,27 +2674,34 @@ difference, and with \(\int_{\Sigma'} u_F\,dA>\int_\Sigma u_F\,dA\); that would
 violate local maximality.
 
 Suppose, for the sake of contradiction, that \eqref{eq:superlevel-claim} fails.
-Choose, by the layer-cake representation, the unique \(t_0\ge 0\) such that
+The function \(u_F\) is real-analytic on \(\C\setminus\{F=0\}\), so for almost
+every \(t\ge 0\) the level set \(\{u_F=t\}\) has Lebesgue measure zero;
+consequently the distribution function \(t\mapsto |\{u_F>t\}|\) is continuous
+and strictly decreasing on its support. Hence there exists a unique
+\(t_0\ge 0\) such that
 \[
 A:=\{u_F>t_0\}\quad\text{satisfies}\quad |A|=|\Sigma|;
 \]
-then \(A\) and \(\Sigma\) do not coincide a.e., so both \(A\setminus\Sigma\) and
+since \eqref{eq:superlevel-claim} fails by assumption, \(A\) and \(\Sigma\)
+do not coincide up to a null set, so both \(A\setminus\Sigma\) and
 \(\Sigma\setminus A\) have positive Lebesgue measure (and in fact positive
 weighted measure, since \(e^{-\pi|z|^2}>0\) everywhere).
 
-We now perform the bathtub construction explicitly. By inner regularity of the
-Lebesgue measure, choose an open subset
-\(S'\subset A\setminus\Sigma\) and an open subset
-\(T'\subset \Sigma\setminus A\) with \(|S'|,|T'|>0\). Replacing each by a
-sufficiently small open subset, we may further assume
-\(\int_{S'}d\mu,\,\int_{T'}d\mu<\delta_0/4\). Since the Lebesgue measure
-restricted to a fixed open set has the intermediate-value property, we may
-choose subsets \(S\subset S'\) and \(T\subset T'\) with the common Lebesgue
+We now perform the bathtub construction explicitly. The set
+\(A=\{u_F>t_0\}\) is open since \(u_F\) is continuous, while
+\(\Sigma\setminus A\) is only known to be measurable. By inner regularity of
+the Lebesgue measure, choose a compact set \(L\subset A\setminus\Sigma\) with
+\(|L|>0\) and a compact set \(K\subset \Sigma\setminus A\) with \(|K|>0\)
+(both nonempty by the previous paragraph). Note that \(L\subset A\) is then
+contained in the open set \(A\), and we can shrink \(L\) further if needed so
+that \(\int_L d\mu, \int_K d\mu<\delta_0/4\). Since the Lebesgue measure
+restricted to a compact set has the intermediate-value property, we may
+choose subsets \(S\subset L\) and \(T\subset K\) with the common Lebesgue
 measure
 \[
-|S|=|T|=\tfrac12\min(|S'|,|T'|)>0.
+|S|=|T|=\tfrac12\min(|L|,|K|)>0.
 \]
-Then
+Then \(S\subset A\setminus\Sigma\), \(T\subset \Sigma\setminus A\), and
 \[
 \int_\C (\mathbf 1_S+\mathbf 1_T)\,e^{-\pi |z|^2}\,dz<\tfrac{\delta_0}{2}<\delta_0.
 \]
@@ -3124,9 +2720,10 @@ u_F(z)>t_0 \quad \text{on } S\subset A,
 \qquad
 u_F(z)\le t_0 \quad \text{on } T\subset \Sigma\setminus A.
 \]
-Moreover, since \(u_F\) is continuous and \(S\subset A=\{u_F>t_0\}\) is open
-with positive measure, we may by shrinking \(S\) further assume that there
-exists \(\eta>0\) with \(u_F\ge t_0+\eta\) on \(S\). It then follows that
+Moreover, since \(u_F\) is continuous and \(L\subset A=\{u_F>t_0\}\) is
+compact, the continuous function \(u_F\) attains its minimum on \(L\); hence
+there exists \(\eta>0\) with \(u_F\ge t_0+\eta\) on \(L\), and a fortiori on
+\(S\). It then follows that
 \[
 \int_S u_F\,dA \ge (t_0+\eta)\,|S|,
 \qquad
@@ -3249,9 +2846,12 @@ divergence-free.
 
 The function \(u_F=|F|^2e^{-\pi|z|^2}\) is real-analytic on
 \(\C\setminus\{F=0\}\), since \(F\) is entire and the exponential factor is
-real-analytic. By Step 2, \(F\) does not vanish in the interior of \(\Sigma\),
-and by the argument of Step 4 below it does not vanish on \(\overline\Sigma\)
-either; so \(u_F\) is in fact real-analytic on a neighborhood of
+real-analytic. After replacing \(\Sigma\) by its open superlevel-set
+representative \(\{u_F>c_\Sigma\}\) from Step 1 (which is permissible since
+local maximality only sees the equivalence class of \(\Sigma\) up to null
+sets), we have \(u_F\ge c_\Sigma>0\) on \(\overline\Sigma\); since the
+Gaussian factor never vanishes, this forces \(F\ne 0\) on
+\(\overline\Sigma\), so \(u_F\) is real-analytic on a neighborhood of
 \(\overline\Sigma\). The boundary \(\partial\Sigma\) is therefore a level set
 of a non-constant real-analytic function and so is the union of finitely many
 real-analytic arcs, plus a possible finite set of singular points where
@@ -3356,15 +2956,16 @@ analogous identity for the imaginary part:
 \Im\!\int_\Sigma
 \psi(z)\Big(\overline{F'(z)}\,F(z)-\pi z\,|F(z)|^2\Big)\,d\mu(z).
 \]
-Combining the two,
+Combining the two, and using \(|F|^2=F\overline F\) to factor out \(F(z)\)
+from both terms inside the integrand (the \(F\) from \(\overline{F'}F\) and
+one copy of \(F\) from \(|F|^2=F\overline F\)),
 \begin{equation}\label{eq:orthogonality-main-new}
 0=
 \int_\Sigma
 \psi(z)\,F(z)\Big(\overline{F'(z)}-\pi z\,\overline{F(z)}\Big)\,d\mu(z),
 \end{equation}
 which holds for every holomorphic \(\psi\) on a neighborhood of
-\(\overline \Sigma\). Equivalently, after factoring out \(F(z)\) inside the
-integrand,
+\(\overline \Sigma\). Equivalently, expanding the product,
 \begin{equation*}
 0=
 \int_\Sigma
@@ -3453,13 +3054,17 @@ applied to \(F\) at the point \(w\), one finds
 \]
 Both sides depend on \(w\) through the antiholomorphic variable
 \(\overline w\); we differentiate with respect to \(\overline w\), exchanging
-differentiation and integration on the left. The interchange is legitimate by
-the dominated convergence theorem: locally in \(w\), the integrand
+differentiation and integration on the left. The interchange is legitimate
+because, for \(w\) in any compact set \(\{|w|\le R\}\), the integrand
 \(\partial_{\overline w}(e^{\pi\overline wz}\overline{F(z)})
-=\pi z\,e^{\pi\overline wz}\overline{F(z)}\) is dominated by an
-\(L^1(d\mu)\) function on \(\C\), as a consequence of the Cauchy--Schwarz
-inequality and the fact that \(F\in \mathcal F^2(\C)\) and the Fock-space norm
-of \(zK_w\) is locally bounded. We conclude
+=\pi z\,e^{\pi\overline wz}\overline{F(z)}\) is dominated, in absolute
+value, by \(\pi |z|\,e^{\pi R|z|}|F(z)|\). The standard pointwise bound for
+Fock-space functions gives \(|F(z)|\le\|F\|_{\mathcal F^2}\,e^{\pi |z|^2/2}\),
+so this dominator is bounded by a constant times
+\(|z|\,e^{\pi R|z|}\,e^{\pi|z|^2/2}\); after multiplication by the Gaussian
+weight \(e^{-\pi|z|^2}\) of \(d\mu\), the resulting integrand
+\(|z|\,e^{\pi R|z|}\,e^{-\pi |z|^2/2}\) is integrable on \(\C\). Dominated
+convergence therefore justifies the interchange. We conclude
 \[
 \pi\int_\C z\, e^{\pi \overline wz}\,\overline{F(z)}\,d\mu(z)
 =
@@ -3552,11 +3157,17 @@ unitary substitution \(F\rightsquigarrow T_{-a}F\)).
 
 In this normalization the ground state \(h_0\) (corresponding to
 \(F\equiv 1\) in Bargmann--Fock coordinates) is an eigenfunction of the
-localization operator of \(\Sigma\). Since \(\Sigma\) is a level set of
-\(u_F(z) = e^{-\pi |z|^2}\), and the latter is a strictly radial function of
-\(|z|\), the set \(\Sigma\) is itself radial; in particular, it is either a
-centered disk or a finite union of centered annuli. The next step rules out
-the annular configurations and identifies \(\Sigma\) with the disk.
+localization operator of \(\Sigma\). By Step 1 (applied with the new
+normalization) we have, up to a null set,
+\[
+\Sigma=\{z\in\C:\ |C'|^2 e^{-\pi |z|^2}>c_\Sigma\}.
+\]
+Since \(r\mapsto e^{-\pi r^2}\) is \emph{strictly} decreasing, this
+superlevel set is automatically a centered open disk; it cannot be an
+annulus. Thus \(\Sigma\) is, up to a null set, the centered disk \(D_R\)
+with \(|D_R|=|\Sigma|\), and Step 6 below records the corresponding
+quantitative rearrangement statement, which is an instance of the global
+Faber--Krahn theorem of \cite{Nicola-Tilli}.
 
 \medskip
 \noindent
@@ -3568,12 +3179,17 @@ after Step 5, we record the standard rearrangement argument since it makes
 explicit \emph{why} no annular local maximizer can exist; this provides the
 endpoint matching the global Faber--Krahn theorem of \cite{Nicola-Tilli}.
 
-If \(\Sigma\) is radial, write
+Suppose, more generally, that \(\Sigma\) is any radial set of finite measure
+which arises as a superlevel set of a radial real-analytic non-constant
+function on \(\C\); write
 \[
 \widetilde \Sigma:=\{r>0:\ re^{it}\in \Sigma \text{ for some } t\in [0,2\pi)\}.
 \]
-By Step 1 and the Lipschitz regularity established in Step 3,
-\(\widetilde \Sigma\) is open and is a finite union of disjoint open intervals:
+By Step 1, \(\Sigma\) admits an open representative; combined with the
+real-analytic structure established in Step 3, the boundary
+\(\partial\Sigma\) is a finite union of real-analytic arcs, hence
+\(\widetilde \Sigma\subset (0,\infty)\) is open and is a finite union of
+disjoint open intervals:
 \[
 \widetilde \Sigma=\bigcup_{j=1}^N (a_j,b_j),
 \qquad
@@ -3651,7 +3267,8 @@ measure constraint is, up to translation, a disk.
 % ==============================================================
 % Section 7
 % ==============================================================
-\section{Global maximizers for the Faber--Krahn problem in the Gaussian STFT setting}
+
+\section{Global maximizers for the Faber--Krahn problem in the Gaussian STFT setting}\label{sec:global-max}
 
 In this section we prove existence of global maximizers for the Gaussian
 time-frequency concentration problem under a measure constraint, and then
@@ -3987,7 +3604,8 @@ is finite, nondecreasing, and continuous on \([0,\infty)\).
 \end{lemma}
 
 \begin{proof}
-By Lemma~\ref{lem:basic-properties-global},
+By Lemma~\ref{lem:Fock-basic}(ii)--(iii) together with the identity
+\(\int_\C u_F\,dA=\|F\|_{\mathcal F^2}^2\), we have
 \(u_F\in C_0(\C)\cap L^1(\C)\), so \(I_F(s)\) is finite for every \(s\ge 0\)
 and bounded above by \(\|F\|_{\mathcal F^2}^2\). Monotonicity is immediate
 from the definition of \(I_F(s)\) as a supremum over \(|\Omega|=s\): if
@@ -4343,8 +3961,9 @@ I_{F_k}(s)=\int_{\Omega_k^{(J)}} u_{F_k}\,dA;
 \]
 by Lemma~\ref{lem:basic-properties-global}(i) we may take
 \(\Omega_k^{(J)}\) to be a superlevel set of \(u_{F_k}\). Let
-\(\varepsilon>0\). Since \(u_{G^{(j)}}\in L^1(\C)\) for every \(j\) by
-Lemma~\ref{lem:basic-properties-global}, choose \(R>0\) so large that
+\(\varepsilon>0\). Since \(u_{G^{(j)}}\in L^1(\C)\) for every \(j\) (with
+\(\int_\C u_{G^{(j)}}\,dA=\|G^{(j)}\|_{\mathcal F^2}^2\)), choose \(R>0\) so
+large that
 \[
 \int_{\C\setminus D_R} u_{G^{(j)}}\,dA<\varepsilon
 \qquad\text{for all } 1\le j\le J,
@@ -4597,6 +4216,7 @@ maximizer is a disk, up to translation. Since translation by an element of
 \(\C\) preserves both Lebesgue measure and the value of
 \(\lambda_{1,\varphi}\), the claim follows.
 \end{proof}
+
 
 
 \bibliography{biblio}

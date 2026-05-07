@@ -1,13 +1,14 @@
-% Final Section 5.
-\section{Proof of Theorem \ref{thm:GGRT-sharp}}
+\section{Proof of Theorem \ref{thm:GGRT-sharp}}\label{sec:GGRT-sharp}
 
 We prove that the quantitative stability estimate in Corollary~1.4 of
-\cite{Gomez-Guerra-Ramos-Tilli}, which builds on the rigidity result of
-\cite{Nicola-Tilli} characterizing the disk as the unique optimizer of the
-first localization eigenvalue, is sharp. The proof proceeds by constructing a
-family of domains which are perturbations of the disk, whose first localization
-eigenvalue has the same first-order behaviour as the disk, but whose distance
-to the class of disks is of order $\varepsilon$.
+\cite{Gomez-Guerra-Ramos-Tilli}, which builds on the Faber--Krahn rigidity
+result of \cite{Nicola-Tilli} characterizing the disk as the unique optimizer
+of the first localization eigenvalue (see also the foundational work of
+\cite{Daubechies} on the spectrum of the Daubechies localization operator on
+the disk), is sharp. The proof proceeds by constructing a family of domains
+which are perturbations of the disk, whose first localization eigenvalue has
+the same first-order behaviour as the disk, but whose distance to the class of
+disks is of order $\varepsilon$.
 
 \begin{proof}[Proof of Theorem~\ref{thm:GGRT-sharp}]
 Fix
@@ -48,20 +49,17 @@ The map
 \]
 may in fact be chosen \(C^1\) as a map from a neighborhood of \(0\) into
 \(C^1(\mathbb S^1)\). To see this, we briefly retrace the proof of
-Theorem~\ref{thm:perturb}. The construction proceeds in two steps: first, an
-Isakov-type step which converts the weighted quadrature identity into a free
-boundary problem of obstacle type, and second, the regularity/uniqueness step
-which produces \(\varphi_\varepsilon\) via an implicit-function-theorem
-argument. In both steps, the unknown is the solution of an equation of the form
+Theorem~\ref{thm:perturb}. The construction is the disk moment-map
+construction of Proposition~\ref{prop:disk-inverse-tailored}. Thus
+\(\varphi_\varepsilon\) is obtained from an equation of the form
 \(F(\varepsilon,\varphi)=0\), where
 \[
 F:(-\varepsilon_0,\varepsilon_0)\times \mathcal U\to \mathcal V
 \]
-is a \(C^1\) map between open subsets of suitable Banach spaces, with
-\(F(0,0)=0\) and \(\partial_\varphi F(0,0)\) invertible (the invertibility being
-the linearization computed at the disk, which is a Fredholm operator of index
-zero whose kernel is removed by the normalization fixing the centroid and the
-total area at first order). Since the polynomial \(P_\varepsilon(z)=1+\varepsilon z^2\)
+is the \(C^1\) moment map between the analytic boundary spaces used there,
+with \(F(0,0)=0\) and \(\partial_\varphi F(0,0)\) invertible by the explicit
+Fourier diagonalization at the unit disk. Since the polynomial
+\(P_\varepsilon(z)=1+\varepsilon z^2\)
 depends polynomially on \(\varepsilon\), the dependence of \(F\) on
 \(\varepsilon\) is \(C^\infty\). The \(C^1\) version of the implicit function
 theorem in Banach spaces then yields a \(C^1\) branch
@@ -78,9 +76,12 @@ therefore write
 Since \(P_\varepsilon\to 1\) in \(C^\infty\) and
 \(\varepsilon\mapsto \varphi_\varepsilon\) is \(C^1\) into \(C^1(\mathbb S^1)\),
 all terms in \eqref{eq:functiona-P-eps-new} are differentiable at
-\(\varepsilon=0\). Since $U_\varepsilon$ is given by a normal graph over
-$\mathbb S^1$, we apply Reynolds' transport formula. Concretely, in polar
-coordinates \(z=re^{it}\), for any smooth test function \(H\) we have
+\(\varepsilon=0\). Since $\partial U_\varepsilon$ is $C^2$ and admits the
+explicit normal graph parametrization \eqref{eq:def-u-eps-new} over
+$\mathbb S^1$ with $\varphi_\varepsilon$ depending $C^1$-smoothly on
+$\varepsilon$, the Reynolds transport identity reduces to a direct application
+of the fundamental theorem of calculus in polar coordinates. Concretely, with
+\(z=re^{it}\), for any smooth test function \(H\) we have
 \[
 \int_{U_\varepsilon} H(z)\,dA(z)
 =
@@ -195,13 +196,20 @@ e^{\pi \overline zw}
 =
 \sum_{n\geq 0}\frac{\pi^n}{n!}\overline z^{\,n}w^n,
 \]
-and comparing coefficients in \eqref{eq:boundary-identity-circle-new}, we find
+and matching the coefficient of $w^n$ on both sides of
+\eqref{eq:boundary-identity-circle-new}, we find
 \[
 \int_{\mathbb S^1}\dot\varphi_0(z)\overline z^{\,n}\,d\mathcal H^1(z)=0
 \qquad \text{for all } n\neq 2,
 \]
-whereas the coefficient corresponding to $n=2$ is nonzero. Since
-$\dot\varphi_0$ is real-valued, it follows that
+whereas the coefficient corresponding to $n=2$ equals
+$\frac{2}{\pi^2}(\lambda_0-\lambda_2)e^\pi\neq 0$. Since on $\mathbb S^1$
+we have $\overline z=e^{-it}$ when $z=e^{it}$, this says that the Fourier
+coefficient $\widehat{\dot\varphi_0}(n)$ vanishes for every $n\neq 2$. Since
+$\dot\varphi_0$ is real-valued, $\widehat{\dot\varphi_0}(-n)
+=\overline{\widehat{\dot\varphi_0}(n)}$, so the $n=-2$ mode is also nonzero
+and conjugate to the $n=2$ mode, while all other modes vanish. We conclude
+that
 \begin{equation}\label{eq:mode-decomposition-new}
 \dot\varphi_0(e^{it})
 =
@@ -403,8 +411,13 @@ g^{\theta,\eta}(e^{it})
 =
 a\cos(2t)+b\sin(2t)-\eta \cos(t-\theta).
 \]
-The second-harmonic part is independent of $(\theta,\eta)$ and nonzero, because
-$(a,b)\neq (0,0)$. To extract a uniform \(L^1\) lower bound, note that
+On the Fourier side this is the key cancellation point: the translation
+correction $-\eta\Re(e^{-i\theta}y)$ contributes only to the first harmonics
+(its Fourier modes are $\pm 1$), while the perturbation
+$\dot\varphi_0$ lives entirely in the second harmonics ($\pm 2$). Hence the
+second-harmonic component is invariant under the translation correction, and
+in particular the second-harmonic part of $g^{\theta,\eta}$ is independent of
+$(\theta,\eta)$ and nonzero, because $(a,b)\neq (0,0)$. To extract a uniform \(L^1\) lower bound, note that
 \(g^{\theta,\eta}\) lies in the \(4\)-dimensional space
 \[
 V:=\mathrm{span}\bigl\{\cos t,\sin t,\cos 2t,\sin 2t\bigr\}\subset L^1(\mathbb S^1).
@@ -488,14 +501,24 @@ estimate. Recall that, by construction via Theorem~\ref{thm:perturb}, the
 first localization eigenvalue of \(U_\varepsilon\) equals \(\lambda_0\)
 \emph{exactly}, since \eqref{eq:functiona-P-eps-new} states that
 \(P_\varepsilon\) is an eigenfunction with eigenvalue \(\lambda_0\) for the
-localization operator on \(U_\varepsilon\), and a standard variational
-argument shows that this is the principal eigenvalue. By
+localization operator on \(U_\varepsilon\). Indeed, since
+\(P_\varepsilon\to 1\) in \(C^\infty\) on compact sets and \(U_\varepsilon\to D_1\)
+in $C^2$, the principal eigenvalue \(\lambda_1(U_\varepsilon)\) and the
+corresponding $L^2$-normalized eigenfunction depend continuously on
+\(\varepsilon\) by standard analytic perturbation theory; for \(\varepsilon=0\),
+the principal eigenpair is precisely \((1-e^{-\pi},1)\) (where the constant
+function corresponds to the Hermite ground state $h_0$ in the Bargmann--Fock
+realization, cf.~\cite{Daubechies}). Hence for small \(|\varepsilon|\) the
+eigenpair \((\lambda_0,P_\varepsilon)\) provided by \eqref{eq:functiona-P-eps-new}
+is the principal one. By
 \eqref{eq:measure-close-u-eps-new},
 \(|U_\varepsilon|=\pi+O(\varepsilon^2)\), and rescaling by
-\(r_\varepsilon=1+O(\varepsilon^2)\) to area \(\pi\) changes the eigenvalue
-only at order \(O(\varepsilon^2)\) (since the localization operator scales
-analytically in the dilation parameter, and the disk is a critical point for
-this scaling). It follows that the eigenvalue deficit of
+\(r_\varepsilon=1+O(\varepsilon^2)\) to area \(\pi\) changes the principal
+eigenvalue at most by \(O(\varepsilon^2)\): since the localization operator
+on a dilated set $rU$ depends analytically on $r$, with derivative at $r=1$
+proportional to a boundary functional that vanishes on the disk by radial
+symmetry, the disk is a critical point of the dilation map, so the
+eigenvalue varies quadratically in \(r-1=O(\varepsilon^2)\). It follows that the eigenvalue deficit of
 \(\widetilde U_\varepsilon\) with respect to the disk satisfies
 \[
 \lambda_0-\lambda(\widetilde U_\varepsilon)=O(\varepsilon^2),
@@ -531,3 +554,7 @@ sharpness of the estimate in Corollary~1.4 of
 \cite{Nicola-Tilli}.
 
 \end{proof}
+
+% ==============================================================
+% Section 6
+% ==============================================================
