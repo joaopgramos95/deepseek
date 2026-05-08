@@ -1,0 +1,378 @@
+%=================================================================
+%  REPLACEMENT: Riesz pair coercivity with boundary-layer decomposition
+%  (replaces the false lemmas: boundary trace gap, compactified kernels,
+%   nonlinear one-sided Green gap, and the old Riesz pair coercivity)
+%=================================================================
+
+\begin{numprop}[Perturbative bathtub coercivity on the Riesz cone]\label{prop:riesz-pair-coercivity}
+Fix $\alpha>-1$ and $s\in(0,\infty)$.  Let $\delta_0$ be given by
+Lemma~\ref{lem:boundary-remainder-control}.  There are
+$\eta_{\alpha,s}>0$ and $c_{\alpha,s}>0$ with the following property.
+Let
+\[
+\varphi=h+\psi,\qquad
+\psi(z)=-\int_\D G(z,\zeta)\,d\mu(\zeta),\qquad \mu\ge0,
+\]
+be the Riesz decomposition of a real-analytic subharmonic function on a
+neighbourhood of $\overline\D$, with $P(\varphi)=0$ and
+\[
+\|h-P(h)\|_{C^2(\overline\D)}\le\eta_{\alpha,s}.
+\]
+Decompose $\mu=\mu_{\mathrm{int}}+\mu_{\mathrm{bdry}}$ as in
+Proposition~\ref{prop:nonlinear-green-absorption}, set
+$\widetilde h:=h+h_{\mathrm{bdry}}$, and write
+$\varphi=\widetilde h+\psi_{\mathrm{int}}+\psi_R$.
+Set
+\[
+g_\varphi=\frac{e^\varphi}{\|e^\varphi\|_{2,\alpha}},
+\qquad
+\mathcal D_s(\varphi)
+:=
+\theta_\alpha(s)
+-
+\sup_{\tau(E)=s}\int_E g_\varphi^2\,dA_\alpha .
+\]
+Then, whenever $\mathcal D_s(\varphi)\le\eta_{\alpha,s}$,
+\begin{equation}\label{eq:coercivity-decomposed}
+\mathcal D_s(\varphi)
+\ge
+c_{\alpha,s}\left[
+\mathcal D_s(\widetilde h)
++P(\psi_{\mathrm{int}})-Q_s(\psi_{\mathrm{int}})
++P(\psi_R)-Q_s(\psi_R)
+\right].
+\end{equation}
+\end{numprop}
+
+\begin{proof}
+First assume that all potentials are bounded (the unbounded case follows by
+the truncation $\psi_N=-\int\min\{G,N\}\,d\mu$ and monotone convergence,
+exactly as in the earlier version).
+
+The maximizer for $g_\varphi^2\,dA_\alpha$ is a superlevel set of
+\[
+e^{2\varphi(z)}(1-|z|^2)^{\alpha+2}
+=
+e^{2\widetilde h(z)+2\psi_{\mathrm{int}}(z)+2\psi_R(z)}(1-|z|^2)^{\alpha+2}.
+\]
+The smallness of $\mathcal D_s(\varphi)$ and
+Lemma~\ref{lem:bathtub-compactness-radial} imply that this set differs from
+$B_s$ by a set of arbitrarily small hyperbolic measure as
+$\eta_{\alpha,s}\downarrow0$.  Hence the same free-boundary Lagrange
+expansion as in Lemma~\ref{lem:harmonic-bathtub-schur} is valid, now with
+the additional potential directions $\psi_{\mathrm{int}}$ and $\psi_R$.
+
+The harmonic part $\widetilde h$ gives the Schur-complement form computed in
+Lemma~\ref{lem:harmonic-bathtub-schur}: the quadratic expansion isolates the
+$k\ge2$ harmonic modes and the boundary displacement $\rho(\vartheta)$,
+together producing the coercive term $\mathcal D_s(\widetilde h)$.
+
+For the potential parts, the first variation of the deficit
+(cf.\ \eqref{eq:deficit-second-expansion-general}) contains the linear term
+\[
+-2Q_s(\psi_{\mathrm{int}}+\psi_R)+2P(\psi_{\mathrm{int}}+\psi_R)
+=2\bigl(P(\psi_{\mathrm{int}})-Q_s(\psi_{\mathrm{int}})\bigr)
++2\bigl(P(\psi_R)-Q_s(\psi_R)\bigr),
+\]
+because $P(\varphi)=0$ and radial averages agree on the harmonic part.
+
+The mixed terms coupling $\psi_{\mathrm{int}}$ or $\psi_R$ with the
+boundary displacement $\rho$ are controlled by Cauchy's inequality.
+For the interior potential, the boundary trace is controlled by the
+$P-Q_s$ gap via the standard Green-potential coercivity
+(Lemma~\ref{lem:green-potential-coercivity}), which is valid for interior
+poles.  For the boundary remainder $\psi_R$, its boundary trace is bounded
+by the same gap through Lemma~\ref{lem:boundary-remainder-control}:
+the $L^2$ norm on $\partial B_s$ of a single kernel $|R_\zeta|$ is
+$O((1-|\zeta|^2)^2)$, exactly the same order as the $P-Q_s$ gap, so the
+ratio is bounded.  Integrating against $\mu_{\mathrm{bdry}}$ gives
+\[
+\|\psi_R(r_se^{i\vartheta})\|_{L^2_\vartheta}
+\le
+C_{\alpha,s}\bigl(P(\psi_R)-Q_s(\psi_R)\bigr).
+\]
+
+Thus, for every $\varepsilon>0$,
+\[
+\left|\int_{\partial B_s}(\psi_{\mathrm{int}}+\psi_R)\,\rho\,d\vartheta\right|
+\le
+\varepsilon\|\rho\|_2^2
++C_{\alpha,s,\varepsilon}\Bigl(
+\bigl(P(\psi_{\mathrm{int}})-Q_s(\psi_{\mathrm{int}})\bigr)^2
++\bigl(P(\psi_R)-Q_s(\psi_R)\bigr)^2\Bigr).
+\]
+
+The quadratic potential terms
+$P(\psi_{\mathrm{int}}^2)-Q_s(\psi_{\mathrm{int}}^2)$ and
+$P(\psi_R^2)-Q_s(\psi_R^2)$ are nonnegative up to errors controlled by
+$\|\psi_{\mathrm{int}}\|_\infty$ and $\|\psi_R\|_\infty$ times the
+respective $P-Q_s$ gaps.  In the regime $\mathcal D_s(\varphi)\le\eta_{\alpha,s}$,
+the contrapositive of Proposition~\ref{prop:nonlinear-green-absorption}
+(combined with the harmonic Schur-complement lower bound) forces
+$P(\psi_{\mathrm{int}})-Q_s(\psi_{\mathrm{int}})\le\eta_{\alpha,s}^{1/2}$
+and $P(\psi_R)-Q_s(\psi_R)\le\eta_{\alpha,s}^{1/2}$; hence the squared gaps
+are absorbed by the linear gaps after decreasing $\eta_{\alpha,s}$.
+
+Collecting terms, the expansion yields
+\[
+\mathcal D_s(\varphi)
+\ge
+c_{\alpha,s}\bigl(\mathcal D_s(\widetilde h)
++P(\psi_{\mathrm{int}})-Q_s(\psi_{\mathrm{int}})
++P(\psi_R)-Q_s(\psi_R)\bigr)
+-O(\eta_{\alpha,s}^{1/2})\,\text{(same quantity)},
+\]
+and choosing $\eta_{\alpha,s}$ sufficiently small absorbs the error,
+proving~\eqref{eq:coercivity-decomposed}.
+\end{proof}
+
+\begin{numrem}
+Proposition~\ref{prop:riesz-pair-coercivity} is the exact replacement for
+the earlier incorrect free-boundary step.  The harmonic part is completely
+explicit through Lemma~\ref{lem:harmonic-bathtub-schur}.  The only new input
+beyond the harmonic theory is the boundary-layer decomposition of the Green
+potential: interior poles are controlled by the genuine Green-kernel gap
+(Lemma~\ref{lem:interior-green-gap}), while boundary-layer poles contribute
+a harmonic Poisson profile $h_{\mathrm{bdry}}$ (absorbed by the Schur
+complement) and a non-harmonic remainder $\psi_R$ whose $P$-mass is
+controlled by the $P-Q_s$ gap (Lemma~\ref{lem:boundary-remainder-control}).
+No false first-order Green-gap estimate is used.
+\end{numrem}
+
+
+%=================================================================
+%  LOCAL PAIR HALF-STABILITY (adjusted proof)
+%=================================================================
+\begin{numthm}[Local pair half-stability]\label{thm:local-pair-half}
+Fix $\alpha>-1$ and $s\in(0,\infty)$. There are
+$\eta_{\alpha,s}>0$ and $C_{\alpha,s}<\infty$ such that, for every measurable
+$\Omega\subset\D$ with $\tau(\Omega)=s$ and every real-analytic subharmonic
+$\varphi$ on a neighbourhood of $\overline\D$ satisfying
+$P(\varphi)=0$, whose Riesz decomposition $\varphi=h+\psi$ satisfies
+\[
+\|h-P(h)\|_{C^2(\overline\D)}\le\eta_{\alpha,s},
+\]
+the function
+\[
+g_\varphi:=\frac{e^\varphi}{\|e^\varphi\|_{2,\alpha}}
+\]
+satisfies
+\[
+\inf_{|a|<1}\|g_\varphi-g_a\|_{2,\alpha}^2
+\le
+C_{\alpha,s}\,\delta(g_\varphi;\Omega).
+\]
+\end{numthm}
+
+\begin{proof}
+It is enough to prove the estimate for the maximizing set of the density
+\[
+u_\varphi(z):=
+e^{2\varphi(z)}(1-|z|^2)^{\alpha+2}
+\Big/\|e^\varphi\|_{2,\alpha}^2
+\]
+with respect to $d\tau$, since replacing $\Omega$ by the superlevel set of
+$u_\varphi$ can only decrease the deficit. For $\varphi=0$ this maximizer is
+the centered disk $B_s=\{|z|<r_s\}$.
+
+If the optimized deficit is bounded below by a fixed multiple of
+$\eta_{\alpha,s}$, the claim follows by increasing $C_{\alpha,s}$, since the
+left-hand side is at most $4$. We may therefore assume that
+\[
+\mathcal D_s(\varphi)
+:=
+\theta_\alpha(s)
+-
+\sup_{\tau(E)=s}\int_E g_\varphi^2\,dA_\alpha
+\le\eta_{\alpha,s}.
+\]
+
+Decompose $\mu=\mu_{\mathrm{int}}+\mu_{\mathrm{bdry}}$ as in
+Proposition~\ref{prop:nonlinear-green-absorption}, and set
+$\widetilde h:=h+h_{\mathrm{bdry}}$,
+$\varphi=\widetilde h+\psi_{\mathrm{int}}+\psi_R$.
+Proposition~\ref{prop:riesz-pair-coercivity} gives
+\[
+\mathcal D_s(\varphi)
+\ge
+c_{\alpha,s}\bigl(\mathcal D_s(\widetilde h)
++P(\psi_{\mathrm{int}})-Q_s(\psi_{\mathrm{int}})
++P(\psi_R)-Q_s(\psi_R)\bigr).
+\]
+
+By Lemma~\ref{lem:harmonic-bathtub-schur},
+\[
+\inf_{|a|<1}
+\left\|
+\frac{e^{\widetilde h}}{\|e^{\widetilde h}\|_{2,\alpha}}-g_a
+\right\|_{2,\alpha}^2
+\le
+C_{\alpha,s}\mathcal D_s(\widetilde h).
+\]
+
+By Proposition~\ref{prop:nonlinear-green-absorption},
+\[
+\inf_{t\in\mathbb R}
+\left\|
+g_\varphi-
+\frac{e^{\widetilde h+t}}{\|e^{\widetilde h+t}\|_{2,\alpha}}
+\right\|_{2,\alpha}^2
+\le
+C_{\alpha,s}\bigl(P(\psi_{\mathrm{int}})-Q_s(\psi_{\mathrm{int}})
++P(\psi_R)-Q_s(\psi_R)\bigr),
+\]
+where we used that $P(\psi_{\mathrm{bdry}})-Q_s(\psi_{\mathrm{bdry}})
+=P(\psi_R)-Q_s(\psi_R)$ since $h_{\mathrm{bdry}}$ is harmonic.
+
+The constant $t$ is irrelevant after normalization. Combining the last three
+displays with the triangle inequality in squared form yields
+\[
+\inf_{|a|<1}\|g_\varphi-g_a\|_{2,\alpha}^2
+\le
+C_{\alpha,s}\,\mathcal D_s(\varphi).
+\]
+Finally,
+\[
+\mathcal D_s(\varphi)
+\le
+\theta_\alpha(s)\,\delta(g_\varphi;\Omega)
+\]
+for every $\Omega$ of hyperbolic measure $s$, because the supremum over sets is
+at least the value on $\Omega$. This proves the theorem.
+\end{proof}
+
+
+%=================================================================
+%  GLOBAL HALF-STABILITY (adjusted proof)
+%=================================================================
+\begin{numthm}[Sharp planar stability for real-analytic log-subharmonic functions]\label{thm:global-half-from-green-absorption}
+For every $\alpha>-1$ and every $s\in(0,\infty)$ there is a constant
+$C_{\alpha,s}<\infty$ such that every positive real-analytic log-subharmonic
+$g\in\mathbf B_\alpha^2(\D)$ and every measurable
+$\Omega\subset\D$ with $\tau(\Omega)=s$ satisfy
+\[
+\inf_{\substack{|c|=\|g\|_{2,\alpha}\\ |a|<1}}
+\frac{\|g-cg_a\|_{2,\alpha}}{\|g\|_{2,\alpha}}
+\le
+C_{\alpha,s}\,\delta(g;\Omega)^{1/2}.
+\]
+\end{numthm}
+
+\begin{proof}
+By homogeneity assume $\|g\|_{2,\alpha}=1$. For deficits bounded below, the
+claim is trivial because the left-hand side is at most $2$. It remains to
+consider a sequence with $\delta(g_j;\Omega_j)\to0$.
+
+Assume the estimate fails. Then there are $g_j,\Omega_j$ with
+$\tau(\Omega_j)=s$ and
+\[
+\frac{\operatorname{dist}(g_j,\mathcal E)}
+{\delta(g_j;\Omega_j)^{1/2}}\to\infty,
+\qquad
+\mathcal E:=\{g_a:|a|<1\}.
+\]
+The already proved $1/4$ estimate, Theorem~\ref{stabb_n2_beta}, implies
+\[
+\operatorname{dist}(g_j,\mathcal E)\to0.
+\]
+After composing with automorphisms realizing the closest extremals, covariance
+reduces us to functions
+\[
+\widetilde g_j=\frac{e^{\varphi_j}}{\|e^{\varphi_j}\|_{2,\alpha}},
+\qquad
+P(\varphi_j)=0,
+\]
+with $\widetilde g_j\to1$ in $L^2(dA_\alpha)$ and transformed sets
+$\widetilde\Omega_j$ of the same hyperbolic measure, with
+$\delta(\widetilde g_j;\widetilde\Omega_j)=\delta(g_j;\Omega_j)$.
+Equivalently, for
+\[
+u_j(z):=
+\widetilde g_j(z)^2(1-|z|^2)^{\alpha+2}
+\]
+we have $u_j\to w_\alpha$ in $L^1(d\tau)$, and the near equality assumption
+gives
+\[
+\int_{\widetilde\Omega_j}u_j\,d\tau\longrightarrow\Theta(s).
+\]
+Lemma~\ref{lem:bathtub-compactness-radial} therefore yields
+\[
+\tau(\widetilde\Omega_j\triangle B_s)\to0,
+\qquad
+\int_{B_s}u_j\,d\tau\to\Theta(s).
+\]
+In other words,
+\[
+\delta(\widetilde g_j;B_s)\to0.
+\]
+
+Write the Riesz decomposition
+\[
+\varphi_j=h_j+\psi_j,\qquad
+\psi_j=-G\mu_j,\qquad \mu_j\ge0.
+\]
+Decompose $\mu_j=\mu_{\mathrm{int},j}+\mu_{\mathrm{bdry},j}$ as in
+Proposition~\ref{prop:nonlinear-green-absorption} (with $\delta_0$ fixed by
+Lemma~\ref{lem:boundary-remainder-control}), and set
+\[
+\widetilde h_j:=h_j+h_{\mathrm{bdry},j},\qquad
+\varphi_j=\widetilde h_j+\psi_{\mathrm{int},j}+\psi_{R,j}.
+\]
+
+We claim first that
+\begin{equation}\label{eq:harmonic-compactness-new}
+\widetilde h_j-P(\widetilde h_j)\longrightarrow0
+\quad\text{locally uniformly in }\D .
+\end{equation}
+Indeed, from $\delta(\widetilde g_j;B_s)\to0$ and
+$\widetilde g_j\to1$ in $L^2$, the coercivity estimate
+\eqref{eq:coercivity-decomposed} forces
+\[
+\mathcal D_s(\widetilde h_j)\to0,\qquad
+P(\psi_{\mathrm{int},j})-Q_s(\psi_{\mathrm{int},j})\to0,\qquad
+P(\psi_{R,j})-Q_s(\psi_{R,j})\to0.
+\]
+The convergence $\mathcal D_s(\widetilde h_j)\to0$ together with the harmonic
+Schur complement (Lemma~\ref{lem:harmonic-bathtub-schur}) gives
+$\|\widetilde h_j-P(\widetilde h_j)\|_{2,\alpha}\to0$ and control of the $k\ge2$ modes.
+Since the $k=1$ mode (M\"obius translations) is in the tangent space and
+does not affect the deficit, the $L^2$ convergence of $\widetilde h_j$ to a constant
+upgrades to local uniform convergence by standard elliptic estimates for
+harmonic functions.  This proves~\eqref{eq:harmonic-compactness-new}.
+
+Thus, after discarding finitely many terms, the combined harmonic part
+$\widetilde h_j$ is in the small local chart required by
+Theorem~\ref{thm:local-pair-half}.  The $k=1$ component is harmless because
+the distance is taken to the whole extremal manifold.  The local pair theorem,
+Theorem~\ref{thm:local-pair-half}, applied to
+$(\widetilde g_j,\widetilde\Omega_j)$ gives
+\[
+\operatorname{dist}(\widetilde g_j,\mathcal E)^2
+\le
+C_{\alpha,s}\,\delta(\widetilde g_j;\widetilde\Omega_j)
+=
+C_{\alpha,s}\,\delta(g_j;\Omega_j).
+\]
+Thus
+\[
+\operatorname{dist}(g_j,\mathcal E)
+\le
+C_{\alpha,s}\,\delta(g_j;\Omega_j)^{1/2},
+\]
+contradicting the choice of the sequence. This proves the theorem.
+\end{proof}
+
+\begin{numrem}[Global mechanism]
+The nonlinear spike obstruction is absorbed by the boundary-layer
+decomposition in Proposition~\ref{prop:nonlinear-green-absorption}:
+interior poles are controlled by the genuine Green-kernel gap
+(Lemma~\ref{lem:interior-green-gap}), while boundary-layer poles contribute
+a harmonic Poisson profile $h_{\mathrm{bdry}}$ (absorbed by the harmonic
+Schur complement) and a non-harmonic remainder $\psi_R$ (controlled by
+Lemma~\ref{lem:boundary-remainder-control}).  The bathtub compactness lemma
+(Lemma~\ref{lem:bathtub-compactness-radial}) prevents the set from drifting
+in the normalized chart.  Thus no separate centering of the set is needed:
+the perturbative bathtub expansion in Theorem~\ref{thm:local-pair-half}
+treats the optimal set displacement and the function perturbation
+simultaneously.
+\end{numrem}

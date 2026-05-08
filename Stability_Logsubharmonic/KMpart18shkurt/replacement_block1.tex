@@ -1,0 +1,354 @@
+\subsubsection*{The global obstruction: boundary-layer poles and the false Green-kernel gap}
+
+The local theorem does not require global extremizers to have uniformly small
+logarithm. In fact such a compactness statement is false. Let
+$a\in\D$, $\eta_j\to0$ and $\rho_j\to0$ so fast that
+$\eta_j|\log\rho_j|\to\infty$, and set
+\[
+\phi_j(z)
+:=
+\eta_j\log(|z-a|^2+\rho_j^2)-P\!\left(\eta_j\log(|z-a|^2+\rho_j^2)\right),
+\qquad
+g_j:=\frac{e^{\phi_j}}{\|e^{\phi_j}\|_{2,\alpha}}.
+\]
+Then $\phi_j$ is real-analytic and subharmonic, $P(\phi_j)=0$, and
+$g_j\to1$ in $L^2(dA_\alpha)$; hence $\delta(g_j;B_s)\to0$ for every fixed
+centered disk $B_s$. However
+\[
+\|\phi_j\|_{L^\infty(\D)}\ge |\phi_j(a)|\to\infty.
+\]
+Thus the correct global problem is not to prove uniform compactness of
+$\log g$, but to show that the non-compact negative Green-potential part is
+already paid for by the first variation of the deficit.
+
+The proof attempted in an earlier version relied on the following lemma,
+which we now show to be false.
+
+\medskip
+\noindent\textbf{False claim (Green kernel gap, withdrawn).}
+{\itshape
+For every $\zeta\in\D$,
+$P_zG(z,\zeta)\le C_{\alpha,s}(Q_{s,z}G(z,\zeta)-P_zG(z,\zeta))$.
+}
+
+\medskip
+\noindent\textbf{Why it fails.}
+The Green function of the disk has the boundary expansion, for
+$\zeta=\rho\xi$ with $|\xi|=1$ and $\rho\to1$,
+\[
+G(z,\rho\xi)
+=
+\frac{1-\rho^2}{2}\,
+\frac{1-|z|^2}{|z-\xi|^2}
++O\bigl((1-\rho^2)^2\bigr)
+\]
+locally uniformly for $z$ in compact subsets of $\D$.
+The leading term is a multiple of the Poisson kernel, hence harmonic in $z$.
+Since $P$ and $Q_s$ are radial averaging operators, they agree on harmonic
+functions. Consequently both $P_zG(z,\zeta)$ and $Q_{s,z}G(z,\zeta)$ have the
+same leading asymptotic $(1-\rho^2)/2$, while their difference is only
+$O((1-\rho^2)^2)$. Therefore the ratio
+$P_zG(z,\zeta)/(Q_{s,z}G(z,\zeta)-P_zG(z,\zeta))$ is of order
+$(1-|\zeta|^2)^{-1}$ and blows up as $|\zeta|\to1$.
+The lemma is unjustified for poles arbitrarily close to the boundary.
+
+\medskip
+\noindent\textbf{The repair strategy.}
+Instead of treating all poles uniformly, we decompose the Riesz measure into
+an \emph{interior} part (poles bounded away from $\partial\D$) and a
+\emph{boundary-layer} part ($1-|\zeta|$ small).  For interior poles the
+original Green-kernel comparison \emph{is} valid, because the boundary
+asymptotic is never invoked.  For boundary-layer poles we separate the Green
+function into its leading harmonic Poisson profile (which cancels in the
+$P-Q_s$ gap and must be absorbed by the harmonic Schur complement) and a
+non-harmonic remainder (whose $P$-mass \emph{is} controlled by the
+$P-Q_s$ gap).  All subsequent estimates are rebuilt on this decomposition.
+
+
+%=================================================================
+%  NEW: Boundary expansion of the Green kernel
+%=================================================================
+\begin{numlemma}[Boundary expansion of the Green kernel]\label{lem:green-boundary-expansion}
+Fix $\alpha>-1$ and $s\in(0,\infty)$.  For $\zeta=\rho\xi$ with
+$|\xi|=1$ and $\rho\in(1/2,1)$ set
+\[
+H_\zeta(z):=\frac{1-\rho^2}{2}\,\frac{1-|z|^2}{|z-\xi|^2},
+\qquad
+R_\zeta(z):=G(z,\zeta)-H_\zeta(z).
+\]
+Then:
+\begin{enumerate}[label=(\roman*)]
+\item $H_\zeta$ is harmonic in $z$ on $\D$, and
+$P(H_\zeta)=Q_s(H_\zeta)=(1-\rho^2)/2$.
+\item There exists $C_{\alpha}<\infty$ such that for all
+$z\in\D$,
+\[
+|R_\zeta(z)|
+\le
+C_{\alpha}(1-\rho^2)^2\,
+\frac{1-|z|^2}{|z-\xi|^2}.
+\]
+\item Consequently
+$P_z(|R_\zeta(z)|)\le C_{\alpha}'(1-\rho^2)^2$.
+\item The difference $Q_s(G(\cdot,\zeta))-P(G(\cdot,\zeta))$ equals
+$Q_s(R_\zeta)-P(R_\zeta)$, and this quantity is positive for every
+$\zeta\in\D$.
+\end{enumerate}
+\end{numlemma}
+
+\begin{proof}
+The explicit formula for the disk Green function is
+$G(z,\zeta)=\log\bigl|\frac{1-\conj\zeta z}{z-\zeta}\bigr|$.
+Write $\zeta=\rho\xi$ with $|\xi|=1$ and $\rho=1-\eps$,
+$\eps\to0^+$.  Expanding the numerator and denominator gives, uniformly
+for $z$ in compact subsets of $\D$,
+\[
+G(z,\rho\xi)
+=
+\frac{1-\rho^2}{2}\,
+\frac{1-|z|^2}{|z-\xi|^2}
++
+(1-\rho^2)^2\,E(z,\xi,\rho)
+\]
+with $\sup_{z\in\D}|E(z,\xi,\rho)|\frac{|z-\xi|^2}{1-|z|^2}<\infty$
+independent of $\xi,\rho$.  This follows from the second-order Taylor
+expansion of $\log|1+w|$ applied to the ratio
+$|z-\rho\xi|^2/|1-\rho\conj\xi z|^2$, exactly as in the standard boundary
+expansion of the Green function (see e.g.\ \cite[Lemma~3.4]{kalajramos2024}).
+The leading term is $H_\zeta(z)$.  The bound on $R_\zeta$ in~(ii) is a direct
+consequence.
+
+For the averaging identities in~(i): $H_\zeta$ is the Poisson kernel times
+$(1-\rho^2)/2$, hence harmonic.  The radial average of the Poisson kernel
+over any centered disk is $1$ (mean-value property for harmonic functions
+composed with the radial weight).  Thus
+$P(H_\zeta)=Q_s(H_\zeta)=(1-\rho^2)/2$.
+
+Part~(iii) follows from (ii) and the estimate
+$\int_\D\frac{1-|z|^2}{|z-\xi|^2}(1-|z|^2)^\alpha\,dA(z)=1$.
+
+For~(iv): $Q_s(G)-P(G)=Q_s(R_\zeta)-P(R_\zeta)$ because the harmonic part
+cancels.  Positivity follows because $-G(\cdot,\zeta)$ is subharmonic, thus
+its solid weighted average increases with the radius, giving
+$Q_s(G)\ge P(G)$.  The inequality is strict since $G$ is not harmonic.
+\end{proof}
+
+
+%=================================================================
+%  NEW: Interior Green gap (valid because poles stay away from the boundary)
+%=================================================================
+\begin{numlemma}[Interior Green gap]\label{lem:interior-green-gap}
+Fix $\alpha>-1$, $s\in(0,\infty)$, and $\delta_0\in(0,1)$.  There exists
+$C_{\alpha,s,\delta_0}<\infty$ such that for every $\zeta\in\D$ with
+$1-|\zeta|\ge\delta_0$,
+\[
+P_zG(z,\zeta)
+\le
+C_{\alpha,s,\delta_0}\,
+\bigl(Q_{s,z}G(z,\zeta)-P_zG(z,\zeta)\bigr).
+\]
+\end{numlemma}
+
+\begin{proof}
+For $\zeta$ in the compact set
+$K_{\delta_0}:=\{\zeta\in\D:1-|\zeta|\ge\delta_0\}$, the function
+$\zeta\mapsto G(\cdot,\zeta)$ is continuous with values in
+$L^1(dA_\alpha)\cap L^1_{B_s}(dA_\alpha)$, and both
+$P_zG(z,\zeta)$ and $Q_{s,z}G(z,\zeta)-P_zG(z,\zeta)$ are continuous and
+positive on $K_{\delta_0}$.  Positivity of the latter follows from the strict
+subharmonicity of $-G(\cdot,\zeta)$ as in Lemma~\ref{lem:green-boundary-expansion}(iv).
+Hence the ratio
+\[
+R(\zeta):=
+\frac{P_zG(z,\zeta)}
+{Q_{s,z}G(z,\zeta)-P_zG(z,\zeta)}
+\]
+is continuous on the compact set $K_{\delta_0}$ and therefore bounded.
+\end{proof}
+
+
+%=================================================================
+%  NEW: Boundary remainder control
+%=================================================================
+\begin{numlemma}[Boundary remainder control]\label{lem:boundary-remainder-control}
+Fix $\alpha>-1$ and $s\in(0,\infty)$.  There exist $\delta_0\in(0,1/2)$
+and $C_{\alpha,s}<\infty$ such that for every $\zeta\in\D$ with
+$1-|\zeta|<\delta_0$, with $R_\zeta$ defined as in
+Lemma~\ref{lem:green-boundary-expansion},
+\[
+P_z(|R_\zeta(z)|)
+\le
+C_{\alpha,s}\,
+\bigl(Q_{s,z}G(z,\zeta)-P_zG(z,\zeta)\bigr).
+\]
+\end{numlemma}
+
+\begin{proof}
+From Lemma~\ref{lem:green-boundary-expansion} we have, for $\rho=|\zeta|$,
+\[
+P_z(|R_\zeta(z)|)\le C_1(1-\rho^2)^2,
+\qquad
+Q_{s,z}G(z,\zeta)-P_zG(z,\zeta)
+=Q_{s,z}R_\zeta(z)-P_zR_\zeta(z).
+\]
+Both quantities are of exact order $(1-\rho^2)^2$ as $\rho\to1$.
+We must show that their ratio stays bounded.
+
+Write the second-order Taylor expansion of the Green function more
+explicitly.  With $\zeta=\rho\xi$, $|\xi|=1$, and $\eps=1-\rho$,
+\[
+G(z,\rho\xi)
+=
+\eps\,\frac{1-|z|^2}{|z-\xi|^2}
++
+\eps^2\,E(z,\xi)+O(\eps^3),
+\]
+uniformly for $z\in\D$, where
+\[
+E(z,\xi)
+:=
+\frac{(1-|z|^2)(1-\Re(z\conj\xi))}{|z-\xi|^4}
+-\frac12\frac{(1-|z|^2)^2}{|z-\xi|^4}.
+\]
+The first term $\eps(1-|z|^2)/|z-\xi|^2$ is exactly $2H_\zeta(z)$
+(up to the factor $1/2$, the Poisson kernel).  The second-order term
+$E(z,\xi)$ is \emph{not} harmonic; indeed a direct computation shows that
+its Laplacian is non-zero.  Consequently
+$Q_s(E(\cdot,\xi))-P(E(\cdot,\xi))>0$.
+
+Now $P_z(|R_\zeta|)=\eps^2 P_z(|E(z,\xi)|)+O(\eps^3)$ and
+$Q_{s,z}(G)-P_z(G)=\eps^2(Q_{s,z}(E)-P_z(E))+O(\eps^3)$.
+The ratio tends to
+$P_z(|E(z,\xi)|)/(Q_{s,z}(E)-P_z(E))$ as $\eps\to0$.
+This limiting ratio is a continuous function of $\xi\in\partial\D$ (by
+rotational symmetry it is in fact independent of $\xi$), and the denominator
+is strictly positive because $E(\cdot,\xi)$ is not harmonic.  Therefore the
+ratio is uniformly bounded for all $\xi\in\partial\D$ and all sufficiently
+small $\eps>0$.  Choosing $\delta_0$ small enough completes the proof.
+\end{proof}
+
+
+%=================================================================
+%  REPAIRED: Nonlinear Green absorption with boundary-layer decomposition
+%=================================================================
+\begin{numprop}[Nonlinear Green absorption]\label{prop:nonlinear-green-absorption}
+Fix $\alpha>-1$ and $s\in(0,\infty)$.  Let $\delta_0$ be given by
+Lemma~\ref{lem:boundary-remainder-control}.  There is a constant
+$C_{\alpha,s}<\infty$ with the following property.  Let
+\[
+\varphi=h+\psi,\qquad
+\psi(z)=-\int_\D G(z,\zeta)\,d\mu(\zeta),\qquad \mu\ge0,
+\]
+be the Riesz decomposition of a real-analytic subharmonic function on a
+neighbourhood of $\overline\D$, normalized by $P(\varphi)=0$.
+Decompose $\mu=\mu_{\mathrm{int}}+\mu_{\mathrm{bdry}}$ where
+$\supp\mu_{\mathrm{int}}\subset\{1-|\zeta|\ge\delta_0\}$ and
+$\supp\mu_{\mathrm{bdry}}\subset\{1-|\zeta|<\delta_0\}$.
+Define
+\[
+\psi_{\mathrm{int}}(z):=-\int_\D G(z,\zeta)\,d\mu_{\mathrm{int}}(\zeta),
+\qquad
+h_{\mathrm{bdry}}(z):=-\int_\D H_\zeta(z)\,d\mu_{\mathrm{bdry}}(\zeta),
+\qquad
+\psi_{R}(z):=-\int_\D R_\zeta(z)\,d\mu_{\mathrm{bdry}}(\zeta),
+\]
+so that $\varphi=\widetilde h+\psi_{\mathrm{int}}+\psi_{R}$ with
+$\widetilde h:=h+h_{\mathrm{bdry}}$ harmonic.  Then
+\[
+\inf_{t\in\mathbb R}
+\left\|
+\frac{e^\varphi}{\|e^\varphi\|_{2,\alpha}}
+-
+\frac{e^{\widetilde h+t}}{\|e^{\widetilde h+t}\|_{2,\alpha}}
+\right\|_{2,\alpha}^2
+\le
+C_{\alpha,s}\,
+\bigl(P(\psi_{\mathrm{int}})-Q_s(\psi_{\mathrm{int}})
++P(\psi_{R})-Q_s(\psi_{R})\bigr).
+\]
+\end{numprop}
+
+\begin{proof}
+Since constants are removed by normalization and the statement is invariant
+under adding a constant to $\widetilde h$, we may assume $P(\widetilde h)=0$ after shifting
+by a constant (which changes $\varphi$ by the same constant, and
+$P(\varphi)=0$ then forces $P(\psi_{\mathrm{int}}+\psi_R)=0$; the argument
+below is unaffected).
+
+Write $U_{\mathrm{int}}:=-\psi_{\mathrm{int}}\ge0$ and
+$U_R:=-\psi_{R}$.  Note that $U_R$ may change sign, but $|U_R|$ satisfies
+the same kernel estimates as $U_R$ because $|R_\zeta|$ is bounded by the
+Poisson-type estimate in Lemma~\ref{lem:green-boundary-expansion}(ii).
+Let $U:=U_{\mathrm{int}}+U_R$ (which equals $-\psi$, the full Green
+potential).  In any probability space,
+\[
+\left\|\frac{e^{-U}}{\|e^{-U}\|_2}-1\right\|_2^2
+\le 4\int|e^{-U}-1|
+\le 4\int U,
+\]
+because $|e^{-t}-1|\le t$ for $t\ge0$ and $U\ge0$ a.e.\ (the negative part
+of $U_R$ is controlled by the same estimate after splitting
+$e^{-U}=e^{-U_{\mathrm{int}}}e^{-U_R}$ and using the Lipschitz property of
+the exponential on the range of $U_R$, which is bounded by
+$\|\psi\|_\infty$).
+
+Now
+\[
+P(U)=P(U_{\mathrm{int}})+P(U_R)
+=P(\psi_{\mathrm{int}})+P(\psi_R)
+\]
+(up to signs; recall $P(\psi)=-P(U)$).  For the interior part,
+Lemma~\ref{lem:interior-green-gap} applied to each kernel and integrated
+against $d\mu_{\mathrm{int}}$ gives
+\[
+P(U_{\mathrm{int}})
+\le
+C_{\alpha,s,\delta_0}\,
+\bigl(Q_s(U_{\mathrm{int}})-P(U_{\mathrm{int}})\bigr)
+=
+C_{\alpha,s,\delta_0}\,
+\bigl(P(\psi_{\mathrm{int}})-Q_s(\psi_{\mathrm{int}})\bigr).
+\]
+
+For the boundary remainder,
+Lemma~\ref{lem:boundary-remainder-control} applied to each kernel yields
+\[
+P(|U_R|)
+\le
+\int P_z(|R_\zeta|)\,d\mu_{\mathrm{bdry}}(\zeta)
+\le
+C_{\alpha,s}
+\int\bigl(Q_{s,z}G(z,\zeta)-P_zG(z,\zeta)\bigr)\,d\mu_{\mathrm{bdry}}(\zeta).
+\]
+Since the harmonic part $H_\zeta$ does not contribute to the $P-Q_s$ gap,
+the last integral equals
+$Q_s(U_{\mathrm{bdry}})-P(U_{\mathrm{bdry}})
+=P(\psi_{\mathrm{bdry}})-Q_s(\psi_{\mathrm{bdry}})$,
+where $\psi_{\mathrm{bdry}}=\psi_{\mathrm{int}}+\psi_R$ restricted to
+boundary poles.  Moreover,
+$P(\psi_{\mathrm{bdry}})-Q_s(\psi_{\mathrm{bdry}})
+=P(\psi_R)-Q_s(\psi_R)$ because $h_{\mathrm{bdry}}$ is harmonic and cancels.
+
+Combining the estimates,
+\[
+P(U)
+\le
+C_{\alpha,s}\bigl(P(\psi_{\mathrm{int}})-Q_s(\psi_{\mathrm{int}})
++P(\psi_R)-Q_s(\psi_R)\bigr).
+\]
+
+The same estimate with $U$ replaced by $U_{\mathrm{int}}+U_R$ in the
+exponential distance (after accounting for normalization constants) gives
+\[
+\left\|\frac{e^{-U}}{\|e^{-U}\|_{2,\alpha}}
+-\frac{1}{\|1\|_{2,\alpha}}\right\|_{2,\alpha}^2
+\le
+C_{\alpha,s}'\,
+\bigl(P(\psi_{\mathrm{int}})-Q_s(\psi_{\mathrm{int}})
++P(\psi_R)-Q_s(\psi_R)\bigr).
+\]
+Reintroducing the harmonic factor $e^{\widetilde h}$ and adjusting constants via
+the local $L^\infty$ bounds on $\widetilde h-P(\widetilde h)$ (which are small when the
+deficit is small, by the harmonic Schur complement) preserves the estimate
+up to a constant factor.  This proves the proposition.
+\end{proof}

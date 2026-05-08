@@ -1,0 +1,209 @@
+\begin{numlemma}[Bathtub compactness at the radial profile]\label{lem:bathtub-compactness-radial}
+Let
+\[
+w_\alpha(z):=(1-|z|^2)^{\alpha+2},
+\qquad
+\Theta(s):=\sup_{\tau(E)=s}\int_E w_\alpha\,d\tau
+=\int_{B_s}w_\alpha\,d\tau .
+\]
+If $u_j\to w_\alpha$ in $L^1(d\tau)$ and $\tau(E_j)=s$ with
+\[
+\int_{E_j}u_j\,d\tau\longrightarrow \Theta(s),
+\]
+then
+\[
+\tau(E_j\triangle B_s)\longrightarrow0.
+\]
+In particular,
+\[
+\int_{B_s}u_j\,d\tau\longrightarrow\Theta(s).
+\]
+\end{numlemma}
+
+\begin{proof}
+Let $B_s=\{|z|<r_s\}$. Fix $\varepsilon>0$ and choose an annulus
+\[
+A_\varepsilon:=\{r_s-\varepsilon<|z|<r_s+\varepsilon\}
+\]
+with $\tau(A_\varepsilon)<\varepsilon$. On
+$B_s\setminus A_\varepsilon$ the radial function $w_\alpha$ is strictly larger
+than on $\D\setminus(B_s\cup A_\varepsilon)$; denote the gap by
+\[
+\gamma_\varepsilon
+:=
+\inf_{B_s\setminus A_\varepsilon}w_\alpha
+-
+\sup_{\D\setminus(B_s\cup A_\varepsilon)}w_\alpha
+>0.
+\]
+Since $\tau(E_j)=\tau(B_s)$, the mass of $B_s\setminus E_j$ must be replaced
+by the same amount of mass in $E_j\setminus B_s$, up to the annular error.
+Therefore the strict rearrangement inequality gives, after possibly reducing
+the constant,
+\[
+\Theta(s)-\int_{E_j}w_\alpha\,d\tau
+\ge
+\gamma_\varepsilon
+\tau\bigl((E_j\triangle B_s)\setminus A_\varepsilon\bigr)
+-\gamma_\varepsilon\tau(A_\varepsilon).
+\]
+The same deficit with $u_j$ differs from this one by at most
+$2\|u_j-w_\alpha\|_{L^1(d\tau)}$, and therefore
+\[
+\limsup_j
+\tau\bigl((E_j\triangle B_s)\setminus A_\varepsilon\bigr)=0.
+\]
+Letting $\varepsilon\downarrow0$ proves the symmetric-difference convergence.
+The final assertion follows from
+\[
+\left|\int_{B_s}u_j\,d\tau-\Theta(s)\right|
+\le \|u_j-w_\alpha\|_{L^1(d\tau)}.
+\]
+\end{proof}
+
+\begin{numlemma}[Harmonic bathtub Schur complement]\label{lem:harmonic-bathtub-schur}
+Fix $\alpha>-1$ and $s\in(0,\infty)$, and let
+$B_s=\{|z|<r_s\}$, $R:=r_s^2$, $\theta:=\theta_\alpha(s)$. For a real-valued
+harmonic function
+\[
+h(re^{i\vartheta})
+=h(0)+\sum_{k\ge1} r^k
+\Re(b_k e^{ik\vartheta})
+\]
+on a neighbourhood of $\overline\D$, set
+\[
+g_h:=\frac{e^h}{\|e^h\|_{2,\alpha}},
+\qquad
+\mathcal D_s(h):=
+\theta-\sup_{\tau(E)=s}\int_E g_h^2\,dA_\alpha .
+\]
+There are $\eta_{\alpha,s}>0$ and $c_{\alpha,s}>0$ such that, if
+$\|h-h(0)\|_{C^2(\overline\D)}\le\eta_{\alpha,s}$, then
+\[
+\mathcal D_s(h)
+\ge
+c_{\alpha,s}\sum_{k\ge2}\|r^k\Re(b_k e^{ik\vartheta})\|_{2,\alpha}^2 .
+\]
+Equivalently,
+\[
+\inf_{|a|<1}
+\left\|
+\frac{e^h}{\|e^h\|_{2,\alpha}}-g_a
+\right\|_{2,\alpha}^2
+\le
+C_{\alpha,s}\,\mathcal D_s(h).
+\]
+\end{numlemma}
+
+\begin{proof}
+Constants in $h$ disappear from $g_h$, so assume $h(0)=0$. The bathtub
+maximizer for $g_h^2dA_\alpha$ under the constraint $\tau(E)=s$ is a superlevel
+set of
+\[
+e^{2h(z)}(1-|z|^2)^{\alpha+2}.
+\]
+Since
+\[
+\partial_r(1-r^2)^{\alpha+2}\big|_{r=r_s}
+=-2(\alpha+2)r_s(1-r_s^2)^{\alpha+1}<0,
+\]
+the implicit function theorem gives, for $\|h\|_{C^2}$ small, a boundary graph
+\[
+E_h=\{re^{i\vartheta}:0<r<r_s+\rho(\vartheta)\},
+\qquad
+\int_0^{2\pi}\rho(\vartheta)\,d\vartheta=O(\|\rho\|_{L^2}^2),
+\]
+for the maximizing set. The last relation is the first-order form of the
+constraint $\tau(E_h)=\tau(B_s)$.
+
+It remains to compute the quadratic part of
+$\theta-\int_{E_h}g_h^2\,dA_\alpha$. Write
+\[
+dA_\alpha=A(r)\,dr\,d\vartheta,\qquad
+d\tau=T(r)\,dr\,d\vartheta,
+\]
+where
+\[
+A(r)=\frac{\alpha+1}{\pi}(1-r^2)^\alpha r,
+\qquad
+T(r)=\frac{r}{(1-r^2)^2}.
+\]
+The Lagrange multiplier for the unperturbed bathtub problem is
+\[
+\lambda_s:=\frac{A(r_s)}{T(r_s)}
+=\frac{\alpha+1}{\pi}(1-r_s^2)^{\alpha+2}.
+\]
+For variations preserving $\tau$ to first order, the second-order expansion of
+\[
+\int_E g_h^2\,dA_\alpha-\lambda_s\tau(E)
+\]
+at $(h,E)=(0,B_s)$ is diagonal in angular Fourier modes. The block associated
+to the $k$th harmonic coefficient and the $k$th boundary displacement is
+\[
+\Gamma_k |b_k|^2
+-2A(r_s)r_s^k
+\int_0^{2\pi}\Re(b_ke^{ik\vartheta})\,\rho_k(\vartheta)\,d\vartheta
++\kappa_s\|\rho_k\|_{L^2(\partial\D)}^2,
+\]
+where
+\[
+\kappa_s
+:=
+-\frac12 T(r_s)\left(\frac{A}{T}\right)'(r_s)
+=
+\frac{(\alpha+1)(\alpha+2)}{\pi}
+r_s^2(1-r_s^2)^{\alpha-1}>0,
+\]
+and
+\[
+\Gamma_k
+:=
+\theta M_k-I_k(R),
+\quad
+M_k:=(\alpha+1)\int_0^1 t^k(1-t)^\alpha\,dt,
+\quad
+I_k(R):=(\alpha+1)\int_0^R t^k(1-t)^\alpha\,dt .
+\]
+Optimizing in the boundary coefficient gives the Schur complement
+\[
+\mathfrak s_k
+=
+\Gamma_k
+-
+\frac{\alpha+1}{\alpha+2}(1-R)^{\alpha+1}R^k .
+\]
+The cancellation $\mathfrak s_1=0$ is exactly the infinitesimal Mobius
+translation. For $k\ge2$ the coefficient is strictly positive. Indeed, with
+$d\nu(t)=(\alpha+1)(1-t)^\alpha\,dt$,
+\[
+\Gamma_k
+=
+\int_0^R\int_R^1 (y^k-x^k)\,d\nu(y)d\nu(x),
+\]
+and the subtracted term is $R^{k-1}$ times the same expression with $k=1$.
+Thus
+\[
+\mathfrak s_k
+=
+\int_0^R\int_R^1
+\bigl(y^k-x^k-R^{k-1}(y-x)\bigr)\,d\nu(y)d\nu(x)>0
+\qquad (k\ge2),
+\]
+because $x<R<y$ and
+\[
+y^k-x^k=(y-x)\sum_{j=0}^{k-1}y^{k-1-j}x^j
+>R^{k-1}(y-x).
+\]
+Moreover $\mathfrak s_k/M_k$ has a positive lower bound for $k\ge2$: the
+displayed strict positivity handles finitely many $k$, while
+$\mathfrak s_k/M_k\to\theta$ as $k\to\infty$.
+
+Consequently the quadratic part controls precisely the harmonic modes
+$k\ge2$. The cubic remainder is bounded by
+$C_{\alpha,s}\|h\|_{C^2}\bigl(\sum_{k\ge2}\|h_k\|_{2,\alpha}^2+
+\|\rho\|_{L^2}^2\bigr)$, and is absorbed after decreasing
+$\eta_{\alpha,s}$. This proves the first estimate. The second estimate follows
+from the tubular expansion of the extremal manifold at $g_0=1$:
+the $k=1$ harmonic modes are its tangent space, and the modes $k\ge2$ are
+transversal.
+\end{proof}

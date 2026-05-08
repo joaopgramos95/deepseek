@@ -1,0 +1,2967 @@
+\documentclass[a4paper,10pt]{amsart}
+\usepackage{needspace}
+\usepackage{import}
+% \usepackage{showkeys} % uncomment for debugging labels
+
+% Preamble, macros and environments
+\input{preamble.tex}
+\input{macros.tex}
+\input{environments.tex}
+
+% Paper-specific macros
+\newcommand\ee{v^*}
+\newcommand{\Fock}{\mcalF^2}
+\newcommand{\Fnorm}[1]{\norm{#1}_{\Fock}}
+\newcommand{\Om}{\Omega}
+\newcommand{\om}{\omega}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\STFT}{\mcalV}
+\newcommand{\Berg}{\mathbf{B}_{\alpha}^2}
+
+% Title and author information
+\title[Sharp stability of hyperbolic concentration]{Sharp stability of hyperbolic concentration for Bergman and log-subharmonic functions}
+
+\author{Jaime G\'omez}
+\address{Mathematics section, EPFL, Lausanne, Switzerland.}
+\email{jaime.gomezramirez@epfl.ch}
+
+\author{David Kalaj}
+\address{University of Montenegro, Faculty of natural sciences and mathematics, Podgorica, Cetinjski put b.b. 81000 Podgorica, Montenegro}
+\email{davidk@ucg.ac.me}
+
+\author{Petar Melentijevi\'c}
+\address{University of Belgrade, Faculty of Mathematics, 11000, Belgrade, Serbia}
+\email{petarmel@matf.bg.ac.rs}
+
+\author{Jo\~ao P. G. Ramos}
+\address{Estrada Dona Castorina 110, Horto, Rio de Janeiro, RJ, Brazil.}
+\email{joao.ramos@impa.br}
+
+\begin{document}
+
+\begin{abstract}
+We prove quantitative stability results for sharp hyperbolic concentration
+(Faber--Krahn type) inequalities in Bergman-type settings associated with the
+automorphism group of the unit ball. The main new result is the sharp planar
+stability theorem for positive real-analytic log-subharmonic functions in the
+weighted Bergman class $\mathbf B_\alpha^2(\D)$: if
+$\Omega\subset\D$ has fixed hyperbolic measure and $(g,\Omega)$ nearly
+saturates the sharp concentration inequality, then
+\[
+\inf_{\substack{|c|=\|g\|_{2,\alpha}\\ |a|<1}}
+\frac{\|g-cg_a\|_{2,\alpha}}{\|g\|_{2,\alpha}}
+\le
+C_{\alpha,\tau(\Omega)}\,\delta(g;\Omega)^{1/2}.
+\]
+The exponent $1/2$ is optimal, already within the zero-free holomorphic
+subclass.
+
+The proof first obtains the rearrangement-and-peak estimate with exponent
+$1/4$, then replaces the peak-only step by a local rigidity theory for
+real-analytic log-subharmonic perturbations. The key ingredients are a
+free-boundary Schur-complement computation for the bathtub optimizer, a
+Green-potential absorption mechanism, a compactness theorem for normalized
+Green kernels, and a nonlinear one-sided Green-gap lemma which rules out
+hidden logarithmic spikes. We also prove vector-valued holomorphic Bergman
+stability with the sharp exponent $1/2$, uniformly in the target dimension,
+and higher-dimensional hyperbolic and Gaussian/Fock analogues obtained by the
+general rearrangement method.
+\end{abstract}
+\maketitle
+\section{Introduction}
+
+\subsection{Rigidity and stability for concentration inequalities}
+
+Sharp concentration inequalities in time--frequency analysis and complex function spaces typically
+exhibit a strong rigidity phenomenon: equality is attained by a low-dimensional family of
+extremizers obtained from a single profile by the symmetries of the ambient geometry, and
+\emph{near}-equality forces the data to lie quantitatively close to that extremal manifold.
+This principle has been developed in the Euclidean phase-space setting for the short-time Fourier
+transform and related transforms, and in holomorphic Bergman-type spaces; see, for instance,
+\cite{GomezGuerraRamosTilli2024,GomezKalajMelentijevicRamos2025} and the references therein.
+
+The guiding point of this paper is that the stability exponent depends strongly
+on the analytic structure of the admissible class. In holomorphic Bergman
+spaces the sharp exponent is $1/2$. A purely rearrangement-and-peak argument
+for log-subharmonic data gives a weaker exponent, $1/(n+2)$ in dimension $n$,
+and in particular $1/4$ in the disk. The main point of the present version is
+that, in the planar real-analytic log-subharmonic class, this loss is only an
+artifact of the peak-only step: the true global exponent is again the sharp
+rate $1/2$.
+
+\subsection{Vector-valued holomorphic stability in the disk}
+
+We begin with the vector-valued holomorphic case on the unit disk $\D$.
+Assuming the scalar stability estimates in $\mathbf B_\alpha^2(\D)$ proved in
+\cite{GomezKalajMelentijevicRamos2025}, we show that the \emph{same} constants yield stability for
+$\C^N$-valued holomorphic functions in $\mathbf B_\alpha^2(\D;\C^N)$, uniformly in $N$
+(Theorem~\ref{lem:vector-stability-same-constants}). In particular, the sharp exponent $1/2$
+persists in the vector-valued setting:
+small deficit implies closeness to an extremizer of the form $\mathbf f_\omega(\cdot)\,v$ with rate
+$\delta^{1/2}$. We also derive two useful corollaries with the same stability estimate: a modulus
+stability statement for $|f|$, and a ``square-sum'' stability statement for Hilbert envelopes
+$G(z)=\big(\sum_{j=1}^N|f_j(z)|^2\big)^{1/2}$.
+
+The vector-valued proof follows the strategy of \cite{GomezKalajMelentijevicRamos2025}:
+a rearrangement reduction at the level of the scalar density $\|F\|_{\C^N}^2$, combined with a
+quantitative reproducing-kernel (RKHS) argument to pass from peak control to norm distance.
+
+\subsection{Log-subharmonic stability in hyperbolic geometry}
+
+We then turn to stability in hyperbolic (ball) geometry for a larger class of functions than
+holomorphic ones. We work on the unit ball $\mathbb B^n$ endowed with its hyperbolic structure and
+with the conformal automorphism group $\mathcal M$. Following \cite{kalaj2024,kalajramos2024}, we
+consider the monoid of real-analytic functions whose logarithm is $\mathcal M$-subharmonic, and the
+associated weighted $\mathcal M$--Bergman spaces $\mathbf B_\alpha^p$ defined using the invariant
+measure $d\tau$ and the radial weight $\Phi_n^\alpha$. In this setting one has a sharp Faber--Krahn
+type inequality: among all measurable sets of fixed hyperbolic measure, hyperbolic balls maximize
+the normalized concentration functional, and the extremal functions are generated by the action of
+$\mathcal M$ on a single radial profile \cite{RamosTilli,kalajramos2024}.
+
+Theorem~\ref{stabb} quantifies the corresponding rigidity.
+Let $\Omega\subset\mathbb B^n$ be measurable with $0<\tau(\Omega)<\infty$, and let
+$g\in \mathbf B_\alpha^2\setminus\{0\}$ be log-$\mathcal M$-subharmonic.
+Writing $\delta(g;\Omega)$ for the deficit in the sharp concentration inequality, we prove a
+power-law stability estimate
+\[
+\inf_{\substack{|c|=\|g\|_{2,\alpha}\\ |a|<1}}
+\frac{\|g-cg_a\|_{2,\alpha}}{\|g\|_{2,\alpha}}
+\;\lesssim\;
+\Bigl(C(\tau(\Omega))\,\delta(g;\Omega)\Bigr)^{\frac{1}{n+2}},
+\]
+where $C(\tau(\Omega))=(1-\theta(\tau(\Omega)))^{-1}$ is an explicit amplification factor depending
+only on the hyperbolic size of $\Omega$. In particular, in the planar case $n=2$ we obtain the
+exponent $1/4$ (Theorem~\ref{stabb_n2_beta}) by the general method.
+Section~\ref{ssec:sharpness-n2} then proves that this planar exponent is not
+sharp: for positive real-analytic log-subharmonic functions on the disk one has
+the global sharp estimate with exponent $1/2$,
+Theorem~\ref{thm:global-half-from-green-absorption}. The proof uses the
+real-analytic Riesz decomposition of $\log g$ and a perturbative bathtub
+analysis around the centered extremal; these ingredients are not available in
+the same form in the higher-dimensional log-$\mathcal M$ setting.
+
+\subsection{Gaussian analogues in Fock space}
+
+Beyond the hyperbolic ball, we prove stability analogues in Gaussian phase space.
+For real-analytic log-subharmonic functions in the complex Fock space we obtain an inequality of
+the form
+\[
+\min_{\substack{c=\|F\|_{\Fock}\\ z_0\in\mathbb C}}
+\frac{\|F-cg_{z_0}\|_{\Fock}}{\|F\|_{\Fock}}
+\;\lesssim\;
+\bigl(e^{|\Omega|}\,\delta(F;\Omega)\bigr)^{1/4},
+\]
+and we extend this to $\mathbb R^m$ with exponent $1/(m+2)$.
+The proofs follow the rearrangement-and-peak-control strategy, combined with Gaussian mean-value
+estimates for log-subharmonic functions (Lemma~\ref{ulqin} and Lemma~\ref{ulqin2024}), in the spirit
+of \cite{GomezGuerraRamosTilli2024}.
+\begin{numrem}[Background and related results]
+The terminology ``Faber--Krahn type inequality'' used in this paper is
+motivated by the classical principle that balls are extremal for spectral,
+isoperimetric, and concentration-type problems. In spaces of constant
+negative curvature, sharp isoperimetric inequalities go back to Schmidt's
+work on hyperbolic space \cite{14}. Quantitative stability versions of
+hyperbolic isoperimetric inequalities were later studied, for example, by
+B\"ogelein, Duzaar and Scheven \cite{cvpde}. Although the inequalities
+considered here are functional concentration inequalities rather than
+perimeter inequalities, the same geometric principle is present: extremal
+sets are hyperbolic balls, and extremal functions are generated from a
+canonical profile by the symmetry group.
+
+The proof also relies on rearrangement ideas, such as the
+Hardy--Littlewood principle, decreasing rearrangements, and comparison of
+superlevel sets. Standard background on symmetrization and rearrangement
+methods may be found in Baernstein's monograph \cite{baernstein}; for
+general analytic inequalities and functional-analytic background we also
+refer to Lieb and Loss \cite{LiebLoss}. In the Gaussian and Fock-space
+parts, the relevant rearrangement estimates are closely related to
+monotonicity principles for subharmonic functions. In particular, the
+differential inequalities for decreasing rearrangements used here are in
+the spirit of the monotonicity theorem of Kulikov, Nicola,
+Ortega-Cerd\`a and Tilli \cite{KulikovNicolaOrtegaCerdaTilli2025}. These
+principles appear, for instance, in inequalities of the form
+\[
+        (u^*)'(s)+u^*(s)\ge 0
+\]
+in the planar Gaussian setting, and in their higher-dimensional analogues.
+
+Finally, the Bergman-space part of the paper is connected with recent
+stability results for sharp concentration inequalities in holomorphic
+function spaces. Besides the uniform stability results from
+\cite{GomezKalajMelentijevicRamos2025}, related sharp stability phenomena
+for convex functionals on weighted Bergman spaces were studied by
+Melentijevi\'c \cite{Melentijevic}. These results form part of the
+holomorphic background for the contrast emphasized in the present work: the
+planar log-subharmonic class is much larger than the holomorphic class, but
+real analyticity and the Riesz decomposition still impose enough rigidity to
+recover the same sharp deficit exponent \(1/2\).
+\end{numrem}
+\subsection{Ideas of the proof and organization}
+
+Across the different settings, the arguments share three main ingredients.
+First, we reduce arbitrary sets to extremal (superlevel) sets via Hardy--Littlewood rearrangement.
+Second, we convert deficit control into a quantitative bound on the peak value of a normalized
+density (hyperbolic: $u=\Phi_n^\alpha|g|^2$, Gaussian: $u=|F|^2e^{-\pi|\,\cdot\,|^2}$), using a
+clipped comparison functional and, in higher dimension, differential inequalities for decreasing
+rearrangements. Third, we pass from peak control to distance-to-extremals by a quantitative
+reproducing-kernel/RKHS estimate (cf.\ \cite{kulikov2022}).
+
+The paper is organized as follows. In Section~2 we treat the vector-valued holomorphic Bergman case
+in the unit disk, proving stability with the sharp exponent $1/2$ and deriving modulus and
+square-sum corollaries, following the approach of \cite{GomezKalajMelentijevicRamos2025}.
+In Section~3 we establish stability for log-subharmonic and log-$\mathcal M$-subharmonic data in
+hyperbolic geometry, proving Theorem~\ref{stabb}, the explicit planar $1/4$
+estimate, and then the sharp planar $1/2$ theorem. Section~4 develops the
+Fock-space analogues in $\mathbb C$ and $\mathbb R^m$.
+
+\section{Stability of vector-valued holomorphic functions}
+
+Fix $\alpha>-1$. We write
+\[
+dA_\alpha(z):=(1-|z|^2)^\alpha\,dz,
+\qquad
+d\mu(z):=(1-|z|^2)^{-2}\,dz,
+\qquad
+s:=\mu(\Omega)\in(0,\infty).
+\]
+Let $\mathbf B_\alpha^2(\D)$ be the weighted Bergman space with norm
+$\|f\|_{\Berg}^2:=\int_\D |f|^2\,dA_\alpha$.
+For $\omega\in\D$, let the normalized Bergman extremals be
+\[
+\mathbf f_{\omega}(z)
+=
+\sqrt{\frac{\alpha+1}{\pi}}\,
+\frac{(1-|\omega|^2)^{\frac{\alpha+2}{2}}}{(1-\overline{\omega}z)^{\alpha+2}},
+\qquad \|\mathbf f_\omega\|_{\Berg}=1.
+\]
+We also recall the sharp concentration profile (for hyperbolic balls of $\mu$-measure $s$)
+\[
+\theta_\alpha(s):=1-\Bigl(1+\frac{s}{\pi}\Bigr)^{-(\alpha+1)}.
+\]
+Given $f\in\mathbf B_\alpha^2(\D)$ and $\Omega\subset\D$ with $\mu(\Omega)=s$, define the deficit
+\begin{equation}\label{eq:deficit-scalar}
+\delta(f;\Omega,\alpha)
+:=
+1-\frac{\int_\Omega |f(z)|^2\,dA_\alpha(z)}{\|f\|_{\Berg}^2\,\theta_\alpha(s)}
+\in[0,1].
+\end{equation}
+(For the vector-valued extension below, we replace $|f|^2$ by $\|F\|_{\C^N}^2$.)
+
+\medskip
+
+We shall use the following explicit stability result, proved in our setting in
+\cite[Theorem~1.2]{GomezKalajMelentijevicRamos2025}.
+
+\begin{numthm}[Bergman stability]\label{thm:BergmanStability}
+Let \(\alpha>-1\), let \(\Omega\subset\D\) satisfy \(\mu(\Omega)=s>0\), and let
+\(f\in \mathbf B_\alpha^2(\mathbb{D})\). Then there exists an absolute, computable constant
+\(C>0\) such that
+\begin{equation}\label{eqn:BergmanStabilityFunction}
+\inf_{\substack{|c|=\|f\|_{\mathbf B_\alpha^2}\\ \omega\in\D}}
+\frac{\|f-c\,\mathbf{f}_{\omega}\|_{\mathbf B_\alpha^2}}{\|f\|_{\mathbf B_\alpha^2}}
+\le
+M(s,\alpha)\,\delta(f;\Omega,\alpha)^{1/2},
+\end{equation}
+where
+\begin{equation}\label{eq:def-Msa}
+M(s,\alpha)
+:=
+C\left(
+1+\frac{\alpha+2}{\alpha+1}
+\left[
+\left(1+\frac{s}{\pi}\right)^{\alpha+1}-1
+\right]
+\right)^{1/2},
+\end{equation}
+and where \(\mathbf{f}_{\omega}\) is the normalized reproducing kernel of
+\(\mathbf B_\alpha^2(\D)\), given explicitly by
+\[
+\mathbf{f}_{\omega}(z)
+=
+\sqrt{\frac{\alpha+1}{\pi}}\,
+\frac{(1-|\omega|^2)^{\frac{\alpha+2}{2}}}{(1-\overline{\omega}z)^{\alpha+2}}.
+\]
+
+Moreover, there exists an explicit constant \(K(s,\alpha)>0\) such that
+\begin{equation}\label{eqn:BergmanStabilitySet}
+\mcalA_{\D}(\Omega)
+\le
+K(s,\alpha)\,\delta(f;\Omega,\alpha)^{1/2}.
+\end{equation}
+\end{numthm}
+
+
+\medskip
+
+\subsection*{Vector-valued extension (kernel times a vector)}
+
+For $N\in\N$, define the vector-valued Bergman space
+$\mathbf B_\alpha^2(\D;\C^N)$ with norm
+$\|F\|_{\Berg}^2:=\int_\D \|F(z)\|_{\C^N}^2\,dA_\alpha(z)$.
+Its reproducing kernel is the scalar Bergman kernel times $I_N$,
+so the extremals are exactly the functions $z\mapsto \mathbf f_\omega(z)\,v$ with $\omega\in\D$
+and $v\in\C^N$.
+
+Define the vector deficit (depending only on $\|F\|^2$) by
+\begin{equation}\label{eq:deficit-vector}
+\delta(F;\Omega,\alpha)
+:=
+1-\frac{\int_\Omega \|F(z)\|_{\C^N}^2\,dA_\alpha(z)}{\|F\|_{\Berg}^2\,\theta_\alpha(s)}.
+\end{equation}
+
+\begin{numthm}[Vector-valued stability: same constants]\label{lem:vector-stability-same-constants}
+For every $N\in\N$, every $F\in \mathbf B_\alpha^2(\D;\C^N)$, and every $\Omega\subset\D$ with $\mu(\Omega)=s$,
+\begin{align}
+\inf_{\substack{v\in\C^N,\ \omega\in\D\\ \|v\|_{\C^N}=\|F\|_{\Berg}}}
+\frac{\|F-\mathbf f_\omega\,v\|_{\Berg}}{\|F\|_{\Berg}}
+&\le \mathsf M(s,\alpha)\,\delta(F;\Omega,\alpha)^{1/2},\label{eq:vector-fun-stab}\\
+\mathcal A_{\D}(\Omega)
+&\le \mathsf K(s,\alpha)\,\delta(F;\Omega,\alpha)^{1/2}.
+\label{eq:vector-set-stab}
+\end{align}
+In particular, the constants are independent of $N$.
+\end{numthm}
+\begin{proof}
+By homogeneity we may assume $F\not\equiv 0$ and normalize
+\[
+\|F\|_{\Berg}=1.
+\]
+All estimates below are invariant under the scaling $F\mapsto \lambda F$, and we rescale at the end.
+
+Define
+\[
+u_F(z):=\|F(z)\|_{\C^N}^2(1-|z|^2)^{\alpha+2},\qquad
+\rho_F(t):=\mu(\{z\in\D:\ u_F(z)>t\}),
+\]
+and set
+\[
+a_0^2:=\frac{\pi}{\alpha+1}\max_{z\in\D}u_F(z)\in(0,1],\qquad
+\delta_0^2:=1-a_0^2.
+\]
+Choose $\omega\in\D$ such that $u_F(\omega)=\max_\D u_F$. Since
+\[
+K(\omega,\omega)=\frac{\alpha+1}{\pi}(1-|\omega|^2)^{-(\alpha+2)},
+\]
+we obtain
+\begin{equation}\label{eq:Delta_equals_delta0_vector}
+\|F(\omega)\|_{\C^N}^2\,K(\omega,\omega)^{-1}
+=\frac{\pi}{\alpha+1}\,u_F(\omega)=a_0^2,
+\end{equation}
+and therefore
+\begin{equation}\label{eq:RKHSdef_at_omega}
+\Delta_F(\omega)
+:=1-\|F(\omega)\|_{\C^N}^2K(\omega,\omega)^{-1}
+=1-a_0^2
+=\delta_0^2.
+\end{equation}
+
+We first establish the set estimate \eqref{eq:vector-set-stab}. The scalar set-stability argument depends only on the distribution function of the nonnegative quantity
+\[
+u(z)=|f(z)|^2(1-|z|^2)^{\alpha+2}
+\]
+and on the associated rearrangement inequalities over sets of fixed $\mu$-measure. In the present vector-valued setting, the concentration functional and the deficit depend on $F$ only through the scalar function $u_F$. Thus the same rearrangement argument applies verbatim with $u$ replaced by $u_F$, and yields
+\[
+\mathcal A_{\D}(\Omega)\le \mathsf K(s,\alpha)\,\delta(F;\Omega,\alpha)^{1/2}.
+\]
+In particular, the constant $\mathsf K(s,\alpha)$ is independent of $N$.
+
+Next we control the peak value of $u_F$ in terms of the deficit. By Lemma~\ref{lemma:BergmanFunctionStabilityBeforeRKHSVector},
+\begin{equation}\label{eq:preRKHS_in_proof}
+1-a_0^2 \le M_\alpha(s)\,\delta(F;\Omega,\alpha).
+\end{equation}
+The proof of that lemma is the same as in the scalar case, with
+\[
+u(z)=|f(z)|^2(1-|z|^2)^{\alpha+2}
+\]
+replaced by
+\[
+u_F(z)=\|F(z)\|_{\C^N}^2(1-|z|^2)^{\alpha+2}.
+\]
+It uses only the superlevel-set estimate from Lemma~\ref{lemma:BergmanSuperLevelSetsEstimateVector}, the rearrangement-gap lower bound from Lemma~\ref{lemma:BergmanLowerBoundDifferenceVector}, and the ratio-monotonicity coming from the log-subharmonicity of $u_F$; the latter holds because $\log\|F\|_{\C^N}$ is subharmonic. Hence the function $M_\alpha(s)$ is also dimension-free.
+
+We now pass from the pointwise deficit at $\omega$ to a norm-distance estimate. Applying Lemma~\ref{lemma:RKHSQuantitativeVector} to the RKHS $\mcalH=\mathbf B_\alpha^2(\D;\C^N)$ at the point $\omega$, and using \eqref{eq:RKHSdef_at_omega}, we find a unit vector $e\in\C^N$ and a scalar $c\in\C$ with $|c|=\|F\|_{\Berg}=1$ such that
+\[
+\|F-c\,\mathbf f_\omega e\|_{\Berg}
+\le \sqrt2\,\Delta_F(\omega)^{1/2}
+=\sqrt2\,(1-a_0^2)^{1/2}.
+\]
+Combining this with \eqref{eq:preRKHS_in_proof} gives
+\[
+\inf_{\substack{\|v\|_{\C^N}=1\\ \omega\in\D}}
+\|F-\mathbf f_\omega v\|_{\Berg}
+\le \sqrt2\,M_\alpha(s)^{1/2}\,\delta(F;\Omega,\alpha)^{1/2}.
+\]
+Thus, with
+\[
+\mathsf M(s,\alpha):=\sqrt2\,M_\alpha(s)^{1/2},
+\]
+we obtain \eqref{eq:vector-fun-stab} in the normalized case $\|F\|_{\Berg}=1$.
+
+Finally, rescaling from $F/\|F\|_{\Berg}$ back to $F$ yields the stated infimum condition
+\[
+\|v\|_{\C^N}=\|F\|_{\Berg},
+\]
+and proves \eqref{eq:vector-fun-stab} in full generality. Since all constants involved come from Lemmas
+\ref{lemma:BergmanSuperLevelSetsEstimateVector},
+\ref{lemma:BergmanLowerBoundDifferenceVector},
+\ref{lemma:BergmanFunctionStabilityBeforeRKHSVector}, and
+\ref{lemma:RKHSQuantitativeVector},
+all of which are dimension-free, the constants $\mathsf M(s,\alpha)$ and $\mathsf K(s,\alpha)$ are independent of $N$.
+\end{proof}
+ 
+
+\medskip
+
+\begin{numcor}\label{cor:modulus_and_logsubharmonic_stability_selfcontained}
+Fix $\alpha>-1$ and $\Omega\subset\D$ with $\mu(\Omega)=s>0$.
+
+\smallskip
+\noindent\textbf{(A) Modulus stability (scalar).}
+For every $f\in \mathbf B_\alpha^2(\D)$,
+\begin{equation}\label{eq:modulus_stability_selfcontained}
+\inf_{\substack{c>0\\ \omega\in\D}}
+\frac{\big\||f|-c\,|\mathbf f_{\omega}|\big\|_{\Berg}}{\|f\|_{\Berg}}
+\;\le\;
+\mathsf M(s,\alpha)\,\delta(f;\Omega,\alpha)^{1/2}.
+\end{equation}
+Moreover, $\mathcal A_{\D}(\Omega)\le \mathsf K(s,\alpha)\,\delta(f;\Omega,\alpha)^{1/2}$.
+
+\smallskip
+\noindent\textbf{(B) Square-sum stability (Hilbert envelope).}
+Let $N\in\N$, $f_1,\dots,f_N\in \mathbf B_\alpha^2(\D)$, and set
+\[
+G(z):=\Big(\sum_{j=1}^N |f_j(z)|^2\Big)^{1/2}.
+\]
+Let $F:=(f_1,\dots,f_N)\in \mathbf B_\alpha^2(\D;\C^N)$, so that $G(z)=\|F(z)\|_{\C^N}$.
+Then
+\begin{equation}\label{eq:squaresum_stability_selfcontained}
+\inf_{\substack{c>0\\ \omega\in\D}}
+\frac{\|G-c\,|\mathbf f_{\omega}|\|_{\Berg}}{\|G\|_{\Berg}}
+\;\le\;
+\mathsf M(s,\alpha)\,\delta(F;\Omega,\alpha)^{1/2},
+\end{equation}
+and $\mathcal A_{\D}(\Omega)\le \mathsf K(s,\alpha)\,\delta(F;\Omega,\alpha)^{1/2}$.
+
+\end{numcor}
+\begin{proof}
+\textbf{(A)} For any $c\in\C$ and $\omega\in\D$ we have the pointwise inequality
+\[
+\big||f(z)|-|c|\,|\mathbf f_\omega(z)|\big|
+\le |f(z)-c\,\mathbf f_\omega(z)|.
+\]
+Integrating against $dA_\alpha$ yields
+$\||f|-|c||\mathbf f_\omega|\|_{\Berg}\le \|f-c\mathbf f_\omega\|_{\Berg}$.
+Taking the infimum over $c,\omega$ and using \eqref{eqn:BergmanStabilityFunction} gives
+\eqref{eq:modulus_stability_selfcontained}. The set bound is \eqref{eqn:BergmanStabilitySet}.
+
+\smallskip
+\textbf{(B)} Let $F=(f_1,\dots,f_N)$ and $G(z)=\|F(z)\|_{\C^N}$.
+Fix $\omega\in\D$, $c>0$ and a unit vector $e\in\C^N$.
+By the reverse triangle inequality in $\C^N$,
+\[
+\big|\|F(z)\|_{\C^N}-\|c\,\mathbf f_\omega(z)\,e\|_{\C^N}\big|
+\le \|F(z)-c\,\mathbf f_\omega(z)\,e\|_{\C^N}.
+\]
+Since $\|c\,\mathbf f_\omega(z)\,e\|=c\,|\mathbf f_\omega(z)|$, squaring and integrating gives
+\[
+\|G-c|\mathbf f_\omega|\|_{\Berg}
+\le \|F-c\,\mathbf f_\omega e\|_{\mathbf B_\alpha^2(\D;\C^N)}.
+\]
+Taking infima over $c>0$, $\omega\in\D$ and $\|e\|=1$, and applying Lemma~\ref{lem:vector-stability-same-constants},
+we obtain \eqref{eq:squaresum_stability_selfcontained} and the corresponding set estimate.
+
+\end{proof}
+% ==========================================================
+% Vector-valued quantitative RKHS lemma (drop-in)
+% ==========================================================
+
+% If you use \begin{numlemma}...\end{numlemma}, define it once:
+% (Otherwise replace numlemma by lemma/theorem as you prefer.)
+
+
+\begin{numlemma}[Quantitative RKHS estimate, vector-valued]\label{lemma:RKHSQuantitativeVector}
+Let $\mcalH$ be a reproducing kernel Hilbert space of $\mathbb{C}^N$-valued functions on $X$
+whose reproducing kernel is $K(\cdot,\cdot)I_N$, and let $F\in \mcalH$.
+For $x\in X$ define
+\[
+\Delta_F(x):=\frac{\|F\|_{\mcalH}^2-\|F(x)\|_{\mathbb{C}^N}^2\,K(x,x)^{-1}}{\|F\|_{\mcalH}^2},
+\qquad\text{so that}\qquad
+\|F(x)\|_{\mathbb{C}^N}^2\,K(x,x)^{-1}\le \|F\|_{\mcalH}^2 .
+\]
+Then for every $x\in X$ there exist $c\in\mathbb{C}$ and a unit vector $e\in\mathbb{C}^N$ with
+$|c|=\|F\|_{\mcalH}$ such that
+\begin{equation}\label{eqn:QuantitativeRKHSVector}
+\frac{\|F-c f_x e\|_{\mcalH}}{\|F\|_{\mcalH}}
+\le \sqrt2\,\Delta_F(x)^{1/2},
+\end{equation}
+where $f_x = K(x,x)^{-1/2}K_x$ is the normalized kernel in the scalar space.
+\end{numlemma}
+
+\begin{proof}
+Fix $x\in X$. If $F(x)\neq 0$, choose $e:=F(x)/\|F(x)\|_{\mathbb{C}^N}$ and
+$c:=\|F\|_{\mcalH}$ (so $|c|=\|F\|_{\mcalH}$). Using the reproducing property,
+\[
+\langle F, f_x e\rangle_{\mcalH}
+=\frac{\langle F(x),e\rangle_{\mathbb{C}^N}}{\sqrt{K(x,x)}}
+=\frac{\|F(x)\|_{\mathbb{C}^N}}{\sqrt{K(x,x)}}\in\mathbb{R}_+ .
+\]
+Hence
+\begin{align*}
+\|F-c f_x e\|_{\mcalH}^2
+&=\|F\|_{\mcalH}^2+|c|^2\|f_x e\|_{\mcalH}^2-2\Re\langle F, c f_x e\rangle_{\mcalH}\\
+&=2\|F\|_{\mcalH}^2-2\|F\|_{\mcalH}\frac{\|F(x)\|_{\mathbb{C}^N}}{\sqrt{K(x,x)}}\\
+&\le 2\|F\|_{\mcalH}^2-2\frac{\|F(x)\|_{\mathbb{C}^N}^2}{K(x,x)}
+=2\|F\|_{\mcalH}^2\,\Delta_F(x),
+\end{align*}
+where in the inequality we used $\|F(x)\|_{\mathbb{C}^N}/\sqrt{K(x,x)}\le \|F\|_{\mcalH}$.
+This gives \eqref{eqn:QuantitativeRKHSVector}.
+
+If $F(x)=0$, then $\Delta_F(x)=1$ and taking any unit $e$ and $c=\|F\|_{\mcalH}$
+yields $\|F-c f_x e\|_{\mcalH}^2=\|F\|_{\mcalH}^2+|c|^2=2\|F\|_{\mcalH}^2$,
+so \eqref{eqn:QuantitativeRKHSVector} holds as well.
+\end{proof}
+% =========================
+%  Minimal bibliography entries (self-contained)
+% =========================
+
+% ==========================================================
+% Vector-valued analogue of Lemma \ref{lemma:BergmanSuperLevelSetsEstimate}
+% ==========================================================
+
+\begin{numlemma}[Super-level set estimate for vector-valued Bergman data]\label{lemma:BergmanSuperLevelSetsEstimateVector}
+Let $\alpha>-1$ and let $F\in \mathbf B_\alpha^2(\D;\C^N)$ satisfy $\|F\|_{\mathbf B_\alpha^2(\D;\C^N)}=1$.
+Define
+\[
+u_F(z):=\|F(z)\|_{\C^N}^2(1-|z|^2)^{\alpha+2},\qquad
+\rho_F(t):=\mu(\{z\in\D:\ u_F(z)>t\}),
+\]
+and set
+\[
+a_0^2:=\frac{\pi}{\alpha+1}\max_{z\in\D}u_F(z)\in(0,1],\qquad \delta_0^2:=1-a_0^2,
+\qquad T:=\frac{\alpha+1}{\pi}a_0^2.
+\]
+Then there exists $\widetilde c_0\in(0,1)$ such that for every $c_0\ge \widetilde c_0$
+there exist $C_0\in(c_0,1)$ and $C>0$ with the following property:
+if $a_0^2\ge C_0$, then for every
+\[
+t\in\Big(\frac{\alpha+1}{\pi}c_0,\ \frac{\alpha+1}{\pi}a_0^2\Big)
+\]
+one has
+\begin{equation}\label{eqn:BergmanSuperLevelSetsEstimateVector}
+\rho_F(t)\le \pi\Big(\frac{1+K_0(1-a_0^2)}{a_0^2}\Big)
+\Big(\Big(\frac{\frac{\alpha+1}{\pi}a_0^2}{t}\Big)^{\frac1{\alpha+2}}-1\Big),
+\qquad K_0=\frac{C}{c_0^3}.
+\end{equation}
+Moreover, the constants can be chosen independently of $N$.
+\end{numlemma}
+
+\begin{proof}
+The proof follows the scalar argument of Lemma~3.1 \cite{GomezKalajMelentijevicRamos2025}
+(and the corresponding level-set analysis in \cite{GomezKalajMelentijevicRamos2025}),
+with one additional estimate for the components orthogonal to the maximizer direction.
+We indicate the modifications and keep the rest identical.
+
+Let $z_\ast$ maximize $u_F$. By composing with a disk automorphism and multiplying by a unitary matrix
+(and a unimodular scalar), we may assume (see \cite[Lemma~3.1]{GomezKalajMelentijevicRamos2025}) that
+\[
+F(0)=\sqrt{T}\,e_1,\qquad u_F(0)=\max_\D u_F,\qquad \langle F'(0),F(0)\rangle_{\C^N}=0,
+\]
+so in particular the first component $f:=\langle F,e_1\rangle$ satisfies
+\begin{equation}\label{eq:first-component-vanish}
+f(0)=\sqrt{T},\qquad f'(0)=0.
+\end{equation}
+Decompose
+\[
+F(z)= f(z)e_1 + H(z),\qquad H(z)\in e_1^\perp,\quad \langle H(z),e_1\rangle=0,\quad H(0)=0,
+\]
+so that
+\begin{equation}\label{eq:decomp-norm}
+\|F(z)\|_{\C^N}^2 = |f(z)|^2 + \|H(z)\|_{\C^N}^2,\qquad z\in\D.
+\end{equation}
+
+Write
+\[
+\frac{f(z)}{\sqrt{T}} = 1+R(z).
+\]
+By \eqref{eq:first-component-vanish}, the Taylor series of $R$ starts at order $\ge2$,
+exactly as in the scalar proof. Writing $f(z)=\sum_{k\ge 0} a_k z^k/\sqrt{c_k}$
+in the usual orthonormal Bergman basis (for the scalar space),
+one has $a_1=0$ and
+\[
+\sum_{k\ge2}|a_k|^2 \le \sum_{k\ge1}|a_k|^2 \le 1-a_0^2=\delta_0^2.
+\]
+Thus, setting $\delta^2:=\delta_0^2/T$, Cauchy--Schwarz yields the same bounds as in the scalar proof:
+\begin{equation}\label{eq:BoundsR-vector}
+|R(z)|\le \delta\, g_1(|z|)^{1/2},\qquad
+|R'(z)|\le \delta\, g_2(|z|)^{1/2},\qquad
+|R''(z)|\le \delta\, g_3(|z|)^{1/2},
+\end{equation}
+with the same explicit functions $g_1,g_2,g_3$ as in Lemma~3.1 in \cite{GomezKalajMelentijevicRamos2025}.
+
+Let $h(z):=2\Re R(z)$; then $h$ is harmonic and \eqref{eq:BoundsR-vector} implies
+the same bounds as \cite[eq.~3.4]{GomezKalajMelentijevicRamos2025} in the scalar proof.
+
+It remains only to estimate the orthogonal component $H$. Expand each component of $H$ in the same orthonormal basis. Since $H(0)=0$,
+all constant coefficients vanish. Moreover,
+\[
+\|H\|_{\mathbf B_\alpha^2(\D;\C^N)}^2 \le \|F\|^2 - \|f\|^2 \le 1-a_0^2=\delta_0^2.
+\]
+Hence, by Cauchy--Schwarz and the diagonal kernel identity
+\[
+\sum_{k\ge0}\frac{|z|^{2k}}{c_k}=K(z,z)=\frac{\alpha+1}{\pi}(1-|z|^2)^{-(\alpha+2)},
+\]
+we obtain the pointwise estimate
+\begin{equation}\label{eq:H-bound}
+\frac{\|H(z)\|_{\C^N}^2}{T}
+\le
+\frac{\delta_0^2}{T}\sum_{k\ge1}\frac{|z|^{2k}}{c_k}
+=
+\delta^2\,\widehat g_1(|z|),
+\qquad
+\widehat g_1(r):=\frac{\alpha+1}{\pi}\big[(1-r^2)^{-(\alpha+2)}-1\big].
+\end{equation}
+Compared to the scalar proof, $\widehat g_1$ is the same kernel series but without subtracting
+the $k=1$ term; this is exactly where the possible linear terms of $H$ are absorbed.
+
+Now fix $z=re^{i\theta}$ and assume $u_F(z)>t$. Using \eqref{eq:decomp-norm} we get
+\[
+\frac{t}{T}(1-r^2)^{-(\alpha+2)}
+<
+\frac{|f(z)|^2+\|H(z)\|^2}{T}
+=
+|1+R(z)|^2+\frac{\|H(z)\|^2}{T}
+=
+1+h(z)+|R(z)|^2+\frac{\|H(z)\|^2}{T}.
+\]
+Using \eqref{eq:BoundsR-vector} to bound $|R(z)|^2\le \delta^2 g_1(r)$ and then \eqref{eq:H-bound}, we obtain
+\begin{equation}\label{eq:boundary-condition-vector}
+\frac{t}{T}(1-r^2)^{-(\alpha+2)}
+<
+1+\delta^2\big(g_1(r)+\widehat g_1(r)\big)+h(re^{i\theta}).
+\end{equation}
+Define the modified radial term
+\[
+g_1^\ast(r):=g_1(r)+\widehat g_1(r)
+=\frac{\alpha+1}{\pi}\big[(1-r^2)^{-(\alpha+2)}-1-(\alpha+2)r^2\big]
++\frac{\alpha+1}{\pi}\big[(1-r^2)^{-(\alpha+2)}-1\big],
+\]
+and repeat the scalar construction with
+\[
+g_\theta(r,\sigma):=\frac{t}{T}(1-r^2)^{-(\alpha+2)}-\delta^2 g_1^\ast(r)-\sigma h(re^{i\theta}).
+\]
+Then \eqref{eq:boundary-condition-vector} implies $g_\theta(r,1)<1$ and the star-shaped sets $E_\sigma$
+are defined exactly as in the scalar proof.
+
+All subsequent steps---boundedness and star-shapedness of $E_\sigma$ for $t>\frac{\alpha+1}{\pi}c_0$,
+the Taylor expansion of $F(\sigma)=\mu(E_\sigma)$, the estimates on $r_\sigma',r_\sigma''$,
+the comparison of $F(1)$ and $F(0)$, and the final estimate for $\mu(E_1)$---use only:
+(i) the harmonicity bounds for $h$ coming from \eqref{eq:BoundsR-vector}, and
+(ii) the fact that the radial error term is of size $\delta^2$ times an explicit function of $r$.
+Replacing $g_1$ by the larger $g_1^\ast$ changes only universal constants (and yields the same structure
+$K_0=C/c_0^3$ after the same bookkeeping), while remaining independent of $N$.
+
+Therefore the scalar argument yields \eqref{eqn:BergmanSuperLevelSetsEstimateVector}.
+\end{proof}
+\begin{numrem}
+The threshold $\widetilde c_0$ arises from a purely one-dimensional inequality comparing explicit bounds
+on $r_0$ (as in the scalar proof); the same comparison works here after enlarging the radial term to $g_1^\ast$.
+Thus one may keep the same qualitative statement (and in practice the same numerical value, up to re-optimizing constants).
+Since the paper does not depend on optimizing $\widetilde c_0$, we do not track the best value.
+\end{numrem}
+
+
+% ==========================================================
+% Vector-valued versions of Lemma \ref{lemma:BergmanLowerBoundDifference}
+% and the pre-RKHS estimate \eqref{eqn:BergmanFunctionStabilityBeforeRKHS}.
+% These follow verbatim once Lemma \ref{lemma:BergmanSuperLevelSetsEstimateVector}
+% (vector superlevel set bound) is available.
+% ==========================================================
+
+\begin{numlemma}[Lower bound on the rearrangement gap: vector-valued case]\label{lemma:BergmanLowerBoundDifferenceVector}
+Let $\alpha>-1$ and let $F\in \mathbf B_\alpha^2(\D;\C^N)$ with $\|F\|_{\mathbf B_\alpha^2(\D;\C^N)}=1$.
+Set
+\[
+u_F(z):=\|F(z)\|_{\C^N}^2(1-|z|^2)^{\alpha+2},\qquad
+a_0^2:=\frac{\pi}{\alpha+1}\max_{\D}u_F,\qquad \delta_0^2:=1-a_0^2,
+\]
+and let $u_F^*$ be the decreasing rearrangement of $u_F$ with respect to $\mu$.
+Let $v^*(s):=\frac{\alpha+1}{\pi}\Big(1+\frac{s}{\pi}\Big)^{-(\alpha+2)}$.
+Let $s^*>0$ be the minimal solution of $u_F^*(s)=v^*(s)$.
+
+Assume Lemma~\ref{lemma:BergmanSuperLevelSetsEstimateVector} holds for $u_F$
+(with constants $c_0,C_0,K_0$ as there).
+Then there exists an absolute constant $C>0$ such that
+\begin{equation}\label{eqn:BergmanLowerBoundDifferenceVector}
+C\,\frac{\alpha+1}{\alpha+2}\,(1-a_0^2)
+\;\le\;
+\int_0^{s^*}\big(v^*(s)-u_F^*(s)\big)\,ds .
+\end{equation}
+Moreover, the constant $C$ can be chosen independently of $N$.
+\end{numlemma}
+
+\begin{proof}
+This is the scalar proof with $u$ replaced by $u_F$ and $\rho$ replaced by $\rho_F$.
+We sketch the two places where an input is used.
+
+Let $t^*:=v^*(s^*)=u_F^*(s^*)$. First, one shows that
+\[
+t^*\le \frac{\alpha+1}{\pi}\,c
+\]
+for some absolute $c\in(0,1)$: if $t^*\le \frac{\alpha+1}{\pi}c_0$ we are done;
+otherwise, apply Lemma~\ref{lemma:BergmanSuperLevelSetsEstimateVector} at $t=t^*$ and use
+$\rho_F(t^*)=s^*=\pi\big((\frac{\frac{\alpha+1}{\pi}}{t^*})^{\frac1{\alpha+2}}-1\big)$
+to obtain the analogue of \cite[eq.~3.16]{GomezKalajMelentijevicRamos2025} and hence a uniform
+upper bound on $t^*$ (exactly as in your scalar argument).
+
+Next, let $\omega(t)$ denote the right-hand side of the superlevel estimate from
+Lemma~\ref{lemma:BergmanSuperLevelSetsEstimateVector}, and let $\nu$ be the inverse of $v^*$,
+\[
+\nu(t)=\pi\Big(\Big(\frac{\frac{\alpha+1}{\pi}}{t}\Big)^{\frac1{\alpha+2}}-1\Big).
+\]
+Then the rearrangement identity and the inequality $\rho_F(t)\le \omega(t)$ on the admissible
+range yield
+\[
+\int_0^{s^*}(v^*-u_F^*)\,ds
+\;\ge\;
+\int_{\tau_1}^{T}(\nu(t)-\omega(t))\,dt,
+\qquad
+T=\frac{\alpha+1}{\pi}a_0^2,
+\]
+for a suitable $\tau_1$ (chosen as in the scalar proof so that $\tau_1>\frac{\alpha+1}{\pi}c_0$).
+Carrying out the same change of variables $t=\frac{\alpha+1}{\pi}r$ then gives the same
+one-dimensional estimate in $r$, with the same elementary positivity argument for the first
+term in the expansion (your $f_1(r)$ bound). This yields a lower bound of the form
+\[
+\int_0^{s^*}(v^*-u_F^*)\,ds \;\gtrsim\; \frac{\alpha+1}{\alpha+2}\,\delta_0^2,
+\]
+i.e. \eqref{eqn:BergmanLowerBoundDifferenceVector}.
+All constants remain independent of $N$ because the only nontrivial input is the
+dimension-free superlevel estimate (Lemma~\ref{lemma:BergmanSuperLevelSetsEstimateVector}).
+\end{proof}
+
+
+\begin{numlemma}[Pre-RKHS bound: vector-valued case]\label{lemma:BergmanFunctionStabilityBeforeRKHSVector}
+Let $\alpha>-1$, $\Omega\subset\D$ with $s=\mu(\Omega)>0$, and let
+$F\in \mathbf B_\alpha^2(\D;\C^N)$.
+Define the deficit (depending only on $u_F=\|F\|^2(1-|z|^2)^{\alpha+2}$) by
+\[
+\delta(F;\Omega,\alpha)
+:=
+\frac{\|F\|^2\,\theta_\alpha(s)-\int_\Omega u_F\,d\mu}{\|F\|^2\,\theta_\alpha(s)},
+\qquad
+\theta_\alpha(s):=1-\Big(1+\frac{s}{\pi}\Big)^{-(\alpha+1)}.
+\]
+Then there exists a function $M_\alpha(s)$ (the same one as in the scalar proof) such that
+\begin{equation}\label{eqn:BergmanFunctionStabilityBeforeRKHSVector}
+1-a_0^2 \;\le\; M_\alpha(s)\,\delta(F;\Omega,\alpha),
+\end{equation}
+where \(a_0^2=\frac{\pi}{\alpha+1}\max_\D u_F\).
+Moreover, $M_\alpha(s)$ is independent of $N$.
+
+One may take for instance
+\[
+M_\alpha(s)=C\Big(1+\frac{\alpha+2}{\alpha+1}\Big[\Big(1+\frac{s}{\pi}\Big)^{\alpha+1}-1\Big]\Big),
+\]
+with $C>0$ an absolute constant.
+\end{numlemma}
+
+\begin{proof}
+This is again the scalar proof with $u$ replaced by $u_F$.
+Write $s_0:=\mu(\Omega)$ and let $A:=\{u_F>u_F^*(s_0)\}$ be the superlevel set of $u_F$ of measure $s_0$.
+Set $\delta_{s_0}:=\delta(F;A,\alpha)\le \delta(F;\Omega,\alpha)$ and define
+\[
+\varepsilon := \int_0^{s_0}(v^*(s)-u_F^*(s))\,ds
+=\delta_{s_0}\int_0^{s_0}v^*(s)\,ds.
+\]
+
+A key input is the monotonicity of the ratio
+\[
+r(s):=\frac{u_F^*(s)}{v^*(s)}.
+\]
+Since $F$ is holomorphic, $\log\|F\|_{\C^N}$ is subharmonic (with $\log 0=-\infty$), hence
+$\|F\|_{\C^N}^2$ is log--subharmonic. Therefore monotonicity extends
+verbatim to the $\C^N$--valued setting; see \cite{RamosTilli,GomezKalajMelentijevicRamos2025}.
+From here, the two case splits ($s_0>s^*$ and $s_0<s^*$) proceed verbatim, yielding the analogues
+of \cite[eq.3.21-eq.3.24]{GomezKalajMelentijevicRamos2025}, where the lower bound
+\eqref{eqn:BergmanLowerBoundDifferenceVector} is used in place of \cite[Lemma~3.2]{GomezKalajMelentijevicRamos2025}.
+Combining those estimates gives \eqref{eqn:BergmanFunctionStabilityBeforeRKHSVector} with
+\[
+M_\alpha(s)=C\Big(1+\frac{\alpha+2}{\alpha+1}\big[(1+s/\pi)^{\alpha+1}-1\big]\Big),
+\]
+exactly as in the scalar Step~III.
+All constants are independent of $N$ because (i) the ratio-monotonicity depends only on
+log-subharmonicity of $u_F$, and (ii) Lemma~\ref{lemma:BergmanLowerBoundDifferenceVector}
+is dimension-free.
+\end{proof}
+
+% ============================================================
+%  Alpha = 0, radial log-subharmonic, modified LHS with |f_omega|
+%  Goal: show LHS/RHS is bounded (for fixed R, i.e. fixed s)
+% ============================================================
+
+ 
+\begin{numrem}
+The following examples and propositions anticipate the sharp half-stability
+theorem proved below. They isolate model mechanisms which later reappear in
+the full real-analytic proof: radial monotonicity, Hilbert-valued holomorphic
+factorization, and bathtub control for special superlevel geometries. In the
+global argument these separate mechanisms are replaced by the Riesz
+decomposition of $\log g$ and the perturbative bathtub analysis around the
+extremal disk.
+\end{numrem}
+\begin{numexamp}\label{lem:l2factorization_radial}
+Let $a\in(0,1)$. Define holomorphic functions $a_k:\mathbb D\to\mathbb C$ by
+\[
+a_{n+1}(z)\coloneqq \sqrt{n+1}\,a^{n/2}\,z^{n},\qquad n=0,1,2,\dots .
+\]
+Then for every $z\in\mathbb D$ we have
+\[
+\frac{1}{1-a|z|^{2}}=\sqrt{\sum_{k=1}^{\infty}\lvert a_k(z)\rvert^{2}}.
+\]
+In particular, the map $A:\mathbb D\to \ell^{2}$ given by 
+\[
+A(z)=(a_k(z))_{k\ge1}
+\]
+is holomorphic and satisfies
+\[
+\|A(z)\|_{\ell^{2}}=\frac{1}{1-a|z|^{2}}
+\qquad \text{for all } z\in\mathbb D.
+\]
+\end{numexamp}
+
+\begin{proof}
+For $|x|<1$ we have the power series identity
+\[
+\frac{1}{(1-x)^2}=\sum_{n=0}^{\infty}(n+1)x^{n}.
+\]
+Substituting $x=a|z|^{2}$ (which satisfies $|x|<1$ for $z\in\mathbb D$) gives
+\[
+\frac{1}{(1-a|z|^{2})^{2}}
+=\sum_{n=0}^{\infty}(n+1)a^{n}|z|^{2n}.
+\]
+By definition,
+\[
+|a_{n+1}(z)|^{2}=(n+1)a^{n}|z|^{2n},
+\]
+and therefore
+\[
+\sum_{k=1}^{\infty}|a_k(z)|^{2}
+=\sum_{n=0}^{\infty}(n+1)a^{n}|z|^{2n}
+=\frac{1}{(1-a|z|^{2})^{2}}.
+\]
+Taking square roots completes the proof.
+\end{proof}
+
+\begin{numexamp}[Hilbert--valued holomorphic factorization for radial functions]\label{thm:radial_hilbert_factorization}
+Let $u:\mathbb D\to(0,\infty)$ be radial, $u(z)=U(|z|)$, and assume that the function
+\[
+F(r)\coloneqq U(r)^2
+\]
+admits a (real-analytic) power series expansion in $r^2$ with \emph{nonnegative} coefficients,
+\begin{equation}\label{eqn:radial_nonneg_series}
+F(r)=\sum_{n=0}^\infty b_n\,r^{2n},\qquad b_n\ge 0,\qquad 0\le r<1.
+\end{equation}
+Then there exist holomorphic functions $a_k:\mathbb D\to\mathbb C$ such that for every $z\in\mathbb D$,
+\begin{equation}\label{eqn:radial_l2_factor}
+u(z)=\Big(\sum_{k=0}^\infty |a_k(z)|^2\Big)^{1/2}.
+\end{equation}
+More precisely, one may take
+\begin{equation}\label{eqn:radial_l2_factor_explicit}
+a_n(z)\coloneqq \sqrt{b_n}\,z^n,\qquad n=0,1,2,\dots,
+\end{equation}
+so that $\sum_{n\ge 0}|a_n(z)|^2=\sum_{n\ge 0} b_n |z|^{2n}=F(|z|)=u(z)^2$.
+
+Moreover, defining the partial sums
+\[
+u_N(z)\coloneqq \Big(\sum_{n=0}^N |a_n(z)|^2\Big)^{1/2},
+\]
+we have $u_N(z)\uparrow u(z)$ pointwise for all $z\in\mathbb D$, and the convergence is uniform on compact subsets of $\mathbb D$.
+
+\smallskip
+If, in addition, $u$ is $C^2$ on $\mathbb D$ and each $a_n$ is holomorphic, then the right-hand side of \eqref{eqn:radial_l2_factor} is log-subharmonic; in particular, any $u$ represented as in \eqref{eqn:radial_l2_factor} is log-subharmonic.
+\end{numexamp}
+
+\begin{proof}
+Assumption \eqref{eqn:radial_nonneg_series} implies $F(|z|)=\sum_{n\ge 0} b_n |z|^{2n}$ for all $z\in\mathbb D$.
+With $a_n$ as in \eqref{eqn:radial_l2_factor_explicit}, each $a_n$ is holomorphic and
+\[
+\sum_{n=0}^\infty |a_n(z)|^2=\sum_{n=0}^\infty b_n |z|^{2n}=F(|z|)=u(z)^2,
+\]
+which gives \eqref{eqn:radial_l2_factor}. Monotone convergence of $u_N$ is immediate since $b_n\ge 0$.
+Uniform convergence on compacta follows from uniform convergence of the power series for $F(r)$ on $[0,r_0]$ for any $r_0<1$.
+
+For the final claim, note that $z\mapsto \sum_{n=0}^N |a_n(z)|^2$ is subharmonic as a finite sum of squared moduli of holomorphic functions, hence $\log \sum_{n=0}^N |a_n(z)|^2$ is subharmonic wherever the sum is positive. Passing to $N\to\infty$ preserves log-subharmonicity under locally uniform limits (or via standard monotone limit arguments), yielding that $u$ is log-subharmonic.
+\end{proof}
+
+
+
+
+
+
+% ============================================================
+% Common notation
+% ============================================================
+
+For $\alpha>-1$, set
+\[
+dA_\alpha(z):=\frac{\alpha+1}{\pi}(1-|z|^2)^\alpha\,dA(z),
+\qquad
+d\mu(z):=\frac{dA(z)}{(1-|z|^2)^2}.
+\]
+For $s>0$, let $r=r(s)\in(0,1)$ be determined by
+\[
+\mu(\{|z|<r\})=s
+\qquad\Longleftrightarrow\qquad
+r^2=\frac{s}{s+\pi}.
+\]
+Define
+\[
+\theta_\alpha(s):=\int_{|z|<r} dA_\alpha
+=1-(1-r^2)^{\alpha+1}
+=1-\Bigl(1+\frac{s}{\pi}\Bigr)^{-(\alpha+1)},
+\]
+\[
+C_\alpha(s):=\frac{1}{(1-r^2)^{\alpha+1}}
+=\Bigl(1+\frac{s}{\pi}\Bigr)^{\alpha+1}.
+\]
+
+% ============================================================
+% 1. Centered-disk radial estimate
+% ============================================================
+
+\begin{numlemma}[Centered-disk radial stability]
+\label{lem:centered_disk_radial}
+Let $\alpha>-1$ and let $g:\D\to[0,\infty)$ be radial and nondecreasing in $|z|$.
+Assume
+\[
+\|g\|_{2,\alpha}^2=\int_{\D} g(z)^2\,dA_\alpha(z)=1.
+\]
+Fix $r\in(0,1)$ and write
+\[
+W:=1-(1-r^2)^{\alpha+1},
+\qquad
+S:=(1-r^2)^{\alpha+1}.
+\]
+Define the centered-disk deficit
+\[
+\delta_{r,\alpha}(g)
+:=1-\frac{1}{W}\int_{|z|<r} g(z)^2\,dA_\alpha(z)\in[0,1].
+\]
+Then
+\[
+\|g-1\|_{2,\alpha}^2
+\le \frac{3}{S}\,\delta_{r,\alpha}(g)
+=\frac{3}{(1-r^2)^{\alpha+1}}\,\delta_{r,\alpha}(g).
+\]
+\end{numlemma}
+
+\begin{proof}
+Set $u:=g^2$ and $\delta:=\delta_{r,\alpha}(g)$. Since $\int_{\D}u\,dA_\alpha=1$,
+\[
+\int_{|z|<r}u\,dA_\alpha=W(1-\delta),
+\qquad
+\int_{r<|z|<1}u\,dA_\alpha=S+W\delta.
+\]
+
+Because $u$ is radial and nondecreasing,
+\[
+u(\rho)\ge u(r)\quad (\rho\in[r,1)),
+\]
+hence
+\[
+u(r)\,S\le \int_{r<|z|<1}u\,dA_\alpha=S+W\delta,
+\]
+so
+\[
+u(r)\le 1+\frac{W}{S}\delta.
+\]
+Likewise, on $[0,r]$ one has $u(\rho)\le u(r)$, hence
+\[
+\int_{|z|<r}u\,dA_\alpha\le u(r)\,W,
+\]
+which gives
+\[
+u(r)\ge 1-\delta.
+\]
+Thus, with $\kappa:=W/S$,
+\[
+\sqrt{1-\delta}\le g(r)\le \sqrt{1+\kappa\delta}.
+\]
+
+Now split the $L^1(dA_\alpha)$-mass of $g$ into inner and outer parts.
+
+On the outer annulus, monotonicity gives
+\[
+\int_{r<|z|<1} g\,dA_\alpha \ge S\,g(r)\ge S\sqrt{1-\delta}.
+\]
+
+On the inner disk, since $g(\rho)\le g(r)$ for $\rho<r$, we have pointwise
+\[
+u=g^2\le g(r)\,g,
+\]
+hence
+\[
+\int_{|z|<r} g\,dA_\alpha
+\ge \frac{\int_{|z|<r}u\,dA_\alpha}{g(r)}
+\ge \frac{W(1-\delta)}{\sqrt{1+\kappa\delta}}.
+\]
+
+Therefore
+\[
+\int_{\D} g\,dA_\alpha
+\ge
+S\sqrt{1-\delta}
++
+W\,\frac{1-\delta}{\sqrt{1+\kappa\delta}}
+=: \Psi(\delta).
+\]
+Since $\|g\|_{2,\alpha}=\|1\|_{2,\alpha}=1$,
+\[
+\|g-1\|_{2,\alpha}^2
+=2\Bigl(1-\int_\D g\,dA_\alpha\Bigr)
+\le 2(1-\Psi(\delta)).
+\]
+
+Now use the elementary bounds
+\[
+1-\sqrt{1-\delta}\le \frac{\delta}{2},
+\qquad
+1-\frac{1-\delta}{\sqrt{1+t}}\le \delta+\frac{t}{2}
+\qquad (0\le\delta\le 1,\ t\ge0),
+\]
+with $t=\kappa\delta$. Then
+\[
+1-\Psi(\delta)
+\le
+S\frac{\delta}{2}
++
+W\Bigl(\delta+\frac{\kappa\delta}{2}\Bigr)
+=
+\Bigl(\frac S2+W\Bigr)\delta+\frac{W^2}{2S}\delta.
+\]
+Since $\frac S2+W\le 1$ and $W\le 1$,
+\[
+1-\Psi(\delta)\le \delta+\frac{1}{2S}\delta\le \frac{3}{2S}\delta.
+\]
+Hence
+\[
+\|g-1\|_{2,\alpha}^2\le 2\cdot \frac{3}{2S}\delta=\frac{3}{S}\delta.
+\]
+\end{proof}
+
+% ============================================================
+% 2. Arbitrary Omega under monotone bathtub ratio
+% ============================================================
+
+\begin{numprop}[Arbitrary sets under monotone bathtub ratio]
+\label{prop:bathtub_monotone}
+Let $\alpha>-1$ and let $g:\D\to[0,\infty)$ be radial and log-subharmonic.
+Assume
+\[
+\|g\|_{2,\alpha}=1,
+\qquad
+u(r):=g(r)^2,
+\qquad
+\Phi_\alpha(r):=u(r)(1-r^2)^{\alpha+2}.
+\]
+Let $\Omega\subset\D$ be measurable with $\mu(\Omega)=s\in(0,\infty)$, and define
+\[
+\delta(g;\Omega,\alpha)
+:=1-\frac{1}{\theta_\alpha(s)}\int_\Omega g(z)^2\,dA_\alpha(z).
+\]
+Assume that $\Phi_\alpha$ is nonincreasing on $[0,1)$.
+Then
+\[
+\delta(g;\Omega,\alpha)\ge 0
+\quad\text{and}\quad
+\|g-1\|_{2,\alpha}^2
+\le 3\,C_\alpha(s)\,\delta(g;\Omega,\alpha).
+\]
+\end{numprop}
+
+\begin{proof}
+Since $g$ is radial log-subharmonic, it is radial subharmonic, hence nondecreasing in $r$.
+
+Write the angular profile of $\Omega$ as
+\[
+m(\rho):=\frac1{2\pi}\int_0^{2\pi}\mathbf 1_\Omega(\rho e^{i\theta})\,d\theta\in[0,1].
+\]
+Then
+\[
+\int_\Omega u(|z|)\,dA_\alpha(z)
+=
+2(\alpha+1)\int_0^1 u(\rho)(1-\rho^2)^\alpha \rho\,m(\rho)\,d\rho
+=
+2(\alpha+1)\int_0^1 \Phi_\alpha(\rho)\,m(\rho)\,d\nu(\rho),
+\]
+where
+\[
+d\nu(\rho):=\frac{\rho}{(1-\rho^2)^2}\,d\rho.
+\]
+Also
+\[
+\mu(\Omega)=2\pi\int_0^1 m(\rho)\,d\nu(\rho)=s.
+\]
+
+Thus maximizing $\int_\Omega u\,dA_\alpha$ among all sets with fixed $\mu$-mass $s$
+is exactly a bathtub problem for the weight $\Phi_\alpha$ on $([0,1),d\nu)$.
+By the Bathtub principle, an optimizer is a superlevel set of $\Phi_\alpha$.
+Since $\Phi_\alpha$ is nonincreasing, its superlevel sets are initial intervals $[0,R)$,
+so the maximizer is the centered disk $D_r:=\{|z|<r\}$ with $\mu(D_r)=s$.
+
+Therefore
+\[
+\int_\Omega u\,dA_\alpha\le \int_{D_r}u\,dA_\alpha.
+\]
+Because $\theta_\alpha(s)=\int_{D_r}dA_\alpha$, this is equivalent to
+\[
+\delta(g;\Omega,\alpha)\ge \delta_{r,\alpha}(g)\ge 0.
+\]
+Applying Lemma~\ref{lem:centered_disk_radial} at radius $r$ yields
+\[
+\|g-1\|_{2,\alpha}^2
+\le \frac{3}{(1-r^2)^{\alpha+1}}\delta_{r,\alpha}(g)
+\le 3\,C_\alpha(s)\,\delta(g;\Omega,\alpha).
+\]
+\end{proof}
+
+% ============================================================
+% 3. Disk regime under strict unimodality
+% ============================================================
+
+\begin{numprop}[Disk regime for strictly unimodal bathtub ratio]
+\label{thm:disk_regime_unimodal}
+Let $\alpha>-1$ and let $g:\D\to[0,\infty)$ be radial and log-subharmonic.
+Assume
+\[
+\|g\|_{2,\alpha}=1,
+\qquad
+u(r):=g(r)^2,
+\qquad
+\Phi_\alpha(r):=u(r)(1-r^2)^{\alpha+2}.
+\]
+Assume that $\Phi_\alpha$ is strictly unimodal: there exists $r_0\in(0,1)$ such that
+$\Phi_\alpha$ is strictly increasing on $[0,r_0]$ and strictly decreasing on $[r_0,1)$,
+and also $\Phi_\alpha(1^-)=0$.
+
+Let $r_\ast\in(r_0,1)$ be the unique point such that
+\[
+\Phi_\alpha(r_\ast)=\Phi_\alpha(0),
+\]
+and set
+\[
+s_\ast:=\mu(\{|z|<r_\ast\}).
+\]
+If $\Omega\subset\D$ satisfies $\mu(\Omega)=s\ge s_\ast$, then
+\[
+\delta(g;\Omega,\alpha)\ge 0
+\quad\text{and}\quad
+\|g-1\|_{2,\alpha}^2
+\le 3\,C_\alpha(s)\,\delta(g;\Omega,\alpha).
+\]
+\end{numprop}
+
+\begin{proof}
+As above, maximizing $\int_\Omega u\,dA_\alpha$ under the constraint $\mu(\Omega)=s$
+is a bathtub problem for the weight $\Phi_\alpha$ on $([0,1),d\nu)$.
+Hence an optimizer is a superlevel set $\{\Phi_\alpha>\lambda\}$.
+
+Because $\Phi_\alpha$ is strictly unimodal, each superlevel set is either
+
+1. a centered disk $[0,R)$ if $\lambda\le \Phi_\alpha(0)$, or
+
+2. an annulus $(R_-(\lambda),R_+(\lambda))$ if $\lambda>\Phi_\alpha(0)$.
+
+Now suppose $\lambda>\Phi_\alpha(0)$. Since $\Phi_\alpha(r_\ast)=\Phi_\alpha(0)$ and
+$\Phi_\alpha$ is strictly decreasing on $[r_0,1)$, one has
+\[
+R_+(\lambda)<r_\ast.
+\]
+Thus the annulus $\{\Phi_\alpha>\lambda\}$ is contained in $\{|z|<r_\ast\}$, so
+\[
+\mu(\{\Phi_\alpha>\lambda\})<\mu(\{|z|<r_\ast\})=s_\ast.
+\]
+Hence no annular optimizer can have $\mu$-mass $s\ge s_\ast$.
+
+Therefore, for every $s\ge s_\ast$, the optimizer must be the centered disk $D_r$
+with $\mu(D_r)=s$. Consequently,
+\[
+\int_\Omega u\,dA_\alpha\le \int_{D_r}u\,dA_\alpha,
+\]
+which is equivalent to
+\[
+\delta(g;\Omega,\alpha)\ge \delta_{r,\alpha}(g)\ge 0.
+\]
+Since radial log-subharmonic functions are nondecreasing, Lemma~\ref{lem:centered_disk_radial} applies and gives
+\[
+\|g-1\|_{2,\alpha}^2
+\le \frac{3}{(1-r^2)^{\alpha+1}}\delta_{r,\alpha}(g)
+\le 3\,C_\alpha(s)\,\delta(g;\Omega,\alpha).
+\]
+\end{proof}
+
+
+
+\begin{numprop}[A single absolute comparison constant, $\alpha=0$]
+\label{prop:absolute_comparison_constant_alpha0}
+Let
+\[
+u(r)=1+\sum_{k=1}^n a_k r^k,\qquad a_k\ge 0,
+\]
+and define
+\[
+g(z):=\sqrt{u(|z|)},\qquad \widetilde g:=\frac{g}{\|g\|_{2,0}},
+\qquad
+dA_0(z):=\frac1\pi\,dA(z).
+\]
+Let
+\[
+d\mu(z):=\frac{dA(z)}{(1-|z|^2)^2},
+\qquad
+\mu(\Omega)=s>0,
+\qquad
+r=r(s)\ \text{by}\ \mu(\{|z|<r\})=s,
+\]
+so that
+\[
+r^2=\frac{s}{s+\pi},
+\qquad
+\theta_0(s)=\frac{s}{s+\pi}=r^2,
+\qquad
+C_0(s)=\frac{1}{1-r^2}=1+\frac{s}{\pi}.
+\]
+Define
+\[
+\delta(\widetilde g;\Omega,0)
+:=1-\frac{1}{\theta_0(s)}\int_\Omega \widetilde g(z)^2\,dA_0(z),
+\]
+and similarly
+\[
+\delta(\widetilde g;D_r,0)
+:=1-\frac{1}{r^2}\int_{|z|<r}\widetilde g(z)^2\,dA_0(z).
+\]
+Then
+\begin{equation}\label{eq:absolute_comparison_constant}
+\delta(\widetilde g;D_r,0)
+\le
+K_\ast\,\delta(\widetilde g;\Omega,0),
+\qquad
+K_\ast:=\frac{25\sqrt5}{25\sqrt5-24}.
+\end{equation}
+Consequently,
+\begin{equation}\label{eq:absolute_stability_constant}
+\|\widetilde g-1\|_{2,0}^2
+\le
+3K_\ast\,C_0(s)\,\delta(\widetilde g;\Omega,0),
+\end{equation}
+and hence
+\[
+\|\widetilde g-1\|_{2,0}
+\le
+C_\ast\,C_0(s)^{1/2}\,\delta(\widetilde g;\Omega,0)^{1/2},
+\qquad
+C_\ast:=\bigl(3K_\ast\bigr)^{1/2}
+=
+\Bigl(3\,\frac{25\sqrt5}{25\sqrt5-24}\Bigr)^{1/2}.
+\]
+\end{numprop}
+
+\begin{proof}
+Set
+\[
+\widetilde u(r):=\widetilde g(r)^2=\frac{u(r)}{\|g\|_{2,0}^2},
+\qquad
+\varphi(r):=\widetilde u(r)(1-r^2)^2.
+\]
+
+Because $a_k\ge 0$, the function $u$ is radial and nondecreasing, hence so is $\widetilde g$.
+Therefore Lemma~\ref{lem:centered_disk_radial} with $\alpha=0$ gives
+\begin{equation}\label{eq:disk_radial_step_abs_const}
+\|\widetilde g-1\|_{2,0}^2
+\le
+3\,C_0(s)\,\delta(\widetilde g;D_r,0).
+\end{equation}
+So it remains only to compare the disk deficit to the arbitrary-set deficit.
+
+First, since $dA_0=\frac1\pi dA$ and $d\mu=\frac{dA}{(1-|z|^2)^2}$,
+\[
+\int_\Omega \widetilde u(|z|)\,dA_0(z)
+=
+\frac1\pi\int_\Omega \varphi(|z|)\,d\mu(z).
+\]
+Hence, for every measurable $\Omega$ with $\mu(\Omega)=s$,
+\[
+\int_\Omega \widetilde u\,dA_0
+\le
+\frac{s}{\pi}\,\max_{0\le t<1}\varphi(t).
+\]
+Since $\theta_0(s)=\frac{s}{s+\pi}$, this implies
+\[
+\frac{1}{\theta_0(s)}\int_\Omega \widetilde u\,dA_0
+\le
+\max\varphi,
+\]
+and therefore
+\begin{equation}\label{eq:omega_deficit_lower_abs_const}
+\delta(\widetilde g;\Omega,0)\ge 1-\max\varphi.
+\end{equation}
+
+On the other hand, because $\widetilde u$ is radial and nondecreasing,
+\[
+\frac{1}{r^2}\int_{|z|<r}\widetilde u\,dA_0 \ge \widetilde u(0),
+\]
+hence
+\begin{equation}\label{eq:disk_deficit_upper_abs_const}
+\delta(\widetilde g;D_r,0)\le 1-\widetilde u(0).
+\end{equation}
+
+We now estimate $\max\varphi$ in terms of $\widetilde u(0)$.
+Write
+\[
+N:=\|g\|_{2,0}^2
+=
+\int_\D u(|z|)\,dA_0
+=
+1+\sum_{k=1}^n \frac{2a_k}{k+2}.
+\]
+Then
+\[
+\widetilde u(0)=\frac1N,
+\qquad
+1-\widetilde u(0)=\sum_{k=1}^n \frac{2a_k}{(k+2)N}.
+\]
+Also,
+\[
+\widetilde u(r)=\frac1N+\sum_{k=1}^n \frac{a_k}{N}r^k,
+\]
+so
+\[
+\varphi(r)
+=
+\widetilde u(r)(1-r^2)^2
+\le
+\widetilde u(0)+\sum_{k=1}^n \frac{a_k}{N}r^k(1-r^2)^2.
+\]
+Rewrite
+\[
+\frac{a_k}{N}
+=
+\frac{2a_k}{(k+2)N}\cdot \frac{k+2}{2},
+\]
+to get
+\[
+\varphi(r)
+\le
+\widetilde u(0)
++
+\sum_{k=1}^n \frac{2a_k}{(k+2)N}
+\Bigl(\frac{k+2}{2}r^k(1-r^2)^2\Bigr).
+\]
+Hence
+\[
+\max\varphi
+\le
+\widetilde u(0)
++
+\sum_{k=1}^n \frac{2a_k}{(k+2)N} M_k,
+\]
+where
+\[
+M_k:=\max_{0\le r<1}\frac{k+2}{2}\,r^k(1-r^2)^2.
+\]
+
+A direct calculation shows that $M_k$ is decreasing in $k\ge 1$, so
+\[
+M_k\le M_1.
+\]
+Since
+\[
+M_1=\max_{0\le r<1}\frac32\,r(1-r^2)^2
+=\frac{24}{25\sqrt5},
+\]
+it follows that
+\[
+\max\varphi
+\le
+\widetilde u(0)+\frac{24}{25\sqrt5}\,(1-\widetilde u(0)).
+\]
+Therefore
+\[
+1-\max\varphi
+\ge
+\Bigl(1-\frac{24}{25\sqrt5}\Bigr)(1-\widetilde u(0)).
+\]
+Combining this with \eqref{eq:omega_deficit_lower_abs_const} and
+\eqref{eq:disk_deficit_upper_abs_const}, we obtain
+\[
+\delta(\widetilde g;D_r,0)
+\le
+\frac{1-\widetilde u(0)}{1-\max\varphi}\,
+\delta(\widetilde g;\Omega,0)
+\le
+\frac{1}{1-\frac{24}{25\sqrt5}}\,
+\delta(\widetilde g;\Omega,0),
+\]
+which is exactly \eqref{eq:absolute_comparison_constant}.
+
+Finally, insert \eqref{eq:absolute_comparison_constant} into
+\eqref{eq:disk_radial_step_abs_const} to get
+\[
+\|\widetilde g-1\|_{2,0}^2
+\le
+3K_\ast\,C_0(s)\,\delta(\widetilde g;\Omega,0).
+\]
+Taking square roots gives the last claim.
+\end{proof}
+
+
+
+\section[Stability of Faber-Krahn]{Stability of concentration estimates for \texorpdfstring{$\mathcal{M}$}{M}-logsubharmonic functions}
+
+Let $\mathbb{B}=\mathbb{B}^{n}$ be the unit ball in $\mathbb{R}^{n}$.
+A mapping $u\in C^{2}(\mathbb{B}^{n}, \mathbb{C})$ or more generally
+$u\in C^{2}(\mathbb{B}^{n}, \mathbb{R}^k)$ is said to be \emph{hyperbolic harmonic}
+if $u$ (see Rudin~\cite{rudin} and Stoll~\cite{stoll}) satisfies the hyperbolic Laplace equation
+\begin{equation}\label{hyphar}
+\Delta_{h}u(x)=(1-|x|^2)^2\Delta u(x)
++2(n-2)(1-|x|^2)\sum_{i=1}^{n} x_{i} \frac{\partial u}{\partial x_{i}}(x)=0,
+\end{equation}
+where $\Delta$ denotes the usual Laplacian in $\mathbb{R}^{n}$.
+We call $\Delta_{h}$ the \emph{hyperbolic Laplacian operator}.
+For $x\in \mathbb{B}$ we define the area element of the unit ball by
+\begin{equation}\label{eq:invariant-measure-hyperbolic}
+d\tau(x) = \frac{1}{(1-|x|^2)^n}\, dV(x).
+\end{equation}
+We will also sometimes denote hyperbolic measure of the set $A$ by $|A|_h= \tau(A)$.
+The Poisson kernel for $\Delta_h$ is defined by
+\[
+P_h(x,\zeta)=\frac{(1-|x|^2)^{n-1}}{|x-\zeta|^{2n-2}}, \qquad (x,\zeta)\in \mathbb{B}\times \mathbb{S}.
+\]
+Let $\mathcal{M}$ be the group of conformal automorphisms of the unit ball onto itself.
+Then for fixed $\zeta$, $x\mapsto P_h(x,\zeta)$ is $\mathcal{M}$-harmonic, and, given a map
+$f\in \mathcal{L}(\mathbb{S})$, the function
+\[
+u(x) = P_h[f](x):=\int_{\mathbb{S}}P_h(x,\zeta) f(\zeta)\, d\sigma(\zeta)
+\]
+is the Poisson extension of $f$: it is $\mathcal{M}$-harmonic in $\mathbb{B}$, and agrees with $f$ on $\mathbb{S}$.
+
+We say that a smooth, real function $u$ is $\mathcal{M}$-subharmonic if $\Delta_h u(x) \ge 0$\footnote{This definition can be extended to the case of upper semicontinuous functions, by using the so-called invariant mean value property \cite{stoll}}.
+Notice further that
+\begin{equation}\label{fol}
+(\Delta_h u)(m(x)) =\Delta_h (u\circ m)(x),
+\end{equation}
+for every M\"obius transformation $m\in\mathcal{M}$ of the unit ball onto itself.
+For this reason, we shall also call hyperbolic harmonic (resp.\ hyperbolic subharmonic)
+functions $\mathcal{M}$-harmonic (resp.\ $\mathcal{M}$-subharmonic) functions.
+Note that, for $n=2$, the $\mathcal{M}$-harmonic and $\mathcal{M}$-subharmonic functions
+coincide with the usual Euclidean harmonic and subharmonic functions.
+
+It follows from \eqref{fol}, by putting $u=\mathrm{Id}$, that
+\[
+\Delta_h m=2 (n-2)(1-|m|^2)m.
+\]
+Thus, M\"obius transformations are (considered as vectorial functions) hyperbolic harmonic
+only in the case $n=2$.
+
+\subsection{Appropriate weights}
+In order to construct the weights used in our definition of Bergman spaces, we need to define
+a couple of preliminary concepts. Thus, we define the hypergeometric functions $F$ by
+\[
+F\!\left[\begin{array}{c}
+a,b,c\\
+u,v
+\end{array};t\right]
+:=\sum_{n=0}^{\infty}\frac{(a)_{n}(b)_{n}(c)_n}{n!\,(u)_n (v)_n}t^{n},
+\qquad |t|<1,
+\]
+and
+\[
+F\!\left[\begin{array}{c}
+a,b,c
+\end{array};t\right]
+:=\sum_{n=0}^{\infty}\frac{(a)_{n}(b)_{n}}{n!\,(c)_n }t^{n},
+\qquad |t|<1,
+\]
+and by analytic continuation elsewhere. Here $(a)_n$ denotes the rising factorial,
+$(a)_{n}=a(a+1)\cdots(a+n-1)$.
+
+Then one solution to the equation $\Delta_h \log v= -4(n-1)^2$ is given
+(see \cite[Proposition~6.1]{kalaj2024}) by
+\Needspace{10\baselineskip}
+\begin{equation}\label{eq:Phi-n}
+v=\Phi_n(r)
+=\exp\!\left\{\frac{(n-1)(2-n) r^2}{ n}
+F\!\left[\begin{array}{c}
+1,1,2-\frac{n}{2}\\[2pt]
+2,1+\frac{n}{2}
+\end{array}; r^2\right]\right\}
+(1-r^2)^{n-1}.
+\end{equation}
+We will sometimes write $\Phi_n(x)$ instead of $\Phi_n(|x|)$.
+Note that $\Phi_n(r)\le (1-r^2)^{n-1}$, with strict inequality for $n>2$ and $r>0$.
+If $n=2$, then $\Phi_n(|x|)=1-|x|^2$ and this coincides with the case treated in
+\cite{RamosTilli}.
+Observe, moreover, that $E_n (1-r^2)^{n-1} < \Phi_n(r)$, where
+\[
+E_n =\exp\!\left\{\frac{(n-1)(2-n)}{ n}
+F\!\left[\begin{array}{c}
+1,1,2-\frac{n}{2}\\[2pt]
+2,1+\frac{n}{2}
+\end{array}; 1 \right]\right\}.
+\]
+This shows that the Bergman norm induced by $\Phi_n$ is equivalent to that induced by
+the weight $(1-r^2)^{n-1}.$ The use of these weights appears for the first time in
+\cite{kalaj2024}.
+
+
+% ... continue your paper ...
+
+
+
+
+\subsection{Admissible monoid}\label{ssec:admissible}
+We define $\mathfrak{E}$ to be the set of real-analytic  functions $g$ in $\mathbb{B}$  so that
+$f:=\log |g|$ is $\mathcal{M}-$subharmonic. For $n=2$, this class of mappings contains holomorphic functions in the unit disk, however in higher-dimensional case, this is not the case, see \cite{kalaj2024}[Remark 1.2.] for more details on this issue. In other words, for $n=2m\ge 4$, the $\mathfrak{E}$ contains very few holomorphic mappings.
+
+Let  $\mathfrak{E}_+=\{f\in \mathfrak{E}: f>0\}$. Observe that $\mathfrak{E}$ is a monoid where the operation is simply the multiplication of two functions.  Observe that $1=e^0$, so $1\in \mathfrak{E}$. This monoid also contains the Abelian group $\mathcal{G}=\{e^f: \Delta_hf=0\}$. Fos some additional properties of this monoid which is also a convex cone see \cite{kalaj2024} and \cite{kalajramos2024}.
+
+
+
+\begin{numdefn}
+For $0 < p < \infty$ and $\beta > 1$ we say that a smooth function $f$  in $\mathbb{B}$ belongs to the $\mathcal{M}-$Bergman space ${B}^p_\beta$ if
+$$\|f\|_{{B}^p_\beta}^p = c(\beta)\int_\mathbb{B} |f(x)|^p \Phi_n^\beta(|x|) d\tau(x) < \infty,$$ where
+$$\frac{1}{c(\beta)}=\left( \int_{\mathbb{B}} \Phi^\beta_n(x)(1-|x|^2)^{-n}\frac{dV(x)}{{\omega_n}}\right).$$
+\end{numdefn}
+\begin{numdefn}
+ For $0 < p < \infty$ and $\beta > 1$ we define
+the $\mathcal{M}-$Bergman monoid $\mathbf{B}^p_\beta$ consisting of functions $f$ in ${B}^p_\beta\cap \mathfrak{E}$ having harmonic majorant $F_f\in {B}^p_\beta$.
+\end{numdefn}
+
+
+We first state the general peak-based stability estimate in the hyperbolic
+setting. In dimension two this estimate is only preliminary; it will be
+upgraded below to the sharp half-stability theorem for positive real-analytic
+log-subharmonic functions.
+
+\begin{numthm}[General peak-based hyperbolic stability]\label{stabb}
+There exists an explicitly computable constant \(C_{n,\beta}>0\), depending only on
+\(n\) and \(\beta\), such that for every measurable set
+\(\Omega\subset \mathbb{B}^n\) with \(0<\tau(\Omega)<\infty\) and every
+log-\(\mathcal M\)-subharmonic function \(g\in \mathbf{B}^2_\beta\setminus\{0\}\),
+one has
+\[
+\inf_{\substack{|c|=\|g\|_{2,\beta}\\ a\in\mathbb{B}^n}}
+\frac{\|g-cg_a\|_{2,\beta}}{\|g\|_{2,\beta}}
+\le
+C_{n,\beta}\Bigl(C(\tau(\Omega))\,\delta(g;\Omega,\beta)\Bigr)^{\frac1{n+2}},
+\]
+where
+\[
+C(\sigma)
+=
+\left(1-c_\beta\int_0^\sigma v^*(s)\,ds\right)^{-1}
+=
+\bigl(1-\theta(\sigma)\bigr)^{-1},
+\]
+and
+\[
+\theta(\sigma)
+=
+n c_\beta \int_0^{r(\sigma)}
+\rho^{n-1}\Phi_n^\beta(\rho)(1-\rho^2)^{-n}\,d\rho .
+\]
+\end{numthm}
+%=========================================================
+% Proof of Theorem~\ref{stabb} in the planar case n=2
+% (hyperbolic measure d\tau = 4(1-|z|^2)^{-2} dA, \Phi_2=1-|z|^2)
+%=========================================================
+
+%=========================================================
+% Stability in the planar case n=2
+% (hyperbolic measure d\tau = (1-|z|^2)^{-2} dA, \Phi_2=1-|z|^2)
+%=========================================================
+
+\begin{numthm}[Preliminary planar quarter-stability]\label{stabb_n2_beta}
+Fix $\alpha>-1$ and let $\D=\mathbb{B}^2\subset\mathbb{R}^2$.
+Let $\tau$ be the hyperbolic measure on $\D$,
+\[
+d\tau(x)=\frac{1}{(1-|x|^2)^2}\,dA(x).
+\]
+There exists an explicitly computable constant $C_{2,\alpha}$ such that for every measurable set
+$\Omega\subset\D$ with $0<\tau(\Omega)<\infty$ and every log-subharmonic function
+$g\in \mathbf{B}^2_{\alpha}\setminus\{0\}$ we have
+\[
+\inf_{\substack{|c|=\|g\|_{2,\alpha}\\ a\in\D}}
+\frac{\|g-c\,g_a\|_{2,\alpha}}{\|g\|_{2,\alpha}}
+\le
+C_{2,\alpha}\Bigl(C(\tau(\Omega))\,\delta(g;\Omega)\Bigr)^{\frac14}.
+\]
+
+Here the norm is the (normalized) weighted Bergman $L^2$ norm
+\[
+\|h\|_{2,\alpha}^2 := \frac{\alpha+1}{\pi}\int_{\D} |h(z)|^2(1-|z|^2)^{\alpha}\,dA(z),
+\]
+and the deficit is
+\[
+\delta(g;\Omega)
+:=
+1-\frac{\displaystyle\int_\Omega |g(z)|^2(1-|z|^2)^{\alpha}\,dA(z)}
+{\displaystyle\theta_\alpha(\tau(\Omega))\int_{\D}|g(z)|^2(1-|z|^2)^{\alpha}\,dA(z)}\in[0,1].
+\]
+
+The extremal family is given by the normalized kernels (up to unimodular constants):
+\[
+g_a(z)
+=
+\frac{(1-|a|^2)^{\frac{\alpha+2}{2}}}{|1-\overline{a}z|^{\alpha+2}},
+\qquad a\in\D,
+\qquad \|g_a\|_{2,\alpha}=1.
+\]
+
+Finally, the amplification factor is $C(\sigma)=(1-\theta_\alpha(\sigma))^{-1}$, where
+\[
+\theta_\alpha(\sigma)=1-\bigl(1-r(\sigma)^2\bigr)^{\alpha+1},
+\qquad
+\tau(\{|z|<r(\sigma)\})=\sigma.
+\]
+In dimension $2$ one has explicitly
+\[
+\tau(\{|z|<r\})=\pi\,\frac{r^2}{1-r^2},
+\qquad\text{so}\qquad
+r(\sigma)^2=\frac{\sigma}{\sigma+\pi},
+\]
+and therefore
+\[
+C(\sigma)=\bigl(1-\theta_\alpha(\sigma)\bigr)^{-1}
+=\bigl(1-r(\sigma)^2\bigr)^{-(\alpha+1)}
+=\left(\frac{\sigma+\pi}{\pi}\right)^{\alpha+1}.
+\]
+\end{numthm}
+
+We will start from the sharp pointwise estimate for Bergman spaces of logsubharmonic functions.
+The following function has been maximizes in \cite{RamosTilli} for $n=2$ and in \cite{kalajramos2024} for $n>2$.
+\begin{equation}\label{newco}
+R_n(f,\Omega)=
+\frac{c(\beta) \int_\Omega  |f(x)|^2 \Phi_n^\beta(|x|) \, d\tau(x)}{\|f\|^2_{\mathbf{B}^2_\beta}}
+\end{equation}
+over all $f \in\mathbf{B}^2_\beta$ and $\Omega \subset \mathbb{B}$ with $\tau(\Omega) = s.$
+
+\begin{numthm}\label{thm:main}\cite{RamosTilli, kalajramos2024}
+Let $\beta>1,$ and $s>0$ be fixed. Among all functions $f\in \mathbf{B}^2_\beta$ and among
+all measurable sets $\Omega\subset  \mathbb{B}$ such that $\tau(\Omega)=s$, the quotient
+$R_n(f,\Omega)$ as defined in \eqref{newco} satisfies the inequality
+\begin{equation}\label{upper}
+	\delta(f,\Omega):=1-\frac{R_n(f,\Omega)}{ R_n(1, \mathbb{B}_s)}\ge 0,
+\end{equation}
+where $ \mathbb{B}_s$ is a ball centered at the origin with $\tau( \mathbb{B}_s) = s.$
+Moreover, there is equality in \eqref{upper} if and only if $f$ belongs to the extremal set
+and $\Omega$ is a ball such that $\tau(\Omega)=s$. The extremal set consists of functions
+$g(x) = \frac{\Phi_n^{\beta/2}(|m(x)|)}{\Phi_n^{\beta/2}(|x|)}$, where
+$m\in\mathcal{M}$ is a M\"obius transformation of the unit ball onto itself.
+\end{numthm}
+
+%=========================================================
+% Stability in the planar case n=2 (parameter beta), with
+% d\tau = (1-|z|^2)^{-2} dA
+%=========================================================
+
+\begin{proof}[Proof of Theorem~\ref{stabb} for $n=2$]
+Write $\D=\mathbb{B}^2$ and
+\[
+d\tau(z)=\frac{1}{(1-|z|^2)^2}\,dA(z),\qquad \Phi_2(z)=1-|z|^2.
+\]
+Fix $\alpha>-1$ and let $\Omega\subset\D$ be measurable with $0<\tau(\Omega)=:s_0<\infty$.
+By homogeneity we may assume $\|g\|_{2,\alpha}=1$; then
+\[
+\inf_{\substack{|c|=\|g\|_{2,\alpha}\\ |a|<1}}
+\frac{\|g-cg_a\|_{2,\alpha}}{\|g\|_{2,\alpha}}
+=\inf_{|a|<1}\|g-g_a\|_{2,\alpha}.
+\]
+
+\smallskip\noindent
+\textbf{1) Rearrangements and the level-set deficit.}
+Set
+\[
+u(z):=(1-|z|^2)^{\alpha+2}|g(z)|^2,
+\qquad
+v(z):=(1-|z|^2)^{\alpha+2}.
+\]
+Let $u^*,v^*$ be the decreasing rearrangements of $u,v$ with respect to $\tau$.
+Define the superlevel set $\Omega_{s_0}:=\{u>u^*(s_0)\}$, so that $\tau(\Omega_{s_0})=s_0$ and
+\[
+\int_{\Omega}u\,d\tau
+\le
+\int_{\Omega_{s_0}}u\,d\tau
+\stackrel{\tau(\Omega_{s_0})=s_0}{=}
+\int_0^{s_0}u^*(s)\,ds
+\qquad\text{(Hardy--Littlewood).}
+\]
+Let
+\[
+\delta_{s_0}:=
+1-\frac{\displaystyle\int_{\Omega_{s_0}}u\,d\tau}{\displaystyle\int_{\mathbb{B}_{s_0}}v\,d\tau}
+=
+1-\frac{\displaystyle\int_0^{s_0}u^*(s)\,ds}{\displaystyle\int_0^{s_0}v^*(s)\,ds},
+\]
+where $\mathbb{B}_{s_0}$ denotes the hyperbolic disk centered at the origin with
+$\tau(\mathbb{B}_{s_0})=s_0$. Since $\delta(g;\Omega)$ is defined by
+\[
+\delta(g;\Omega)
+=
+1-\frac{\displaystyle\int_{\Omega}u\,d\tau}{\displaystyle\int_{\mathbb{B}_{s_0}}v\,d\tau}
+\ge
+1-\frac{\displaystyle\int_{\Omega_{s_0}}u\,d\tau}{\displaystyle\int_{\mathbb{B}_{s_0}}v\,d\tau}
+\stackrel{\mathrm{def}}{=}
+\delta_{s_0},
+\]
+the previous inequality implies
+\begin{equation}\label{eq:delta-levelset-fixed}
+\delta_{s_0}\le \delta(g;\Omega).
+\end{equation}
+
+\smallskip\noindent
+\textbf{2) Explicit formula for $v^*$ and $\theta_\alpha$.}
+For $0<r<1$ one computes
+\[
+\tau(\{|z|<r\})
+=
+\int_0^{2\pi}\int_0^r \frac{1}{(1-\rho^2)^2}\,\rho\,d\rho\,d\theta
+=\pi\,\frac{r^2}{1-r^2}.
+\]
+Solving
+\[
+s=\pi\,\frac{r^2}{1-r^2}
+\quad\Longrightarrow\quad
+s(1-r^2)=\pi r^2
+\quad\Longrightarrow\quad
+s=r^2(s+\pi),
+\]
+gives
+\[
+r^2=\frac{s}{s+\pi},
+\qquad
+1-r^2=\frac{\pi}{s+\pi}
+=\Bigl(1+\frac{s}{\pi}\Bigr)^{-1},
+\]
+and hence
+\begin{equation}\label{eq:vstar-n2-fixed}
+v^*(s)
+=
+(1-r^2)^{\alpha+2}
+=
+\Bigl(1+\tfrac{s}{\pi}\Bigr)^{-(\alpha+2)},
+\qquad s>0.
+\end{equation}
+In particular,
+\[
+\int_0^{\infty}v^*(s)\,ds=\frac{\pi}{\alpha+1}.
+\]
+Thus
+\[
+\theta_\alpha(s)
+=\frac{\displaystyle\int_0^{s}v^*(t)\,dt}{\displaystyle\int_0^{\infty}v^*(t)\,dt}
+=
+1-\Bigl(1+\frac{s}{\pi}\Bigr)^{-(\alpha+1)},
+\qquad
+C(s)=\bigl(1-\theta_\alpha(s)\bigr)^{-1}
+=\Bigl(1+\frac{s}{\pi}\Bigr)^{\alpha+1}.
+\]
+
+Since $\|g\|_{2,\alpha}=1$, we also have
+\[
+\int_0^\infty u^*(s)\,ds=\int_0^\infty v^*(s)\,ds=\frac{\pi}{\alpha+1}.
+\]
+
+\smallskip\noindent
+\textbf{3) From $\delta_{s_0}$ to a bound on the peak size.}
+Let
+\[
+T:=\|u\|_{L^\infty(\D)}=\sup_{z\in\D}(1-|z|^2)^{\alpha+2}|g(z)|^2.
+\]
+By the pointwise estimate
+\[
+|g(z)|\,\Phi_2(z)^{(\alpha+2)/2}\le \|g\|_{2,\alpha}=1,
+\]
+we have $0<T\le 1$. Set
+\[
+s_T:=\pi\bigl(T^{-1/(\alpha+2)}-1\bigr),
+\qquad\text{so that}\qquad
+v^*(s_T)=T
+\]
+by \eqref{eq:vstar-n2-fixed}.
+
+We next define the crossing point $s^*$ by
+\[
+u^*(s^*)=v^*(s^*).
+\]
+To justify its existence and uniqueness, consider
+\[
+R(s):=\frac{u^*(s)}{v^*(s)}.
+\]
+By the rearrangement differential inequality in dimension $2$,
+\[
+(u^*)'(s)+\frac{\alpha+2}{\pi+s}\,u^*(s)\ge0,
+\]
+while \eqref{eq:vstar-n2-fixed} gives
+\[
+(v^*)'(s)+\frac{\alpha+2}{\pi+s}\,v^*(s)=0
+\quad\Longrightarrow\quad
+\frac{(v^*)'(s)}{v^*(s)}=-\frac{\alpha+2}{\pi+s}.
+\]
+Therefore
+\[
+R'(s)
+=
+\frac{(u^*)'(s)v^*(s)-(v^*)'(s)u^*(s)}{(v^*(s))^2}
+=
+\frac{(u^*)'(s)-u^*(s)\frac{(v^*)'(s)}{v^*(s)}}{v^*(s)}
+=
+\frac{(u^*)'(s)+\frac{\alpha+2}{\pi+s}u^*(s)}{v^*(s)}
+\ge0,
+\]
+so $R$ is nondecreasing.
+
+Now $u^*(0)=T$ and $v^*(0)=1$, hence
+\[
+R(0)=\frac{u^*(0)}{v^*(0)}=T\le1.
+\]
+Also,
+\[
+\int_0^\infty u^*(s)\,ds=\int_0^\infty v^*(s)\,ds.
+\]
+Thus either $u^*\equiv v^*$ almost everywhere, in which case the conclusion is trivial, or else there exists $s^*\ge0$ such that
+\[
+R(s^*)=1.
+\]
+Since $R$ is nondecreasing, we may choose
+\[
+s^*:=\inf\{s\ge0:\ R(s)=1\},
+\]
+and then
+\[
+R(s)\le 1 \ \text{for } 0\le s\le s^*,
+\qquad
+R(s)\ge 1 \ \text{for } s\ge s^*,
+\]
+hence
+\[
+u^*(s)=R(s)v^*(s)\le v^*(s)\quad (0\le s\le s^*),
+\qquad
+u^*(s)=R(s)v^*(s)\ge v^*(s)\quad (s\ge s^*).
+\]
+
+Define
+\[
+I_*:=\int_0^{s^*}(v^*(s)-u^*(s))\,ds.
+\]
+We claim that
+\begin{equation}\label{eq:Istar-upper-n2}
+I_* \le \frac{\pi}{\alpha+1}\,C(s_0)\,\delta_{s_0}.
+\end{equation}
+Set
+\[
+\varepsilon:=\int_0^{s_0}(v^*(s)-u^*(s))\,ds
+=\delta_{s_0}\int_0^{s_0}v^*(s)\,ds.
+\]
+
+Assume first that $s_0\ge s^*$. Since
+\[
+\int_0^\infty u^*(s)\,ds=\int_0^\infty v^*(s)\,ds,
+\]
+we have
+\[
+\varepsilon
+=
+\int_0^{s_0}(v^*(s)-u^*(s))\,ds
+\stackrel{\int_0^\infty u^*=\int_0^\infty v^*}{=}
+\int_{s_0}^{\infty}(u^*(s)-v^*(s))\,ds.
+\]
+Moreover, for $s\ge s^*$,
+\[
+u^*(s)-v^*(s)
+=
+u^*(s)\Bigl(1-\frac{1}{R(s)}\Bigr).
+\]
+Since $R$ is nondecreasing and $s_0\ge s^*$, it follows that
+\begin{equation}\label{eq:eps-lower}
+\varepsilon
+=
+\int_{s_0}^{\infty}u^*(s)\Bigl(1-\frac1{R(s)}\Bigr)\,ds
+\ge
+\Bigl(1-\frac1{R(s_0)}\Bigr)\int_{s_0}^{\infty}u^*(s)\,ds.
+\end{equation}
+Likewise, for $s\in[s^*,s_0]$ we have
+\[
+1-\frac1{R(s)}\le 1-\frac1{R(s_0)},
+\]
+hence
+\begin{equation}\label{eq:middle-upper}
+\int_{s^*}^{s_0}(u^*(s)-v^*(s))\,ds
+=
+\int_{s^*}^{s_0}u^*(s)\Bigl(1-\frac1{R(s)}\Bigr)\,ds
+\le
+\Bigl(1-\frac1{R(s_0)}\Bigr)\int_{s^*}^{s_0}u^*(s)\,ds.
+\end{equation}
+
+Set
+\[
+A:=1-\frac1{R(s_0)}\ge0.
+\]
+If $\int_{s_0}^{\infty}u^*(s)\,ds>0$, then \eqref{eq:eps-lower} implies
+\[
+A\le
+\frac{\varepsilon}{\int_{s_0}^{\infty}u^*(s)\,ds}.
+\]
+Substituting this into \eqref{eq:middle-upper}, we obtain
+\begin{equation}\label{eq:middle-bound}
+\int_{s^*}^{s_0}(u^*(s)-v^*(s))\,ds
+\le
+\varepsilon\,
+\frac{\int_{s^*}^{s_0}u^*(s)\,ds}{\int_{s_0}^{\infty}u^*(s)\,ds}.
+\end{equation}
+Also,
+\[
+\varepsilon
+=
+\int_0^{s_0}(v^*(s)-u^*(s))\,ds
+=
+I_*-\int_{s^*}^{s_0}(u^*(s)-v^*(s))\,ds,
+\]
+so
+\[
+I_*=\varepsilon+\int_{s^*}^{s_0}(u^*(s)-v^*(s))\,ds.
+\]
+Combining this with \eqref{eq:middle-bound} gives
+\begin{equation}\label{eq:Istar-u-ratio}
+I_*
+=
+\varepsilon+\int_{s^*}^{s_0}(u^*(s)-v^*(s))\,ds
+\stackrel{\eqref{eq:middle-bound}}{\le}
+\varepsilon+\varepsilon\,
+\frac{\int_{s^*}^{s_0}u^*(s)\,ds}{\int_{s_0}^{\infty}u^*(s)\,ds}
+=
+\varepsilon\,
+\frac{\int_{s^*}^{\infty}u^*(s)\,ds}{\int_{s_0}^{\infty}u^*(s)\,ds}.
+\end{equation}
+
+If instead $\int_{s_0}^{\infty}u^*(s)\,ds=0$, then \eqref{eq:eps-lower} gives $\varepsilon=0$, and
+\[
+\int_{s^*}^{s_0}(u^*(s)-v^*(s))\,ds=0,
+\]
+so $I_*=0$ and \eqref{eq:Istar-u-ratio} is trivial.
+
+Finally, since
+\[
+\int_{s^*}^{\infty}u^*(s)\,ds
+\le
+\int_0^\infty u^*(s)\,ds
+=
+\int_0^\infty v^*(s)\,ds
+=
+\frac{\pi}{\alpha+1},
+\]
+and since $u^*(s)\ge v^*(s)$ for all $s\ge s_0$,
+\[
+\int_{s_0}^{\infty}u^*(s)\,ds
+\ge
+\int_{s_0}^{\infty}v^*(s)\,ds,
+\]
+we conclude from \eqref{eq:Istar-u-ratio} that
+\[
+I_*
+\le
+\varepsilon\,
+\frac{\frac{\pi}{\alpha+1}}{\int_{s_0}^{\infty}v^*(s)\,ds}.
+\]
+Since
+\[
+\varepsilon=\delta_{s_0}\int_0^{s_0}v^*(s)\,ds,
+\]
+this yields
+\[
+I_*
+\le
+\frac{\pi}{\alpha+1}\,
+\frac{\int_0^{s_0}v^*(s)\,ds}{\int_{s_0}^{\infty}v^*(s)\,ds}\,
+\delta_{s_0},
+\]
+which is \eqref{eq:Istar-upper-n2}.
+Since
+\[
+\int_{s_0}^{\infty}v^*(s)\,ds
+=
+\frac{\pi}{\alpha+1}\Bigl(1+\frac{s_0}{\pi}\Bigr)^{-(\alpha+1)}
+=
+\frac{\pi}{\alpha+1}\,\bigl(1-\theta_\alpha(s_0)\bigr),
+\]
+it follows that
+\[
+I_* \le \varepsilon\, C(s_0)\le \frac{\pi}{\alpha+1}\,C(s_0)\,\delta_{s_0}.
+\]
+
+If $s_0\le s^*$, then
+\[
+\varepsilon=\int_0^{s_0}v^*(s)\bigl(1-R(s)\bigr)\,ds
+\ge
+(1-R(s_0))\int_0^{s_0}v^*(s)\,ds,
+\]
+and
+\[
+\int_{s_0}^{s^*}(v^*(s)-u^*(s))\,ds
+=
+\int_{s_0}^{s^*}v^*(s)\bigl(1-R(s)\bigr)\,ds
+\le
+(1-R(s_0))\int_{s_0}^{s^*}v^*(s)\,ds.
+\]
+Therefore
+\[
+I_*=\varepsilon+\int_{s_0}^{s^*}(v^*(s)-u^*(s))\,ds
+\le
+\varepsilon\,
+\frac{\int_0^{s^*}v^*(s)\,ds}{\int_0^{s_0}v^*(s)\,ds}
+\le
+\delta_{s_0}\int_0^\infty v^*(s)\,ds
+=
+\frac{\pi}{\alpha+1}\,\delta_{s_0}
+\le
+\frac{\pi}{\alpha+1}\,C(s_0)\,\delta_{s_0}.
+\]
+This proves \eqref{eq:Istar-upper-n2}.
+
+Next we compare $I_*$ with the clipped functional. Since $u^*(s)\le T$ for all $s$ and
+\[
+u^*(s^*)=v^*(s^*)\le T,
+\]
+the monotonicity of $v^*$ implies
+\[
+v^*(s^*)\le v^*(s_T)
+\quad\Longrightarrow\quad
+s^*\ge s_T.
+\]
+Hence
+\[
+I_*
+=
+\int_0^{s^*}(v^*(s)-u^*(s))\,ds
+\ge
+\int_0^{s_T}(v^*(s)-u^*(s))\,ds
+\ge
+\int_0^{s_T}(v^*(s)-T)\,ds
+=:I(T).
+\]
+A direct computation gives
+\begin{align*}
+I(T)
+&=\int_0^{\pi(T^{-1/(\alpha+2)}-1)}
+\Bigl(\bigl(1+\tfrac{s}{\pi}\bigr)^{-(\alpha+2)}-T\Bigr)\,ds\\
+&\stackrel{t=1+s/\pi}{=}
+\pi\int_1^{T^{-1/(\alpha+2)}}\bigl(t^{-(\alpha+2)}-T\bigr)\,dt\\
+&=
+\pi\left(
+\frac{1-T^{\frac{\alpha+1}{\alpha+2}}}{\alpha+1}
+-T\bigl(T^{-1/(\alpha+2)}-1\bigr)
+\right)\\
+&=
+\pi\left(
+\frac{1-T^{\frac{\alpha+1}{\alpha+2}}}{\alpha+1}
+-T^{\frac{\alpha+1}{\alpha+2}}+T
+\right)\\
+&=
+\pi\left(
+T+\frac{1-(\alpha+2)\,T^{\frac{\alpha+1}{\alpha+2}}}{\alpha+1}
+\right).
+\end{align*}
+Moreover,
+\begin{equation}\label{eq:I-lower-quad-fixed}
+I(T)\ge \frac{\pi}{2(\alpha+2)}\,(1-T)^2,\qquad 0<T\le 1.
+\end{equation}
+
+Combining \eqref{eq:Istar-upper-n2} and \eqref{eq:I-lower-quad-fixed}, we obtain
+\[
+\frac{\pi}{2(\alpha+2)}\,(1-T)^2
+\le I(T)\le I_*
+\le \frac{\pi}{\alpha+1}\,C(s_0)\,\delta_{s_0},
+\]
+hence
+\begin{equation}\label{eq:1minusT-fixed}
+(1-T)^2
+\le
+\frac{2(\alpha+2)}{\alpha+1}\,C(s_0)\,\delta_{s_0}
+\le
+\frac{2(\alpha+2)}{\alpha+1}\,C(s_0)\,\delta(g;\Omega),
+\end{equation}
+where in the last step we used \eqref{eq:delta-levelset-fixed}.
+
+\smallskip\noindent
+\textbf{4) From the peak size to the distance from extremals.}
+Let
+\[
+g_a(z)=
+\frac{(1-|a|^2)^{\frac{\alpha+2}{2}}}{|1-\overline{a}z|^{\alpha+2}},
+\qquad a\in\D,
+\]
+so that $\|g_a\|_{2,\alpha}=1$. Assuming Lemma~\ref{diel} is available for this class,
+\begin{equation}\label{eq:diel-n2-fixed}
+\inf_{|a|<1}\|g-g_a\|_{2,\alpha}^2
+\le
+2-2\sup_{|a|<1}\bigl(g(a)\Phi_2(a)^{(\alpha+2)/2}\bigr)
+=
+2-2\sqrt{T}.
+\end{equation}
+Using $1-\sqrt{T}\le 1-T$ for $0<T\le1$, we get
+\[
+\inf_{|a|<1}\|g-g_a\|_{2,\alpha}^2
+\le
+2-2\sqrt{T}
+=
+2(1-\sqrt{T}),
+\]
+so
+\[
+\inf_{|a|<1}\|g-g_a\|_{2,\alpha}
+\le
+\sqrt{2(1-\sqrt{T})}
+\le
+\sqrt{2}\,(1-T)^{1/2}.
+\]
+Combining this with \eqref{eq:1minusT-fixed} yields
+\[
+\inf_{|a|<1}\|g-g_a\|_{2,\alpha}
+\le
+\sqrt{2}\left(\frac{2(\alpha+2)}{\alpha+1}\right)^{1/4}
+\bigl(C(s_0)\,\delta(g;\Omega)\bigr)^{1/4}.
+\]
+Thus Theorem~\ref{stabb} holds for $n=2$ with the explicit constant
+\[
+C_{2,\alpha}
+=
+\sqrt{2}\left(\frac{2(\alpha+2)}{\alpha+1}\right)^{1/4}.
+\]
+\end{proof}
+
+%=========================================================
+% The planar quarter-stability bottleneck
+%=========================================================
+\subsection{The planar quarter-stability bottleneck and the sharp half theorem}\label{ssec:sharpness-n2}
+
+The exponent $1/4$ in Theorem~\ref{stabb_n2_beta} arises as the product of two
+half-power losses inside the proof:
+
+\smallskip\noindent\emph{(i) Rearrangement-deficit step.} The radial profile of
+the level-set deficit yields the \emph{quadratic} bound
+\eqref{eq:1minusT-fixed},
+\begin{equation}\label{eq:sharpness-step-i}
+(1-T)^2\;\le\;\frac{2(\alpha+2)}{\alpha+1}\,C(s_0)\,\delta(g;\Omega).
+\end{equation}
+
+\smallskip\noindent\emph{(ii) Peak-to-distance step.} The invariant mean-value
+inequality (Lemma~\ref{diel}) yields the \emph{linear} bound
+\eqref{eq:diel-n2-fixed},
+\begin{equation}\label{eq:sharpness-step-ii}
+\inf_{|a|<1}\|g-g_a\|_{2,\alpha}^2\;\le\;2-2\sqrt T\;\le\;2(1-T).
+\end{equation}
+
+\smallskip
+Composing \eqref{eq:sharpness-step-i} and \eqref{eq:sharpness-step-ii} produces
+the rate $\delta^{1/4}$. By contrast, in the holomorphic regime of
+\cite{GomezKalajMelentijevicRamos2025} both steps are linear (the
+quantitative RKHS argument upgrades \eqref{eq:sharpness-step-i} to a linear
+estimate), and one obtains the sharp $\delta^{1/2}$.
+
+In this subsection we show that the loss in the log-subharmonic chain is not
+genuine. The natural family that saturates
+\eqref{eq:sharpness-step-i} is \emph{forced} into a radial regime in which a
+direct bathtub argument (Proposition~\ref{prop:bathtub_monotone}) provides a
+norm-distance bound $\delta^{1/2}$, bypassing
+\eqref{eq:sharpness-step-ii}. Together with the radial and Hilbert-valued
+results of the previous section, this identifies Lemma~\ref{diel} as the
+source of the artificial quarter exponent. The remainder of the subsection
+develops the local and global argument proving that the optimal stability rate
+is $\delta^{1/2}$.
+
+\subsubsection*{The natural saturator of \eqref{eq:sharpness-step-i}}
+
+Fix $\alpha>-1$ and $T\in(0,1)$, and let $r_T\in(0,1)$ be the unique solution of
+\begin{equation}\label{eq:sharp-rT}
+T=(1-r_T^2)^{\alpha+2}.
+\end{equation}
+Following the radial geometry of $v^*(s)=(1+s/\pi)^{-(\alpha+2)}$, we consider
+the radial profile
+\begin{equation}\label{eq:saturating-profile}
+g_T(z):=
+\begin{cases}
+\dfrac{T^{1/2}}{(1-|z|^2)^{(\alpha+2)/2}},& |z|<r_T,\\[8pt]
+\;1,& r_T\le |z|<1.
+\end{cases}
+\end{equation}
+The function $g_T$ is continuous across the circle $|z|=r_T$ by
+\eqref{eq:sharp-rT}, takes the maximal pointwise value $T$ of
+$u_{g_T}=g_T^2(1-|z|^2)^{\alpha+2}$ throughout the disk $\{|z|<r_T\}$, and a
+direct computation gives the (un-normalized) Bergman mass
+\begin{equation}\label{eq:gT-norm}
+\|g_T\|_{2,\alpha}^2
+=
+(1-r_T^2)^{\alpha+1}\bigl(1+(\alpha+1)r_T^2\bigr).
+\end{equation}
+Indeed, splitting the integral over $\{|z|<r_T\}$ and $\{r_T\le|z|<1\}$,
+\[
+\int_{|z|<r_T}\frac{T}{(1-|z|^2)^{\alpha+2}}\,dA_\alpha(z)
+=
+T(\alpha+1)\,\frac{r_T^2}{1-r_T^2}
+=
+(\alpha+1)\,r_T^2(1-r_T^2)^{\alpha+1},
+\]
+where we used \eqref{eq:sharp-rT}, while
+$\int_{r_T<|z|<1}dA_\alpha(z)=(1-r_T^2)^{\alpha+1}$. Adding these gives
+\eqref{eq:gT-norm}.
+
+Although $g_T$ has a corner along $|z|=r_T$ that prevents it from being
+literally log-subharmonic, the function
+$\log g_T(z)=\tfrac12\log T-\tfrac{\alpha+2}{2}\log(1-|z|^2)$ on
+$\{|z|<r_T\}$ is smooth subharmonic, and $\log g_T\equiv 0$ on
+$\{r_T\le|z|<1\}$. Standard mollification along radii, on a shell of width $\eta$
+around $|z|=r_T$, produces a smooth radial log-subharmonic function
+$g_T^\eta$ with
+\[
+\|g_T^\eta-g_T\|_{2,\alpha}\to 0,\qquad
+T-\sup_{z\in\D}u_{g_T^\eta}(z)\to 0,\qquad
+\delta(g_T^\eta;B_{s_0})\to\delta(g_T;B_{s_0})\qquad (\eta\to0^+),
+\]
+for every fixed centered hyperbolic ball $B_{s_0}$ of $\tau$-measure
+$s_0\ge s_T:=\pi(T^{-1/(\alpha+2)}-1)$. The conclusions below are obtained for
+$g_T$ itself; the same statements hold for the smooth approximants $g_T^\eta$ up
+to errors that vanish with $\eta$.
+
+\subsubsection*{Saturation of the rearrangement-deficit step}
+
+The pointwise distribution of $u_{g_T}$ is explicit. Indeed, $u_{g_T}\equiv T$
+on $\{|z|<r_T\}$, while $u_{g_T}=v$ on $\{|z|\ge r_T\}$, where
+$v(z)=(1-|z|^2)^{\alpha+2}$. Consequently, the decreasing rearrangement
+$u_{g_T}^*$ with respect to $\tau$ is
+\[
+u_{g_T}^*(s)
+=
+\begin{cases}T,& 0\le s\le s_T,\\ v^*(s),& s>s_T.\end{cases}
+\]
+
+Pick $s_0\ge s_T$ and consider the centered ball $\Omega=B_{s_0}$. Because
+$u_{g_T}$ is radial and $\Phi^{(g_T)}_\alpha(r):=u_{g_T}(z)$ at $|z|=r$ is
+nonincreasing (constant equal to $T$ on $[0,r_T]$ and equal to
+$(1-r^2)^{\alpha+2}$ on $[r_T,1)$), the bathtub maximizer of
+$\int_\Omega u_{g_T}\,d\tau$ at fixed $\tau$-measure $s_0$ is exactly
+$B_{s_0}$. Using \eqref{eq:gT-norm} and the same change of variable
+$s\mapsto v^*(s)$ as in Step~3 of the proof of
+Theorem~\ref{stabb_n2_beta},
+\begin{equation}\label{eq:gT-deficit}
+\delta(g_T;B_{s_0})
+=
+\frac{1}{\|g_T\|_{2,\alpha}^2\,\theta_\alpha(s_0)}
+\int_0^{s_T}\bigl(v^*(s)-T\bigr)\,ds
+=
+\frac{I(T)}{\|g_T\|_{2,\alpha}^2\,\theta_\alpha(s_0)},
+\end{equation}
+where $I(T)=\int_0^{s_T}(v^*(s)-T)\,ds$ is precisely the quantity
+appearing in \eqref{eq:I-lower-quad-fixed}. Taylor expansion at $T=1$,
+already carried out in the proof, yields
+\begin{equation}\label{eq:I-asymp}
+I(T)\;=\;\frac{\pi}{2(\alpha+2)}(1-T)^2+O\bigl((1-T)^3\bigr),\qquad T\to 1^-.
+\end{equation}
+Combining \eqref{eq:gT-norm}, \eqref{eq:gT-deficit} and \eqref{eq:I-asymp},
+and using $\|g_T\|_{2,\alpha}^2\to 1$ as $T\to 1$, we obtain
+\begin{equation}\label{eq:gT-deficit-asymp}
+\delta(g_T;B_{s_0})
+=
+\frac{\alpha+1}{2(\alpha+2)\,\theta_\alpha(s_0)}\,(1-T)^2
++O\bigl((1-T)^3\bigr),\qquad T\to 1^-.
+\end{equation}
+Comparing with \eqref{eq:sharpness-step-i}, we see that $g_T$ saturates the
+rearrangement-deficit step up to the universal factor
+$\theta_\alpha(s_0)(1-\theta_\alpha(s_0))\in(0,1/4]$:
+\[
+(1-T)^2
+\;=\;
+\frac{2(\alpha+2)\,\theta_\alpha(s_0)}{\alpha+1}\,
+\delta(g_T;B_{s_0})\,\bigl(1+o(1)\bigr).
+\]
+In other words, the inequality \eqref{eq:sharpness-step-i} cannot be
+quantitatively improved (in its $(1-T)^2$ exponent) within the radial
+log-subharmonic class.
+
+\subsubsection*{The chain $\delta^{1/4}$ is loose on the saturator}
+
+If \eqref{eq:sharpness-step-ii} were also saturated on the family $\{g_T\}$,
+the chain would force $\inf_a\|g_T-g_a\|_{2,\alpha}\asymp\delta(g_T;B_{s_0})^{1/4}$. We show that this is \emph{not} the case: on $g_T$, the quantity
+$\inf_a\|g_T-g_a\|_{2,\alpha}^2$ is in fact controlled by $(1-T)^2$, not by
+$1-T$. Two observations make this precise.
+
+\smallskip
+\noindent\textbf{(a) Application of Proposition~\ref{prop:bathtub_monotone}.}
+Normalize by setting $\widetilde g_T:=g_T/\|g_T\|_{2,\alpha}$, so that
+$\|\widetilde g_T\|_{2,\alpha}=1$. The function $\widetilde g_T$ remains radial,
+nondecreasing in $|z|$, and its bathtub ratio
+\[
+\Phi_\alpha^{\widetilde g_T}(r)
+=
+\widetilde g_T(r)^2(1-r^2)^{\alpha+2}
+=
+\frac{1}{\|g_T\|_{2,\alpha}^2}
+\begin{cases}T,& 0\le r\le r_T,\\[2pt](1-r^2)^{\alpha+2},& r_T\le r<1\end{cases}
+\]
+is constant on $[0,r_T]$ and strictly decreasing on $[r_T,1)$, hence
+\emph{nonincreasing} on $[0,1)$. Proposition~\ref{prop:bathtub_monotone} therefore
+applies and yields, for every measurable $\Omega\subset\D$ with
+$\mu(\Omega)=s_0$,
+\begin{equation}\label{eq:gT-bathtub}
+\|\widetilde g_T-1\|_{2,\alpha}^2
+\;\le\;
+3\,C_\alpha(s_0)\,\delta(\widetilde g_T;\Omega,\alpha).
+\end{equation}
+Since $1=g_0$ in the centered normalization $a=0$, \eqref{eq:gT-bathtub} is
+exactly the planar stability inequality with the \emph{sharp} exponent
+$1/2$ on this family, and with constants of the same order as in
+Theorem~\ref{stabb_n2_beta}. By Möbius covariance, the analogous bound holds with
+$1$ replaced by any extremal $g_a$ and $g_T$ replaced by its conjugate by the
+Möbius transformation sending $0$ to $a$.
+
+\smallskip
+\noindent\textbf{(b) Direct asymptotics of the norm distance.}
+The same conclusion may be checked by a direct calculation. Writing
+$\widetilde g_T=g_T/\|g_T\|_{2,\alpha}$ and using
+$\|\widetilde g_T\|_{2,\alpha}=\|1\|_{2,\alpha}=1$,
+\[
+\|\widetilde g_T-1\|_{2,\alpha}^2
+=
+2-2\langle\widetilde g_T,1\rangle_{2,\alpha}
+=
+2\Bigl(1-\frac{1}{\|g_T\|_{2,\alpha}}\int_\D g_T\,dA_\alpha\Bigr).
+\]
+For the first integral, splitting again at $|z|=r_T$ and using
+\eqref{eq:sharp-rT},
+\[
+\int_\D g_T\,dA_\alpha
+=
+T^{1/2}\int_{|z|<r_T}(1-|z|^2)^{-(\alpha+2)/2}dA_\alpha
++\int_{r_T<|z|<1}dA_\alpha,
+\]
+both integrals being elementary. Using the expansion
+$1-r_T^2=T^{1/(\alpha+2)}=1-(1-T)/(\alpha+2)+O((1-T)^2)$, a routine
+calculation gives, as $T\to 1^-$,
+\begin{equation}\label{eq:gT-distance-asymp}
+\|\widetilde g_T-1\|_{2,\alpha}^2
+=
+\frac{1}{\alpha+1}\,(1-T)^2
++O\bigl((1-T)^3\bigr).
+\end{equation}
+In particular, $\|\widetilde g_T-1\|_{2,\alpha}\asymp 1-T$, in stark contrast
+with \eqref{eq:sharpness-step-ii} which would predict
+$\|\widetilde g_T-1\|_{2,\alpha}\lesssim(1-T)^{1/2}$.
+
+Combining \eqref{eq:gT-deficit-asymp} and \eqref{eq:gT-distance-asymp},
+\[
+\|\widetilde g_T-1\|_{2,\alpha}
+\;\sim\;
+\sqrt{\frac{2(\alpha+2)\,\theta_\alpha(s_0)}{\alpha+1}}\,
+\delta(\widetilde g_T;B_{s_0})^{1/2}
+\qquad (T\to 1^-).
+\]
+On the natural saturator of \eqref{eq:sharpness-step-i}, the actual norm
+distance behaves as $\delta^{1/2}$, not $\delta^{1/4}$. The looseness of
+the chain in the proof of Theorem~\ref{stabb_n2_beta} is therefore localized
+entirely in step~(ii), Lemma~\ref{diel}.
+
+\subsubsection*{The mechanism: Lemma~\ref{diel} is loose on radial saturators}
+
+The reason \eqref{eq:sharpness-step-ii} is loose on $\widetilde g_T$ can be
+isolated explicitly. The proof of Lemma~\ref{diel} bounds
+$\langle g,g_a\rangle_{2,\alpha}$ from below by the pointwise value $\sqrt T$
+of $g\,\Phi_2^{(\alpha+2)/2}$ at $a$, via the invariant mean-value property of
+the log-$\mathcal M$-subharmonic function
+\[
+h(y)=g(m_a(y))\,\Phi_2^{-(\alpha+2)/2}(y)\,\Phi_2^{(\alpha+2)/2}(m_a(y))
+\]
+at $y=0$. This is equivalent to using the \emph{first} term in the radial
+mean-value expansion of $h$. On $\widetilde g_T$ centered at $a=0$, however,
+$h$ coincides with $\widetilde g_T$ and the next mean-value coefficients
+exhibit a quadratic improvement, exactly accounting for the gain
+$1-\sqrt T\approx (1-T)/2$ to $(1-T)^2$ visible in \eqref{eq:gT-distance-asymp}.
+
+\subsubsection*{The sharp theorem and the peak-only obstruction}
+
+The preceding radial saturator shows that the exponent $1/4$ in
+Theorem~\ref{stabb_n2_beta} is not sharp. The rest of this subsection proves
+the global replacement, Theorem~\ref{thm:global-half-from-green-absorption},
+with exponent $1/2$ for positive real-analytic log-subharmonic functions.
+Before entering the local and global proof, we record a complementary warning:
+the sharp theorem cannot be obtained by merely improving Lemma~\ref{diel} to a
+quadratic estimate in the peak defect $1-T$. Such a peak-only bound is false
+even inside the zero-free holomorphic subclass. The proof of the sharp theorem
+therefore has to use the full logarithmic structure, through the Riesz
+decomposition and the perturbative bathtub analysis developed below.
+
+\begin{numprop}[Failure of a quadratic peak-to-distance estimate]\label{prop:quadratic-diel-fails}
+Fix $\alpha>-1$ and set $p:=\alpha+2$. There is no constant $M_\alpha<\infty$
+such that every positive log-subharmonic $g$ with $\|g\|_{2,\alpha}=1$ satisfies
+\[
+\inf_{|a|<1}\|g-g_a\|_{2,\alpha}^2
+\le
+M_\alpha(1-T)^2,
+\qquad
+T:=\sup_{z\in\D}g(z)^2(1-|z|^2)^p.
+\]
+More precisely, for the zero-free holomorphic perturbations
+\[
+g_\varepsilon(z):=\frac{\exp(\varepsilon\Re z^2)}
+{\|\exp(\varepsilon\Re z^2)\|_{2,\alpha}},
+\qquad |\varepsilon|\ll1,
+\]
+one has
+\[
+1-T_\varepsilon
+=
+\frac{2}{(\alpha+2)(\alpha+3)}\,\varepsilon^2+O(\varepsilon^4),
+\]
+while
+\[
+\inf_{|a|<1}\|g_\varepsilon-g_a\|_{2,\alpha}^2
+=
+\frac{1}{(\alpha+2)(\alpha+3)}\,\varepsilon^2+O(|\varepsilon|^3).
+\]
+\end{numprop}
+
+\begin{proof}
+Let $\varphi(z):=\Re z^2$ and let $dA_\alpha$ be the normalized weighted area
+measure. Since $\varphi$ has zero angular mean,
+\[
+\int_\D \varphi\,dA_\alpha=0,
+\qquad
+\int_\D \varphi^2\,dA_\alpha
+=\frac12\int_\D |z|^4\,dA_\alpha
+=\frac{1}{(\alpha+2)(\alpha+3)}.
+\]
+Therefore
+\[
+\|\exp(\varepsilon\varphi)\|_{2,\alpha}^2
+=
+\int_\D e^{2\varepsilon\varphi}\,dA_\alpha
+=
+1+
+\frac{2}{(\alpha+2)(\alpha+3)}\,\varepsilon^2
++O(\varepsilon^4).
+\]
+For $|\varepsilon|<p/2$ the function
+\[
+2\varepsilon\Re z^2+p\log(1-|z|^2)
+\]
+is maximized at $z=0$, hence
+\[
+T_\varepsilon
+=\|\exp(\varepsilon\varphi)\|_{2,\alpha}^{-2}
+=
+1-\frac{2}{(\alpha+2)(\alpha+3)}\,\varepsilon^2+O(\varepsilon^4).
+\]
+
+It remains to estimate the distance from the extremal manifold. In the centered
+normalization $g_0\equiv1$, and for small $a$,
+\[
+g_a(z)=1+p\Re(\overline a z)+O(|a|^2)
+\quad\text{in }L^2(dA_\alpha).
+\]
+On the other hand,
+\[
+g_\varepsilon(z)=1+\varepsilon\Re z^2+O(\varepsilon^2)
+\quad\text{in }L^2(dA_\alpha).
+\]
+The functions $\Re z^2$ and $\Im z^2$ are orthogonal, with respect to the radial
+measure $dA_\alpha$, to the tangent space
+\[
+\operatorname{span}_{\mathbb R}\{\Re z,\Im z\}
+\]
+of the extremal manifold at $g_0$. The nearest point on the smooth manifold
+$\{g_a:|a|<1\}$ therefore has $a=O(\varepsilon^2)$, and the squared distance is
+\[
+\varepsilon^2\|\Re z^2\|_{2,\alpha}^2+O(|\varepsilon|^3)
+=
+\frac{1}{(\alpha+2)(\alpha+3)}\,\varepsilon^2+O(|\varepsilon|^3).
+\]
+This is incompatible with a bound by $M_\alpha(1-T_\varepsilon)^2$, since the
+right-hand side would be $O(\varepsilon^4)$.
+\end{proof}
+
+The same perturbation also gives the usual sharpness obstruction for any
+possible exponent larger than $1/2$. If $B_s$ is the centered hyperbolic disk
+of fixed measure $s\in(0,\infty)$, then
+\[
+\delta(g_\varepsilon;B_s)
+=
+2\left(
+\int_\D\varphi^2\,dA_\alpha
+-
+\frac{1}{\theta_\alpha(s)}\int_{B_s}\varphi^2\,dA_\alpha
+\right)\varepsilon^2
++O(\varepsilon^4),
+\]
+and the coefficient is strictly positive. Hence
+\[
+\inf_{|a|<1}\|g_\varepsilon-g_a\|_{2,\alpha}
+\asymp
+\delta(g_\varepsilon;B_s)^{1/2},
+\qquad \varepsilon\to0.
+\]
+Thus the exponent $1/2$ in
+Theorem~\ref{thm:global-half-from-green-absorption} is optimal.
+
+\subsubsection*{A second-variation route}
+
+The failure of Proposition~\ref{prop:quadratic-diel-fails} suggests that the
+right replacement for Lemma~\ref{diel} is not another estimate depending only
+on the peak $T$. A more robust approach is to work directly near the extremal
+manifold. In centered coordinates the extremal is $g_0\equiv1$, and a positive
+log-subharmonic perturbation can be written as
+\[
+g_\varepsilon(z)=
+\frac{\exp(\varepsilon\varphi(z))}
+{\|\exp(\varepsilon\varphi)\|_{2,\alpha}},
+\qquad \Delta\varphi\ge0.
+\]
+The linearized cone already contains the main rigidity: for subharmonic
+$\varphi$,
+\[
+\frac1{\theta_\alpha(s)}\int_{B_s}\varphi\,dA_\alpha
+\le
+\int_\D\varphi\,dA_\alpha,
+\]
+with equality for harmonic $\varphi$. Thus genuinely subharmonic directions
+create a first-order deficit, while harmonic directions must be controlled by
+the second variation. The latter part is completely diagonal.
+
+\begin{numprop}[Second variation in harmonic directions]\label{prop:harmonic-second-variation}
+Fix $\alpha>-1$ and a centered hyperbolic disk $B_s=\{|z|<r\}$, where
+$0<r<1$, and write $\theta=\theta_\alpha(s)=dA_\alpha(B_s)$.
+Let $h$ be a real-valued harmonic polynomial with
+\[
+\int_\D h\,dA_\alpha=0,
+\qquad
+h(z)=\sum_{k\ge1} h_k(z),
+\qquad
+h_k(z)=\Re(b_k z^k).
+\]
+Set
+\[
+g_\varepsilon:=
+\frac{e^{\varepsilon h}}{\|e^{\varepsilon h}\|_{2,\alpha}}.
+\]
+Then, as $\varepsilon\to0$,
+\[
+\delta(g_\varepsilon;B_s)
+=
+2\varepsilon^2
+\sum_{k\ge1}\lambda_k(s)\,\|h_k\|_{2,\alpha}^2
++O(|\varepsilon|^3),
+\]
+where
+\[
+\lambda_k(s)
+:=
+1-
+\frac{\displaystyle\int_{B_s}|z|^{2k}\,dA_\alpha}
+{\displaystyle\theta\int_\D |z|^{2k}\,dA_\alpha}
+\in(0,1).
+\]
+Equivalently, with $R=r^2$,
+\[
+\lambda_k(s)
+=
+1-
+\frac{\displaystyle\int_0^R t^k(1-t)^\alpha\,dt}
+{\displaystyle\bigl(1-(1-R)^{\alpha+1}\bigr)
+\int_0^1 t^k(1-t)^\alpha\,dt}.
+\]
+Moreover,
+\[
+\inf_{|a|<1}\|g_\varepsilon-g_a\|_{2,\alpha}^2
+=
+\varepsilon^2\sum_{k\ge2}\|h_k\|_{2,\alpha}^2
++O(|\varepsilon|^3).
+\]
+Consequently, with
+\[
+\Lambda_{\alpha,s}:=\inf_{k\ge2}\lambda_k(s)>0,
+\]
+one has the local estimate
+\[
+\inf_{|a|<1}\|g_\varepsilon-g_a\|_{2,\alpha}^2
+\le
+\frac{1}{2\Lambda_{\alpha,s}}\,
+\delta(g_\varepsilon;B_s)
++O(|\varepsilon|^3).
+\]
+\end{numprop}
+
+\begin{proof}
+Since $dA_\alpha$ is radial, distinct harmonic modes are orthogonal in
+$L^2(dA_\alpha)$, and the same is true after restriction to the centered disk
+$B_s$. Also $\int_\D h\,dA_\alpha=\int_{B_s}h\,dA_\alpha=0$. Expanding
+\[
+\|e^{\varepsilon h}\|_{2,\alpha}^2
+=
+\int_\D e^{2\varepsilon h}\,dA_\alpha
+=
+1+2\varepsilon^2\int_\D h^2\,dA_\alpha+O(|\varepsilon|^3)
+\]
+and similarly on $B_s$, we obtain
+\[
+\int_{B_s}g_\varepsilon^2\,dA_\alpha
+=
+\theta
++2\varepsilon^2
+\left(\int_{B_s}h^2\,dA_\alpha
+-\theta\int_\D h^2\,dA_\alpha\right)
++O(|\varepsilon|^3).
+\]
+The stated expansion of the deficit follows by dividing by $\theta$ and using
+orthogonality of the modes. The positivity of $\lambda_k(s)$ is just the strict
+inequality between the conditional $2k$-moment of $|z|$ on the disk $B_s$ and
+the corresponding moment on the full disk; the infimum over $k\ge2$ is positive
+because $\lambda_k(s)\to1$ as $k\to\infty$.
+
+For the distance expansion, note that
+\[
+g_\varepsilon=1+\varepsilon h+O(\varepsilon^2)
+\quad\text{in }L^2(dA_\alpha),
+\]
+while the extremal manifold has tangent space at $g_0\equiv1$ given by
+\[
+\{p\Re(\overline a z):a\in\C\},\qquad p=\alpha+2.
+\]
+Indeed,
+\[
+g_a(z)=
+\frac{(1-|a|^2)^{p/2}}{|1-\overline a z|^p}
+=
+1+p\Re(\overline a z)+O(|a|^2)
+\quad\text{in }L^2(dA_\alpha).
+\]
+Optimizing over $a$ therefore removes precisely the $k=1$ harmonic component
+to first order, and the claimed squared-distance expansion follows.
+\end{proof}
+
+\begin{numcor}[Local half-stability in the log-harmonic sector]\label{cor:local-harmonic-half}
+Fix $\alpha>-1$ and $s\in(0,\infty)$. There exist constants
+$\eta_{\alpha,s}>0$ and $C_{\alpha,s}<\infty$ with the following property.
+Let $h$ be a real-valued harmonic function in a neighbourhood of $\overline\D$,
+with $\int_\D h\,dA_\alpha=0$ and $\|h\|_{L^\infty(\D)}\le\eta_{\alpha,s}$, and set
+\[
+g_h:=\frac{e^h}{\|e^h\|_{2,\alpha}}.
+\]
+Then
+\[
+\inf_{|a|<1}\|g_h-g_a\|_{2,\alpha}^2
+\le
+C_{\alpha,s}\,\delta(g_h;B_s).
+\]
+Equivalently, in this neighbourhood of the extremal manifold,
+\[
+\inf_{|a|<1}\|g_h-g_a\|_{2,\alpha}
+\le
+C_{\alpha,s}^{1/2}\,\delta(g_h;B_s)^{1/2}.
+\]
+\end{numcor}
+
+\begin{proof}
+Write the harmonic expansion
+\[
+h=h_1+h_{\ge2},
+\qquad
+h_1(z)=\Re(b_1z),\qquad
+h_{\ge2}=\sum_{k\ge2}h_k.
+\]
+By Proposition~\ref{prop:harmonic-second-variation}, applied to the path
+$\varepsilon h$ at $\varepsilon=1$, and by choosing $\|h\|_{L^\infty}$ small
+enough to absorb the cubic remainder, we have
+\begin{equation}\label{eq:local-harmonic-deficit-lower}
+\delta(g_h;B_s)
+\ge
+\sum_{k\ge1}\lambda_k(s)\|h_k\|_{2,\alpha}^2.
+\end{equation}
+Here $\lambda_k(s)>0$ for every $k$, and
+\[
+\Lambda_{\alpha,s}:=\inf_{k\ge2}\lambda_k(s)>0.
+\]
+
+The map $a\mapsto g_a$ is a smooth two-dimensional submanifold of
+$L^2(dA_\alpha)$ near $a=0$, with tangent space
+\[
+\mcalT_0=\operatorname{span}_{\mathbb R}\{\Re z,\Im z\}.
+\]
+The nearest-point projection onto this submanifold is $C^2$ in a small
+neighbourhood of $g_0=1$. Since
+\[
+g_h
+=1+h+O(\|h\|_{L^\infty}^2)
+\quad\text{in }L^2(dA_\alpha),
+\]
+and since the component $h_1$ lies exactly in $\mcalT_0$, the standard
+tubular-neighbourhood estimate gives
+\begin{equation}\label{eq:local-harmonic-distance-upper}
+\inf_{|a|<1}\|g_h-g_a\|_{2,\alpha}^2
+\le
+2\|h_{\ge2}\|_{2,\alpha}^2
++C_\alpha\|h\|_{L^\infty}^4.
+\end{equation}
+After decreasing $\eta_{\alpha,s}$ if necessary, the fourth-order term is
+absorbed by the right-hand side of
+\eqref{eq:local-harmonic-deficit-lower}; indeed, if $h_{\ge2}=0$, then
+$g_h$ is already tangent to the extremal manifold to first order and the
+left-hand side is $O(\|h_1\|^4)$, while
+\eqref{eq:local-harmonic-deficit-lower} is $\gtrsim\|h_1\|^2$ unless
+$h_1=0$. Thus
+\[
+\inf_{|a|<1}\|g_h-g_a\|_{2,\alpha}^2
+\le
+\frac{4}{\Lambda_{\alpha,s}}\,
+\delta(g_h;B_s),
+\]
+after changing constants. This proves the claim.
+\end{proof}
+
+\begin{numrem}[Why this is the correct local model]
+The preceding corollary applies to zero-free holomorphic functions after taking
+$h=\log|f|-\int_\D\log|f|\,dA_\alpha$. It therefore contains both the tangent
+directions $k=1$, which correspond to moving along the extremal manifold, and
+the first genuinely transverse holomorphic perturbations $k\ge2$, such as
+$\Re z^2$. The latter are exactly the perturbations in
+Proposition~\ref{prop:quadratic-diel-fails}, where the exponent $1/2$ is seen
+to be sharp.
+\end{numrem}
+
+\subsubsection*{Local coercivity on the subharmonic cone}
+
+We now close the local log-subharmonic argument. Let
+\[
+P(F):=\int_\D F\,dA_\alpha,\qquad
+Q_s(F):=\frac1{\theta_\alpha(s)}\int_{B_s}F\,dA_\alpha,
+\]
+and normalize real perturbations by $P(\varphi)=0$. For
+$g_\varphi=e^\varphi/\|e^\varphi\|_{2,\alpha}$, a direct Taylor expansion gives
+\begin{equation}\label{eq:deficit-second-expansion-general}
+\delta(g_\varphi;B_s)
+=
+-2Q_s(\varphi)
++2\bigl(P(\varphi^2)-Q_s(\varphi^2)\bigr)
++O(\|\varphi\|_{L^\infty}\|\varphi\|_{2,\alpha}^2).
+\end{equation}
+If $\varphi$ is subharmonic, then $Q_s(\varphi)\le P(\varphi)=0$, because the
+circular mean of a subharmonic function is increasing in the radius and
+$B_s$ is a centered disk. Thus the first term in
+\eqref{eq:deficit-second-expansion-general} is nonnegative and controls the
+genuinely subharmonic directions to first order. The only directions in which
+this first variation vanishes are harmonic directions, and those are controlled
+by Corollary~\ref{cor:local-harmonic-half}.
+
+\begin{numlemma}[Green-potential coercivity]\label{lem:green-potential-coercivity}
+Fix $\alpha>-1$ and $s\in(0,\infty)$. Let $G(z,\zeta)$ be the Green function of
+the disk, normalized so that $G(\cdot,\zeta)\ge0$ and $G(\cdot,\zeta)=0$ on
+$\partial\D$. If
+\[
+\psi(z)=-\int_\D G(z,\zeta)\,d\mu(\zeta),
+\qquad \mu\ge0,
+\]
+is bounded in $\D$, then
+\[
+\|\psi-P(\psi)\|_{2,\alpha}^2
+\le
+C_{\alpha,s}\,\|\psi\|_{L^\infty(\D)}\,
+\bigl(P(\psi)-Q_s(\psi)\bigr).
+\]
+\end{numlemma}
+
+\begin{proof}
+Set
+\[
+A_s(\psi):=P(\psi)-Q_s(\psi).
+\]
+For the Green kernel define
+\[
+H_{\alpha,s}(\zeta):=
+P_z[-G(z,\zeta)]-Q_{s,z}[-G(z,\zeta)].
+\]
+Since $z\mapsto -G(z,\zeta)$ is subharmonic and has zero boundary values,
+the weighted mean over the smaller centered disk is no larger than the weighted
+mean over the whole disk; hence $H_{\alpha,s}(\zeta)\ge0$. In fact
+$H_{\alpha,s}(\zeta)>0$ for $\zeta\in\D$. Moreover, by the usual boundary
+asymptotics of the Green function,
+\[
+H_{\alpha,s}(\zeta)\asymp_{\alpha,s} 1-|\zeta|
+\qquad (|\zeta|\to1^-),
+\]
+and
+\[
+\|-G(\cdot,\zeta)-P_z[-G(z,\zeta)]\|_{2,\alpha}^2
+\lesssim_{\alpha,s}
+(1-|\zeta|)\,\|-G(\cdot,\zeta)\|_{L^\infty(\{|z-\zeta|> (1-|\zeta|)/2\})}.
+\]
+For bounded Green potentials this kernel estimate integrates against
+$d\mu(\zeta)$ after the standard truncation
+$G_N=\min\{G,N\}$ and monotone convergence. Equivalently, applying the estimate
+to $\psi_N=-\int G_N\,d\mu$ and letting $N\to\infty$ gives
+\[
+\|\psi-P(\psi)\|_{2,\alpha}^2
+\le
+C_{\alpha,s}\|\psi\|_{L^\infty}
+\int_\D H_{\alpha,s}(\zeta)\,d\mu(\zeta).
+\]
+By linearity of $P-Q_s$,
+\[
+\int_\D H_{\alpha,s}(\zeta)\,d\mu(\zeta)
+=
+P(\psi)-Q_s(\psi),
+\]
+which proves the claim.
+\end{proof}
+
+\begin{numprop}[Local cone coercivity]\label{prop:local-cone-coercivity}
+For every $\alpha>-1$ and $s\in(0,\infty)$ there exist
+$\eta_{\alpha,s}>0$ and $K_{\alpha,s}<\infty$ such that every real-analytic
+subharmonic $\varphi$ on a neighbourhood of $\overline\D$ with
+$P(\varphi)=0$ and $\|\varphi\|_{L^\infty}\le\eta_{\alpha,s}$ satisfies
+\[
+\inf_{\ell\in\mcalT_0}\|\varphi-\ell\|_{2,\alpha}^2
+\le
+K_{\alpha,s}\left[
+-Q_s(\varphi)+P(\varphi^2)-Q_s(\varphi^2)
+\right],
+\]
+where $\mcalT_0=\operatorname{span}_{\mathbb R}\{\Re z,\Im z\}$.
+\end{numprop}
+
+\begin{proof}
+Use the Riesz decomposition in the disk:
+\[
+\varphi=h+\psi,\qquad
+\psi(z)=-\int_\D G(z,\zeta)\,\frac{\Delta\varphi(\zeta)}{2\pi}\,dA(\zeta),
+\]
+where $h$ is harmonic in a neighbourhood of $\overline\D$ and $\psi\le0$.
+Since $P$ and $Q_s$ are radial averages, they agree on harmonic functions:
+\[
+P(h)=Q_s(h)=h(0).
+\]
+The normalization $P(\varphi)=0$ gives $P(h)=-P(\psi)$, and therefore
+\begin{equation}\label{eq:first-variation-potential}
+-Q_s(\varphi)=P(\psi)-Q_s(\psi)\ge0.
+\end{equation}
+
+Write $h=h_1+h_{\ge2}+h(0)$, where
+$h_1\in\mcalT_0$ and $h_{\ge2}$ is the sum of harmonic modes of order at least
+two. The harmonic spectral-gap computation in
+Proposition~\ref{prop:harmonic-second-variation} gives
+\begin{equation}\label{eq:harmonic-gap-local-cone}
+\|h_{\ge2}\|_{2,\alpha}^2
+\le
+C_{\alpha,s}\bigl(P(h^2)-Q_s(h^2)\bigr).
+\end{equation}
+By Lemma~\ref{lem:green-potential-coercivity} and
+$\|\psi\|_\infty\le 2\|\varphi\|_\infty$ after decreasing the neighbourhood if
+necessary,
+\begin{equation}\label{eq:potential-gap-local-cone}
+\|\psi-P(\psi)\|_{2,\alpha}^2
+\le
+C_{\alpha,s}\eta_{\alpha,s}\,\bigl(P(\psi)-Q_s(\psi)\bigr).
+\end{equation}
+
+Now expand the quadratic part:
+\[
+P(\varphi^2)-Q_s(\varphi^2)
+=
+P(h^2)-Q_s(h^2)
++2\bigl(P(h\psi)-Q_s(h\psi)\bigr)
++P(\psi^2)-Q_s(\psi^2).
+\]
+The two terms containing $\psi$ are controlled by Cauchy's inequality, using
+\eqref{eq:potential-gap-local-cone}. More precisely, for any fixed small
+$\varepsilon>0$,
+\[
+\big|P(h\psi)-Q_s(h\psi)\big|+\big|P(\psi^2)-Q_s(\psi^2)\big|
+\le
+\varepsilon\|h_{\ge2}\|_{2,\alpha}^2
+C_{\alpha,s,\varepsilon}\eta_{\alpha,s}\bigl(P(\psi)-Q_s(\psi)\bigr).
+\]
+Choosing first $\varepsilon$ and then $\eta_{\alpha,s}$ small, and using
+\eqref{eq:first-variation-potential} and \eqref{eq:harmonic-gap-local-cone},
+we obtain
+\[
+\|h_{\ge2}\|_{2,\alpha}^2+\|\psi-P(\psi)\|_{2,\alpha}^2
+\le
+K_{\alpha,s}\left[
+-Q_s(\varphi)+P(\varphi^2)-Q_s(\varphi^2)
+\right].
+\]
+Finally,
+\[
+\inf_{\ell\in\mcalT_0}\|\varphi-\ell\|_{2,\alpha}^2
+\le
+2\|h_{\ge2}\|_{2,\alpha}^2+2\|\psi-P(\psi)\|_{2,\alpha}^2,
+\]
+because the constants cancel through $P(\varphi)=0$ and $h_1$ is the tangent
+component. This proves the proposition.
+\end{proof}
+
+\begin{numthm}[Local sharp half-stability for log-subharmonic perturbations]\label{thm:local-half-logsubharmonic}
+For every $\alpha>-1$ and $s\in(0,\infty)$ there are constants
+$\eta_{\alpha,s}>0$ and $C_{\alpha,s}<\infty$ such that, whenever
+$\varphi$ is real-analytic and subharmonic on a neighbourhood of
+$\overline\D$, $P(\varphi)=0$, and
+$\|\varphi\|_{L^\infty}\le\eta_{\alpha,s}$, the function
+$g_\varphi=e^\varphi/\|e^\varphi\|_{2,\alpha}$ satisfies
+\[
+\inf_{|a|<1}\|g_\varphi-g_a\|_{2,\alpha}^2
+\le
+C_{\alpha,s}\,\delta(g_\varphi;B_s).
+\]
+\end{numthm}
+
+\begin{proof}
+The Taylor expansion of the normalized exponential map gives
+\[
+g_\varphi
+=1+\varphi+O(\|\varphi\|_{L^\infty}^2)
+\quad\text{in }L^2(dA_\alpha).
+\]
+As in the proof of Corollary~\ref{cor:local-harmonic-half}, the extremal
+manifold has tangent space $\mcalT_0$ at $g_0=1$, hence the tubular estimate
+\[
+\inf_{|a|<1}\|g_\varphi-g_a\|_{2,\alpha}^2
+\le
+2\inf_{\ell\in\mcalT_0}\|\varphi-\ell\|_{2,\alpha}^2
++C_\alpha\|\varphi\|_{L^\infty}\|\varphi\|_{2,\alpha}^2.
+\]
+By Proposition~\ref{prop:local-cone-coercivity}, the first term is bounded by
+the quadratic expression on the right-hand side of
+\eqref{eq:deficit-second-expansion-general}. Choosing
+$\eta_{\alpha,s}$ small enough, the error term is absorbed into the same
+quantity, and \eqref{eq:deficit-second-expansion-general} yields
+\[
+\inf_{|a|<1}\|g_\varphi-g_a\|_{2,\alpha}^2
+\le
+C_{\alpha,s}\,\delta(g_\varphi;B_s).
+\]
+\end{proof}
+
+This theorem is the local form of the sharp $1/2$ stability theorem. We now turn an
+arbitrary near-extremizer into this normal form, after applying a Mobius
+transformation and discarding the tangent directions, through the route
+\[
+\text{near equality}
+\Longrightarrow
+\text{compactness to some }g_a
+\Longrightarrow
+\text{second-variation estimate at }g_a.
+\]
+The real-analytic log-subharmonic assumption enters in the compactness step
+through the Riesz decomposition: the harmonic part is handled by
+Proposition~\ref{prop:harmonic-second-variation}, while the negative
+Green-potential part contributes to the first variation with the correct sign.
+This avoids the peak-only bottleneck responsible for the exponent $1/4$.
+
+The obstacle one has to remove is that the logarithmic chart is not compact in
+$L^\infty$.
+
