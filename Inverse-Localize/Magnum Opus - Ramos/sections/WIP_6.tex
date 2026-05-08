@@ -97,27 +97,34 @@ difference, and with \(\int_{\Sigma'} u_F\,dA>\int_\Sigma u_F\,dA\); that would
 violate local maximality.
 
 Suppose, for the sake of contradiction, that \eqref{eq:superlevel-claim} fails.
-Choose, by the layer-cake representation, the unique \(t_0\ge 0\) such that
+The function \(u_F\) is real-analytic on \(\C\setminus\{F=0\}\), so for almost
+every \(t\ge 0\) the level set \(\{u_F=t\}\) has Lebesgue measure zero;
+consequently the distribution function \(t\mapsto |\{u_F>t\}|\) is continuous
+and strictly decreasing on its support. Hence there exists a unique
+\(t_0\ge 0\) such that
 \[
 A:=\{u_F>t_0\}\quad\text{satisfies}\quad |A|=|\Sigma|;
 \]
-then \(A\) and \(\Sigma\) do not coincide a.e., so both \(A\setminus\Sigma\) and
+since \eqref{eq:superlevel-claim} fails by assumption, \(A\) and \(\Sigma\)
+do not coincide up to a null set, so both \(A\setminus\Sigma\) and
 \(\Sigma\setminus A\) have positive Lebesgue measure (and in fact positive
 weighted measure, since \(e^{-\pi|z|^2}>0\) everywhere).
 
-We now perform the bathtub construction explicitly. By inner regularity of the
-Lebesgue measure, choose an open subset
-\(S'\subset A\setminus\Sigma\) and an open subset
-\(T'\subset \Sigma\setminus A\) with \(|S'|,|T'|>0\). Replacing each by a
-sufficiently small open subset, we may further assume
-\(\int_{S'}d\mu,\,\int_{T'}d\mu<\delta_0/4\). Since the Lebesgue measure
-restricted to a fixed open set has the intermediate-value property, we may
-choose subsets \(S\subset S'\) and \(T\subset T'\) with the common Lebesgue
+We now perform the bathtub construction explicitly. The set
+\(A=\{u_F>t_0\}\) is open since \(u_F\) is continuous, while
+\(\Sigma\setminus A\) is only known to be measurable. By inner regularity of
+the Lebesgue measure, choose a compact set \(L\subset A\setminus\Sigma\) with
+\(|L|>0\) and a compact set \(K\subset \Sigma\setminus A\) with \(|K|>0\)
+(both nonempty by the previous paragraph). Note that \(L\subset A\) is then
+contained in the open set \(A\), and we can shrink \(L\) further if needed so
+that \(\int_L d\mu, \int_K d\mu<\delta_0/4\). Since the Lebesgue measure
+restricted to a compact set has the intermediate-value property, we may
+choose subsets \(S\subset L\) and \(T\subset K\) with the common Lebesgue
 measure
 \[
-|S|=|T|=\tfrac12\min(|S'|,|T'|)>0.
+|S|=|T|=\tfrac12\min(|L|,|K|)>0.
 \]
-Then
+Then \(S\subset A\setminus\Sigma\), \(T\subset \Sigma\setminus A\), and
 \[
 \int_\C (\mathbf 1_S+\mathbf 1_T)\,e^{-\pi |z|^2}\,dz<\tfrac{\delta_0}{2}<\delta_0.
 \]
@@ -136,9 +143,10 @@ u_F(z)>t_0 \quad \text{on } S\subset A,
 \qquad
 u_F(z)\le t_0 \quad \text{on } T\subset \Sigma\setminus A.
 \]
-Moreover, since \(u_F\) is continuous and \(S\subset A=\{u_F>t_0\}\) is open
-with positive measure, we may by shrinking \(S\) further assume that there
-exists \(\eta>0\) with \(u_F\ge t_0+\eta\) on \(S\). It then follows that
+Moreover, since \(u_F\) is continuous and \(L\subset A=\{u_F>t_0\}\) is
+compact, the continuous function \(u_F\) attains its minimum on \(L\); hence
+there exists \(\eta>0\) with \(u_F\ge t_0+\eta\) on \(L\), and a fortiori on
+\(S\). It then follows that
 \[
 \int_S u_F\,dA \ge (t_0+\eta)\,|S|,
 \qquad
@@ -261,9 +269,12 @@ divergence-free.
 
 The function \(u_F=|F|^2e^{-\pi|z|^2}\) is real-analytic on
 \(\C\setminus\{F=0\}\), since \(F\) is entire and the exponential factor is
-real-analytic. By Step 2, \(F\) does not vanish in the interior of \(\Sigma\),
-and by the argument of Step 4 below it does not vanish on \(\overline\Sigma\)
-either; so \(u_F\) is in fact real-analytic on a neighborhood of
+real-analytic. After replacing \(\Sigma\) by its open superlevel-set
+representative \(\{u_F>c_\Sigma\}\) from Step 1 (which is permissible since
+local maximality only sees the equivalence class of \(\Sigma\) up to null
+sets), we have \(u_F\ge c_\Sigma>0\) on \(\overline\Sigma\); since the
+Gaussian factor never vanishes, this forces \(F\ne 0\) on
+\(\overline\Sigma\), so \(u_F\) is real-analytic on a neighborhood of
 \(\overline\Sigma\). The boundary \(\partial\Sigma\) is therefore a level set
 of a non-constant real-analytic function and so is the union of finitely many
 real-analytic arcs, plus a possible finite set of singular points where
@@ -368,15 +379,16 @@ analogous identity for the imaginary part:
 \Im\!\int_\Sigma
 \psi(z)\Big(\overline{F'(z)}\,F(z)-\pi z\,|F(z)|^2\Big)\,d\mu(z).
 \]
-Combining the two,
+Combining the two, and using \(|F|^2=F\overline F\) to factor out \(F(z)\)
+from both terms inside the integrand (the \(F\) from \(\overline{F'}F\) and
+one copy of \(F\) from \(|F|^2=F\overline F\)),
 \begin{equation}\label{eq:orthogonality-main-new}
 0=
 \int_\Sigma
 \psi(z)\,F(z)\Big(\overline{F'(z)}-\pi z\,\overline{F(z)}\Big)\,d\mu(z),
 \end{equation}
 which holds for every holomorphic \(\psi\) on a neighborhood of
-\(\overline \Sigma\). Equivalently, after factoring out \(F(z)\) inside the
-integrand,
+\(\overline \Sigma\). Equivalently, expanding the product,
 \begin{equation*}
 0=
 \int_\Sigma
@@ -465,13 +477,17 @@ applied to \(F\) at the point \(w\), one finds
 \]
 Both sides depend on \(w\) through the antiholomorphic variable
 \(\overline w\); we differentiate with respect to \(\overline w\), exchanging
-differentiation and integration on the left. The interchange is legitimate by
-the dominated convergence theorem: locally in \(w\), the integrand
+differentiation and integration on the left. The interchange is legitimate
+because, for \(w\) in any compact set \(\{|w|\le R\}\), the integrand
 \(\partial_{\overline w}(e^{\pi\overline wz}\overline{F(z)})
-=\pi z\,e^{\pi\overline wz}\overline{F(z)}\) is dominated by an
-\(L^1(d\mu)\) function on \(\C\), as a consequence of the Cauchy--Schwarz
-inequality and the fact that \(F\in \mathcal F^2(\C)\) and the Fock-space norm
-of \(zK_w\) is locally bounded. We conclude
+=\pi z\,e^{\pi\overline wz}\overline{F(z)}\) is dominated, in absolute
+value, by \(\pi |z|\,e^{\pi R|z|}|F(z)|\). The standard pointwise bound for
+Fock-space functions gives \(|F(z)|\le\|F\|_{\mathcal F^2}\,e^{\pi |z|^2/2}\),
+so this dominator is bounded by a constant times
+\(|z|\,e^{\pi R|z|}\,e^{\pi|z|^2/2}\); after multiplication by the Gaussian
+weight \(e^{-\pi|z|^2}\) of \(d\mu\), the resulting integrand
+\(|z|\,e^{\pi R|z|}\,e^{-\pi |z|^2/2}\) is integrable on \(\C\). Dominated
+convergence therefore justifies the interchange. We conclude
 \[
 \pi\int_\C z\, e^{\pi \overline wz}\,\overline{F(z)}\,d\mu(z)
 =
@@ -564,11 +580,17 @@ unitary substitution \(F\rightsquigarrow T_{-a}F\)).
 
 In this normalization the ground state \(h_0\) (corresponding to
 \(F\equiv 1\) in Bargmann--Fock coordinates) is an eigenfunction of the
-localization operator of \(\Sigma\). Since \(\Sigma\) is a level set of
-\(u_F(z) = e^{-\pi |z|^2}\), and the latter is a strictly radial function of
-\(|z|\), the set \(\Sigma\) is itself radial; in particular, it is either a
-centered disk or a finite union of centered annuli. The next step rules out
-the annular configurations and identifies \(\Sigma\) with the disk.
+localization operator of \(\Sigma\). By Step 1 (applied with the new
+normalization) we have, up to a null set,
+\[
+\Sigma=\{z\in\C:\ |C'|^2 e^{-\pi |z|^2}>c_\Sigma\}.
+\]
+Since \(r\mapsto e^{-\pi r^2}\) is \emph{strictly} decreasing, this
+superlevel set is automatically a centered open disk; it cannot be an
+annulus. Thus \(\Sigma\) is, up to a null set, the centered disk \(D_R\)
+with \(|D_R|=|\Sigma|\), and Step 6 below records the corresponding
+quantitative rearrangement statement, which is an instance of the global
+Faber--Krahn theorem of \cite{Nicola-Tilli}.
 
 \medskip
 \noindent
@@ -580,12 +602,17 @@ after Step 5, we record the standard rearrangement argument since it makes
 explicit \emph{why} no annular local maximizer can exist; this provides the
 endpoint matching the global Faber--Krahn theorem of \cite{Nicola-Tilli}.
 
-If \(\Sigma\) is radial, write
+Suppose, more generally, that \(\Sigma\) is any radial set of finite measure
+which arises as a superlevel set of a radial real-analytic non-constant
+function on \(\C\); write
 \[
 \widetilde \Sigma:=\{r>0:\ re^{it}\in \Sigma \text{ for some } t\in [0,2\pi)\}.
 \]
-By Step 1 and the Lipschitz regularity established in Step 3,
-\(\widetilde \Sigma\) is open and is a finite union of disjoint open intervals:
+By Step 1, \(\Sigma\) admits an open representative; combined with the
+real-analytic structure established in Step 3, the boundary
+\(\partial\Sigma\) is a finite union of real-analytic arcs, hence
+\(\widetilde \Sigma\subset (0,\infty)\) is open and is a finite union of
+disjoint open intervals:
 \[
 \widetilde \Sigma=\bigcup_{j=1}^N (a_j,b_j),
 \qquad
@@ -659,3 +686,7 @@ We conclude that every local maximizer of \(\lambda_{1,\varphi}\) under the
 measure constraint is, up to translation, a disk.
 \end{proof}
 
+
+% ==============================================================
+% Section 7
+% ==============================================================

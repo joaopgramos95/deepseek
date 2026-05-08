@@ -1,4 +1,3 @@
-% WIP draft for Section 4.1 (rigidity first proof).
 \section{A Classical Rigidity Corollary}\label{sec:classical-rigidity}
 
 The localization operator $\mathcal{L}_U$ on the Bargmann--Fock space is
@@ -10,11 +9,13 @@ even a \emph{single} Hermite function already forces the underlying domain to
 be a disk. The next theorem records a positive answer in the simply connected
 $C^2$ regime.
 
-\begin{theorem}[Abreu--D\"orfler rigidity]\label{thm:eig-loc-U}
-Let $U\subset \C$ be a simply connected bounded domain with $C^2$ boundary,
-and let $h_k$ be a Hermite function ($k\ge 0$). If $h_k$ is an eigenfunction
-of the localization operator $\mathcal{L}_U$, then $U$ is a disk.
-\end{theorem}
+For convenience we recall the statement of Theorem~\ref{thm:eig-loc-U} from the introduction:
+\emph{let $U\subset \C$ be a simply connected bounded domain with $C^2$
+boundary, and let $h_k$ be a Hermite function ($k\ge 0$). If $h_k$ is an
+eigenfunction of the localization operator $\mathcal{L}_U$, then $U$ is a
+disk.} (The original Abreu--D\"orfler theorem~\cite{Abreu-Doerfler} dispenses
+with the boundary regularity assumption; we will recover this stronger form
+in the second proof below.)
 
 We will give two proofs of Theorem~\ref{thm:eig-loc-U}. The first, presented
 below, leverages the Fourier-analytic machinery developed earlier in the
@@ -105,19 +106,26 @@ $f(|z|)\,\mathbf{1}_{D_\rho(0)}\,dA$ generates a logarithmic potential
 \[
 \Phi_\rho(z):=\int_{D_\rho(0)} \log|z-z'|\, f(|z'|)\,dA(z'),
 \]
-which, by Newton's shell theorem in the plane, is radial; outside
+which, by the planar Newton shell theorem for logarithmic potentials of
+radial densities (see, e.g., \cite[Ch.~2]{Isakov}), is radial; outside
 $D_\rho(0)$ it equals
 \[
 \Phi_\rho(z)=\Big(\int_{D_\rho(0)}f(|z'|)\,dA(z')\Big)\log|z|+\text{const}.
 \]
-Subtracting $D_\rho(0)$ from $U$ thus preserves identity
-\eqref{eq:potential} on the complement of the new set, at the cost of
-replacing the constant $c(\lambda,k)$ by another real constant. Hence we
-may assume $0\notin U$. Moreover, $0\notin \partial U$, because the
-left-hand side of \eqref{eq:potential} stays bounded as $z\to 0$, whereas
-the right-hand side diverges to $-\infty$ if $c(\lambda,k)\neq 0$.
-The case $c(\lambda,k)=0$ is incompatible with the integral being
-positive at $z=0$, so it is also excluded.
+Subtracting the closed disk $\overline{D_\rho(0)}$ from $U$ thus preserves
+identity \eqref{eq:potential} on the complement of the new set, at the
+cost of replacing $c(\lambda,k)$ by $c(\lambda,k)-M_\rho$, where
+$M_\rho:=\int_{D_\rho(0)}f(|z'|)\,dA(z')>0$. The new domain
+$U':=U\setminus\overline{D_\rho(0)}$ satisfies
+$0\notin \overline{U'}$, so we may assume from now on that
+$0\notin \overline{U}$ in \eqref{eq:potential}, with $c(\lambda,k)$
+replaced (if needed) by the real constant $c(\lambda,k)-M_\rho$, which
+we continue to denote by $c(\lambda,k)$. Furthermore, this constant must
+be nonzero: comparing the two sides of \eqref{eq:potential} as
+$|z|\to\infty$ shows that the left-hand side behaves like
+$\big(\int_U f\,dA\big)\log|z|+O(|z|^{-1})$, while the right-hand side
+is $c(\lambda,k)\log|z|$, forcing
+$c(\lambda,k)=\int_U f(|z'|)\,dA(z')>0$.
 
 \medskip
 
@@ -282,10 +290,11 @@ $I_{\widetilde U_0}$ such that
 \Psi_U(x)=\psi_U(|x|),\qquad x\in \widetilde{U}_0.
 \]
 
-On the other hand, by \eqref{eq:potential} and standard regularity for
-logarithmic potentials with $C^2$ boundary, the gradient $\nabla\Psi_U$
-extends continuously across $\partial U$, and for $z\in\partial U$ we
-have
+On the other hand, by \eqref{eq:potential} and the continuity of the
+gradient of a volume logarithmic potential with bounded density across
+a $C^2$ boundary (see, e.g., \cite{Gustafsson,Isakov}), the gradient
+$\nabla\Psi_U$ extends continuously across $\partial U$, and for
+$z\in\partial U$ we have
 \[
 \nabla \Psi_U(z)=c\,\frac{z}{|z|^2}
 \]
@@ -306,13 +315,16 @@ $\partial U\cap \overline{B_r(x_0)}$. Since $\partial U$ is a $C^2$
 curve, we may, after shrinking $r$ once more, parametrize
 $\partial U\cap B_r(x_0)$ by a $C^2$ embedding
 $\gamma:(-\varepsilon,\varepsilon)\to \R^2$ with $\gamma(0)=x_0$.
-Because $\partial U$ is not a circle centered at $0$, the function
-$t\mapsto |\gamma(t)|$ is not constant on any subinterval; by choosing
-$x_0\in\partial U\cap A$ at which $|\gamma|$ is non-constant on every
-neighbourhood (such points form an open dense subset of $\partial
-U\cap A$ when $\partial U$ is not a circle centered at $0$), we may
-further assume that the derivative
-$\frac{d}{dt}|\gamma(t)|\big|_{t=0}\ne 0$. Hence by the open-mapping
+Because $\partial U$ is not a circle centered at $0$, the smooth
+function $t\mapsto |\gamma(t)|^2$ is non-constant on the connected
+$C^2$ arc $\partial U\cap A$. Hence its derivative does not vanish
+identically on any subinterval, and we may choose $x_0\in\partial U\cap A$
+so that
+\[
+\frac{d}{dt}|\gamma(t)|^2\Big|_{t=0}\ne 0,
+\]
+which is equivalent to $\frac{d}{dt}|\gamma(t)|\big|_{t=0}\ne 0$ since
+$|\gamma(0)|=|x_0|>0$. Hence by the open-mapping
 property for $C^1$ functions of one variable with nonzero derivative,
 the image of $|\gamma|$ contains a nontrivial open interval
 \(I\subset (r_1,r_2)\).
@@ -341,11 +353,13 @@ Hence
 \Delta \Psi_U\equiv 0 \qquad \text{in } W_I,
 \]
 since the origin is excluded from $\widetilde U_0$. On the other hand,
-distribution-theoretically,
+since $0\notin \overline{U}$, the logarithmic potential $\Psi_U$ has
+distributional Laplacian
 \[
-\Delta \Psi_U=2\pi\, f(|z|)\,\mathbf{1}_U-c\,\delta_0
+\Delta \Psi_U=2\pi\, f(|z|)\,\mathbf{1}_U
 \]
-in $\C$, so on the open set $W_I\subset U\setminus\{0\}$ we have
+in $\C$, with no contribution at the origin. Hence on the open set
+$W_I\subset U\setminus\{0\}$ we have
 \[
 \Delta \Psi_U=2\pi\, f(|z|)=2\pi\, |z|^{2k}e^{-\pi |z|^2}.
 \]
