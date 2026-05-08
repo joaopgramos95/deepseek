@@ -1,0 +1,852 @@
+% Draft subsection: an alternative argument for the orthogonal coercivity bound
+% via weighted Bochner identities, and an improved Cauchy--Schwarz inequality
+% for entire functions vanishing at the origin.
+%
+% Notation matches spr-hermite.tex (Fock measure
+% \dd\gamma(z) = (1/\pi)\ee^{-\abs{z}^2}\dd m(z), Fock norm \norm{\cdot}_{\mathcal{F}},
+% \abs{\cdot}, \norm{\cdot}, \rho(w) = \abs{\abs{1+w}-1}, \dd, \ee, \ii, \C)
+% and fnt_logsob_proof.tex (\operatorname{Re}, \operatorname{Im},
+% \langle\cdot,\cdot\rangle_{\mathcal{F}}).
+%
+% Suggested placement: as a new subsection in Section~\ref{subsec:assembly}'s
+% parent, e.g.\ between \subsection{Proof of the orthogonal coercivity estimate}
+% (Section~\ref{subsec:assembly}) and \subsection{Generalizations of
+% Theorem~\ref{main:local}}.
+
+\subsection{An alternative approach via weighted Bochner identities}\label{subsec:bochner}
+
+In this subsection we present a complementary route to the orthogonal
+coercivity bound of Theorem~\ref{thm:orthog} (and hence to
+Theorem~\ref{main:local}). The argument bypasses the circle estimates
+of Section~\ref{subsec:circle} and the frequency localization of
+Section~\ref{subsec:blocks}, replacing them with a direct integration
+by parts in the polynomial weight $(1+\abs{z}^2)^{-1}\,\dd\gamma$ together
+with a weighted Cauchy integral inequality. As a byproduct we obtain a
+quantitative \emph{improved Cauchy--Schwarz inequality} between
+$\operatorname{Re}(G)$ and $\abs{G}^2$ in $L^2(\dd\gamma)$ for entire
+functions $G$ vanishing at the origin, in the spirit of Aldaz's
+sharpening of Cauchy--Schwarz.
+
+\medskip
+
+Throughout this subsection $F, G \in \mathcal{F}^2(\C)$ denote polynomials
+unless stated otherwise; the conclusions then extend to arbitrary
+elements of $\mathcal{F}^2(\C)$ by a standard density argument analogous
+to the one in Subsection~\ref{subsec:local-reduction}. We also abbreviate
+\[
+\mathcal{F}^2_\ast(\C) \;:=\; \bigl\{H \in \mathcal{F}^2(\C) : H(0) = 0\bigr\},
+\]
+the closed subspace of $\mathcal{F}^2(\C)$ orthogonal to the constant
+function~$\mathbf{1}$.
+
+\subsubsection{A weighted equivalent norm}\label{sec:weighted-norm}
+
+The starting point is a weighted Hardy-type identity that expresses the
+Fock norm of an element of $\mathcal{F}^2_\ast(\C)$ in terms of a polynomial-weighted
+$L^2$ integral of its derivative.
+
+\begin{lemma}\label{lem:weighted-equiv}
+There exist absolute constants $c_1, c_2 \in (0,\infty)$ such that for
+every $H \in \mathcal{F}^2_\ast(\C)$,
+\begin{equation}\label{eq:weighted-equiv}
+c_1\, \norm{H}_{\mathcal{F}}^2
+\;\le\;
+\int_{\C} \abs{H'(z)}^2\, \frac{\dd\gamma(z)}{1+\abs{z}^2}
+\;\le\;
+c_2\, \norm{H}_{\mathcal{F}}^2.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Expand $H(z) = \sum_{n \ge 1} a_n z^n$ with $\sum_{n\ge1} \abs{a_n}^2 n!
+= \norm{H}_{\mathcal{F}}^2$. Since the monomials $z^n$ are pairwise
+orthogonal in $L^2(\dd\gamma)$, the integral on the left-hand side of
+\eqref{eq:weighted-equiv} decomposes as
+\[
+\int_{\C} \abs{H'(z)}^2 \frac{\dd\gamma(z)}{1+\abs{z}^2}
+= \sum_{n \ge 1} n^2\, \abs{a_n}^2\, \kappa_n,
+\quad
+\kappa_n := \int_{\C} \frac{\abs{z}^{2(n-1)}}{1+\abs{z}^2}\, \dd\gamma(z).
+\]
+Writing $1/(1+\abs{z}^2) = \int_0^\infty \ee^{-(1+\abs{z}^2)s}\,\dd s$ and
+using the Gaussian moment $\int_{\C}\abs{z}^{2k}\,\dd\gamma = k!$,
+\[
+\kappa_n
+= (n-1)! \int_0^\infty \frac{\ee^{-s}}{(1+s)^n}\, \dd s.
+\]
+The integral $\int_0^\infty \ee^{-s}(1+s)^{-n}\,\dd s$ is positive, bounded
+above by $\int_0^\infty (1+s)^{-n}\dd s = 1/(n-1)$ for $n \ge 2$, and
+satisfies $\int_0^\infty \ee^{-s}(1+s)^{-n}\dd s = (1/n) + O(1/n^2)$ for
+$n \to \infty$ (by Watson's lemma at $s=0$). Hence
+$n^2\,\kappa_n / n! = n \int_0^\infty \ee^{-s}(1+s)^{-n}\dd s \in [c_1, c_2]$
+for some absolute constants $0 < c_1 \le c_2 < \infty$, and
+\eqref{eq:weighted-equiv} follows by summing in~$n$.
+\end{proof}
+
+\begin{remark}
+A short calculation gives the explicit values $c_1 = 1 - \ee\, E_1(1)
+\approx 0.404$ (attained at $n=1$) and $c_2 \le 2$, so the
+two-sided estimate~\eqref{eq:weighted-equiv} can be made effective. In
+the sequel, however, only the qualitative equivalence is used.
+\end{remark}
+
+\subsubsection{Stability of the squaring map}\label{sec:squaring}
+
+We now state the main estimate of this subsection, which controls the
+Fock norm of $F^2 - F(0)^2$ by the $L^2(\dd\gamma)$ distance from
+$\abs{F}^2$ to a real harmonic function.
+
+\begin{theorem}\label{thm:squaring}
+There exists an absolute constant $C > 0$ such that for every polynomial
+$F \in \mathcal{F}^2(\C)$ and every real harmonic function $v$ on $\C$
+satisfying $\abs{F}^2 - v \in L^2(\dd\gamma)$,
+\[
+\norm{F^2 - F(0)^2}_{\mathcal{F}}
+\;\le\;
+C\, \bigl\|\, \abs{F}^2 - v \,\bigr\|_{L^2(\dd\gamma)}.
+\]
+In particular, taking $v = \int_{\C}\abs{F}^2\,\dd\gamma$ (a constant, hence
+harmonic),
+\begin{equation}\label{eq:squaring-min}
+\norm{F^2 - F(0)^2}_{\mathcal{F}}
+\;\le\;
+C\, \min_{c \in \R}\bigl\|\, \abs{F}^2 - c \,\bigr\|_{L^2(\dd\gamma)}.
+\end{equation}
+\end{theorem}
+
+The proof occupies the rest of this sub-subsection. We follow the strategy
+of integrating by parts twice in the weighted measure
+$(1+\abs{z}^2)^{-2}\,\dd\gamma$, the second time after replacing $\abs{F}^2$
+by $\abs{F}^2 - v$, which is permissible since $v$ is harmonic and only
+the Laplacian of $\abs{F}^2$ enters.
+
+\medskip
+\noindent\emph{Step 1: Cauchy--Riemann reduction.}\;
+Recall from~\eqref{eq:fnt-nabla-mod} that, for an entire function~$F$,
+$\abs{\nabla \abs{F}}^2 = \abs{F'}^2$ a.e.\ on $\C$. Multiplying by
+$\abs{F}^2$ on both sides one obtains, again from the Cauchy--Riemann
+equations,
+\begin{equation}\label{eq:bochner-pointwise}
+\abs{\nabla \abs{F}^2}^2
+\;=\;
+4\, \abs{F}^2\, \abs{F'}^2
+\;=\;
+\abs{(F^2)'}^2
+\qquad\text{a.e.\ on } \C.
+\end{equation}
+Indeed $(F^2)' = 2F F'$, so $\abs{(F^2)'}^2 = 4\abs{F}^2 \abs{F'}^2$, while
+writing $F = u + \ii v$ with $u,v \in \R$ and using
+$u_{x_1} = v_{x_2}$, $u_{x_2} = -v_{x_1}$ gives, on $\{F \neq 0\}$,
+\[
+\abs{\nabla \abs{F}^2}^2
+= (2 u u_{x_1} + 2 v v_{x_1})^2
++ (2 u u_{x_2} + 2 v v_{x_2})^2
+= 4\,(u^2+v^2)(u_{x_1}^2 + v_{x_1}^2)
+= 4\,\abs{F}^2 \abs{F'}^2.
+\]
+The zero set of a non-trivial entire function has Lebesgue measure zero,
+so~\eqref{eq:bochner-pointwise} holds a.e.\ on~$\C$. Combining
+Lemma~\ref{lem:weighted-equiv} (applied to $H = F^2 - F(0)^2 \in
+\mathcal{F}^2_\ast(\C)$) with~\eqref{eq:bochner-pointwise},
+\begin{equation}\label{eq:squaring-step1}
+\norm{F^2 - F(0)^2}_{\mathcal{F}}^2
+\;\asymp\;
+\int_{\C} \abs{\nabla \abs{F}^2}^2\, \frac{\dd\gamma(z)}{1+\abs{z}^2}.
+\end{equation}
+
+\medskip
+\noindent\emph{Step 2: First Bochner identity.}\;
+Set $w(z) = (1+\abs{z}^2)^{-1}/\pi \cdot \ee^{-\abs{z}^2}$, so that the
+right-hand side of \eqref{eq:squaring-step1} equals
+$\int_{\C}\abs{\nabla\abs{F}^2}^2\, w\,\dd m$. Let $v$ be any real
+harmonic function on $\C$ with $\abs{F}^2 - v \in L^2(\dd\gamma)$. Since
+$\Delta v = 0$ and $\nabla \abs{F}^2 = \nabla(\abs{F}^2 - v) + \nabla v$,
+two integrations by parts (boundary terms vanish thanks to the Gaussian
+factor in $w$) yield
+\begin{equation}\label{eq:bochner-1st}
+\int_{\C} \abs{\nabla \abs{F}^2}^2\, w\, \dd m
+\;=\;
+-\int_{\C} (\abs{F}^2 - v)\, \Delta\abs{F}^2\, w\, \dd m
++ \tfrac{1}{2} \int_{\C} (\abs{F}^2 - v)^2\, \Delta w\, \dd m.
+\end{equation}
+A direct computation shows that there exists an absolute constant $C_0$
+with
+\begin{equation}\label{eq:weight-laplacian}
+\abs{\Delta w(z)}
+\;\le\;
+\frac{C_0}{\pi}\, \frac{\ee^{-\abs{z}^2}}{1+\abs{z}^2}
+\qquad\text{for all } z \in \C.
+\end{equation}
+Indeed, $w = (1/\pi)\ee^{-\abs{z}^2}/(1+\abs{z}^2)$ satisfies
+$\abs{\nabla \log w} \le 2\abs{z} + 2\abs{z}/(1+\abs{z}^2)$ and a similar
+bound on $\Delta\log w$, so combining gives
+$\abs{\Delta w}/w \le C_0\,(1 + \abs{z}^2)$, which is
+\eqref{eq:weight-laplacian} after multiplying through.
+Substituting~\eqref{eq:weight-laplacian} into the second term
+of~\eqref{eq:bochner-1st},
+\begin{equation}\label{eq:bochner-1st-2nd-term}
+\Bigl|\, \tfrac{1}{2}\int_{\C} (\abs{F}^2 - v)^2\, \Delta w\, \dd m \,\Bigr|
+\;\le\;
+\frac{C_0}{2}\, \bigl\|\, \abs{F}^2 - v \,\bigr\|_{L^2(\dd\gamma)}^2.
+\end{equation}
+
+\medskip
+\noindent\emph{Step 3: Cauchy--Schwarz on the principal term.}\;
+For the first term in~\eqref{eq:bochner-1st}, Cauchy--Schwarz applied
+with the splitting $w = (\ee^{-\abs{z}^2/2}/\sqrt{\pi}) \cdot
+(\ee^{-\abs{z}^2/2}/(\sqrt{\pi}(1+\abs{z}^2)))$ gives
+\begin{equation}\label{eq:bochner-CS}
+\Bigl|\,\int_{\C} (\abs{F}^2-v)\, \Delta\abs{F}^2\, w\, \dd m \,\Bigr|
+\;\le\;
+\bigl\|\,\abs{F}^2 - v\,\bigr\|_{L^2(\dd\gamma)}\, J^{1/2},
+\end{equation}
+where
+\begin{equation}\label{eq:J-def}
+J \;:=\; \int_{\C} \bigl(\Delta\abs{F}^2\bigr)^2\,
+\frac{\dd\gamma(z)}{(1+\abs{z}^2)^2}.
+\end{equation}
+
+\medskip
+\noindent\emph{Step 4: Bounding $J$ via a second Bochner identity.}\;
+We now claim that
+\begin{equation}\label{eq:J-bound}
+J \;\le\; C_1\, \bigl\|\,\abs{F}^2 - v\,\bigr\|_{L^2(\dd\gamma)}^2
+\end{equation}
+for some absolute constant $C_1$. Since $v$ is real harmonic,
+$\Delta(\abs{F}^2 - v) = \Delta\abs{F}^2$, so using the symmetry of the
+Laplacian under integration by parts twice we may write
+\[
+J
+= \int_{\C} \Delta(\abs{F}^2 - v)\, \Delta\abs{F}^2\,
+\frac{\dd\gamma}{(1+\abs{z}^2)^2}
+= \int_{\C} (\abs{F}^2 - v)\,
+\Delta\!\left(\Delta\abs{F}^2\, w_2\right) \dd m,
+\]
+where $w_2(z) := (1/\pi)\ee^{-\abs{z}^2}/(1+\abs{z}^2)^2$. Expanding the
+outer Laplacian by the product rule,
+\[
+\Delta\!\left(\Delta\abs{F}^2\, w_2\right)
+= \Delta^2\abs{F}^2\, w_2
+\;+\; 2\, \nabla(\Delta\abs{F}^2) \cdot \nabla w_2
+\;+\; \Delta\abs{F}^2\, \Delta w_2,
+\]
+hence $J = I_1 + I_2 + I_3$ with the obvious notation. We bound each
+$I_j$ in turn using:
+\begin{itemize}[leftmargin=2em]
+    \item the identity $\Delta\abs{F}^2 = 4\abs{F'}^2$ (which gives
+    $\Delta^2\abs{F}^2 = 16\abs{F''}^2$ by another application of
+    \eqref{eq:bochner-pointwise} to $F'$);
+    \item the pointwise bound $\bigl|\nabla(\Delta\abs{F}^2)\bigr|
+    = 4\,\abs{\nabla\abs{F'}^2} \le 8\,\abs{F'}\abs{F''}$
+    (from~\eqref{eq:fnt-nabla-mod} applied to $F'$);
+    \item the weight bounds $\abs{\nabla w_2} \le C_0'\,
+    (1/\pi)\ee^{-\abs{z}^2}/(1+\abs{z}^2)^{3/2}$ and
+    $\abs{\Delta w_2} \le C_0'\,
+    (1/\pi)\ee^{-\abs{z}^2}/(1+\abs{z}^2)$, both of which are derived
+    exactly as~\eqref{eq:weight-laplacian}.
+\end{itemize}
+Cauchy--Schwarz against $\abs{F}^2 - v$ then gives, with $\dd\gamma_k(z)
+:= (1+\abs{z}^2)^{-k}\,\dd\gamma(z)$ for shorthand,
+\begin{align*}
+\abs{I_1}
+&\;\le\; 16\,\bigl\|\,\abs{F}^2-v\,\bigr\|_{L^2(\dd\gamma)}\,
+\Bigl(\int_{\C}\abs{F''}^4\,\dd\gamma_4\Bigr)^{\!1/2}, \\
+\abs{I_2}
+&\;\le\; C_2'\,\bigl\|\,\abs{F}^2-v\,\bigr\|_{L^2(\dd\gamma)}\,
+\Bigl(\int_{\C}\abs{F'}^2\abs{F''}^2\,\dd\gamma_3\Bigr)^{\!1/2}, \\
+\abs{I_3}
+&\;\le\; C_2'\,\bigl\|\,\abs{F}^2-v\,\bigr\|_{L^2(\dd\gamma)}\,
+\Bigl(\int_{\C}\abs{F'}^4\,\dd\gamma_2\Bigr)^{\!1/2}
+= C_2'\,\bigl\|\,\abs{F}^2-v\,\bigr\|_{L^2(\dd\gamma)}\, J^{1/2}/4,
+\end{align*}
+the last identity using $\Delta\abs{F}^2 = 4\abs{F'}^2$ in the definition
+\eqref{eq:J-def} of $J$.
+
+\medskip
+
+The two integrals appearing in $\abs{I_1}$ and $\abs{I_2}$ are controlled
+by the integral defining $J$ via the following weighted Cauchy integral
+estimate, whose proof we postpone to Subsection~\ref{sec:weighted-cauchy}.
+
+\begin{lemma}\label{lem:weighted-cauchy}
+There exists an absolute constant $C_3 > 0$ such that for every polynomial
+$F \in \mathcal{F}^2(\C)$,
+\begin{align}
+\int_{\C} \abs{F''(z)}^4\, \dd\gamma_4(z)
+&\;\le\; C_3 \int_{\C} \abs{F'(z)}^4\, \dd\gamma_2(z),
+\label{eq:cauchy-l4}\\
+\int_{\C} \abs{F'(z)}^2\abs{F''(z)}^2\, \dd\gamma_3(z)
+&\;\le\; C_3 \int_{\C} \abs{F'(z)}^4\, \dd\gamma_2(z).
+\label{eq:cauchy-mixed}
+\end{align}
+\end{lemma}
+
+Granting Lemma~\ref{lem:weighted-cauchy} and recalling $\int\abs{F'}^4
+\,\dd\gamma_2 = J/16$, we obtain
+\[
+\max\bigl(\abs{I_1},\abs{I_2},\abs{I_3}\bigr)
+\;\le\;
+C_4\,\bigl\|\,\abs{F}^2 - v\,\bigr\|_{L^2(\dd\gamma)}\, J^{1/2},
+\]
+hence $J \le 3 C_4\,\bigl\|\,\abs{F}^2-v\,\bigr\|_{L^2(\dd\gamma)}\,
+J^{1/2}$, which gives~\eqref{eq:J-bound} with $C_1 = 9 C_4^2$.
+
+\medskip
+\noindent\emph{Step 5: Conclusion.}\;
+Substituting \eqref{eq:bochner-1st-2nd-term},
+\eqref{eq:bochner-CS} and \eqref{eq:J-bound}
+into~\eqref{eq:bochner-1st} and combining with~\eqref{eq:squaring-step1},
+\[
+\norm{F^2 - F(0)^2}_{\mathcal{F}}^2
+\;\le\;
+C\,\bigl\|\,\abs{F}^2 - v\,\bigr\|_{L^2(\dd\gamma)}^2,
+\]
+which is Theorem~\ref{thm:squaring}. The minimum
+in~\eqref{eq:squaring-min} over real constants is attained at
+$c = \int\abs{F}^2\,\dd\gamma = \norm{F}_{\mathcal{F}}^2$, and any harmonic
+function is admissible since the argument used $\Delta v = 0$ only.
+\qed
+
+\subsubsection{The weighted Cauchy integral lemma}\label{sec:weighted-cauchy}
+
+The purpose of this subsubsection is to prove a quantitative form of
+Lemma~\ref{lem:weighted-cauchy}. Throughout, we fix the cut-off radius
+\begin{equation}\label{eq:R-choice}
+R \;=\; 2,
+\end{equation}
+and split each integral into the bounded region $\{\abs{z}\le R\}$ and
+its complement, using the Cauchy circle of radius~$1$ on the former
+and the Cauchy circle of radius $1/\abs{z}$ on the latter.  We
+shall track all constants explicitly along the way; the values
+displayed below are chosen for legibility rather than sharpness, and
+follow at once from the choice~\eqref{eq:R-choice}.
+
+\medskip
+
+We first state the quantified version we are about to prove.
+
+\begin{lemma}[Quantitative weighted Cauchy integral lemma]\label{lem:weighted-cauchy-quant}
+For every polynomial $F \in \mathcal{F}^2(\C)$,
+\begin{align}
+\int_{\C} \abs{F''(z)}^4\, \dd\gamma_4(z)
+&\;\le\;
+A_1\,\int_{\C} \abs{F'(z)}^4\, \dd\gamma_2(z),
+\label{eq:cauchy-l4-quant}\\
+\int_{\C} \abs{F'(z)}^2 \abs{F''(z)}^2\, \dd\gamma_3(z)
+&\;\le\;
+\sqrt{A_1}\;\int_{\C} \abs{F'(z)}^4\, \dd\gamma_2(z),
+\label{eq:cauchy-mixed-quant}
+\end{align}
+with the explicit constant
+\begin{equation}\label{eq:A1-explicit}
+A_1
+\;:=\;
+\ee^{2R+1}\,\bigl(1+(R+1)^2\bigr)^{2}
+\;+\;
+\frac{\ee^{\,2+1/R^{2}}}{(1-1/R^{2})\,\bigl(1-2/(1+R^{2})\bigr)^{2}}
+\;\le\; 1.5\times 10^{4}.
+\end{equation}
+\end{lemma}
+
+\noindent
+The constants $C_3$ and $C_3'$ in
+Lemma~\ref{lem:weighted-cauchy} may therefore be taken to be
+$A_1$ and $\sqrt{A_1}$ respectively.
+
+\medskip
+
+The proof of Lemma~\ref{lem:weighted-cauchy-quant} occupies the rest of
+this subsubsection.  We prepare three independent ingredients:
+the pointwise Cauchy bound for $F''$ in terms of a circular average of
+$F'$ (Lemma~\ref{lem:pointwise-cauchy} below); a quantitative comparison
+of weights under the substitution $w = z + r_z\ee^{\ii\theta}$
+(Lemma~\ref{lem:weight-shift}); and the deduction
+of~\eqref{eq:cauchy-mixed-quant} from~\eqref{eq:cauchy-l4-quant} via
+Cauchy--Schwarz.
+
+\begin{lemma}[Pointwise Cauchy bound]\label{lem:pointwise-cauchy}
+Let $F \colon \C \to \C$ be entire and let $r > 0$.  Then for every
+$z \in \C$,
+\begin{equation}\label{eq:pointwise-cauchy}
+\abs{F''(z)}^{4}
+\;\le\;
+\frac{1}{2\pi\, r^{4}} \int_{0}^{2\pi}
+\abs{F'(z + r\,\ee^{\ii\theta})}^{4}\, \dd\theta.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The Cauchy integral formula on the circle $\{\abs{w-z} = r\}$ gives
+\[
+F''(z)
+\;=\;
+\frac{1}{2\pi\ii}\int_{\abs{w-z}=r} \frac{F'(w)}{(w-z)^{2}}\,\dd w
+\;=\;
+\frac{1}{2\pi r}\int_{0}^{2\pi} F'(z + r\,\ee^{\ii\theta})\,
+\ee^{-\ii\theta}\,\dd\theta.
+\]
+Taking moduli and applying Jensen's inequality with the convex function
+$t \mapsto t^{4}$,
+\[
+\abs{F''(z)}^{4}
+\;\le\;
+\Bigl(\frac{1}{2\pi r}\int_{0}^{2\pi}
+\abs{F'(z + r\,\ee^{\ii\theta})}\,\dd\theta\Bigr)^{4}
+\;\le\;
+\frac{1}{(2\pi r)^{4}}\,(2\pi)^{3}
+\int_{0}^{2\pi}\abs{F'(z + r\,\ee^{\ii\theta})}^{4}\,\dd\theta,
+\]
+which simplifies to~\eqref{eq:pointwise-cauchy}.
+\end{proof}
+
+\begin{lemma}[Quantitative weight shift]\label{lem:weight-shift}
+Let $R \ge 2$.
+\begin{enumerate}[\rm(i)]
+\item For every $z \in \C$ with $\abs{z}\le R$, every $\theta \in
+[0,2\pi)$, and $w := z + \ee^{\ii\theta}$,
+\begin{equation}\label{eq:weight-shift-bd}
+\frac{\ee^{-\abs{z}^{2}}}{(1+\abs{z}^{2})^{4}}
+\;\le\;
+\ee^{2R+1}\,\bigl(1+(R+1)^{2}\bigr)^{2}\;
+\frac{\ee^{-\abs{w}^{2}}}{(1+\abs{w}^{2})^{2}}.
+\end{equation}
+\item For every $z \in \C$ with $\abs{z} > R$, every $\theta \in
+[0,2\pi)$, and $w := z + \ee^{\ii\theta}/\abs{z}$, the map $z \mapsto
+w(z,\theta)$ is a $C^{\infty}$-diffeomorphism of $\{\abs{z}>R\}$ onto
+its image, with absolute Jacobian determinant satisfying
+\[
+\bigl\lvert J(z)\bigr\rvert \;\ge\; 1 - \frac{1}{R^{2}},
+\]
+and the weight comparison
+\begin{equation}\label{eq:weight-shift-out}
+\frac{\abs{z}^{4}\,\ee^{-\abs{z}^{2}}}{(1+\abs{z}^{2})^{4}}
+\;\le\;
+\frac{\ee^{\,2 + 1/R^{2}}}{\bigl(1-2/(1+R^{2})\bigr)^{2}}\;
+\frac{\ee^{-\abs{w}^{2}}}{(1+\abs{w}^{2})^{2}}.
+\end{equation}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\emph{(i)\,Bounded region.}\;
+Since $w = z+\ee^{\ii\theta}$ we have $\abs{w}\le \abs{z}+1\le R+1$ and
+\[
+\abs{z}^{2} - \abs{w}^{2}
+\;=\; -\,2\,\operatorname{Re}\!\bigl(z\,\ee^{-\ii\theta}\bigr) - 1
+\;\le\; 2\abs{z} - 1
+\;\le\; 2R - 1
+\;<\; 2R + 1.
+\]
+Hence
+$\ee^{-\abs{z}^{2}} \le \ee^{2R+1}\,\ee^{-\abs{w}^{2}}$. Moreover
+$(1+\abs{z}^{2})^{-4} \le 1$, while $(1+\abs{w}^{2})^{2} \le
+(1+(R+1)^{2})^{2}$. Multiplying these three inequalities
+yields~\eqref{eq:weight-shift-bd}.
+
+\medskip
+
+\emph{(ii)\,Outer region: Jacobian.}\;
+Writing $z = x+\ii y$ and $w = u + \ii v$ with $u = x +
+\cos\theta/\abs{z}$ and $v = y + \sin\theta/\abs{z}$, a direct
+computation using $\partial_{x}\abs{z} = x/\abs{z}$ and
+$\partial_{y}\abs{z} = y/\abs{z}$ gives
+\[
+\det\!\begin{pmatrix} \partial_{x} u & \partial_{y} u \\
+\partial_{x} v & \partial_{y} v \end{pmatrix}
+\;=\;
+1 \;-\; \frac{\operatorname{Re}\bigl(\ee^{-\ii\theta}\,z\bigr)}{\abs{z}^{3}}.
+\]
+Since $\abs{\operatorname{Re}(\ee^{-\ii\theta}z)} \le \abs{z}$, the
+absolute Jacobian determinant is bounded below by
+$1 - 1/\abs{z}^{2} \ge 1 - 1/R^{2}$, which is strictly positive for
+$R\ge 2$.  Hence the map is a $C^{\infty}$-local diffeomorphism, and
+since $\abs{w-z} = 1/\abs{z}$ tends to $0$ as $\abs{z}\to\infty$, it is
+also injective on $\{\abs{z}>R\}$ provided $R \ge 2$ (which we have
+fixed).
+
+\medskip
+
+\emph{(ii)\,Outer region: weights.}\;
+We have $\abs{w}^{2} = \abs{z}^{2} +
+2\,\operatorname{Re}(z\,\ee^{-\ii\theta})/\abs{z} + 1/\abs{z}^{2}$, so
+\[
+\abs{z}^{2} - \abs{w}^{2}
+\;=\; -\,2\,\frac{\operatorname{Re}\bigl(z\,\ee^{-\ii\theta}\bigr)}{\abs{z}}
+- \frac{1}{\abs{z}^{2}}
+\;\in\; [-2 - 1/R^{2},\; 2 + 1/R^{2}],
+\]
+giving $\ee^{\abs{z}^{2}-\abs{w}^{2}} \le \ee^{\,2 + 1/R^{2}}$.
+For the polynomial weight, $\abs{w}\ge \abs{z} - 1/\abs{z}$, hence on
+$\{\abs{z} > R\}$,
+\[
+\frac{1+\abs{w}^{2}}{1+\abs{z}^{2}}
+\;\ge\;
+\frac{1+(\abs{z}-1/\abs{z})^{2}}{1+\abs{z}^{2}}
+\;=\;
+1 \;-\; \frac{2 - 1/\abs{z}^{2}}{1+\abs{z}^{2}}
+\;\ge\;
+1 - \frac{2}{1+R^{2}}.
+\]
+Combining and using $\abs{z}^{4}/(1+\abs{z}^{2})^{2} \le 1$,
+\[
+\frac{\abs{z}^{4}\,\ee^{-\abs{z}^{2}}}{(1+\abs{z}^{2})^{4}}
+\;=\;
+\frac{\abs{z}^{4}}{(1+\abs{z}^{2})^{2}}\cdot
+\frac{\ee^{-\abs{z}^{2}}}{(1+\abs{z}^{2})^{2}}
+\;\le\;
+\frac{\ee^{\,\abs{z}^{2}-\abs{w}^{2}}\,(1+\abs{w}^{2})^{2}}
+{(1+\abs{z}^{2})^{2}}\cdot
+\frac{\ee^{-\abs{w}^{2}}}{(1+\abs{w}^{2})^{2}}
+\;\le\;
+\frac{\ee^{\,2 + 1/R^{2}}}{\bigl(1-2/(1+R^{2})\bigr)^{2}}\cdot
+\frac{\ee^{-\abs{w}^{2}}}{(1+\abs{w}^{2})^{2}},
+\]
+which is~\eqref{eq:weight-shift-out}.
+\end{proof}
+
+\begin{proof}[Proof of Lemma~\ref{lem:weighted-cauchy-quant}]
+We first establish~\eqref{eq:cauchy-l4-quant}, then deduce
+\eqref{eq:cauchy-mixed-quant} via Cauchy--Schwarz between the two
+$L^{4}$ estimates.
+
+\medskip
+\noindent\emph{Step 1: Splitting and pointwise bound.}\;
+Let $r_{z} := 1$ if $\abs{z}\le R$ and $r_{z} := 1/\abs{z}$
+if $\abs{z}>R$, with $R = 2$ as fixed
+in~\eqref{eq:R-choice}. Lemma~\ref{lem:pointwise-cauchy} applied
+with $r = r_{z}$ gives, for every $z \in \C$,
+\[
+\abs{F''(z)}^{4}\,\dd\gamma_{4}(z)
+\;\le\;
+\frac{1}{2\pi\, r_{z}^{4}}\int_{0}^{2\pi}
+\abs{F'(z + r_{z}\,\ee^{\ii\theta})}^{4}\, \dd\theta\,
+\frac{\ee^{-\abs{z}^{2}}}{\pi\,(1+\abs{z}^{2})^{4}}\,\dd m(z).
+\]
+We integrate this inequality first over $\{\abs{z}\le R\}$, then over
+$\{\abs{z}>R\}$, exchanging the orders of $z$- and
+$\theta$-integration by Fubini's theorem.
+
+\medskip
+\noindent\emph{Step 2: Inner contribution} ($\abs{z}\le R$).
+On this region $r_{z} = 1$, so
+\[
+\frac{1}{r_{z}^{4}}\,\frac{\ee^{-\abs{z}^{2}}}{(1+\abs{z}^{2})^{4}}
+\;\le\;
+\ee^{2R+1}\,(1+(R+1)^{2})^{2}\,\frac{\ee^{-\abs{w}^{2}}}{(1+\abs{w}^{2})^{2}}
+\]
+by Lemma~\ref{lem:weight-shift}\,(i), with $w = z + \ee^{\ii\theta}$.
+The map $z \mapsto z + \ee^{\ii\theta}$ is a translation, hence has unit
+Jacobian, and sends $\{\abs{z}\le R\}$ into $\{\abs{w}\le R+1\}$.
+Therefore
+\[
+\int_{\abs{z}\le R}\!\frac{\dd m(z)}{2\pi^{2} r_{z}^{4}}\!
+\int_{0}^{2\pi}\!\!\abs{F'(z + \ee^{\ii\theta})}^{4}\,
+\frac{\ee^{-\abs{z}^{2}}}{(1+\abs{z}^{2})^{4}}\,\dd\theta
+\;\le\;
+\ee^{2R+1}\,(1+(R+1)^{2})^{2}
+\int_{\C}\!\abs{F'(w)}^{4}\,\dd\gamma_{2}(w),
+\]
+where the right-hand side has been enlarged from $\{\abs{w}\le R+1\}$
+to all of $\C$ since the integrand is nonnegative.
+
+\medskip
+\noindent\emph{Step 3: Outer contribution} ($\abs{z}>R$).
+On this region $r_{z} = 1/\abs{z}$, so
+\[
+\frac{1}{r_{z}^{4}}\,\frac{\ee^{-\abs{z}^{2}}}{(1+\abs{z}^{2})^{4}}
+\;=\;
+\frac{\abs{z}^{4}\,\ee^{-\abs{z}^{2}}}{(1+\abs{z}^{2})^{4}}.
+\]
+Lemma~\ref{lem:weight-shift}\,(ii) bounds this expression, with
+$w = z + \ee^{\ii\theta}/\abs{z}$, by
+\[
+\frac{\ee^{\,2 + 1/R^{2}}}{(1-2/(1+R^{2}))^{2}}\,
+\frac{\ee^{-\abs{w}^{2}}}{(1+\abs{w}^{2})^{2}},
+\]
+and the map $z\mapsto w$ is a diffeomorphism with absolute Jacobian
+determinant $\ge 1 - 1/R^{2}$, so the change of variables produces an
+extra factor at most $(1-1/R^{2})^{-1}$. Hence
+\[
+\int_{\abs{z}>R}\frac{\dd m(z)}{2\pi^{2}r_{z}^{4}}
+\int_{0}^{2\pi}\!\!\abs{F'(z+\ee^{\ii\theta}/\abs{z})}^{4}
+\frac{\ee^{-\abs{z}^{2}}}{(1+\abs{z}^{2})^{4}}\,\dd\theta
+\;\le\;
+\frac{\ee^{\,2+1/R^{2}}}
+{(1-1/R^{2})\,\bigl(1-2/(1+R^{2})\bigr)^{2}}
+\int_{\C}\abs{F'(w)}^{4}\,\dd\gamma_{2}(w).
+\]
+Note that the factor $\abs{z}^{4}$ produced by $r_{z}^{-4}$ has already
+been absorbed into~\eqref{eq:weight-shift-out} via the elementary
+bound $\abs{z}^{4}/(1+\abs{z}^{2})^{2}\le 1$.
+
+\medskip
+\noindent\emph{Step 4: Adding the two contributions.}\;
+Combining Steps~2 and~3,
+\[
+\int_{\C}\abs{F''(z)}^{4}\,\dd\gamma_{4}(z)
+\;\le\;
+A_{1}\,\int_{\C}\abs{F'(w)}^{4}\,\dd\gamma_{2}(w),
+\]
+with $A_{1}$ given by~\eqref{eq:A1-explicit}. For $R = 2$,
+\[
+\ee^{2R+1}\,(1+(R+1)^{2})^{2}
+\;=\; \ee^{5}\cdot 100 \;\le\; 14842,
+\qquad
+\frac{\ee^{2+1/R^{2}}}{(1-1/R^{2})\,(1-2/(1+R^{2}))^{2}}
+\;=\;
+\frac{\ee^{9/4}}{(3/4)\cdot(3/5)^{2}}
+\;\le\; 36,
+\]
+giving $A_{1}\le 14842 + 36 < 1.5\times 10^{4}$, which
+is~\eqref{eq:cauchy-l4-quant}.
+
+\medskip
+\noindent\emph{Step 5: Mixed estimate.}\;
+For~\eqref{eq:cauchy-mixed-quant}, write the integrand of
+$\int_{\C}\abs{F'}^{2}\abs{F''}^{2}\,\dd\gamma_{3}$ as
+\[
+\bigl(\abs{F'(z)}^{2}\,(1+\abs{z}^{2})^{-1}\bigr)\,
+\bigl(\abs{F''(z)}^{2}\,(1+\abs{z}^{2})^{-2}\bigr)\,
+\frac{\ee^{-\abs{z}^{2}}}{\pi}\,\dd m(z),
+\]
+and apply Cauchy--Schwarz against the Gaussian density:
+\[
+\int_{\C}\abs{F'}^{2}\abs{F''}^{2}\,\dd\gamma_{3}
+\;\le\;
+\Bigl(\int_{\C}\abs{F'}^{4}\,\dd\gamma_{2}\Bigr)^{1/2}\,
+\Bigl(\int_{\C}\abs{F''}^{4}\,\dd\gamma_{4}\Bigr)^{1/2}.
+\]
+Substituting~\eqref{eq:cauchy-l4-quant} into the second factor,
+\[
+\int_{\C}\abs{F'}^{2}\abs{F''}^{2}\,\dd\gamma_{3}
+\;\le\;
+\Bigl(\int_{\C}\abs{F'}^{4}\,\dd\gamma_{2}\Bigr)^{1/2}
+\sqrt{A_{1}}\,\Bigl(\int_{\C}\abs{F'}^{4}\,\dd\gamma_{2}\Bigr)^{1/2}
+\;=\;
+\sqrt{A_{1}}\int_{\C}\abs{F'}^{4}\,\dd\gamma_{2},
+\]
+which is~\eqref{eq:cauchy-mixed-quant}. With $A_{1}\le 1.5\times
+10^{4}$, the constant in~\eqref{eq:cauchy-mixed-quant} is
+$\sqrt{A_{1}}\le 123$.
+\end{proof}
+
+\begin{remark}\label{rem:cauchy-sharper}
+The constants in~\eqref{eq:A1-explicit} are far from sharp. Two
+optimizations are immediate. First, the inner-region constant
+$\ee^{2R+1}(1+(R+1)^{2})^{2}$ is the only place where $R$ enters
+exponentially; it can be reduced by replacing the unit-radius Cauchy
+circle on $\{\abs{z}\le R\}$ with a circle of radius $\rho < 1$, at the
+cost of a factor $\rho^{-4}$ in front, after which one optimises in
+$\rho$.  Second, the polynomial bound
+$\abs{z}^{4}/(1+\abs{z}^{2})^{2}\le 1$ used in Step~3 can be sharpened
+to $1 - 2/(1+\abs{z}^{2})^{2}$, which integrates against the Gaussian
+to a term that is again exponentially small in $R$. Carrying out both
+optimisations and choosing $R$ near $1$ leads to constants of order
+$10^{2}$, but we have not pursued these refinements as they play no
+quantitative role in the application to Theorem~\ref{thm:squaring}.
+\end{remark}
+
+\subsubsection{An improved Cauchy--Schwarz inequality}\label{sec:improved-CS}
+
+The bound \eqref{eq:squaring-min} translates into a quantitative
+strict inequality in Cauchy--Schwarz between $\operatorname{Re}(G)$ and
+$\abs{G}^2$ in $L^2(\dd\gamma)$, valid for entire functions vanishing at
+the origin.
+
+\begin{theorem}\label{thm:improved-cs}
+There exists an absolute constant $c_\sharp > 0$ such that for every
+non-zero polynomial $G \in \mathcal{F}^2_\ast(\C)$,
+\begin{equation}\label{eq:improved-cs}
+\Bigl\|\, \frac{\abs{G}^2}{\norm{G}_{L^4(\dd\gamma)}^2}
+\;-\; \frac{\operatorname{Re}(G)}{\norm{\operatorname{Re}(G)}_{L^2(\dd\gamma)}}
+\Bigr\|_{L^2(\dd\gamma)}
+\;\ge\; c_\sharp.
+\end{equation}
+Equivalently, there exists $\eta_\sharp \in (0,1)$ such that for every
+$G \in \mathcal{F}^2_\ast(\C)$,
+\begin{equation}\label{eq:cs-strict}
+\Bigl| \int_{\C}\operatorname{Re}(G)\,\abs{G}^2\,\dd\gamma\Bigr|
+\;\le\;
+\eta_\sharp\, \norm{\operatorname{Re}(G)}_{L^2(\dd\gamma)}\,
+\norm{\,\abs{G}^2\,}_{L^2(\dd\gamma)}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We may assume $G$ is normalized so that $\norm{G}_{L^4(\dd\gamma)} = 1$,
+i.e.\ $\norm{G^2}_{\mathcal{F}} = 1$ (since $G^2$ is entire and the Fock
+norm coincides with the $L^2(\dd\gamma)$ norm on $\mathcal{F}^2(\C)$).
+The hypothesis $G(0)=0$ gives $G^2(0)=0$, so $G^2 \in
+\mathcal{F}^2_\ast(\C)$ and the orthogonality of monomials yields
+\begin{equation}\label{eq:F2-norm-1}
+\min_{\alpha \in \C} \norm{G^2 - \alpha}_{L^2(\dd\gamma)}
+= \norm{G^2}_{L^2(\dd\gamma)}
+= 1.
+\end{equation}
+On the other hand, $\operatorname{Re}(G) =
+\tfrac{1}{2}(G + \overline{G})$ is harmonic, so the function
+$v := \alpha\, \operatorname{Re}(G)$ is harmonic for every $\alpha \in \R$.
+Choosing
+$\alpha = \norm{\operatorname{Re}(G)}_{L^2(\dd\gamma)}^{-1}$, the bound
+\eqref{eq:squaring-min} of Theorem~\ref{thm:squaring} (with
+$F = G$ and $F(0) = 0$) gives
+\[
+1
+\;=\; \norm{G^2}_{\mathcal{F}}
+\;\le\; C\,\Bigl\|\, \abs{G}^2
+\;-\; \frac{\operatorname{Re}(G)}{\norm{\operatorname{Re}(G)}_{L^2(\dd\gamma)}}\,
+\Bigr\|_{L^2(\dd\gamma)}.
+\]
+Hence \eqref{eq:improved-cs} holds with $c_\sharp = 1/C$.
+
+\medskip
+
+For \eqref{eq:cs-strict}, let
+$\rho := \langle \abs{G}^2, \operatorname{Re}(G)\rangle_{L^2(\dd\gamma)} /
+\bigl(\norm{\,\abs{G}^2\,}_{L^2(\dd\gamma)}\,
+\norm{\operatorname{Re}(G)}_{L^2(\dd\gamma)}\bigr)$ be the normalized
+inner product. Squaring~\eqref{eq:improved-cs} yields
+$2(1 - \rho) \ge c_\sharp^2$, so $\rho \le 1 - c_\sharp^2/2$. Replacing
+$G$ by $-G$ flips the sign of $\operatorname{Re}(G)$ but not $\abs{G}^2$,
+so the same bound applies to $-\rho$. We conclude
+$\abs{\rho} \le 1 - c_\sharp^2/2 =: \eta_\sharp < 1$, which is
+\eqref{eq:cs-strict}.
+\end{proof}
+
+\begin{remark}\label{rem:cs-implies-orth}
+Theorem~\ref{thm:improved-cs} provides a route to the orthogonal
+coercivity bound of Theorem~\ref{thm:orthog} in the small-perturbation
+regime. Indeed, expanding pointwise
+$\abs{1+U}^2 - 1 = 2\operatorname{Re}(U) + \abs{U}^2$
+and integrating against $\dd\gamma$,
+\[
+\int_{\C}\bigl(\abs{1+U}^2-1\bigr)^2\,\dd\gamma
+= 4\norm{\operatorname{Re}(U)}_{L^2(\dd\gamma)}^2
++ 4\!\int_{\C}\!\operatorname{Re}(U)\,\abs{U}^2\,\dd\gamma
++ \norm{\,\abs{U}^2\,}_{L^2(\dd\gamma)}^2.
+\]
+Inserting~\eqref{eq:cs-strict} and completing the square gives
+\[
+\int_{\C}\bigl(\abs{1+U}^2-1\bigr)^2\,\dd\gamma
+\;\ge\;
+(1-\eta_\sharp)\Bigl(4\norm{\operatorname{Re}(U)}_{L^2(\dd\gamma)}^2
++ \norm{\,\abs{U}^2\,}_{L^2(\dd\gamma)}^2\Bigr).
+\]
+Since $U \in \mathcal{F}^2_\ast(\C)$ has only positive frequencies, the
+real and imaginary parts of $U$ have equal $L^2(\dd\gamma)$ norms, hence
+$\norm{U}_{\mathcal{F}}^2 = 2\norm{\operatorname{Re}(U)}_{L^2(\dd\gamma)}^2$,
+and we obtain
+\[
+\int_{\C}\bigl(\abs{1+U}^2-1\bigr)^2\,\dd\gamma
+\;\ge\;
+2(1-\eta_\sharp)\,\norm{U}_{\mathcal{F}}^2.
+\]
+Factoring $\abs{1+U}^2 - 1 = (\abs{1+U}+1)\,(\abs{1+U}-1)$ and using
+$\abs{1+U}+1 \le 2 + \abs{U}$, the left-hand side is bounded by a
+universal constant times $\norm{\rho \circ U}_{\mathcal{F}}^2$ provided
+$\norm{U}_{\mathcal{F}}$ is sufficiently small; this recovers
+Theorem~\ref{thm:orthog} in the local-local regime of
+Theorem~\ref{thm:local}.
+\end{remark}
+
+\subsubsection{A convexity bound for moment integrals}\label{sec:convexity}
+
+We close this subsection with a separate but related observation,
+recording a sharp convexity estimate for the family of moment integrals
+naturally associated with the deficit $f := \abs{1+rG}^2 - 1$.
+
+\begin{proposition}\label{prop:convexity}
+Let $\mu$ be any probability measure on $\C$ and let $f : \C \to \R$ be a
+$\mu$-measurable function with $f \ge -1$ a.e. Define, for $s \in (0,1)$,
+\[
+g(s) \;:=\; \int_{\C} \frac{f(z)^2}{\bigl(1 + s\,f(z)\bigr)^{3/2}}\,
+\dd\mu(z).
+\]
+Suppose $g$ is finite on $[0,1)$, i.e.\ $f^2 \in L^1(\mu)$ (so that
+$g(0) = \int f^2\,\dd\mu < \infty$). Then $g \in C^2((0,1))$ with
+\begin{equation}\label{eq:diff-ineq}
+\tfrac{5}{3}\,(g'(s))^2 \;\le\; g(s)\, g''(s)
+\qquad\text{for all } s \in (0,1).
+\end{equation}
+In particular, if $g'(0) < 0$, then for every $t \in (0,1)$,
+\begin{equation}\label{eq:g-lower}
+g(t)
+\;\ge\;
+g(0)\, \Bigl(1 + \tfrac{2}{3}\,t\,\frac{\abs{g'(0)}}{g(0)}\Bigr)^{-3/2}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Differentiating under the integral sign,
+\[
+g'(s) = -\tfrac{3}{2}\!\int_{\C}\frac{f^3\,\dd\mu}{(1+sf)^{5/2}},
+\qquad
+g''(s) = \tfrac{15}{4}\!\int_{\C}\frac{f^4\,\dd\mu}{(1+sf)^{7/2}}.
+\]
+The bound $f \ge -1$ ensures $1 + sf \ge 1-s > 0$ for $s \in (0,1)$, and
+the integrals are finite by H\"older against $f^2/(1+sf)^{3/2} \in
+L^1(\mu)$. The Cauchy--Schwarz inequality applied to the decomposition
+\[
+\frac{f^3}{(1+sf)^{5/2}}
+= \frac{f}{(1+sf)^{3/4}} \cdot \frac{f^2}{(1+sf)^{7/4}}
+\]
+gives, after squaring and integrating,
+\[
+\bigl(g'(s)\bigr)^2
+= \tfrac{9}{4}\Bigl(\!\int_{\C}\!\frac{f^3\,\dd\mu}{(1+sf)^{5/2}}\Bigr)^{\!2}
+\;\le\; \tfrac{9}{4}\!\int_{\C}\!\frac{f^2\,\dd\mu}{(1+sf)^{3/2}}
+\!\int_{\C}\!\frac{f^4\,\dd\mu}{(1+sf)^{7/2}}
+= \tfrac{9}{4}\cdot g(s)\cdot \tfrac{4}{15}\,g''(s),
+\]
+which is~\eqref{eq:diff-ineq}.
+
+\medskip
+
+Assume now $g'(0) < 0$, and let $I = (0,\alpha_0)$ be the maximal interval
+on which $g'(s) < 0$. Set $h(s) := g'(s)/g(s)$. Rearranging
+\eqref{eq:diff-ineq} as $\tfrac{5}{3}\,(g'/g)^2 \le g''/g$ and using
+$h'(s) = g''(s)/g(s) - (g'(s)/g(s))^2$, we obtain
+\[
+\tfrac{2}{3}\,h(s)^2
+\;\le\; h'(s)
+\quad\Longleftrightarrow\quad
+-\tfrac{2}{3}
+\;\ge\; -\frac{h'(s)}{h(s)^2}
+= \partial_s\!\Bigl(\frac{1}{h(s)}\Bigr).
+\]
+Integrating over $[0,t] \subset I$ and using $h(0) = g'(0)/g(0) < 0$,
+\[
+\frac{1}{h(t)} - \frac{1}{h(0)}
+\;\le\; -\tfrac{2}{3}\,t,
+\qquad
+\text{i.e.}\qquad
+\frac{g(t)}{g'(t)}
+\;\le\; \frac{g(0)}{g'(0)} - \tfrac{2}{3}\,t.
+\]
+Since $g'(t),g'(0) < 0$ on $I$, multiplying by $g'(t)\,g'(0)>0$ and
+rearranging yields
+\[
+\frac{g'(t)}{g(t)}
+\;\ge\; \frac{g'(0)}{g(0) - \tfrac{2}{3}\,t\,g'(0)}.
+\]
+Finally, integrating once more from $0$ to $t$ via the substitution
+$v = -\tfrac{2}{3}g'(0)\,s$,
+\[
+\log\!\Bigl(\frac{g(t)}{g(0)}\Bigr)
+\;\ge\;
+\int_0^t \frac{g'(0)\,\dd s}{g(0) - \tfrac{2}{3}\,g'(0)\,s}
+= -\tfrac{3}{2}\,
+\log\!\Bigl(1 - \tfrac{2}{3}\,t\,\frac{g'(0)}{g(0)}\Bigr),
+\]
+which is~\eqref{eq:g-lower}. The case $g'(0) \ge 0$ is even easier:
+$g$ is non-decreasing on $[0, \alpha_0)$ by~\eqref{eq:diff-ineq}, so
+$g(t) \ge g(0)$ on this interval.
+\end{proof}
+
+Specializing $\mu = \gamma$ and $f = \abs{1+rG}^2 - 1$ for $G \in
+\mathcal{F}^2(\C)$ and $r > 0$, the bound \eqref{eq:g-lower} gives a
+quantitative coercive control of the family
+$s \mapsto \int_{\C} f^2\,(1+sf)^{-3/2}\,\dd\gamma$
+in terms of its initial value $\int f^2\,\dd\gamma =
+\norm{\,\abs{1+rG}^2 - 1\,}_{L^2(\dd\gamma)}^2$, complementing the
+$L^2$-stability provided by Theorem~\ref{thm:squaring}.

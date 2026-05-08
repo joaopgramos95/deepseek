@@ -1,0 +1,255 @@
+% Draft subsection: proof of Theorem~\ref{thm:FNTLogSob} (Frank--Nicola--Tilli)
+% from Theorem~\ref{main:local} and \cite[Cor.~1.2]{DolbeaultEstebanFigalliFrankLoss2025}.
+% Notation matches spr-hermite.tex (Fock measure \dd\gamma = (1/\pi)\ee^{-\abs{z}^2}\dd m,
+% Fock norm \norm{\cdot}_{\mathcal{F}}, etc.).
+%
+% Suggested placement: as a new subsection at the end of Section~\ref{sec:strategy}'s
+% parent, e.g.\ between \subsection{Generalizations of Theorem \ref{main:local}}
+% and \section{Discussions on the Lean verification}.
+
+\subsection{Proof of Theorem~\ref{thm:FNTLogSob}}\label{subsec:FNTproof}
+
+We now show that Theorem~\ref{thm:FNTLogSob} follows directly from
+Theorem~\ref{main:local} together with
+\cite[Corollary~1.2]{DolbeaultEstebanFigalliFrankLoss2025}.  The argument
+has three ingredients: a Cauchy--Riemann sharpening of Kato's inequality
+which converts the log-Sobolev deficit for entire functions into a Gaussian
+log-Sobolev deficit for the modulus~$\abs{F}$; the dimension-free
+quantitative Gaussian log-Sobolev inequality of
+Dolbeault--Esteban--Figalli--Frank--Loss; and a covariance property of the
+Fock norm under Bargmann shifts which transfers the local stability at
+$\mathbf{1}$ provided by Theorem~\ref{main:local} to local stability at every
+coherent state.
+\medskip
+
+\noindent\textbf{Coherent states and the Bargmann shift.}\;
+For $\beta \in \C$, let
+\[
+G_\beta(z) \;:=\; \ee^{\beta z - \abs{\beta}^2/2},
+\qquad z \in \C.
+\]
+Then $G_\beta \in \mathcal{F}^2(\C)$ with $\norm{G_\beta}_{\mathcal{F}} = 1$,
+and $\abs{G_\beta(z)}
+= \ee^{\operatorname{Re}(\beta z) - \abs{\beta}^2/2}$.
+Define the \emph{Bargmann shift}
+$W_\beta : \mathcal{F}^2(\C) \to \mathcal{F}^2(\C)$ by
+\[
+(W_\beta H)(z)
+\;:=\; \ee^{\beta z - \abs{\beta}^2/2}\, H(z - \overline{\beta}),
+\qquad H \in \mathcal{F}^2(\C).
+\]
+A change of variable $w = z - \overline{\beta}$ in the Fock norm of $W_\beta H$,
+together with the identity
+$\abs{z}^2 = \abs{w}^2 + 2\operatorname{Re}(\beta w) + \abs{\beta}^2$,
+shows that the weight
+$\ee^{2 \operatorname{Re}(\beta z) - \abs{\beta}^2 - \abs{z}^2}$
+becomes $\ee^{-\abs{w}^2}$, hence
+$\norm{W_\beta H}_{\mathcal{F}} = \norm{H}_{\mathcal{F}}$.  A direct
+computation yields $W_\beta W_{-\beta} = I = W_{-\beta} W_\beta$, so $W_\beta$
+is unitary on $\mathcal{F}^2(\C)$ with $W_\beta^{-1} = W_{-\beta}$.
+Note also that $W_\beta\, \mathbf{1} = G_\beta$ and
+$W_{-\beta}\, G_\beta = \mathbf{1}$.
+
+\medskip
+\noindent\textbf{Covariance of the modulus.}\;
+We claim that for every $F \in \mathcal{F}^2(\C)$ and every
+$\beta \in \C$,
+\begin{equation}\label{eq:fnt-covariance}
+\norm{\, \abs{W_{-\beta} F} - 1 \,}_{\mathcal{F}}
+\;=\;
+\norm{\, \abs{F} - \abs{G_\beta} \,}_{\mathcal{F}}.
+\end{equation}
+Since $W_{-\beta}$ is unitary on $\mathcal{F}^2(\C)$ and
+$\norm{\mathbf{1}}_{\mathcal{F}} = \norm{G_\beta}_{\mathcal{F}} = 1$,
+expanding both squared norms reduces \eqref{eq:fnt-covariance} to the identity
+\[
+\bigl\langle\, \abs{W_{-\beta} F},\, \mathbf{1} \,\bigr\rangle_{\mathcal{F}}
+\;=\;
+\bigl\langle\, \abs{F},\, \abs{G_\beta} \,\bigr\rangle_{\mathcal{F}}.
+\]
+This identity follows from a direct change of variable.  Writing
+$\abs{W_{-\beta} F(z)}
+= \ee^{-\operatorname{Re}(\beta z) - \abs{\beta}^2/2}\,
+\abs{F(z + \overline{\beta})}$ and substituting $w = z + \overline{\beta}$
+(so that $\abs{z}^2 = \abs{w}^2 - 2\operatorname{Re}(\beta w) + \abs{\beta}^2$),
+the exponent
+$-\operatorname{Re}(\beta z) - \abs{\beta}^2/2 - \abs{z}^2$
+becomes $\operatorname{Re}(\beta w) - \abs{\beta}^2/2 - \abs{w}^2
+= \log \abs{G_\beta(w)} - \abs{w}^2$, so
+\[
+\begin{aligned}
+\frac{1}{\pi}\int_{\C} \abs{W_{-\beta} F(z)}\,
+\ee^{-\abs{z}^2}\,\dd m(z)
+&=
+\frac{1}{\pi}\int_{\C} \abs{F(w)}\,
+\abs{G_\beta(w)}\, \ee^{-\abs{w}^2}\,\dd m(w)
+\\
+&=
+\bigl\langle\, \abs{F},\, \abs{G_\beta} \,\bigr\rangle_{\mathcal{F}}.
+\end{aligned}
+\]
+
+\begin{proof}[Proof of Theorem~\ref{thm:FNTLogSob}]
+Let $F \in \mathcal{F}^2(\C)$ with $\norm{F}_{\mathcal{F}} = 1$.
+We may assume $\norm{F'}_{\mathcal{F}} < \infty$, since otherwise the
+left-hand side of Theorem~\ref{thm:FNTLogSob} is infinite and there is nothing
+to prove.
+\medskip
+
+\noindent
+\emph{Step 1: A Cauchy--Riemann sharpening of Kato.}\;
+Identifying $\C$ with $\mathbb{R}^2$, the Cauchy--Riemann equations
+give $\abs{\nabla F}^2 = 2 \abs{F'}^2$.  We claim that for
+entire $F$,
+\begin{equation}\label{eq:fnt-nabla-mod}
+\abs{\nabla \abs{F}}^2
+\;=\; \abs{F'}^2 \qquad \text{a.e. on } \C.
+\end{equation}
+Write $F = u + \ii v$ with $u, v$ real-valued and apply the Cauchy--Riemann
+equations $u_{x_1} = v_{x_2}$, $u_{x_2} = -v_{x_1}$.  On $\{F \neq 0\}$,
+$\nabla \abs{F} = (u \nabla u + v \nabla v) / \abs{F}$, and a
+short computation gives
+\[
+(u u_{x_1} + v v_{x_1})^2
++ (u u_{x_2} + v v_{x_2})^2
+\;=\; (u^2 + v^2)\, (u_{x_1}^2 + v_{x_1}^2),
+\]
+so that
+$\abs{\nabla \abs{F}}^2
+= u_{x_1}^2 + v_{x_1}^2 = \abs{F'}^2$.
+The zero set of a non-trivial entire function has measure zero, so
+\eqref{eq:fnt-nabla-mod} holds a.e.\ on~$\C$.  In particular,
+$\abs{F} \in H^1(\gamma)$ with
+\begin{equation}\label{eq:fnt-mod-energy}
+\int_{\C} \abs{\nabla \abs{F}}^2\, \dd\gamma
+\;=\; \norm{F'}_{\mathcal{F}}^2.
+\end{equation}
+
+\medskip
+\noindent
+\emph{Step 2: Application of \cite[Corollary~1.2]{DolbeaultEstebanFigalliFrankLoss2025}.}\;
+Let $\beta_\star > 0$ be the absolute constant of
+\cite[Theorem~1.1]{DolbeaultEstebanFigalliFrankLoss2025}.  With $N = 2$ and the
+Gaussian measure $\dd\widetilde{\gamma}(x) = \ee^{-\pi \abs{x}^2}\,\dd x$
+on $\mathbb{R}^2$,
+\cite[Corollary~1.2]{DolbeaultEstebanFigalliFrankLoss2025} states that for
+every $u \in H^1(\widetilde{\gamma})$,
+\begin{equation}\label{eq:DEFFL}
+\int_{\mathbb{R}^2} \abs{\nabla u}^2\, \dd\widetilde{\gamma}
+\,-\, \pi \int_{\mathbb{R}^2} u^2\, \ln\!\biggl(\frac{u^2}{\norm{u}_{L^2(\widetilde{\gamma})}^2}\biggr) \dd\widetilde{\gamma}
+\;\ge\;
+\frac{\beta_\star\, \pi}{2}
+\inf_{b \in \mathbb{R}^2,\, a \in \mathbb{R}}
+\int_{\mathbb{R}^2} \bigl(u - a\, \ee^{b\cdot x}\bigr)^2\, \dd\widetilde{\gamma}.
+\end{equation}
+Identify $\mathbb{R}^2$ with $\C$ via
+$x = (x_1, x_2) \leftrightarrow z = x_1 + \ii x_2$ and apply
+\eqref{eq:DEFFL} to $u(x) := \abs{F}(\sqrt{\pi}\, x)$.  The change of
+variables $z = \sqrt{\pi}\, x$ sends $\widetilde{\gamma}$ to $\gamma$, since
+$\dd x = \dd m(z) / \pi$ and
+$\ee^{-\pi \abs{x}^2} = \ee^{-\abs{z}^2}$.  Tracking
+each term, and using \eqref{eq:fnt-mod-energy} for the gradient contribution,
+\[
+\norm{u}_{L^2(\widetilde{\gamma})}
+\;=\; \norm{F}_{\mathcal{F}} \;=\; 1,
+\qquad
+\int_{\mathbb{R}^2} \abs{\nabla u}^2\, \dd\widetilde{\gamma}
+\;=\; \pi \int_{\C} \abs{\nabla \abs{F}}^2\, \dd\gamma
+\;=\; \pi\, \norm{F'}_{\mathcal{F}}^2,
+\]
+\[
+\pi \int_{\mathbb{R}^2} u^2 \ln u^2\, \dd\widetilde{\gamma}
+\;=\; \pi \int_{\C} \abs{F}^2 \ln \abs{F}^2\, \dd\gamma.
+\]
+For the deficit term on the right of \eqref{eq:DEFFL}, write
+$b = (b_1, b_2) \in \mathbb{R}^2$ and set
+$\beta := (b_1 - \ii b_2) / \sqrt{\pi} \in \C$, so that
+$b\cdot x = \operatorname{Re}(\beta z)$ and the map $b \mapsto \beta$ is a
+bijection $\mathbb{R}^2 \to \C$.  Then
+\[
+\int_{\mathbb{R}^2} \bigl(u - a\, \ee^{b\cdot x}\bigr)^2\, \dd\widetilde{\gamma}
+\;=\;
+\int_{\C} \bigl(\abs{F(z)} - a\, \ee^{\operatorname{Re}(\beta z)}\bigr)^2\, \dd\gamma(z).
+\]
+Substituting all of the above into \eqref{eq:DEFFL} and dividing by~$\pi$,
+\begin{equation}\label{eq:fnt-DEFFL-applied}
+\norm{F'}_{\mathcal{F}}^2
+\,-\, \int_{\C} \abs{F}^2 \ln \abs{F}^2\, \dd\gamma
+\;\ge\;
+\frac{\beta_\star}{2}
+\inf_{\beta \in \C,\, a \in \mathbb{R}}
+\norm{\, \abs{F} - a\, \ee^{\operatorname{Re}(\beta\,\cdot\,)} \,}_{\mathcal{F}}^2.
+\end{equation}
+
+\medskip
+\noindent
+\emph{Step 3: From the modulus deficit to the orbit distance.}\;
+Since $\ee^{\operatorname{Re}(\beta z)}
+= \ee^{\abs{\beta}^2/2}\, \abs{G_\beta(z)}$ and
+$\ee^{\abs{\beta}^2/2} \in (0, \infty)$, the substitution
+$a \mapsto a\, \ee^{\abs{\beta}^2/2}$ shows
+\[
+\inf_{\beta \in \C,\, a \in \mathbb{R}}
+\norm{\, \abs{F} - a\, \ee^{\operatorname{Re}(\beta\,\cdot\,)} \,}_{\mathcal{F}}^2
+\;=\;
+\inf_{\beta \in \C,\, a \in \mathbb{R}}
+\norm{\, \abs{F} - a\, \abs{G_\beta} \,}_{\mathcal{F}}^2.
+\]
+For fixed $\beta \in \C$, set $t_\beta := \langle \abs{F},\, \abs{G_\beta} \rangle_{\mathcal{F}}$.
+By Cauchy--Schwarz, $t_\beta \in [0, 1]$, and the optimal $a \in \mathbb{R}$ is
+$a = t_\beta$, with minimum value $1 - t_\beta^2$.  Since
+$\norm{\, \abs{F} - \abs{G_\beta} \,}_{\mathcal{F}}^2 = 2(1 - t_\beta)$
+and
+$1 - t_\beta^2 = (1 - t_\beta)(1 + t_\beta) \ge \tfrac{1}{2}\cdot 2(1 - t_\beta)$,
+we obtain
+\begin{equation}\label{eq:fnt-c-opt}
+\inf_{\beta \in \C,\, a \in \mathbb{R}}
+\norm{\, \abs{F} - a\, \abs{G_\beta} \,}_{\mathcal{F}}^2
+\;\ge\;
+\tfrac{1}{2}\, \inf_{\beta \in \C}
+\norm{\, \abs{F} - \abs{G_\beta} \,}_{\mathcal{F}}^2.
+\end{equation}
+
+\medskip
+\noindent
+\emph{Step 4: Application of Theorem~\ref{main:local}.}\;
+Fix any $\beta \in \C$ and set $H := W_{-\beta} F \in \mathcal{F}^2(\C)$.
+By \eqref{eq:fnt-covariance},
+$\norm{\, \abs{H} - 1 \,}_{\mathcal{F}}
+= \norm{\, \abs{F} - \abs{G_\beta} \,}_{\mathcal{F}}$.
+By unitarity of $W_{-\beta}$ and $W_{-\beta} G_\beta = \mathbf{1}$,
+\[
+\norm{H - c}_{\mathcal{F}}
+\;=\; \norm{W_{-\beta}(F - c G_\beta)}_{\mathcal{F}}
+\;=\; \norm{F - c G_\beta}_{\mathcal{F}}
+\qquad \text{for every } c \in \C.
+\]
+Theorem~\ref{main:local} applied to $H$ therefore yields
+\[
+\inf_{\abs{c}=1} \norm{F - c G_\beta}_{\mathcal{F}}
+\;\le\; M\, \norm{\, \abs{F} - \abs{G_\beta} \,}_{\mathcal{F}}.
+\]
+Squaring and taking the infimum over $\beta \in \C$,
+\begin{equation}\label{eq:fnt-mainlocal}
+\inf_{\substack{\beta \in \C \\ \abs{c}=1}}
+\norm{F - c G_\beta}_{\mathcal{F}}^2
+\;\le\;
+M^2\, \inf_{\beta \in \C}
+\norm{\, \abs{F} - \abs{G_\beta} \,}_{\mathcal{F}}^2.
+\end{equation}
+
+\medskip
+\noindent
+\emph{Conclusion.}\;
+Chaining \eqref{eq:fnt-DEFFL-applied}, \eqref{eq:fnt-c-opt} and
+\eqref{eq:fnt-mainlocal},
+\[
+\norm{F'}_{\mathcal{F}}^2
+\,-\, \int_{\C} \abs{F}^2 \ln \abs{F}^2\, \dd\gamma
+\;\ge\;
+\frac{\beta_\star}{4 M^2}
+\inf_{\substack{\beta \in \C \\ \abs{c}=1}}
+\norm{\, F - c\, \ee^{\beta z - \abs{\beta}^2/2} \,}_{\mathcal{F}}^2.
+\]
+This is Theorem~\ref{thm:FNTLogSob} with $c_\ast = \beta_\star/(4 M^2)$.
+\end{proof}
