@@ -22,6 +22,11 @@ Main files:
   Schauder proof was invalid, gives the correct fixed-domain formulation, and
   states the conditional spectral closure that would follow from the missing
   tame \(C^{2,\gamma}\times L^2\) boundary-gradient remainder.
+- `faber-krahn-transfer.md/.tex/.pdf`: applies the Kohler--Jobin inequality
+  to convert the sharp Saint--Venant stability into sharp Faber--Krahn
+  stability \(\lambda_1(\Omega)-\lambda_1(B^*)\ge c_{\rm FK}(N,R)\mathcal A(\Omega)^2\),
+  matching BDV's Theorem 1.1. Tracks the dependence of \(c_{\rm FK}\) on the
+  selection, graph-entry, and spectral-closure constants.
 - `fixed-domain-bernoulli-expansion.md/.tex/.pdf`: closes the gap. Proves the
   Bernoulli expansion entirely on \(B_1\) by applying the implicit function
   theorem to the pulled-back torsion equation. The first variation

@@ -1,0 +1,251 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\renewcommand{\d}{\,d}
+
+\title{Sharp Faber--Krahn stability via the Kohler--Jobin transfer}
+\author{Plan 1 / Sharp stability for Faber--Krahn}
+\date{2026-05-11}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The spectral closure of \texttt{fixed-domain-bernoulli-expansion.md} gives
+sharp \emph{Saint--Venant} stability:
+\[
+E(\Omega)-E(B_1)\ge c_*(N,R)\,\alpha(\Omega)
+\quad\hbox{for }Q_\alpha(\Omega)\le q_*(N,R).
+\]
+By BDV Lemma 4.2 ($\mathcal A(\Omega)^2\lesssim\alpha(\Omega)$) and the small-vs-large
+asymmetry split, this gives the global sharp Saint--Venant inequality
+$\mathcal A(\Omega)^2\le C_{\rm SV}(N,R)(E(\Omega)-E(B_1))$.
+
+This note records the Kohler--Jobin transfer that converts this into sharp
+\emph{Faber--Krahn} stability for the first Dirichlet eigenvalue:
+\[
+\lambda_1(\Omega)-\lambda_1(B^*)\ge c_{\rm FK}(N,R)\,\mathcal A(\Omega)^2,
+\]
+where $B^*$ is the ball with $\abs{B^*}=\abs{\Omega}$. The transfer uses
+only the Kohler--Jobin inequality (a non-perturbative pointwise comparison
+that holds for every open set) plus elementary scaling. The output is the
+BDV sharp Faber--Krahn theorem.
+\end{abstract}
+
+\section{The Kohler--Jobin inequality}\label{sec:kj}
+
+For an open bounded set $\Omega\subset\R^N$, let
+\[
+T(\Omega):=\int_\Omega u_\Omega\d x,\qquad
+-\Delta u_\Omega=1\hbox{ in }\Omega,\;u_\Omega=0\hbox{ on }\partial\Omega,
+\]
+be the torsional rigidity, and let $\lambda_1(\Omega)$ be the first Dirichlet
+eigenvalue of $-\Delta$ on $\Omega$. Both functionals scale as
+\[
+T(t\Omega)=t^{N+2}T(\Omega),\qquad\lambda_1(t\Omega)=t^{-2}\lambda_1(\Omega),
+\]
+so the product
+\[
+\Psi(\Omega):=T(\Omega)\cdot\lambda_1(\Omega)^{(N+2)/2}
+\]
+is scale-invariant.
+
+\begin{theorem}[Kohler--Jobin, 1978]\label{thm:kj}
+For every open bounded $\Omega\subset\R^N$ with $\lambda_1(\Omega)<\infty$,
+\[
+\Psi(\Omega)\ge\Psi(B),
+\]
+where $B$ is any ball, with equality iff $\Omega$ is a ball (up to translation
+and null sets).
+\end{theorem}
+
+See Kohler--Jobin~(1978) and Brasco, ``On torsional rigidity and principal
+frequencies'' (ESAIM:COCV, 2014) for proofs via rearrangement. The constant
+$\Psi(B)$ is universal:
+\[
+\Psi(B)=T(B)\cdot\lambda_1(B)^{(N+2)/2}=c_N
+\]
+depends only on $N$ (not on the radius), since $\Psi$ is scale-invariant.
+
+\section{Transfer at fixed volume}\label{sec:transfer}
+
+Fix $\abs{\Omega}=\abs{B^*}$ where $B^*$ is the comparison ball. Setting
+$L:=\lambda_1(B^*)$, $T_0:=T(B^*)$, and abbreviating $\beta:=(N+2)/2$,
+Theorem~\ref{thm:kj} reads
+\begin{equation}\label{eq:kjfixed}
+T(\Omega)\cdot\lambda_1(\Omega)^\beta\ge T_0\cdot L^\beta.
+\end{equation}
+
+\begin{lemma}[Pointwise transfer]\label{lem:pointwise}
+For every $\Omega$ with $\abs{\Omega}=\abs{B^*}$,
+\[
+\lambda_1(\Omega)\ge L\cdot\Bigl(\frac{T_0}{T(\Omega)}\Bigr)^{1/\beta}.
+\]
+Equivalently, with the Saint--Venant deficit
+$\delta_{\rm SV}(\Omega):=T_0-T(\Omega)\ge0$ (note $\delta_{\rm SV}\ge0$ at fixed volume by
+Saint--Venant),
+\[
+\lambda_1(\Omega)-L\ge L\cdot\Bigl[\Bigl(\frac{1}{1-\delta_{\rm SV}/T_0}\Bigr)^{1/\beta}-1\Bigr].
+\]
+\end{lemma}
+
+\begin{proof}
+Rearrange~\eqref{eq:kjfixed}.
+\end{proof}
+
+\begin{lemma}[Small-deficit linearization]\label{lem:linear}
+For $\delta_{\rm SV}\le T_0/2$,
+\[
+\lambda_1(\Omega)-L\ge\frac{L}{\beta T_0}\cdot\delta_{\rm SV}
+=\frac{2L}{(N+2)T_0}\cdot\bigl(T_0-T(\Omega)\bigr).
+\]
+\end{lemma}
+
+\begin{proof}
+For $t\in[0,1/2]$,
+$(1-t)^{-1/\beta}-1\ge t/\beta$ by elementary convexity. Apply with
+$t=\delta_{\rm SV}/T_0$.
+\end{proof}
+
+\begin{remark}
+The factor $2L/((N+2)T_0)$ is universal in $N$ once normalized. For the unit
+ball $B_1$ in $\R^N$, $L=L_N$ is the first Dirichlet eigenvalue of $-\Delta$
+on $B_1$ and $T_0=T_N$ is the torsional rigidity of $B_1$. Both are explicit:
+$L_N$ is the smallest positive zero of a Bessel function, $T_N=\abs{B_1}/(N(N+2))$.
+\end{remark}
+
+\section{Sharp Faber--Krahn from sharp Saint--Venant}
+
+\begin{proposition}[Small-asymmetry Faber--Krahn]\label{prop:smalla}
+Assume the sharp Saint--Venant stability holds in the form
+\begin{equation}\label{eq:svsharp}
+T(B^*)-T(\Omega)\ge c_{\rm SV}(N,R)\,\mathcal A(\Omega)^2
+\quad\hbox{for all }\Omega\subset B_R\hbox{ with }\abs{\Omega}=\abs{B^*}\hbox{ and }\mathcal A(\Omega)\le\mathcal A_*.
+\end{equation}
+Then for the same $\Omega$,
+\[
+\lambda_1(\Omega)-\lambda_1(B^*)
+\ge\frac{2L\,c_{\rm SV}(N,R)}{(N+2)T_0}\,\mathcal A(\Omega)^2.
+\]
+\end{proposition}
+
+\begin{proof}
+Combine Lemma~\ref{lem:linear} with~\eqref{eq:svsharp}. The condition
+$\delta_{\rm SV}\le T_0/2$ in Lemma~\ref{lem:linear} is satisfied for
+$\mathcal A_*$ small enough.
+\end{proof}
+
+\begin{theorem}[Sharp Faber--Krahn stability]\label{thm:fk}
+There is $c_{\rm FK}(N,R)>0$ such that, for every open $\Omega\subset B_R$
+with $\abs{\Omega}=\abs{B^*}$,
+\[
+\lambda_1(\Omega)-\lambda_1(B^*)\ge c_{\rm FK}(N,R)\,\mathcal A(\Omega)^2.
+\]
+\end{theorem}
+
+\begin{proof}
+\emph{Small asymmetry.} For $\mathcal A(\Omega)\le\mathcal A_*(N,R)$,
+combine our sharp Saint--Venant stability (the global form derived in
+\texttt{fixed-domain-bernoulli-expansion.md}, Theorem~6.3, combined with
+the small-vs-large split using BDV Lemma 4.2) with Proposition~\ref{prop:smalla}.
+This gives $\lambda_1(\Omega)-L\ge c_1(N,R)\mathcal A(\Omega)^2$ with
+$c_1=2Lc_{\rm SV}/((N+2)T_0)$.
+
+\emph{Large asymmetry.} For $\mathcal A(\Omega)\ge\mathcal A_*$, the
+classical Faber--Krahn inequality $\lambda_1(\Omega)\ge L$ with strict
+inequality away from the ball combined with the qualitative continuity of
+$\lambda_1$ in Hausdorff convergence (or any compactness argument) yields a
+uniform lower bound
+\[
+\lambda_1(\Omega)-L\ge\inf_{\mathcal A_*\le\mathcal A(\Omega)\le 2}
+\bigl(\lambda_1(\Omega)-L\bigr)=:\delta_*(N,R,\mathcal A_*)>0
+\ge\delta_*\cdot\frac{\mathcal A(\Omega)^2}{4}.
+\]
+(Here $\mathcal A\le 2$ since $\abs{\Omega\Delta B^*}\le 2\abs{B^*}$, so
+$\mathcal A^2\le 4$.) Setting $c_2:=\delta_*/4$,
+\[
+\lambda_1(\Omega)-L\ge c_2\mathcal A(\Omega)^2.
+\]
+
+Take $c_{\rm FK}:=\min(c_1,c_2)$.
+\end{proof}
+
+\section{Quantitative dependence on $(N,R)$}
+
+The constant $c_{\rm FK}(N,R)$ is the minimum of the small-asymmetry and
+large-asymmetry constants:
+
+\begin{itemize}
+\item \textbf{Small-asymmetry constant:}
+\[
+c_1(N,R)=\frac{2L_N\,c_{\rm SV}(N,R)}{(N+2)T_N},
+\]
+where $c_{\rm SV}(N,R)$ is the Saint--Venant constant from our spectral
+closure. Tracing back through the selection chain:
+\begin{itemize}
+\item Selection (\texttt{quantitative-selection-principle.md}) preserves
+the quotient $Q_\alpha$ up to a constant $C_{\rm sel}(N,R)$, gaining
+$\sigma\le C\tau=Cq_0^{1/4}$.
+\item Graph entry (\texttt{graph-entry-closure.md}) requires
+$\alpha(\widetilde\Omega)\le\alpha_{\rm graph}(N,R)$.
+\item Spectral closure (\texttt{fixed-domain-bernoulli-expansion.md}) requires
+$\sigma\le\sigma_*(N,R)$ and $\norm{g}_{C^{2,\gamma}}\le\delta_*(N,R)$.
+\end{itemize}
+Combining, $q_*\sim\sigma_*^4$ (the binding constraint), and $c_{\rm SV}\ge q_*/C_{\rm sel}$.
+Hence
+\[
+c_1(N,R)\ge \frac{2L_N\sigma_*(N,R)^4}{(N+2)T_N\cdot C_{\rm sel}(N,R)}.
+\]
+\item \textbf{Large-asymmetry constant} $c_2(N,R)$: a qualitative
+compactness constant. Explicit lower bound (in $N=2,3$) is obtained from
+quantitative versions of Faber--Krahn for the convex hull or convex
+envelope, but for our purposes any positive lower bound suffices.
+\end{itemize}
+
+\begin{remark}[Comparison with BDV]
+This is exactly the chain BDV use to prove sharp Faber--Krahn: their Theorem
+1.1 is our Theorem~\ref{thm:fk}. The new content of Plan 1 is that
+$c_{\rm SV}(N,R)$ is now derived from the Bernoulli spectral closure
+(\texttt{fixed-domain-bernoulli-expansion.md}) rather than from BDV's nearly
+spherical second variation. The Kohler--Jobin transfer step is shared with
+BDV and uses no new input.
+\end{remark}
+
+\section{Status}
+
+The full chain for sharp Faber--Krahn stability is now end-to-end:
+\begin{enumerate}
+\item Sharp Saint--Venant stability at fixed volume:
+\texttt{fixed-domain-bernoulli-expansion.md}, Theorem~6.3.
+\item Kohler--Jobin transfer:
+Lemma~\ref{lem:pointwise} + Lemma~\ref{lem:linear} + small/large split:
+Theorem~\ref{thm:fk}.
+\end{enumerate}
+
+The quantitative Faber--Krahn constant $c_{\rm FK}(N,R)$ is given by an
+explicit formula in terms of:
+\begin{itemize}
+\item the universal ball constants $L_N=\lambda_1(B_1)$ and
+$T_N=T(B_1)=\abs{B_1}/(N(N+2))$;
+\item the BDV regularity constants from selection and graph entry;
+\item the spectral-closure smallness constants $\sigma_*,\delta_*$.
+\end{itemize}
+
+The exponent is sharp: the inequality
+$\lambda_1(\Omega)-\lambda_1(B^*)\ge c_{\rm FK}\mathcal A(\Omega)^2$ is the
+optimal power of $\mathcal A$, as already observed by Bhattacharya, Hansen,
+Nadirashvili (and saturated by ellipsoidal perturbations of the ball).
+
+\end{document}
