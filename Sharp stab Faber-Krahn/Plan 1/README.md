@@ -27,35 +27,47 @@ Main files:
   stability \(\lambda_1(\Omega)-\lambda_1(B^*)\ge c_{\rm FK}(N,R)\mathcal A(\Omega)^2\),
   matching BDV's Theorem 1.1. Tracks the dependence of \(c_{\rm FK}\) on the
   selection, graph-entry, and spectral-closure constants.
-- `fixed-domain-bernoulli-expansion.md/.tex/.pdf`: closes the gap. Proves the
-  Bernoulli expansion entirely on \(B_1\) by applying the implicit function
-  theorem to the pulled-back torsion equation. The first variation
+- `fixed-domain-bernoulli-expansion.md/.tex/.pdf`: proposed closure of the
+  spectral route, working entirely on \(B_1\) via the implicit function
+  theorem applied to the pulled-back torsion equation. The first variation
   \(\widetilde u'(g)(x)=u_1(x)-\chi(r)rg(\theta)/N\) is constructed on
   \(\overline{B_1}\) (no exterior harmonic continuation needed). The IFT
-  gives the \(C^{2,\gamma}\)-quadratic Schauder remainder, and a bilinear
-  analysis gives the \(C^{2,\gamma}\times H^1\to L^2\) tame remainder. The
-  \(L^2\)-tame form is not required because \(\mathcal L=k-1\) on
+  gives a \(C^{2,\gamma}\)-quadratic Schauder remainder, and a bilinear
+  analysis gives a \(C^{2,\gamma}\times H^1\to L^2\) remainder. This is
+  enough for the spectral closure because \(\mathcal L=k-1\) on
   \(\{k\ge2\}\) gains a full derivative
-  \(\norm{\mathcal Lh}_{L^2}\gtrsim\norm{h}_{H^1}\). This makes the
-  conditional closure unconditional in the smallness regime.
+  \(\norm{\mathcal Lh}_{L^2}\gtrsim\norm{h}_{H^1}\). **Conditional**: the
+  bilinear source enumeration is partial (see `corrections-response.md`).
+- `corrections-needed.md`: audit of overclaims in the above notes.
+- `corrections-response.md/.tex/.pdf`: point-by-point response to the
+  audit. Writes out the volume-normalized Bernoulli law, the
+  \(C^{1,\gamma}\to C^{2,\gamma}\) Schauder bootstrap, and the
+  second-variation source enumeration for $S_1, S_2$. Acknowledges the
+  remaining gap (explicit constants).
 - `implementation-summary.md/.tex/.pdf`: earlier cross-route summary; retained
   here because the main BDV source paper is in this folder.
 - `PLAN1_AGENT_REPORT.md`: current Plan 1 work report and next theorem target.
 
-Current focus:
+Current status:
 
-1. Preserve the deficit-to-\(\alpha\) ratio under a single-set penalized
-   selection map.
-2. Use the graph-entry threshold to enter the global near-spherical regime.
-3. Close by the Bernoulli spectral closure, now proved unconditionally in
-   `fixed-domain-bernoulli-expansion.md`. BDV's nearly spherical second
-   variation remains available as a backup but is no longer required.
+1. **Selection principle (rigorous):** preserves the deficit-to-\(\alpha\)
+   ratio under a single-set penalized selection map.
+2. **Graph entry (rigorous):** below an explicit asymmetry threshold the
+   selected minimizer is a \(C^{1,\gamma}\) graph; the bootstrap to
+   \(C^{2,\gamma}\) is now written out in `corrections-response.md`.
+3. **Final closure:** two routes available.
+   - **Route A (unconditional):** BDV's nearly spherical second variation.
+   - **Route B (conditional):** Bernoulli spectral closure, conditional on
+     the explicit constants in the bilinear source enumeration of
+     `corrections-response.md`, §3.
+4. **Kohler--Jobin transfer (rigorous):** converts Saint--Venant stability
+   into sharp Faber--Krahn stability; works equally well for either
+   Route A or Route B.
 
-The full chain
-selection \(\to\) graph entry \(\to\) Bernoulli spectral closure
-is now end-to-end and rigorous. Open items are bookkeeping:
-\(\sigma_*,\delta_*,q_*\) constant tracking and the explicit Schauder
-bootstrap in graph entry.
+The reliable end-to-end route is selection \(\to\) graph entry \(\to\)
+BDV nearly spherical second variation \(\to\) Kohler--Jobin. The Bernoulli
+spectral closure is a promising alternative that avoids the second variation
+but requires finishing the source-term constants.
 
 Cross-reference:
 

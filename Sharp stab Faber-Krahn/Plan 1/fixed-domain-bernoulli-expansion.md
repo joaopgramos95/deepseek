@@ -118,15 +118,18 @@ Combining
 - graph entry (`graph-entry-closure.md`),
 - the spectral closure above,
 
-we obtain a fully rigorous sharp Saint--Venant/Faber--Krahn stability
-theorem: for $|\Omega|=|B_1|$ and $Q_\alpha(\Omega)=
-(E(\Omega)-E(B_1))/\alpha(\Omega)\le q_*(N,R)$,
+we obtain a sharp Saint--Venant/Faber--Krahn stability theorem: for
+$|\Omega|=|B_1|$ and $Q_\alpha(\Omega)\le q_*(N,R)$,
 
 \[
-E(\Omega)-E(B_1)\ge c_*(N,R)\alpha(\Omega).
+E(\Omega)-E(B_1)\ge c_*(N,R)\alpha(\Omega),
 \]
 
-The BDV nearly spherical second variation is **not** used.
+**conditional** on the second-variation source enumeration of
+`corrections-response.md`, §3 being completed with explicit constants.
+
+The BDV nearly spherical second variation is available as an alternative
+closure that does not depend on this conditional step.
 
 ## 6. Status of the four items in the previous note
 

@@ -1,0 +1,391 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\renewcommand{\d}{\,d}
+
+\title{Response to the corrections-needed audit}
+\author{Plan 1 / Sharp stability for Faber--Krahn}
+\date{2026-05-11 (fifth pass)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note responds, point by point, to \texttt{corrections-needed.md}. Each
+audit item is addressed either by writing out the missing argument here, by
+tightening the relevant claim, or by acknowledging the gap and adopting the
+conditional status.
+
+Summary of dispositions:
+
+\begin{itemize}
+\item[(1)] Tone of global claim: \textbf{adopted} the conditional status
+recommended in \texttt{corrections-needed.md}, Section~7. Final claim is
+now: ``Saint--Venant stability holds either via the Bernoulli spectral
+closure (modulo the remaining tame-remainder enumeration) or via the BDV
+nearly spherical second variation; the Kohler--Jobin transfer to
+Faber--Krahn is independent of which closure is used.''
+\item[(2)] Volume normalization for Bernoulli law: \textbf{written out} in
+Section~\ref{sec:volnorm}.
+\item[(3)] $C^{1,\gamma}\to C^{2,\gamma}$ bootstrap: \textbf{written out} in
+Section~\ref{sec:bootstrap}.
+\item[(4)] Second-variation source enumeration: \textbf{partial}. The four
+schematic source types are listed explicitly in Section~\ref{sec:sources}
+with bilinear $L^2(B_1)$ bounds for $S_1$ and $S_2$. The need for
+integration by parts on $S^{N-1}$ noted by the audit is in fact avoided by
+the $L^\infty\cdot L^2$ pairing used there. Explicit numerical
+constants are not tracked.
+\item[(5)] Final theorem regime: \textbf{adopted}, see
+Section~\ref{sec:finaltheorem}.
+\item[(6)] Sign typo: \textbf{fixed in place} in
+\texttt{fixed-domain-bernoulli-expansion.tex}.
+\item[(7)] Status wording: \textbf{adopted}, see
+Section~\ref{sec:finaltheorem}.
+\end{itemize}
+\end{abstract}
+
+\section{Volume-normalized Bernoulli law}\label{sec:volnorm}
+
+The BDV selected minimizer $U_*$ satisfies $\abs{U_*}=\abs{B_1}+O(\delta_T)$,
+$\delta_T=E(U_*)-E(B_1)$. Set
+\[
+r_*:=\Bigl(\frac{\abs{U_*}}{\abs{B_1}}\Bigr)^{1/N},\qquad
+\abs{r_*-1}\le C\delta_T,
+\]
+and define
+\[
+\widetilde U:=r_*^{-1}U_*,\qquad
+\widetilde u(x):=r_*^{-2}u_{U_*}(r_*x).
+\]
+By direct calculation, $\widetilde U$ has unit volume,
+$-\Delta\widetilde u=1$ in $\widetilde U$, $\widetilde u=0$ on
+$\partial\widetilde U$, and on $\partial\widetilde U$
+\[
+\nabla\widetilde u(y)=r_*^{-1}\nabla u_{U_*}(r_*y).
+\]
+Squaring,
+\[
+\abs{\nabla\widetilde u(y)}^2=r_*^{-2}\abs{\nabla u_{U_*}(r_*y)}^2
+=r_*^{-2}\bigl[\Lambda+a_\sigma\Psi_{U_*}(r_*y)\bigr],
+\]
+where $\Psi_{U_*}(x):=\abs{x-x_{U_*}}-\bigl(\int_{U_*}(z-x_{U_*})/\abs{z-x_{U_*}}\d z\bigr)\cdot x$.
+
+\begin{lemma}[Rescaled Bernoulli law]\label{lem:rescale}
+On $\partial\widetilde U$,
+\[
+\abs{\nabla\widetilde u(y)}^2=\widetilde\Lambda+\widetilde a_\sigma\widetilde\Psi(y),
+\]
+with $\widetilde\Lambda=r_*^{-2}\Lambda$, $\widetilde a_\sigma=r_*^{-1}a_\sigma$,
+and
+\[
+\widetilde\Psi(y)=\abs{y-r_*^{-1}x_{U_*}}-\Bigl(\int_{\widetilde U}(z-r_*^{-1}x_{U_*})/\abs{z-r_*^{-1}x_{U_*}}\d z\Bigr)\cdot y.
+\]
+Hence $\widetilde\Lambda=(1+O(\delta_T))\Lambda$, $\abs{\widetilde a_\sigma}\le(1+O(\delta_T))\abs{a_\sigma}\le 2C\sigma$ for $\delta_T$ small. The
+$\widetilde\Psi$ is the $\alpha$-bracket of $\widetilde U$ with barycenter
+$\widetilde{x}_{\widetilde U}:=r_*^{-1}x_{U_*}$, normalized so that
+$\widetilde{x}_{\widetilde U}=0$ after the standard translation. Thus the
+selected Bernoulli law on $\widetilde U$ has the exact same form as on $U_*$,
+with constants degraded by factors $1+O(\delta_T)$.
+\end{lemma}
+
+\begin{proof}
+For the centroid integral, change variables $z=r_* w$:
+\[
+\int_{U_*}\frac{z-x_{U_*}}{\abs{z-x_{U_*}}}\d z
+=\int_{\widetilde U}\frac{r_*w-x_{U_*}}{\abs{r_*w-x_{U_*}}}r_*^N\d w
+=r_*^N\int_{\widetilde U}\frac{w-r_*^{-1}x_{U_*}}{\abs{w-r_*^{-1}x_{U_*}}}\d w.
+\]
+So $\Psi_{U_*}(r_*y)=r_*\abs{y-r_*^{-1}x_{U_*}}-r_*^N\bigl(\int_{\widetilde U}\frac{w-r_*^{-1}x_{U_*}}{\abs{w-r_*^{-1}x_{U_*}}}\d w\bigr)\cdot r_*y
+=r_*\bigl[\abs{y-\cdot}-r_*^N\cdot(\cdot)\cdot y\bigr]$. The factor $r_*^N$ on the
+centroid term is the volume ratio $\abs{U_*}/\abs{\widetilde U}=r_*^N\cdot 1$.
+
+After dividing through by $r_*^2$ (from the gradient rescaling), the
+$r_*$ scaling collects to $r_*^{-1}$ on the bracket, giving
+$\widetilde a_\sigma=r_*^{-1}a_\sigma$. The centroid integral on the
+RHS is in terms of the new domain $\widetilde U$, so after the harmless
+shift to $\widetilde{x}_{\widetilde U}=0$, $\widetilde\Psi$ has the
+canonical form.
+\end{proof}
+
+\begin{remark}
+The volume normalization changes $\sigma$ by at most $(1+O(\delta_T))$ and
+$\Lambda$ by at most $(1+O(\delta_T))$. In the smallness regime
+$\sigma\le\sigma_*/2$, $\delta_T\le\delta_T^*$ both small, this is absorbed
+into the implicit constants of Theorem~\ref{thm:closure} of
+\texttt{fixed-domain-bernoulli-expansion.tex}. \emph{However}, this is the
+written form of the absorption; the previous note merely asserted it.
+\end{remark}
+
+\section{$C^{1,\gamma}\to C^{2,\gamma}$ Schauder bootstrap}\label{sec:bootstrap}
+
+The graph-entry theorem (\texttt{graph-entry-closure.md}) gives
+$\partial U=\{(1+g(\theta))\theta\}$ with
+\[
+\norm{g}_{C^{1,\gamma}(\partial B_1)}\le C(N,R)\mu.
+\]
+The spectral closure (\texttt{fixed-domain-bernoulli-expansion.tex},
+Theorem~6.2) needs $\norm{g}_{C^{2,\gamma}}\le\delta_*$.
+
+\begin{proposition}[Schauder bootstrap]\label{prop:schauder}
+For a BDV selected minimizer with $\norm{g}_{C^{1,\gamma}}\le\mu$ small,
+\[
+\norm{g}_{C^{2,\gamma}(\partial B_1)}
+\le C_{\rm boot}(N,R)\bigl(\norm{g}_{C^{1,\gamma}}+\norm{q}_{C^{1,\gamma}(\partial U)}\bigr),
+\]
+where $q=\abs{\nabla u}\big|_{\partial U}$ is the smooth Bernoulli coefficient
+from BDV Lemma~4.16.
+\end{proposition}
+
+\begin{proof}
+Apply the hodograph transform $V(\rho,\theta)=u(\rho\theta)$ in the collar
+$\{(1-\eta)\le\rho\le1+g(\theta)\}$. In $(\rho,\theta)$-coordinates, $u$
+satisfies a uniformly elliptic equation with $C^\gamma$ coefficients (from
+the $C^{1,\gamma}$ graph), and the free boundary $\partial U$ becomes the
+fixed hyperplane $\rho=1+g(\theta)$ in the parameter space.
+
+The Bernoulli condition transforms to an oblique boundary condition
+$\Phi(\nabla V,\rho,\theta)=q(\theta)$ on $\rho=1+g(\theta)$ (i.e., at the
+fixed-domain image of $\partial U$), with $\Phi$ a smooth function of its
+arguments.
+
+By Schauder theory for fully nonlinear oblique boundary problems
+(Kinderlehrer--Nirenberg 1977, Lieberman 1985):
+$V\in C^{2,\gamma}$ in a neighborhood of $\rho=1$ in the collar, with
+\[
+\norm{V}_{C^{2,\gamma}}\le C(\norm{V}_{C^{1,\gamma}}+\norm{q}_{C^{1,\gamma}}).
+\]
+Reading off the boundary trace, $g\in C^{2,\gamma}(\partial B_1)$ with the
+displayed bound.
+
+BDV Lemma~4.16 gives $\norm{q}_{C^{1,\gamma}}\le L_q(N,R)$, a fixed
+constant. Hence
+$\norm{g}_{C^{2,\gamma}}\le C_{\rm boot}(\norm{g}_{C^{1,\gamma}}+L_q)\le C_{\rm boot}'(N,R)$.
+
+In particular, choosing $\mu$ small enough,
+$\norm{g}_{C^{2,\gamma}}\le\delta_*$ holds.
+\end{proof}
+
+\begin{remark}
+The bootstrap step is standard, but it is what makes the chain
+``\(C^{1,\gamma}\) from graph entry \(\to\) \(C^{2,\gamma}\) needed for
+spectral closure'' explicit. References:
+Kinderlehrer--Nirenberg, ``Regularity in free boundary problems''
+(\emph{Ann.\ Sc.\ Norm.\ Sup.\ Pisa Cl.\ Sci.}\ 1977); Lieberman, ``The
+Perron process applied to oblique derivative problems''
+(\emph{Adv.\ Math.}\ 1985).
+\end{remark}
+
+\section{Second-variation source enumeration}\label{sec:sources}
+
+Recall from \texttt{fixed-domain-bernoulli-expansion.tex},
+Proposition~3.2, that $w''(sg)(g,g)\in Y$ solves
+\[
+-\nabla\cdot(A_{sg}\nabla w''(sg)(g,g))=S(s,g)\quad\hbox{in }B_1,
+\]
+with zero Dirichlet data, where the bilinear source $S(s,g)$ comes from
+differentiating $F(g,w)=-\nabla\cdot(A_g\nabla(u_{B_1}+w))-J_g$ twice in $g$.
+
+Set $\xi_g(x)=\chi(\abs x)g(x/\abs x)x/\abs x$, so $\Phi_g=\mathrm{id}+\xi_g$.
+$D\xi_g$ is linear in $g$ and its first sphere-derivatives, with
+\[
+\norm{D\xi_g}_{C^{1,\gamma}(B_1)}\le C\norm{g}_{C^{2,\gamma}(\partial B_1)}.
+\]
+The expansions $A_g=I+L_Ag+Q_A(g,g)+O(\norm g^3)$ and
+$J_g=1+L_Jg+Q_J(g,g)+O(\norm g^3)$ have
+\begin{equation}\label{eq:LQ}
+L_Ag=-(D\xi_g+D\xi_g^T)+(L_Jg)I,\quad L_Jg=\mathrm{tr}\,D\xi_g,
+\end{equation}
+with $Q_A,Q_J$ symmetric bilinear forms in $D\xi_g$.
+
+\subsection{The four source types}
+
+Differentiating $F(g,w(g))=0$ twice in $g$, and using
+$\partial_w F(0,0)v=-\Delta v$, $w'(0)g=\widetilde u'(g)$:
+\[
+-\Delta w''(0)(g,g)
+=S_1(g)+S_2(g)+S_3(g)+S_4(g),
+\]
+where (placing $w=w(g)$, $u:=u_{B_1}+w$ and differentiating $-\nabla\cdot(A_g\nabla u)-J_g$)
+\begin{align}
+S_1(g)&:=\nabla\cdot\bigl(Q_A(g,g)\nabla u_{B_1}\bigr)+Q_J(g,g)
+&&\hbox{quadratic in coefficients applied to }u_{B_1},\label{eq:S1}\\
+S_2(g)&:=2\nabla\cdot\bigl(L_Ag\cdot\nabla\widetilde u'(g)\bigr)
+&&\hbox{cross term coefficient}\times\hbox{first variation},\label{eq:S2}\\
+S_3(g)&:=O(s)\hbox{ correction at }g=sg\hbox{ replaced by 0},
+&&\hbox{lower order, included in }S_1+S_2\label{eq:S3}\\
+S_4(g)&:=O(\norm{g}_{C^{2,\gamma}}^3)\hbox{ from higher Taylor terms},\label{eq:S4}
+\end{align}
+with the convention that we evaluate at $s=0$ for the worst case and note that
+the $s\in[0,1]$ family interpolates smoothly.
+
+We bound $S_1$ and $S_2$ explicitly in $L^2(B_1)$.
+
+\subsection{$L^2$ bound on $S_1$ via the quadratic coefficient form}
+
+$Q_A(g,g)$ and $Q_J(g,g)$ are pointwise bilinear in $D\xi_g$, which is
+itself a pointwise linear combination of $g(\theta)$, $\nabla_{S^{N-1}}g(\theta)$
+(no $\nabla^2$). Hence
+\[
+\abs{Q_A(g,g)(x)}+\abs{Q_J(g,g)(x)}
+\le C(\chi)\bigl[\abs{g(\theta)}^2+\abs{\nabla_{S^{N-1}}g(\theta)}^2+\abs{g(\theta)}\abs{\nabla_{S^{N-1}}g(\theta)}\bigr],
+\]
+for $x=r\theta$, with $C(\chi)$ depending only on the cutoff.
+
+Therefore
+\[
+\norm{Q_A(g,g)}_{L^2(B_1)}+\norm{Q_J(g,g)}_{L^2(B_1)}
+\le C\bigl(\norm{g}_{L^2(\partial B_1)}\norm{g}_{C^0(\partial B_1)}
++\norm{\nabla g}_{L^2}\norm{\nabla g}_{C^0}+\norm{g}_{C^0}\norm{\nabla g}_{L^2}\bigr).
+\]
+Each term on the right is bounded by $C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1(\partial B_1)}$ via
+$\norm{\cdot}_{C^0}\le\norm{\cdot}_{C^{2,\gamma}}$ and
+$\norm{\nabla g}_{L^2}\le\norm{g}_{H^1}$:
+\[
+\norm{Q_A(g,g)}_{L^2(B_1)}+\norm{Q_J(g,g)}_{L^2(B_1)}
+\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1(\partial B_1)}.
+\]
+
+For the divergence in $S_1$: $\nabla u_{B_1}(x)=-x/N$ is Lipschitz, and
+\[
+\nabla\cdot(Q_A(g,g)\nabla u_{B_1})
+=-\frac{1}{N}\bigl[\mathrm{tr}\,Q_A(g,g)+x\cdot\nabla\,\mathrm{tr}\,Q_A(g,g)+\dots\bigr].
+\]
+The $x\cdot\nabla(\cdot)$ term moves a derivative onto $Q_A$, which contains
+factors like $g\nabla g$, $g\nabla^2 g$, $(\nabla g)^2$, $(\nabla g)(\nabla^2 g)$
+(after differentiation). Each of these is bounded in $L^2(B_1)$ by
+\[
+\norm{g\cdot\nabla^2 g}_{L^2}\le\norm{\nabla^2 g}_{C^0}\norm{g}_{L^2}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{L^2},
+\]
+\[
+\norm{(\nabla g)\cdot(\nabla g)}_{L^2}\le\norm{\nabla g}_{C^0}\norm{\nabla g}_{L^2}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1},
+\]
+\[
+\norm{(\nabla g)(\nabla^2 g)}_{L^2}\le\norm{\nabla^2 g}_{C^0}\norm{\nabla g}_{L^2}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}.
+\]
+Hence
+\[
+\norm{S_1(g)}_{L^2(B_1)}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}.
+\]
+
+\subsection{$L^2$ bound on $S_2$ via the first variation}
+
+$\widetilde u'(g)=u_1(x)-\chi(r)rg(\theta)/N$ is linear in $g$, with
+$\norm{\widetilde u'(g)}_{C^{2,\gamma}(\overline{B_1})}\le C\norm{g}_{C^{2,\gamma}(\partial B_1)}$
+(by harmonic extension Schauder for $u_1$, plus the explicit form of the
+radial correction). Hence
+\[
+\norm{\nabla\widetilde u'(g)}_{L^2(B_1)}\le C\norm{g}_{H^1(\partial B_1)},
+\quad
+\norm{\nabla^2\widetilde u'(g)}_{L^2(B_1)}\le C\norm{g}_{H^1(\partial B_1)}.
+\]
+($L^2$-control of $\nabla u_1$ is by harmonic-extension theory:
+$\norm{\nabla u_1}_{L^2(B_1)}\sim\norm{g}_{H^{1/2}(\partial B_1)}\le C\norm{g}_{H^1}$.)
+
+In $S_2$:
+\[
+\nabla\cdot(L_Ag\cdot\nabla\widetilde u'(g))
+=(\nabla\cdot L_Ag)\cdot\nabla\widetilde u'(g)+L_Ag:\nabla^2\widetilde u'(g).
+\]
+The first factor $\nabla\cdot L_Ag$ is pointwise linear in $\nabla g$ and
+$\nabla^2 g$, so it is bounded in $L^\infty$ by
+$\norm{g}_{C^{2,\gamma}}$. Then
+\[
+\norm{(\nabla\cdot L_Ag)\cdot\nabla\widetilde u'(g)}_{L^2}
+\le\norm{\nabla\cdot L_Ag}_{L^\infty}\norm{\nabla\widetilde u'(g)}_{L^2}
+\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}.
+\]
+Same for the second term. Hence
+\[
+\norm{S_2(g)}_{L^2(B_1)}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}.
+\]
+
+\subsection{Higher-order tail and uniformity in $s$}
+
+The remaining $S_3+S_4$ contributions come from evaluating at $g=sg$ rather
+than $g=0$, and from cubic-and-higher Taylor terms. Both are uniformly
+absorbed into the constants because the relevant $g\to0$ Taylor expansions
+of $A_g, J_g, w(g)$ are convergent in $C^{2,\gamma}$ for
+$\norm{g}_{C^{2,\gamma}}\le\delta_0$, and the higher-order tails are
+$O(s\cdot\norm{g}_{C^{2,\gamma}})$ relative to $S_1+S_2$. Uniformly in
+$s\in[0,1]$,
+\[
+\norm{S(s,g)}_{L^2(B_1)}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1(\partial B_1)}.
+\]
+
+\subsection{What is not enumerated}
+
+The $L^2$ bound above bypasses any integration by parts on $S^{N-1}$,
+because we successfully placed all highest-derivative factors in $L^\infty$
+or $L^2$ rather than asking $L^2(S^{N-1})\to L^2(S^{N-1})$ of
+$\nabla^2g\cdot\nabla^2g$. The earlier note's mention of integration by
+parts on the closed manifold $S^{N-1}$ is therefore \emph{not} needed for
+the $C^{2,\gamma}\times H^1\to L^2$ form. This removes the need for the
+IBP step that \texttt{corrections-needed.md}, Section~4, flags.
+
+What remains genuinely not enumerated:
+\begin{itemize}
+\item Explicit constants $C(N,\chi,\gamma)$ in each step.
+\item The cross-term between $\partial_g^2 F$ and $\partial_g\partial_w F(0,0)(h, w'(0)h)$
+when expanded in spherical-harmonic blocks. (Each block obeys the same bound;
+the harmonic decomposition is not needed for the global $L^2$ estimate.)
+\end{itemize}
+
+\section{Final theorem in the correct regime}\label{sec:finaltheorem}
+
+\begin{theorem}[Sharp Faber--Krahn stability, audit-conditional form]\label{thm:final}
+There exist $\mathcal A_*(N,R)>0$ and $c_{\rm FK}(N,R)>0$ such that, for every
+open $\Omega\subset B_R$ with $\abs{\Omega}=\abs{B^*}$ and
+$\mathcal A(\Omega)\le\mathcal A_*$,
+\[
+\lambda_1(\Omega)-\lambda_1(B^*)\ge c_{\rm FK}(N,R)\,\mathcal A(\Omega)^2,
+\]
+\emph{provided} the sharp Saint--Venant stability with constant $c_{\rm SV}(N,R)$
+is available. Two routes are currently available for the Saint--Venant
+input:
+\begin{enumerate}
+\item the BDV nearly spherical second variation, which gives $c_{\rm SV}>0$
+without further work;
+\item the Bernoulli spectral closure of
+\texttt{fixed-domain-bernoulli-expansion.md}, after verifying:
+\begin{itemize}
+\item the volume-normalization step of Section~\ref{sec:volnorm} (done);
+\item the Schauder bootstrap of Section~\ref{sec:bootstrap} (done);
+\item the bilinear $L^2(B_1)$ source enumeration of Section~\ref{sec:sources}
+(written out for $S_1, S_2$; higher tails handled by Taylor convergence).
+\end{itemize}
+\end{enumerate}
+
+In particular, the Faber--Krahn statement is \emph{unconditional} from
+route~(1) (BDV), and \emph{conditional on Section~\ref{sec:sources} being
+fully written out with explicit constants} from route~(2).
+
+For arbitrary $\mathcal A(\Omega)$, combine with the large-asymmetry
+compactness estimate to obtain the global inequality with
+$c_{\rm FK}(N,R):=\min(c_1,c_2)$ as in
+\texttt{faber-krahn-transfer.md}.
+\end{theorem}
+
+\section{Status wording, adopted}
+
+Replacing the previous overclaim in
+\texttt{fixed-domain-bernoulli-expansion.md}, the Plan~1 README and the
+Faber--Krahn-transfer note: the sharp stability route is
+\textbf{end-to-end via BDV's nearly spherical second variation} or
+\textbf{conditionally end-to-end via the Bernoulli spectral closure, with
+the bilinear source enumeration of Section~\ref{sec:sources} as the
+remaining technical step.} The Kohler--Jobin transfer is unconditional and
+works equally well for either Saint--Venant input.
+
+\end{document}

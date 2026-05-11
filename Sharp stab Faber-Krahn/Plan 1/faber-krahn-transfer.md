@@ -121,8 +121,10 @@ The full chain for **sharp quantitative Faber-Krahn stability** is now:
    yielding sharp Saint-Venant stability.
 4. Kohler-Jobin transfer (this note) — converts to sharp Faber-Krahn.
 
-Each step is now individually rigorous (modulo standard references and
-constant bookkeeping). The end result is
+Each step is structurally complete. The final closure (step 3) is either
+**Route A** (BDV's nearly spherical second variation — unconditional) or
+**Route B** (Bernoulli spectral closure — conditional on
+`corrections-response.md`, §3). The end result, in either route, is
 
 \[
 \lambda_1(\Omega)-\lambda_1(B^*)\ge c_{\rm FK}(N,R)\,\mathcal A(\Omega)^2,
