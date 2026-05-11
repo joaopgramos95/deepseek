@@ -1,0 +1,297 @@
+# Analytic and native-space route
+
+This note records a speculative but concrete route suggested by the GGRT
+stability paper and by the analyticity of the torsion function inside the
+domain.
+
+The guiding idea is:
+
+> The STFT proof works because the optimizer lives in a native global analytic
+> space, the Bargmann--Fock space. For torsion, one should look for the closest
+> native replacement: harmonic functions, modified complex gradients in
+> dimension two, and boundary graph spaces after the BDV selection step.
+
+The goal is not to replace the BDV route immediately, but to find a setting in
+which a GGRT-style second variation can be computed cleanly.
+
+## 1. The harmonic replacement of the torsion function
+
+Let
+
+\[
+-\Delta u=1\quad\text{in }\Omega,\qquad u=0\quad\text{on }\partial\Omega.
+\]
+
+Define
+
+\[
+h(x):=u(x)+\frac{|x|^2}{2N}.
+\]
+
+Then
+
+\[
+\Delta h=0\quad\text{in }\Omega.
+\]
+
+For a ball \(B_R\) centered at the origin,
+
+\[
+u_B(x)=\frac{R^2-|x|^2}{2N},
+\qquad
+h_B(x)=\frac{R^2}{2N}.
+\]
+
+Thus the ball is characterized by the fact that the harmonic function \(h\) is
+constant on the domain. On the boundary of a general domain,
+
+\[
+h|_{\partial\Omega}=\frac{|x|^2}{2N}.
+\]
+
+If \(\partial\Omega\) is a small graph over \(\partial B_R\),
+
+\[
+x=(R+\varphi(\theta))\theta,
+\]
+
+then
+
+\[
+h|_{\partial\Omega}
+=
+\frac{R^2}{2N}
++
+\frac{R}{N}\varphi(\theta)
++
+O(\varphi^2).
+\]
+
+After pulling back to \(B_R\), the first-order part of \(h-h_B\) is just the
+harmonic extension of \((R/N)\varphi\). This is exactly why the BDV second
+variation sees the \(H^{1/2}\)-norm of the boundary graph.
+
+So the natural "native space" for the torsion problem is not an entire Fock
+space, but the harmonic Hardy/Dirichlet space on the ball, after the selected
+domain has been reduced to a graph.
+
+## 2. Two-dimensional holomorphic formulation
+
+In dimension \(N=2\), there is a sharper analytic object. With
+
+\[
+\partial_z=\frac12(\partial_x-i\partial_y),
+\]
+
+the equation \(\Delta u=-1\) gives
+
+\[
+\partial_{\bar z}\partial_z u=-\frac14.
+\]
+
+Therefore
+
+\[
+F_\Omega(z):=\partial_z u(z)+\frac{\bar z}{4}
+\]
+
+is holomorphic in \(\Omega\).
+
+For the disk centered at the origin,
+
+\[
+u_B(z)=\frac{R^2-|z|^2}{4},
+\qquad
+\partial_z u_B=-\frac{\bar z}{4},
+\]
+
+so
+
+\[
+F_B\equiv0.
+\]
+
+Thus \(F_\Omega\) measures deviation from the disk in a genuinely holomorphic
+space. If \(\Omega\) is a selected smooth near-disk domain, one can pull
+\(F_\Omega\) back to the unit disk by a conformal map or by the normal graph.
+This suggests a possible Bergman/Hardy-space analogue of the GGRT Fock-space
+argument.
+
+The boundary condition \(u=0\) implies that \(\nabla u\) is normal to
+\(\partial\Omega\). If the Serrin condition is nearly satisfied, then
+\(|\nabla u|\) is nearly constant on \(\partial\Omega\). In complex form, this
+places an approximate boundary constraint on \(F_\Omega\). This may allow one
+to turn the weighted Hölder deficit \(D_H\) into a boundary norm for a
+holomorphic function.
+
+## 3. Candidate GGRT-style functional for torsion
+
+For a fixed volume level \(s\), define
+
+\[
+\mathcal K_s(\Omega)
+:=
+\int_{\{u_\Omega>u_\Omega^*(s)\}}u_\Omega\,dx.
+\]
+
+The ball maximizes \(\mathcal K_s\) among domains with fixed volume, at least
+morally by the same rearrangement/level-set proof. A GGRT-style variational
+route would try to prove, for nearly spherical sets,
+
+\[
+\mathcal K_s(B)-\mathcal K_s(\Omega)
+\gtrsim_s
+\|\varphi\|_{H^{1/2}(\partial B)}^2
+\]
+
+under the usual volume and translation orthogonality conditions.
+
+This is a level-set-sensitive analogue of the BDV expansion for the full
+torsion energy
+
+\[
+E(\Omega)-E(B)\gtrsim \|\varphi\|_{H^{1/2}}^2.
+\]
+
+The advantage is that \(\mathcal K_s\) interacts directly with the
+Nicola--Tilli convexity proof and with the matched superlevel set
+\(\{u>u^*(s)\}\). The obstacle is that differentiating \(\mathcal K_s\) moves
+both the domain and the internal level surface.
+
+## 4. How to compute the second variation
+
+Work in the already-selected near-ball regime:
+
+\[
+\partial\Omega_\varepsilon
+=
+\{(1+\varepsilon\varphi(\theta))\theta:\theta\in\partial B\},
+\]
+
+with
+
+\[
+\int_{\partial B}\varphi=0,
+\qquad
+\int_{\partial B}\theta_i\varphi(\theta)\,d\theta=0.
+\]
+
+Let
+
+\[
+u_\varepsilon=u_{\Omega_\varepsilon},
+\qquad
+h_\varepsilon=u_\varepsilon+\frac{|x|^2}{2N}.
+\]
+
+Pull \(h_\varepsilon\) back to \(B\). To first order,
+
+\[
+h_\varepsilon-h_B
+\approx
+\varepsilon H(\varphi),
+\]
+
+where \(H(\varphi)\) is the harmonic extension of a multiple of \(\varphi\).
+Expanding in spherical harmonics,
+
+\[
+\varphi=\sum_{k\ge2}\varphi_k,
+\]
+
+one expects a diagonal second variation
+
+\[
+\mathcal K_s(B)-\mathcal K_s(\Omega_\varepsilon)
+=
+\varepsilon^2
+\sum_{k\ge2} a_k(s)\|\varphi_k\|_{L^2(\partial B)}^2
++o(\varepsilon^2).
+\]
+
+The key task is to prove a spectral gap
+
+\[
+a_k(s)\ge c(s)(1+k)
+\]
+
+or at least
+
+\[
+\sum_{k\ge2} a_k(s)\|\varphi_k\|_2^2
+\gtrsim_s
+\|\varphi\|_{H^{1/2}}^2.
+\]
+
+This would be the torsion analogue of GGRT's negative-definite second
+variation for their functional \(K[F]\) after removing the neutral modes.
+
+## 5. Entire/harmonic approximation idea
+
+For arbitrary rough domains, \(u\) is only useful inside \(\Omega\). But after
+BDV selection, \(\Omega\) is a smooth near-ball. Then one can try either:
+
+1. Pull back \(h\) to the ball and work in the harmonic Dirichlet space there.
+2. In dimension two, pull back the holomorphic field
+   \[
+   F_\Omega=\partial_z u+\bar z/4
+   \]
+   to the disk and work in a Bergman/Hardy space.
+3. Approximate the pulled-back harmonic or holomorphic object by global
+   harmonic polynomials or entire functions, using Runge-type approximation,
+   while tracking boundary norms.
+
+The third option is attractive but risky: approximation alone may not preserve
+positivity of the level sets or the torsion boundary condition. The safer
+version is to use approximation only after the selected minimizer has already
+entered the graph regime, so the geometry is controlled independently.
+
+## 6. Relation to the hybrid penalized route
+
+This analytic route should be viewed as a possible replacement for the last
+compactness-heavy step, not for the selection principle.
+
+The proposed chain is:
+
+1. Use the quantitative BDV selection lemma to replace \(\Omega\) by a selected
+   minimizer \(U\), preserving \(Q_\alpha\).
+2. Use density and flatness to put \(\partial U\) into a global graph regime.
+3. Convert \(u_U\) to the harmonic object
+   \[
+   h_U=u_U+\frac{|x|^2}{2N}
+   \]
+   or, in \(N=2\), to the holomorphic object
+   \[
+   F_U=\partial_z u_U+\bar z/4.
+   \]
+4. Compute a GGRT-style second variation for \(\mathcal K_s\) or for the
+   level-set deficit in this native space.
+5. Use the profile-gap and superlevel replacement ideas to transfer the result
+   to the original asymmetry.
+
+If successful, this would give a more constructive proof of the final
+near-ball contradiction and might also expose why the exponent \(2\) is sharp.
+
+## 7. Most concrete first calculation
+
+The first calculation to attempt is:
+
+> For nearly spherical \(\Omega_\varepsilon\), compute the second variation of
+> \[
+> \mathcal K_s(\Omega)
+> =
+> \int_{\{u_\Omega>u_\Omega^*(s)\}}u_\Omega\,dx
+> \]
+> at the ball, for one fixed \(s\in(0,|B|)\).
+
+Do it in spherical harmonics. The expected neutral modes are:
+
+- \(k=0\), removed by volume normalization;
+- \(k=1\), removed by translation/barycenter normalization.
+
+If the coefficients for \(k\ge2\) have a positive lower bound comparable to the
+\(H^{1/2}\) weights, then the GGRT variational strategy has a genuine torsion
+analogue.
+
+This calculation is probably the most meaningful way to test whether the
+analytic/native-space idea can carry real proof weight.

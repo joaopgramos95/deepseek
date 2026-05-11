@@ -46,7 +46,61 @@ The proof should be organized as:
 This gives a polished standalone theorem, independent of the selection
 principle.
 
-## 2. Quantify graph entry for selected minimizers
+## 2. Import the STFT stability paper's profile-gap method
+
+The new file `s00222-024-01248-2-3.pdf` suggests a sharper one-dimensional
+starting point. In that paper, stability is driven by the area between the
+rearranged profile \(u^*(s)\) and the optimizer profile \(e^{-s}\).
+
+For torsion, define
+
+\[
+v(s):=u_\Omega^*(s),\qquad b(s):=u_B^*(s),
+\]
+
+where \(B\) is the ball with \(|B|=|\Omega|=L\). Since
+
+\[
+b'(s)=-\frac{1}{n^2\omega_n^{2/n}s^{1-2/n}}
+\]
+
+and the level-set inequality gives \(v'(s)\ge b'(s)\), the profile gap
+
+\[
+h(s):=b(s)-v(s)
+\]
+
+is nonnegative and nonincreasing. Moreover
+
+\[
+\int_0^L h(s)\,ds=2(E(\Omega)-E(B)).
+\]
+
+Thus
+
+\[
+0\le b(s)-v(s)\le \frac{2(E(\Omega)-E(B))}{s}.
+\]
+
+This gives an explicit way to choose near-boundary levels: for \(s=L-\eta\),
+if \(E(\Omega)-E(B)\ll\eta\), then
+
+\[
+t_\eta:=v(L-\eta)
+\]
+
+is comparable to the ball's boundary-layer height and
+
+\[
+|\Omega\setminus\{u>t_\eta\}|=\eta.
+\]
+
+The next lemma to prove is then a near-boundary good-level lemma: among
+\(s\in[L-2\eta,L-\eta]\), find one level with controlled \(D_H+D_I\). For
+selected minimizers, free-boundary regularity should convert the corresponding
+height control into geometric boundary-layer control.
+
+## 3. Quantify graph entry for selected minimizers
 
 The most direct continuation of the BDV route is the following theorem.
 
@@ -81,7 +135,7 @@ The proof should follow this deterministic chain:
 This would turn the compactness phrase "for \(j\) large" into a concrete
 smallness condition.
 
-## 3. Use a hybrid route: apply level sets to selected minimizers
+## 4. Use a hybrid route: apply level sets to selected minimizers
 
 The level-set route has a boundary-layer obstruction for arbitrary domains.
 The selected minimizers are much better objects: their free boundaries have
@@ -114,7 +168,7 @@ If this works, it may shorten the route from "selected minimizer" to
 "near-ball" and reduce reliance on the full smooth-convergence compactness
 argument.
 
-## 4. Boundary-layer asymmetry lemma
+## 5. Boundary-layer asymmetry lemma
 
 A small but useful lemma to prove independently:
 
@@ -143,7 +197,33 @@ with volume \(L\), and estimate
 This isolates the exact missing ingredient in the pure level-set route:
 finding a good level with both \(\eta\) small and \(\mathcal A(E_t)\) controlled.
 
-## 5. Serrin-stability input to look for
+## 6. Superlevel replacement, copied from the STFT strategy
+
+The STFT stability proof first replaces the arbitrary set \(\Lambda\) by the
+matched superlevel set
+
+\[
+A_\Lambda=\{u_F>u_F^*(|\Lambda|)\},
+\]
+
+proves stability of \(A_\Lambda\), and then transfers stability back to
+\(\Lambda\) by a transport comparison.
+
+For torsion, the analogous replacement is
+
+\[
+\Omega\rightsquigarrow E_t=\{u_\Omega>t\},
+\qquad |E_t|=|\Omega|-\eta.
+\]
+
+The transfer back to \(\Omega\) is exactly the boundary-layer asymmetry lemma.
+The new work is to prove that the chosen \(E_t\) is geometrically good. The
+profile-gap lemma chooses \(t\) in the correct near-boundary range; the exact
+level-set deficit identity gives averaged control of \(D_H+D_I\); selected
+minimizer regularity supplies the missing uniform estimates needed to convert
+averages into a useful level.
+
+## 7. Serrin-stability input to look for
 
 The level-set deficit gives a weighted \(L^2\) variance:
 
@@ -179,3 +259,39 @@ Relevant Serrin-stability references to check first:
 The likely outcome is that the existing theorems do not plug in directly, but
 their interpolation and integral-identity methods should be adaptable to the
 weighted \(L^2\) defect coming from \(D_H\).
+
+## 8. Analytic/native-space calculation
+
+The speculative but concrete GGRT-inspired calculation is:
+
+1. Work after BDV selection, so the domain is a smooth near-ball
+   \[
+   \partial\Omega_\varepsilon
+   =
+   \{(1+\varepsilon\varphi(\theta))\theta\}.
+   \]
+2. Replace torsion by the harmonic object
+   \[
+   h_\varepsilon=u_{\Omega_\varepsilon}+\frac{|x|^2}{2N}.
+   \]
+   For the ball this is constant, and the first variation is the harmonic
+   extension of the boundary graph.
+3. For fixed \(s\in(0,|B|)\), compute the second variation of
+   \[
+   \mathcal K_s(\Omega)
+   =
+   \int_{\{u_\Omega>u_\Omega^*(s)\}}u_\Omega.
+   \]
+4. Diagonalize in spherical harmonics. The \(k=0\) mode should vanish because
+   of volume normalization, and \(k=1\) because of translation. The question is
+   whether the coefficients for \(k\ge2\) control the \(H^{1/2}\)-norm.
+
+In dimension two, also test the holomorphic formulation
+
+\[
+F_\Omega(z)=\partial_z u_\Omega(z)+\frac{\bar z}{4},
+\]
+
+which is holomorphic in \(\Omega\) and vanishes for centered disks. Pulling this
+object back to the disk may give a Bergman/Hardy-space version of the GGRT
+Fock-space computation.

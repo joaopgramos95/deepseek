@@ -1,0 +1,264 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[hidelinks]{hyperref}
+
+\title{Ideas Imported from the STFT Nicola--Tilli Stability Paper}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+This note records what can be imported from
+\texttt{s00222-024-01248-2-3.pdf}, the 2024 Inventiones paper
+
+\begin{quote}
+Gómez--Guerra--Ramos--Tilli, \emph{Stability of the Faber--Krahn inequality for
+the short-time Fourier transform}.
+\end{quote}
+
+The paper proves a sharp quantitative stability version of the Nicola--Tilli
+Faber--Krahn theorem for the short-time Fourier transform. It is not directly a
+torsion result, but several mechanisms are relevant to \texttt{plan2.md}.
+
+\section{The Structural Dictionary}
+
+In the STFT/Fock setting, the central object is
+\[
+u_F(z)=|F(z)|^2e^{-\pi |z|^2}
+\]
+and its superlevel sets
+\[
+A_t=\{u_F>t\}.
+\]
+The rearranged profile \(u^*(s)\) satisfies a one-dimensional convexity
+inequality. The optimizer profile is \(e^{-s}\). Stability is obtained by
+quantifying the area between \(u^*(s)\) and \(e^{-s}\), and then pushing the
+information back to sets.
+
+For torsion, the analogous objects are
+\[
+u=u_\Omega,\qquad E_t=\{u>t\},\qquad v(s)=u_\Omega^*(s),
+\]
+and the optimizer profile is the ball profile
+\[
+b(s)=u_B^*(s)
+=
+\frac{R^2-(s/\omega_n)^{2/n}}{2n},
+\qquad |B|=\omega_n R^n.
+\]
+The torsion level-set inequality gives
+\[
+v'(s)\ge b'(s).
+\]
+Thus
+\[
+h(s):=b(s)-v(s)
+\]
+is nonnegative and nonincreasing, and
+\[
+\int_0^{|\Omega|}h(s)\,ds
+=
+\int_Bu_B-\int_\Omega u_\Omega
+=
+2(E(\Omega)-E(B)).
+\]
+This is the exact torsion analogue of the STFT paper's ``area between profiles''
+method.
+
+\section{Immediate Lemma: Profile Deficit Controls Level Heights}
+
+Since \(h\) is nonincreasing,
+\[
+0\le h(s)\le \frac{1}{s}\int_0^s h(r)\,dr
+\le
+\frac{2(E(\Omega)-E(B))}{s}.
+\]
+Therefore, for \(s\in[\theta|\Omega|,|\Omega|]\),
+\[
+|u_B^*(s)-u_\Omega^*(s)|
+\le
+\frac{2(E(\Omega)-E(B))}{\theta|\Omega|}.
+\]
+This gives quantitative control of near-boundary level heights. If \(s=L-\eta\)
+and \(E(\Omega)-E(B)\ll \eta\), then the level
+\[
+t_\eta:=u_\Omega^*(L-\eta)
+\]
+is positive and comparable to the corresponding ball level. This selects a
+boundary-layer set
+\[
+E_{t_\eta}=\{u>t_\eta\}
+\]
+with exactly
+\[
+|\Omega\setminus E_{t_\eta}|=\eta.
+\]
+This should be combined with the weighted level-set deficit identity to find
+near-boundary levels that are also geometrically good.
+
+\section{Superlevel Replacement}
+
+The STFT proof does not try to control an arbitrary set directly. It first
+replaces the set \(\Lambda\) by the matched superlevel set
+\[
+A_\Lambda=\{u_F>u_F^*(|\Lambda|)\}.
+\]
+Then it proves:
+\begin{enumerate}
+\item the deficit controls the function's distance to the optimizer;
+\item this makes \(A_\Lambda\) regular and close to a ball;
+\item a transport argument controls \(|\Lambda\Delta A_\Lambda|\);
+\item hence \(\Lambda\) itself is close to a ball.
+\end{enumerate}
+
+For torsion, the analogous move is:
+\begin{enumerate}
+\item choose \(E_t=\{u_\Omega>t\}\) with prescribed volume \(s\);
+\item prove \(E_t\) is close to a ball using the level-set identity;
+\item use
+\[
+\mathcal A(\Omega)
+\le
+C\frac{|\Omega\setminus E_t|}{|\Omega|}
++C\mathcal A(E_t)
+\]
+to transfer the result back to \(\Omega\).
+\end{enumerate}
+The point of the profile-gap lemma is that it chooses near-boundary levels with
+controlled height, while the exact level-set identity supplies averaged control
+of \(D_H(t)+D_I(t)\).
+
+\section{Transport Idea for the Set Comparison}
+
+In the STFT paper, set stability is proved by transporting mass from
+\(A_\Lambda\setminus\Lambda\) to \(\Lambda\setminus A_\Lambda\). Points moved
+farther away from the center lose a definite amount of Gaussian weight, so the
+concentration deficit controls the amount of badly moved mass.
+
+For torsion, a literal radial transport is unavailable for arbitrary domains.
+But for selected minimizers or near-ball sets, a normal-transport analogue should
+be possible:
+\begin{itemize}
+\item compare a near-boundary level \(E_t\) with \(\Omega\) along the flow lines
+of \(\nabla u\), or along the free-boundary normal when \(\Omega\) is already a
+selected minimizer;
+\item use the nondegeneracy
+\[
+c\operatorname{dist}(x,\partial\Omega)
+\le u(x)\le
+C\operatorname{dist}(x,\partial\Omega)
+\]
+near the free boundary to convert height \(t\) into boundary-layer thickness;
+\item use density/perimeter bounds to estimate the symmetric difference.
+\end{itemize}
+
+This is one reason the hybrid route looks more promising than the pure
+level-set route: the selected minimizers have exactly the free-boundary
+structure needed to make this transport quantitative.
+
+\section{Geometry of Superlevel Sets}
+
+The STFT proof obtains star-shapedness, smoothness, and convexity of relevant
+superlevel sets from closeness of \(F\) to the Gaussian and analyticity.
+
+For torsion, the replacement should be:
+\begin{itemize}
+\item for arbitrary domains, no comparable regularity is available;
+\item for selected minimizers, Alt--Caffarelli regularity gives \(C^{1,\gamma}\)
+free boundary once flatness is known;
+\item after entering the graph regime, Schauder estimates give \(u_\Omega\)
+close to \(u_B\), and then regular near-boundary level sets follow from the
+implicit function theorem.
+\end{itemize}
+So the STFT ``regular superlevel geometry'' mechanism should be imported only
+after the BDV selection step.
+
+\section{Variational/Fuglede-Style Route}
+
+The STFT paper also proves stability by a variational second-variation argument
+for
+\[
+K[F]=\frac{I_F(s)}{\|F\|^2},
+\]
+where \(I_F(s)\) is the integral of \(u_F\) over its superlevel set of measure
+\(s\). Around the optimizer \(F\equiv1\), after removing neutral modes, the
+second variation is uniformly negative.
+
+The torsion analogue would be to study, near the ball,
+\[
+\mathcal K_s(\Omega)
+:=
+\int_{\{u_\Omega>u_\Omega^*(s)\}}u_\Omega\,dx
+\]
+under nearly spherical perturbations of \(\Omega\). The expected result is a
+second-variation estimate of the form
+\[
+\mathcal K_s(B)-\mathcal K_s(\Omega)
+\gtrsim_s
+\|\varphi\|_{H^{1/2}(\partial B)}^2
+\]
+after imposing volume and barycenter orthogonality. This would be a
+level-set-sensitive analogue of BDV's nearly spherical expansion for \(E\).
+
+This is probably harder than the profile-gap lemma, but it could produce a
+direct near-ball stability theorem for the level-set route.
+
+\section{Revised Route for \texttt{plan2.md}}
+
+The most promising revised route is:
+\begin{enumerate}
+\item Prove the finite-perimeter level-set identity.
+\item Add the profile-gap lemma \(0\le b(s)-v(s)\le 2\delta_E/s\).
+\item Choose boundary-layer volumes \(s=L-\eta\), with
+\(\delta_E\ll\eta\ll1\).
+\item Use the weighted deficit identity to find one such level with small
+\(D_H+D_I\).
+\item Apply quantitative isoperimetry to \(D_I\), and the weighted variance
+identity to \(D_H\).
+\item For arbitrary domains this still leaves a regularity gap; for selected
+minimizers, use the BDV free-boundary estimates to close it.
+\item Transfer from \(E_t\) back to \(\Omega\) by the boundary-layer asymmetry
+lemma.
+\end{enumerate}
+This is a genuine import from the STFT stability paper: first stabilize the
+matched superlevel set, then transfer stability back to the original set.
+
+\section{Analytic/Native-Space Refinement}
+
+The GGRT proof benefits from living in the Bargmann--Fock space. For torsion,
+there is no global entire structure for arbitrary domains, but there is a
+native harmonic substitute:
+\[
+h_\Omega(x):=u_\Omega(x)+\frac{|x|^2}{2N},
+\qquad
+\Delta h_\Omega=0.
+\]
+For a ball, \(h_B\) is constant. For a nearly spherical domain, after pulling
+back to the ball, the first variation of \(h_\Omega-h_B\) is the harmonic
+extension of the boundary graph. This is the natural space in which to try a
+GGRT-style second variation.
+
+In dimension two there is an even more literal analytic object:
+\[
+F_\Omega(z):=\partial_z u_\Omega(z)+\frac{\bar z}{4}.
+\]
+Since \(\partial_{\bar z}\partial_z u=-1/4\), the function \(F_\Omega\) is
+holomorphic in \(\Omega\), and \(F_B\equiv0\) for disks centered at the origin.
+For selected smooth near-disks, pulling \(F_\Omega\) back to the unit disk could
+put the problem into a Bergman/Hardy-type setting, closer in spirit to the
+Fock-space proof.
+
+The concrete calculation to try is the second variation at the ball of
+\[
+\mathcal K_s(\Omega)
+=
+\int_{\{u_\Omega>u_\Omega^*(s)\}}u_\Omega\,dx.
+\]
+If the resulting quadratic form is diagonal in spherical harmonics and has a
+spectral gap after removing the \(k=0\) and \(k=1\) modes, this would give a
+native torsion analogue of the GGRT variational proof.
+
+\end{document}

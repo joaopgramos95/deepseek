@@ -758,3 +758,136 @@ Q(D)=\frac{\delta_E(D)}{\mathcal A(D)^2}.
 ## 15. One-sentence summary
 
 The proposed strategy is to quantify every loss in the Nicola--Tilli/Talenti level-set proof, especially the Hölder loss, in order to show that near equality forces many interior level sets to be approximate Serrin domains; stability of Serrin's overdetermined problem may then convert this PDE rigidity into smooth near-sphericity and ultimately sharp Faber--Krahn stability.
+
+---
+
+## 16. New input from the STFT stability paper
+
+The new paper `s00222-024-01248-2-3.pdf` proves sharp stability of the
+Nicola--Tilli Faber--Krahn theorem for the short-time Fourier transform. Its
+most relevant idea for this route is not the STFT-specific Fock-space machinery,
+but the way it turns a one-dimensional convexity proof into quantitative
+stability.
+
+In the STFT setting, the authors compare the rearranged profile \(u^*(s)\) to
+the optimizer profile \(e^{-s}\), control the area between the two graphs, then
+replace an arbitrary set by the matched superlevel set before transferring
+stability back to the original set.
+
+For torsion, the direct analogue is the ball profile
+
+\[
+b(s)=u_B^*(s)
+=
+\frac{R^2-(s/\omega_n)^{2/n}}{2n},
+\qquad |B|=\omega_n R^n,
+\]
+
+and the torsion profile
+
+\[
+v(s)=u_\Omega^*(s).
+\]
+
+The level-set inequality gives
+
+\[
+v'(s)\ge b'(s),
+\]
+
+hence
+
+\[
+h(s):=b(s)-v(s)
+\]
+
+is nonnegative and nonincreasing, with
+
+\[
+\int_0^{|\Omega|}h(s)\,ds
+=
+\int_Bu_B-\int_\Omega u_\Omega
+=
+2(E(\Omega)-E(B)).
+\]
+
+Therefore
+
+\[
+0\le b(s)-v(s)
+\le
+\frac{2(E(\Omega)-E(B))}{s}.
+\]
+
+This is a useful new piece of the route: it gives explicit control of
+near-boundary level heights. If \(s=|\Omega|-\eta\) and
+\(E(\Omega)-E(B)\ll\eta\), then the level
+
+\[
+t_\eta:=v(|\Omega|-\eta)
+\]
+
+is comparable to the corresponding ball boundary-layer height, while
+
+\[
+|\Omega\setminus \{u>t_\eta\}|=\eta.
+\]
+
+Thus the pure level-set route should be revised as follows:
+
+1. Use the profile-gap lemma to choose genuinely near-boundary levels.
+2. Use the exact weighted deficit identity to find one such level with small
+   \(D_H+D_I\).
+3. Stabilize the matched superlevel set \(E_t=\{u>t\}\).
+4. Transfer from \(E_t\) back to \(\Omega\) using the boundary-layer asymmetry
+   estimate
+   \[
+   \mathcal A(\Omega)
+   \le
+   C\frac{|\Omega\setminus E_t|}{|\Omega|}
+   +C\mathcal A(E_t).
+   \]
+
+For arbitrary domains this still leaves a serious regularity gap. The more
+promising hybrid route is to perform this argument after the BDV selection
+principle, where the selected minimizers have nondegeneracy, density estimates,
+and free-boundary regularity. In that setting the STFT paper's
+"superlevel replacement then transfer back" strategy has a plausible torsion
+analogue.
+
+### 16.1 Analytic/native-space variant
+
+The GGRT proof also suggests trying to embed the final near-ball problem into a
+native analytic space. For torsion the basic object is
+
+\[
+h_\Omega(x):=u_\Omega(x)+\frac{|x|^2}{2N}.
+\]
+
+Since \(\Delta h_\Omega=0\), the selected near-ball problem can be pulled back
+to a harmonic Dirichlet/Hardy space on the ball. For the ball, \(h_B\) is
+constant; to first order, \(h_\Omega-h_B\) is the harmonic extension of the
+boundary graph.
+
+In two dimensions there is a literal holomorphic object:
+
+\[
+F_\Omega(z):=\partial_z u_\Omega(z)+\frac{\bar z}{4},
+\]
+
+which is holomorphic in \(\Omega\) and vanishes identically for centered disks.
+For selected smooth near-disks, one could pull this field back to the unit disk
+and try to use Bergman/Hardy-space methods.
+
+The concrete test calculation is to compute the second variation at the ball of
+
+\[
+\mathcal K_s(\Omega)
+=
+\int_{\{u_\Omega>u_\Omega^*(s)\}}u_\Omega\,dx
+\]
+
+for nearly spherical perturbations. If the resulting quadratic form is diagonal
+in spherical harmonics and positive on all modes \(k\ge2\), after removing
+volume and translation modes, then the variational part of the GGRT proof has a
+true torsion analogue.

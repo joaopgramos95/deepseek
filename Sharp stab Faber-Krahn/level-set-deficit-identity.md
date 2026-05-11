@@ -216,6 +216,105 @@ deficit; it is exactly the normalized Saint-Venant deficit.
 
 ## 4. Consequences for good levels
 
+## 4. Profile-gap monotonicity, inspired by the STFT stability paper
+
+The paper `s00222-024-01248-2-3.pdf` proves stability of the Nicola--Tilli
+STFT theorem by studying the area between the rearranged profile \(u^*(s)\)
+and the optimizer profile \(e^{-s}\). There is a direct torsion analogue.
+
+Let \(B\) be the ball with \(|B|=|\Omega|=:L\), and let
+
+\[
+b(s):=u_B^*(s),\qquad v(s):=u_\Omega^*(s).
+\]
+
+For a ball of radius \(R\), \(L=\omega_n R^n\), one has
+
+\[
+b(s)=\frac{R^2-(s/\omega_n)^{2/n}}{2n},
+\qquad 0\le s\le L,
+\]
+
+and therefore
+
+\[
+b'(s)=-\frac{1}{n^2\omega_n^{2/n}s^{1-2/n}}.
+\]
+
+The level-set differential inequality gives
+
+\[
+v'(s)\ge b'(s)
+\]
+
+for a.e. \(s\in(0,L)\). Hence
+
+\[
+h(s):=b(s)-v(s)
+\]
+
+is nonnegative and nonincreasing, with \(h(L)=0\). Moreover
+
+\[
+\int_0^L h(s)\,ds
+=
+\int_B u_B\,dx-\int_\Omega u_\Omega\,dx
+=
+2(E(\Omega)-E(B)).
+\]
+
+Consequently, for every \(s\in(0,L]\),
+
+\[
+0\le b(s)-v(s)
+\le
+\frac{2(E(\Omega)-E(B))}{s}.
+\]
+
+In particular, on every boundary-volume slab \(s\in[\theta L,L]\),
+
+\[
+\|b-v\|_{L^\infty([\theta L,L])}
+\le
+\frac{2(E(\Omega)-E(B))}{\theta L}.
+\]
+
+This is a useful quantitative replacement for compactness at the one-dimensional
+profile level. It says that small Saint-Venant deficit forces the torsion level
+corresponding to a prescribed near-boundary volume \(s\sim L\) to be close to the
+ball's corresponding level.
+
+For example, if \(s=L-\eta\) and \(\eta\ll L\), then
+
+\[
+b(L-\eta)
+=
+\frac{R^2-((L-\eta)/\omega_n)^{2/n}}{2n}
+\simeq_{n,L}\eta.
+\]
+
+Thus if \(E(\Omega)-E(B)\ll \eta\), the level
+
+\[
+t_\eta:=v(L-\eta)
+\]
+
+is positive and comparable to the ball boundary-layer height. This provides a
+candidate near-boundary level \(E_{t_\eta}\) with exactly
+
+\[
+|\Omega\setminus E_{t_\eta}|=\eta.
+\]
+
+The missing part is still to make sure this same level has small geometric
+level-set deficit. The exact identity above gives averaged control, and the
+hybrid strategy is to combine this profile control with selected-minimizer
+regularity to extract good near-boundary levels.
+
+---
+
+## 5. Consequences for good levels
+
 The quantitative isoperimetric inequality gives, for a dimensional constant
 \(c>0\),
 
@@ -264,7 +363,7 @@ In particular, on any slab where \(m(t)\) is bounded above and below, the
 Saint-Venant deficit produces at least one level with both small isoperimetric
 loss and small Holder loss.
 
-## 5. Holder loss as a Serrin-variance defect
+## 6. Holder loss as a Serrin-variance defect
 
 Let \(f=|\nabla u|\) on \(\Sigma_t\), and set
 
@@ -320,7 +419,7 @@ C_t\frac{m(t)}{P(t)^2}D_H(t).
 This is the precise bridge from the Nicola--Tilli convexity gap to an
 approximate Serrin condition on the interior domain \(E_t\).
 
-## 6. What remains open in this route
+## 7. What remains open in this route
 
 The identity proves that small Saint-Venant deficit forces many superlevel sets
 to be simultaneously almost isoperimetric and almost overdetermined.
