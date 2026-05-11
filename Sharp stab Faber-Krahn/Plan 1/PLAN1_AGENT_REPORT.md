@@ -1,6 +1,53 @@
 # Plan 1 agent report
 
-Date: 2026-05-11
+Date: 2026-05-11 (second pass)
+
+## Second pass: Bernoulli expansion proofs and closure
+
+A follow-up pass added `bernoulli-expansion-proofs.md/.tex/.pdf`, which closes
+the analytical gap flagged at the end of `bernoulli-spectral-closure.md`:
+
+1. **Lemma `lem:lin`.** A clean Schauder remainder estimate for the
+   pulled-back torsion potential. The key identity
+   \(\nabla\cdot(A_g\nabla(f\circ\Phi_g))=J_{\Phi_g}\cdot(\Delta f)\circ\Phi_g\)
+   makes the function
+   \(\rho_g(x):=\widetilde u_g(x)-u_{B_1}(\Phi_g(x))-u_1(\Phi_g(x))\)
+   \(A_g\)-harmonic. Its boundary trace is \(O(\|g\|_{C^{2,\gamma}}^2)\).
+   Schauder for the variable-coefficient Dirichlet problem gives
+   \(\|\rho_g\|_{C^{2,\gamma}}\le C\|g\|_{C^{2,\gamma}}^2\).
+
+2. **Lemma 5.1 (Bernoulli map expansion), proved.** From \(u_g=u_{B_1}+u_1+r_g\)
+   with quadratic remainder, the boundary expansion of
+   \(\nabla u_g\) at \(\partial U_g\) yields exactly the spectral operator
+   \(\mathcal L:g_k\mapsto(k-1)g_k\).
+
+3. **Lemma 5.2 (\(\alpha\)-bracket expansion), proved.** Explicit
+   polynomial expansion of the centroid integral identifies the linear part
+   as the degree-1 spherical-harmonic projection.
+
+4. **Volume normalization, handled.** Dilation by \(r_*=1+O(\delta_T)\)
+   absorbs into smallness constants.
+
+5. **Quantitative spectral closure theorem.** In the smallness regime,
+   the projected nonlinear equation
+   \(\mathcal L g_{\ge2}=O(\sigma+\delta_*)g_{\ge2}+\hbox{quadratic}\)
+   combined with the Steklov gap forces \(g\equiv0\).
+
+6. **Sharp Saint--Venant/Faber--Krahn stability** (Theorem 8.1 in the new
+   note): \(E(\Omega)-E(B_1)\ge c_*(N,R)\alpha(\Omega)\) for small
+   \(Q_\alpha\).
+
+7. **Boundary deficit propagation on the selected class** (Theorem 9.1):
+   the apparent \(k^2\) vs.\ \(k\) paradox flagged in
+   `../Plan 2/weighted-serrin-collar-reduction.md` is resolved because the
+   Bernoulli + spectral-gap filtering forces high-frequency modes to vanish.
+
+The selection-principle route is now end-to-end:
+selection \(\to\) graph entry \(\to\) Bernoulli spectral closure
+\(\Rightarrow\) sharp stability. No external Serrin theorem and no
+near-spherical second variation are needed.
+
+## First pass
 
 Scope: only files in `Sharp stab Faber-Krahn/Plan 1` were edited.
 

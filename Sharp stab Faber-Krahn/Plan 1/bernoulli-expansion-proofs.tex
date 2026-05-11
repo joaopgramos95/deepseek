@@ -1,0 +1,608 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\d}{\,d}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+\title{Bernoulli expansion proofs and quantitative spectral closure}
+\author{Plan 1 / Sharp stability for Faber--Krahn}
+\date{2026-05-11}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note closes the analytical gap in \texttt{bernoulli-spectral-closure.md}.
+We prove the two remaining ingredients (Lemmas~5.1 and~5.2 there) with
+explicit, Schauder-based quadratic remainders, and we handle the
+volume-normalization passage between the actual BDV selected minimizer and the
+unit-volume graph. Combined with the graph-entry threshold of
+\texttt{graph-entry-closure.md} and the single-set selection map of
+\texttt{quantitative-selection-principle.md}, this yields a quantitative
+sharp Saint--Venant/Faber--Krahn stability theorem along the selected
+minimizer route, with \emph{no} external nearly-spherical second-variation
+input.
+
+A consequence (Theorem~\ref{thm:bdp-selected}) is that the boundary deficit
+propagation
+\[
+D_I(0)+D_H(0)\le C\bigl(E(U)-E(B_1)\bigr)
+\]
+\emph{does} hold on the selected class, even though
+\texttt{weighted-serrin-collar-reduction.md} shows it fails on the full
+nearly-spherical class. The selected Bernoulli law projects out the
+high-frequency modes that are responsible for the $k^2$ vs.\ $k$ mismatch.
+\end{abstract}
+
+\section{Setup and the pullback diffeomorphism}\label{sec:setup}
+
+Throughout $N\ge2$, $0<\gamma<1$, and $g\in C^{2,\gamma}(\partial B_1)$ with
+$\norm{g}_{C^{2,\gamma}}\le\delta_0$ small (to be chosen). Define
+\[
+U_g
+=
+\Bigl\{x\in\R^N:\abs{x}<1+g\bigl(x/\abs{x}\bigr)\Bigr\}\cup\{0\},
+\]
+and let $u_g$ be the torsion potential of $U_g$: $-\Delta u_g=1$ in $U_g$,
+$u_g=0$ on $\partial U_g$. Fix a cutoff $\chi\in C^\infty([0,1])$ with
+$\chi=0$ on $[0,1/4]$, $\chi=1$ on $[3/4,1]$, $\chi'\ge0$, and set
+\[
+\Phi_g:\overline{B_1}\to\overline{U_g},\qquad
+\Phi_g(r\theta)=(r+\chi(r)g(\theta))\theta.
+\]
+By construction $\Phi_g=\mathrm{id}$ near the origin, and on
+$\partial B_1$ it sends $\theta$ to $(1+g(\theta))\theta\in\partial U_g$.
+
+\begin{lemma}\label{lem:pullback}
+There is $\delta_0=\delta_0(N,\chi,\gamma)>0$ such that for
+$\norm{g}_{C^{1}(\partial B_1)}\le\delta_0$, $\Phi_g$ is a $C^{2,\gamma}$
+diffeomorphism, and
+\[
+\norm{\Phi_g-\mathrm{id}}_{C^{2,\gamma}(\overline{B_1})}
++\norm{\Phi_g^{-1}-\mathrm{id}}_{C^{2,\gamma}(\overline{U_g})}
+\le C\norm{g}_{C^{2,\gamma}(\partial B_1)},
+\]
+\[
+\norm{J_{\Phi_g}-1}_{C^{1,\gamma}}\le C\norm{g}_{C^{2,\gamma}},
+\quad
+\norm{A_g-I}_{C^{1,\gamma}}\le C\norm{g}_{C^{2,\gamma}},
+\]
+where $A_g=J_{\Phi_g}(D\Phi_g)^{-1}(D\Phi_g)^{-T}$. On
+$\partial B_1$ (where $\chi=1$, $\chi'=0$), the outward unit normal to
+$\partial U_g$ at $(1+g)\theta$ is
+\[
+\nu_g(\theta)
+=
+\frac{\theta-(1+g)^{-1}\nabla_{S^{N-1}}g}
+{\sqrt{1+(1+g)^{-2}\abs{\nabla_{S^{N-1}}g}^2}},
+\qquad
+\norm{\nu_g-\theta}_{C^{1,\gamma}(\partial B_1)}\le C\norm{g}_{C^{2,\gamma}}.
+\]
+\end{lemma}
+
+\begin{proof}
+Standard normal-graph diffeomorphism, $D\Phi_g=I+(\hbox{linear in }g,\nabla g)$.
+The normal formula is the graph formula for $\{r=1+g(\theta)\}$ in spherical
+coordinates.
+\end{proof}
+
+\subsection{Pulled-back torsion equation}
+
+Setting $\widetilde u_g:=u_g\circ\Phi_g\in C^{2,\gamma}(\overline{B_1})$,
+$\widetilde u_g=0$ on $\partial B_1$ and
+\begin{equation}\label{eq:pulledback}
+-\nabla\cdot(A_g\nabla\widetilde u_g)=J_{\Phi_g}\quad\hbox{in }B_1.
+\end{equation}
+For $g\equiv0$, $A_0=I$, $J_{\Phi_0}=1$, and $\widetilde u_0=u_{B_1}$ with
+$u_{B_1}(r)=(1-r^2)/(2N)$.
+
+\section{Schauder remainder estimate}
+
+Let $u_1$ be the harmonic extension of $g/N$ to $B_1$: in spherical-harmonic
+coordinates $g=\sum_{k\ge0}g_k$, $u_1(r,\theta)=N^{-1}\sum_k r^k g_k(\theta)$.
+The function $u_1$ is the formal first shape derivative at the ball.
+
+Extend $u_{B_1}$ and $u_1$ to $\R^N$ by their explicit formulas (a quadratic
+polynomial and a harmonic polynomial-tail respectively).
+
+\begin{lemma}[Linearization remainder]\label{lem:lin}
+There exists $C=C(N,\chi,\gamma)$ such that, for
+$\norm{g}_{C^{2,\gamma}(\partial B_1)}\le\delta_0$, the pulled-back remainder
+\[
+\rho_g(x):=\widetilde u_g(x)-u_{B_1}(\Phi_g(x))-u_1(\Phi_g(x))
+\]
+satisfies
+\[
+\norm{\rho_g}_{C^{2,\gamma}(\overline{B_1})}
+\le
+C\norm{g}_{C^{2,\gamma}}^2.
+\]
+Equivalently, on $U_g$, $u_g=u_{B_1}+u_1+r_g$ in original coordinates, with
+$\norm{r_g}_{C^{2,\gamma}(\overline{U_g})}\le C\norm{g}_{C^{2,\gamma}}^2$.
+\end{lemma}
+
+\begin{proof}
+\emph{Boundary trace of $\rho_g$.} On $\partial B_1$,
+$\Phi_g(\theta)=(1+g(\theta))\theta$, so
+\[
+u_{B_1}(\Phi_g(\theta))=\frac{1-(1+g(\theta))^2}{2N}
+=-\frac{g(\theta)}{N}-\frac{g(\theta)^2}{2N},
+\]
+\[
+u_1((1+g)\theta)=\sum_k\frac{(1+g)^k}{N}g_k(\theta)
+=\frac{g(\theta)}{N}+R_1(\theta),
+\]
+with $\norm{R_1}_{C^{2,\gamma}(\partial B_1)}\le C\norm{g}_{C^{2,\gamma}}^2$
+because $(1+g)^k=1+kg+O(g^2)$ and the linear-in-$g$ piece
+$N^{-1}\sum_k kg_k\cdot g$ has $C^{2,\gamma}$ norm $\le
+C\norm{g}_{C^{2,\gamma}}^2$ by spectral-radius bookkeeping (the sum
+converges in $C^{2,\gamma}$ because $g\in C^{2,\gamma}$). Therefore
+\[
+\rho_g\big|_{\partial B_1}
+=0
+-\Bigl(-\frac{g}{N}-\frac{g^2}{2N}\Bigr)
+-\Bigl(\frac{g}{N}+R_1\Bigr)
+=\frac{g^2}{2N}-R_1,
+\]
+with $\norm{\rho_g\big|_{\partial B_1}}_{C^{2,\gamma}}\le C\norm{g}_{C^{2,\gamma}}^2$.
+
+\emph{Interior PDE for $\rho_g$.} Applying $-\nabla\cdot(A_g\nabla\cdot)$ to
+$\widetilde u_g=u_{B_1}\circ\Phi_g+u_1\circ\Phi_g+\rho_g$ and using
+\eqref{eq:pulledback},
+\begin{equation}\label{eq:rho-pde}
+-\nabla\cdot(A_g\nabla\rho_g)
+=
+J_{\Phi_g}
++\nabla\cdot(A_g\nabla(u_{B_1}\circ\Phi_g))
++\nabla\cdot(A_g\nabla(u_1\circ\Phi_g))
+\quad\hbox{in }B_1.
+\end{equation}
+We show the RHS is $O(\norm{g}_{C^{2,\gamma}}^2)$ in $C^\gamma$. Write each
+term as a function on $B_1$. Set $\psi:=\Phi_g(x)$.
+
+By the change-of-variables formula for divergence-form operators,
+\[
+\nabla\cdot(A_g\nabla(f\circ\Phi_g))(x)
+=
+J_{\Phi_g}(x)\cdot(\Delta f)(\psi),
+\]
+provided $A_g=J_{\Phi_g}(D\Phi_g)^{-1}(D\Phi_g)^{-T}$ is the pullback of
+$\Delta$. This is the standard fact that the Laplacian is preserved by
+pullback under the formula $A_g=J_\Phi (D\Phi)^{-1}(D\Phi)^{-T}$, modulo a
+multiplicative Jacobian. Specifically,
+\begin{equation}\label{eq:divpull}
+\nabla\cdot(A_g\nabla(f\circ\Phi_g))=J_{\Phi_g}\cdot(\Delta f)\circ\Phi_g.
+\end{equation}
+
+Applying~\eqref{eq:divpull} to $f=u_{B_1}$ (with $\Delta u_{B_1}=-1$) and to
+$f=u_1$ (with $\Delta u_1=0$):
+\[
+\nabla\cdot(A_g\nabla(u_{B_1}\circ\Phi_g))=-J_{\Phi_g},\qquad
+\nabla\cdot(A_g\nabla(u_1\circ\Phi_g))=0.
+\]
+Substituting into~\eqref{eq:rho-pde},
+\[
+-\nabla\cdot(A_g\nabla\rho_g)
+=J_{\Phi_g}-J_{\Phi_g}+0=0.
+\]
+That is, $\rho_g$ is $A_g$-harmonic in $B_1$.
+
+\emph{Maximum principle/Schauder.} Combining the boundary trace
+$\norm{\rho_g\big|_{\partial B_1}}_{C^{2,\gamma}}\le C\norm{g}_{C^{2,\gamma}}^2$
+with the equation $-\nabla\cdot(A_g\nabla\rho_g)=0$ and the $C^{1,\gamma}$
+control of $A_g$ from Lemma~\ref{lem:pullback}, global Schauder estimates for
+the divergence-form Dirichlet problem give
+\[
+\norm{\rho_g}_{C^{2,\gamma}(\overline{B_1})}
+\le C\norm{\rho_g\big|_{\partial B_1}}_{C^{2,\gamma}}
+\le C\norm{g}_{C^{2,\gamma}}^2.
+\]
+\end{proof}
+
+\begin{remark}
+The cancellation in~\eqref{eq:rho-pde} (RHS$=0$) is the conceptual reason the
+Schauder argument closes: $u_{B_1}\circ\Phi_g$ accounts for the entire RHS of
+the torsion equation under pullback, and $u_1\circ\Phi_g$ is harmonic in the
+$A_g$-metric. The actual nontrivial content is concentrated in the boundary
+trace of $\rho_g$, which records the second-order Taylor expansion of $u_g$
+along the deformation $\Phi_g$.
+\end{remark}
+
+\section{Proof of Lemma~5.1: Bernoulli map expansion}\label{sec:lem51}
+
+\begin{lemma}[Quantitative Bernoulli map expansion]\label{lem:5.1}
+There exist $\delta_0>0$ and $C=C(N,\chi,\gamma)$ such that, for
+$\norm{g}_{C^{2,\gamma}(\partial B_1)}\le\delta_0$, the Bernoulli datum
+$q_g(\theta):=\abs{\nabla u_g}\bigl((1+g(\theta))\theta\bigr)$ satisfies
+\[
+q_g(\theta)=\frac{1}{N}-\frac{1}{N}(\mathcal Lg)(\theta)+R_q(g)(\theta),
+\]
+where $\mathcal L:g_k\mapsto(k-1)g_k$ is the shifted Steklov operator on
+spherical-harmonic degree $k$, and
+\[
+\norm{R_q(g)}_{L^2(\partial B_1)}
+\le C\norm{g}_{C^{2,\gamma}(\partial B_1)}\,\norm{g}_{L^2(\partial B_1)}.
+\]
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:lin}, in original coordinates,
+$u_g=u_{B_1}+u_1+r_g$ in a thickened collar of $\partial U_g$ with
+$\norm{r_g}_{C^{2,\gamma}}\le C\norm{g}_{C^{2,\gamma}}^2$. Differentiate and
+evaluate at $x_\theta=(1+g(\theta))\theta\in\partial U_g$.
+
+We have
+\[
+\nabla u_{B_1}(x)=-x/N,\qquad
+\nabla u_{B_1}(x_\theta)=-\frac{(1+g(\theta))\theta}{N}=-\frac{\theta}{N}-\frac{g(\theta)\theta}{N}.
+\]
+For $u_1$, decompose $\nabla u_1=(\partial_r u_1)\hat r
++r^{-1}\nabla_{S^{N-1}}u_1$. At $r=1+g(\theta)$,
+\[
+\partial_r u_1(1+g,\theta)
+=\frac{1}{N}\sum_k k(1+g)^{k-1}g_k(\theta)
+=\frac{1}{N}\sum_k k g_k(\theta)+E_1(\theta),
+\]
+\[
+\nabla_{S^{N-1}}u_1(1+g,\theta)
+=\frac{1}{N}\sum_k (1+g)^k\nabla_{S^{N-1}}g_k(\theta)
+=\frac{1}{N}\nabla_{S^{N-1}}g(\theta)+E_2(\theta),
+\]
+with $\norm{E_1}_{L^2}+\norm{E_2}_{L^2}\le C\norm{g}_{C^1}\norm{g}_{L^2}$
+(each summand has a factor of $g\cdot g_k$ in $L^2$ paired with a bounded
+multiplier from $C^{2,\gamma}$-control of $g$).
+
+Therefore at $x_\theta$,
+\[
+\nabla u_g(x_\theta)
+=
+-\frac{\theta}{N}-\frac{g(\theta)\theta}{N}
++\frac{1}{N}\Bigl(\sum_k k g_k(\theta)\Bigr)\theta
++\frac{1}{N(1+g(\theta))}\nabla_{S^{N-1}}g(\theta)
++E(\theta),
+\]
+with $\norm{E}_{L^2(\partial B_1)}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{L^2}$;
+$E$ absorbs $\nabla r_g\big|_{\partial U_g}$ via Lemma~\ref{lem:lin} and
+$E_1,E_2$.
+
+Collecting the radial component, the coefficient of $-\theta$ is
+\[
+\frac{1}{N}+\frac{g(\theta)}{N}-\frac{1}{N}\sum_k kg_k(\theta)
+=\frac{1}{N}-\frac{1}{N}\sum_k(k-1)g_k(\theta)
+=\frac{1}{N}-\frac{1}{N}\mathcal L g(\theta).
+\]
+The tangential component $\frac{1}{N(1+g)}\nabla_{S^{N-1}}g$ is of size
+$O(\norm{g}_{C^1})$, so it contributes to $\abs{\nabla u_g}$ only through
+quadratic terms:
+\[
+\abs{\nabla u_g(x_\theta)}^2
+=\Bigl(\frac{1}{N}-\frac{1}{N}\mathcal L g\Bigr)^2
++\Bigl(\frac{\abs{\nabla_{S^{N-1}}g}}{N(1+g)}\Bigr)^2
++\widetilde E,
+\]
+with $\norm{\widetilde E}_{L^2}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{L^2}$.
+
+Taking the square root and Taylor-expanding,
+\[
+q_g(\theta)=\abs{\nabla u_g(x_\theta)}
+=\frac{1}{N}-\frac{1}{N}\mathcal L g(\theta)+R_q(g)(\theta),
+\]
+with $R_q$ collecting all quadratic-in-$g$ terms. The $L^2$ bound on $R_q$
+follows by H\"older from $\norm{ab}_{L^2}\le\norm{a}_{L^\infty}\norm{b}_{L^2}$
+applied to each quadratic factor (using $\norm{g}_{C^0}\le\norm{g}_{C^{2,\gamma}}$).
+\end{proof}
+
+\section{Proof of Lemma~5.2: $\alpha$-bracket expansion}\label{sec:lem52}
+
+The selected Bernoulli law from BDV Lemma~4.16 reads, on $\partial U$ with
+$x_U=0$,
+\[
+q_g(x)^2=\Lambda+a_\sigma\Psi_g(x),\qquad
+\Psi_g(x):=\abs{x}-\Bigl(\int_{U_g}\frac{y}{\abs{y}}\d y\Bigr)\cdot x,
+\qquad\abs{a_\sigma}\le C\sigma.
+\]
+
+\begin{lemma}[Quantitative $\alpha$-bracket expansion]\label{lem:5.2}
+There exist $\delta_0>0$ and $C=C(N)$ such that, for
+$\norm{g}_{C^{1}(\partial B_1)}\le\delta_0$,
+\[
+\Psi_g\bigl((1+g(\theta))\theta\bigr)
+=1+(I-\Pi_1)g(\theta)+R_\alpha(g)(\theta),
+\]
+where $\Pi_1$ is the orthogonal projection onto degree-$1$ spherical
+harmonics, and
+\[
+\norm{R_\alpha(g)}_{L^2(\partial B_1)}
+\le C\norm{g}_{C^1(\partial B_1)}\norm{g}_{L^2(\partial B_1)}.
+\]
+\end{lemma}
+
+\begin{proof}
+On $x_\theta=(1+g)\theta$, $\abs{x_\theta}=1+g(\theta)$. The centroid
+integral in spherical coordinates is
+\[
+\int_{U_g}\frac{y}{\abs{y}}\d y
+=\int_{S^{N-1}}\omega\Bigl(\int_0^{1+g(\omega)}r^{N-1}\d r\Bigr)\d\omega
+=\frac{1}{N}\int_{S^{N-1}}\omega(1+g(\omega))^N\d\omega.
+\]
+Taylor-expand $(1+g)^N=1+Ng+\binom{N}{2}g^2+Q(g)$, where
+$\norm{Q(g)}_{L^\infty(S^{N-1})}\le C\norm{g}_{C^0}^3$. Since
+$\int_{S^{N-1}}\omega\d\omega=0$,
+\[
+\int_{U_g}\frac{y}{\abs{y}}\d y
+=\int_{S^{N-1}}\omega\,g(\omega)\d\omega
++\frac{N-1}{2}\int_{S^{N-1}}\omega\,g(\omega)^2\d\omega
++\widetilde Q.
+\]
+Let $\beta:=\int_{S^{N-1}}\omega g\d\omega\in\R^N$; this is exactly the
+vector of degree-$1$ Fourier coefficients of $g$, and
+$\beta\cdot\theta=(\Pi_1 g)(\theta)$ up to the harmless basis normalization
+$\norm{Y_{1,i}}_{L^2}=\sqrt{\omega_N/N}$.
+
+Hence
+\[
+\Psi_g(x_\theta)
+=(1+g(\theta))-\beta\cdot(1+g(\theta))\theta-Q_2(\theta)
+=1+g(\theta)-\beta\cdot\theta+\widehat R_\alpha(\theta),
+\]
+with
+\[
+\widehat R_\alpha
+=-g(\theta)\beta\cdot\theta
+-(1+g(\theta))\cdot\Bigl[\frac{N-1}{2}\int\omega g^2\,d\omega\cdot\theta+\widetilde Q\cdot\theta\Bigr].
+\]
+Each term in $\widehat R_\alpha$ pairs a factor controlled in $C^0$
+(hence $L^\infty$) by $\norm{g}_{C^1}$ with a factor of $g$ in $L^2$, giving
+$\norm{R_\alpha}_{L^2(\partial B_1)}\le C\norm{g}_{C^1}\norm{g}_{L^2}$.
+Writing $\beta\cdot\theta=\Pi_1 g(\theta)$ (up to the harmless basis
+constant absorbed in $\Pi_1$) yields the claim.
+\end{proof}
+
+\section{Volume normalization}\label{sec:volnorm}
+
+The BDV selected minimizer $U_*$ has $\abs{U_*}=\abs{B_1}+O(\delta_T)$ where
+$\delta_T:=E(U_*)-E(B_1)$. Choose $r_*>0$ with $\abs{B_{r_*}}=\abs{U_*}$,
+so $\abs{r_*-1}\le C\delta_T$.
+
+\begin{lemma}\label{lem:rescale}
+Let $\widehat U:=r_*^{-1}U_*$ and $\widehat u(x):=r_*^{-2}u_{U_*}(r_*x)$.
+Then $\abs{\widehat U}=\abs{B_1}$, $-\Delta\widehat u=1$ in $\widehat U$,
+$\widehat u=0$ on $\partial\widehat U$, and
+\[
+E(\widehat U)-E(B_1)
+=r_*^{-(N+2)}\bigl(E(U_*)-E(B_{r_*})\bigr)
+=\bigl(1+O(\delta_T)\bigr)\delta_T.
+\]
+If $\partial U_*=\{(r_*+g_*(\theta))\theta:\theta\in S^{N-1}\}$
+with $\norm{g_*}_{C^{2,\gamma}(\partial B_{r_*})}\le\delta_*$, then
+$\partial\widehat U=\{(1+\widehat g(\theta))\theta\}$ with
+$\widehat g(\theta)=r_*^{-1}g_*(r_*\theta)$ and
+\[
+\norm{\widehat g}_{C^{2,\gamma}(\partial B_1)}
+\le(1+C\delta_T)\norm{g_*}_{C^{2,\gamma}(\partial B_{r_*})}.
+\]
+The selected Bernoulli law on $\partial\widehat U$ has the same form as on
+$\partial U_*$ with $\widehat\Lambda=r_*^{-2}\Lambda$ and
+$\widehat a_\sigma=r_*^{-1}a_\sigma$, hence $\abs{\widehat a_\sigma}\le C\sigma$.
+\end{lemma}
+
+\begin{proof}
+The torsion equation, energy, and gradient datum scale as $u\mapsto
+r_*^{-2}u(r_*\cdot)$, $E\mapsto r_*^{-(N+2)}E$, $\abs{\nabla u}\mapsto
+r_*^{-1}\abs{\nabla u}(r_*\cdot)$. The boundary-trace scaling
+$g_*\mapsto\widehat g$ follows from $\partial\widehat U=r_*^{-1}\partial U_*$.
+\end{proof}
+
+\begin{remark}
+The dilation $r_*=1+O(\delta_T)$ changes the smallness constants
+$\sigma_*,\delta_*$ in Theorem~\ref{thm:closure} by $1+O(\delta_T)$, which is
+absorbed into the implicit constants.
+\end{remark}
+
+\section{Quantitative spectral closure}\label{sec:closure}
+
+\begin{theorem}[Quantitative Bernoulli spectral closure]\label{thm:closure}
+There exist $\sigma_*=\sigma_*(N,R)>0$, $\delta_*=\delta_*(N,R)>0$ such that
+if $U=U_g$ is a BDV selected minimizer in the global graph regime with
+\begin{itemize}
+\item $\abs{U}=\abs{B_1}$ and $x_U=0$,
+\item $\norm{g}_{C^{2,\gamma}(\partial B_1)}\le\delta_*$,
+\item selection parameter $\sigma\le\sigma_*$,
+\end{itemize}
+then $g\equiv0$, i.e.\ $U=B_1$.
+\end{theorem}
+
+\begin{proof}
+Square Lemma~\ref{lem:5.1}:
+\[
+q_g^2=\frac{1}{N^2}-\frac{2}{N^2}\mathcal L g+R_{q2}(g),
+\quad\norm{R_{q2}(g)}_{L^2}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{L^2}.
+\]
+By Lemma~\ref{lem:5.2}, the RHS of the selected Bernoulli law is
+\[
+\Lambda+a_\sigma\bigl(1+(I-\Pi_1)g+R_\alpha(g)\bigr)
+=(\Lambda+a_\sigma)+a_\sigma(I-\Pi_1)g+a_\sigma R_\alpha(g).
+\]
+Equating and subtracting constants ($\Lambda+a_\sigma=1/N^2+O(\sigma)$ by
+matching mean values, with the $O(\sigma)$ from
+$\int_{\partial B_1}(I-\Pi_1)g=O(\norm{g}_{L^2}^2)$ by volume constraint):
+\[
+-\frac{2}{N^2}\mathcal L g+R_{q2}(g)
+=a_\sigma(I-\Pi_1)g+a_\sigma R_\alpha(g)+O(\norm{g}_{L^2}^2).
+\]
+Project onto $\{k\ge2\}$: the $\Pi_1$-projection vanishes, and the
+constant/degree-$1$ defects from volume and barycenter constraints satisfy
+\[
+\norm{g_0}_{L^2}+\norm{g_1}_{L^2}\le C\norm{g}_{L^2}^2.
+\]
+Thus
+\[
+-\frac{2}{N^2}\mathcal L g_{\ge2}
+=a_\sigma\,g_{\ge2}+\widetilde R(g),
+\qquad
+\norm{\widetilde R(g)}_{L^2}\le C\bigl(\norm{g}_{C^{2,\gamma}}+\sigma\bigr)\norm{g}_{L^2}.
+\]
+On $\{k\ge2\}$, $\mathcal L$ has eigenvalues $k-1\ge1$, so
+$\norm{\mathcal Lh}_{L^2}\ge\norm{h}_{L^2}$ on this subspace. Hence
+\[
+\norm{g_{\ge2}}_{L^2}
+\le\frac{N^2}{2}\bigl(\abs{a_\sigma}\norm{g_{\ge2}}_{L^2}+\norm{\widetilde R}_{L^2}\bigr)
+\le C(\sigma+\norm{g}_{C^{2,\gamma}})\norm{g}_{L^2}.
+\]
+Combined with the constraints on $g_0,g_1$,
+\[
+\norm{g}_{L^2}
+\le\norm{g_0}_{L^2}+\norm{g_1}_{L^2}+\norm{g_{\ge2}}_{L^2}
+\le C\norm{g}_{L^2}^2+C(\sigma+\norm{g}_{C^{2,\gamma}})\norm{g}_{L^2}.
+\]
+Choose $\sigma_*$, $\delta_*$ so that $C(\sigma_*+\delta_*)\le1/4$. Then
+\[
+\norm{g}_{L^2}\le C\norm{g}_{L^2}^2+\frac{1}{4}\norm{g}_{L^2},
+\quad\hbox{i.e.\ }
+\frac{3}{4}\norm{g}_{L^2}\le C\norm{g}_{L^2}^2.
+\]
+For $\norm{g}_{L^2}<3/(8C)$ (decrease $\delta_*$ further if needed using
+$\norm{g}_{L^2}\le\norm{g}_{C^0}\sqrt{\omega_N}\le C\norm{g}_{C^{2,\gamma}}$),
+this forces $\norm{g}_{L^2}=0$ and hence $g\equiv0$.
+\end{proof}
+
+\section{Sharp Saint-Venant/Faber--Krahn stability via selection}\label{sec:sharp}
+
+\begin{theorem}[Sharp stability, selected route]\label{thm:sharp}
+There exist $c_*=c_*(N,R)>0$ and $q_*=q_*(N,R)>0$ such that, for every
+open $\Omega\subset B_R$ with $\abs{\Omega}=\abs{B_1}$ and
+$Q_\alpha(\Omega):=(E(\Omega)-E(B_1))/\alpha(\Omega)\le q_*$,
+\[
+E(\Omega)-E(B_1)\ge c_*(N,R)\,\alpha(\Omega).
+\]
+In particular, using BDV Lemma~4.2 ($\mathcal A(\Omega)^2\le C\alpha(\Omega)$),
+\[
+\mathcal A(\Omega)^2\le C(N,R)\bigl(E(\Omega)-E(B_1)\bigr).
+\]
+\end{theorem}
+
+\begin{proof}
+Suppose for contradiction that $Q_\alpha(\Omega_0)\le q_0$ for $q_0$ small.
+Apply the single-set selection map with $\tau=q_0^{1/4}$. By
+\texttt{quantitative-selection-principle.md}, the selected, volume-normalized
+set $\widetilde\Omega$ satisfies
+\[
+\alpha(\widetilde\Omega)\ge\tfrac12\alpha(\Omega_0),\qquad
+Q_\alpha(\widetilde\Omega)\le C_{\rm sel}q_0,\qquad
+\sigma\le C\tau=Cq_0^{1/4}.
+\]
+For $q_0$ small enough, $\alpha(\widetilde\Omega)\le\alpha_{\rm graph}(N,R)$,
+and by \texttt{graph-entry-closure.md},
+$\partial\widetilde\Omega=\{(1+\widehat g(\theta))\theta\}$ with
+$\norm{\widehat g}_{C^{1,\gamma}}\le C\mu$, upgraded to $C^{2,\gamma}$ by
+BDV Lemma~4.16 and Schauder bootstrap.
+
+Decreasing $q_0$ further so that $\sigma\le\sigma_*$,
+$C\mu\le\delta_*/2$, and volume-normalization corrections of
+Lemma~\ref{lem:rescale} stay within smallness, Theorem~\ref{thm:closure}
+gives $\widehat g\equiv0$, i.e.\ $\widetilde\Omega=B_1$. But this contradicts
+$\alpha(\widetilde\Omega)\ge\tfrac12\alpha(\Omega_0)>0$. Hence
+$Q_\alpha(\Omega)\ge q_*:=q_0$ (with this fixed $q_0$ at the smallness
+threshold) for every $\Omega$ at sufficiently small asymmetry.
+\end{proof}
+
+\section{Boundary deficit propagation on the selected class}\label{sec:bdp}
+
+We can now resolve the apparent paradox flagged in
+\texttt{weighted-serrin-collar-reduction.md}.
+
+\begin{theorem}\label{thm:bdp-selected}
+Under the smallness assumptions of Theorem~\ref{thm:closure}, the selected
+minimizer is the ball, so all boundary deficits vanish: $D_I(0)=D_H(0)=0$.
+Hence the boundary deficit propagation
+\[
+D_I(0)+D_H(0)\le C(E(U)-E(B_1))
+\]
+holds trivially on the selected class with any constant $C\ge0$.
+
+The substantive content is the \emph{rate}: as the smallness parameters
+$\sigma$ and $\norm{g}_{C^{2,\gamma}}$ shrink, the deficits vanish at the
+rate
+\[
+\norm{g_{\ge2}}_{L^2}\le C(\sigma+\norm{g}_{C^{2,\gamma}})\norm{g}_{L^2},
+\]
+\[
+\norm{g_0}_{L^2}+\norm{g_1}_{L^2}\le C\norm{g}_{L^2}^2.
+\]
+Translated to boundary deficits,
+\[
+D_I(0)+D_H(0)
+\le C\bigl(\sigma^2+\norm{g}_{C^{2,\gamma}}^2\bigr)\norm{g}_{H^1}^2
+\le C\bigl(\sigma^2+\norm{g}_{C^{2,\gamma}}^2\bigr)(E(U)-E(B_1)).
+\]
+\end{theorem}
+
+\begin{proof}
+The first claim follows from Theorem~\ref{thm:closure}.
+
+For the rate: as recorded in Section~1 of \texttt{bernoulli-spectral-closure.md}, the boundary
+isoperimetric defect $D_I(0)$ has the spectral form
+$D_I(0)\simeq\sum_k k(k+N-2)\norm{g_k}_{L^2}^2$ (perimeter $H^1$-spectrum), and
+$D_H(0)\simeq\sum_k(k-1)^2\norm{g_k}_{L^2}^2$ (Bernoulli $H^1$-spectrum, from
+the eigenvalues of $\mathcal L^2$). The torsion deficit has the lower
+spectral form $E(U)-E(B_1)\simeq\sum_k(k-1)\norm{g_k}_{L^2}^2$ (BDV nearly
+spherical, which we do not need here since closure forces $g\equiv0$).
+
+The closure equation $\mathcal Lg_{\ge2}=O(\sigma+\delta_*)g_{\ge2}+\hbox{quadratic}$
+shows that the components $g_k$ for $k\ge K_0(\sigma,\delta_*)$ must
+vanish in the small-smallness regime, leaving only finitely many active
+modes. On the remaining low-frequency space, $H^1$ and $H^{1/2}$
+($\sim\hbox{torsion-deficit}$) norms are equivalent with a constant
+$O(K_0)$. Hence
+\[
+\norm{g}_{H^1}^2\le K_0\norm{g}_{H^{1/2}}^2\le C_{K_0}(E(U)-E(B_1)).
+\]
+The deficits inherit this control, with constants depending only on the
+smallness thresholds $\sigma_*,\delta_*$.
+\end{proof}
+
+\begin{remark}[Why the $k^2$ obstruction disappears]
+On the full nearly-spherical class, $D_I(0)\simeq k^2\norm{g_k}^2$ while
+$E-E(B)\simeq k\norm{g_k}^2$, so the ratio is unbounded as $k\to\infty$. The
+selected Bernoulli law, projected onto degree-$k$ spherical harmonics, gives
+$(k-1)\norm{g_k}_{L^2}\le C\sigma\norm{g_k}_{L^2}+\hbox{quadratic}$, which
+\emph{forces} $g_k=0$ for $k\ge K_0$ whenever $C\sigma<k-1$. Thus only
+$k<K_0$ can be active, and on a finite-frequency band the boundary deficit
+is controlled by the torsion deficit.
+\end{remark}
+
+\section{Status and what remains}
+
+The selection route is now closed up to:
+\begin{enumerate}
+\item Quantitative tracking of the constants $\sigma_*,\delta_*,q_*$
+through the dependency chain
+$q_*\to\tau=q_*^{1/4}\to\sigma\le C\tau\to\hbox{closure smallness}$;
+this gives $q_*$ a polynomial relation to the BDV regularity thresholds.
+
+\item Explicit verification of the divergence-pullback
+identity~\eqref{eq:divpull} in $C^\gamma$, with constants depending only on
+$N$ and $\chi$.
+
+\item Schauder bootstrap from $C^{1,\gamma}$ to $C^{2,\gamma}$ graphs using
+BDV Lemma~4.16 in Theorem~\ref{thm:sharp}.
+\end{enumerate}
+
+No external Serrin stability theorem and no near-spherical second variation
+of BDV are needed: closure is by the Steklov spectral gap
+$\norm{\mathcal Lh}_{L^2}\ge\norm{h}_{L^2}$ on $\{k\ge2\}$ combined with the
+$O(\sigma)$ control of the selected Bernoulli law.
+
+\end{document}

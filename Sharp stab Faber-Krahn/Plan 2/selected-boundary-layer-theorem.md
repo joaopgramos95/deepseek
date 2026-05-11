@@ -1,0 +1,457 @@
+# Selected boundary-layer theorem
+
+This note implements the hybrid route suggested by the Plan 1 and Plan 2 agent
+reports. The guiding point is that the pure level-set method loses control at
+the boundary for arbitrary rough domains, while the Plan 1 selected minimizers
+have exactly the regularity needed to take small positive torsion levels as
+controlled parallel surfaces.
+
+The result below is split into two parts:
+
+1. an unconditional near-boundary good-level theorem, using only the exact
+   level-set identity and the profile-gap estimate;
+2. a selected-minimizer upgrade whose Serrin input is reduced in
+   `weighted-serrin-collar-reduction.md`.
+
+Throughout,
+
+\[
+-\Delta u=1\quad\hbox{in }U,\qquad u=0\quad\hbox{on }\partial U,
+\]
+
+\[
+E_t=\{u>t\},\qquad m(t)=|E_t|,\qquad
+L=|U|,\qquad \delta_T(U)=E(U)-E(B_L),
+\]
+
+where \(B_L\) is the ball of volume \(L\). Write
+
+\[
+c_n=n^2\omega_n^{2/n}.
+\]
+
+For regular levels define
+
+\[
+D_H(t)=
+\left(\int_{\{u=t\}}\frac1{|\nabla u|}\right)
+\left(\int_{\{u=t\}}|\nabla u|\right)
+-P(E_t)^2
+\]
+
+and
+
+\[
+D_I(t)=P(E_t)^2-c_n m(t)^{2-2/n}.
+\]
+
+The exact identity from `level-set-deficit-identity.md` is
+
+\[
+2\delta_T(U)
+=
+\int_0^{\|u\|_\infty}
+\frac{D_H(t)+D_I(t)}
+{c_n m(t)^{1-2/n}}\,dt.
+\]
+
+## 1. Near-boundary good levels
+
+Let
+
+\[
+R_L=\left(\frac{L}{\omega_n}\right)^{1/n},
+\qquad
+b(s)=u_{B_L}^*(s)
+=\frac{R_L^2-(s/\omega_n)^{2/n}}{2n}.
+\]
+
+For \(0<\eta<L/4\), set
+
+\[
+S_\eta=[L-2\eta,L-\eta],
+\qquad
+T_\eta=u^*(S_\eta).
+\]
+
+Equivalently, \(t\in T_\eta\) means
+
+\[
+L-2\eta\le m(t)\le L-\eta.
+\]
+
+### Proposition 1.1: boundary-slab good level
+
+There are dimensional constants \(c,C>0\) such that if
+
+\[
+0<\eta<L/4,\qquad
+\delta_T(U)\le c R_L^2\eta,
+\]
+
+then \(T_\eta\) contains a regular value \(t_\eta\) satisfying
+
+\[
+\eta\le |U\setminus E_{t_\eta}|\le 2\eta
+\]
+
+and
+
+\[
+D_H(t_\eta)+D_I(t_\eta)
+\le
+C\,c_n\,L^{1-2/n}\frac{\delta_T(U)}{R_L^2\eta/L}.
+\]
+
+Equivalently, since \(R_L^2\simeq_n L^{2/n}\),
+
+\[
+D_H(t_\eta)+D_I(t_\eta)
+\le
+C_n\frac{L^{2-4/n}}{\eta}\,\delta_T(U).
+\]
+
+Moreover the chosen level lies at the correct boundary height:
+
+\[
+c_n\frac{R_L^2}{L}\eta
+\le t_\eta\le
+C_n\frac{R_L^2}{L}\eta .
+\]
+
+#### Proof
+
+Let \(v(s)=u^*(s)\) and \(h(s)=b(s)-v(s)\). The profile-gap estimate gives
+
+\[
+0\le h(s)\le \frac{2\delta_T(U)}{s}.
+\]
+
+On \(S_\eta\), \(s\ge L/2\), hence
+
+\[
+0\le h(s)\le \frac{4\delta_T(U)}{L}.
+\]
+
+For \(s\in S_\eta\), elementary bounds for
+\((1-\rho)^{2/n}\), \(0\le \rho\le 1/2\), give
+
+\[
+c_n\frac{R_L^2}{L}\eta
+\le b(s)\le
+C_n\frac{R_L^2}{L}\eta.
+\]
+
+After decreasing \(c\), the hypothesis
+\(\delta_T(U)\le c R_L^2\eta\) makes \(v(s)=b(s)-h(s)\) comparable to
+\(R_L^2\eta/L\) throughout the slab.
+
+The same estimate gives a lower bound for the length of \(T_\eta\). Indeed,
+
+\[
+|T_\eta|
+=v(L-2\eta)-v(L-\eta)
+\]
+
+and
+
+\[
+b(L-2\eta)-b(L-\eta)\ge c_n\frac{R_L^2}{L}\eta.
+\]
+
+The oscillation of \(h\) across the slab is at most \(4\delta_T(U)/L\), so,
+again by the smallness assumption,
+
+\[
+|T_\eta|\ge c_n\frac{R_L^2}{L}\eta.
+\]
+
+Now average the exact identity over \(T_\eta\). Since
+\(m(t)\in[L-2\eta,L-\eta]\subset[L/2,L]\) on \(T_\eta\), there exists a
+regular \(t_\eta\in T_\eta\) with
+
+\[
+D_H(t_\eta)+D_I(t_\eta)
+\le
+\frac{2\delta_T(U)}
+{\int_{T_\eta}\frac{dt}{c_n m(t)^{1-2/n}}}
+\le
+C_n\frac{L^{2-4/n}}{\eta}\delta_T(U).
+\]
+
+The volume-layer bound follows directly from the definition of \(T_\eta\).
+
+## 2. Transfer back to the original set
+
+The selected level is useful only if stability of \(E_{t_\eta}\) can be
+returned to \(U\).
+
+### Lemma 2.1: boundary-layer asymmetry transfer
+
+For every \(t>0\), with \(\eta=L-m(t)\),
+
+\[
+\mathcal A(U)\le \mathcal A(E_t)+2\frac{\eta}{L}.
+\]
+
+#### Proof
+
+Let \(B_s\) be an optimal ball for \(E_t\), where \(s=m(t)=L-\eta\), and let
+\(B_L\) be the concentric dilation of \(B_s\) with volume \(L\). Since
+\(E_t\subset U\),
+
+\[
+|U\Delta B_L|
+\le |U\setminus E_t|+|E_t\Delta B_s|+|B_L\setminus B_s|.
+\]
+
+Divide by \(L\). The first and third terms are both \(\eta/L\), while the
+middle term is \((s/L)\mathcal A(E_t)\le \mathcal A(E_t)\).
+
+### Corollary 2.2: good-level transfer estimate
+
+If \(t_\eta\) is the level from Proposition 1.1, then
+
+\[
+\mathcal A(U)^2
+\le
+2\mathcal A(E_{t_\eta})^2
++8\frac{\eta^2}{L^2}.
+\]
+
+By the quantitative isoperimetric inequality applied to \(E_{t_\eta}\),
+
+\[
+\mathcal A(E_{t_\eta})^2
+\le
+C_n\frac{D_I(t_\eta)}{m(t_\eta)^{2-2/n}},
+\]
+
+and therefore
+
+\[
+\mathcal A(U)^2
+\le
+C_n\frac{D_I(t_\eta)}{L^{2-2/n}}
++8\frac{\eta^2}{L^2}.
+\]
+
+Choosing
+
+\[
+\eta=L\,\delta_{\rm rel}^{1/2},
+\qquad
+\delta_{\rm rel}:=\frac{\delta_T(U)}{L^{1+2/n}},
+\]
+
+one obtains the scale-invariant estimate
+
+\[
+\mathcal A(U)^2
+\le
+C_n\delta_{\rm rel}^{1/2}
+\]
+
+from level-set information alone. This is the known boundary-layer loss: it
+gives the wrong exponent. The selected-minimizer regularity is needed to
+replace this average estimate by a boundary trace estimate.
+
+## 3. Selected-minimizer boundary trace
+
+Assume now that \(U=\{u>0\}\) is a Plan 1 selected minimizer in the graph
+regime. Thus \(\partial U\) is \(C^{1,\gamma}\), the Bernoulli coefficient
+
+\[
+q(y)=|\nabla u(y)|,\qquad y\in\partial U,
+\]
+
+satisfies
+
+\[
+0<q_-\le q\le q_+,\qquad [q]_{C^\gamma(\partial U)}\le M,
+\]
+
+and the interior normal exponential map is a \(C^{1,\gamma}\) diffeomorphism in
+a fixed collar of \(\partial U\).
+
+### Lemma 3.1: positive levels are controlled parallel surfaces
+
+There are \(t_0>0\) and \(C\), depending only on the selected-minimizer
+regularity constants, such that for \(0<t<t_0\)
+
+\[
+\{u=t\}
+=
+\left\{
+y-\frac{t}{q(y)}\nu_U(y)+R_t(y):
+y\in\partial U
+\right\},
+\]
+
+with
+
+\[
+|R_t(y)|\le C t^{1+\gamma}.
+\]
+
+Consequently,
+
+\[
+|U\setminus E_t|
+=
+t\int_{\partial U}\frac1q\,d\mathcal H^{n-1}
++O(t^{1+\gamma}),
+\]
+
+\[
+P(E_t)=P(U)+O(t),
+\]
+
+and
+
+\[
+\bigl|\mathcal A(E_t)-\mathcal A(U)\bigr|\le C t.
+\]
+
+#### Proof
+
+In the collar, write points as \(x=y-r\nu_U(y)\). Boundary \(C^{1,\gamma}\)
+regularity and the Bernoulli condition give
+
+\[
+u(y-r\nu_U(y))=q(y)r+O(r^{1+\gamma})
+\]
+
+uniformly in \(y\). Since \(q\ge q_->0\), the equation \(u=t\) has a unique
+solution
+
+\[
+r_t(y)=\frac{t}{q(y)}+O(t^{1+\gamma})
+\]
+
+by the elementary inverse estimate for \(C^{1,\gamma}\) perturbations of a
+linear function. The area and volume expansions follow from the area formula
+for the normal map. The asymmetry estimate follows from
+\(|E_t\Delta U|=|U\setminus E_t|=O(t)\) and the fixed-volume Lipschitz
+continuity of Fraenkel asymmetry under symmetric difference, after the harmless
+volume normalization.
+
+## 4. The conditional sharp theorem
+
+The preceding lemmas isolate the only missing analytic input.
+
+### Input S: weighted Serrin stability on selected collars
+
+For selected minimizers in the graph regime, assume the following stability
+estimate holds uniformly for all sufficiently small regular levels:
+
+\[
+\mathcal A(E_t)^2
+\le
+C\left(
+\frac{D_H(t)+D_I(t)}{L^{2-2/n}}
++\frac{|U\setminus E_t|^2}{L^2}
+\right).
+\]
+
+The \(D_I\) part is the quantitative isoperimetric inequality. The real content
+is to upgrade the weighted variance identity
+
+\[
+\int_{\{u=t\}}
+\frac{(|\nabla u|-\bar f_t)^2}{|\nabla u|}
+=
+\frac{m(t)}{P(E_t)^2}D_H(t)
+\]
+
+to the boundary norm required by a Serrin-stability theorem, using the uniform
+\(C^\gamma\) estimates supplied by Plan 1.
+
+The follow-up note `weighted-serrin-collar-reduction.md` observes that this
+specific Input S is already implied by the quantitative isoperimetric
+inequality through \(D_I(t)\). The useful role of \(D_H(t)\) is diagnostic: it
+provides approximate Serrin data, but it is not the sharp Fraenkel bottleneck in
+the selected graph regime.
+
+### Theorem 4.1: selected boundary-layer theorem, conditional on Input S
+
+Let \(U\) be a Plan 1 selected minimizer in the graph regime, with
+\(|U|=L\), and let
+
+\[
+\delta_{\rm rel}:=\frac{\delta_T(U)}{L^{1+2/n}}.
+\]
+
+Assume Input S. If \(\delta_{\rm rel}\) is sufficiently small, then there is a
+regular level \(t\) such that
+
+\[
+|U\setminus E_t|\le C L\delta_{\rm rel}^{1/2},
+\]
+
+\[
+E_t\hbox{ is a regular approximate Serrin domain},
+\]
+
+and
+
+\[
+\mathcal A(U)^2
+\le
+C\left(
+\frac{D_H(t)+D_I(t)}{L^{2-2/n}}
++\delta_{\rm rel}
+\right).
+\]
+
+In particular,
+
+\[
+\mathcal A(U)^2\le C\delta_{\rm rel}^{1/2}
+\]
+
+unconditionally from the averaged level-set bound, and the sharp estimate
+
+\[
+\mathcal A(U)^2\le C\delta_{\rm rel}
+\]
+
+would follow once the boundary deficit propagation step finds a boundary level
+with
+
+\[
+D_H(t)+D_I(t)\le C L^{2-2/n}\delta_{\rm rel}.
+\]
+
+#### Proof
+
+Choose \(\eta=L\delta_{\rm rel}^{1/2}\). Proposition 1.1 gives a regular
+\(t\) with \(|U\setminus E_t|\le 2\eta\) and controlled level deficit. Lemma
+3.1 ensures that, for small \(\delta_{\rm rel}\), this level is a regular
+parallel surface in the selected collar. Input S gives the displayed estimate
+for \(\mathcal A(E_t)^2\), and Lemma 2.1 transfers it back to \(U\). The
+boundary-layer volume contributes exactly
+\(\eta^2/L^2=\delta_{\rm rel}\).
+
+The last statement identifies the remaining sharpness gap: the current
+averaging argument gives a \(1/\eta\) loss, while the selected-minimizer trace
+theorem should use the small-collar regularity to avoid averaging over a slab
+whose length is only \(O(\eta)\).
+
+## 5. Implementation consequence for the full strategy
+
+This note makes the Plan 1/Plan 2 hybrid route precise:
+
+1. Plan 1 selects \(U\) and preserves the quotient
+   \((E(\Omega)-E(B))/\alpha(\Omega)\).
+2. Plan 1 graph entry gives a \(C^{1,\gamma}\) collar and Bernoulli bounds.
+3. Plan 2 gives the exact integrated level-set identity.
+4. Proposition 1.1 finds a genuine near-boundary level.
+5. Lemma 3.1 turns that level into a controlled trace of \(\partial U\).
+6. The remaining non-formal input is boundary deficit propagation:
+   \(D_I(0)+D_H(0)\lesssim E(U)-E(B)\), or an equivalent Plan 1
+   near-spherical expansion.
+
+Thus the most promising next concrete task is the Plan 1 graph-entry and
+near-spherical closure, not another selection lemma or a stronger Serrin theorem
+for rough levels.
