@@ -295,3 +295,221 @@ analogue.
 
 This calculation is probably the most meaningful way to test whether the
 analytic/native-space idea can carry real proof weight.
+
+## 8. Linearized native-space calculation at the ball
+
+Here is the calculation in a form that can be proved next. Normalize the ball to
+be \(B=B_1\subset\mathbb R^N\), and write a nearly spherical perturbation as
+
+\[
+\partial\Omega_\varepsilon
+=
+\{r_\varepsilon(\theta)\theta:\theta\in\partial B\},
+\qquad
+r_\varepsilon(\theta)
+=
+1+\varepsilon\varphi(\theta)+\frac{\varepsilon^2}{2}\psi(\theta)+o(\varepsilon^2).
+\]
+
+Volume preservation gives
+
+\[
+\int_{\partial B}\varphi=0,
+\qquad
+\int_{\partial B}\psi=-(N-1)\int_{\partial B}\varphi^2.
+\]
+
+Expand
+
+\[
+u_\varepsilon=u_B+\varepsilon u_1+\frac{\varepsilon^2}{2}u_2+o(\varepsilon^2),
+\qquad
+u_B(r)=\frac{1-r^2}{2N}.
+\]
+
+The first shape derivative is harmonic in \(B\) and satisfies
+
+\[
+\Delta u_1=0,\qquad
+u_1|_{\partial B}=\frac{\varphi}{N}.
+\]
+
+Equivalently, for
+
+\[
+h_\varepsilon=u_\varepsilon+\frac{|x|^2}{2N},
+\]
+
+the first variation of \(h_\varepsilon-h_B\), pulled back to the ball, is the
+harmonic extension of \(\varphi/N\). If
+
+\[
+\varphi=\sum_{k\ge1}\varphi_k
+\]
+
+is the spherical-harmonic decomposition, then
+
+\[
+u_1(r,\theta)=\frac1N\sum_{k\ge1}r^k\varphi_k(\theta),
+\]
+
+and
+
+\[
+\int_B |\nabla (Nu_1)|^2
+=
+\sum_{k\ge1} k\,\|\varphi_k\|_{L^2(\partial B)}^2.
+\]
+
+Thus the native harmonic object sees exactly the homogeneous \(H^{1/2}\) weights
+on the boundary graph. This is the clean replacement for the Fock norm in the
+GGRT variational proof.
+
+The second boundary datum is also explicit. With the expansion convention above,
+the boundary condition \(u_\varepsilon=0\) on \(\partial\Omega_\varepsilon\)
+gives
+
+\[
+u_2|_{\partial B}
+=
+-2\varphi\,\partial_r u_1
+-\varphi^2\,\partial_{rr}u_B
+-\psi\,\partial_r u_B.
+\]
+
+Since \(\partial_r u_B(1)=-1/N\) and \(\partial_{rr}u_B(1)=-1/N\), this becomes
+
+\[
+u_2|_{\partial B}
+=
+-2\varphi\,\partial_r u_1
++\frac{\varphi^2+\psi}{N}.
+\]
+
+This formula is the input needed to compute the diagonal coefficients of the
+second variation.
+
+## 9. The moving-level part of \(\mathcal K_s\)
+
+Fix \(s\in(0,|B|)\), set
+
+\[
+\rho:=\left(\frac{s}{\omega_N}\right)^{1/N},
+\qquad
+\tau:=u_B(\rho)=\frac{1-\rho^2}{2N}.
+\]
+
+The ball's matched superlevel set is \(B_\rho=\{u_B>\tau\}\). Write the
+functional as
+
+\[
+\mathcal K_s(\Omega)
+=
+\int_{\mathbb R^N}(u_\Omega-t_\Omega)_+\,dx+t_\Omega s,
+\qquad
+|\{u_\Omega>t_\Omega\}|=s.
+\]
+
+This representation removes the first-order contribution of the moving level.
+At the ball,
+
+\[
+\mathcal K_s'(B)[\varphi]
+=
+\int_{B_\rho}u_1\,dx.
+\]
+
+Therefore \(\mathcal K_s'(B)[\varphi]=0\) for every first-order
+volume-preserving perturbation: the \(k=0\) mode is removed by volume, and all
+nonzero spherical harmonics integrate to zero on \(B_\rho\).
+
+The first variation \(t_1\) of the threshold is determined by preserving the
+volume of the internal level set:
+
+\[
+0=
+\int_{\partial B_\rho}
+\frac{u_1-t_1}{|\nabla u_B|}\,d\mathcal H^{N-1}.
+\]
+
+Hence \(t_1\) is the average of \(u_1\) on \(\partial B_\rho\); in particular
+\(t_1=0\) on every mode \(k\ge1\).
+
+The expected second-variation formula is
+
+\[
+\mathcal K_s''(B)[\varphi,\varphi]
+=
+\int_{B_\rho}u_2\,dx
++
+\int_{\partial B_\rho}
+\frac{(u_1-t_1)^2}{|\nabla u_B|}\,d\mathcal H^{N-1}.
+\]
+
+Since \(|\nabla u_B|=\rho/N\) on \(\partial B_\rho\), the moving-level term is
+
+\[
+\frac{N}{\rho}
+\int_{\partial B_\rho}(u_1-t_1)^2\,d\mathcal H^{N-1}.
+\]
+
+The remaining task is to insert the harmonic expansion for \(u_1\), solve for
+the harmonic \(u_2\) from the boundary datum in Section 8, and obtain
+
+\[
+\mathcal K_s(B)-\mathcal K_s(\Omega_\varepsilon)
+=
+\frac{\varepsilon^2}{2}
+\sum_{k\ge2}a_k(\rho)
+\|\varphi_k\|_{L^2(\partial B)}^2
++o(\varepsilon^2).
+\]
+
+The GGRT analogue to prove is the spectral gap
+
+\[
+a_k(\rho)\ge c(\rho)(1+k)
+\qquad(k\ge2),
+\]
+
+after removing \(k=0\) by volume and \(k=1\) by barycenter normalization. If this
+holds, \(\mathcal K_s\) gives a direct native-space proof of the near-ball
+quadratic stability estimate.
+
+## 10. Two-dimensional holomorphic version
+
+When \(N=2\), the same linearization has a holomorphic form. Let
+
+\[
+F_\Omega(z):=\partial_z u_\Omega(z)+\frac{\bar z}{4}.
+\]
+
+For the centered disk, \(F_B\equiv0\). In the fixed-disk linearization,
+
+\[
+F_{\Omega_\varepsilon}
+=
+\varepsilon\,\partial_z u_1+O(\varepsilon^2).
+\]
+
+If the boundary graph has Fourier expansion
+
+\[
+\varphi(e^{i\theta})
+=
+\sum_{k\ge2}\left(a_k e^{ik\theta}+\overline{a_k}e^{-ik\theta}\right)
+\]
+
+after removing volume and translation modes, then the holomorphic part of
+\(\partial_z u_1\) has coefficients proportional to
+
+\[
+k\,a_k z^{k-1}.
+\]
+
+Bergman and Hardy norms of this holomorphic field therefore recover the same
+\(k\)-weights as the harmonic Dirichlet norm. This gives a concrete
+Bergman/Hardy-space version of the GGRT Fock-space calculation: prove the
+second variation of \(\mathcal K_s\) is coercive in the norm of
+\(\partial_z u_1\), then translate that coercivity back to
+\(\|\varphi\|_{H^{1/2}(\partial B)}\).

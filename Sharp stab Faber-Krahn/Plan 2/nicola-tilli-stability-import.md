@@ -282,3 +282,103 @@ The concrete calculation to try is the second variation at the ball of
 If the resulting quadratic form is diagonal in spherical harmonics and has a
 spectral gap after removing the \(k=0\) and \(k=1\) modes, this would give a
 native torsion analogue of the GGRT variational proof.
+
+## 9. Explicit torsion replacement dictionary
+
+The most useful import from GGRT is now the following concrete dictionary.
+
+| GGRT/STFT step | Torsion replacement | Current status |
+| --- | --- | --- |
+| Compare \(u^*(s)\) with \(e^{-s}\). | Compare \(v(s)=u_\Omega^*(s)\) with the ball profile \(b(s)\). | Proved at the profile level: \(0\le b-v\le 2\delta_T/s\). |
+| Select \(A_\Lambda=\{u_F>u_F^*(|\Lambda|)\}\). | Select \(E_t=\{u_\Omega>t\}\) with \(m(t)=L-\eta\). | Profile gap gives \(t\) in the correct boundary-height range. |
+| Prove the matched superlevel set is regular and ball-like. | Prove \(E_t\) has small \(D_I\) and \(D_H\), hence small asymmetry and approximate Serrin data. | Averaged identity gives one such level on a slab; regularity is the open point. |
+| Transport from \(A_\Lambda\) back to \(\Lambda\). | Use \(E_t\subset\Omega\) and \(\mathcal A(\Omega)\le \mathcal A(E_t)+2|\Omega\setminus E_t|/|\Omega|\). | Elementary and ready to use. |
+| Use Fock analyticity for level-set geometry. | Use BDV selected-minimizer regularity, or harmonic/holomorphic native objects after graph entry. | This is where Plan 1 is needed. |
+
+This table isolates the true gap. The one-dimensional part and the final
+set-comparison part are already quantitative. What is missing is a theorem that
+turns a selected near-boundary superlevel set into a regular approximate Serrin
+domain without losing the sharp exponent.
+
+## 10. Hybrid route with Plan 1 selection
+
+The pure level-set method sees interior levels. Plan 1's selected minimizer
+regularity is useful precisely because it turns small positive levels into a
+controlled boundary layer.
+
+Assume the Plan 1 selection principle has replaced \(\Omega\) by a selected
+minimizer \(U=\{u>0\}\) with:
+
+- density estimates on both phases;
+- nondegeneracy of \(u\) at the free boundary;
+- a Bernoulli coefficient \(q_U\) bounded above and below;
+- \(C^{1,\gamma}\) free boundary once the flatness threshold is reached;
+- eventually a global graph over the ball when \(\mathcal A(U)\) is small.
+
+Then the level-set method gains four concrete tools.
+
+First, height becomes thickness:
+
+\[
+c\,\operatorname{dist}(x,\partial U)
+\le u(x)\le
+C\,\operatorname{dist}(x,\partial U)
+\]
+
+near \(\partial U\). Thus \(u=t\) is at distance comparable to \(t\) from the
+free boundary.
+
+Second, small levels are normal graphs. If \(q_U=|\nabla u|\) on
+\(\partial U\), then
+
+\[
+\{u=t\}
+=
+\left\{
+y-\frac{t}{q_U(y)}\nu_U(y)+O(t^{1+\gamma})
+:\ y\in\partial U
+\right\}.
+\]
+
+Third, the coarea quantities in the level-set identity have boundary traces:
+
+\[
+|\nabla u|\to q_U,\qquad
+P(\{u>t\})\to P(U),
+\qquad
+|U\setminus\{u>t\}|
+=t\int_{\partial U}q_U^{-1}+o(t).
+\]
+
+Fourth, the weighted Holder defect can be upgraded. The identity gives
+
+\[
+\int_{\{u=t\}}
+\frac{(|\nabla u|-\bar f_t)^2}{|\nabla u|}
+\]
+
+and selected-minimizer regularity supplies uniform \(C^\gamma\) control of
+\(|\nabla u|\) on \(\{u=t\}\). Interpolation can then turn this weighted
+\(L^2\) defect into the stronger boundary norms required by known Serrin
+stability mechanisms.
+
+The resulting hybrid target is:
+
+> For selected minimizers \(U\), prove a boundary-layer good-level theorem:
+> there exists \(t\downarrow0\), with
+> \(|U\setminus\{u>t\}|=O(|U|\delta_T(U)^{1/2})\), where \(\delta_T\) is the
+> scale-invariant torsion deficit, such that the matched
+> superlevel set \(\{u>t\}\) is a regular approximate Serrin domain and
+> \[
+> \mathcal A(U)^2
+> \le
+> C\left(
+> \frac{D_I(t)+D_H(t)}{|U|^{2-2/n}}
+> +\delta_T(U)
+> \right).
+> \]
+
+This is the sharp-exponent version of the GGRT replacement strategy in the
+torsion setting. It uses Plan 1 only for the regularity and boundary-layer
+trace estimates; the quantitative deficit information still comes from the
+Nicola--Tilli identity.

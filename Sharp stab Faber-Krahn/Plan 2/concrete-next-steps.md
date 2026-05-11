@@ -3,6 +3,70 @@
 This note records the most actionable next moves after compiling the current
 Faber--Krahn stability notes.
 
+## 0. Current best theorem to prove
+
+The next best theorem is no longer just "find a good level"; it should be a
+selected-minimizer boundary-layer theorem.
+
+**Target theorem.** Let \(U=\{u>0\}\) be a BDV/Plan 1 selected minimizer with
+\(|U|=|B|\), small scale-invariant Saint-Venant deficit \(\delta_T(U)\), and
+with the standard selected-minimizer bounds: density, nondegeneracy, bounded
+Bernoulli coefficient, and \(C^{1,\gamma}\) free boundary in the graph regime.
+Then there is a level \(t\) with
+
+\[
+|U\setminus\{u>t\}| \le C|U|\delta_T(U)^{1/2}
+\]
+
+such that \(E_t=\{u>t\}\) is a regular approximate Serrin domain and
+
+\[
+\mathcal A(U)^2
+\le
+C\left(
+\frac{D_I(t)+D_H(t)}{|U|^{2-2/n}}
++\delta_T(U)
+\right).
+\]
+
+The point of this theorem is that the boundary-layer error is already of the
+right order after squaring. The level-set identity supplies the quantitative
+deficit information, while Plan 1 supplies the regularity needed to pass from
+interior levels to the boundary without an uncontrolled loss.
+
+The proof should be broken into the following lemmas:
+
+1. **Profile-height lemma.** On \(s\in[L-2\eta,L-\eta]\),
+   \[
+   0\le b(s)-v(s)\le 4\delta_T/L,
+   \qquad
+   v(s)\simeq_{n,L}\eta
+   \]
+   whenever \(\delta_T\ll\eta\).
+2. **Boundary-slab good-level lemma.** In the same slab, there is a regular
+   \(t\) with
+   \[
+   D_H(t)+D_I(t)\le 2\delta_T/\nu(T_\eta).
+   \]
+3. **Selected boundary-layer trace lemma.** For selected minimizers,
+   \[
+   \{u=t\}
+   =
+   \left\{
+   y-\frac{t}{|\nabla u(y)|}\nu_U(y)+O(t^{1+\gamma})
+   :y\in\partial U
+   \right\},
+   \]
+   and the quantities \(P(\{u>t\})\), \(|U\setminus\{u>t\}|\), \(D_I(t)\), and
+   \(D_H(t)\) have controlled traces as \(t\downarrow0\).
+4. **Replacement-transfer lemma.**
+   \[
+   \mathcal A(U)\le \mathcal A(E_t)+2|U\setminus E_t|/|U|.
+   \]
+5. **Approximate-Serrin upgrade.** Use the weighted variance identity for
+   \(D_H(t)\), plus selected-minimizer \(C^\gamma\) estimates, to reach the
+   boundary norm required by a Serrin-stability theorem.
+
 ## 1. Prove the finite-perimeter level-set identity
 
 This is the cleanest low-risk theorem to write next.

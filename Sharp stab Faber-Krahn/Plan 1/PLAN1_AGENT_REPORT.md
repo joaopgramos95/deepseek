@@ -1,0 +1,117 @@
+# Plan 1 agent report
+
+Date: 2026-05-11
+
+Scope: only files in `Sharp stab Faber-Krahn/Plan 1` were edited.
+
+## Files changed
+
+- `quantitative-selection-principle.md`
+- `quantitative-selection-principle.tex`
+- `quantitative-selection-principle.pdf` (regenerated from the edited TeX)
+- `plan1.md`
+- `README.md`
+- `PLAN1_AGENT_REPORT.md`
+
+## Main progress
+
+The single-set selection lemma is now stated with explicit assumptions and
+dependencies. For an input set \(\Omega_0\subset B_R\) with
+
+\[
+|\Omega_0|=|B_1|,
+\qquad
+\varepsilon=\alpha(\Omega_0),
+\qquad
+q=Q_\alpha(\Omega_0)
+=
+\frac{E(\Omega_0)-E(B_1)}{\alpha(\Omega_0)},
+\]
+
+the selected minimizer of
+
+\[
+E(U)+f_{\hat\eta}(|U|)
++
+\sqrt{\varepsilon^2+\tau^2(\alpha(U)-\varepsilon)^2}
+\]
+
+preserves the quotient after volume normalization. The general loss is
+
+\[
+\rho(q,\tau)
+=
+\frac{\sqrt{2q+q^2}}{\tau}+C_{\rm sel}q.
+\]
+
+If \(\rho(q,\tau)\le1/2\), then
+
+\[
+\alpha(\widetilde\Omega)\ge(1-\rho(q,\tau))\alpha(\Omega_0),
+\qquad
+Q_\alpha(\widetilde\Omega)
+\le
+\frac{C_{\rm sel}}{1-\rho(q,\tau)}Q_\alpha(\Omega_0).
+\]
+
+With the canonical choice \(\tau=q^{1/4}\), this gives
+\(Q_\alpha(\widetilde\Omega)\le C Q_\alpha(\Omega_0)\) for
+\(q\le q_{\rm sel}(N,R)\).
+
+The constants are now separated into an existence threshold
+\(\tau_{\rm ex}(N,R)\) and a regularity threshold
+\(\tau_{\rm reg}(N,R)\). The latter includes the smallness assumptions from
+BDV Lemmas 4.9 and 4.16, needed for density, nondegeneracy, and smooth
+Bernoulli coefficients.
+
+## Compactness step isolated
+
+The remaining BDV compactness passage is now split into precise lemmas:
+
+1. \(\alpha\)-to-Hausdorff: using the two-sided density estimates and BDV
+   Lemma 4.2,
+   \[
+   d_H(\partial U,\partial B_1(x_U))
+   \le
+   C_H(N,R)\alpha(U)^{1/(2N)}.
+   \]
+2. Hausdorff-to-flatness: below a threshold
+   \(h_F(N,R,\mu,\rho_\mu)\), the selected minimizer should satisfy the
+   Alt-Caffarelli class \(F(C\mu,1,+\infty)\) on a fixed scale.
+3. Flatness-to-global graph: local Alt-Caffarelli graphs patch through radial
+   projection to one global \(C^{1,\gamma}\) normal graph over \(\partial B_1\).
+
+This produces an explicit graph-entry target
+
+\[
+\alpha_{\rm graph}(N,R)
+=
+\left(\frac{h_F(N,R,\mu,\rho_\mu)}{C_H(N,R)}\right)^{2N}.
+\]
+
+## What remains unchanged
+
+The route still follows BDV:
+
+1. prove sharp Saint-Venant stability for torsion,
+2. use the Kohler-Jobin transfer for Faber-Krahn,
+3. invoke BDV's nearly spherical second variation once the selected set is a
+   smooth small graph over the ball.
+
+The local nearly spherical theorem and the BDV penalized functional are not
+changed. The update only replaces the sequential selection argument by a
+single-set quantitative version and names the remaining regularity thresholds.
+
+## Most promising next theorem
+
+The next theorem to prove is the Hausdorff-to-flatness lemma:
+
+> For selected minimizers with \(\tau\le\tau_{\rm reg}(N,R)\), if
+> \(d_H(\partial U,\partial B_1(x_U))\le h_F(N,R,\mu,\rho_\mu)\), then near
+> every boundary point the torsion function is of Alt-Caffarelli class
+> \(F(C\mu,1,+\infty)\) at scale \(\rho_\mu\).
+
+This is the decisive bridge between the quantitative measure/Hausdorff control
+and BDV Theorem 4.18. It should use only the existing distance bounds
+\(u\simeq{\rm dist}(\cdot,\partial U)\), the uniform bounds on \(q_u\), and
+the curvature of \(\partial B_1\).

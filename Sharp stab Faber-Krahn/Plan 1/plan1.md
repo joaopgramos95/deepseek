@@ -548,3 +548,92 @@ Q(\Omega)=\frac{\delta_E(\Omega)}{\mathcal A(\Omega)^2}.
 
 The key technical lemma should preserve smallness of \(Q\), not merely increase asymmetry.
 
+---
+
+## 12. Route status after sorting
+
+The current Plan 1 route should now be read with the following refinements.
+
+### What changed
+
+The selection step is no longer formulated directly with the Fraenkel ratio
+\(\delta_E/\mathcal A^2\). In the BDV proof the workable object is the smooth
+barycentric asymmetry
+
+\[
+\alpha(\Omega)
+=
+\int_{\Omega\Delta B_1(x_\Omega)}
+\bigl|1-|x-x_\Omega|\bigr|\,dx,
+\]
+
+and the single-set ratio
+
+\[
+Q_\alpha(\Omega)
+:=
+\frac{E(\Omega)-E(B_1)}{\alpha(\Omega)}.
+\]
+
+The note `quantitative-selection-principle.md` now records a sharpened
+single-set selection map. If
+
+\[
+\varepsilon=\alpha(\Omega_0),\qquad
+q=Q_\alpha(\Omega_0),\qquad
+\tau=q^{1/4},
+\]
+
+with \(q\le q_{\rm sel}(N,R)\) and
+\(\varepsilon\le\varepsilon_{\rm sel}(N,R)\), the selected and
+volume-normalized set \(\widetilde\Omega\) satisfies
+
+\[
+\alpha(\widetilde\Omega)
+\ge
+(1-Cq^{1/4})\alpha(\Omega_0),
+\qquad
+E(\widetilde\Omega)-E(B_1)
+\le
+C(E(\Omega_0)-E(B_1)).
+\]
+
+Hence \(Q_\alpha(\widetilde\Omega)\le C Q_\alpha(\Omega_0)\). More generally
+the loss is controlled by
+
+\[
+\rho(q,\tau)=\frac{\sqrt{2q+q^2}}{\tau}+Cq,
+\]
+
+so the quotient is preserved whenever \(\rho(q,\tau)<1\). This is the precise
+replacement for the sequential estimate in BDV Proposition 4.4(iv).
+
+### What remains unchanged
+
+The global proof architecture remains BDV's:
+
+1. prove the sharp Saint-Venant estimate for torsion,
+2. transfer it to Faber-Krahn through Kohler-Jobin,
+3. use the BDV nearly spherical second variation once the selected set is a
+   smooth small graph over the ball.
+
+The local perturbative theorem around the ball is not being changed. The
+selection functional is also BDV's functional (4.10), with the sequence
+parameter \(\sigma\) replaced by the single-set parameter \(\tau\).
+
+### What is now isolated as open
+
+The remaining compactness step has been split into three lemmas:
+
+1. \(\alpha\)-to-Hausdorff: density estimates plus BDV Lemma 4.2 give
+   \(d_H(\partial U,\partial B_1(x_U))\le C\alpha(U)^{1/(2N)}\).
+2. Hausdorff-to-flatness: if this Hausdorff distance is below a fixed
+   \(h_F(N,R,\mu,\rho_\mu)\), then the selected minimizer is of
+   Alt-Caffarelli class \(F(C\mu,1,+\infty)\) on a fixed scale.
+3. Flatness-to-global graph: local Alt-Caffarelli graphs patch by radial
+   projection to a global \(C^{1,\gamma}\) normal graph over \(\partial B_1\).
+
+The first lemma is essentially quantitative already. The most important
+remaining theorem is the second one, because it converts the measurable
+selection output into the exact flatness hypothesis of BDV Theorem 4.18 with
+explicit dependencies.

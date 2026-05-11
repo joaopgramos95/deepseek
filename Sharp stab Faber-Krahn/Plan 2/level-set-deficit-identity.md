@@ -441,3 +441,229 @@ D_H(t)+D_I(t)
 Without such a theorem, the level-set method gives strong information on
 interior cores \(E_t\), but not yet a sharp estimate for the original domain
 \(\Omega\).
+
+## 8. Explicit near-boundary replacement lemmas
+
+The profile-gap observation can be turned into a precise packet of lemmas. These
+are the most concrete next statements to prove after the finite-perimeter
+identity.
+
+Throughout this section write
+
+\[
+L:=|\Omega|,\qquad
+\delta_T(\Omega):=E(\Omega)-E(B_L),
+\qquad
+R:=\left(\frac{L}{\omega_n}\right)^{1/n},
+\]
+
+where \(B_L\) is the ball of volume \(L\). Let
+
+\[
+v(s)=u_\Omega^*(s),\qquad
+b(s)=u_{B_L}^*(s)
+=\frac{R^2-(s/\omega_n)^{2/n}}{2n}.
+\]
+
+For \(0<\eta<L/4\), define the near-boundary volume slab
+
+\[
+S_\eta:=[L-2\eta,L-\eta],
+\qquad
+T_\eta:=v(S_\eta)
+=[v(L-\eta),v(L-2\eta)].
+\]
+
+Equivalently, \(t\in T_\eta\) if and only if
+
+\[
+L-2\eta\le m(t)\le L-\eta.
+\]
+
+### Lemma 8.1: profile height on a boundary slab
+
+For every \(s\in S_\eta\),
+
+\[
+0\le b(s)-v(s)\le \frac{4\delta_T(\Omega)}{L}.
+\]
+
+Moreover
+
+\[
+c_n\frac{R^2}{L}\eta
+\le
+b(s)
+\le
+C_n\frac{R^2}{L}\eta.
+\]
+
+Consequently, if
+
+\[
+\delta_T(\Omega)\le c_n R^2\eta,
+\]
+
+then every selected level \(t_s=v(s)\), \(s\in S_\eta\), satisfies
+
+\[
+c_n\frac{R^2}{L}\eta
+\le
+t_s
+\le
+C_n\frac{R^2}{L}\eta.
+\]
+
+In addition,
+
+\[
+|T_\eta|
+=v(L-2\eta)-v(L-\eta)
+\ge
+c_n\frac{R^2}{L}\eta
+\]
+
+under the same smallness assumption, after decreasing \(c_n\).
+
+Proof sketch: the first estimate is exactly
+
+\[
+0\le b(s)-v(s)\le \frac{2\delta_T(\Omega)}{s}
+\]
+
+and \(s\ge L/2\) on \(S_\eta\). The estimates for \(b(s)\) follow by applying
+elementary one-dimensional bounds to
+
+\[
+1-\left(1-\frac{\eta}{L}\right)^{2/n}.
+\]
+
+The lower bound for \(|T_\eta|\) follows from
+
+\[
+v(L-2\eta)-v(L-\eta)
+=
+b(L-2\eta)-b(L-\eta)
+-\big(h(L-2\eta)-h(L-\eta)\big),
+\]
+
+where \(h=b-v\), and the last parenthesis is bounded by \(4\delta_T(\Omega)/L\).
+
+### Lemma 8.2: good level in a boundary slab
+
+Let
+
+\[
+d\nu(t):=
+\frac{dt}{n^2\omega_n^{2/n}m(t)^{1-2/n}}.
+\]
+
+If \(T_\eta\) has positive length, then there is a regular level
+\(t_\eta\in T_\eta\) such that
+
+\[
+D_H(t_\eta)+D_I(t_\eta)
+\le
+\frac{2\delta_T(\Omega)}{\nu(T_\eta)}.
+\]
+
+In particular, under the hypotheses of Lemma 8.1,
+
+\[
+D_H(t_\eta)+D_I(t_\eta)
+\le
+C_{n,L}\frac{\delta_T(\Omega)}{\eta}.
+\]
+
+The selected level satisfies
+
+\[
+\eta\le |\Omega\setminus E_{t_\eta}|\le 2\eta.
+\]
+
+Proof sketch: the exact identity gives
+
+\[
+\int_0^{\|u\|_\infty} (D_H(t)+D_I(t))\,d\nu(t)
+=2\delta_T(\Omega).
+\]
+
+Average this identity over \(T_\eta\). On \(T_\eta\), \(m(t)\in[L-2\eta,L-\eta]\),
+so the lower bound for \(\nu(T_\eta)\) follows from the lower bound for
+\(|T_\eta|\).
+
+### Lemma 8.3: superlevel replacement and transfer back
+
+Let \(E_t=\{u>t\}\), \(s=|E_t|=L-\eta\), and assume \(E_t\subset\Omega\). Then
+
+\[
+\mathcal A(\Omega)
+\le
+\mathcal A(E_t)+2\frac{\eta}{L}.
+\]
+
+Indeed, if \(B_s\) is an optimal ball for \(E_t\) and \(B_L\) is the concentric
+dilate with volume \(L\), then
+
+\[
+|\Omega\Delta B_L|
+\le
+|\Omega\setminus E_t|
++|E_t\Delta B_s|
++|B_L\setminus B_s|.
+\]
+
+Combining this with the quantitative isoperimetric inequality gives the
+immediate replacement estimate
+
+\[
+\mathcal A(\Omega)^2
+\le
+C_n\frac{D_I(t)}{m(t)^{2-2/n}}
++C\frac{\eta^2}{L^2}.
+\]
+
+This is the torsion analogue of the GGRT step
+"replace the arbitrary set by a matched superlevel set, prove stability there,
+then transfer back".
+
+### Lemma 8.4: what selected-minimizer regularity must add
+
+For arbitrary \(\Omega\), Lemma 8.2 loses a factor \(1/\eta\). This is the
+remaining sharpness obstruction. After the BDV/Plan 1 selection step, the
+selected minimizer \(U\) should have enough free-boundary structure to replace
+the purely averaged slab estimate by a boundary-layer trace estimate.
+
+The concrete statement to prove is the following. Suppose \(U=\{u>0\}\) is a
+selected minimizer with \(C^{1,\gamma}\) free boundary, nondegeneracy, and
+
+\[
+0<c\le |\nabla u|\le C
+\quad\hbox{on }\partial U.
+\]
+
+Then for \(0<t<t_0\), the level surface \(\{u=t\}\) is a \(C^{1,\gamma}\)
+normal graph over \(\partial U\), with expansion
+
+\[
+x_t(y)=y-\frac{t}{|\nabla u(y)|}\nu_U(y)+O(t^{1+\gamma})
+\quad\hbox{for }y\in\partial U,
+\]
+
+and
+
+\[
+|U\setminus\{u>t\}|
+=
+t\int_{\partial U}\frac{1}{|\nabla u|}\,d\mathcal H^{n-1}
++O(t^{1+\gamma}),
+\]
+
+\[
+P(\{u>t\})=P(U)+O(t^\gamma).
+\]
+
+These expansions are precisely what the pure level-set route lacks. They would
+let one pass \(D_I(t)\) and the weighted Serrin variance \(D_H(t)\) to the
+actual boundary as \(t\downarrow0\), instead of selecting only one averaged
+interior level.

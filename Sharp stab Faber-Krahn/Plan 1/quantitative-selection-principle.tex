@@ -119,10 +119,31 @@ F_{\hat\eta}(U)
 This is exactly BDV's penalized functional (4.10), with the sequence parameter
 \(\sigma\) replaced by the single-set parameter \(\tau\).
 
+\subsection*{Constants and Parameter Regime}
+
+The single-set proof uses the following constants from BDV Section 4:
+\(\hat\eta=\hat\eta(N,R)\) and \(C_4=C_4(N,R)\) from Lemma 4.5;
+\(C_2=C_2(R)\), the Lipschitz constant of \(\alpha\) on subsets of \(B_R\)
+from Lemma 4.2(ii); \(\sigma_2(N,R)\) from Lemma 4.9; and
+\(\sigma_3(N,R)\) from Lemma 4.16. Separate
+\[
+\tau_{\rm ex}(N,R)\le \frac{\hat\eta}{2C_2}
+\]
+from
+\[
+\tau_{\rm reg}(N,R)
+\le
+\min\{\tau_{\rm ex}(N,R),\sigma_2(N,R),\sigma_3(N,R)\}.
+\]
+The first threshold is enough for existence and the uniform perimeter bound in
+the proof of BDV Lemma 4.6. The second is used when the Alt--Caffarelli
+regularity package is needed. All constants below may depend on \(N,R\), and
+once \(\tau\le\tau_{\rm reg}\) the free-boundary constants are uniform.
+
 \section{Quantitative Selected-Minimizer Estimates}
 
-Assume \(\tau\le\tau_0(N,R)\), small enough that the BDV existence and
-quasi-minimizer estimates hold with \(\tau\) in place of \(\sigma\). Let
+Assume \(\tau\le\tau_{\rm ex}(N,R)\), small enough that the BDV existence and
+perimeter estimates hold with \(\tau\) in place of \(\sigma\). Let
 \(U_*\) be a minimizer of \(\mathcal G_{\varepsilon,\tau}\).
 
 \subsection*{Lemma 1. Energy and Asymmetry Preservation Before Normalization}
@@ -276,6 +297,79 @@ E(\widetilde\Omega)-E(B_1)\le C\delta.
 \]
 The ratio estimate follows from the two displayed bounds.
 
+\subsection*{Proposition 4. Single-Set Selection Map Preserving \(Q_\alpha\)}
+
+Fix \(R\ge2\). There are constants
+\[
+C_{\rm sel},P_{\rm sel},q_{\rm sel},\varepsilon_{\rm sel}>0
+\]
+depending only on \(N,R\) with the following property. Let
+\(\Omega_0\subset B_R\) be open or quasi-open with
+\[
+|\Omega_0|=|B_1|,
+\qquad
+0<\varepsilon:=\alpha(\Omega_0)\le\varepsilon_{\rm sel},
+\qquad
+q:=Q_\alpha(\Omega_0)=\frac{E(\Omega_0)-E(B_1)}{\alpha(\Omega_0)}
+\le q_{\rm sel}.
+\]
+Choose
+\[
+\tau=q^{1/4},
+\]
+with \(q_{\rm sel}\le\tau_{\rm ex}^4\), minimize
+\(\mathcal G_{\varepsilon,\tau}\), and volume-normalize the minimizer by
+\[
+\widetilde\Omega
+=
+\left(\frac{|B_1|}{|U_*|}\right)^{1/N}U_*.
+\]
+Then
+\[
+P(U_*)\le P_{\rm sel},
+\qquad
+|\widetilde\Omega|=|B_1|,
+\]
+\[
+\alpha(\widetilde\Omega)
+\ge
+\left(1-C_{\rm sel}q^{1/4}\right)\alpha(\Omega_0)
+\ge
+\frac12\alpha(\Omega_0),
+\]
+\[
+E(\widetilde\Omega)-E(B_1)
+\le
+C_{\rm sel}\bigl(E(\Omega_0)-E(B_1)\bigr),
+\]
+and therefore
+\[
+Q_\alpha(\widetilde\Omega)
+\le
+2C_{\rm sel}Q_\alpha(\Omega_0).
+\]
+
+More generally, if \(\tau\le\tau_{\rm ex}\) is not tied to \(q\), set
+\[
+\rho(q,\tau)
+:=
+\frac{\sqrt{2q+q^2}}{\tau}+C_{\rm sel}q.
+\]
+Whenever \(q\le1\), \(\varepsilon\le\varepsilon_{\rm sel}\), and
+\(\rho(q,\tau)\le1/2\), the same argument gives
+\[
+\alpha(\widetilde\Omega)\ge(1-\rho(q,\tau))\alpha(\Omega_0),
+\qquad
+Q_\alpha(\widetilde\Omega)
+\le
+\frac{C_{\rm sel}}{1-\rho(q,\tau)}Q_\alpha(\Omega_0).
+\]
+This is the precise single-set replacement for the limiting estimate BDV
+obtain in Proposition 4.4(iv). The smallness of \(\varepsilon_{\rm sel}\) is
+only used after selection, to keep the dilation inside a fixed bounded class
+and to make the later Hausdorff/flatness threshold available; the quotient
+preservation itself is governed by \(\rho(q,\tau)\).
+
 \section{Free-Boundary Regularity Inherited from BDV}
 
 The minimizer \(U_*=\{u_*>0\}\) satisfies the perturbed one-phase minimality
@@ -291,7 +385,7 @@ inequality
 for all \(v\in H^1_0(B_R)\). This is BDV (4.19) with \(\tau\) in place of
 \(\sigma\).
 
-Hence, for \(\tau\le\tau_0(N,R)\), the Alt-Caffarelli estimates used in BDV
+Hence, for \(\tau\le\tau_{\rm reg}(N,R)\), the Alt-Caffarelli estimates used in BDV
 apply:
 \begin{itemize}
 \item nondegeneracy of \(u_*\) near the free boundary,
@@ -317,13 +411,18 @@ where \(\Psi_{U_*}\) is the smooth \(\alpha\)-variation term. The prefactor is
 bounded by \(\tau\), so \(q_{u_*}\) has uniform \(C^k\) bounds near
 \(\partial U_*\), exactly as in BDV Lemma 4.16.
 
-\section{Quantitative Entry into Hausdorff Closeness}
+\section{Quantitative Compactness Pipeline}
 
-The compactness step in BDV can be partially quantified as follows.
+BDV pass from \(L^1\)-convergence to a global smooth graph through compactness.
+For a quantitative version, separate that passage into the following three
+lemmas. Lemma 5 is essentially proved by the density estimate; Lemmas 6 and 7
+are the remaining places where the constants in Alt--Caffarelli's flatness
+theorem must be tracked.
 
-\subsection*{Lemma 4. From \(\alpha\) and Density to Hausdorff Distance}
+\subsection*{Lemma 5. \(\alpha\)-to-Hausdorff}
 
-Assume \(U\subset B_R\) satisfies the two-sided density estimates
+Assume \(U\subset B_R\) is open, \(x_U=0\), and satisfies the two-sided density
+estimates
 \[
 |U\cap B_r(x)|\ge c r^N,\qquad
 |B_r(x)\setminus U|\ge c r^N
@@ -336,17 +435,19 @@ then
 \[
 d_H(\partial U,\partial B_1)
 \le
-C(N,R,c,r_0) M^{1/N}.
+C_H(N,R,c,r_0) M^{1/N}.
 \]
-Using BDV Lemma 4.2,
+Therefore, by BDV Lemma 4.2(i),
 \[
-M\lesssim_N \alpha(U)^{1/2},
-\]
-so selected minimizers satisfy
-\[
-d_H(\partial U,\partial B_1)
+|U\Delta B_1(x_U)|
 \le
-C\alpha(U)^{1/(2N)}.
+C_1(N)^{1/2}\alpha(U)^{1/2},
+\]
+and selected minimizers satisfying BDV Lemma 4.11 obey
+\[
+d_H(\partial U,\partial B_1(x_U))
+\le
+C_H(N,R)\alpha(U)^{1/(2N)}.
 \]
 
 \paragraph{Proof sketch.}
@@ -360,33 +461,96 @@ Conversely, if \(y\in\partial B_1\) is distance \(d\) from \(\partial U\), then
 fixed fraction of \(B_d(y)\) lies in \(U\Delta B_1\), so again
 \(d^N\lesssim M\).
 
-\section{Remaining Quantitative Gap}
+\subsection*{Lemma 6. Hausdorff-to-Flatness at One Alt--Caffarelli Scale}
 
-BDV's final regularity passage is
+Let \(u\) be a selected minimizer with \(\tau\le\tau_{\rm reg}\), translated so
+that \(x_U=0\). Let
+\(\bar\mu,\bar\kappa,\gamma,C_{\rm AC}\) be the constants in BDV Theorem 4.18,
+depending on the uniform bounds for \(q_u\), \({\rm Lip}\,q_u\), \(R\), and
+\(N\). Fix \(0<\mu\le\bar\mu/16\), and choose \(\rho_\mu>0\) so that
 \[
-\begin{aligned}
-L^1\hbox{ closeness}
-&\Rightarrow
-\hbox{Kuratowski/Hausdorff closeness} \\
-&\Rightarrow
-\hbox{flatness at a fixed scale} \\
-&\Rightarrow
-C^{1,\gamma}\hbox{ free-boundary graph}
-\Rightarrow
-C^\infty\hbox{ convergence}.
-\end{aligned}
+\rho_\mu\le\bar\kappa\mu^2
 \]
-Lemma 4 above supplies the Hausdorff step quantitatively for selected
-minimizers. The remaining task is to make the Alt-Caffarelli flatness threshold
-explicit enough to state
+and, for every \(\bar x\in\partial B_1\),
 \[
-\alpha(U_*)\le \varepsilon_0(N,R,\tau)
-\quad\Longrightarrow\quad
-\partial U_*
-\hbox{ is a global }C^{1,\gamma}\hbox{ graph over }\partial B_1.
+\partial B_1\cap B_{5\rho_\mu}(\bar x)
+\subset
+\{x: |(x-\bar x)\cdot\nu_{\bar x}|\le\mu\rho_\mu\},
 \]
-Once this graph entry is available, BDV's nearly spherical second variation
-gives
+where \(\nu_{\bar x}\) is the interior normal to \(B_1\). There exists
+\(h_F=h_F(N,R,\mu,\rho_\mu)>0\), for instance \(h_F\lesssim\mu\rho_\mu\),
+such that if
+\[
+d_H(\partial U,\partial B_1)\le h_F,
+\]
+then for every \(\bar x\in\partial B_1\) one can find
+\(x_0\in\partial U\cap B_{h_F}(\bar x)\) such that \(u\) is of class
+\(F(C\mu,1,+\infty)\) in \(B_{4\rho_\mu}(x_0)\), in the sense of BDV
+Definition 4.17.
+
+The proof should use only the Hausdorff inclusion, the ball curvature estimate
+above, the distance bounds \(u\simeq {\rm dist}(\cdot,\partial U)\) from BDV
+Lemma 4.11, and the uniform bounds \(0<c\le q_u\le C\) from BDV Lemma 4.12.
+This is the first remaining constant-tracking task.
+
+\subsection*{Lemma 7. Flatness-to-Global Graph}
+
+Under the hypotheses of Lemma 6, if \(C\mu\le\bar\mu\), BDV Theorem 4.18 gives
+local \(C^{1,\gamma}\) representations of \(\partial U\) in every ball
+\(B_{\rho_\mu}(x_0)\) produced above, with local norm at most
+\(C_{\rm AC}\mu\). If in addition \(C_{\rm AC}\mu\) is smaller than a fixed
+tubular-neighborhood slope threshold, then these local graphs patch through
+the radial projection to a single function \(g:\partial B_1\to\mathbb R\):
+\[
+\partial U
+=
+\{(1+g(\theta))\theta:\theta\in\partial B_1\},
+\]
+with
+\[
+\|g\|_{L^\infty(\partial B_1)}
+\le
+C\,d_H(\partial U,\partial B_1),
+\qquad
+\|g\|_{C^{1,\gamma}(\partial B_1)}
+\le
+C(N,R)\mu.
+\]
+If \(q_u\) has the \(C^k\)-bounds from BDV Lemma 4.16, the same patching gives
+uniform \(C^{k+1,\gamma}\)-bounds. Since every boundary point is covered by an
+Alt--Caffarelli graph, this also rules out free-boundary singularities in the
+small-\(\alpha\) regime.
+
+\subsection*{Corollary 8. Explicit Graph-Entry Threshold}
+
+For selected minimizers with \(\tau\le\tau_{\rm reg}\), fix \(\mu=\mu(N,R)\)
+small enough for Lemmas 6 and 7, then define
+\[
+\alpha_{\rm graph}(N,R)
+:=
+\left(\frac{h_F(N,R,\mu,\rho_\mu)}{C_H(N,R)}\right)^{2N}.
+\]
+If
+\[
+\alpha(U_*)\le\alpha_{\rm graph}(N,R),
+\]
+then \(\partial U_*\) is a global \(C^{1,\gamma}\) graph over
+\(\partial B_1(x_{U_*})\). After the volume normalization in Lemma 3, the same
+is true for \(\partial\widetilde\Omega\), with constants changed only by a
+factor controlled by \(N,R\).
+
+The quantitative route after sorting is therefore
+\[
+\alpha(U_*)\le\alpha_{\rm graph}
+\Longrightarrow
+\hbox{Hausdorff closeness}
+\Longrightarrow
+\hbox{fixed-scale flatness}
+\Longrightarrow
+\hbox{global graph}.
+\]
+Once the graph entry is available, BDV's nearly spherical second variation
+applies:
 \[
 E(\widetilde\Omega)-E(B_1)
 \gtrsim_N
@@ -396,8 +560,8 @@ E(\widetilde\Omega)-E(B_1)
 \]
 contradicting \(Q_\alpha(\widetilde\Omega)\ll1\).
 
-Thus the selection route has been reduced to one concrete missing quantitative
-regularity statement: track the flatness constants in the Alt-Caffarelli
-improvement step for the selected minimizers.
+Thus the selection route has been reduced to two concrete missing quantitative
+regularity statements: prove Lemma 6 with explicit dependence on the density
+and distance constants, and record the patching constants in Lemma 7.
 
 \end{document}
