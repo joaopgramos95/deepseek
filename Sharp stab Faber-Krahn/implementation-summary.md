@@ -1,0 +1,129 @@
+# Implementation summary
+
+This file records what was implemented from the two-agent plan and what remains
+as the next mathematical work.
+
+## New artifacts
+
+1. `level-set-deficit-identity.md`
+
+   Implements the Nicola--Tilli route up to an exact theorem:
+
+   \[
+   \frac{2}{|\Omega|}\big(E(\Omega)-E(B)\big)
+   =
+   \frac1{|\Omega|}
+   \int_0^{\|u\|_\infty}
+   \frac{D_H(t)+D_I(t)}
+   {n^2\omega_n^{2/n}m(t)^{1-2/n}}\,dt.
+   \]
+
+   It also proves the weighted variance identity
+
+   \[
+   \int_{\Sigma_t}
+   \frac{(|\nabla u|-\bar f)^2}{|\nabla u|}
+   =
+   \frac{m(t)}{P(t)^2}D_H(t).
+   \]
+
+   This gives a precise bridge from the convexity gap in
+   `faber-krahn-1.pdf` to approximate Serrin data on good superlevel sets.
+
+2. `quantitative-selection-principle.md`
+
+   Implements the BDV selection route as a single-set lemma. Given
+
+   \[
+   \varepsilon=\alpha(\Omega_0),\qquad
+   \delta=E(\Omega_0)-E(B_1),\qquad
+   q=\delta/\varepsilon\ll1,
+   \]
+
+   it selects a minimizer of
+
+   \[
+   E(U)+f_{\hat\eta}(|U|)
+   +\sqrt{\varepsilon^2+\tau^2(\alpha(U)-\varepsilon)^2},
+   \qquad
+   \tau=q^{1/4},
+   \]
+
+   and proves the quantitative preservation estimates
+
+   \[
+   \alpha(\widetilde\Omega)
+   \ge
+   (1-Cq^{1/4})\alpha(\Omega_0),
+   \]
+
+   \[
+   E(\widetilde\Omega)-E(B_1)
+   \le
+   C(E(\Omega_0)-E(B_1)).
+   \]
+
+   Hence
+
+   \[
+   Q_\alpha(\widetilde\Omega)
+   \le
+   C Q_\alpha(\Omega_0).
+   \]
+
+## What is now genuinely proved or reduced
+
+The Talenti/Nicola--Tilli route now has a clean first theorem: the global
+Saint-Venant deficit is exactly the integrated level-set loss. This is a
+standalone quantitative refinement of the proof in `faber-krahn-1.pdf`.
+
+The selection-principle route now has a concrete replacement for the sequence
+argument in BDV Proposition 4.4: the selected set preserves the relevant
+deficit-to-\(\alpha\) ratio up to constants.
+
+The compactness bottleneck has been localized. The remaining non-explicit part
+is not the penalized minimization; it is the quantitative entry into the global
+nearly spherical graph regime.
+
+## Next targets
+
+1. Write the finite-perimeter version of the level-set identity.
+
+   Replace smooth regular-level arguments by a.e. coarea statements for the
+   torsion function. This should be mostly technical and self-contained.
+
+2. Prove a boundary-layer propagation lemma.
+
+   The target form is:
+
+   \[
+   \exists t\downarrow0
+   \quad\hbox{with}\quad
+   |\Omega\setminus\{u>t\}|\hbox{ small}
+   \quad\hbox{and}\quad
+   D_H(t)+D_I(t)\hbox{ controlled}.
+   \]
+
+   This is the main missing step for making the level-set route prove sharp
+   Fraenkel stability of the original domain.
+
+3. Track the Alt-Caffarelli flatness constants for selected minimizers.
+
+   The needed statement is:
+
+   \[
+   \alpha(U_*)\le\varepsilon_0(N,R,\tau)
+   \Rightarrow
+   \partial U_*
+   \hbox{ is a global }C^{1,\gamma}\hbox{ graph over }\partial B_1.
+   \]
+
+   The new note already proves the preceding Hausdorff-closeness estimate from
+   density and \(\alpha\).
+
+4. Collect stable Serrin inputs compatible with the level-set variance.
+
+   Existing stable Serrin theorems often use oscillation or Lipschitz norms of
+   the normal derivative. The level-set route naturally gives a weighted
+   \(L^2\) variance of \(|\nabla u|\), so the next search should focus on
+   Serrin stability results accepting integral boundary data.

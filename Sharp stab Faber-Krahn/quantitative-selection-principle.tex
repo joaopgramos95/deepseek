@@ -1,0 +1,401 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[hidelinks]{hyperref}
+
+\title{Single-Set Quantitative Selection Principle}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+This note implements the concrete selection-principle step from
+\texttt{plan1.md}. The purpose is not to replace the whole
+Brasco--De Philippis--Velichkov proof, but to isolate the part that can be
+made quantitative without changing their free-boundary machinery.
+
+The main output is a single-set version of BDV Proposition 4.4: from one
+near-counterexample, construct one selected quasi-open minimizer whose
+energy-to-asymmetry ratio is controlled up to constants.
+
+\section{Normalization}
+
+Use the BDV torsion convention
+\[
+E(\Omega)
+=
+\min_{u\in H^1_0(\Omega)}
+\left\{
+\frac12\int_\Omega |\nabla u|^2-\int_\Omega u
+\right\}
+=
+-\frac12\int_\Omega u_\Omega.
+\]
+Fix
+\[
+|\Omega|=|B_1|=\omega_N.
+\]
+Then the Saint-Venant deficit is
+\[
+\delta(\Omega):=E(\Omega)-E(B_1)\ge0.
+\]
+
+For the selection step, use BDV's smoother asymmetry
+\[
+\alpha(\Omega)
+:=
+\int_{\Omega\Delta B_1(x_\Omega)}
+\bigl|1-|x-x_\Omega|\bigr|\,dx,
+\]
+where \(x_\Omega\) is the barycenter. BDV Lemma 4.2 gives, for bounded
+\(\Omega\subset B_R\),
+\[
+|\Omega\Delta B_1(x_\Omega)|^2\lesssim_N \alpha(\Omega),
+\]
+\[
+|\alpha(\Omega_1)-\alpha(\Omega_2)|
+\lesssim_R
+|\Omega_1\Delta\Omega_2|,
+\]
+and, for nearly spherical sets,
+\[
+\alpha(\Omega)\lesssim_N
+\|\varphi\|_{L^2(\partial B_1)}^2.
+\]
+Thus the right badness ratio for the selection step is
+\[
+Q_\alpha(\Omega)
+:=
+\frac{E(\Omega)-E(B_1)}{\alpha(\Omega)}.
+\]
+The final Fraenkel statement is recovered later from
+\(\mathcal A(\Omega)^2\lesssim \alpha(\Omega)\).
+
+\section{Penalized Problem}
+
+Let \(\Omega_0\subset B_R\), \(R\ge2\), satisfy
+\[
+|\Omega_0|=|B_1|,
+\qquad
+\varepsilon:=\alpha(\Omega_0)>0,
+\qquad
+\delta:=E(\Omega_0)-E(B_1),
+\qquad
+q:=\delta/\varepsilon.
+\]
+Assume \(q\ll1\). Choose
+\[
+\tau:=q^{1/4},
+\]
+or more generally any \(\tau\) with
+\[
+q\ll \tau^2\ll1.
+\]
+Let \(f_{\hat\eta}\) be the BDV volume penalty from Lemma 4.5:
+\[
+f_{\hat\eta}(s)=
+\begin{cases}
+\hat\eta(s-\omega_N),&s\le\omega_N,\\
+(s-\omega_N)/\hat\eta,&s\ge\omega_N.
+\end{cases}
+\]
+Set
+\[
+F_{\hat\eta}(U):=E(U)+f_{\hat\eta}(|U|).
+\]
+BDV Lemma 4.5 says that, for \(\hat\eta=\hat\eta(N,R)\), \(B_1\) is a
+minimizer of \(F_{\hat\eta}\) among sets in \(B_R\).
+
+Now minimize over quasi-open \(U\subset B_R\):
+\[
+\mathcal G_{\varepsilon,\tau}(U)
+:=
+F_{\hat\eta}(U)
++
+\sqrt{\varepsilon^2+\tau^2(\alpha(U)-\varepsilon)^2}.
+\]
+This is exactly BDV's penalized functional (4.10), with the sequence parameter
+\(\sigma\) replaced by the single-set parameter \(\tau\).
+
+\section{Quantitative Selected-Minimizer Estimates}
+
+Assume \(\tau\le\tau_0(N,R)\), small enough that the BDV existence and
+quasi-minimizer estimates hold with \(\tau\) in place of \(\sigma\). Let
+\(U_*\) be a minimizer of \(\mathcal G_{\varepsilon,\tau}\).
+
+\subsection*{Lemma 1. Energy and Asymmetry Preservation Before Normalization}
+
+The minimizer \(U_*\) satisfies
+\[
+0\le
+F_{\hat\eta}(U_*)-F_{\hat\eta}(B_1)
+\le
+\delta,
+\]
+and
+\[
+|\alpha(U_*)-\varepsilon|
+\le
+\frac{\sqrt{2\varepsilon\delta+\delta^2}}{\tau}.
+\]
+In particular, if \(q=\delta/\varepsilon\le1\) and \(\tau=q^{1/4}\), then
+\[
+|\alpha(U_*)-\alpha(\Omega_0)|
+\le
+C\alpha(\Omega_0)q^{1/4}.
+\]
+
+\paragraph{Proof.}
+By minimality against \(\Omega_0\),
+\[
+F_{\hat\eta}(U_*)
++
+\sqrt{\varepsilon^2+\tau^2(\alpha(U_*)-\varepsilon)^2}
+\le
+F_{\hat\eta}(\Omega_0)+\varepsilon.
+\]
+Since \(|\Omega_0|=|B_1|\),
+\[
+F_{\hat\eta}(\Omega_0)=E(\Omega_0)
+=F_{\hat\eta}(B_1)+\delta.
+\]
+Because \(B_1\) minimizes \(F_{\hat\eta}\),
+\[
+F_{\hat\eta}(U_*)\ge F_{\hat\eta}(B_1).
+\]
+Therefore
+\[
+F_{\hat\eta}(U_*)-F_{\hat\eta}(B_1)\le\delta,
+\]
+and
+\[
+\sqrt{\varepsilon^2+\tau^2(\alpha(U_*)-\varepsilon)^2}
+\le
+\varepsilon+\delta.
+\]
+Squaring the last inequality gives
+\[
+\tau^2(\alpha(U_*)-\varepsilon)^2
+\le
+2\varepsilon\delta+\delta^2.
+\]
+This proves the claim.
+
+\subsection*{Lemma 2. Volume Error}
+
+There is \(C=C(N,R)\) such that
+\[
+\bigl||U_*|-|B_1|\bigr|
+\le
+C\delta.
+\]
+
+\paragraph{Proof.}
+Let \(B_{r_*}\) be a ball with \(|B_{r_*}|=|U_*|\). By rearrangement,
+\[
+F_{\hat\eta}(B_{r_*})\le F_{\hat\eta}(U_*).
+\]
+BDV Lemma 4.5 gives
+\[
+F_{\hat\eta}(B_{r_*})-F_{\hat\eta}(B_1)
+\ge
+\frac{|r_*-1|}{C_4(N,R)}.
+\]
+Together with Lemma 1,
+\[
+|r_*-1|\le C\delta.
+\]
+Since \(|B_{r_*}|=\omega_N r_*^N\), this implies
+\[
+\bigl||U_*|-|B_1|\bigr|\le C\delta.
+\]
+
+\subsection*{Lemma 3. Ratio Preservation After Volume Normalization}
+
+Let
+\[
+\lambda:=\left(\frac{|B_1|}{|U_*|}\right)^{1/N},
+\qquad
+\widetilde\Omega:=\lambda U_*.
+\]
+After translating if needed, \(\widetilde\Omega\) has volume \(|B_1|\), and
+\[
+\alpha(\widetilde\Omega)
+\ge
+\left(1-Cq^{1/4}\right)\alpha(\Omega_0),
+\]
+\[
+E(\widetilde\Omega)-E(B_1)
+\le
+C\big(E(\Omega_0)-E(B_1)\big),
+\]
+provided \(q\le q_0(N,R)\) and \(\alpha(\Omega_0)\) is in the small regime.
+Consequently,
+\[
+Q_\alpha(\widetilde\Omega)
+\le
+C Q_\alpha(\Omega_0).
+\]
+
+\paragraph{Proof sketch.}
+Lemma 2 gives
+\[
+|\lambda-1|\le C\delta=C\varepsilon q.
+\]
+Since \(q\ll1\), this error is smaller than the asymmetry-preservation error
+\(\varepsilon q^{1/4}\). The selected minimizer has the perimeter bound from
+the BDV existence argument, so the small dilation satisfies
+\[
+|U_*\Delta \lambda U_*|
+\le C(N,R)|\lambda-1|.
+\]
+The Lipschitz property of \(\alpha\) on bounded sets then gives
+\[
+|\alpha(\widetilde\Omega)-\alpha(U_*)|
+\le C\varepsilon q.
+\]
+Combining with Lemma 1 gives
+\[
+|\alpha(\widetilde\Omega)-\varepsilon|
+\le C\varepsilon q^{1/4}.
+\]
+
+For the energy, use
+\[
+E(\lambda U_*)=\lambda^{N+2}E(U_*),
+\]
+the bound \(F_{\hat\eta}(U_*)-F_{\hat\eta}(B_1)\le\delta\), the Lipschitz
+control of \(f_{\hat\eta}\) in the volume variable, and
+\(|\lambda-1|\le C\delta\). Since \(U_*\subset B_R\), the energy is bounded in
+terms of \(N,R\), so the dilation changes the deficit by \(O_{N,R}(\delta)\).
+Thus
+\[
+E(\widetilde\Omega)-E(B_1)\le C\delta.
+\]
+The ratio estimate follows from the two displayed bounds.
+
+\section{Free-Boundary Regularity Inherited from BDV}
+
+The minimizer \(U_*=\{u_*>0\}\) satisfies the perturbed one-phase minimality
+inequality
+\[
+\frac12\int |\nabla u_*|^2-\int u_*
++f_{\hat\eta}(|\{u_*>0\}|)
+\le
+\frac12\int |\nabla v|^2-\int v
++f_{\hat\eta}(|\{v>0\}|)
++C_R\tau|\{u_*>0\}\Delta\{v>0\}|
+\]
+for all \(v\in H^1_0(B_R)\). This is BDV (4.19) with \(\tau\) in place of
+\(\sigma\).
+
+Hence, for \(\tau\le\tau_0(N,R)\), the Alt-Caffarelli estimates used in BDV
+apply:
+\begin{itemize}
+\item nondegeneracy of \(u_*\) near the free boundary,
+\item Lipschitz control,
+\item density estimates for both phases,
+\item reduced-boundary structure,
+\item smoothness once the free boundary is sufficiently flat.
+\end{itemize}
+
+The Euler-Lagrange Bernoulli coefficient has the same structure as BDV Lemma
+4.16:
+\[
+q_{u_*}(x)^2
+=
+\Lambda
++
+\frac{\tau^2(\alpha(U_*)-\varepsilon)}
+{\sqrt{\varepsilon^2+\tau^2(\alpha(U_*)-\varepsilon)^2}}
+\cdot
+\Psi_{U_*}(x),
+\]
+where \(\Psi_{U_*}\) is the smooth \(\alpha\)-variation term. The prefactor is
+bounded by \(\tau\), so \(q_{u_*}\) has uniform \(C^k\) bounds near
+\(\partial U_*\), exactly as in BDV Lemma 4.16.
+
+\section{Quantitative Entry into Hausdorff Closeness}
+
+The compactness step in BDV can be partially quantified as follows.
+
+\subsection*{Lemma 4. From \(\alpha\) and Density to Hausdorff Distance}
+
+Assume \(U\subset B_R\) satisfies the two-sided density estimates
+\[
+|U\cap B_r(x)|\ge c r^N,\qquad
+|B_r(x)\setminus U|\ge c r^N
+\]
+for every \(x\in\partial U\) and every \(r\le r_0\). If, after centering,
+\[
+|U\Delta B_1|\le M,
+\]
+then
+\[
+d_H(\partial U,\partial B_1)
+\le
+C(N,R,c,r_0) M^{1/N}.
+\]
+Using BDV Lemma 4.2,
+\[
+M\lesssim_N \alpha(U)^{1/2},
+\]
+so selected minimizers satisfy
+\[
+d_H(\partial U,\partial B_1)
+\le
+C\alpha(U)^{1/(2N)}.
+\]
+
+\paragraph{Proof sketch.}
+If \(x\in\partial U\) and \({\rm dist}(x,\partial B_1)=d\), then for
+\(r\sim d\) the ball \(B_r(x)\) lies either inside \(B_1\) or outside \(B_1\).
+The density estimate forces a chunk of size \(\gtrsim r^N\) in
+\(U\Delta B_1\). Thus \(d^N\lesssim M\).
+
+Conversely, if \(y\in\partial B_1\) is distance \(d\) from \(\partial U\), then
+\(B_d(y)\) is either contained in \(U\) or disjoint from \(U\). Either way, a
+fixed fraction of \(B_d(y)\) lies in \(U\Delta B_1\), so again
+\(d^N\lesssim M\).
+
+\section{Remaining Quantitative Gap}
+
+BDV's final regularity passage is
+\[
+L^1\hbox{ closeness}
+\Rightarrow
+\hbox{Kuratowski/Hausdorff closeness}
+\Rightarrow
+\hbox{flatness at a fixed scale}
+\Rightarrow
+C^{1,\gamma}\hbox{ free-boundary graph}
+\Rightarrow
+C^\infty\hbox{ convergence}.
+\]
+Lemma 4 above supplies the Hausdorff step quantitatively for selected
+minimizers. The remaining task is to make the Alt-Caffarelli flatness threshold
+explicit enough to state
+\[
+\alpha(U_*)\le \varepsilon_0(N,R,\tau)
+\quad\Longrightarrow\quad
+\partial U_*
+\hbox{ is a global }C^{1,\gamma}\hbox{ graph over }\partial B_1.
+\]
+Once this graph entry is available, BDV's nearly spherical second variation
+gives
+\[
+E(\widetilde\Omega)-E(B_1)
+\gtrsim_N
+\|\varphi\|_{H^{1/2}(\partial B_1)}^2
+\gtrsim_N
+\alpha(\widetilde\Omega),
+\]
+contradicting \(Q_\alpha(\widetilde\Omega)\ll1\).
+
+Thus the selection route has been reduced to one concrete missing quantitative
+regularity statement: track the flatness constants in the Alt-Caffarelli
+improvement step for the selected minimizers.
+
+\end{document}
