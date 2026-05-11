@@ -232,11 +232,12 @@ linear estimate.
 
 ## 7. Relation to Plan 1
 
-The correct replacement is the selected Bernoulli law. The follow-up Plan 1
-note `bernoulli-spectral-closure.md` linearizes the Bernoulli condition and
-finds a spectral multiplier \(k-1\) on spherical harmonics. Since the
-\(\alpha\)-penalty forcing is only \(O(\sigma)\), all \(k\ge2\) modes are
-suppressed when \(\sigma\) is small; volume and barycenter remove \(k=0,1\).
+The plausible replacement is the selected Bernoulli law. The Plan 1 notes
+`bernoulli-spectral-closure.md` and `bernoulli-expansion-proofs.md` linearize
+the Bernoulli condition and find a spectral multiplier \(k-1\) on spherical
+harmonics. This would suppress the non-neutral modes if the required tame
+\(C^{2,\gamma}\times L^2\) Bernoulli remainder estimate were proved. That
+estimate is not currently established.
 
 In boundary-deficit language:
 
@@ -244,8 +245,10 @@ In boundary-deficit language:
   constant.
 - \(D_I(0)\) measures the perimeter deficit of the selected free boundary.
 - These defects are too strong to be bounded by torsion energy for arbitrary
-  graphs, but selected minimizers cannot carry the high-frequency modes that
-  cause the mismatch.
+  graphs. The Bernoulli spectral route is an attempted mechanism for excluding
+  the high-frequency modes on the selected class, but it remains conditional on
+  the missing tame expansion.
 
-So the remaining work is a Plan 1 graph-entry plus Bernoulli spectral expansion,
-not a stronger Serrin theorem for rough interior levels.
+So the remaining work is either the BDV graph-entry plus nearly spherical
+second variation, or a fully justified Plan 1 Bernoulli spectral expansion.
+It is not a stronger Serrin theorem for rough interior levels.

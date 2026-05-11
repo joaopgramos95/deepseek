@@ -21,18 +21,20 @@ Main files:
   implementation of the selected-minimizer boundary-layer strategy; proves the
   near-boundary good-level and transfer estimates and isolates the remaining
   weighted Serrin input.
-- `weighted-serrin-collar-reduction.md/.tex/.pdf`: resolves the weighted
-  Serrin input in selected collars and identifies boundary deficit propagation
-  as the true sharpness bottleneck.
+- `weighted-serrin-collar-reduction.md/.tex/.pdf`: reduces the weighted
+  Serrin input in selected collars to a conditional Bernoulli/tame-expansion
+  step and identifies boundary deficit propagation as the tempting but
+  too-strong target; the currently justified closure still goes through BDV's
+  nearly spherical expansion.
 - `PLAN2_AGENT_REPORT.md`: local report of the latest Plan 2 worker pass.
 
 Current focus:
 
-1. ~~Prove boundary deficit propagation for selected minimizers in the graph
-   regime: \(D_I(0)+D_H(0)\lesssim E(U)-E(B)\).~~  Resolved (in the smallness
-   regime) by `../Plan 1/bernoulli-expansion-proofs.md`, Theorem 9.1: the
-   selected Bernoulli law filters out high-frequency modes that block the
-   inequality on the full nearly-spherical class.
+1. Prove a valid boundary-gradient/tame expansion for the conditional Bernoulli
+   spectral route, or use BDV's nearly spherical second variation for closure.
+   The earlier boundary-deficit propagation target
+   \(D_I(0)+D_H(0)\lesssim E(U)-E(B)\) is too strong on the full nearly
+   spherical class and is not currently proved on the selected class.
 2. Use the profile-gap lemma to choose near-boundary superlevel sets.
 3. Prove the finite-perimeter form of the level-set deficit identity.
 4. Test whether a GGRT-style second variation can be computed in a harmonic or

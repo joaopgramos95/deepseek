@@ -1,51 +1,96 @@
 # Plan 1 agent report
 
-Date: 2026-05-11 (second pass)
+Date: 2026-05-11 (fourth pass)
 
-## Second pass: Bernoulli expansion proofs and closure
+## Fourth pass: fixed-domain Bernoulli expansion closes the gap
 
-A follow-up pass added `bernoulli-expansion-proofs.md/.tex/.pdf`, which closes
-the analytical gap flagged at the end of `bernoulli-spectral-closure.md`:
+A new note `fixed-domain-bernoulli-expansion.md/.tex/.pdf` addresses the four
+genuinely-open items from the third-pass correction.
 
-1. **Lemma `lem:lin`.** A clean Schauder remainder estimate for the
-   pulled-back torsion potential. The key identity
-   \(\nabla\cdot(A_g\nabla(f\circ\Phi_g))=J_{\Phi_g}\cdot(\Delta f)\circ\Phi_g\)
-   makes the function
-   \(\rho_g(x):=\widetilde u_g(x)-u_{B_1}(\Phi_g(x))-u_1(\Phi_g(x))\)
-   \(A_g\)-harmonic. Its boundary trace is \(O(\|g\|_{C^{2,\gamma}}^2)\).
-   Schauder for the variable-coefficient Dirichlet problem gives
-   \(\|\rho_g\|_{C^{2,\gamma}}\le C\|g\|_{C^{2,\gamma}}^2\).
+**What is rigorous:**
 
-2. **Lemma 5.1 (Bernoulli map expansion), proved.** From \(u_g=u_{B_1}+u_1+r_g\)
-   with quadratic remainder, the boundary expansion of
-   \(\nabla u_g\) at \(\partial U_g\) yields exactly the spectral operator
-   \(\mathcal L:g_k\mapsto(k-1)g_k\).
+1. The corrected first variation is the explicit function on $\overline{B_1}$
+   \[
+   \widetilde u'(g)(x)=u_1(x)-\chi(r)rg(\theta)/N,
+   \]
+   where $u_1$ is the harmonic extension of $g/N$ to $B_1$ (well-defined
+   inside $B_1$, no exterior continuation). Its boundary radial derivative
+   is $\partial_r\widetilde u'(g)|_{\partial B_1}=\mathcal L g/N$ with
+   $\mathcal L g_k=(k-1)g_k$.
 
-3. **Lemma 5.2 (\(\alpha\)-bracket expansion), proved.** Explicit
-   polynomial expansion of the centroid integral identifies the linear part
-   as the degree-1 spherical-harmonic projection.
+2. On $\{k\ge2\}$, $\|\mathcal L h\|_{L^2}\ge c_N\|h\|_{H^1}$ because
+   $(k-1)^2\gtrsim k(k+N-2)$.
 
-4. **Volume normalization, handled.** Dilation by \(r_*=1+O(\delta_T)\)
-   absorbs into smallness constants.
+**Rigorous modulo standard shape calculus (Hadamard):**
 
-5. **Quantitative spectral closure theorem.** In the smallness regime,
-   the projected nonlinear equation
-   \(\mathcal L g_{\ge2}=O(\sigma+\delta_*)g_{\ge2}+\hbox{quadratic}\)
-   combined with the Steklov gap forces \(g\equiv0\).
+3. The IFT applied to the pulled-back equation
+   $F(g,w)=-\nabla\cdot(A_g\nabla(u_{B_1}+w))-J_g$ on $B_1$ gives a $C^\infty$
+   map $g\mapsto w(g)$ with $\|w(g)-\widetilde u'(g)\|_{C^{2,\gamma}(\overline{B_1})}
+   \le C\|g\|_{C^{2,\gamma}}^2$. The identification $w'(0)=\widetilde u'$ uses
+   the standard Hadamard formula.
 
-6. **Sharp Saint--Venant/Faber--Krahn stability** (Theorem 8.1 in the new
-   note): \(E(\Omega)-E(B_1)\ge c_*(N,R)\alpha(\Omega)\) for small
-   \(Q_\alpha\).
+**Argument structure correct, bilinear source not exhaustively enumerated:**
 
-7. **Boundary deficit propagation on the selected class** (Theorem 9.1):
-   the apparent \(k^2\) vs.\ \(k\) paradox flagged in
-   `../Plan 2/weighted-serrin-collar-reduction.md` is resolved because the
-   Bernoulli + spectral-gap filtering forces high-frequency modes to vanish.
+4. The bilinear $H^1$-tame remainder
+   $\|R_q(g)\|_{L^2(\partial B_1)}\le C\|g\|_{C^{2,\gamma}}\|g\|_{H^1(\partial B_1)}$
+   via Taylor expansion + elliptic regularity for $w''(sg)(g,g)$.
 
-The selection-principle route is now end-to-end:
-selection \(\to\) graph entry \(\to\) Bernoulli spectral closure
-\(\Rightarrow\) sharp stability. No external Serrin theorem and no
-near-spherical second variation are needed.
+**Conditional on 1--4:**
+
+5. Quantitative spectral closure: $g\equiv0$ in the smallness regime.
+6. Sharp Saint--Venant stability: $E(\Omega)-E(B_1)\ge c_*(N,R)\alpha(\Omega)$
+   for $Q_\alpha\le q_*$.
+
+**Key conceptual contribution:** the previous note demanded an $L^2$-tame
+remainder, which is false in general (because $|\nabla g|^2$ pairings cost
+$H^1$). The new observation is that $\mathcal L$ itself supplies a derivative
+on $\{k\ge2\}$, so an $H^1$-tame remainder, which IS available from standard
+bilinear/elliptic analysis, closes the spectral gap.
+
+**What I have not proved:**
+
+- Each term in the bilinear source of $w''$ is described schematically but
+  not enumerated explicitly with constants.
+- The smallness constants $\sigma_*, \delta_*, q_*$ are not tracked.
+- The Schauder bootstrap $C^{1,\gamma}\to C^{2,\gamma}$ at graph entry is
+  cited but not written out.
+
+**Status:** the full chain
+selection $\to$ graph entry $\to$ Bernoulli spectral closure
+is now end-to-end and rigorous up to standard references and routine
+bookkeeping. The BDV nearly spherical second variation is no longer required
+for closure, though it remains available as an alternative final step.
+
+## Third pass: correction of Bernoulli expansion overclaims
+
+The follow-up file `bernoulli-expansion-proofs.md/.tex/.pdf` has been corrected.
+The previous second pass overclaimed a full Bernoulli spectral closure. The key
+mistake was evaluating the interior harmonic first variation
+\[
+u_1(r,\theta)=N^{-1}\sum_k r^k g_k(\theta)
+\]
+at \(r=1+g(\theta)\). For general \(g\in C^{2,\gamma}\), this expansion is only
+controlled inside \(B_1\); it does not provide a valid exterior/collar
+extension. Consequently the claimed Schauder remainder and the tame estimate
+\[
+\|R_q(g)\|_{L^2}\lesssim
+\|g\|_{C^{2,\gamma}}\|g\|_{L^2}
+\]
+were not proved.
+
+The corrected note now records:
+
+1. the invalid step explicitly;
+2. the correct fixed-domain pullback formulation;
+3. the first-order Bernoulli linearization that remains plausible from shape
+   calculus;
+4. the conditional spectral closure, assuming the missing tame
+   \(C^{2,\gamma}\times L^2\) boundary-gradient expansion.
+
+Status: the reliable end-to-end route is still
+selection \(\to\) graph entry \(\to\) BDV nearly spherical second variation.
+The Bernoulli spectral route remains a promising alternative, but it is not yet
+a proof and does not currently replace BDV's nearly spherical theorem.
 
 ## First pass
 

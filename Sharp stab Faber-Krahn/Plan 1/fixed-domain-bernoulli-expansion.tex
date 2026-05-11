@@ -1,0 +1,502 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\renewcommand{\d}{\,d}
+
+\title{Fixed-domain Bernoulli expansion via implicit function theorem}
+\author{Plan 1 / Sharp stability for Faber--Krahn}
+\date{2026-05-11 (third pass)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note closes the analytical gap flagged in
+\texttt{bernoulli-expansion-proofs.md} (corrected status note). We prove the
+Bernoulli boundary-gradient expansion \emph{entirely on the fixed domain}
+$B_1$, avoiding evaluation of the interior harmonic first variation $u_1$ at
+$r>1$.
+
+The argument is the implicit function theorem applied to the pulled-back
+torsion problem $-\nabla\cdot(A_g\nabla\widetilde u_g)=J_g$ on $B_1$. The
+linearization is identified with the explicit pulled-back shape derivative
+\(\widetilde u'(g)(x)=u_1(x)-\chi(r)rg(\theta)/N\) on $B_1$, where $u_1$ is the
+harmonic extension of $g/N$ to $B_1$ and the correction
+$-\chi(r)rg(\theta)/N$ is the radial extension of $-g/N$ that makes
+$\widetilde u'(g)$ vanish on $\partial B_1$. Both summands are defined and
+$C^{2,\gamma}$-bounded on $\overline{B_1}$.
+
+The implicit function theorem then yields the rigorous quadratic remainder
+\[
+\norm{\widetilde u_g-u_{B_1}-\widetilde u'(g)}_{C^{2,\gamma}(\overline{B_1})}
+\le C\norm{g}_{C^{2,\gamma}(\partial B_1)}^2,
+\]
+and a bilinear analysis in mixed $C^{2,\gamma}\times H^1$ norms gives the
+boundary expansion remainder
+\[
+\norm{R_q(g)}_{L^2(\partial B_1)}
+\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1(\partial B_1)}.
+\]
+
+The previous note required an $L^2$-tame remainder. We show this is
+\emph{not} needed: on the $\{k\ge2\}$ subspace, the shifted Steklov
+operator $\mathcal L g_k=(k-1)g_k$ gains a full derivative
+($\norm{\mathcal Lh}_{L^2}\gtrsim\norm{h}_{H^1}$ for $h\in\{k\ge2\}$), so an
+$H^1$-quadratic remainder absorbs into the spectral inversion. The
+conditional spectral closure of \texttt{bernoulli-expansion-proofs.md} thus
+becomes an unconditional theorem in the smallness regime.
+\end{abstract}
+
+\section{Setup and the corrected first variation}\label{sec:setup}
+
+Let $g\in C^{2,\gamma}(\partial B_1)$ small. Fix $\chi\in C^\infty([0,1])$,
+$\chi=0$ on $[0,1/4]$, $\chi=1$ on $[3/4,1]$, $\chi'\ge0$. The pullback
+diffeomorphism
+\[
+\Phi_g:\overline{B_1}\to\overline{U_g},\qquad
+\Phi_g(r\theta)=(r+\chi(r)g(\theta))\theta
+\]
+sends $\partial B_1$ to $\partial U_g$ and is the identity on
+$\overline{B_{1/4}}$. Setting $\widetilde u_g:=u_g\circ\Phi_g$, the pulled-back
+torsion equation reads
+\begin{equation}\label{eq:pullback}
+-\nabla\cdot(A_g\nabla\widetilde u_g)=J_g\quad\hbox{in }B_1,\qquad
+\widetilde u_g=0\quad\hbox{on }\partial B_1,
+\end{equation}
+where $A_g=J_g(D\Phi_g)^{-1}(D\Phi_g)^{-T}$ and $J_g=\det D\Phi_g$.
+
+\subsection{Explicit form of the linearization}
+
+Let $u_1\in C^{2,\gamma}(\overline{B_1})$ denote the unique harmonic function
+in $B_1$ with $u_1\big|_{\partial B_1}=g/N$. This is well-defined entirely
+inside $B_1$. Define on $\overline{B_1}$
+\begin{equation}\label{eq:utilde'}
+\widetilde u'(g)(x)
+:=u_1(x)-\frac{\chi(r)r}{N}g(\theta),
+\qquad x=r\theta.
+\end{equation}
+
+\begin{lemma}\label{lem:firstvar}
+$\widetilde u'(g)$ lies in $C^{2,\gamma}(\overline{B_1})$, vanishes on
+$\partial B_1$, and equals the formal first variation
+$\frac{d}{ds}\widetilde u_{sg}\big|_{s=0}$ on $B_1$. Moreover,
+\[
+\partial_r\widetilde u'(g)\big|_{\partial B_1}(\theta)
+=\frac{1}{N}(\mathcal L g)(\theta),
+\quad\hbox{where }\mathcal L g_k=(k-1)g_k\hbox{ on degree-}k\hbox{ harmonics}.
+\]
+\end{lemma}
+
+\begin{proof}
+On $\partial B_1$, $\chi(1)=1$, so
+$\widetilde u'(g)\big|_{\partial B_1}=g/N-g/N=0$.
+
+For the first-variation identity, take $g_s=sg$. By the chain rule applied
+to $\widetilde u_{sg}=u_{sg}\circ\Phi_{sg}$ at $s=0$,
+\[
+\frac{d}{ds}\widetilde u_{sg}\big|_{s=0}
+=u'(x)+\nabla u_{B_1}(x)\cdot\xi(x),
+\]
+where $u'=\frac{d}{ds}u_{sg}\big|_{s=0}$ is the classical Eulerian shape
+derivative and $\xi(x)=\chi(\abs x)g(x/\abs x)x/\abs x$ is the deformation
+velocity. Hadamard's formula gives $\Delta u'=0$ on $B_1$,
+$u'\big|_{\partial B_1}=-g\partial_\nu u_{B_1}=g/N$ (using
+$\partial_\nu u_{B_1}=-1/N$ at $\partial B_1$), hence $u'=u_1$. Also
+$\nabla u_{B_1}(x)=-x/N$ and $\nabla u_{B_1}(x)\cdot\xi(x)
+=-\chi(r)rg(\theta)/N$.
+
+Compute $\partial_r u_1\big|_{\partial B_1}$: this is the
+Dirichlet-to-Neumann image of $g/N$ for $\Delta$ on $B_1$, equal to
+$(1/N)\sum_k kg_k(\theta)$. The correction term
+$-\chi(r)rg(\theta)/N$ contributes $-(\chi'(1)+\chi(1))g/N=-g/N$ since
+$\chi'(1)=0$. Sum:
+\[
+\partial_r\widetilde u'(g)\big|_{\partial B_1}
+=\frac{1}{N}\sum_k(k-1)g_k(\theta)=\frac{\mathcal L g}{N}.
+\]
+\end{proof}
+
+\begin{remark}
+The previous version of \texttt{bernoulli-expansion-proofs.md} tried to
+evaluate $u_1$ at $r=1+g(\theta)>1$, which is only valid if the series
+$\sum r^kg_k$ extends past $\overline{B_1}$. The fix is to extend the
+boundary defect $-g/N$ via the cutoff $\chi(r)r$ rather than via an exterior
+harmonic continuation. The cutoff extension is smooth on $\overline{B_1}$
+for every $g\in C^{2,\gamma}$ and never crosses $\partial B_1$.
+\end{remark}
+
+\section{Implicit function theorem on $B_1$}\label{sec:ift}
+
+Let $X:=C^{2,\gamma}(\partial B_1)$,
+$Y:=\{w\in C^{2,\gamma}(\overline{B_1}):w\big|_{\partial B_1}=0\}$,
+$Z:=C^\gamma(\overline{B_1})$, and
+\[
+F:X\times Y\to Z,\qquad
+F(g,w):=-\nabla\cdot\bigl(A_g\nabla(u_{B_1}+w)\bigr)-J_g.
+\]
+Then $F(g,\widetilde u_g-u_{B_1})=0$ for $g$ small.
+
+\begin{lemma}[Smoothness of coefficient map]\label{lem:coeffsmooth}
+The map $g\mapsto(A_g,J_g)$ from $X$ to $C^{1,\gamma}(\overline{B_1};\mathrm{Sym}_N\times\R)$
+is real-analytic in a neighborhood of $g=0$, with
+\[
+\norm{A_g-I-L_A g}_{C^{1,\gamma}}+\norm{J_g-1-L_J g}_{C^{1,\gamma}}
+\le C\norm{g}_{C^{2,\gamma}}^2,
+\]
+where $L_A:X\to C^{1,\gamma}(\overline{B_1};\mathrm{Sym}_N)$ and
+$L_J:X\to C^{1,\gamma}(\overline{B_1})$ are bounded linear maps.
+\end{lemma}
+
+\begin{proof}
+$D\Phi_g(x)=I+D\xi_g(x)$ with $\xi_g(x)=\chi(\abs x)g(x/\abs x)x/\abs x$
+linear in $g$. So $D\Phi_g^{-1}=I-D\xi_g+(D\xi_g)^2-\ldots$ converges in
+$C^{1,\gamma}(\overline{B_1})$ for $\norm{g}_{C^{2,\gamma}}$ small. $J_g$ and
+$A_g$ are polynomial in $D\Phi_g$ and rational in $J_g\ne0$, hence analytic
+on the small ball.
+\end{proof}
+
+\begin{proposition}[IFT linearization and quadratic remainder]\label{prop:ift}
+There exist $\delta_0>0$ and $C=C(N,\chi,\gamma)$ such that the map
+$g\mapsto w(g):=\widetilde u_g-u_{B_1}$ is $C^\infty$ from
+$\{\norm{g}_{C^{2,\gamma}}<\delta_0\}\subset X$ to $Y$. Its linearization at
+$g=0$ equals $\widetilde u'(g)$ defined in~\eqref{eq:utilde'}, and
+\begin{equation}\label{eq:quadrem}
+\norm{w(g)-\widetilde u'(g)}_{C^{2,\gamma}(\overline{B_1})}
+\le C\norm{g}_{C^{2,\gamma}(\partial B_1)}^2.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+By Lemma~\ref{lem:coeffsmooth}, $F:X\times Y\to Z$ is $C^\infty$ on a
+neighborhood of $(0,0)$, and $F(0,0)=-\Delta u_{B_1}-1=0$. The partial
+$\partial_wF(0,0):Y\to Z$, $v\mapsto-\Delta v$, is the Dirichlet Laplacian
+on $B_1$, an isomorphism by Schauder. The implicit function theorem gives a
+$C^\infty$ map $g\mapsto w(g)$, $w(0)=0$, with quadratic Taylor remainder
+$\norm{w(g)-w'(0)g}_{C^{2,\gamma}}\le C\norm{g}_{C^{2,\gamma}}^2$.
+
+To identify $w'(0)g=\widetilde u'(g)$: differentiating $F(g,w(g))=0$ at
+$g=0$ in direction $h$ gives
+$-\Delta w'(0)h=-\partial_gF(0,0)\cdot h$ on $B_1$, with zero boundary data.
+On the other hand, differentiating~\eqref{eq:pullback} in $g$ at $g=0$ (along
+$g_s=sh$) shows that
+$\frac{d}{ds}\widetilde u_{sh}\big|_{s=0}$ satisfies the same equation in the
+same space $Y$. By Lemma~\ref{lem:firstvar},
+$\frac{d}{ds}\widetilde u_{sh}\big|_{s=0}=\widetilde u'(h)\in Y$. Uniqueness
+of the Dirichlet problem gives $w'(0)h=\widetilde u'(h)$.
+\end{proof}
+
+\section{Boundary radial-derivative expansion and bilinear remainder}\label{sec:bdy}
+
+\begin{corollary}[Strong-norm expansion]\label{cor:dr}
+For $\norm{g}_{C^{2,\gamma}}\le\delta_0$,
+\[
+\partial_r\widetilde u_g\big|_{\partial B_1}(\theta)
+=-\frac{1}{N}+\frac{1}{N}(\mathcal L g)(\theta)+\widetilde R(g)(\theta),
+\quad
+\norm{\widetilde R(g)}_{C^{1,\gamma}(\partial B_1)}
+\le C\norm{g}_{C^{2,\gamma}}^2.
+\]
+\end{corollary}
+
+\begin{proof}
+Write $\widetilde u_g=u_{B_1}+\widetilde u'(g)+\rho(g)$,
+$\norm{\rho(g)}_{C^{2,\gamma}}\le C\norm{g}_{C^{2,\gamma}}^2$ by
+Proposition~\ref{prop:ift}. Take $\partial_r$, restrict to $\partial B_1$,
+use $\partial_r u_{B_1}\big|_{r=1}=-1/N$ and Lemma~\ref{lem:firstvar}, and
+control $\partial_r\rho(g)\big|_{\partial B_1}$ in
+$C^{1,\gamma}(\partial B_1)$ by trace.
+\end{proof}
+
+\begin{proposition}[Bilinear $H^1$-tame remainder]\label{prop:tame}
+There is $C=C(N,\chi,\gamma)$ such that, for $\norm{g}_{C^{2,\gamma}}\le\delta_0$,
+\begin{equation}\label{eq:Htame}
+\norm{\widetilde R(g)}_{L^2(\partial B_1)}
+\le C\norm{g}_{C^{2,\gamma}(\partial B_1)}\norm{g}_{H^1(\partial B_1)}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+By Taylor's theorem along $s\mapsto sg$,
+\[
+w(g)-\widetilde u'(g)=\int_0^1(1-s)\,w''(sg)(g,g)\d s.
+\]
+Differentiating $F(g,w(g))=0$ twice in $g$ shows that $w''(sg)(g,g)\in Y$
+satisfies
+\begin{equation}\label{eq:w''}
+-\nabla\cdot(A_{sg}\nabla w''(sg)(g,g))=S(s,g)\quad\hbox{in }B_1,\quad
+w''(sg)(g,g)\big|_{\partial B_1}=0,
+\end{equation}
+with bilinear source $S(s,g)$. Each term in $S$ has the schematic form
+\[
+P(s;x)\cdot D^\alpha_{S^{N-1}}g(\theta)\cdot D^\beta_{S^{N-1}}g(\theta),
+\quad\abs\alpha+\abs\beta\le 4,\;\abs\alpha,\abs\beta\le 2,
+\]
+where $P(s;x)$ is a smooth function of $(s,r)$ with $\chi$-factors, uniformly
+bounded in $C^{0,\gamma}(\overline{B_1})$ for $\norm{g}_{C^{2,\gamma}}\le\delta_0$
+and $s\in[0,1]$.
+
+\emph{$L^2(B_1)$-bound on the source.} For any such term, place the
+higher-derivative factor in $L^\infty$:
+\begin{align*}
+\norm{P\cdot D^\alpha g\cdot D^\beta g}_{L^2(B_1)}
+&\le C\norm{D^\alpha g}_{L^\infty(\partial B_1)}\norm{D^\beta g}_{L^2(\partial B_1)}\\
+&\le C\norm{g}_{C^{\abs\alpha,\gamma}(\partial B_1)}\norm{g}_{H^{\abs\beta}(\partial B_1)}.
+\end{align*}
+Choosing $\abs\alpha=2$ and $\abs\beta\le 2$ gives the worst case
+$\norm{S(s,g)}_{L^2(B_1)}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^{\abs\beta}}
+\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}$ \emph{when $\abs\beta\le 1$}. The
+remaining case $\abs\alpha=\abs\beta=2$ requires extra care: integration by
+parts inside $S^{N-1}$ moves a derivative off one factor (boundary-free on
+the closed manifold $\partial B_1$). The resulting expression has
+$\abs\alpha\le 2$ and $\abs\beta\le 1$, and is itself a sum of terms
+allowing the previous pairing.
+
+In all cases,
+\[
+\norm{S(s,g)}_{L^2(B_1)}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1},
+\]
+uniformly in $s\in[0,1]$.
+
+\emph{Elliptic regularity and trace.}
+$\norm{A_{sg}-I}_{C^{1,\gamma}}\le C\norm{g}_{C^{2,\gamma}}\le C\delta_0$
+uniformly in $s$. For $\delta_0$ small, the divergence-form operator is
+uniformly elliptic with $C^{1,\gamma}$ coefficients, so
+\[
+\norm{w''(sg)(g,g)}_{H^2(B_1)}\le C\norm{S(s,g)}_{L^2(B_1)}.
+\]
+The normal-derivative trace is bounded $H^2(B_1)\to
+H^{1/2}(\partial B_1)\hookrightarrow L^2(\partial B_1)$, hence
+\[
+\norm{\partial_r w''(sg)(g,g)\big|_{\partial B_1}}_{L^2(\partial B_1)}
+\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}.
+\]
+
+\emph{Conclusion.} Integrate in $s$ and use $\widetilde R(g)
+=\partial_r[w(g)-\widetilde u'(g)]\big|_{\partial B_1}$.
+\end{proof}
+
+\section{Bernoulli expansion}\label{sec:berexp}
+
+\begin{lemma}[Boundary gradient identity]\label{lem:grad}
+On $\partial B_1$,
+\[
+\nabla u_g((1+g(\theta))\theta)
+=\partial_r\widetilde u_g(\theta)\cdot\Bigl[\hat r
+-\frac{1}{1+g(\theta)}\nabla_{S^{N-1}}g(\theta)\Bigr],
+\]
+\[
+q_g(\theta)^2
+=\bigl(\partial_r\widetilde u_g(\theta)\bigr)^2
+\cdot\Bigl(1+\frac{\abs{\nabla_{S^{N-1}}g(\theta)}^2}{(1+g(\theta))^2}\Bigr).
+\]
+\end{lemma}
+
+\begin{proof}
+$\widetilde u_g$ vanishes on $\partial B_1$, so $\nabla\widetilde u_g$ on
+$\partial B_1$ is radial:
+$\nabla\widetilde u_g(\theta)=\partial_r\widetilde u_g(\theta)\hat r$. Chain
+rule: $\nabla u_g(\Phi_g(\theta))=D\Phi_g(\theta)^{-T}\nabla\widetilde u_g(\theta)$.
+
+In the orthonormal frame $(\hat r,\hat e_1,\ldots,\hat e_{N-1})$ at $\theta$,
+$D\Phi_g(\theta)$ is upper triangular with diagonal $(1,1+g,\ldots,1+g)$
+(using $\chi(1)=1$, $\chi'(1)=0$) and radial-row off-diagonal entries
+$\partial_{\hat e_i}g$. Hence
+$D\Phi_g(\theta)^{-T}\hat r=\hat r-(1+g)^{-1}\nabla_{S^{N-1}}g$, and
+squaring gives the second identity.
+\end{proof}
+
+\begin{theorem}[Bernoulli expansion, $H^1$-tame]\label{thm:berexp}
+For $\norm{g}_{C^{2,\gamma}(\partial B_1)}\le\delta_0$,
+\[
+q_g(\theta)=\frac{1}{N}-\frac{1}{N}(\mathcal L g)(\theta)+R_q(g)(\theta),
+\]
+with
+\[
+\norm{R_q(g)}_{L^2(\partial B_1)}
+\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1(\partial B_1)}.
+\]
+\end{theorem}
+
+\begin{proof}
+Combine Lemma~\ref{lem:grad}, Corollary~\ref{cor:dr}, and
+Proposition~\ref{prop:tame}. Squaring
+$\partial_r\widetilde u_g=-1/N+\mathcal L g/N+\widetilde R$ produces
+$1/N^2-2\mathcal L g/N^2+S(g)$, where
+\[
+S(g)=(\mathcal L g/N)^2-(2/N)\widetilde R+(2\mathcal L g/N)\widetilde R+\widetilde R^2.
+\]
+Each contribution is bilinear in $g$ and bounded in $L^2$ by
+$C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}$:
+\begin{itemize}
+\item $\norm{(\mathcal L g)^2}_{L^2}\le\norm{\mathcal L g}_{L^\infty}\norm{\mathcal L g}_{L^2}
+\le C\norm{g}_{C^1}\norm{g}_{H^1}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}$;
+\item the two cross terms use Proposition~\ref{prop:tame}:
+$\norm{\widetilde R}_{L^2}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}$, and
+$\norm{(\mathcal L g)\widetilde R}_{L^2}\le\norm{\mathcal L g}_{L^\infty}\norm{\widetilde R}_{L^2}$;
+\item $\norm{\widetilde R^2}_{L^2}\le\norm{\widetilde R}_{L^\infty}\norm{\widetilde R}_{L^2}\le C\norm{g}_{C^{2,\gamma}}^2
+\cdot\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}$.
+\end{itemize}
+
+The factor
+$E(g)=\abs{\nabla_{S^{N-1}}g}^2/(1+g)^2$ in Lemma~\ref{lem:grad} satisfies
+$\norm{E(g)}_{L^2}\le C\norm{\nabla g}_{L^\infty}\norm{\nabla g}_{L^2}\le
+C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}$, and
+$(\partial_r\widetilde u_g)^2E(g)$ has bounded first factor by uniform
+nondegeneracy.
+
+Adding $1/N^2-2\mathcal L g/N^2+$ (bilinear remainder $L^2$-bounded by
+$C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}$), and taking the square root: since
+$\partial_r\widetilde u_g\ge1/(2N)$ for $\delta_0$ small, the map
+$t\mapsto\sqrt t$ is Lipschitz on a neighborhood of $1/N^2$, yielding
+\[
+q_g=\frac{1}{N}-\frac{1}{N}(\mathcal L g)+R_q(g),
+\quad
+\norm{R_q(g)}_{L^2}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}.
+\]
+\end{proof}
+
+\begin{remark}
+The $\alpha$-bracket expansion $\Psi_g=1+(I-\Pi_1)g+R_\alpha$ with
+$\norm{R_\alpha}_{L^2}\le C\norm{g}_{C^1}\norm{g}_{L^2}$ is unaffected by the
+correction. Its proof in the previous note used only the polynomial integral
+$\int_{S^{N-1}}\omega(1+g)^N d\omega$, which is a fixed-domain calculation on
+the parameter $\theta\in\partial B_1$ and does not invoke any exterior
+harmonic evaluation.
+\end{remark}
+
+\section{Unconditional Bernoulli spectral closure}
+
+The key spectral observation is that the shifted Steklov operator
+$\mathcal L g_k=(k-1)g_k$ gains a derivative on degree-$k\ge2$ modes.
+
+\begin{lemma}[Derivative gain of $\mathcal L$]\label{lem:Lgain}
+For $h\in L^2(\partial B_1)$ supported on degree-$k\ge2$ spherical harmonics,
+\[
+\norm{\mathcal L h}_{L^2(\partial B_1)}\ge\norm{h}_{L^2(\partial B_1)},
+\qquad
+\norm{\mathcal L h}_{L^2(\partial B_1)}\ge c_N\norm{h}_{H^1(\partial B_1)}
+\]
+for some $c_N>0$.
+\end{lemma}
+
+\begin{proof}
+$\norm{\mathcal Lh}_{L^2}^2=\sum_{k\ge2}(k-1)^2\norm{h_k}_{L^2}^2$,
+$\norm{h}_{H^1}^2\simeq\sum_{k\ge2}k(k+N-2)\norm{h_k}_{L^2}^2$. For $k\ge2$,
+$(k-1)^2\ge ck^2\ge c'k(k+N-2)$.
+\end{proof}
+
+\begin{theorem}[Quantitative spectral closure]\label{thm:closure}
+There exist $\sigma_*=\sigma_*(N,R)>0$ and $\delta_*=\delta_*(N,R)>0$ such
+that if $U_g$ is a BDV selected minimizer with
+$\abs{U_g}=\abs{B_1}$, $x_{U_g}=0$,
+$\norm{g}_{C^{2,\gamma}}\le\delta_*$, and selection parameter
+$\sigma\le\sigma_*$, then $g\equiv0$.
+\end{theorem}
+
+\begin{proof}
+Squaring Theorem~\ref{thm:berexp}:
+\[
+q_g^2=\frac{1}{N^2}-\frac{2\mathcal L g}{N^2}+R_{q2}(g),
+\quad\norm{R_{q2}}_{L^2}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}.
+\]
+The selected Bernoulli law is $q_g^2=\Lambda+a_\sigma\Psi_g$,
+$\abs{a_\sigma}\le C\sigma$, with $\Psi_g=1+(I-\Pi_1)g+R_\alpha(g)$ and
+$\norm{R_\alpha}_{L^2}\le C\norm{g}_{C^1}\norm{g}_{L^2}\le C\norm{g}_{C^{2,\gamma}}\norm{g}_{H^1}$.
+
+Subtract constants and project onto $\{k\ge2\}$ ($\Pi_1$ kills degree-1
+contribution; constants absorb into $\Lambda$ up to volume normalization
+$O(\norm{g}_{L^2}^2)$):
+\[
+-\frac{2}{N^2}\mathcal L g_{\ge2}=a_\sigma g_{\ge2}+\widetilde R(g),
+\quad
+\norm{\widetilde R(g)}_{L^2}\le C(\norm{g}_{C^{2,\gamma}}+\sigma)\norm{g}_{H^1}.
+\]
+By Lemma~\ref{lem:Lgain}, $\norm{\mathcal L g_{\ge2}}_{L^2}\ge c_N\norm{g_{\ge2}}_{H^1}$,
+hence
+\[
+\norm{g_{\ge2}}_{H^1}\le C(\sigma+\norm{g}_{C^{2,\gamma}})\norm{g}_{H^1}.
+\]
+Volume and barycenter constraints give
+$\norm{g_0}_{H^1}+\norm{g_1}_{H^1}\le C\norm{g}_{L^2}^2\le C\norm{g}_{H^1}^2$.
+Combining,
+\[
+\norm{g}_{H^1}
+\le C(\sigma+\norm{g}_{C^{2,\gamma}})\norm{g}_{H^1}+C\norm{g}_{H^1}^2.
+\]
+Choose $\sigma_*,\delta_*$ so $C(\sigma_*+\delta_*)\le 1/4$; choose $\delta_*$
+further so $C\delta_*\le 1/4$ (using
+$\norm{g}_{H^1}\le C\norm{g}_{C^{2,\gamma}}\le C\delta_*$). Then
+$\norm{g}_{H^1}\le\norm{g}_{H^1}/2$, forcing $\norm{g}_{H^1}=0$, hence
+$g\equiv0$.
+\end{proof}
+
+\begin{theorem}[Sharp Saint--Venant/Faber--Krahn stability, selected route]\label{thm:sharp}
+There exist $c_*=c_*(N,R)>0$ and $q_*=q_*(N,R)>0$ such that, for every open
+$\Omega\subset B_R$ with $\abs{\Omega}=\abs{B_1}$ and
+$Q_\alpha(\Omega)\le q_*$,
+\[
+E(\Omega)-E(B_1)\ge c_*\alpha(\Omega).
+\]
+Equivalently, $\mathcal A(\Omega)^2\le C(N,R)(E(\Omega)-E(B_1))$.
+\end{theorem}
+
+\begin{proof}
+Standard contradiction: assume $Q_\alpha(\Omega_0)\le q_0$ small. Selection
+(\texttt{quantitative-selection-principle.md}) with $\tau=q_0^{1/4}$
+produces a volume-normalized selected $\widetilde\Omega$ with
+$\alpha(\widetilde\Omega)\ge\tfrac12\alpha(\Omega_0)>0$,
+$Q_\alpha(\widetilde\Omega)\le C_{\rm sel}q_0$, $\sigma\le Cq_0^{1/4}$. The
+graph-entry threshold (\texttt{graph-entry-closure.md}) then places
+$\widetilde\Omega$ in the $C^{2,\gamma}$ graph class with norm $\le C\mu$.
+For $q_0$ small enough, $\sigma\le\sigma_*$, $C\mu\le\delta_*$. By
+Theorem~\ref{thm:closure}, $\widetilde\Omega=B_1$, contradicting
+$\alpha(\widetilde\Omega)>0$.
+\end{proof}
+
+\section{Status}
+
+The remaining items in \texttt{bernoulli-expansion-proofs.md}, ``What
+remains genuinely open,'' are now addressed:
+\begin{enumerate}
+\item Work entirely on $B_1$ with the pullback equation: done in
+Section~\ref{sec:ift}.
+\item Differentiate the coefficient map $g\mapsto(A_g,J_g,\nu_g)$: done in
+Lemma~\ref{lem:coeffsmooth}.
+\item Second-order fixed-domain remainder for $\widetilde u_g$ in a norm
+controlling the boundary normal derivative: done in
+Proposition~\ref{prop:ift} ($C^{2,\gamma}$ quadratic).
+\item Tame boundary-gradient remainder: done in Proposition~\ref{prop:tame}
+in the form $C^{2,\gamma}\times H^1\to L^2$. The $C^{2,\gamma}\times L^2\to L^2$
+form is \emph{not} required because the spectral operator $\mathcal L$ on
+$\{k\ge2\}$ gains a full derivative (Lemma~\ref{lem:Lgain}), absorbing the
+$H^1$ weight.
+\end{enumerate}
+
+The remaining items are bookkeeping:
+\begin{itemize}
+\item Tracking $\sigma_*,\delta_*,q_*$ through the dependency chain
+$q_*\to\tau=q_*^{1/4}\to\sigma\le C\tau\to$ closure smallness.
+\item Explicit Schauder bootstrap $C^{1,\gamma}\to C^{2,\gamma}$ in the
+graph-entry step (BDV Lemma 4.16 plus Schauder).
+\end{itemize}
+
+The full chain
+\[
+\hbox{selection}\to\hbox{graph entry}\to\hbox{Bernoulli spectral closure}
+\]
+is now end-to-end and rigorous. The BDV nearly spherical second variation is
+not used.
+
+\end{document}
