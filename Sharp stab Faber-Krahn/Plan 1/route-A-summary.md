@@ -19,8 +19,8 @@ sections).
 
 1. **Notation and standing hypotheses.** Defines $E(\Omega), T(\Omega),
    \lambda_1(\Omega), \mathcal A(\Omega), \alpha(\Omega), Q_\alpha(\Omega)$.
-   Quotes the BDV regularity package (Lemmas 4.9, 4.12, 4.16, Theorem 4.18,
-   Theorem 5.1) as black boxes.
+   Quotes the BDV regularity package (Lemmas 4.9, 4.12, 4.16, Theorem 4.18)
+   and BDV Theorem 3.3 as black boxes.
 
 2. **The BDV contradiction step and its single-set replacement.** BDV's
    sequential selection + compactness limit is contrasted with the
@@ -40,13 +40,13 @@ sections).
    graph. Explicit threshold
    $\alpha_{\rm graph}(N,R) = (h_F/C_H')^{2N}$.
 
-5. **C^{1,γ} → C^{2,γ} Schauder bootstrap** (Proposition 5.1): via the
-   hodograph transform + Kinderlehrer-Nirenberg 1977 / Lieberman 1985 for
-   oblique boundary problems, using BDV Lemma 4.16's
-   $\|q\|_{C^{1,\gamma}}\le L_q$.
+5. **Uniform Schauder bootstrap + interpolation** (Proposition 5.1):
+   hodograph/Schauder gives uniform high \(C^{m,\gamma}\) bounds, and
+   interpolation with the small \(L^\infty\) graph size gives the small
+   \(C^{2,\gamma_0}\) norm required by the nearly spherical theorem.
 
 6. **Closure by BDV's nearly spherical theorem** (Theorem 6.1 = BDV
-   Theorem 5.1, restated; Corollary 6.3): combine BDV Theorem 5.1 with
+   Theorem 3.3, restated; Corollary 6.3): combine BDV Theorem 3.3 with
    BDV Lemma 4.2 + 5.2 to get $Q_\alpha(\widetilde\Omega)\ge c_*(N) :=
    c_{\rm sph}(N)/C_{\rm BDV}(N)$ directly.
 
@@ -54,8 +54,9 @@ sections).
    Saint-Venant single-set form):
    $$Q_\alpha(\Omega_0)\ge q_*(N,R) := c_*(N)/(2C_{\rm sel}(N,R)),$$
    for $\Omega_0 \subset B_R$, $|\Omega_0| = |B_1|$,
-   $\alpha(\Omega_0)\le\alpha_{\rm graph}$. Extended to all asymmetries via
-   the far-from-ball compactness Lemma 7.4.
+   $\alpha(\Omega_0)\le\alpha_{\rm small}$, where
+   \(\alpha_{\rm small}\) includes the graph-entry and interpolation
+   thresholds. Extended to all asymmetries via BDV's suboptimal stability.
 
 8. **Kohler-Jobin transfer to Faber-Krahn** (Theorem 8.1, Lemmas 8.2-8.3):
    the multiplier $2L_N/((N+2)T_N)$ is universal in $N$.
@@ -79,8 +80,8 @@ sections).
 | Hausdorff/asymmetry | $C_H'(N,R)$ | BDV Lemma 4.2 + density |
 | Flatness threshold | $h_F = \mu\rho_\mu/16$ | BDV Theorem 4.18 thresholds |
 | Graph entry | $\alpha_{\rm graph}(N,R) = (h_F/C_H')^{2N}$ | combined |
-| Schauder bootstrap | $C_{\rm boot}(N,R)$ | Kinderlehrer-Nirenberg + BDV 4.16 |
-| Nearly spherical | $c_{\rm sph}(N), \delta_{\rm sph}(N)$ | BDV Theorem 5.1 |
+| Schauder/interpolation | $M_m(N,R), \alpha_{\rm sph}(N,R)$ | Kinderlehrer-Nirenberg + BDV 4.16 + interpolation |
+| Nearly spherical | $c_{\rm sph}(N), \delta_{\rm sph}(N,\gamma_0)$ | BDV Theorem 3.3 |
 | Asymmetry vs $L^2$ | $C_{\rm BDV}(N)$ | BDV Lemmas 4.2, 5.2 |
 | Quotient lower bound | $c_*(N) = c_{\rm sph}/C_{\rm BDV}$ | combined |
 | Saint-Venant small | $q_*(N,R) = c_*/(2C_{\rm sel})$ | Theorem 7.1 |
@@ -101,7 +102,7 @@ named BDV regularity constants.
 - **Lemma 4.12**: Lipschitz/nondegeneracy of torsion potential.
 - **Lemma 4.16**: $C^{1,\gamma}$ smoothness of Bernoulli coefficient $q$.
 - **Theorem 4.18**: Alt-Caffarelli flatness improvement.
-- **Theorem 5.1**: nearly spherical second variation.
+- **Theorem 3.3**: nearly spherical second variation.
 - **Lemma 5.2**: $\alpha(U) \le C\|g\|_{L^2}^2$ for graph minimizers.
 
 All cited by theorem number. None are reproved here.
@@ -113,8 +114,9 @@ All cited by theorem number. None are reproved here.
 2. **Explicit graph-entry threshold** $\alpha_{\rm graph}(N,R)$
    (Theorem 4.4): replaces BDV's qualitative "for $n$ large" with an
    explicit number.
-3. **Explicit Schauder bootstrap** (Proposition 5.1): writes out the
-   hodograph + Kinderlehrer-Nirenberg step that BDV use implicitly.
+3. **Explicit Schauder/interpolation entry** (Proposition 5.1): writes out
+   the hodograph + Kinderlehrer-Nirenberg step and the interpolation step
+   that turns \(L^\infty\)-smallness into \(C^{2,\gamma_0}\)-smallness.
 4. **Full constant chain** (Remark after Theorem 9.1): every constant is
    named and $(N,R)$-trackable.
 
@@ -126,7 +128,7 @@ quantitative and constants tracked through the chain.
 - It's not a new theorem; the statement is BDV's.
 - It's not a numerically explicit version; constants are named but not
   computed.
-- It doesn't avoid BDV's nearly spherical theorem (Theorem 5.1); that's
+- It doesn't avoid BDV's nearly spherical theorem (Theorem 3.3); that's
   what Route B (`fixed-domain-bernoulli-expansion.md`) would do, and it
   remains conditional on the source enumeration in
   `corrections-response.md`, §3.
@@ -146,7 +148,7 @@ number.
 | Limit existence | qualitative, $U_n \to U_\infty$ in $L^1$ | not needed |
 | $\alpha \to$ graph | qualitative from limit | explicit $\alpha_{\rm graph}(N,R)$ |
 | Bootstrap | implicit in BDV regularity | explicit Schauder (Kinderlehrer-Nirenberg) |
-| Nearly spherical | BDV Theorem 5.1 | unchanged |
+| Nearly spherical | BDV Theorem 3.3 | unchanged |
 | Quotient lower bound | contradiction with $\alpha(U_\infty)>0$ | direct, $Q_\alpha\ge c_*(N)$ |
 | Saint-Venant | by contradiction | by computation |
 | Faber-Krahn transfer | Kohler-Jobin | unchanged |

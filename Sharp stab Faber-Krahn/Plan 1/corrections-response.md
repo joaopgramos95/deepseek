@@ -9,7 +9,7 @@ This note responds, point by point, to `corrections-needed.md`. See
 |------|-------|----------|
 | 1 | Overclaim "end-to-end and rigorous" | **Adopted** conditional wording (Section 7 of audit). |
 | 2 | Volume normalization for Bernoulli law | **Written out** (§1 here). |
-| 3 | C^{1,γ} → C^{2,γ} upgrade | **Written out** (§2 here). |
+| 3 | C^{1,γ} → small C^{2,γ_0} upgrade | **Corrected**: uniform Schauder bounds plus interpolation (§2 here). |
 | 4 | Tame remainder source enumeration | **Partial**: $S_1, S_2$ enumerated; IBP step is avoided. |
 | 5 | Final theorem in correct regime | **Adopted** (§4 here). |
 | 6 | Sign typo $\partial_r\widetilde u_g\ge 1/(2N)$ | **Fixed in place** in `fixed-domain-bernoulli-expansion.tex`. |
@@ -30,20 +30,37 @@ $|r_*-1| \le C\delta_T$ where $\delta_T = E(U_*) - E(B_1)$, the constants
 degrade by $(1+O(\delta_T))$. This is absorbed into the smallness regime
 $\sigma\le\sigma_*/2$.
 
-## 2. Schauder bootstrap C^{1,γ} → C^{2,γ} (audit point 3)
+## 2. Uniform Schauder bootstrap + interpolation (audit point 3)
 
 By the hodograph transform applied to the torsion function near $\partial U$,
 plus Schauder for oblique boundary-value problems
-(Kinderlehrer-Nirenberg 1977, Lieberman 1985):
+(Kinderlehrer-Nirenberg 1977, Lieberman 1985), the explicit smooth selected
+Bernoulli law gives uniform higher regularity after BDV Lemma 4.16 supplies
+the starting coefficient bounds:
 
 \[
-\|g\|_{C^{2,\gamma}(\partial B_1)}
-\le C_{\rm boot}(N,R)\bigl(\|g\|_{C^{1,\gamma}} + \|q\|_{C^{1,\gamma}(\partial U)}\bigr).
+\|g\|_{C^{m,\gamma}(\partial B_1)}\le M_m(N,R)
+\qquad(m\ge3).
 \]
 
-BDV Lemma 4.16 supplies $\|q\|_{C^{1,\gamma}}\le L_q(N,R)$ as a fixed
-constant. Hence $\|g\|_{C^{2,\gamma}}\le\delta_*$ once $\|g\|_{C^{1,\gamma}}$
-is below an explicit threshold.
+This alone is not a smallness estimate. The missing smallness comes from the
+Hausdorff part of graph entry:
+
+\[
+\|g\|_{L^\infty}\le C\,d_H(\partial U,\partial B_1)
+\le C\alpha(U)^{1/(2N)}.
+\]
+
+Interpolating between \(C^0\) and \(C^{m,\gamma}\) gives
+
+\[
+\|g\|_{C^{2,\gamma_0}}
+\le C\|g\|_{L^\infty}^{1-\theta}M_m(N,R)^\theta.
+\]
+
+Thus the needed small \(C^{2,\gamma_0}\) regime is reached by strengthening
+the asymmetry threshold, not by pretending the fixed \(L_q(N,R)\) term can be
+made small.
 
 ## 3. Second-variation source enumeration (audit point 4)
 
@@ -96,7 +113,7 @@ Both routes share:
 - selection (`quantitative-selection-principle.md`),
 - graph entry (`graph-entry-closure.md`),
 - volume normalization (§1 here),
-- Schauder bootstrap (§2 here),
+- uniform Schauder/interpolation entry (§2 here),
 - Kohler-Jobin transfer (`faber-krahn-transfer.md`).
 
 They differ only in the final closure step: BDV's second variation vs.\ the

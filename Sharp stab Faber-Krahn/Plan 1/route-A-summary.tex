@@ -39,8 +39,8 @@ contradiction step.
 
 \medskip
 \noindent
-\textbf{Scope:} this note documents Route A (using BDV Theorem~5.1 as the
-final closure). Route B (replacing BDV Theorem~5.1 by the Bernoulli
+\textbf{Scope:} this note documents Route A (using BDV Theorem~3.3 as the
+final closure). Route B (replacing BDV Theorem~3.3 by the Bernoulli
 spectral closure of \texttt{fixed-domain-bernoulli-expansion.md}) is an
 optional alternative and is not used here. Wherever a step uses a published
 BDV theorem as a black box, it is stated as such.
@@ -89,10 +89,14 @@ $B^*$ the ball of volume $\abs{\Omega}$ at the origin.
 \paragraph{Quadratic asymmetry.}
 The integrated radial asymmetry used by BDV is
 \[
-\alpha(\Omega):=\inf_{x_0\in\R^N}\int_\Omega\bigl(\abs{x-x_0}-r_\Omega\bigr)\d x,
-\quad r_\Omega:=(\abs{\Omega}/\omega_N)^{1/N}.
+\alpha(\Omega):=
+\int_{\Omega\Delta B_{r_\Omega}(x_\Omega)}
+\bigl|r_\Omega-\abs{x-x_\Omega}\bigr|\,\d x,
+\qquad
+r_\Omega:=(\abs{\Omega}/\omega_N)^{1/N},
 \]
-(BDV Lemma 2.5.) BDV Lemma~4.2 gives $\mathcal A(\Omega)^2\le C_{\rm Fr}(N)\alpha(\Omega)$.
+where $x_\Omega$ is the barycenter. For unit volume this is BDV Definition~4.1.
+BDV Lemma~4.2 gives $\mathcal A(\Omega)^2\le C_{\rm Fr}(N)\alpha(\Omega)$.
 
 \paragraph{Quotient.}
 \[
@@ -104,8 +108,10 @@ The whole work is about lower bounds on $Q_\alpha$ in the small-asymmetry regime
 
 We use the BDV \emph{regularity package} as a black box: it asserts that the
 minimizers of the penalized functionals below satisfy two-sided density,
-Lipschitz, nondegeneracy, and smooth Bernoulli coefficient bounds, with
-constants depending only on $(N,R)$. Specifically:
+Lipschitz, nondegeneracy, and the Bernoulli coefficient bounds needed to start
+the flatness theory, with constants depending only on $(N,R)$. After graph
+entry, the explicit selected Bernoulli law is smooth on the fixed collar and
+the same constants control the Schauder bootstrap. Specifically:
 
 \begin{itemize}
 \item \textbf{BDV Lemma 4.9} (density). There are
@@ -138,11 +144,11 @@ black boxes; their proofs are unchanged.
 \paragraph{BDV nearly spherical theorem (used as black box).}
 The closing step is:
 \begin{quote}
-\textbf{BDV Theorem 5.1} (nearly spherical). There exist $c_{\rm sph}(N)>0$
-and $\delta_{\rm sph}(N)>0$ such that for every set
+\textbf{BDV Theorem 3.3} (nearly spherical). For every $0<\gamma_0\le1$
+there exist $c_{\rm sph}(N)>0$ and $\delta_{\rm sph}(N,\gamma_0)>0$ such that for every set
 $U=\{(1+g(\theta))\theta:\theta\in\partial B_1\}$ with
 $\abs{U}=\abs{B_1}$, $\hbox{barycenter}(U)=0$, and
-$\norm{g}_{C^{2,\gamma}(\partial B_1)}\le\delta_{\rm sph}$,
+$\norm{g}_{C^{2,\gamma_0}(\partial B_1)}\le\delta_{\rm sph}$,
 \[
 E(U)-E(B_1)\ge c_{\rm sph}(N)\norm{g}_{H^{1/2}(\partial B_1)}^2.
 \]
@@ -181,16 +187,21 @@ $\varepsilon=\alpha(\Omega_0)$, $q=Q_\alpha(\Omega_0)$. For
 $\tau>0$ and $\hat\eta>0$, the single-set penalized functional is
 \[
 J_{\tau,\hat\eta,\Omega_0}(U)
-:=E(U)+f_{\hat\eta}(\abs U-\abs{B_1})
+:=E(U)+f_{\hat\eta}(\abs U)
 +\sqrt{\varepsilon^2+\tau^2(\alpha(U)-\varepsilon)^2},
 \]
 $U\subset B_R$, where $f_{\hat\eta}(s)$ is the BDV symmetric volume
 penalization
 \[
-f_{\hat\eta}(s):=\begin{cases}-\hat\eta s & s\ge0,\\ -\hat\eta_0 s & s<0,\end{cases}
+f_{\hat\eta}(s):=
+\begin{cases}
+\hat\eta(s-\omega_N),&s\le\omega_N,\\
+(s-\omega_N)/\hat\eta,&s\ge\omega_N,
+\end{cases}
 \]
-with $\hat\eta,\hat\eta_0$ chosen large enough that minimizers of
-$J_{\tau,\hat\eta,\Omega_0}$ have unit volume.
+with $\hat\eta=\hat\eta(N,R)$ chosen as in BDV Lemma~4.5. This penalty does
+not force exact unit volume; the selected set is volume-normalized in
+\S\ref{sec:volnorm}.
 \end{definition}
 
 \begin{theorem}[Single-set selection, \texttt{quantitative-selection-principle.md} Thm.~1]\label{thm:selection}
@@ -212,7 +223,9 @@ satisfies
 \item \emph{Asymmetry preservation.} With
 $\rho(q,\tau)=\sqrt{2q+q^2}/\tau+C_{\rm sel}q$,
 \[
-\alpha(\widetilde\Omega)\ge(1-\rho(q,\tau))\,\alpha(\Omega_0).
+(1-\rho(q,\tau))\,\alpha(\Omega_0)
+\le \alpha(\widetilde\Omega)
+\le (1+\rho(q,\tau))\,\alpha(\Omega_0).
 \]
 \item \emph{Quotient preservation.}
 \[
@@ -232,9 +245,12 @@ as a fixed parameter, not as a sequence.
 \end{remark}
 
 \begin{proof}[Proof sketch (full proof in \texttt{quantitative-selection-principle.md}).]
-Existence: $J_{\tau,\hat\eta,\Omega_0}$ is lower semicontinuous in
-Hausdorff convergence on $B_R$ (compactness of $\{U\subset B_R\}$ + BDV
-density estimates) and bounded below, so admits a minimizer.
+Existence: this is BDV Lemma~4.6 with the sequence parameter replaced by the
+fixed parameter $\tau$. The proof is performed in the quasi-open class:
+one truncates a minimizing sequence of torsion potentials, obtains a uniform
+perimeter bound by the coarea argument, and then passes to the $L^1$/quasi-open
+limit. The density estimates are consequences of minimality and are not used
+to prove existence.
 
 Regularity: the smooth Bernoulli term
 $\sqrt{\varepsilon^2+\tau^2(\alpha(U)-\varepsilon)^2}$
@@ -386,70 +402,80 @@ Combine Lemmas~\ref{lem:alphaH}, Propositions~\ref{prop:flatness},
 \ref{prop:globalgraph}.
 \end{proof}
 
-\section{$C^{1,\gamma}\to C^{2,\gamma}$ Schauder bootstrap}\label{sec:bootstrap}
+\section{Uniform Schauder bounds and small $C^{2,\gamma_0}$ entry}\label{sec:bootstrap}
 
-BDV Theorem~5.1 (nearly spherical) needs a $C^{2,\gamma}$ graph; graph entry
-supplies only $C^{1,\gamma}$. The bootstrap is via the hodograph transform
-applied to the torsion equation with the smooth Bernoulli condition.
+BDV Theorem~3.3 needs the graph norm to be small in $C^{2,\gamma_0}$ for some
+$0<\gamma_0\le1$. Graph entry gives small $C^{1,\gamma}$ norm and, more
+importantly, small $L^\infty$ norm through Hausdorff closeness. The Schauder
+bootstrap supplies uniform higher norms; interpolation then turns small
+$L^\infty$ plus uniform high regularity into small $C^{2,\gamma_0}$.
 
-\begin{proposition}[Bootstrap, \texttt{corrections-response.tex} Prop.~2.1]\label{prop:bootstrap}
-Let $\partial\widetilde\Omega=\{(1+g)\theta\}$ be a $C^{1,\gamma}$ graph with
-$\norm{g}_{C^{1,\gamma}}\le C\mu$, and let $\widetilde u$ be its torsion
-potential. Assume BDV Lemma~4.16: the Bernoulli coefficient
-$q(y)=\abs{\nabla\widetilde u(y)}$ on $\partial\widetilde\Omega$ satisfies
-$q\in C^{1,\gamma}(\partial\widetilde\Omega)$ with
-$\norm{q}_{C^{1,\gamma}}\le L_q(N,R)$.
-Then $g\in C^{2,\gamma}(\partial B_1)$ with
+\begin{proposition}[Uniform bootstrap]\label{prop:bootstrap}
+Let $\partial\widetilde\Omega=\{(1+g)\theta\}$ be a graph obtained from
+Theorem~\ref{thm:graphentry}, and let $\widetilde u$ be its torsion potential.
+For every integer $m\ge3$ there is $M_m(N,R)<\infty$ such that
 \[
-\norm{g}_{C^{2,\gamma}(\partial B_1)}\le C_{\rm boot}(N,R)\,
-(\norm{g}_{C^{1,\gamma}}+L_q(N,R))
-\le C'_{\rm boot}(N,R).
+\norm{g}_{C^{m,\gamma}(\partial B_1)}\le M_m(N,R).
 \]
 \end{proposition}
 
 \begin{proof}
-Apply the hodograph transform $V(\rho,\theta)=\widetilde u(\rho\theta)$ in
-the collar $\{(1-\eta)\le\rho\le 1+g(\theta)\}$, with $\eta=O(\mu)$ small.
-In $(\rho,\theta)$ coordinates, $\widetilde u$ satisfies a uniformly
-elliptic equation
-\[
--a^{ij}(\rho,\theta;\nabla V)\partial_{ij}V=b(\rho,\theta;\nabla V)
-\]
-with $C^\gamma$ coefficients, and the free boundary $\partial\widetilde\Omega$
-becomes the fixed hyperplane $\rho=1+g(\theta)$ in the parameter space.
-
-The Bernoulli condition transforms to an oblique condition
-$\Phi(\nabla V,\rho,\theta)=q(\theta)$ on $\rho=1+g(\theta)$, with $\Phi$
-smooth.
-
-By Kinderlehrer--Nirenberg (\emph{Ann.\ Sc.\ Norm.\ Sup.\ Pisa Cl.\ Sci.}\ 1977,
-\emph{Regularity in free boundary problems}, Thm.~2.1) and Lieberman
-(\emph{Adv.\ Math.}\ 1985, \emph{The Perron process for oblique
-derivative problems}, Thm.~3.2):
-\[
-\norm{V}_{C^{2,\gamma}(\hbox{collar})}\le C(\norm{V}_{C^{1,\gamma}}+\norm{q}_{C^{1,\gamma}}).
-\]
-Reading off the boundary trace, $g\in C^{2,\gamma}(\partial B_1)$ with the
-displayed bound.
+BDV Lemma~4.16 gives the starting uniform bounds for the Bernoulli coefficient
+$q=\abs{\nabla\widetilde u}$ in a neighborhood of the free boundary. Once the
+flatness theorem has produced the first $C^{1,\gamma}$ graph, the selected
+Bernoulli law has an explicit smooth right-hand side on the fixed collar.
+Applying the hodograph transform to the torsion equation gives a uniformly
+elliptic oblique boundary problem there. Schauder estimates for oblique
+problems (Kinderlehrer--Nirenberg 1977; Lieberman 1985), iterated with this
+smooth selected boundary data, give the displayed $C^{m,\gamma}$ bound. This
+is the quantitative version of the bootstrap BDV use after Theorem~4.18.
 \end{proof}
 
-\begin{remark}
-For $\mu$ small, $C'_{\rm boot}(N,R)\le\delta_{\rm sph}(N)$, the smallness
-threshold of BDV Theorem~5.1. This is achieved by decreasing $\mu(N,R)$, with
-the consequent change to $\alpha_{\rm graph}$ tracked through
-Theorem~\ref{thm:graphentry}.
-\end{remark}
+\begin{lemma}[Interpolation to the nearly spherical threshold]\label{lem:interp}
+Fix $0<\gamma_0<\gamma$ and choose $m\ge3$. There are
+$h_{\rm sph}(N,R,\gamma_0)>0$ and
+\[
+\alpha_{\rm sph}(N,R,\gamma_0)
+:=\left(\frac{h_{\rm sph}}{C_\infty C_H'(N,R)}\right)^{2N}
+\]
+such that every selected graph with
+$\alpha(\widetilde\Omega)\le\alpha_{\rm sph}$ satisfies
+\[
+\norm{g}_{C^{2,\gamma_0}(\partial B_1)}
+\le \delta_{\rm sph}(N,\gamma_0),
+\]
+the smallness hypothesis of BDV Theorem~3.3.
+\end{lemma}
+
+\begin{proof}
+Graph entry gives
+\[
+\norm{g}_{L^\infty(\partial B_1)}
+\le C_\infty d_H(\partial\widetilde\Omega,\partial B_1)
+\le C_\infty C_H'(N,R)\alpha(\widetilde\Omega)^{1/(2N)}.
+\]
+The interpolation inequality on $\partial B_1$ gives, for some
+$\theta=\theta(N,m,\gamma_0)\in(0,1)$,
+\[
+\norm{g}_{C^{2,\gamma_0}}
+\le C\,\norm{g}_{L^\infty}^{1-\theta}
+       \norm{g}_{C^{m,\gamma}}^\theta
+\le C\,\norm{g}_{L^\infty}^{1-\theta}M_m(N,R)^\theta.
+\]
+Choose $h_{\rm sph}$ so that the last quantity is at most
+$\delta_{\rm sph}(N,\gamma_0)$ whenever $\norm{g}_{L^\infty}\le h_{\rm sph}$.
+\end{proof}
 
 \section{Closure by BDV's nearly spherical theorem}\label{sec:closure}
 
 \begin{theorem}[BDV nearly spherical, restated as black box]\label{thm:nearlysph}
-\textbf{(BDV Theorem 5.1.)} There exist $c_{\rm sph}(N)>0$ and
-$\delta_{\rm sph}(N)>0$ such that for every set $U$ of the form
+\textbf{(BDV Theorem 3.3.)} For every $0<\gamma_0\le1$ there exist
+$c_{\rm sph}(N)>0$ and $\delta_{\rm sph}(N,\gamma_0)>0$ such that for every set $U$ of the form
 $\partial U=\{(1+g(\theta))\theta:\theta\in\partial B_1\}$ with
 \begin{itemize}
 \item $\abs U=\abs{B_1}$ (volume normalization),
 \item $\int_{\partial B_1}g\,\theta\d\theta=0$ (barycenter normalization),
-\item $\norm{g}_{C^{2,\gamma}(\partial B_1)}\le\delta_{\rm sph}(N)$,
+\item $\norm{g}_{C^{2,\gamma_0}(\partial B_1)}\le\delta_{\rm sph}(N,\gamma_0)$,
 \end{itemize}
 we have
 \[
@@ -457,7 +483,7 @@ E(U)-E(B_1)\ge c_{\rm sph}(N)\norm{g}_{H^{1/2}(\partial B_1)}^2.
 \]
 \end{theorem}
 
-This is BDV Theorem 5.1 verbatim. We use it without modification.
+This is BDV Theorem 3.3 verbatim. We use it without modification.
 
 \begin{lemma}[Asymmetry vs.\ $L^2$ graph norm, BDV Lemma 4.2 + 5.2]\label{lem:asymL2}
 For sets $U$ of the form above with $\abs U=\abs{B_1}$ and
@@ -489,16 +515,26 @@ $\norm{g}_{L^2}^2\le\norm{g}_{H^{1/2}}^2$ (interpolation on $\partial B_1$).
 \section{The non-contradictory quantitative argument}\label{sec:argument}
 
 We now assemble Theorem~\ref{thm:selection}, Theorem~\ref{thm:graphentry},
-Proposition~\ref{prop:bootstrap}, and Corollary~\ref{cor:Qlower} into a
-direct lower bound on $Q_\alpha(\Omega_0)$.
+Proposition~\ref{prop:bootstrap}, Lemma~\ref{lem:interp}, and
+Corollary~\ref{cor:Qlower} into a direct lower bound on
+$Q_\alpha(\Omega_0)$.
+
+Set
+\[
+\alpha_{\rm small}(N,R):=\frac12\min\{\varepsilon_{\rm sel},\alpha_{\rm graph},
+\alpha_{\rm sph}\},
+\]
+where $\varepsilon_{\rm sel}$ is the smallness threshold in the selection
+lemma and $\alpha_{\rm sph}$ is Lemma~\ref{lem:interp}'s interpolation
+threshold.
 
 \begin{theorem}[Sharp Saint--Venant stability, single-set form]\label{thm:sv-sharp}
 There exists $q_*(N,R)>0$ such that for every open
 $\Omega_0\subset B_R$ with $\abs{\Omega_0}=\abs{B_1}$,
-$\alpha(\Omega_0)\le 2\alpha_{\rm graph}(N,R)$, and
+$\alpha(\Omega_0)\le \alpha_{\rm small}(N,R)$, and
 $Q_\alpha(\Omega_0)<q_{\rm sel}(N,R)$,
 \[
-Q_\alpha(\Omega_0)\ge q_*(N,R)=\frac{c_*(N)}{C_{\rm sel}(N,R)},
+Q_\alpha(\Omega_0)\ge q_*(N,R)=\frac{c_*(N)}{2C_{\rm sel}(N,R)},
 \]
 or equivalently
 \[
@@ -515,22 +551,23 @@ $\widetilde\Omega\subset B_R$ (after Lemma~\ref{lem:rescale}) with
 \begin{equation}\label{eq:sel}
 \alpha(\widetilde\Omega)\ge\tfrac12\alpha(\Omega_0),
 \quad
+\alpha(\widetilde\Omega)\le\tfrac32\alpha(\Omega_0),
+\quad
 Q_\alpha(\widetilde\Omega)\le 2C_{\rm sel}(N,R)\,q_0,
 \end{equation}
 selection parameter $\sigma\le Cq_0^{1/4}$.
 
-\emph{Graph entry.} By hypothesis $\alpha(\Omega_0)\le 2\alpha_{\rm graph}$,
-so~\eqref{eq:sel} gives $\alpha(\widetilde\Omega)\ge\alpha(\Omega_0)/2$ but
-also $\alpha(\widetilde\Omega)\le\alpha(\Omega_0)\le 2\alpha_{\rm graph}$.
-Hmm: we need $\alpha(\widetilde\Omega)\le\alpha_{\rm graph}$.
-Strengthen the hypothesis to $\alpha(\Omega_0)\le\alpha_{\rm graph}$
-(redefine $\alpha_*:=\alpha_{\rm graph}$ for the theorem's regime); then
-$\alpha(\widetilde\Omega)\le\alpha(\Omega_0)\le\alpha_{\rm graph}$.
-
+\emph{Graph entry.} Since $\alpha(\Omega_0)\le\alpha_{\rm small}$,
+\eqref{eq:sel} gives
+\[
+\alpha(\widetilde\Omega)\le \frac32\alpha_{\rm small}
+\le \alpha_{\rm graph},\qquad
+\alpha(\widetilde\Omega)\le\alpha_{\rm sph}.
+\]
 By Theorem~\ref{thm:graphentry},
 $\partial\widetilde\Omega=\{(1+g)\theta\}$ is a $C^{1,\gamma}$ graph with
-$\norm{g}_{C^{1,\gamma}}\le C\mu$. By Proposition~\ref{prop:bootstrap},
-$\norm{g}_{C^{2,\gamma}}\le\delta_{\rm sph}(N)$ for $\mu(N,R)$ small.
+$\norm{g}_{C^{1,\gamma}}\le C\mu$. By Lemma~\ref{lem:interp},
+$\norm{g}_{C^{2,\gamma_0}}\le\delta_{\rm sph}(N,\gamma_0)$.
 
 \emph{Nearly spherical and quotient bound.} By
 Corollary~\ref{cor:Qlower}, $Q_\alpha(\widetilde\Omega)\ge c_*(N)$.
@@ -574,34 +611,50 @@ is the explicit far-from-ball lower bound from \S\ref{sec:far} below.
 \end{theorem}
 
 \begin{proof}
-Small asymmetry, $\mathcal A(\Omega)^2\le C_{\rm Fr}\alpha_{\rm graph}$:
+Small asymmetry, $\alpha(\Omega)\le\alpha_{\rm small}$:
 combine Theorem~\ref{thm:sv-sharp} with $\mathcal A^2\le C_{\rm Fr}\alpha$.
 
-Large asymmetry, $\mathcal A(\Omega)^2>C_{\rm Fr}\alpha_{\rm graph}$:
+Large asymmetry, $\alpha(\Omega)>\alpha_{\rm small}$:
 direct compactness, see \S\ref{sec:far}.
 
 Take $c_{\rm SV}:=\min$ of the two constants.
 \end{proof}
 
-\subsection{The far-from-ball compactness constant}\label{sec:far}
+\subsection{The far-from-ball Saint--Venant constant}\label{sec:far}
 
 \begin{lemma}[Far-from-ball uniform lower bound]\label{lem:far}
 There exists $c_{\rm far,SV}(N,R)>0$ such that for every open
 $\Omega\subset B_R$ with $\abs{\Omega}=\abs{B_1}$ and
-$\mathcal A(\Omega)\ge\mathcal A_{**}:=(C_{\rm Fr}(N)\alpha_{\rm graph}(N,R))^{1/2}$,
+$\alpha(\Omega)\ge\alpha_{\rm small}(N,R)$,
 \[
 E(\Omega)-E(B_1)\ge c_{\rm far,SV}(N,R).
 \]
 \end{lemma}
 
 \begin{proof}
-By Saint--Venant, $\Omega\mapsto E(\Omega)-E(B_1)$ is strictly positive away
-from the ball, continuous in Hausdorff/$L^1$ convergence on
-$\{\Omega\subset B_R:\abs{\Omega}=\abs{B_1}\}$, and the constraint set is
-compact in Hausdorff topology. The infimum over
-$\{\mathcal A(\Omega)\ge\mathcal A_{**}\}$ is attained at some $\Omega_\infty$
-with $\mathcal A(\Omega_\infty)\ge\mathcal A_{**}>0$, hence not a ball.
-Therefore the infimum is strictly positive.
+First convert $\alpha$-separation into Fraenkel separation. Let $B$ be an
+optimal ball for $\mathcal A(\Omega)$. Since $\Omega\subset B_R$ and
+$|B|=|B_1|$, the relevant balls are contained in a fixed ball $B_{R+2}$ after
+enlarging $R$ by a dimensional amount. BDV Lemma~4.2(ii), applied to
+$\Omega$ and $B$, gives
+\[
+\alpha(\Omega)\le C_2(N,R)\,|\Omega\Delta B|
+=C_2(N,R)|B_1|\mathcal A(\Omega).
+\]
+Thus $\alpha(\Omega)\ge\alpha_{\rm small}$ implies
+\[
+\mathcal A(\Omega)\ge
+\alpha_{\rm small}/(C_2(N,R)|B_1|)=:a_{\rm far}(N,R)>0.
+\]
+Now use the suboptimal quantitative Saint--Venant inequality quoted by BDV as
+Lemma~5.2:
+\[
+E(\Omega)-E(B_1)\ge C_8(N)^{-1}\mathcal A(\Omega)^4.
+\]
+Therefore one can take
+\[
+c_{\rm far,SV}(N,R):=C_8(N)^{-1}a_{\rm far}(N,R)^4.
+\]
 \end{proof}
 
 \begin{remark}
@@ -662,21 +715,29 @@ $\Omega\subset B_R$ with $\abs{\Omega}=\abs{B^*}$,
 \begin{proof}
 \emph{Small asymmetry.} By Theorem~\ref{thm:sv-global}, in the small-asymmetry
 regime $\mathcal A(\Omega)\le\mathcal A_*(N,R)$,
-$\delta_{\rm SV}=-E(\Omega)+E(B_1)\ge c_{\rm SV}(N,R)\mathcal A(\Omega)^2/2$
-(where $-2E=T$). By Lemma~\ref{lem:transferlin}, for $\delta_{\rm SV}$ small,
+$\delta_{\rm SV}:=T(B^*)-T(\Omega)=2(E(\Omega)-E(B^*))
+\ge 2c_{\rm SV}(N,R)\mathcal A(\Omega)^2$
+(where $E=-T/2$). By Lemma~\ref{lem:transferlin}, for $\delta_{\rm SV}$ small,
 \[
 \lambda_1(\Omega)-\lambda_1(B^*)\ge\frac{2L_N}{(N+2)T_N}\,\delta_{\rm SV}
-\ge\frac{L_N\,c_{\rm SV}(N,R)}{(N+2)T_N}\,\mathcal A(\Omega)^2.
+\ge\frac{4L_N\,c_{\rm SV}(N,R)}{(N+2)T_N}\,\mathcal A(\Omega)^2.
 \]
 
-\emph{Large asymmetry.} For $\mathcal A(\Omega)>\mathcal A_*$, by the
-analogue of Lemma~\ref{lem:far} for $\lambda_1$:
-$\lambda_1(\Omega)-\lambda_1(B^*)\ge c_{\rm far,FK}(N,R)\ge c_{\rm far,FK}\mathcal A(\Omega)^2/4$
-(using $\mathcal A(\Omega)\le 2$).
+\emph{Large asymmetry or large torsion deficit.} If
+$\mathcal A(\Omega)>\mathcal A_*$, the suboptimal Faber--Krahn stability
+quoted by BDV gives a positive lower bound depending only on $(N,R)$; call it
+$c_{\rm far,FK}(N,R)$. If instead $\delta_{\rm SV}>T_N/2$, the Kohler--Jobin
+pointwise bound gives
+\[
+\lambda_1(\Omega)-L_N\ge L_N(2^{2/(N+2)}-1),
+\]
+which is also bounded below by a dimensional multiple of
+$\mathcal A(\Omega)^2$ because $\mathcal A\le2$.
 
 Take
 \[
-c_{\rm FK}(N,R):=\min\Bigl(\frac{L_N\,c_{\rm SV}(N,R)}{(N+2)T_N},\;\frac{c_{\rm far,FK}(N,R)}{4}\Bigr).
+c_{\rm FK}(N,R):=\min\Bigl(\frac{4L_N\,c_{\rm SV}(N,R)}{(N+2)T_N},\;\frac{c_{\rm far,FK}(N,R)}{4},
+\frac{L_N(2^{2/(N+2)}-1)}{4}\Bigr).
 \]
 \end{proof}
 
@@ -690,20 +751,22 @@ $\alpha_{\rm graph}=(h_F/C_H')^{2N}$,
 where $h_F=\mu\rho_\mu/16$ and $\mu,\rho_\mu$ are BDV Theorem~4.18 thresholds.
 \item Bootstrap: $C_{\rm boot}(N,R)$ from Kinderlehrer--Nirenberg /
 Lieberman applied with BDV Lemma 4.16's $L_q$.
-\item Nearly spherical: $c_{\rm sph}(N), \delta_{\rm sph}(N)$ from BDV
-Theorem~5.1.
+\item Nearly spherical: $c_{\rm sph}(N), \delta_{\rm sph}(N,\gamma_0)$ from BDV
+Theorem~3.3.
 \item Asymmetry vs.\ $L^2$: $C_{\rm BDV}(N)$ from BDV Lemma~4.2 + 5.2.
 \item Saint--Venant quotient: $c_*(N)=c_{\rm sph}(N)/C_{\rm BDV}(N)$.
 \item Saint--Venant constant: $q_*(N,R)=c_*(N)/(2C_{\rm sel}(N,R))$.
 \item Global Saint--Venant: $c_{\rm SV}(N,R)=\min(q_*/C_{\rm Fr},c_{\rm far,SV})$.
 \item Kohler--Jobin multiplier: $2L_N/((N+2)T_N)$, universal.
-\item Faber--Krahn: $c_{\rm FK}(N,R)=\min(L_Nc_{\rm SV}/((N+2)T_N),c_{\rm far,FK}/4)$.
+\item Faber--Krahn: $c_{\rm FK}(N,R)$ is the minimum displayed in
+Theorem~\ref{thm:fk-final}.
 \end{enumerate}
 Every constant in this chain depends only on $(N,R)$, and the dependence is
 through named BDV regularity constants. No constant arises from a limit or
 compactness argument that hides its $(N,R)$-dependence; the only
-compactness-derived constants are $c_{\rm far,SV}$ and $c_{\rm far,FK}$, which
-are far from the ball and do not enter the small-asymmetry regime.
+far-regime constants are $c_{\rm far,SV}$ and $c_{\rm far,FK}$, which are
+obtained from suboptimal stability bounds away from the ball and do not enter
+the small-asymmetry regime.
 \end{remark}
 
 \section{Where the contradiction was, and what replaced it}
@@ -720,7 +783,7 @@ Limit existence & qualitative, $U_n\to U_\infty$ in $L^1$ &
 $\alpha\to$ graph & qualitative from limit & explicit $\alpha_{\rm graph}(N,R)$ \\
 Bootstrap & implicit in BDV regularity & explicit Schauder
   (Kinderlehrer--Nirenberg) \\
-Nearly spherical & BDV Theorem 5.1 & unchanged \\
+Nearly spherical & BDV Theorem 3.3 & unchanged \\
 Quotient lower bound & contradiction with $\alpha(U_\infty)>0$ &
   direct, $Q_\alpha\ge c_*(N)$ \\
 Saint--Venant & by contradiction & by computation,
@@ -736,12 +799,13 @@ BDV's argument is:
 $\Rightarrow$ compactness limit $\Rightarrow$ contradiction with nearly spherical.''
 
 Plan 1's argument is:
-``Given any $\Omega_0$ with $\alpha(\Omega_0)\le\alpha_{\rm graph}$:
+``Given any $\Omega_0$ with $\alpha(\Omega_0)\le\alpha_{\rm small}$:
 \begin{itemize}
 \item Construct $\widetilde\Omega$ in one step (Thm.~\ref{thm:selection}).
-\item Note $\widetilde\Omega$ is a $C^{2,\gamma}$ graph
-(Thms.~\ref{thm:graphentry}, Prop.~\ref{prop:bootstrap}).
-\item Apply BDV Theorem 5.1 pointwise to read off
+\item Note $\widetilde\Omega$ enters the small $C^{2,\gamma_0}$ nearly
+spherical class (Thm.~\ref{thm:graphentry}, Prop.~\ref{prop:bootstrap},
+Lemma~\ref{lem:interp}).
+\item Apply BDV Theorem 3.3 pointwise to read off
 $Q_\alpha(\widetilde\Omega)\ge c_*(N)$.
 \item Conclude $Q_\alpha(\Omega_0)\ge c_*(N)/(2C_{\rm sel}(N,R))$
 by the selection quotient bound.''
@@ -760,9 +824,9 @@ is a direct lower bound.
 \item Lemmas~\ref{lem:alphaH}, Props.~\ref{prop:flatness},
 \ref{prop:globalgraph}, Thm.~\ref{thm:graphentry} (graph entry):
 full proofs in \texttt{graph-entry-closure.md}.
-\item Prop.~\ref{prop:bootstrap} ($C^{1,\gamma}\to C^{2,\gamma}$ bootstrap):
-proof via Kinderlehrer--Nirenberg in \texttt{corrections-response.tex} \S 2.
-\item Theorem~\ref{thm:nearlysph}: BDV Theorem 5.1, used as black box.
+\item Prop.~\ref{prop:bootstrap} and Lemma~\ref{lem:interp} (uniform
+Schauder bounds plus interpolation to small $C^{2,\gamma_0}$).
+\item Theorem~\ref{thm:nearlysph}: BDV Theorem 3.3, used as black box.
 \item Lemmas~\ref{lem:asymL2}, \ref{lem:transferpt}, \ref{lem:transferlin}:
 elementary, written in this note.
 \item Theorems~\ref{thm:sv-sharp}, \ref{thm:sv-global}, \ref{thm:fk-final}:
@@ -771,8 +835,8 @@ assembled in this note.
 
 \paragraph{What uses BDV as a black box.}
 BDV Lemmas 4.9 (density), 4.12 (Lipschitz/nondegeneracy), 4.16 (Bernoulli
-coefficient), 4.18 (Alt--Caffarelli flatness improvement), 5.1 (nearly
-spherical), 5.2 ($\alpha$ vs $L^2$). All cited by theorem number and used
+coefficient), 4.18 (Alt--Caffarelli flatness improvement), 3.3 (nearly
+spherical), 4.2/5.2 ($\alpha$ vs $L^2$ and suboptimal stability). All cited by theorem number and used
 without modification.
 
 \paragraph{What is not numerically tracked.}
@@ -801,10 +865,10 @@ Every lemma in this note is either:
 \begin{itemize}
 \item proved in a referenced file with the same notation,
 \item proved elementarily in this note (Lemmas~\ref{lem:asymL2},
-\ref{lem:transferpt}, \ref{lem:transferlin}, far-from-ball compactness
+\ref{lem:transferpt}, \ref{lem:transferlin}, far-from-ball
 Lemma~\ref{lem:far}), or
-\item quoted from BDV by theorem number (Thms.~4.9, 4.12, 4.16, 4.18,
-5.1, 5.2 and Lemma 4.2).
+\item quoted from BDV by theorem number (Thm.~3.3, Lemmas~4.2, 4.9, 4.12,
+4.16, 5.2, and Thm.~4.18).
 \end{itemize}
 There are no appeals to ``a standard argument'' that is not pinned to a
 reference.

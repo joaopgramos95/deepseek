@@ -1,8 +1,14 @@
 # Plan 1 agent report
 
-Date: 2026-05-11 (fourth pass)
+Date: 2026-05-11 (fifth pass)
 
-## Fourth pass: fixed-domain Bernoulli expansion closes the gap
+## Fifth pass: Route A audit repair
+
+The reliable unconditional route is Route A: single-set selection, graph entry, uniform Schauder bounds plus interpolation into the small \(C^{2,\gamma_0}\) nearly-spherical class, BDV Theorem 3.3, and Kohler--Jobin. The Bernoulli spectral route remains conditional until the bilinear source enumeration is fully finalized with constants.
+
+The previous wording that the Bernoulli route was end-to-end rigorous or that BDV nearly spherical was no longer required is superseded by this fifth-pass status.
+
+## Fourth pass: fixed-domain Bernoulli expansion status
 
 A new note `fixed-domain-bernoulli-expansion.md/.tex/.pdf` addresses the four
 genuinely-open items from the third-pass correction.
@@ -52,14 +58,9 @@ bilinear/elliptic analysis, closes the spectral gap.
 - Each term in the bilinear source of $w''$ is described schematically but
   not enumerated explicitly with constants.
 - The smallness constants $\sigma_*, \delta_*, q_*$ are not tracked.
-- The Schauder bootstrap $C^{1,\gamma}\to C^{2,\gamma}$ at graph entry is
-  cited but not written out.
+- The graph-entry regularity now uses uniform Schauder bounds plus interpolation; small \(C^{2,\gamma_0}\) follows from small Hausdorff/\(L^\infty\) size, not directly from the fixed \(C^{1,\gamma}\) graph norm.
 
-**Status:** the full chain
-selection $\to$ graph entry $\to$ Bernoulli spectral closure
-is now end-to-end and rigorous up to standard references and routine
-bookkeeping. The BDV nearly spherical second variation is no longer required
-for closure, though it remains available as an alternative final step.
+**Status:** Route B remains conditional on completing the bilinear source enumeration with constants. The unconditional Plan 1 route uses BDV Theorem 3.3 as the final nearly-spherical closure.
 
 ## Third pass: correction of Bernoulli expansion overclaims
 

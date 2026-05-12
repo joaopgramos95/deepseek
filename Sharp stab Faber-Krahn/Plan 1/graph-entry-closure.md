@@ -205,8 +205,11 @@ and
 \le C(N,R)\mu.
 \]
 
-Higher \(C^{k,\gamma}\) bounds follow from the smooth Bernoulli coefficient in
-BDV Lemma 4.16 and Schauder bootstrapping.
+Higher \(C^{k,\gamma}\) bounds follow from the explicit smooth selected
+Bernoulli law, with BDV Lemma 4.16 supplying the starting uniform coefficient
+bounds, and Schauder bootstrapping. These bounds are uniform, not small. Small
+\(C^{2,\gamma_0}\) norm is obtained by interpolating the uniform higher bound
+with the small \(L^\infty\) bound above.
 
 ## 5. Explicit graph-entry threshold
 
@@ -230,7 +233,41 @@ Then
 
 This is the quantitative replacement for the compactness step in BDV.
 
-## 6. Closure by the nearly spherical theorem
+## 6. Entry into the nearly spherical theorem
+
+BDV's nearly spherical theorem requires small \(C^{2,\gamma_0}\), not merely
+small \(C^{1,\gamma}\). Fix \(0<\gamma_0<\gamma\) and an integer \(m\ge3\).
+The Schauder bootstrap gives
+
+\[
+\|g\|_{C^{m,\gamma}(\partial B_1)}\le M_m(N,R).
+\]
+
+Interpolation on \(\partial B_1\) gives
+
+\[
+\|g\|_{C^{2,\gamma_0}}
+\le
+C\|g\|_{L^\infty}^{1-\theta}M_m(N,R)^\theta.
+\]
+
+Since \(\|g\|_{L^\infty}\le C d_H(\partial U,\partial B_1)
+\le C\alpha(U)^{1/(2N)}\), there is a second threshold
+\(\alpha_{\rm sph}(N,R,\gamma_0)\) such that
+
+\[
+\alpha(U)\le \alpha_{\rm sph}
+\quad\Longrightarrow\quad
+\|g\|_{C^{2,\gamma_0}}\le\delta_{\rm sph}(N,\gamma_0).
+\]
+
+Set
+
+\[
+\alpha_{\rm small}:=\min\{\alpha_{\rm graph},\alpha_{\rm sph}\}.
+\]
+
+## 7. Closure by the nearly spherical theorem
 
 Once
 
@@ -240,7 +277,7 @@ Once
 
 the BDV nearly spherical expansion applies after volume and barycenter
 normalization. There is \(c_{\rm sph}(N)>0\) such that, for
-\(\|g\|_{C^{1,\gamma}}\) below the fixed threshold above,
+\(\alpha(U)\le\alpha_{\rm small}\),
 
 \[
 E(U)-E(B_1)
@@ -263,9 +300,9 @@ E(U)-E(B_1)\ge c_*(N)\alpha(U)
 \]
 
 for every selected minimizer with
-\(\tau\le\tau_{\rm reg}\) and \(\alpha(U)\le\alpha_{\rm graph}\).
+\(\tau\le\tau_{\rm reg}\) and \(\alpha(U)\le\alpha_{\rm small}\).
 
-## 7. Final selected-counterexample contradiction
+## 8. Final selected-counterexample contradiction
 
 Let \(\Omega_0\subset B_R\), \(|\Omega_0|=|B_1|\), be an alleged bad set with
 
@@ -279,19 +316,24 @@ volume-normalized selected set \(\widetilde\Omega\). The selection principle
 gives
 
 \[
-Q_\alpha(\widetilde\Omega)\le C_{\rm sel}q,
+Q_\alpha(\widetilde\Omega)\le 2C_{\rm sel}q,
 \]
 
 and
 
 \[
-\alpha(\widetilde\Omega)\ge \frac12\alpha(\Omega_0).
+\frac12\alpha(\Omega_0)
+\le
+\alpha(\widetilde\Omega)
+\le
+\frac32\alpha(\Omega_0).
 \]
 
 If \(q\) and \(\alpha(\Omega_0)\) are small enough that
 \(\tau\le\tau_{\rm reg}\) and
-\(\alpha(\widetilde\Omega)\le\alpha_{\rm graph}\), the graph-entry theorem and
-nearly spherical estimate give
+\(\alpha(\Omega_0)\le 2\alpha_{\rm small}/3\), then
+\(\alpha(\widetilde\Omega)\le\alpha_{\rm small}\), so the graph-entry theorem,
+the interpolation entry, and the nearly spherical estimate give
 
 \[
 Q_\alpha(\widetilde\Omega)\ge c_*(N).
@@ -300,7 +342,7 @@ Q_\alpha(\widetilde\Omega)\ge c_*(N).
 Thus no bad set can have
 
 \[
-q<\frac{c_*(N)}{C_{\rm sel}}.
+q<\frac{c_*(N)}{2C_{\rm sel}}.
 \]
 
 Equivalently, in the small-asymmetry regime,

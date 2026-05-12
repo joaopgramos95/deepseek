@@ -1,9 +1,10 @@
 # Sharp Faber-Krahn stability via the Kohler-Jobin transfer
 
-The spectral closure of `fixed-domain-bernoulli-expansion.md` gives sharp
-**Saint-Venant** stability. This note records the Kohler-Jobin transfer
-step that converts it into sharp **Faber-Krahn** stability for the first
-Dirichlet eigenvalue:
+Route A gives sharp **Saint-Venant** stability through the single-set
+selection map, graph entry, interpolation into the nearly spherical class,
+and BDV Theorem 3.3. This note records the Kohler-Jobin transfer step that
+converts that energy estimate into sharp **Faber-Krahn** stability for the
+first Dirichlet eigenvalue:
 
 \[
 \lambda_1(\Omega)-\lambda_1(B^*)\ge c_{\rm FK}(N,R)\,\mathcal A(\Omega)^2,
@@ -52,10 +53,11 @@ Dirichlet eigenvalue of $-\Delta$ on $B_1$).
 Combining
 
 - our sharp Saint-Venant stability
-  $T_0-T(\Omega)\ge c_{\rm SV}(N,R)\mathcal A(\Omega)^2$ for $\mathcal A\le\mathcal A_*$,
+  \(E(\Omega)-E(B^*)\ge c_{\rm SV}(N,R)\mathcal A(\Omega)^2\), equivalently
+  \(T_0-T(\Omega)\ge2c_{\rm SV}(N,R)\mathcal A(\Omega)^2\),
 - the Kohler-Jobin linearization above,
-- and the trivial large-asymmetry bound $\lambda_1(\Omega)\ge L+\delta_*>L$
-  away from the ball,
+- and the pointwise Kohler-Jobin lower bound when
+  \(T_0-T(\Omega)>T_0/2\),
 
 we obtain
 
@@ -77,26 +79,29 @@ The constant $c_{\rm FK}(N,R)$ is
 c_{\rm FK}(N,R)=\min\bigl(c_1(N,R),\,c_2(N,R)\bigr),
 \]
 
-with
+where the small-deficit branch has
 
 \[
-c_1(N,R)=\frac{2L_N\,c_{\rm SV}(N,R)}{(N+2)T_N}
-\ge\frac{2L_N\,\sigma_*(N,R)^4}{(N+2)T_N\,C_{\rm sel}(N,R)},
+c_1(N,R)=\frac{4L_N\,c_{\rm SV}(N,R)}{(N+2)T_N},
 \]
 
-(small-asymmetry, traced back through the selection chain), and
-$c_2(N,R)>0$ a qualitative compactness constant (large-asymmetry). The
-chain of constants:
+and the large-deficit branch has
+
+\[
+c_2(N)=\frac{L_N(2^{2/(N+2)}-1)}{4}.
+\]
+
+The chain of constants:
 
 | stage | constant | source |
 |-------|----------|--------|
 | selection | $C_{\rm sel}(N,R)$ | `quantitative-selection-principle.md` |
 | graph entry | $\alpha_{\rm graph}(N,R)$ | `graph-entry-closure.md` |
-| spectral closure | $\sigma_*(N,R), \delta_*(N,R)$ | `fixed-domain-bernoulli-expansion.md` |
-| Saint-Venant threshold | $q_*\sim\sigma_*^4$ | combined |
+| Route A closure | $c_{\rm sph}(N),\delta_{\rm sph}(N,\gamma_0)$ | BDV Theorem 3.3 |
+| Saint-Venant threshold | $q_*=c_*/(2C_{\rm sel})$ | combined |
 | Kohler-Jobin multiplier | $2L_N/((N+2)T_N)$ | universal |
-| small-asymmetry FK | $c_1$ | this note, §3 |
-| large-asymmetry FK | $c_2$ | compactness |
+| small-deficit FK | $c_1$ | this note, §3 |
+| large-deficit FK | $c_2$ | pointwise Kohler-Jobin |
 
 ## 5. Comparison with BDV
 
@@ -104,10 +109,10 @@ This is exactly the chain BDV use to prove sharp Faber-Krahn (their Theorem
 1.1). The Kohler-Jobin transfer step is shared with BDV and uses no new
 input.
 
-**The new content of Plan 1** is that the Saint-Venant constant
-$c_{\rm SV}(N,R)$ is now derived from the Bernoulli spectral closure
-(`fixed-domain-bernoulli-expansion.md`) rather than from BDV's nearly
-spherical second variation. The Kohler-Jobin step is unchanged.
+**The reliable Route A content of Plan 1** is that the selection and
+graph-entry parts are made single-set and quantitative, while the final
+Saint-Venant closure still uses BDV's nearly spherical theorem. The
+Kohler-Jobin step is unchanged. The Bernoulli spectral closure remains Route B.
 
 ## 6. End-to-end status
 
@@ -115,10 +120,10 @@ The full chain for **sharp quantitative Faber-Krahn stability** is now:
 
 1. Selection (`quantitative-selection-principle.md`) — preserves $Q_\alpha$.
 2. Graph entry (`graph-entry-closure.md`) — places the selected minimizer
-   in the $C^{2,\gamma}$ graph class.
-3. Bernoulli spectral closure (`fixed-domain-bernoulli-expansion.md`) —
-   forces the selected minimizer to be the ball in the smallness regime,
-   yielding sharp Saint-Venant stability.
+   in the small $C^{2,\gamma_0}$ graph class via interpolation.
+3. BDV nearly spherical theorem (Route A) — gives the pointwise lower bound
+   for selected small graphs. Route B may replace this with the Bernoulli
+   spectral closure once its source enumeration is fully finalized.
 4. Kohler-Jobin transfer (this note) — converts to sharp Faber-Krahn.
 
 Each step is structurally complete. The final closure (step 3) is either

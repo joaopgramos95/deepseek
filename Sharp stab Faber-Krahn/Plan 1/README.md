@@ -26,7 +26,7 @@ Main files:
   to convert the sharp Saint--Venant stability into sharp Faber--Krahn
   stability \(\lambda_1(\Omega)-\lambda_1(B^*)\ge c_{\rm FK}(N,R)\mathcal A(\Omega)^2\),
   matching BDV's Theorem 1.1. Tracks the dependence of \(c_{\rm FK}\) on the
-  selection, graph-entry, and spectral-closure constants.
+  selection, graph-entry, interpolation, BDV nearly-spherical, and transfer constants.
 - `fixed-domain-bernoulli-expansion.md/.tex/.pdf`: proposed closure of the
   spectral route, working entirely on \(B_1\) via the implicit function
   theorem applied to the pulled-back torsion equation. The first variation
@@ -41,7 +41,7 @@ Main files:
 - `corrections-needed.md`: audit of overclaims in the above notes.
 - `corrections-response.md/.tex/.pdf`: point-by-point response to the
   audit. Writes out the volume-normalized Bernoulli law, the
-  \(C^{1,\gamma}\to C^{2,\gamma}\) Schauder bootstrap, and the
+  uniform Schauder/interpolation entry, and the
   second-variation source enumeration for $S_1, S_2$. Acknowledges the
   remaining gap (explicit constants).
 - `implementation-summary.md/.tex/.pdf`: earlier cross-route summary; retained
@@ -53,8 +53,8 @@ Current status:
 1. **Selection principle (rigorous):** preserves the deficit-to-\(\alpha\)
    ratio under a single-set penalized selection map.
 2. **Graph entry (rigorous):** below an explicit asymmetry threshold the
-   selected minimizer is a \(C^{1,\gamma}\) graph; the bootstrap to
-   \(C^{2,\gamma}\) is now written out in `corrections-response.md`.
+   selected minimizer is a \(C^{1,\gamma}\) graph; uniform Schauder bounds plus
+   interpolation give the small \(C^{2,\gamma_0}\) entry needed for BDV Theorem 3.3.
 3. **Final closure:** two routes available.
    - **Route A (unconditional):** BDV's nearly spherical second variation.
    - **Route B (conditional):** Bernoulli spectral closure, conditional on

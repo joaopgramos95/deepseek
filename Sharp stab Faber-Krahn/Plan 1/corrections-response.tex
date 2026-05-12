@@ -39,7 +39,8 @@ nearly spherical second variation; the Kohler--Jobin transfer to
 Faber--Krahn is independent of which closure is used.''
 \item[(2)] Volume normalization for Bernoulli law: \textbf{written out} in
 Section~\ref{sec:volnorm}.
-\item[(3)] $C^{1,\gamma}\to C^{2,\gamma}$ bootstrap: \textbf{written out} in
+\item[(3)] Graph entry into the small $C^{2,\gamma_0}$ regime:
+\textbf{written out} via uniform Schauder bounds and interpolation in
 Section~\ref{sec:bootstrap}.
 \item[(4)] Second-variation source enumeration: \textbf{partial}. The four
 schematic source types are listed explicitly in Section~\ref{sec:sources}
@@ -123,12 +124,12 @@ canonical form.
 The volume normalization changes $\sigma$ by at most $(1+O(\delta_T))$ and
 $\Lambda$ by at most $(1+O(\delta_T))$. In the smallness regime
 $\sigma\le\sigma_*/2$, $\delta_T\le\delta_T^*$ both small, this is absorbed
-into the implicit constants of Theorem~\ref{thm:closure} of
+into the implicit constants of the spectral closure theorem in
 \texttt{fixed-domain-bernoulli-expansion.tex}. \emph{However}, this is the
 written form of the absorption; the previous note merely asserted it.
 \end{remark}
 
-\section{$C^{1,\gamma}\to C^{2,\gamma}$ Schauder bootstrap}\label{sec:bootstrap}
+\section{Uniform Schauder bootstrap and small $C^{2,\gamma_0}$ entry}\label{sec:bootstrap}
 
 The graph-entry theorem (\texttt{graph-entry-closure.md}) gives
 $\partial U=\{(1+g(\theta))\theta\}$ with
@@ -136,16 +137,22 @@ $\partial U=\{(1+g(\theta))\theta\}$ with
 \norm{g}_{C^{1,\gamma}(\partial B_1)}\le C(N,R)\mu.
 \]
 The spectral closure (\texttt{fixed-domain-bernoulli-expansion.tex},
-Theorem~6.2) needs $\norm{g}_{C^{2,\gamma}}\le\delta_*$.
+Theorem~6.2) and BDV's nearly spherical theorem need a small
+$C^{2,\gamma_0}$ graph norm. The Schauder step gives uniform high regularity,
+not small high regularity by itself; smallness comes from interpolating that
+uniform high norm with the small $L^\infty$ graph size produced by Hausdorff
+closeness.
 
-\begin{proposition}[Schauder bootstrap]\label{prop:schauder}
+\begin{proposition}[Uniform Schauder bootstrap]\label{prop:schauder}
 For a BDV selected minimizer with $\norm{g}_{C^{1,\gamma}}\le\mu$ small,
+and for every integer $m\ge3$,
 \[
-\norm{g}_{C^{2,\gamma}(\partial B_1)}
-\le C_{\rm boot}(N,R)\bigl(\norm{g}_{C^{1,\gamma}}+\norm{q}_{C^{1,\gamma}(\partial U)}\bigr),
+\norm{g}_{C^{m,\gamma}(\partial B_1)}
+\le M_m(N,R),
 \]
 where $q=\abs{\nabla u}\big|_{\partial U}$ is the smooth Bernoulli coefficient
-from BDV Lemma~4.16.
+from the selected Euler--Lagrange law, with BDV Lemma~4.16 supplying the
+starting uniform bounds.
 \end{proposition}
 
 \begin{proof}
@@ -166,21 +173,44 @@ $V\in C^{2,\gamma}$ in a neighborhood of $\rho=1$ in the collar, with
 \[
 \norm{V}_{C^{2,\gamma}}\le C(\norm{V}_{C^{1,\gamma}}+\norm{q}_{C^{1,\gamma}}).
 \]
-Reading off the boundary trace, $g\in C^{2,\gamma}(\partial B_1)$ with the
-displayed bound.
+Reading off the boundary trace gives a uniform $C^{2,\gamma}$ bound for
+$g$. Since the selected Bernoulli law has an explicit smooth right-hand side
+on the fixed collar, and BDV Lemma~4.16 supplies the starting uniform
+coefficient bounds in the flat regime, iterating the same Schauder estimate
+gives $\norm{g}_{C^{m,\gamma}}\le M_m(N,R)$ for every fixed $m$.
+\end{proof}
 
-BDV Lemma~4.16 gives $\norm{q}_{C^{1,\gamma}}\le L_q(N,R)$, a fixed
-constant. Hence
-$\norm{g}_{C^{2,\gamma}}\le C_{\rm boot}(\norm{g}_{C^{1,\gamma}}+L_q)\le C_{\rm boot}'(N,R)$.
+\begin{lemma}[Interpolation to small $C^{2,\gamma_0}$]\label{lem:interp}
+Fix $0<\gamma_0<\gamma$ and $m\ge3$. If
+\[
+\norm{g}_{L^\infty(\partial B_1)}\le h,
+\qquad
+\norm{g}_{C^{m,\gamma}(\partial B_1)}\le M_m(N,R),
+\]
+then
+\[
+\norm{g}_{C^{2,\gamma_0}(\partial B_1)}
+\le C h^{1-\theta}M_m(N,R)^\theta
+\]
+for some $\theta=\theta(N,m,\gamma_0)\in(0,1)$. Hence the required
+$C^{2,\gamma_0}$ smallness follows by strengthening the graph-entry threshold
+so that $h$ is sufficiently small.
+\end{lemma}
 
-In particular, choosing $\mu$ small enough,
-$\norm{g}_{C^{2,\gamma}}\le\delta_*$ holds.
+\begin{proof}
+This is the standard interpolation inequality between $C^0$ and
+$C^{m,\gamma}$ on the compact manifold $\partial B_1$. In the graph-entry
+setting, $h\le C d_H(\partial U,\partial B_1)\le
+C\alpha(U)^{1/(2N)}$, so the smallness is enforced by the explicit
+asymmetry threshold.
 \end{proof}
 
 \begin{remark}
-The bootstrap step is standard, but it is what makes the chain
-``\(C^{1,\gamma}\) from graph entry \(\to\) \(C^{2,\gamma}\) needed for
-spectral closure'' explicit. References:
+The previous wording incorrectly suggested that one can make
+$\norm{g}_{C^{2,\gamma}}$ small merely by choosing $\mu$ small, despite the
+fixed $L_q(N,R)$ term in the Schauder bound. The corrected mechanism is:
+uniform Schauder bounds plus $L^\infty$ smallness plus interpolation.
+References:
 Kinderlehrer--Nirenberg, ``Regularity in free boundary problems''
 (\emph{Ann.\ Sc.\ Norm.\ Sup.\ Pisa Cl.\ Sci.}\ 1977); Lieberman, ``The
 Perron process applied to oblique derivative problems''

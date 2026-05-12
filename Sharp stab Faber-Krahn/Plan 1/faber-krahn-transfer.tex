@@ -23,15 +23,22 @@
 \maketitle
 
 \begin{abstract}
-The spectral closure of \texttt{fixed-domain-bernoulli-expansion.md} gives
-sharp \emph{Saint--Venant} stability:
+Route A gives sharp \emph{Saint--Venant} stability through the single-set
+selection map, graph entry, interpolation into the nearly spherical class,
+and BDV Theorem~3.3:
 \[
 E(\Omega)-E(B_1)\ge c_*(N,R)\,\alpha(\Omega)
-\quad\hbox{for }Q_\alpha(\Omega)\le q_*(N,R).
+\quad\hbox{in the small-\(\alpha\) regime}.
 \]
-By BDV Lemma 4.2 ($\mathcal A(\Omega)^2\lesssim\alpha(\Omega)$) and the small-vs-large
-asymmetry split, this gives the global sharp Saint--Venant inequality
-$\mathcal A(\Omega)^2\le C_{\rm SV}(N,R)(E(\Omega)-E(B_1))$.
+Together with BDV Lemma 4.2
+($\mathcal A(\Omega)^2\lesssim\alpha(\Omega)$) and the far-from-ball
+Saint--Venant bound, this gives the global energy-form estimate
+\[
+E(\Omega)-E(B^*)\ge c_{\rm SV}(N,R)\mathcal A(\Omega)^2.
+\]
+The Bernoulli spectral closure of
+\texttt{fixed-domain-bernoulli-expansion.md} is a possible Route B, but it is
+not used for the unconditional route recorded here.
 
 This note records the Kohler--Jobin transfer that converts this into sharp
 \emph{Faber--Krahn} stability for the first Dirichlet eigenvalue:
@@ -128,23 +135,42 @@ $L_N$ is the smallest positive zero of a Bessel function, $T_N=\abs{B_1}/(N(N+2)
 
 \section{Sharp Faber--Krahn from sharp Saint--Venant}
 
-\begin{proposition}[Small-asymmetry Faber--Krahn]\label{prop:smalla}
-Assume the sharp Saint--Venant stability holds in the form
+\begin{proposition}[Faber--Krahn transfer from energy Saint--Venant]\label{prop:svtofk}
+Assume the sharp Saint--Venant stability holds in energy form
 \begin{equation}\label{eq:svsharp}
-T(B^*)-T(\Omega)\ge c_{\rm SV}(N,R)\,\mathcal A(\Omega)^2
-\quad\hbox{for all }\Omega\subset B_R\hbox{ with }\abs{\Omega}=\abs{B^*}\hbox{ and }\mathcal A(\Omega)\le\mathcal A_*.
+E(\Omega)-E(B^*)\ge c_{\rm SV}(N,R)\,\mathcal A(\Omega)^2
+\quad\hbox{for all }\Omega\subset B_R\hbox{ with }\abs{\Omega}=\abs{B^*}.
 \end{equation}
-Then for the same $\Omega$,
+Then for the same class of sets,
 \[
 \lambda_1(\Omega)-\lambda_1(B^*)
-\ge\frac{2L\,c_{\rm SV}(N,R)}{(N+2)T_0}\,\mathcal A(\Omega)^2.
+\ge c_{\rm KJ}(N,R)\,\mathcal A(\Omega)^2,
+\]
+where
+\[
+c_{\rm KJ}(N,R):=
+\min\left\{
+\frac{4L\,c_{\rm SV}(N,R)}{(N+2)T_0},
+\frac{L(2^{2/(N+2)}-1)}{4}
+\right\}.
 \]
 \end{proposition}
 
 \begin{proof}
-Combine Lemma~\ref{lem:linear} with~\eqref{eq:svsharp}. The condition
-$\delta_{\rm SV}\le T_0/2$ in Lemma~\ref{lem:linear} is satisfied for
-$\mathcal A_*$ small enough.
+Set $\delta_{\rm SV}:=T_0-T(\Omega)=2(E(\Omega)-E(B^*))$. If
+$\delta_{\rm SV}\le T_0/2$, Lemma~\ref{lem:linear} and~\eqref{eq:svsharp}
+give
+\[
+\lambda_1(\Omega)-L
+\ge \frac{2L}{(N+2)T_0}\delta_{\rm SV}
+\ge \frac{4L\,c_{\rm SV}(N,R)}{(N+2)T_0}\mathcal A(\Omega)^2.
+\]
+If $\delta_{\rm SV}>T_0/2$, Lemma~\ref{lem:pointwise} gives
+\[
+\lambda_1(\Omega)-L\ge L\left(2^{2/(N+2)}-1\right).
+\]
+Since $\mathcal A(\Omega)\le2$, this is at least
+$L(2^{2/(N+2)}-1)\mathcal A(\Omega)^2/4$.
 \end{proof}
 
 \begin{theorem}[Sharp Faber--Krahn stability]\label{thm:fk}
@@ -156,71 +182,63 @@ with $\abs{\Omega}=\abs{B^*}$,
 \end{theorem}
 
 \begin{proof}
-\emph{Small asymmetry.} For $\mathcal A(\Omega)\le\mathcal A_*(N,R)$,
-combine our sharp Saint--Venant stability (the global form derived in
-\texttt{fixed-domain-bernoulli-expansion.md}, Theorem~6.3, combined with
-the small-vs-large split using BDV Lemma 4.2) with Proposition~\ref{prop:smalla}.
-This gives $\lambda_1(\Omega)-L\ge c_1(N,R)\mathcal A(\Omega)^2$ with
-$c_1=2Lc_{\rm SV}/((N+2)T_0)$.
-
-\emph{Large asymmetry.} For $\mathcal A(\Omega)\ge\mathcal A_*$, the
-classical Faber--Krahn inequality $\lambda_1(\Omega)\ge L$ with strict
-inequality away from the ball combined with the qualitative continuity of
-$\lambda_1$ in Hausdorff convergence (or any compactness argument) yields a
-uniform lower bound
+Route A proves the global energy-form Saint--Venant estimate
 \[
-\lambda_1(\Omega)-L\ge\inf_{\mathcal A_*\le\mathcal A(\Omega)\le 2}
-\bigl(\lambda_1(\Omega)-L\bigr)=:\delta_*(N,R,\mathcal A_*)>0
-\ge\delta_*\cdot\frac{\mathcal A(\Omega)^2}{4}.
+E(\Omega)-E(B^*)\ge c_{\rm SV}(N,R)\mathcal A(\Omega)^2
 \]
-(Here $\mathcal A\le 2$ since $\abs{\Omega\Delta B^*}\le 2\abs{B^*}$, so
-$\mathcal A^2\le 4$.) Setting $c_2:=\delta_*/4$,
-\[
-\lambda_1(\Omega)-L\ge c_2\mathcal A(\Omega)^2.
-\]
-
-Take $c_{\rm FK}:=\min(c_1,c_2)$.
+after the small-\(\alpha\) argument is combined with the BDV suboptimal
+far-from-ball Saint--Venant bound. Applying Proposition~\ref{prop:svtofk}
+gives the claim with \(c_{\rm FK}:=c_{\rm KJ}\).
 \end{proof}
 
-\section{Quantitative dependence on $(N,R)$}
+\section{Quantitative dependence on \texorpdfstring{$(N,R)$}{(N,R)}}
 
-The constant $c_{\rm FK}(N,R)$ is the minimum of the small-asymmetry and
-large-asymmetry constants:
+The constant $c_{\rm FK}(N,R)$ is the minimum of the small-deficit and
+large-deficit Kohler--Jobin branches:
 
 \begin{itemize}
-\item \textbf{Small-asymmetry constant:}
+\item \textbf{Small-deficit constant:}
 \[
-c_1(N,R)=\frac{2L_N\,c_{\rm SV}(N,R)}{(N+2)T_N},
+c_1(N,R)=\frac{4L_N\,c_{\rm SV}(N,R)}{(N+2)T_N},
 \]
-where $c_{\rm SV}(N,R)$ is the Saint--Venant constant from our spectral
-closure. Tracing back through the selection chain:
+where \(c_{\rm SV}(N,R)\) is the energy-form Saint--Venant constant from
+Route A. Tracing back through the selection chain:
 \begin{itemize}
 \item Selection (\texttt{quantitative-selection-principle.md}) preserves
-the quotient $Q_\alpha$ up to a constant $C_{\rm sel}(N,R)$, gaining
-$\sigma\le C\tau=Cq_0^{1/4}$.
+the quotient $Q_\alpha$ up to the factor \(2C_{\rm sel}(N,R)\).
 \item Graph entry (\texttt{graph-entry-closure.md}) requires
 $\alpha(\widetilde\Omega)\le\alpha_{\rm graph}(N,R)$.
-\item Spectral closure (\texttt{fixed-domain-bernoulli-expansion.md}) requires
-$\sigma\le\sigma_*(N,R)$ and $\norm{g}_{C^{2,\gamma}}\le\delta_*(N,R)$.
+\item Interpolation from the small \(L^\infty\) graph norm and uniform
+Schauder bounds gives
+\(\norm{g}_{C^{2,\gamma_0}}\le\delta_{\rm sph}(N,\gamma_0)\).
+\item BDV Theorem~3.3 gives the nearly spherical lower bound.
 \end{itemize}
-Combining, $q_*\sim\sigma_*^4$ (the binding constraint), and $c_{\rm SV}\ge q_*/C_{\rm sel}$.
-Hence
+Combining, the small-\(\alpha\) quotient constant is
+\(q_*=c_*(N)/(2C_{\rm sel}(N,R))\), and the global energy-form
+Saint--Venant constant is
 \[
-c_1(N,R)\ge \frac{2L_N\sigma_*(N,R)^4}{(N+2)T_N\cdot C_{\rm sel}(N,R)}.
+c_{\rm SV}(N,R)=
+\min\{q_*/C_{\rm Fr}(N),\,c_{\rm far,SV}(N,R)\}.
 \]
-\item \textbf{Large-asymmetry constant} $c_2(N,R)$: a qualitative
-compactness constant. Explicit lower bound (in $N=2,3$) is obtained from
-quantitative versions of Faber--Krahn for the convex hull or convex
-envelope, but for our purposes any positive lower bound suffices.
+Thus
+\[
+c_1(N,R)=\frac{4L_N\,c_{\rm SV}(N,R)}{(N+2)T_N}.
+\]
+\item \textbf{Large-deficit constant:}
+\[
+c_2(N)=\frac{L_N(2^{2/(N+2)}-1)}{4}.
+\]
+This branch uses only the pointwise Kohler--Jobin inequality and
+\(\mathcal A\le2\); it does not require an additional Hausdorff compactness
+argument for eigenvalues.
 \end{itemize}
 
 \begin{remark}[Comparison with BDV]
 This is exactly the chain BDV use to prove sharp Faber--Krahn: their Theorem
-1.1 is our Theorem~\ref{thm:fk}. The new content of Plan 1 is that
-$c_{\rm SV}(N,R)$ is now derived from the Bernoulli spectral closure
-(\texttt{fixed-domain-bernoulli-expansion.md}) rather than from BDV's nearly
-spherical second variation. The Kohler--Jobin transfer step is shared with
-BDV and uses no new input.
+1.1 is our Theorem~\ref{thm:fk}. The reliable new content of Plan 1 is the
+single-set, constant-tracked replacement for the selection/compactness step.
+The final Route A closure still uses BDV's nearly spherical theorem. The
+Kohler--Jobin transfer step is shared with BDV and uses no new input.
 \end{remark}
 
 \section{Status}
@@ -236,7 +254,7 @@ variation supplies the sharp Saint--Venant constant $c_{\rm SV}(N,R)$.
 the explicit constants in the second-variation source enumeration.
 \end{enumerate}
 Either way, the Kohler--Jobin transfer of Lemma~\ref{lem:pointwise} +
-Lemma~\ref{lem:linear} + small/large split (Theorem~\ref{thm:fk}) converts
+Lemma~\ref{lem:linear} + the large-deficit branch (Theorem~\ref{thm:fk}) converts
 $c_{\rm SV}$ into $c_{\rm FK}$.
 
 The quantitative Faber--Krahn constant $c_{\rm FK}(N,R)$ is given by an
@@ -245,7 +263,8 @@ explicit formula in terms of:
 \item the universal ball constants $L_N=\lambda_1(B_1)$ and
 $T_N=T(B_1)=\abs{B_1}/(N(N+2))$;
 \item the BDV regularity constants from selection and graph entry;
-\item the spectral-closure smallness constants $\sigma_*,\delta_*$.
+\item the interpolation threshold and the BDV nearly spherical constants
+\(c_{\rm sph},\delta_{\rm sph}\).
 \end{itemize}
 
 The exponent is sharp: the inequality

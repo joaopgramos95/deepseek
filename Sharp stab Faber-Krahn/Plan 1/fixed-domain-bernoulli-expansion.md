@@ -151,7 +151,9 @@ The four genuinely-open items listed in
 
 - Track $\sigma_*,\delta_*,q_*$ through the dependency chain
   $q_*\to\tau=q_*^{1/4}\to\sigma\le C\tau\to$ closure smallness.
-- Explicit Schauder bootstrap $C^{1,\gamma}\to C^{2,\gamma}$ in graph entry
-  via BDV Lemma 4.16.
+- Route A graph entry now uses uniform Schauder bounds plus interpolation
+  from the small \(L^\infty\) graph norm to enter the BDV nearly spherical
+  \(C^{2,\gamma_0}\) regime. For Route B, the remaining work is still the
+  explicit constant bookkeeping in the bilinear source enumeration.
 
 These are routine but worth writing out for a publication-quality version.
