@@ -1,0 +1,296 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\title{From lateral parabolic Schiffer to classical Schiffer:\\
+a spectral reduction}
+\author{}
+\date{\today}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Om}{\Omega}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\nor}{\partial_\nu}
+\newcommand{\tr}{\mathrm{tr}}
+
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}[lem]{Proposition}
+\newtheorem{cor}[lem]{Corollary}
+\newtheorem{thm}[lem]{Theorem}
+\newtheorem{rem}[lem]{Remark}
+
+\begin{document}
+\maketitle
+
+\section{Statement}
+
+The previous note (\texttt{direction2-heat-extension-computation.tex})
+showed that the lateral parabolic Schiffer condition on a weighted
+pair $(\Om,V)$ is strictly stronger than stationary weighted Schiffer,
+and identified the second-order obstruction
+\(
+    \eta_2|_{\partial\Om} = 2\tr(\nabla^2V\,\nabla^2\phi)
+    +(\nabla V)^\top\nabla^2\phi(\nabla V).
+\)
+The natural next step was to compute the higher residues $\eta_k$ and
+test what the joint vanishing imposes. The spectral approach below
+sums the entire tower at once and produces the following clean
+reduction.
+
+\begin{thm}\label{thm:main}
+Let $\Om\subset\R^n$ be a smooth bounded domain, $V\in C^\infty(\overline\Om)$,
+and $(\Om,V,\phi,\lambda)$ a smooth weighted Schiffer pair:
+\[
+    L_{\Om,V}\phi=\lambda\phi\ \text{in }\Om,\quad
+    \nor\phi=0\ \text{on }\partial\Om,\quad
+    \phi|_{\partial\Om}=c,\quad \phi\not\equiv 0.
+\]
+Let $h=h_{\Om,V}$ be the heat extension on $\Om\times[0,1]$ defined by
+(2.11) of arXiv:2412.06344 (unweighted Laplacian, Neumann lateral
+data, initial data $\phi$). If
+\[
+    h(x,t)\equiv c\qquad\text{for all }(x,t)\in\partial\Om\times[0,1],
+\]
+then $\lambda$ is a Neumann eigenvalue of the unweighted Laplacian
+$-\Delta$ on $\Om$, and the unweighted Neumann spectral projection
+$u:=P_\lambda\phi$ is a nontrivial classical Schiffer overdetermined
+eigenfunction:
+\[
+    -\Delta u=\lambda u\ \text{in }\Om,\qquad
+    \nor u=0\ \text{on }\partial\Om,\qquad
+    u|_{\partial\Om}=c.
+\]
+\end{thm}
+
+The conclusion is striking: lateral parabolic Schiffer for the
+\emph{weighted} pair $(\Om,V)$ implies classical Schiffer for the
+\emph{unweighted} Laplacian on the \emph{base} domain $\Om$ alone,
+with the potential $V$ playing no role in the limit object beyond
+having selected an eigenvalue $\lambda$ that lies in both spectra.
+
+\section{Proof}
+
+Throughout, $\Om$ is bounded with smooth boundary, $V$ smooth on
+$\overline\Om$, and we use the unweighted Neumann Laplacian
+$\Delta_N$ on $\Om$ with $L^2(dx)$-orthonormal eigenbasis
+$\{\psi_j\}_{j\ge 0}$ and eigenvalues
+$0=\mu_0<\mu_1\le\mu_2\le\cdots\to\infty$, so $-\Delta\psi_j=\mu_j\psi_j$
+and $\nor\psi_j=0$ on $\partial\Om$.
+
+Since $\Om$ is bounded and $V\in C^\infty(\overline\Om)$, the measures
+$dx$ and $e^{-V}dx$ are equivalent: $L^2(dx)=L^2(e^{-V}dx)$ as sets
+with equivalent norms. The eigenfunction $\phi$ admits a unique
+$L^2(dx)$ expansion
+\[
+    \phi=\sum_{j\ge 0}\alpha_j\psi_j,\qquad
+    \alpha_j=\int_\Om\phi\,\psi_j\,dx.
+\]
+
+\paragraph{Step 1: explicit heat extension.}
+The bounded solution of
+\[
+    \partial_t h=\tfrac{1}{8}(\Delta_x h+\lambda h),\quad
+    \nor h=0,\quad h(x,0)=\phi(x)
+\]
+on $\Om\times(0,1)$ is, by separation of variables in the Neumann
+basis,
+\begin{equation}\label{eq:hseries}
+    h(x,t)=\sum_{j\ge 0}\alpha_j\,e^{t(\lambda-\mu_j)/8}\,\psi_j(x).
+\end{equation}
+The series converges in $C^\infty(\overline\Om\times[0,1])$ because
+$\phi\in C^\infty(\overline\Om)$ (so $\alpha_j$ decay faster than any
+power), at most finitely many $\mu_j$ are smaller than $\lambda$, and
+the rest produce exponentially decaying factors.
+
+\paragraph{Step 2: collapse on the lateral boundary.}
+Restrict \eqref{eq:hseries} to $x\in\partial\Om$ and group terms by
+distinct Neumann eigenvalue. Let $\Sigma:=\{\mu_j:j\ge 0\}$ be the set
+of distinct Neumann eigenvalues of $-\Delta$ on $\Om$, and for each
+$\mu\in\Sigma$ let
+\[
+    f_\mu(x):=\sum_{j:\mu_j=\mu}\alpha_j\,\psi_j(x)|_{\partial\Om}
+        =(P_\mu\phi)(x)\big|_{\partial\Om},
+\]
+where $P_\mu$ is the orthogonal projection onto the $\mu$-eigenspace
+of $\Delta_N$. Then on $\partial\Om\times[0,1]$,
+\begin{equation}\label{eq:lateral}
+    h(x,t)\big|_{\partial\Om}
+    =\sum_{\mu\in\Sigma} e^{t(\lambda-\mu)/8}\,f_\mu(x).
+\end{equation}
+
+Assume the lateral parabolic Schiffer hypothesis
+$h|_{\partial\Om\times[0,1]}\equiv c$. Then for every $x\in\partial\Om$,
+\begin{equation}\label{eq:scalar}
+    \sum_{\mu\in\Sigma} e^{t(\lambda-\mu)/8}\,f_\mu(x)=c
+    \qquad\text{for all }t\in[0,1].
+\end{equation}
+
+\paragraph{Step 3: linear independence of the exponential profiles.}
+The family $\{t\mapsto e^{t(\lambda-\mu)/8}:\mu\in\Sigma\}$ is
+linearly independent in $C([0,1])$: distinct exponentials are
+linearly independent (e.g.\ by repeated differentiation and the
+non-vanishing Vandermonde). For each $x\in\partial\Om$,
+\eqref{eq:scalar} thus forces
+\begin{equation}\label{eq:percoeff}
+    f_\mu(x)=\begin{cases} c & \mu=\lambda,\\
+        0 & \mu\ne\lambda.\end{cases}
+\end{equation}
+
+Two sub-cases.
+
+\emph{Case A: $\lambda\notin\Sigma$.} Then \eqref{eq:percoeff} reads
+$f_\mu\equiv 0$ on $\partial\Om$ for every $\mu\in\Sigma$ and $c=0$.
+Hence $\phi|_{\partial\Om}=\sum_\mu f_\mu\equiv 0$, and combined with
+$\nor\phi=0$ on $\partial\Om$ this gives zero Cauchy data for the
+second-order uniformly elliptic equation $L_{\Om,V}\phi=\lambda\phi$.
+By Holmgren / Carleman unique continuation across a smooth boundary,
+$\phi\equiv 0$ in $\Om$, contradicting non-triviality.
+
+\emph{Case B: $\lambda\in\Sigma$.} Then $\lambda$ is a Neumann
+eigenvalue of $-\Delta$ on $\Om$, $f_\lambda\equiv c$ on
+$\partial\Om$, and $f_\mu\equiv 0$ on $\partial\Om$ for $\mu\ne\lambda$.
+
+\paragraph{Step 4: extracting the classical Schiffer eigenfunction.}
+In Case B, set $u:=P_\lambda\phi$. By construction, $u$ is a finite
+linear combination of Neumann eigenfunctions of $-\Delta$ at
+eigenvalue $\lambda$, hence
+\[
+    -\Delta u=\lambda u\quad\text{in }\Om,\qquad
+    \nor u=0\quad\text{on }\partial\Om.
+\]
+Its boundary trace is $u|_{\partial\Om}=f_\lambda\equiv c$. Since
+$c\ne 0$ (Case A is excluded), $u\not\equiv 0$. Thus $u$ is a
+nontrivial classical Schiffer overdetermined eigenfunction on $\Om$,
+proving the theorem.
+\hfill$\square$
+
+\section{Corollaries}
+
+\begin{cor}[Radial test on the disc]\label{cor:disc}
+Let $\Om=B\subset\R^n$ be the ball, $V\in C^\infty([0,R])$ a radial
+convex potential. Then no smooth nontrivial pair
+$(B,V,\phi,\lambda)$ with $V$ nonconstant satisfies lateral parabolic
+Schiffer.
+\end{cor}
+
+\begin{proof}
+For radial $V$, the Langevin operator preserves the radial sector and
+the radial $\phi$ exists with $-\phi''-(n-1)r^{-1}\phi'+V'(r)\phi'
+=\lambda\phi$ on $(0,R)$, $\phi'(R)=0$. The Schiffer overdetermination
+$\phi(R)=c$ is automatic by radiality. By Theorem~\ref{thm:main}, if
+lateral parabolic Schiffer holds, then $u=P_\lambda\phi$ is a
+classical Schiffer eigenfunction of $-\Delta$ at $\lambda$ on $B$.
+The classical Schiffer overdetermined eigenfunctions on the ball are
+exactly the \emph{radial} Neumann eigenfunctions, with eigenvalue
+$\lambda$ a radial Neumann eigenvalue of $-\Delta$ on $B$. So
+$\lambda$ is a radial Neumann eigenvalue of $-\Delta$, AND $\lambda$
+is the first Langevin eigenvalue of $L_{B,V}$. Subtracting the two
+radial ODEs satisfied by $\phi$ (as a Langevin eigenfunction) and by
+$u$ (as a $-\Delta$ eigenfunction): with both having the same
+$\phi=u+\phi^\perp$ structure, the off-spectrum component $\phi^\perp$
+satisfies zero Cauchy data on $\partial B$, hence vanishes by unique
+continuation (it solves
+$(-\Delta+V'\partial_r-\lambda)\phi^\perp=-V'u'$ with zero Cauchy
+data). Thus $\phi=u$. But then
+$L_{B,V}u=-\Delta u+V'(r)u'=\lambda u+V'(r)u'$, which equals
+$\lambda u$ only if $V'(r)u'(r)\equiv 0$. Since $u$ is a nontrivial
+real-analytic radial eigenfunction with $u'(R)=0$ but
+$u'\not\equiv 0$, the zero set of $u'$ is discrete; hence $V'\equiv 0$,
+i.e., $V$ is constant. Contradiction.
+\end{proof}
+
+\begin{cor}[Generic non-coincidence]\label{cor:generic}
+If the Langevin first eigenvalue $\lambda_{\Om,V}$ is not a Neumann
+eigenvalue of the unweighted Laplacian $-\Delta$ on $\Om$, then no
+smooth nontrivial $\phi$ produces a lateral parabolic Schiffer triple
+$(\Om,V,\phi,\lambda_{\Om,V})$. In particular, for any fixed convex
+$\Om$ and any one-parameter family $\{V_s\}$ with $V_0\equiv 0$ and
+$\partial_s V|_{s=0}\not\equiv 0$, the set of $s$ for which lateral
+parabolic Schiffer can hold is discrete in $s$.
+\end{cor}
+
+\begin{proof}
+The first statement is Case A of the theorem. The second follows
+because $s\mapsto\lambda_{\Om,V_s}$ is real-analytic with nonzero
+first-order shape derivative under generic perturbations, while the
+Neumann spectrum of $-\Delta$ on $\Om$ is fixed and discrete; so
+$\lambda_{\Om,V_s}$ matches an unweighted Neumann eigenvalue only on
+a discrete set of $s$.
+\end{proof}
+
+\section{Reading the theorem from three angles}
+
+\paragraph{Reduction.} Lateral parabolic Schiffer for weighted pairs
+on $\Om$ reduces to (and is in fact equivalent up to the choice of
+$V$ matching the eigenvalue, given Case B) classical Schiffer for the
+unweighted Laplacian on $\Om$ at some eigenvalue. The potential $V$
+adds no new geometric content; it can only resonate with an existing
+Neumann eigenvalue of $-\Delta$.
+
+\paragraph{Barrel dimension-reduction.} Combined with the cap
+obstruction of the previous note (no barrel-lifted high-dim convex
+Schiffer counterexample), the new theorem gives a sharper statement.
+If a sequence of high-dimensional convex \emph{approximate} Schiffer
+counterexamples $\Om_d$ has the barrel form $\Om_d=F_d(\Om,V)$, then
+in the limit $d\to\infty$ they descend to a classical Schiffer
+overdetermined eigenfunction on $\Om$. In particular, \emph{any
+hypothetical high-dim convex Schiffer counterexample of barrel form
+produces a classical Schiffer counterexample on the base $\Om$.}
+There is no high-codimensional escape via the barrel route.
+
+\paragraph{What about Direction 2 itself?} Direction 2 was: limits of
+convex Schiffer counterexamples. Theorem~\ref{thm:main} narrows the
+admissible limits among the enlarged class of weighted pairs
+$(\Om,V)$. Specifically, the only way a sequence of weighted Schiffer
+counterexamples can have a heat-extension parabolic-Schiffer
+behaviour is if the underlying base $\Om$ already supports classical
+Schiffer overdetermined data. So if classical Schiffer is known on a
+class of base domains (low eigenvalues, centrally symmetric, etc.),
+the corresponding weighted/parabolic Schiffer classes are
+automatically empty over those bases.
+
+\section{What this leaves open}
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{The cap was the wrong target.} The reduction shows
+    that the lateral parabolic Schiffer condition is automatically
+    very rigid; the cap obstruction (Prop.~6 of the previous note) was
+    the easy part. The real geometric content of weighted Schiffer is
+    \emph{stationary} weighted Schiffer, which sits outside the
+    lateral parabolic class. Concretely: a stationary weighted
+    Schiffer pair $(\Om,V)$ at a Langevin eigenvalue $\lambda_{\Om,V}$
+    not in the Neumann spectrum of $-\Delta$ exists without
+    contradicting Theorem~\ref{thm:main}, but the heat extension of
+    its eigenfunction simply does not behave well on the lateral
+    boundary.
+
+    \item \textbf{Stationary weighted Schiffer is still the right
+    target for Strategy A.} The augmented compactness program of
+    Strategy A of the original note now reads: enumerate stationary
+    weighted Schiffer pairs $(\Om,V)$ and use \emph{stationary}
+    overdetermined rigidity, not parabolic Serrin, to rule them out.
+    Parabolic Serrin only applies to the (much smaller) subclass where
+    $\lambda_{\Om,V}$ coincides with an unweighted Neumann eigenvalue.
+
+    \item \textbf{The barrel construction has the wrong target.} The
+    barrel limit produces an unweighted parabolic problem
+    \eqref{eq:hseries}. To capture stationary weighted Schiffer the
+    right limiting object would be the \emph{weighted} elliptic
+    problem on $\Om$, which is what one would obtain via a warped
+    barrel as suggested at the end of the previous note. Implementing
+    this should be the next concrete construction.
+
+    \item \textbf{A clean open question.} Does there exist a smooth
+    convex pair $(\Om,V)$ with $V$ non-constant for which a stationary
+    weighted Schiffer eigenfunction $\phi$ exists? Equivalently: does
+    the weighted Pompeiu property hold for all $(\Om,V)$ with
+    nonconstant $V$? This is the natural ``log-concave Schiffer
+    conjecture'' aligned with the de Dios Pont log-concave extension
+    of the hot spots conjecture.
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,327 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\title{Stationary weighted Schiffer: perturbation on the ball}
+\author{}
+\date{\today}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Om}{\Omega}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\nor}{\partial_\nu}
+\newcommand{\tr}{\mathrm{tr}}
+
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}[lem]{Proposition}
+\newtheorem{cor}[lem]{Corollary}
+\newtheorem{thm}[lem]{Theorem}
+\newtheorem{rem}[lem]{Remark}
+\newtheorem{conj}[lem]{Conjecture}
+\newtheorem{defn}[lem]{Definition}
+
+\begin{document}
+\maketitle
+
+\section{Where we are}
+
+The note \texttt{direction2-parabolic-to-classical.tex} proved that
+the lateral parabolic Schiffer condition for a weighted pair
+$(\Om,V)$ reduces to classical Schiffer for the unweighted Laplacian
+on the base. That closes the parabolic angle on Direction 2 (and
+makes precise what the de Dios Pont barrel limit can and cannot do).
+The residual question is the \emph{stationary} weighted Schiffer
+problem:
+
+\begin{defn}[Stationary weighted Schiffer pair]\label{def:wsp}
+A smooth convex pair $(\Om,V)$ with eigenpair $(\phi,\lambda)$
+is a \emph{stationary weighted Schiffer pair} if
+\begin{equation}\label{eq:swsp}
+    L_{\Om,V}\phi := -\Delta\phi+\nabla V\cdot\nabla\phi=\lambda\phi
+    \ \text{in }\Om,\quad
+    \nor\phi=0\ \text{on }\partial\Om,\quad
+    \phi|_{\partial\Om}\equiv c,\quad \phi\not\equiv 0.
+\end{equation}
+\end{defn}
+
+The ball with any radial convex $V$ produces a countable family of
+such pairs (one per radial Langevin eigenvalue). The natural
+extension of the Schiffer conjecture is:
+
+\begin{conj}[Log-concave Schiffer]\label{conj:lcs}
+If $(\Om,V)$ is a smooth convex stationary weighted Schiffer pair,
+then $\Om$ is a ball and $V$ is radial (with respect to the centre of
+$\Om$).
+\end{conj}
+
+This generalizes the classical Schiffer conjecture (recovered for
+$V\equiv 0$) and is the right target for Direction 2 with the
+log-concave compactification.
+
+Below we attack the conjecture perturbatively at the unweighted
+endpoint $V=0$ on the ball, and identify the precise codimension of
+the Schiffer-preserving directions of $V$. The output is:
+
+\begin{itemize}[leftmargin=*]
+    \item Schiffer-preserving first-order deformations $V_1$ on the
+    ball form an infinite-codimensional but still infinite-dimensional
+    linear subspace; the codimension is enumerated by an explicit
+    family of linear functionals $\mathcal{L}_{\ell,m}$ indexed by
+    nonzero spherical harmonics $(\ell,m)$, each of which is a
+    one-dimensional Green-function moment of $V_{1,\ell,m}$ against
+    the radial profile $\phi_0'$.
+    \item The radial directions $V_1=V_1(r)$ are all in this kernel,
+    matching the known continuum of radial weighted Schiffer pairs.
+    \item The infinitesimal log-concave Schiffer rigidity question on
+    the ball reduces to: \emph{does every first-order Schiffer-preserving
+    deformation extend to all orders, modulo $O(n)$ symmetries?} A
+    positive answer would say the perturbation is forced into the
+    radial direction.
+\end{itemize}
+
+\section{Setup}
+
+Throughout this note $\Om=B=B_R\subset\R^n$, $n\ge 2$. Fix a radial
+Neumann eigenfunction
+\[
+    \phi_0(r) \quad\text{with}\quad
+    -\Delta\phi_0=\lambda_0\phi_0\ \text{in }B,\quad
+    \phi_0'(R)=0,
+\]
+i.e., $\phi_0$ is a Bessel-type radial eigenfunction at a radial
+Neumann eigenvalue $\lambda_0$. By radiality $\phi_0(R)=c_0$ is
+automatically a constant boundary value, so $(B,0,\phi_0,\lambda_0)$
+is a (trivial) weighted Schiffer pair.
+
+Perturb with $V_\eps=\eps V_1$, $V_1\in C^\infty(\overline B)$, and
+expand $\phi_\eps=\phi_0+\eps\phi_1+O(\eps^2)$,
+$\lambda_\eps=\lambda_0+\eps\lambda_1+O(\eps^2)$.
+
+\section{First-order eigenvalue equation}
+
+\begin{lem}\label{lem:order1}
+$(\phi_1,\lambda_1)$ satisfies
+\begin{equation}\label{eq:firstorder}
+    (-\Delta-\lambda_0)\phi_1=\lambda_1\phi_0-\nabla V_1\cdot\nabla\phi_0
+    \ \text{in }B,\qquad
+    \nor\phi_1=0\ \text{on }\partial B,
+\end{equation}
+and the Fredholm condition gives
+\begin{equation}\label{eq:lambda1}
+    \lambda_1=\frac{1}{\|\phi_0\|^2_{L^2(B)}}
+    \int_B(\nabla V_1\cdot\nabla\phi_0)\,\phi_0\,dx
+    =\frac{1}{2\|\phi_0\|^2_{L^2(B)}}
+    \int_B \nabla V_1\cdot\nabla(\phi_0^2)\,dx.
+\end{equation}
+\end{lem}
+
+\begin{proof}
+Substitute the expansion into $L_{B,\eps V_1}\phi_\eps=\lambda_\eps\phi_\eps$
+and collect the $O(\eps)$ term. The Neumann BC at first order is
+$\nor\phi_1=0$ since both $\phi_0$ and $\phi_\eps$ have $\nor=0$ on
+$\partial B$. Self-adjointness of $-\Delta-\lambda_0$ with Neumann data
+on its kernel $\mathrm{span}\{\phi_0\}$ yields \eqref{eq:lambda1}.
+\end{proof}
+
+\section{Decomposition into spherical harmonics}
+
+Let $\{Y_{\ell,m}\}_{\ell\ge 0,m}$ be the standard orthonormal basis
+of $L^2(S^{n-1})$ with $-\Delta_{S^{n-1}}Y_{\ell,m}=\ell(\ell+n-2)Y_{\ell,m}$.
+For $\ell=0$ take $Y_{0,1}\equiv |S^{n-1}|^{-1/2}$.
+Decompose
+\[
+    V_1(x)=\sum_{\ell,m}V_{1,\ell,m}(r)\,Y_{\ell,m}(\hat x),\qquad
+    \phi_1(x)=\sum_{\ell,m}\Phi_{\ell,m}(r)\,Y_{\ell,m}(\hat x).
+\]
+Since $\phi_0$ is radial, $\nabla V_1\cdot\nabla\phi_0=\phi_0'(r)\partial_r V_1
+=\phi_0'(r)\sum_{\ell,m}V_{1,\ell,m}'(r)Y_{\ell,m}(\hat x)$.
+Write the radial Laplacian in the $\ell$-th sector as
+\[
+    \Delta_r^{(\ell)}u(r):=u''(r)+\tfrac{n-1}{r}u'(r)
+        -\tfrac{\ell(\ell+n-2)}{r^2}u(r).
+\]
+Equation \eqref{eq:firstorder} separates:
+\begin{equation}\label{eq:ellsector}
+    (-\Delta_r^{(\ell)}-\lambda_0)\Phi_{\ell,m}(r)
+    =\delta_{\ell,0}\,\lambda_1\,\phi_0(r)\,\delta_{m,1}|S^{n-1}|^{1/2}
+        -\phi_0'(r)\,V_{1,\ell,m}'(r),
+\end{equation}
+with $\Phi_{\ell,m}'(R)=0$ and regularity at $r=0$.
+
+\section{The Schiffer-preserving constraint at first order}
+
+The first-order weighted Schiffer condition is
+$\phi_\eps|_{\partial B}\equiv c_\eps$, which gives $\phi_1(R\hat x)=c_1$
+for every unit vector $\hat x\in S^{n-1}$. In spherical-harmonic
+modes:
+\begin{equation}\label{eq:schifferconstraint}
+    \Phi_{0,1}(R)=c_1\,|S^{n-1}|^{1/2},\qquad
+    \Phi_{\ell,m}(R)=0\quad\text{for all }(\ell,m)\text{ with }\ell\ge 1.
+\end{equation}
+The $\ell=0$ equation just adjusts the boundary constant by $\eps c_1$,
+which is allowed (the Schiffer condition only demands constancy in
+the angular variable, not a prescribed value); so $\ell=0$ imposes no
+constraint on $V_1$. The genuine constraint is on the $\ell\ge 1$
+modes.
+
+\begin{prop}[First-order rigidity functional]\label{prop:functional}
+For each $\ell\ge 1$ and each $m$, the constraint
+$\Phi_{\ell,m}(R)=0$ is equivalent to the vanishing of the linear
+functional
+\begin{equation}\label{eq:functional}
+    \mathcal{L}_{\ell,m}(V_1)
+    :=\int_0^R G_\ell(R,r')\,\phi_0'(r')\,V_{1,\ell,m}'(r')\,dr',
+\end{equation}
+where $G_\ell(R,r')$ is the Green's function on $[0,R]$ for the
+operator $-\Delta_r^{(\ell)}-\lambda_0$ with regular boundary
+behaviour at $r=0$ and Neumann condition $u'(R)=0$, evaluated at
+$r=R$.
+\end{prop}
+
+\begin{proof}
+For $\ell\ge 1$ the right-hand side of \eqref{eq:ellsector} is just
+$-\phi_0'(r)V_{1,\ell,m}'(r)$. Solve by convolution against the
+Green's function and read off the value at $r=R$.
+\end{proof}
+
+\begin{rem}[Existence and non-degeneracy of $G_\ell$]\label{rem:gell}
+For generic radial eigenvalues $\lambda_0$, $\lambda_0$ is not a
+Neumann eigenvalue of $-\Delta_r^{(\ell)}$ for $\ell\ge 1$, so
+$G_\ell$ exists. When $\lambda_0$ accidentally lies in the
+$\ell$-sector Neumann spectrum a finite-codimensional Fredholm
+adjustment is required, but generically does not occur for the
+radial Bessel eigenvalues used here.
+\end{rem}
+
+\begin{cor}[The first-order kernel]\label{cor:kernel}
+The space of $V_1\in C^\infty(\overline B)$ such that
+$(B,\eps V_1)$ admits a first-order Schiffer-preserving extension of
+$(\phi_0,\lambda_0)$ is the linear subspace
+\begin{equation}\label{eq:kernel}
+    \mathcal{K}:=\bigcap_{\ell\ge 1,\,m}\ker\mathcal{L}_{\ell,m}\subset C^\infty(\overline B).
+\end{equation}
+\end{cor}
+
+\section{Radial perturbations and the size of $\mathcal{K}$}
+
+\begin{cor}[Radial directions are admissible]\label{cor:radial}
+Every radial $V_1=V_1(r)$ lies in $\mathcal{K}$.
+\end{cor}
+
+\begin{proof}
+For radial $V_1$, $V_{1,\ell,m}\equiv 0$ for all $(\ell,m)$ with
+$\ell\ge 1$, so $\mathcal{L}_{\ell,m}(V_1)=0$ trivially.
+\end{proof}
+
+\begin{cor}[Beyond radial]\label{cor:beyond}
+$\mathcal{K}$ strictly contains the radial subspace. In particular,
+for every $(\ell,m)$ with $\ell\ge 1$, the kernel
+$\ker\mathcal{L}_{\ell,m}$ inside the angular sector $V_{1,\ell,m}$
+is infinite-codimension-one in $C^\infty([0,R])$; the joint
+intersection over $(\ell,m)$ remains infinite-dimensional.
+\end{cor}
+
+\begin{proof}
+$\mathcal{L}_{\ell,m}$ is a single nonzero linear functional on the
+infinite-dimensional space of radial profiles $V_{1,\ell,m}$, so its
+kernel is of codimension 1 in that sector. Different $(\ell,m)$
+sectors are independent, so the joint kernel intersects each sector
+in a codimension-1 subspace.
+\end{proof}
+
+This says the first-order Schiffer-preserving perturbations are an
+infinite-dimensional family that strictly contains the radial
+directions. If Conjecture~\ref{conj:lcs} is true, all but the radial
+directions must be ruled out by higher-order obstructions or by
+removing $O(n)$-trivial directions.
+
+\section{$O(n)$-trivial directions}
+
+The $O(n)$-action on $B$ produces a finite-dimensional family of
+``trivial'' perturbations that do not change the pair up to symmetry.
+Each angular harmonic $Y_{\ell,m}$ for $\ell=1$ is generated by an
+infinitesimal translation of the centre of $B$ (a rigid motion):
+specifically, $V_1(x)=x_j$ corresponds to translating the centre of
+the sphere. Including these in the analysis: the $\ell=1$ sector of
+$\mathcal{K}$ is exactly the span of $\{x_j\cdot g(r):g\in
+\ker\mathcal L_{1,j}\}$, and modulo translations of the centre this
+sector is reduced by $n$ dimensions.
+
+Higher $\ell\ge 2$ harmonics are not generated by rigid motions, so
+their kernel $\ker\mathcal{L}_{\ell,m}$ is genuinely
+infinite-dimensional beyond symmetries.
+
+This is the key observation: \emph{infinitesimal log-concave Schiffer
+rigidity on the ball is equivalent to: for every $\ell\ge 2$ and every
+$V_{1,\ell,m}\in\ker\mathcal{L}_{\ell,m}\setminus\{0\}$, the
+formal Lyapunov--Schmidt series for $(\phi_\eps,\lambda_\eps,V_\eps)$
+fails to converge to a genuine weighted Schiffer pair at some finite
+order $\ge 2$.}
+
+\section{The second-order test}
+
+The natural follow-up computation is the second-order Schiffer
+condition. Write $\phi_\eps=\phi_0+\eps\phi_1+\eps^2\phi_2+\cdots$.
+The $O(\eps^2)$ equation is
+\begin{equation}\label{eq:order2eqn}
+    (-\Delta-\lambda_0)\phi_2
+    =\lambda_2\phi_0+\lambda_1\phi_1-\nabla V_1\cdot\nabla\phi_1.
+\end{equation}
+At order 2, the Schiffer condition $\phi_2(R\hat x)=c_2$ gives, for
+each $(\ell,m)$ with $\ell\ge 1$,
+\begin{equation}\label{eq:order2constraint}
+    \int_0^R G_\ell(R,r')\bigl[\lambda_1\Phi_{\ell,m}(r')
+        -(\nabla V_1\cdot\nabla\phi_1)_{\ell,m}(r')\bigr]dr' = 0,
+\end{equation}
+which involves the angular-product structure
+$(V_1\cdot\phi_1)_{\ell,m}$. This is a quadratic functional in
+$V_1$. The key analytic question is:
+
+\begin{quote}
+\emph{Is there a non-radial $V_1\in\mathcal{K}$ such that
+\eqref{eq:order2constraint} holds for all $(\ell,m)$ with $\ell\ge
+1$, and similarly all higher-order constraints?}
+\end{quote}
+
+A positive answer produces a genuine non-radial branch of weighted
+Schiffer pairs on the ball, falsifying Conjecture~\ref{conj:lcs} at
+the perturbative level. A negative answer (which the conjecture
+predicts) requires showing that the quadratic constraint
+\eqref{eq:order2constraint} together with the linear
+$\mathcal{L}_{\ell,m}=0$ system has only the radial solutions.
+
+\section{Next steps}
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Compute $G_\ell(R,r')$ explicitly} for the disc
+    ($n=2$) and ball ($n=3$) using Bessel and trigonometric
+    representations, and check whether $\mathcal{L}_{\ell,m}$ has
+    sign-definite Green-function kernel against $\phi_0'$. If
+    so, $\mathcal{L}_{\ell,m}(V_{1,\ell,m})$ controls
+    $V_{1,\ell,m}'$ moments in a useful way.
+    \item \textbf{Check $\ell=1$ explicitly.} The $\ell=1$ sector is
+    where rigid-motion symmetries live; the corresponding kernel
+    should be exactly the translation directions modulo symmetry. A
+    direct check confirms whether the first-order analysis ``sees''
+    the rigid-motion freedom correctly.
+    \item \textbf{Quadratic test for $\ell=2$.} The smallest
+    non-trivial angular harmonic at which the conjecture would be
+    tested is $\ell=2$. Carry out
+    \eqref{eq:order2constraint} for $V_1=V_{1,2,m}(r)Y_{2,m}$ in
+    $\ker\mathcal{L}_{2,m}$ and determine whether any non-zero such
+    $V_1$ is consistent.
+    \item \textbf{Connect to known classical results.} The
+    second-order test is, when $V_1$ is taken instead as an
+    infinitesimal boundary perturbation of the disc (not a potential
+    perturbation), the standard Lyapunov--Schmidt analysis for
+    classical Schiffer near the disc (Direction 3 of the original
+    notes). The relationship between these two perturbations should
+    illuminate which features of the Schiffer obstruction come from
+    geometry of $\partial\Om$ versus from the potential $V$.
+\end{enumerate}
+
+\end{document}

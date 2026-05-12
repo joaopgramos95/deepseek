@@ -1,0 +1,457 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\title{Direction 2: a compactness program for convex Schiffer counterexamples}
+\author{}
+\date{\today}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Om}{\Omega}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\nor}{\partial_\nu}
+\newcommand{\diam}{\mathrm{diam}}
+\newcommand{\sgn}{\mathrm{sgn}}
+
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}[lem]{Proposition}
+\newtheorem{cor}[lem]{Corollary}
+\newtheorem{thm}[lem]{Theorem}
+\newtheorem{rem}[lem]{Remark}
+\newtheorem{conj}[lem]{Conjecture}
+\newtheorem{step}[lem]{Step}
+
+\begin{document}
+\maketitle
+
+\section*{Scope}
+
+Direction 2 of \texttt{ideas-schiffer.tex} is the \emph{unweighted}
+compactness program for the planar Schiffer conjecture. The previous
+notes in this folder (\texttt{direction2-barrel-limit},
+\texttt{direction2-heat-extension-computation},
+\texttt{direction2-parabolic-to-classical},
+\texttt{direction2-stationary-weighted-perturbation}) explored a
+log-concave extension of the problem; that line eventually showed the
+parabolic angle is too weak to close the conjecture
+(Theorem~1 of \texttt{direction2-parabolic-to-classical} reduces it
+to the classical statement) and is therefore a detour relative to
+Direction 2 as written. This note restarts cleanly: it sets up the
+compactness program for genuine planar convex Schiffer
+counterexamples and identifies precisely where the tools from
+arXiv:2412.06344 enter as enabling machinery.
+
+\section{The compactness program in precise form}
+
+\begin{conj}[Schiffer for planar convex domains]\label{conj:schiffer}
+If $\Om\subset\R^2$ is a bounded smooth strictly convex domain
+admitting a nonzero solution of
+\begin{equation}\label{eq:schiffer}
+    \Delta u+\lambda u=0\ \text{in }\Om,\qquad
+    \nor u=0\ \text{on }\partial\Om,\qquad
+    u|_{\partial\Om}=c\in\R,
+\end{equation}
+for some $\lambda>0$, then $\Om$ is a disc.
+\end{conj}
+
+The compactness strategy of Direction 2: assume the negation, take a
+sequence $\{(\Om_j,u_j,\lambda_j)\}$ of normalized non-disc convex
+counterexamples, extract a limit by Blaschke selection, pass the
+overdetermined data to the limit, and derive a contradiction. The
+program splits cleanly into four steps.
+
+\begin{step}[Setup and normalization]\label{step:normalize}
+Choose normalizations on the sequence so that Blaschke selection
+gives a non-degenerate convex limit $\Om_\infty$, and so that the
+eigenvalues $\lambda_j$ are bounded in a compact subinterval of
+$(0,\infty)$.
+\end{step}
+
+\begin{step}[Spectral compactness]\label{step:spectral}
+Show that the normalized eigenfunctions $u_j$, after possibly
+extracting subsequences, converge in a strong enough topology
+(uniformly with bounded derivatives) to a limit $u_\infty$ on
+$\Om_\infty$, and that $\lambda_j\to\lambda_\infty>0$ with
+$u_\infty\not\equiv 0$.
+\end{step}
+
+\begin{step}[Passing the overdetermination]\label{step:pass}
+Show that $u_\infty$ satisfies \eqref{eq:schiffer} on $\Om_\infty$,
+including both overdetermined conditions
+$\nor u_\infty=0$ and $u_\infty|_{\partial\Om_\infty}=c_\infty$.
+\end{step}
+
+\begin{step}[Disposing of the disc limit]\label{step:disc}
+Either rule out $\Om_\infty=$ disc by a local rigidity theorem near
+the disc, or rule out a non-disc $\Om_\infty$ by an extremality
+argument applied to a minimizing sequence.
+\end{step}
+
+\section{Step 1: normalizations}
+
+Three families of normalization are compatible with Schiffer's
+overdetermined problem, since \eqref{eq:schiffer} is invariant under
+$(\Om,u,\lambda)\mapsto(\tau\Om,\tau\circ u,\lambda)$ for rigid motions
+$\tau$ and under $(\Om,u,\lambda)\mapsto(r\Om,u(\cdot/r),\lambda/r^2)$
+for dilations. Centre at $0$ to remove translations; rotate so that
+the diameter axis is horizontal to remove rotations. To remove the
+dilation freedom, fix one scalar geometric quantity.
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Diameter normalization}: $\diam(\Om_j)=1$. Then
+    $\Om_j\subset B_1(0)$ and Blaschke gives a convex Hausdorff limit
+    $\Om_\infty$. The drawback is that $\Om_j$ can degenerate to a
+    line segment (zero width).
+    \item \textbf{Area normalization}: $|\Om_j|=\pi$ (the area of
+    a unit disc). Now $\Om_j$ can have arbitrarily large diameter
+    (long thin rectangle), so an additional bound is required to
+    apply Blaschke.
+    \item \textbf{Combined normalization}: $|\Om_j|=\pi$ \emph{and}
+    $\diam(\Om_j)\le D_*$, with $D_*$ a constant chosen below.
+\end{itemize}
+
+\begin{lem}[Diameter bound from a fixed eigenvalue]\label{lem:diam}
+If $\lambda_j\le\Lambda$ for all $j$ and $|\Om_j|=\pi$, then there is
+$D_*=D_*(\Lambda)$ such that $\diam(\Om_j)\le D_*$.
+\end{lem}
+
+\begin{proof}
+The function $u_j$ is a Neumann eigenfunction of $-\Delta$ at
+eigenvalue $\lambda_j$ on the convex $\Om_j$. The Payne--Weinberger
+inequality gives $\lambda_j\ge\pi^2/\diam(\Om_j)^2$ for the first
+nonzero Neumann eigenvalue, but $u_j$ is not necessarily a
+\emph{first} eigenfunction. However, the number of Neumann
+eigenvalues below $\Lambda$ on $\Om_j$ is at most $C(\Lambda)|\Om_j|=
+C(\Lambda)\pi$ by Weyl's asymptotics (uniform under area
+normalization for convex domains by Li--Yau bounds, see below). So
+$\lambda_j$ is one of at most $C(\Lambda)\pi$ eigenvalues, and the
+smallest such eigenvalue dominates the others up to a multiplicative
+constant. Combined with Payne--Weinberger applied to the first
+eigenvalue, $\diam(\Om_j)$ is bounded by $D_*(\Lambda)$.
+\end{proof}
+
+Combining the area normalization with an a priori bound on
+$\lambda_j$ produces a compact family in the Hausdorff topology,
+modulo the question whether $\lambda_j$ is bounded.
+
+\begin{rem}[Upper eigenvalue bound]\label{rem:upperbound}
+Schiffer's overdetermined problem is unrestricted in $\lambda$, so
+without further input $\lambda_j$ is not bounded. Three natural ways
+to obtain $\lambda_j\le\Lambda$:
+\begin{itemize}[leftmargin=*]
+    \item Restrict attention to counterexamples with $\lambda$ below
+    a chosen threshold $\Lambda$ (e.g.\ to the first $K$ eigenvalues).
+    Deng's results already cover $K=1,\ldots,k_0$ for small $k_0$ on
+    convex planar domains.
+    \item Minimize $\lambda$ over the class of counterexamples and
+    bound the infimum by a comparison construction. The infimum is
+    attained at a limit point of a minimizing sequence; the program
+    naturally takes this limit.
+    \item Bound $\lambda_j$ in terms of the area-normalized
+    fundamental Neumann gap by an isoperimetric inequality (a
+    Fauconnier-type bound is conjectural here).
+\end{itemize}
+The second option is the cleanest extremality choice and is the one
+adopted below.
+\end{rem}
+
+\begin{conj}[Schiffer infimum]\label{conj:inf}
+Define
+\[
+    \Lambda_*:=\inf\{\lambda\in(0,\infty):\,
+        \exists\Om\subset\R^2\text{ convex, non-disc, smooth, area }\pi,
+        \text{ with a nonzero }u\text{ solving \eqref{eq:schiffer}}\}.
+\]
+Then $\Lambda_*<\infty$.
+\end{conj}
+
+A simple comparison upper bound suffices: any ellipse close to a disc
+should produce \emph{near-Schiffer} data with small Schiffer defect,
+which a perturbative bifurcation argument would either complete to a
+true Schiffer pair or rule out (Direction 3 territory). Assuming
+$\Lambda_*<\infty$, fix a minimizing sequence
+$\{(\Om_j,u_j,\lambda_j)\}$ with $|\Om_j|=\pi$,
+$\lambda_j\to\Lambda_*$, and apply Lemma~\ref{lem:diam} with
+$\Lambda=\Lambda_*+1$ to obtain $\diam(\Om_j)\le D_*$.
+
+\section{Step 2: spectral compactness via the 2412 toolkit}
+
+This is the step where arXiv:2412.06344 contributes most directly.
+de Dios Pont's Step 4 (after Theorem 2.6) is: \emph{``By Li--Yau's
+uniform Harnack inequality, the eigenfunctions should be
+equicontinuous, and thus have convergent subsequences in $C^0$.''}
+The cited references are [LY86] (Li--Yau, the parabolic kernel of
+the Schr\"odinger operator) and [Wan06] (Wang, gradient estimates).
+The relevant fact for us is:
+
+\begin{thm}[Uniform gradient estimate, Wang]\label{thm:wang}
+Let $\Om\subset\R^n$ be a smooth bounded convex domain and let $u$
+solve $-\Delta u=\lambda u$ in $\Om$ with $\nor u=0$ on $\partial\Om$.
+Then
+\begin{equation}\label{eq:wang}
+    \sup_\Om|\nabla u|^2\le C_n\,\lambda\,\sup_\Om u^2,
+\end{equation}
+with $C_n$ depending only on the dimension $n$.
+\end{thm}
+
+The constant in \eqref{eq:wang} does \emph{not} depend on the
+specific shape of $\Om$, only on dimension. This is the
+``uniform Harnack across convex domains'' that the 2412 paper uses.
+
+\begin{cor}[Equicontinuity of normalized Schiffer eigenfunctions]\label{cor:equi}
+Let $\{(\Om_j,u_j,\lambda_j)\}$ be a sequence of smooth convex
+Schiffer counterexamples in $\R^2$ with $|\Om_j|=\pi$,
+$\diam(\Om_j)\le D_*$, and $\lambda_j\le\Lambda_*+1$. Normalize
+$\|u_j\|_{L^\infty(\Om_j)}=1$. Then $\{u_j\}$ is equicontinuous and
+uniformly bounded on the compact set $B_{D_*}(0)\supset\Om_j$ (after
+zero-extension or a Whitney extension off $\Om_j$).
+\end{cor}
+
+\begin{proof}
+$\sup|\nabla u_j|\le \sqrt{C_2\lambda_j}\le \sqrt{C_2(\Lambda_*+1)}$
+by Theorem~\ref{thm:wang} applied with $n=2$. The $u_j$ are
+$C^{0,1}$-bounded with constant $\sqrt{C_2(\Lambda_*+1)}$
+independent of $j$. Extend $u_j$ by zero off $\Om_j$ to obtain a
+sequence of $C^{0,1}$-bounded functions on the compact set
+$\overline{B_{D_*}(0)}$, hence equicontinuous and uniformly bounded.
+\end{proof}
+
+\begin{cor}[Spectral subsequential limit]\label{cor:speclim}
+Under the hypotheses of Corollary~\ref{cor:equi}, after extraction:
+\[
+    \Om_j\to\Om_\infty\text{ in Hausdorff distance},\qquad
+    u_j\to u_\infty\text{ uniformly on compacta},\qquad
+    \lambda_j\to\lambda_\infty.
+\]
+$\Om_\infty$ is convex with $|\Om_\infty|\le\pi$ and
+$\diam(\Om_\infty)\le D_*$. If $\Om_\infty$ has nonempty interior,
+then $u_\infty\in C^{0,1}(\Om_\infty)$ solves
+$-\Delta u_\infty=\lambda_\infty u_\infty$ in $\Om_\infty^\circ$.
+\end{cor}
+
+\begin{proof}
+Arzel\`a--Ascoli on $\{u_j\}$, Blaschke on $\{\Om_j\}$, and bounded
+$\{\lambda_j\}$ all give subsequential limits. The PDE passes
+to the limit in distributions on every compact subset of
+$\Om_\infty^\circ$ because of the uniform Lipschitz bound and
+uniform $\lambda$ bound.
+\end{proof}
+
+The remaining question is whether $|\Om_\infty|>0$, equivalently
+whether $\Om_\infty$ is not collapsed to a segment. This is the
+\emph{non-degeneracy} of the limit and is the main technical issue.
+
+\begin{lem}[Non-degeneracy from a width lower bound]\label{lem:nondeg}
+If the inradius $r(\Om_j)\ge r_*>0$ uniformly, then $\Om_\infty$ has
+nonempty interior.
+\end{lem}
+
+The hypothesis $r(\Om_j)\ge r_*$ requires either a structural
+argument (e.g.\ thin domains have large Schiffer eigenvalue,
+contradicting $\lambda_j\le\Lambda_*+1$) or an explicit further
+normalization. The cleanest sufficient condition:
+
+\begin{conj}[Quantitative thin-strip exclusion]\label{conj:thinstrip}
+There is a function $\omega:(0,\infty)\to(0,\infty)$ with
+$\omega(r)\to\infty$ as $r\to 0^+$ such that for every smooth convex
+Schiffer counterexample $\Om$ in $\R^2$ with $|\Om|=\pi$ and
+$r(\Om)\le r$, every Schiffer eigenvalue $\lambda$ of $\Om$ satisfies
+$\lambda\ge\omega(r)$.
+\end{conj}
+
+This is plausible by analogy with Faber--Krahn on thin domains:
+Dirichlet eigenvalues on a thin strip blow up like (width)$^{-2}$. A
+Schiffer counterexample by definition has $u|_{\partial\Om}=c$, and
+unless $c=0$ this means the function does not vanish at the boundary,
+so the Dirichlet bound does not literally apply. A correct
+substitute is the Robin-type Faber--Krahn or a careful estimate on
+$u-c$, which solves $\Delta(u-c)+\lambda u=0$, $\nor(u-c)=0$,
+$(u-c)|_{\partial\Om}=0$. This is a mixed problem whose eigenvalues
+admit thin-strip lower bounds.
+
+Conditional on Conjecture~\ref{conj:thinstrip}, the limit
+$\Om_\infty$ has positive inradius and Step 2 closes.
+
+\section{Step 3: passing the overdetermined conditions}
+
+With $u_j\to u_\infty$ uniformly and $\Om_j\to\Om_\infty$ in
+Hausdorff distance, the Dirichlet trace is easy:
+$u_j|_{\partial\Om_j}=c_j$. The constants $c_j$ are bounded
+($|c_j|\le\sup|u_j|=1$) and pass to $c_\infty\in[-1,1]$. By uniform
+convergence and Hausdorff continuity of the boundary,
+$u_\infty|_{\partial\Om_\infty}=c_\infty$.
+
+The Neumann trace is harder. $\nor u_j=0$ on $\partial\Om_j$, and we
+want $\nor u_\infty=0$ on $\partial\Om_\infty$. This requires
+$C^1$-convergence of $u_j$ near the boundary and Hausdorff
+convergence of the normal vector fields, which fails at corners of
+$\Om_\infty$.
+
+If $\partial\Om_\infty$ is $C^1$ (which follows from strict convexity
++ Hausdorff convergence of strictly convex bodies on compact subsets
+of the boundary), then $\nor u_\infty=0$ follows from interior
+gradient estimates and boundary $C^{1,\alpha}$ regularity for elliptic
+equations on convex domains (Krylov--Safonov / Caffarelli).
+
+The two cases that fail are:
+\begin{itemize}[leftmargin=*]
+    \item $\partial\Om_\infty$ has corners. Then $\Om_\infty$ is a
+    convex polygon (or has line-segment pieces), $\nor u_\infty$ is
+    well-defined only away from the singularities, and the
+    overdetermined condition holds in a weak sense.
+    \item $\Om_\infty$ has flat boundary pieces. Then $\partial\Om_\infty$
+    contains line segments and the limit is no longer strictly
+    convex.
+\end{itemize}
+Both can be handled by treating the singular part of $\partial\Om_\infty$
+as exceptional.
+
+\begin{prop}[Limit Schiffer pair, conditional]\label{prop:limitpair}
+Conditional on Conjecture~\ref{conj:thinstrip} and the absence of
+corners in $\partial\Om_\infty$, the limit
+$(\Om_\infty,u_\infty,\lambda_\infty)$ is a Schiffer pair: $\Om_\infty$
+is a smooth convex domain, $\lambda_\infty\ge\Lambda_*$, and
+$u_\infty$ is a nontrivial Neumann eigenfunction of $-\Delta$ on
+$\Om_\infty$ satisfying $u_\infty|_{\partial\Om_\infty}=c_\infty$.
+\end{prop}
+
+By construction $\lambda_\infty=\Lambda_*$ (since the sequence is
+minimizing). $\Om_\infty$ is therefore a Schiffer-minimizer: a convex
+domain of area $\pi$ at which the Schiffer infimum is attained.
+
+\section{Step 4: dichotomy at the minimizer}
+
+There are two cases on the limit.
+
+\paragraph{Case A: $\Om_\infty=$ disc.} The unit disc satisfies
+Schiffer at each radial Neumann eigenvalue
+$\lambda_k^{\mathrm{rad}}=(j'_{0,k})^2$. So $\Lambda_*\ge
+(j'_{0,1})^2=(j_{1,1})^2$, and equality would mean $\Om_\infty=B$ at
+the first radial Neumann eigenvalue. The sequence $\Om_j\to B$ in
+Hausdorff distance with $\lambda_j\to(j_{1,1})^2$ and
+$u_j\to J_0(j_{1,1}r)$ (radial Bessel mode).
+
+This case is excluded by a \emph{local rigidity theorem near the
+disc}: there exists $\delta>0$ such that no smooth convex
+non-disc $\Om$ with $d_H(\Om,B)<\delta$ admits a Schiffer
+eigenfunction. Existing perturbative work (Canuto, Kobayashi) gives
+such results for low Neumann eigenvalues. Whether the existing
+estimates cover the radial Schiffer eigenvalues
+$\lambda_k^{\mathrm{rad}}$ specifically is the technical question. A
+clean version of Direction 3 (bifurcation from the disc) would
+either confirm this or provide an explicit non-disc branch.
+
+\paragraph{Case B: $\Om_\infty\ne$ disc.} Then $\Om_\infty$ is a
+smooth convex non-disc Schiffer counterexample of area $\pi$ at
+eigenvalue $\Lambda_*$. By minimality, $\Om_\infty$ satisfies an
+Euler--Lagrange-type condition under area-preserving convex
+deformations. Specifically, every smooth one-parameter family of
+area-preserving deformations $\Om_s$ with $\Om_0=\Om_\infty$ that
+preserves Schiffer (and hence has $\lambda(\Om_s)$ well-defined as a
+Schiffer eigenvalue) must satisfy
+\(
+    \partial_s\lambda(\Om_s)\big|_{s=0}\ge 0.
+\)
+
+The shape-derivative formula on the disc-type domains is
+\[
+    \partial_s\lambda=-\int_{\partial\Om}|\nabla u|^2\,V_n\,dS,
+\]
+where $V_n$ is the normal velocity. On a Schiffer counterexample
+$|\nabla u|^2$ on $\partial\Om$ is determined by the Cauchy data:
+$\nor u=0$ and $u=c$ together with $-\Delta u=\lambda u$ at the
+boundary give
+$|\nabla u|^2|_{\partial\Om}=(\partial_T u)^2=0$ (since $u|_{\partial\Om}=c$
+forces zero tangential derivative). Combined with $\nor u=0$, the
+full gradient vanishes on $\partial\Om$ and the shape derivative
+vanishes identically. So minimality in $\lambda$ gives no information
+at first order.
+
+At \emph{second} order, the variational inequality reads (for a
+Schiffer-preserving deformation $V_n=f$ on $\partial\Om$)
+\[
+    \partial_s^2\lambda\big|_{s=0}\ge 0,
+\]
+and the second shape derivative for a Schiffer pair has been computed
+(in different language) by Garofalo--Lewis, Sirakov, and others. The
+resulting nonnegativity is the right structural constraint, and it
+ought to be incompatible with $\Om_\infty\ne$ disc when combined with
+the spectral pair structure.
+
+\section{What 2412 actually gives us, and what is still needed}
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Used directly from 2412.}
+    \begin{itemize}[leftmargin=*]
+        \item Theorem~\ref{thm:wang} (Wang/Li--Yau uniform gradient
+        estimate). This is the key tool for Step 2.
+        Equicontinuity of Schiffer eigenfunctions across the
+        sequence is the precise analog of de Dios Pont's Step 4.
+        \item Smooth convex approximation (Lemma A.2 of 2412). This
+        lets us replace non-smooth limits $\Om_\infty$ by smooth
+        approximations at every step without loss.
+    \end{itemize}
+
+    \item \textbf{Borrowable from 2412 but not yet imported.}
+    \begin{itemize}[leftmargin=*]
+        \item The Brunn--Minkowski / log-concave inequalities used in
+        2412 to control the eigenvalue $\lambda_{\Om,V}$ via
+        weighted Faber--Krahn. The unweighted version of these
+        inequalities is exactly what Conjecture~\ref{conj:thinstrip}
+        needs: thin convex domains have a quantitative Schiffer
+        eigenvalue lower bound.
+        \item The cap/lateral split (Section~2 of 2412). For
+        Direction 2 this translates to a dichotomy between
+        ``elongated'' and ``compact'' limits: an elongated
+        $\Om_\infty$ corresponds to the lateral collapse, a thin one
+        to the cap collapse. The 2412 analysis says lateral
+        collapse is the rigidity-friendly case.
+    \end{itemize}
+
+    \item \textbf{Not in 2412, still needed.}
+    \begin{itemize}[leftmargin=*]
+        \item Local rigidity near the disc (Case A of Step 4).
+        This belongs to Direction 3.
+        \item The second-variation positivity at a minimizer
+        (Case B). Needs an explicit Hessian-of-shape calculation
+        for Schiffer pairs.
+        \item Existence of a minimizing sequence with bounded
+        eigenvalue (Conjecture~\ref{conj:inf}). This requires
+        constructing a near-Schiffer family with bounded $\lambda$,
+        which is essentially a perturbative existence statement
+        (Direction 3 again).
+    \end{itemize}
+\end{enumerate}
+
+\section{Concrete next deliverables}
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Quantitative thin-strip exclusion} (Conjecture
+    \ref{conj:thinstrip}). Prove that thin convex domains have large
+    Schiffer eigenvalues, by reducing to a Dirichlet eigenvalue
+    estimate for $u-c$ via a Robin-type Faber--Krahn. This is a
+    self-contained technical lemma; one page if it works.
+    \item \textbf{Apply Theorem~\ref{thm:wang} explicitly.}
+    Write down the uniform Lipschitz bound for the Schiffer
+    eigenfunction $u$ on a convex domain in terms of
+    $\lambda$ and $|\Om|$, and use it to verify equicontinuity in
+    Corollary~\ref{cor:equi}.
+    \item \textbf{Second shape derivative on a Schiffer pair.}
+    Compute the Hessian of $\lambda$ as a function of the boundary
+    deformation, restricted to Schiffer-preserving deformations
+    around a putative non-disc minimizer. Either show that the
+    Hessian is sign-definite (ruling out Case B) or identify an
+    explicit Schiffer-preserving direction that decreases $\lambda$,
+    contradicting minimality.
+    \item \textbf{Verify the existing local rigidity near the disc.}
+    Survey Canuto, Kobayashi, and any subsequent work to determine at
+    which Neumann eigenvalues local rigidity is currently available,
+    and at which eigenvalues it remains open. The radial Neumann
+    eigenvalues $(j'_{0,k})^2$ are the relevant target.
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,369 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\title{Heat-extension overdetermination from weighted Schiffer:\\
+computation and an obstruction}
+\author{}
+\date{\today}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Om}{\Omega}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\nor}{\partial_\nu}
+\newcommand{\tr}{\mathrm{tr}}
+
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}[lem]{Proposition}
+\newtheorem{cor}[lem]{Corollary}
+\newtheorem{thm}[lem]{Theorem}
+\newtheorem{rem}[lem]{Remark}
+
+\begin{document}
+\maketitle
+
+\section{Goal}
+
+The companion note (\texttt{direction2-barrel-limit.tex}) proposed
+the following deliverable: show that a weighted Schiffer pair
+$(\Om,V)$ forces its heat extension $h_{\Om,V}$ (Definition~2.7 of
+de~Dios~Pont, arXiv:2412.06344) to be constant on the lateral parabolic
+boundary $\partial\Om\times[0,1]$, then test parabolic Serrin.
+
+The result of this note is twofold:
+
+\begin{itemize}[leftmargin=*]
+    \item \emph{First order} (the easy direction): the weighted Schiffer
+    overdetermination propagates to first order in $t$, so
+    $h\equiv c$ and $\partial_t h\equiv 0$ on $\partial\Om\times\{0\}$.
+    \item \emph{Second order} (the obstruction): there is an explicit
+    boundary expression $\eta_2|_{\partial\Om}$ involving the Hessians
+    of $V$ and $\phi$ that does \emph{not} vanish for a generic
+    weighted Schiffer pair. Lateral parabolic Schiffer is therefore
+    strictly stronger than stationary weighted Schiffer.
+\end{itemize}
+
+This kills the ``tautological propagation'' clause in the previous
+note and reshapes the strategy: lateral parabolic Schiffer is a finer
+problem than weighted Schiffer, and the gap is parametrised by the
+Hessian-level data $\nabla^2 V\cdot\nabla^2\phi$ at $\partial\Om$.
+
+\section{Setup}
+
+Let $(\Om,V)$ be a smooth convex pair in $\R^n$: $\Om$ bounded
+convex with smooth boundary, $V\in C^\infty(\overline\Om)$ convex.
+The Langevin operator
+\[
+    L_{\Om,V}u := -\Delta u+\nabla V\cdot\nabla u
+\]
+on the weighted space $L^2(e^{-V}dx)$ with Neumann boundary data has
+a discrete spectrum starting at $0$ with first nonzero eigenvalue
+$\lambda := \lambda_{\Om,V}$ and (up to sign) first nontrivial
+eigenfunction $\phi := \phi_{\Om,V}$. Throughout, assume the
+\emph{stationary weighted Schiffer condition}:
+\begin{equation}
+\label{eq:wschiffer}
+    L_{\Om,V}\phi=\lambda\phi\ \text{in }\Om,\qquad
+    \nor\phi=0\ \text{on }\partial\Om,\qquad
+    \phi|_{\partial\Om}=c.
+\end{equation}
+
+The heat extension $h:=h_{\Om,V}$, following Definition~2.7 of
+2412.06344, is the bounded solution of
+\begin{equation}
+\label{eq:heatext}
+    \partial_t h=\tfrac{1}{8}\bigl(\Delta_x h+\lambda h\bigr)
+        \ \text{on }\Om\times(0,1),\qquad
+    \nor h=0\ \text{on }\partial\Om\times(0,1),\qquad
+    h(x,0)=\phi(x).
+\end{equation}
+Crucially, the Laplacian in \eqref{eq:heatext} is the
+\emph{unweighted} one. This is exactly what comes out of the barrel
+limit, because $F_d(\Om,V)\subset\R^{n+d+1}$ carries the Euclidean
+structure.
+
+\section{Boundary identities at $t=0$}
+
+We collect three identities that hold on $\partial\Om$ under
+\eqref{eq:wschiffer}.
+
+\begin{lem}\label{lem:boundary}
+Under \eqref{eq:wschiffer}, on $\partial\Om$ one has
+\[
+    \phi=c,\qquad \nabla\phi=0,\qquad \Delta\phi=-\lambda c.
+\]
+\end{lem}
+
+\begin{proof}
+The first is given. The second follows because $\phi|_{\partial\Om}=c$
+makes the tangential gradient $\nabla^T\phi$ vanish, while
+$\nor\phi=0$ kills the normal component; hence the full gradient
+vanishes on $\partial\Om$. For the third, evaluate
+\eqref{eq:wschiffer} on $\partial\Om$:
+$
+    -\Delta\phi+\nabla V\cdot\nabla\phi=\lambda\phi.
+$
+With $\nabla\phi=0$ this gives $\Delta\phi=-\lambda c$.
+\end{proof}
+
+\section{First-order propagation}
+
+Define the residues
+\[
+    \eta_k := \bigl(\Delta+\lambda\bigr)^k\phi,\qquad k\ge 0.
+\]
+By induction from \eqref{eq:heatext},
+\begin{equation}
+\label{eq:dtkh}
+    \partial_t^k h(x,0)=8^{-k}\eta_k(x)
+    \quad\text{in }\Om,\qquad k\ge 0.
+\end{equation}
+The lateral parabolic Schiffer condition $h\equiv c$ on
+$\partial\Om\times[0,1]$ is equivalent (by real-analyticity of $h$ in
+$t$, which holds because the equation is analytic with analytic data)
+to
+\begin{equation}
+\label{eq:eta-tower}
+    \eta_k|_{\partial\Om}\equiv\begin{cases}c & k=0\\[2pt] 0 & k\ge 1\end{cases}
+    \qquad\text{and}\qquad
+    \nor\eta_k|_{\partial\Om}\equiv 0\ \text{for all }k\ge 0.
+\end{equation}
+
+\begin{lem}[First-order matching]\label{lem:first}
+$\eta_1=\nabla V\cdot\nabla\phi$ in $\Om$. In particular
+$\eta_1|_{\partial\Om}\equiv 0$.
+\end{lem}
+
+\begin{proof}
+From $L_{\Om,V}\phi=\lambda\phi$, i.e.\
+$-\Delta\phi+\nabla V\cdot\nabla\phi=\lambda\phi$, rearrange:
+$\Delta\phi=\nabla V\cdot\nabla\phi-\lambda\phi$. Hence
+$\eta_1=(\Delta+\lambda)\phi=\nabla V\cdot\nabla\phi$. On
+$\partial\Om$ apply Lemma~\ref{lem:boundary}.
+\end{proof}
+
+\begin{cor}\label{cor:first}
+$\partial_t h(x,0)=0$ for $x\in\partial\Om$. So the lateral parabolic
+Schiffer condition holds at order zero and one in $t$.
+\end{cor}
+
+\section{Second-order obstruction}
+
+\begin{prop}[Second-order residue]\label{prop:second}
+On $\partial\Om$ one has
+\begin{equation}
+\label{eq:eta2}
+    \eta_2 = 2\,\tr\!\bigl(\nabla^2V\cdot\nabla^2\phi\bigr)
+        + \bigl\langle\nabla^2\phi\cdot\nabla V,\nabla V\bigr\rangle.
+\end{equation}
+\end{prop}
+
+\begin{proof}
+By Lemma~\ref{lem:first}, $\eta_1=\nabla V\cdot\nabla\phi$.
+Carry out the Leibniz expansion. With summation convention,
+\begin{align*}
+    \Delta(\partial_iV\,\partial_i\phi)
+    &= (\Delta\partial_iV)\partial_i\phi
+        + 2\,\partial_j(\partial_iV)\,\partial_j(\partial_i\phi)
+        + \partial_iV\,(\Delta\partial_i\phi)\\
+    &= (\partial_i\Delta V)\partial_i\phi
+        + 2\,\partial_i\partial_jV\,\partial_i\partial_j\phi
+        + \partial_iV\,\partial_i(\Delta\phi).
+\end{align*}
+Using $\Delta\phi=\nabla V\cdot\nabla\phi-\lambda\phi$ gives
+$\partial_i(\Delta\phi)=\partial_i(\partial_jV\,\partial_j\phi)
+-\lambda\partial_i\phi
+=\partial_i\partial_jV\,\partial_j\phi+\partial_jV\,\partial_i\partial_j\phi
+-\lambda\partial_i\phi$, hence
+\begin{align*}
+    \partial_iV\,\partial_i(\Delta\phi)
+    &= \partial_iV\,\partial_i\partial_jV\,\partial_j\phi
+        + \partial_iV\,\partial_jV\,\partial_i\partial_j\phi
+        - \lambda\,\partial_iV\,\partial_i\phi.
+\end{align*}
+Restrict to $\partial\Om$. By Lemma~\ref{lem:boundary},
+$\nabla\phi=0$ there, so every term carrying a single $\partial_i\phi$
+vanishes:
+\[
+    (\partial_i\Delta V)\partial_i\phi\big|_{\partial\Om}=0,\qquad
+    \partial_iV\,\partial_i\partial_jV\,\partial_j\phi\big|_{\partial\Om}=0,\qquad
+    \lambda\,\partial_iV\,\partial_i\phi\big|_{\partial\Om}=0.
+\]
+Hence
+\[
+    \Delta\eta_1|_{\partial\Om}
+    = 2\,\partial_i\partial_jV\,\partial_i\partial_j\phi
+        + \partial_iV\,\partial_jV\,\partial_i\partial_j\phi.
+\]
+The term $\lambda\eta_1=\lambda\nabla V\cdot\nabla\phi$ vanishes on
+$\partial\Om$ (again $\nabla\phi=0$). Therefore on $\partial\Om$
+\[
+    \eta_2 = (\Delta+\lambda)\eta_1
+    = 2\,\tr(\nabla^2V\,\nabla^2\phi)
+    + (\nabla V)^\top\,\nabla^2\phi\,(\nabla V),
+\]
+as claimed.
+\end{proof}
+
+\begin{cor}[The genuine obstruction]\label{cor:obstr}
+The lateral parabolic Schiffer condition implies, in addition to
+\eqref{eq:wschiffer}, the boundary constraint
+\begin{equation}
+\label{eq:obstr}
+    2\,\tr(\nabla^2V\,\nabla^2\phi)
+    + (\nabla V)^\top\nabla^2\phi\,(\nabla V)\equiv 0
+    \quad\text{on }\partial\Om.
+\end{equation}
+This is a genuinely new constraint: for any convex weighted Schiffer
+pair $(\Om,V)$ with $V$ not identically constant, \eqref{eq:obstr}
+need not hold. Hence \emph{lateral parabolic Schiffer is strictly
+stronger than stationary weighted Schiffer.}
+\end{cor}
+
+\begin{rem}[Sanity checks]\label{rem:checks}
+\leavevmode
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Disc, $V\equiv 0$.} Then $\eta_1=\nabla V\cdot\nabla\phi
+    =0$ everywhere, hence $\eta_k\equiv 0$ for all $k\ge 1$, and
+    lateral parabolic Schiffer holds with $h\equiv\phi$ stationary.
+    \item \textbf{Disc, radial $V$, radial $\phi$.}
+    $\eta_1=V'(r)\phi'(r)$. On $\partial B$ ($r=R$),
+    $\phi'(R)=\nor\phi=0$, so $\eta_1|_{\partial B}=0$. For $\eta_2$
+    on the boundary, $\nabla^2V=V''(R)\nor\otimes\nor+r^{-1}V'(R)P_T$ and
+    $\nabla^2\phi=\phi''(R)\nor\otimes\nor+r^{-1}\phi'(R)P_T
+    =\phi''(R)\nor\otimes\nor$, where $P_T$ is the tangential
+    projection. Then $\tr(\nabla^2V\nabla^2\phi)=V''(R)\phi''(R)$ and
+    $(\nabla V)^\top\nabla^2\phi(\nabla V)=V'(R)^2\phi''(R)$, so
+    \eqref{eq:obstr} becomes
+    $\phi''(R)\bigl(2V''(R)+V'(R)^2\bigr)=0$.
+    For \emph{generic} radial convex $V$, this fails unless either
+    $\phi''(R)=0$ or $2V''(R)+V'(R)^2=0$, neither of which is
+    automatic. Hence even the disc with a generic radial convex
+    potential is a counterexample to ``stationary weighted Schiffer
+    $\Rightarrow$ lateral parabolic Schiffer.''
+\end{itemize}
+\end{rem}
+
+\section{The cap obstruction (high-dim no-go)}
+
+The companion note observed (using Theorem~2.6 of 2412.06344) that
+a putative Schiffer counterexample of barrel form $F_d(\Om,V)$ would
+force, by tracking the cap, $\phi(x)=c$ on all of $\Om$. We restate
+this for the record because it is the cleanest formal payoff of the
+barrel correspondence.
+
+\begin{prop}[No barrel-lifted high-dim Schiffer counterexamples]\label{prop:cap}
+Let $(\Om,V)$ be a smooth convex pair with a spectral gap and
+$\lambda_{\Om,V}\le 2$. Suppose the high-dimensional convex set
+$F_d(\Om,V)$ admits a Neumann Laplace eigenfunction $u_d$ such that
+$u_d\equiv c_d$ on $\partial F_d(\Om,V)$ for a sequence of $d$, with
+$u_d/\|u_d\|$ converging to the ground eigenfunction along the
+subsequence. Then necessarily $\phi_{\Om,V}\equiv c$ in $\Om$, hence
+$c=0$ and $\phi_{\Om,V}\equiv 0$, contradicting the non-triviality of
+$\phi_{\Om,V}$.
+\end{prop}
+
+\begin{proof}
+By Theorem~2.6(C.2)-(C.4) of 2412.06344, after the change of variables
+$t=1-2|w|^2/d$, $u_d(x,w)=\psi_d(x,1-(|w|/\rho_d(V)(x))^2)$ and
+$\psi_d\to h_{\Om,V}$ in $C^0$ on $\Om\times[0,1]$. The cap
+$\{|w|=\rho_d(V)(x)\}$ maps to $\Om\times\{0\}$ and the lateral piece
+$\{x\in\partial\Om,\ |w|<\rho_d(V)(x)\}$ maps to
+$\partial\Om\times[0,1]$. The Schiffer condition $u_d\equiv c_d$ on
+$\partial F_d$ therefore passes to $h_{\Om,V}\equiv c$ on
+$\bigl(\Om\times\{0\}\bigr)\cup\bigl(\partial\Om\times[0,1]\bigr)$.
+The cap clause $h_{\Om,V}(x,0)=\phi_{\Om,V}(x)\equiv c$ forces
+$\phi_{\Om,V}$ to be constant; but $\int_\Om\phi_{\Om,V}\,d\mu_{\Om,V}=0$
+forces $c=0$.
+\end{proof}
+
+\section{What the obstruction means for Direction 2}
+
+Three observations.
+
+\medskip
+\noindent\textbf{(i) Strategy B was too optimistic.} The previous note
+claimed that stationary weighted Schiffer ``tautologically'' produces
+lateral parabolic Schiffer. Lemma~\ref{lem:first} and Corollary~\ref{cor:obstr}
+show that propagation holds only to first order; the second order
+introduces a Hessian-level constraint \eqref{eq:obstr} that need not
+hold. Hence parabolic Serrin applied to the heat extension only
+delivers rigidity for the strict subclass of pairs $(\Om,V)$
+satisfying \emph{both} stationary weighted Schiffer and the full tower
+\eqref{eq:eta-tower}.
+
+\medskip
+\noindent\textbf{(ii) Two productive reductions remain.} The
+parabolic-Serrin angle is still alive in two forms:
+\begin{itemize}[leftmargin=*]
+    \item \emph{Partial rigidity.} For the subclass of $(\Om,V)$ at
+    which all higher residues $\eta_k|_{\partial\Om}$ happen to vanish,
+    one obtains rigidity (provided parabolic Serrin fires for the
+    relevant heat operator). The interesting question is how big this
+    subclass is; \eqref{eq:obstr} is the first selecting condition and
+    is itself a sharp boundary identity that constrains $(\Om,V)$ at
+    the second Hessian order.
+    \item \emph{Distinguishing balls.} For the radial disc check in
+    Remark~\ref{rem:checks}, \eqref{eq:obstr} reads
+    $\phi''(R)\bigl(2V''(R)+V'(R)^2\bigr)=0$. This is a one-parameter
+    radial constraint on $V$ at $R$. A natural follow-up is to ask
+    whether \emph{all} the constraints $\eta_k|_{\partial\Om}=0$
+    simultaneously force $V$ to be one-dimensional ($V=V(r)$ in
+    suitable coordinates) and $\Om$ a ball.
+\end{itemize}
+
+\medskip
+\noindent\textbf{(iii) An alternative geometric lift.} The
+discrepancy between stationary weighted Schiffer and lateral parabolic
+Schiffer originates in one design choice: the barrel $F_d(\Om,V)$
+carries the Euclidean metric, so its Laplacian limits to
+$\Delta_x+\lambda$ (unweighted) rather than to
+$L_{\Om,V}-\lambda$ (weighted). A warped variant
+\[
+    \widetilde F_d(\Om,V) := \Om\times B_{\rho_d(V)}\R^{d+1}
+    \ \text{with metric}\ ds^2 = dx^2 + g(V(x),|w|)\,dw^2,
+\]
+chosen so that the limit operator in $t$ is the weighted heat
+operator $\partial_t = \frac{1}{8}(L_{\Om,V}-\lambda)$, would make
+$\phi_{\Om,V}$ stationary under the limit flow and lateral parabolic
+Schiffer would be automatic from stationary weighted Schiffer.
+This is the natural fix; the price is that
+$\widetilde F_d(\Om,V)$ is no longer a Euclidean convex set, and
+the high-dimensional ``Schiffer for convex bodies'' translation is
+lost.
+
+\section{Next steps}
+
+In decreasing order of priority:
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Explore the residue tower.} Compute $\eta_3|_{\partial\Om}$
+    and check whether the residue tower can be summed: is the
+    combination $h|_{\partial\Om\times[0,1]}-c$ analytically
+    representable in terms of $(\nabla V,\nabla^2\phi)$ at the
+    boundary?
+    \item \textbf{Resolve the radial test.} For the disc with radial
+    convex $V$, determine the joint zero set of all residues
+    $\{\eta_k|_{\partial B}=0\}_{k\ge 1}$. The conjecture is that the
+    only convex radial $V$ with vanishing full tower is $V\equiv$
+    const.
+    \item \textbf{Parabolic Serrin lookup.} For the heat operator
+    $\partial_t-\tfrac{1}{8}(\Delta+\lambda)$ with overdetermined
+    lateral data (constant Dirichlet AND Neumann), survey existing
+    parabolic Serrin / overdetermined heat results
+    (Magnanini--Sakaguchi, Vogel, Ciraolo--Magnanini--Vespri) and
+    record exactly which of them apply.
+    \item \textbf{Warped barrel.} Attempt to construct the warped
+    high-dimensional analog $\widetilde F_d$ for which the limit
+    operator is $L_{\Om,V}-\lambda$ and lateral parabolic Schiffer is
+    forced by stationary weighted Schiffer. Even if $\widetilde F_d$
+    is not Euclidean-convex, it may produce an isoperimetric or
+    weighted Brunn--Minkowski inequality that ports the barrel
+    strategy.
+\end{enumerate}
+
+\end{document}

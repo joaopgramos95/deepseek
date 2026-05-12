@@ -1,0 +1,229 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\title{Importing the barrel/parabolic limit machinery of de Dios Pont
+into Direction 2 of the Schiffer program}
+\author{}
+\date{\today}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Om}{\Omega}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\nor}{\partial_\nu}
+
+\begin{document}
+\maketitle
+
+\section*{Why this paper is relevant}
+
+In \emph{Convex sets can have interior hot spots} (arXiv:2412.06344), de
+Dios Pont disproves the hot spots conjecture for convex sets in high
+dimensions. The construction lives entirely outside the classical
+2D arena, but the \emph{mechanism} it uses to pass to a limit is exactly
+the kind of machinery Direction 2 of the Schiffer program is missing.
+Three moves stand out and each is portable:
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Step 0 (log-concave lift).} The conjecture is rephrased
+    for log-concave measures $\1_\Om e^{-V}$ with $\Om$ convex and $V$
+    convex. The original Neumann problem $-\Delta u=\lambda u$ becomes
+    the Langevin eigenvalue problem
+    \[
+        L_{\Om,V}u := -\Delta u+\nabla V\cdot\nabla u=\lambda_{\Om,V}\,u,
+        \qquad \partial_\nu u=0\ \text{on }\partial\Om.
+    \]
+    The point is that the limit class of ``convex objects'' is enlarged
+    from convex bodies to convex pairs $(\Om,V)$.
+
+    \item \textbf{Step 1 (barrel + parabolic collapse).} A convex pair
+    $(\Om,V)$ is lifted to a genuine high-dimensional convex set
+    \[
+        F_d(\Om,V)=\bigl\{(x,w)\in\Om\times\R^{d+1}:\,
+            |w|\le\tfrac{1}{2}\bigl(\sqrt d-V(x)/\sqrt d\bigr)\bigr\}.
+    \]
+    The Brunn--Minkowski / Pr\'ekopa--Leindler heuristic
+    $\bigl(\sqrt d-V/\sqrt d\bigr)^d/d^{d/2}\to e^{-V}$ tells you why
+    this is the right shape. The crucial PDE phenomenon (Theorem 2.6)
+    is that the eigenfunctions $\phi_{F_d(\Om,V)}$ are radial in $w$,
+    so $\phi_{F_d}(x,w)=\psi_d(x,1-|w|^2/\rho_d^2)$, and after the
+    nonlinear change of variable $t=1-2|w|^2/d$ the elliptic equation
+    in $\R^{n+d+1}$ degenerates to the linear \emph{parabolic} equation
+    \[
+        \partial_t h=\tfrac{1}{8}\bigl(\Delta_x+\lambda_{\Om,V}\bigr)h
+        \quad\text{on }\Om\times[0,1],
+    \]
+    with Neumann lateral data and initial data $h(x,0)=\phi_{\Om,V}(x)$.
+    The boundary $\partial F_d$ collapses precisely onto the parabolic
+    boundary $\partial_h\Om=(\Om\times\{0\})\cup(\partial\Om\times[0,1])$.
+
+    \item \textbf{Step 3 (shielding by transport).} A collar
+    $R_m\setminus R$ with a steep potential $|\nabla V_m|\approx m^2$
+    converts the diffusion $-\Delta+\nabla V\cdot\nabla$ into the
+    transport $\nabla V_m\cdot\nabla$. This propagates boundary data
+    along the flow of $\nabla V_m$ and breaks the strong maximum
+    principle.
+\end{enumerate}
+
+The first two are useful tools for limit-based attacks on Schiffer
+(Direction 2), and the third is a cautionary stress-test.
+
+\section*{Recall: Direction 2 and the obstruction}
+
+Direction 2 assumes a sequence of \emph{convex non-disc} counterexamples
+$(\Om_j,u_j,\lambda_j)$ to Schiffer, normalizes area/centroid, and
+extracts a Hausdorff limit by Blaschke selection. The known difficulty
+is that all subsequences may converge to a disc. Inside the class of
+convex bodies in fixed dimension, the only way out is a stronger local
+rigidity theorem near the disc.
+
+The lesson from de Dios Pont is that one can avoid this trap by
+\emph{enlarging the limit class}: allow the limit object to be a convex
+pair $(\Om_\infty,V_\infty)$, or even a parabolic problem on
+$\Om_\infty\times[0,1]$.
+
+\section*{Three concrete import strategies}
+
+\subsection*{Strategy A: log-concave compactification of Direction 2}
+
+Replace ``convex domain'' by ``convex pair $(\Om,V)$''. Define the
+\emph{weighted Schiffer problem}: find $(\Om,V,u,\lambda)$ such that
+\[
+    L_{\Om,V}u=\lambda u\ \text{in }\Om,\quad
+    \nor u=0\ \text{on }\partial\Om,\quad
+    u|_{\partial\Om}=\text{const}.
+\]
+The disc with $V\equiv 0$ is a solution, and so are rescalings.
+
+Now run Direction 2 on a sequence of \emph{weighted} convex
+counterexamples. Two new kinds of limits are admissible:
+\begin{itemize}[leftmargin=*]
+    \item $\Om_j\to\Om_\infty\ne$ disc, $V_j\to V_\infty$: a weighted
+    Schiffer counterexample.
+    \item $\Om_j\to$ disc but $V_j$ records the rescaled obstruction
+    (e.g.\ $V_j=-\log\mathrm{Jac}_{F_j}$ for a normalized boundary
+    distortion $F_j$): the limit is a weighted Schiffer pair on the disc.
+\end{itemize}
+The Blaschke-only obstruction (``everything collapses to a disc'') is
+replaced by the cleaner question:
+\begin{quote}
+\emph{Are there nontrivial convex potentials $V$ on the disc such that
+$(B,V)$ is a weighted Schiffer pair?}
+\end{quote}
+This is a sharp algebraic/PDE question on the disc rather than a soft
+compactness obstruction, and is exactly the kind of question one would
+ask in Direction 3 (bifurcation from the disc) but now in a
+two-parameter family $(\Om,V)$.
+
+\subsection*{Strategy B: parabolic Serrin reformulation via the barrel
+limit}
+
+Suppose $(\Om,V)$ is a weighted Schiffer pair with eigenfunction $u$ and
+constant boundary value $c$. Lift to $F_d(\Om,V)$ and ask whether the
+high-dimensional convex body inherits an approximate Schiffer property
+for the unweighted Laplacian. Tracking the two pieces of $\partial F_d$
+through the limit of Theorem 2.6:
+\begin{itemize}[leftmargin=*]
+    \item The \emph{lateral} side $\{x\in\partial\Om,\ |w|<\rho_d(V)(x)\}$
+    sends $u_d|_{\text{lat}}=c$ into ``$h(x,t)=c$ for $x\in\partial\Om,\
+    t\in[0,1]$''.
+    \item The \emph{caps} $\{x\in\Om,\ |w|=\rho_d(V)(x)\}$ send
+    $u_d|_{\text{cap}}=c$ into ``$h(x,0)=c$ on $\Om$''.
+\end{itemize}
+Combined with $h(x,0)=\phi_{\Om,V}(x)$, the cap condition forces
+$\phi_{\Om,V}\equiv c$, hence $c=0$ and $u\equiv 0$. So
+\emph{barrel-lifting cannot turn a weighted Schiffer counterexample at
+$\lambda_{\Om,V}$ into an asymptotic unweighted Schiffer counterexample
+in high dimension.} This is a genuine no-go statement, and it identifies
+the obstruction: the cap is the issue.
+
+The conclusion is more interesting read backwards. Drop the cap
+condition and keep only the lateral Schiffer data. The natural limit
+object is then:
+\begin{quote}
+A function $h$ on $\Om\times[0,1]$ with
+\[
+    \partial_t h=\tfrac{1}{8}(\Delta_x+\lambda_{\Om,V})h,\quad
+    \nor h=0\ \text{and}\ h\equiv c\ \text{on }\partial\Om\times[0,1].
+\]
+\end{quote}
+This is an \emph{overdetermined parabolic problem} -- a Serrin-type
+problem for a linear heat operator with a known reaction term. There is
+a developed parabolic Serrin literature (Magnanini--Sakaguchi,
+Vogel, Ciraolo et al.) and the rigidity statements there should be
+checked against this exact equation. If parabolic Serrin forces $\Om$
+to be a disc, this is genuine progress: weighted Schiffer (lateral
+overdetermination only) implies $\Om=B$ provided one can show that the
+Schiffer overdetermination on $\Om$ propagates to lateral
+overdetermination of $h_{\Om,V}$, which holds tautologically when $u$
+itself is the initial datum and the lateral Dirichlet/Neumann data are
+time-independent.
+
+\subsection*{Strategy C: shielding as a stress-test for local rigidity}
+
+The shielding step of de Dios Pont (Proposition 2.13) shows that a
+non-rigid behaviour ($h_{\Om,V}$ attaining its max in the interior) can
+be \emph{built} by extending a base rectangle with a steep transport
+potential. Try the analogous construction with the lateral
+overdetermined data of Strategy B: does there exist a convex pair
+$(\Om,V)$ on which the Schiffer overdetermination holds on
+$\partial\Om$ but $\Om$ is not a disc?
+
+There are two outcomes, and both are useful:
+\begin{itemize}[leftmargin=*]
+    \item If a shielding-style construction \emph{succeeds}, it
+    produces a weighted Schiffer counterexample. This would be a
+    spectacular surprise and immediately kill Direction 2 as stated.
+    \item If a shielding-style construction \emph{provably fails},
+    the reason will be a structural feature distinguishing the
+    Schiffer overdetermined data (Neumann \emph{and} Dirichlet on
+    the same boundary) from the hot-spots overdetermination
+    (max location). This structural feature is then the local
+    rigidity mechanism Direction 2 actually needs.
+\end{itemize}
+The asymmetric initial data $\phi_{R,\eps V}\approx\sin x$ plays a
+critical role in 2412 because the heat extension can move a high
+boundary spot inward. For the Schiffer lateral data $h\equiv c$ on the
+lateral boundary the analogous question is whether the transport flow
+can leave $c$ invariant on $\partial\Om\times[0,1]$ while the initial
+datum is nonconstant. The Neumann lateral condition $\partial_\nu h=0$
+imposes that the transport vector field $\nabla V_m$ be tangent to
+$\partial\Om$ near the collar; combined with $h\equiv c$ on
+$\partial\Om\times[0,1]$, this is a much more restrictive constraint
+than in the hot-spots setting and is the natural place to look for
+obstruction.
+
+\section*{Concrete first task}
+
+The cleanest deliverable, in the spirit of the program, is:
+
+\begin{quote}
+Show that if $(\Om,V)$ is a convex weighted Schiffer pair, the heat
+extension $h_{\Om,V}(x,t)$ defined by Definition 2.7 of 2412.06344
+satisfies the lateral overdetermined parabolic system
+\[
+    \partial_t h=\tfrac{1}{8}(\Delta_x+\lambda_{\Om,V})h,\quad
+    \nor h=0,\quad h\equiv c\quad \text{on}\ \partial\Om\times[0,1],
+\]
+with $h(\cdot,0)=u$. Then ask whether the available parabolic Serrin /
+parabolic symmetry results force $\Om$ to be a disc.
+\end{quote}
+
+If they do, weighted Schiffer is parabolic Serrin and Direction 2
+reduces to a clean rigidity statement that does not require an
+$L^\infty$ collapse-to-disc argument. If they do not, the exact gap
+identifies the analytic feature Schiffer rigidity must control beyond
+what is captured by parabolic theory, which is the right next question.
+
+A second-priority task is to test Strategy C on the disc with a small
+radial potential $\eps V_0$ and check whether a transport-collar
+extension can preserve the lateral Schiffer data: the linearisation is
+explicit (eigenfunctions of the disc are Bessel), and the analogue of
+Proposition 2.10 of 2412.06344 should produce or rule out a
+first-order obstruction.
+
+\end{document}
