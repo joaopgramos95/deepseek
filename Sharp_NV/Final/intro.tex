@@ -1,0 +1,176 @@
+%====================================================================
+%  WIP_intro.tex  --  introduction for the Sharp_NV paper.
+%
+%  Editorial passes (prose-divergence from KdV companion \cite{chcora}):
+%    P0  Catalogued KdV paragraphs with high textual overlap:
+%         - KdV "Korteweg-de Vries equation" opener vs. our setting opener;
+%         - KdV "Fourier-Lebesgue" scaling-norm paragraph vs. our scaling
+%           paragraph;
+%         - KdV "Overview of the method" interaction-representation,
+%           differentiation-by-parts, infinite-normal-form, gauge-transform,
+%           and frequency-restricted-estimates paragraphs.
+%    P1  Reframed Sec.1.1: opened with scaling + perturbative dichotomy
+%         instead of the "two natural ways" sentence; reordered the
+%         integrable-side / contraction-side literature; moved the
+%         scaling-exponent remark into its own paragraph rather than
+%         co-located with the criticality discussion (as KdV does).
+%    P2  Rewrote Sec.1.2 bullets: renamed all five bullet headings; replaced
+%         "Iterating this procedure generates" by a recursion description;
+%         replaced "Once the gauged equation is derived" by a contraction
+%         pitch in active voice; reworded resonance-geometry sentence.
+%    P3  Final pass: scanned the file for any sentence whose noun-verb-
+%         connective skeleton matched a KdV sentence and reshuffled
+%         (notably the literature list and the closing analytic remark).
+%    P4  Sanity check: equation labels, theorem statement, and
+%         cross-references unchanged; acknowledgements left verbatim.
+%====================================================================
+
+\begin{abstract}
+We establish local well-posedness of the Novikov--Veselov equation, at every fixed value of the energy parameter, for initial data in $H^s(\R^2)$ in the entire subcritical Sobolev range $s>-1$. The scaling threshold is therefore reached, and this is, as far as we know, the first time the Sobolev theory of a quadratic two-dimensional dispersive equation has been brought down to its critical exponent. The argument is perturbative and does not invoke the integrable structure: an infinite normal-form expansion indexed by binary trees is combined with a gauge transform that absorbs the boundary terms behind the previous obstructions, and the resulting gauged equation -- carrying nonlinear contributions of every order -- is closed by a contraction in a Fourier restriction space. The analytic engine is a family of frequency-restricted multilinear bounds, supported by a detailed description of the two-dimensional resonance geometry attached to \eqref{eq:NV}.
+\end{abstract}
+
+
+\section{Introduction}
+
+\subsection{Setting of the problem and main results}
+
+We consider the Novikov--Veselov equation on $\R^2$,
+\begin{equation}\tag{NV}\label{eq:NV}
+		\partial_t u + (\partial^3 + \overline{\partial}^3)u + \frac34(\partial(u\overline{\partial}^{-1}\partial u) + \overline{\partial}(u\partial^{-1}\overline{\partial}u)) + E(\overline{\partial}^{-1}\partial^2 u + \partial^{-1}\overline{\partial}^2 u)=0,
+\end{equation}
+with initial data $u_0\in H^s(\R^2)$. Here $\partial=\tfrac12(\partial_x+i\partial_y)$ and $\overline{\partial}=\tfrac12(\partial_x-i\partial_y)$ are the Wirtinger derivatives, and $E\in\R$ is the \emph{energy} parameter.
+
+\medskip
+
+A natural starting point for the analysis of \eqref{eq:NV} is its scaling. If $u$ solves \eqref{eq:NV} with energy $E$, then
+\begin{equation}\label{scaling}
+u_\lambda(t,x)=\lambda^2u(\lambda^3t,\lambda x),\quad \lambda>0,
+\end{equation}
+is again a solution, now with energy $\lambda^2E$. At $E=0$ this is a genuine symmetry of the equation, and the homogeneous norm preserved by \eqref{scaling} is exactly $\dot H^{-1}(\R^2)$; thus $s_c=-1$ is the critical Sobolev exponent for the zero-energy problem. For $E\neq 0$ scaling is broken, but as far as low-regularity questions are concerned the same exponent $s_c=-1$ continues to mark the conjectural threshold: indeed, the work of Angelopoulos \cite{angelopolous} excludes analytic data-to-solution maps below $s=-1$ regardless of the value of $E$. The aim of the present paper is to reach this threshold by perturbative means, that is, without appealing to the integrable structure of \eqref{eq:NV}.
+
+\medskip
+
+Let us briefly recall the origin of the equation. \eqref{eq:NV} appears, in implicit form, in the work of Novikov and Veselov \cite{NovikovVeselov} (and, simultaneously, of Manakov \cite{Manakov}) as a $(2+1)$-dimensional completely integrable counterpart of the Korteweg--de Vries equation, built from the two-dimensional inverse scattering problem for the Schr\"odinger operator at a fixed energy. The one-dimensional reduction obtained by removing the $y$-dependence recovers KdV exactly, which places \eqref{eq:NV} on the same shelf as the Kadomtsev--Petviashvili and Zakharov--Kuznetsov hierarchies among higher-dimensional dispersive generalizations of KdV; we refer the reader to \cite{bourg_kpii, takaokaTzvetkov, HHK, IonescuKenigTataru, GuoPengWang, Kinoshita_ZK} for representative results in those models. Compared with them, however, the nonlocal multipliers of \eqref{eq:NV} and the rather involved geometry of its quadratic resonances give the equation a distinct analytic flavour. There is also a connection at the level of physical models: after anisotropic rescaling, the formal limits $E\to\pm\infty$ produce KP-I and KP-II respectively, see \cite{kazeykinamunoz1, kazeykinamunoz2}.
+
+\medskip
+
+The equation can be approached from two rather different angles. On the integrable side, inverse scattering, Miura-type transforms, and the modified Novikov--Veselov hierarchy yield existence and long-time results that exploit the algebraic structure of the equation in a decisive way. The dispersive--perturbative side, by contrast, treats \eqref{eq:NV} as a semilinear equation and tries to push robust Fourier-analytic methods as low in regularity as they will go; whether this second viewpoint is in itself sufficient to recover the full subcritical Sobolev theory is the question we settle here, in the affirmative.
+
+\medskip
+
+On the integrable side, solutions have been constructed through scattering techniques in \cite{BLMP, Tsai, Perry, MusicPerry}. The zero-energy case is amenable to the Miura map of Bogdanov \cite{Bogdanov},
+\begin{equation}
+\mathbf{M}[u]= 2\partial u + |u|^2,
+\end{equation}
+which carries solutions of the modified Novikov--Veselov equation
+\begin{equation}\label{eq:mNV}\tag{mNV}
+\partial_t u + (\partial^3+\overline{\partial}^3) u + \frac34\Bigl(\partial(u\overline{\partial}^{-1}\partial |u|^2) + \overline{\partial}(u\partial^{-1}\overline{\partial}|u|^2) + u\partial^{-1}\overline{\partial}(\overline{u}\overline{\partial}u) + u\overline{\partial}^{-1}\partial(\overline{u}\partial u)\Bigr)=0,
+\end{equation}
+subject to the constraint $\partial u=\overline{\partial} u$, to solutions of \eqref{eq:NV} at $E=0$. Since \eqref{eq:mNV} is cubic, its low-regularity theory is in a much better shape: Sch\"ottdorf \cite{Schottdorf} established small-data global well-posedness in the critical space $L^2(\R^2)$, in line with analogous critical results for other 2$d$ cubic models \cite{MPS_Dysthe, CorreiaKinoshita}. Nachman, Perry and Tataru \cite{NPT_mNV} subsequently lifted Sch\"ottdorf's theorem to large data. Through the Miura map this provides existence for the zero-energy version of \eqref{eq:NV} for a specific class of large data in $H^{-1}(\R^2)+L^1(\R^2)$.
+
+\medskip
+
+A parallel mechanism is well known for KdV \cite{Miura, KPST_miura, CKSTT_sharp_kdv, KT06, BuckmasterKoch, KillipVisan_kdv}, but the analogy is only partial: for KdV, complete integrability provides coercive conservation laws, and these eventually yield a global theory down to $H^{-1}(\R)$, sharp by \cite{Molinet_ill_line}. For \eqref{eq:NV} the conserved quantities fail to be coercive, in accordance with the existence of blow-up solutions \cite{TaimanovTsarev}. The integrable picture is thus extremely useful, but does not on its own settle the semilinear low-regularity Cauchy problem.
+
+\medskip
+
+On the contraction-argument side, the picture before the present work was the following. In the regime $E\neq 0$, Kazeykina and Mu\~noz \cite{kazeykinamunoz1, kazeykinamunoz2} obtained local well-posedness for $s>\tfrac12$ via stationary-phase estimates tuned to the dispersive symbol, and Angelopoulos \cite{angelopolous} attained the endpoint $s=\tfrac12$ in Bourgain-type spaces. For $E=0$, where the resonance relation simplifies, Adams and Gr\"unrock \cite{adamsgrunrock} reached $s>-\tfrac34$. None of these results comes close to the scaling threshold $s=-1$, and Angelopoulos showed in addition that the data-to-solution map cannot be analytic at the origin below $s=-1$, so fixed-point methods are bound to fail there. The subcritical gap left open by these works is therefore
+\[
+-1< s\le \tfrac12 \quad \text{for } E\neq 0,
+\qquad
+-1< s\le -\tfrac34 \quad \text{for } E=0.
+\]
+
+\medskip
+
+Our main theorem fills this gap entirely.
+
+\begin{theorem}\label{thm:main_intro}
+Fix $E\in\R$ and $s>-1$. For every $u_0\in H^s(\R^2)$ there exist a time $T=T(\|u_0\|_{H^s})>0$ and a unique function $u\in C([0,T];H^s(\R^2))$ with the following property: for any sequence $u_{0,n}\in\mathcal{S}(\R^2)$ with $u_{0,n}\to u_0$ in $H^s(\R^2)$, the corresponding smooth solutions $u_n$ to \eqref{eq:NV} -- provided by \cite{angelopolous, kazeykinamunoz1, kazeykinamunoz2} -- are defined on $[0,T]$ and satisfy $u_n\to u$ in $C([0,T];H^s(\R^2))$. The resulting data-to-solution map $u_0\in H^s(\R^2)\mapsto u\in C([0,T];H^s(\R^2))$ is analytic.
+\end{theorem}
+
+\begin{remark}
+The conclusion of Theorem~\ref{thm:main_intro} is purely semilinear: integrability plays no role in its proof, and the statement is uniform in the energy $E\in\R$. To our knowledge this is the first instance of a quadratic two-dimensional dispersive model whose Sobolev well-posedness theory has been pushed to the scaling exponent by perturbative methods alone. A companion result in \cite{chcora} reaches a comparable level for KdV, but in the Fourier--Lebesgue scale $\mathcal{F}L^{s,p}$ rather than in the strictly stronger Sobolev scale that we use here.
+\end{remark}
+
+\begin{remark}
+The endpoint $s=-1$ is left open, and the reason is structural rather than technical: it is rooted in the \emph{quadratic} character of \eqref{eq:NV}. Critical well-posedness has been achieved for several \emph{cubic} 2$d$ dispersive models -- \eqref{eq:mNV} \cite{Schottdorf}, KP-II \cite{HHK}, the Dysthe equation \cite{MPS_Dysthe}, and the modified Zakharov--Kuznetsov equation \cite{CorreiaKinoshita} -- using the Koch--Tataru $U^2$--$V^2$ machinery \cite{KochTataru}; but no analogous endpoint statement is available for a quadratic 2$d$ dispersive equation. Here the obstruction is explicit: in the gauged expansion of \eqref{eq:NV} every order $j\ge 1$ reaches frequency criticality \emph{simultaneously} at $s=-1$, generating arbitrarily many logarithmic divergences. The simultaneity is absent in cubic 2$d$ models, which is precisely why the endpoint becomes reachable there.
+\end{remark}
+
+
+\subsection{Overview of the method}
+
+The strategy is shared with our companion paper on KdV \cite{chcora}, but the outcome is qualitatively different: where the KdV analysis produces an improvement in the Fourier--Lebesgue scale, the same mechanism applied to \eqref{eq:NV} reaches the scaling threshold of its native \emph{Sobolev} theory. Three ingredients are used in concert: an infinite normal-form expansion, a gauge transform built from that expansion, and a multilinear theory of Fourier-restriction type. The normal-form component descends from the work of Babin--Ilyin--Titi \cite{bit} and its later refinements \cite{GKO13, KOY20, OW21, Kishimoto22}; the multilinear ingredient is built on the frequency-restricted estimates of \cite{COS}.
+
+\medskip
+
+\textbf{Phase function and Duhamel formulation.}
+We pass to the interaction representation by setting $v(t):=\F_z\big(U(-t)u(t)\big)$, where $U(t)$ is the linear propagator associated with \eqref{eq:NV}. The quadratic part of the dispersion is then encoded in
+\[
+\Phi(\xi,\xi_1,\xi_2)=\Phi_0(\xi,\xi_1,\xi_2)+E\,\Phi_E(\xi,\xi_1,\xi_2),\qquad \xi,\xi_1,\xi_2\in\R^2\simeq\CC,
+\]
+with
+\[
+\Phi_0(\xi,\xi_1,\xi_2)=\Re(-\xi^3+\xi_1^3+\xi_2^3)=-3\Re(\xi\xi_1\xi_2),
+\qquad
+\Phi_E(\xi,\xi_1,\xi_2)=-\Re\Big(-\tfrac{\xi^3}{|\xi|^2}+\tfrac{\xi_1^3}{|\xi_1|^2}+\tfrac{\xi_2^3}{|\xi_2|^2}\Big),
+\]
+together with the bilinear multiplier $K(\xi_1,\xi_2)=\dfrac{\xi_1\cdot\xi_2}{|\xi_1|^2|\xi_2|^2}$. Equation \eqref{eq:NV} then reads, schematically,
+\begin{equation}\label{eq:NV2}
+		v(t,\xi)=v(0,\xi)+\int_0^t \int_{\xi=\xi_1+\xi_2} e^{it'\Phi}K\Phi_0\,v(t',\xi_1)v(t',\xi_2)\,d\xi_1\,dt'.
+\end{equation}
+
+\medskip
+
+\textbf{Splitting the multiplier and time-differentiation.}
+A short calculation gives $K\Phi_0=K\Phi-E\,K\Phi_E$. The piece carrying $K\Phi_E$ is perturbative since $\Phi_E$ is of lower order than $\Phi_0$. The harder piece is the one carrying $K\Phi$: it sits at the heart of the obstructions in \cite{kazeykinamunoz1,kazeykinamunoz2,angelopolous,adamsgrunrock}, and it is precisely the piece on which the identity $e^{it\Phi}=\partial_t e^{it\Phi}/(i\Phi)$ can be used to trade an oscillation for a power of $\Phi^{-1}$. If applied globally this manoeuvre would create spurious singularities on the resonance set $\{\Phi=0\}$, so we partition the convolution region into a \emph{good} part, where the resulting symbol is benign and can be estimated directly, and a \emph{bad} part, complementary to a neighbourhood of the resonant locus, on which division by $\Phi$ poses no problem.
+
+\medskip
+
+\textbf{Recursive expansion and gauge cancellation.}
+The construction is then recursive: applying the same trade on the bad part produces, at each step, a residual term plus a \emph{boundary} contribution, and feeding $\partial_t v$ back from the equation generates a new collection of terms indexed by binary trees. The boundary contributions, taken together, are the actual obstruction to closing a contraction at $s>-1$. The key observation in this paper is that the entire \emph{series} of boundary terms can be eliminated by a single nonlinear change of variables -- the gauge transform $\Gc_\delta$, defined by summing up the normal-form expansion. For small smooth solutions the gauged variable is bi-Lipschitz equivalent to the original one; for the equation it satisfies, however, the difficult quadratic interactions have been removed at the price of a hierarchy of multilinear terms whose multipliers are tractable in the frequency-restricted framework. What emerges is the gauged Novikov--Veselov equation \eqref{z1},
+\[
+\partial_t z + (\partial^3+\overline{\partial}^3)z + E(\overline{\partial}^{-1}\partial^2 + \partial^{-1}\overline{\partial}^2)z
+= \sum_{j=1}^\infty \sum_{\TT\in\Tr_j}\sum_{\l=1}^5 \Ncal_\l(\TT;z),
+\]
+where the sums run over binary trees of every order $j\ge1$ and over five algebraic types of contributions $\Ncal_\l$.
+
+\medskip
+
+\textbf{Contraction for the gauged equation and the role of $s_c=-1$.}
+For the gauged equation we run a fixed-point argument in short-time $X^{s,b}$ spaces (Proposition~\ref{prop:lwp_rnv}). The contraction closes thanks to the master multilinear estimate
+\[
+\Bigl\|\int_0^t U(t-t')\Ncal_\l(\TT;z_1,\dots,z_{j+1})(t')\,dt'\Bigr\|_{X^{s,b}_T}
+\le T^{0+} C^j \delta^{(2s+2)(j-3)-1}\prod_{k=1}^{j+1}\|z_k\|_{X^{s,b}_T},
+\]
+which holds for every $j\ge 1$, every $\TT\in\Tr_j$, and every $\l\in\{1,\dots,5\}$ (Proposition~\ref{prop:bourgL2}). The decisive feature of this bound is the exponent $(2s+2)(j-3)-1$: it is summable over $j$ for any $s>-1$, provided the gauge parameter $\delta$ is taken small in terms of the size of the data. This is the precise point at which the scaling exponent $s_c=-1$ becomes operational in the analysis. Proposition~\ref{prop:bourgL2} is in turn reduced, through the standard frequency-restricted-estimate machinery, to bounds on integrals over level sets $\{\Phi-\alpha=0\}$, uniformly in $\alpha$. Two regimes appear in the resonance geometry of $\Phi$: a generic non-degenerate stratum, and a stationary locus on which two input frequencies are nearly aligned. Lemma~\ref{lem:prop_resonance} treats both, by a direct change of variables on the first and a parameter-dependent application of Morse's lemma on the second. The argument then unfolds across the five algebraic tree types and seven case-by-case configurations.
+
+\medskip
+
+\textbf{Returning to \eqref{eq:NV}: inversion of the gauge and density.}
+To carry the well-posedness statement back to \eqref{eq:NV} we rely on two ingredients. Lemma~\ref{LEM:D} establishes that $\Gc_\delta$ and its inverse are bi-Lipschitz, in fact analytic, on suitable balls of $H^s$. Proposition~\ref{PRO:equiv} then shows that any smooth solution of \eqref{eq:NV} is mapped by $\Gc_\delta$ to the unique solution of \eqref{z1} with matching gauged data. Smoothing the initial datum and combining the high-regularity well-posedness theory of \cite{angelopolous,kazeykinamunoz1,kazeykinamunoz2} with uniform-in-$n$ control on the gauged flow upgrades, by density, the smooth-level equivalence to a continuous-in-$H^s$ statement, which is exactly Theorem~\ref{thm:main_intro}.
+
+\medskip
+
+\textbf{Appendix: analyticity in the range $s>-\tfrac34$.}
+A short appendix is devoted to the (already-known) range $s>-\tfrac34$. There the gauge is not needed: the same frequency-restricted estimates already yield a contraction in $X^{s,b}$ directly for \eqref{eq:NV} when $E\neq 0$. This both recovers the result of Adams and Gr\"unrock \cite{adamsgrunrock} (originally stated for $E=0$) and promotes the data-to-solution map of Theorem~\ref{thm:main_intro} from continuous to analytic in that range.
+
+\medskip
+
+
+\subsection{Organization and notation}
+
+The remainder of the paper is structured as follows. Section~\ref{sec:prem} sets up the tree formalism underlying the infinite normal-form expansion, derives the normal-form equation for \eqref{eq:NV}, and constructs the gauge transform $\Gc_\delta$, culminating in the gauged equation \eqref{z1}. Section~\ref{sec:multi} introduces the Fourier restriction space $X^{s,b}$, presents the frequency-restricted estimate lemmas, and proves the master multilinear bound Proposition~\ref{prop:bourgL2}; the necessary input on the resonance geometry is gathered in Lemma~\ref{lem:prop_resonance}. Section~\ref{sec:lwp} develops the local theory for the gauged equation (Proposition~\ref{prop:lwp_rnv}), records the analyticity of the gauge map (Lemma~\ref{LEM:D}), proves the equivalence between \eqref{eq:NV} and \eqref{z1} for smooth solutions (Proposition~\ref{PRO:equiv}), and closes the density argument that yields Theorem~\ref{thm:main_intro}. Appendix~\ref{sec:s-34} handles the auxiliary regime $s>-\tfrac34$ and refines the regularity of the data-to-solution map there.
+
+\bigskip
+
+We conclude with the notation used throughout the paper. For $A,B\in\R$, the symbol $A\lesssim B$ means $A\le C B$ for some $C>0$, while $A\sim B$ stands for the two-sided bound $A\lesssim B\lesssim A$; the slightly stronger comparability $\max(|A|,|B|)\gg\big||A|-|B|\big|$ is denoted $A\simeq B$. We write $\alpha+$ and $\alpha-$ for $\alpha+\varepsilon$ and $\alpha-\varepsilon$, respectively, with $\varepsilon>0$ chosen sufficiently small. The plane $\R^2$ is identified with $\C$ via $\xi=(\xi_1,\xi_2)\simeq\xi_1+i\xi_2$, and $\partial=\tfrac12(\partial_x+i\partial_y)$, $\overline\partial=\tfrac12(\partial_x-i\partial_y)$ are the corresponding Wirtinger derivatives. We use the Japanese bracket $\jap{\xi}:=(1+|\xi|^2)^{1/2}$, and we denote by $\mathcal{F}$ and $\mathcal{F}^{-1}$ (or $\widehat{\cdot}$) the spatial Fourier transform and its inverse on $\R^2$. The phase symbol attached to the quadratic part of \eqref{eq:NV} is $\Phi=\Phi_0+E\,\Phi_E$, with $\Phi_0$ and $\Phi_E$ as in Section~1.2, and $K(\xi_1,\xi_2)=\xi_1\cdot\xi_2/(|\xi_1|^2|\xi_2|^2)$ is the bilinear multiplier appearing in \eqref{eq:NV2}. For $j\ge 1$, we let $\Tr_j$ stand for the set of decorated binary trees of order $j$ defined in Section~\ref{sec:prem}, and we write $\Ncal_\l(\TT;\,\cdot\,)$ for the multilinear operator associated with a tree $\TT$ and a type label $\l\in\{1,\dots,5\}$. The usual Sobolev and Schwartz spaces are $H^s(\R^2)$, $\mathcal{S}(\R^2)$, $\mathcal{S}'(\R^2)$; finally, $X^{s,b}=X^{s,b}(\R\times\R^2)$ denotes the Bourgain-type Fourier restriction space adapted to the dispersion symbol of \eqref{eq:NV}, introduced in Section~\ref{sec:multi}.
+
+
+\subsection{Acknowledgements}
+
+The authors are deeply indebted to Axel Gr\"unrock for his encouragement and for several important discussions.
+
+\medskip
+
+A.~C. was partially supported by CNRS--INSMI through a grant ``PEPS Jeunes chercheurs et jeunes chercheuses 2025''. S.~C. was partially supported by Funda\c{c}\~ao para a Ci\^encia e Tecnologia (FCT) through CAMGSD (project UID/04459/2025). A.~C. and S.~C. were also supported by FCT through the grant FCT/Mobility/1330917020/2024-25. A.~C. is thankful for the kind hospitality of Instituto Superior T\'ecnico, where part of this work was developed. S.~C. and J.~P.~R. were also supported by FCT through project SHADE (project 2023.17881.ICDT, DOI 10.54499/2023.17881.ICDT).

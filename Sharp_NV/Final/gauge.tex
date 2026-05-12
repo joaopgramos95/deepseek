@@ -1,0 +1,259 @@
+% =====================================================================
+% gauge.tex --- Subsection: change of variables and gauged equation.
+% Revision log (condensed):
+%   Pass 1: catalogued paragraphs overlapping with [chcora, Sec. 2.3].
+%   Pass 2: rewrote the roadmap and the proof of LEM:wbd as a self-
+%     contained one-line multiplier identity, in prose distinct from KdV.
+%   Pass 3: replaced the re-derivation of the inclusion-exclusion by an
+%     explicit citation of [chcora, Lemma 2.10, Steps 1-2]; only the
+%     gfrak_E piece, which is NV-specific, is spelled out in full.
+% =====================================================================
+
+
+Taking $J\to\infty$ in Proposition~\ref{PRO:NFE} yields, at the formal level, the \emph{infinite normal form equation}
+\begin{align}
+\label{NFE}
+\dt v= \sum_{j=1}^{\infty} \sum_{\TT\in \Tr_j} \left(\NN(\TT;v) + \BB(\TT;v) \right),
+\end{align}
+with $\NN(\TT;v)$ and $\BB(\TT;v)$ as in \eqref{NFE1a}.
+
+Our route from~\eqref{NFE} to the gauged equation has three stages. First, a single nonlinear substitution $v\mapsto w$ is engineered to absorb the quadratic boundary term in~\eqref{NFE}; the surprising fact is that the same substitution eliminates \emph{every} boundary term via an algebraic identity (Lemma~\ref{LEM:wbd}). Second, an analogous cancellation on the nonlinear side reduces the surviving multipliers to five families, which we tabulate (Lemma~\ref{LEM:wint}). Third, the interaction representation $z(t):=U(-t)w(t)$ recasts the system as the gauged Novikov--Veselov equation~\eqref{z1}. The algebra runs in close parallel with~\cite{chcora}, with one structural novelty: alongside the dispersive phase $\Psi_0$, the energy phase $E\Psi_E$ contributes its own family of multipliers (Type~$\III$), so the inclusion-exclusion bookkeeping is carried out on the pair $(\Psi_0,E\Psi_E)$ rather than on a single phase.
+
+\subsubsection*{The multilinear functional and the change of variables}
+
+It will be convenient to evaluate $\Ical$ from~\eqref{eq:defiI} at distinct inputs. Fix $j\in\N$ and $\TT\in\Tr_j$, and order the $j+1$ leaves of $\TT$ lexicographically by their words,
+\begin{align}
+\label{lexic}
+\bul_1\le \bul_2\le \dots \le \bul_{j+1},
+\end{align}
+i.e.\ left-to-right in any planar drawing. For arbitrary smooth $v_1,\dots,v_{j+1}:\R\times \R^2\to\R$, set
+\begin{equation}
+\label{eq:defiImulti}
+\Ical(\TT, m; v_1,\dots,v_{j+1}) (t)
+= i \int_{\Gamma_\TT} e^{it\Psi(\TT)} m(\vec{\xi}) \prod_{\ell=1}^{j+1} \ft v_\l (t,\xi_{\bul_\ell})\, d\vec{\xi}.
+\end{equation}
+Specialising $v_1=\cdots=v_{j+1}=v$ recovers $\Ical(\TT, m; v)$ of~\eqref{eq:defiI}. The multilinear counterparts of $\BB(\TT)$ and $\NN(\TT)$ from~\eqref{NFE1a} are then
+\begin{align*}
+\Ft_x [\BB(\TT; v_1, \ldots, v_{j+1}) ]  &= \dt\Ical (\TT,- i \mulB(\TT) ; v_1,\dots,v_{j+1}),\\
+\Ft_x [\NN(\TT; v_1, \ldots, v_{j+1} ) ]  &= \Ical(\TT,\mul(\TT) ; v_1, \ldots, v_{j+1} ).
+\end{align*}
+
+Define $v\mapsto w$ implicitly by
+\begin{align}
+\label{w}
+v = w + \Ical(\<1>, - i \mulB(\<1>); w) =: w + \D[w, w],
+\end{align}
+with $\Ical$ as in~\eqref{eq:defiI}. By design, $\partial_t\D[w,w]$ reproduces precisely the quadratic boundary contribution $\BB(\<1>;w)$, so
+\begin{align}
+\label{wa}
+\dt v = \dt w + \BB(\<1>; w),
+\end{align}
+with $\BB$ as in~\eqref{NFE1a} (cf.~\eqref{NFE002}). Plugging~\eqref{wa} and~\eqref{w} into~\eqref{NFE} gives the closed equation
+\begin{align}
+\dt w
+& = -\BB(\<1>;w) + \BB(\<1>;v) + \NN(\<1>;v) + \sum_{j=2}^\infty \sum_{\TT\in\Tr_j} \Big( \NN(\TT; v)  + \BB(\TT; v) \Big) \nonumber \\
+& =  \BB\big(\<1>; w, \D[w, w] \big) + \BB \big(\<1>; \D[w, w],w\big) + \BB\big(\<1>; \D[w,w], \D[w, w]\big) \nonumber\\
+& \qquad + \NN(\<1>; w ,w )  + \NN\big(\<1>; w, \D[w, w]\big) + \NN\big(\<1>; \D[w, w], w\big) + \NN\big(\<1>; \D[w, w],\D[w, w]\big) \nonumber\\
+& \qquad + \sum_{j=2}^\infty \sum_{\TT\in \Tr_j} \Big( \NN\big(\TT; w+ \D[w, w] \big) +  \BB\big(\TT; w + \D[w, w]\big) \Big).
+\label{w1}
+\end{align}
+
+Because $\D[w,w]$ is itself quadratic in $w$, expanding~\eqref{w1} produces, for each underlying tree, several terms of the same homogeneity but supported on different colourings. Bundling such terms tree-by-tree shifts the combinatorial overhead into the multipliers and reveals a striking algebraic phenomenon: \emph{every} boundary term is annihilated.
+
+\subsubsection*{The boundary cancellation}
+
+\begin{lemma}
+\label{LEM:wbd}
+Let $j\in\N$, $\TT\in \Tr_j$, $\star \in \TT^{0,\ff}$, and let $w_1, \ldots, w_{j+1}: \R\times \R^2 \to \R$ be smooth. Order the leaves of $\TT$ as in~\eqref{lexic}, and let $1 \le k \le j$ be such that $(\bul_k, \bul_{k+1})$ are the children of $\star$ in $\TT$. Then
+\begin{align}
+\label{wbd0}
+\BB\big(\TT ; w_1, \ldots, w_{j+1} \big)
++ \BB\big(\TT\overset{\star}{\ominus} \<1>; w_1,  \ldots, w_{k-1} , \D[w_k,w_{k+1}] , w_{k+2}, \ldots,  w_{j+1} \big) \equiv 0.
+\end{align}
+Consequently, all the boundary terms in~\eqref{w1} vanish:
+\begin{multline}
+\label{wbd1}
+  \BB \big(\<1>; w, \D[w, w] \big)
++ \BB\big(\<1>; \D[w, w],w\big)
++ \BB\big(\<1>;\D[w, w], \D[w, w]\big)
+\\
++ \sum_{j=2}^\infty \sum_{\TT\in \Tr_j}  \BB\big(\TT; w + \D[w, w]\big)  \equiv 0  .
+\end{multline}
+\end{lemma}
+
+\begin{proof}
+Write $\TT' := \TT\overset{\star}{\ominus}\<1>$, so that $(\TT')^0 = \TT^0\setminus\{\star\}$ has cardinality $j-1$. Since $\D = \Ical(\<1>, -i\mulB(\<1>); \cdot)$, the multiplier of the second summand in~\eqref{wbd0} splits as $\mulB(\TT')\cdot \mulB(\cherry{\star}{}{})$, with the auxiliary factor at $\star$ given by $\mulB(\cherry{\star}{}{}) = \ind_{A^c_\star}K_\star$. Phase additivity~\eqref{eq:additivity} forces $\Psi(\TT')+\Psi(\cherry{\star}{}{}) = \Psi(\TT)$, so both summands integrate the same exponential over the same domain (after re-indexing the leaves by~\eqref{lexic}). Adding the multipliers gives the one-line identity
+\begin{align}
+\label{wbd-cancel}
+\mulB(\TT) + \mulB(\TT')\,\mulB(\cherry{\star}{}{})
+= \big[(-1)^{j+1} + (-1)^{j}\big] \prod_{\bul \in \TT^0} \ind_{A^c_\bul} K_\bul = 0,
+\end{align}
+which proves~\eqref{wbd0}.
+
+For~\eqref{wbd1}, group every boundary contribution in~\eqref{w1} whose uncoloured underlying tree is $\TT$ (compare with~\eqref{Bcherry2}); the cumulative multiplier reads
+\[
+\wt{\mul}_\BB(\TT) = \sum_{P\subseteq \TT^{0,\ff}} \mulB\big(\TT\overset{P}{\ominus}\<1>\big) \prod_{\star\in P}\mulB(\cherry{\star}{}{})
+= (-1)^{j+1}\bigg(\prod_{\bul\in \TT^0}\ind_{A_\bul^c}K_\bul\bigg)\sum_{P\subseteq \TT^{0,\ff}}(-1)^{|P|},
+\]
+and vanishes by $\sum_{k=0}^n\binom{n}{k}(-1)^k=0$ with $n=|\TT^{0,\ff}|\ge 1$. Identical bookkeeping is carried out term-by-term in~\cite[Lemma~2.8]{chcora}.
+\end{proof}
+
+\begin{remark}
+\label{remark:factorial}
+The cancellation in Lemma~\ref{LEM:wbd} relies in a crucial way on the fact that the constraint $A^c_\bul$ on $(\xi_\bul,\xi_{\bul1},\xi_{\bul2})$ depends only on the local node $\bul$. By contrast, in the standard normal form approach (e.g.~\cite{kishimoto,GuoKwonOh_nls}) the resonant set involves all ancestors of $\bul$, which entangles the trees with their growth history and obliges one to introduce a $j$-dependent sequence of small parameters to tame the factorial explosion of ordered trees. We refer the reader to~\cite{chcora} for a fuller discussion.
+\end{remark}
+
+\subsubsection*{The five surviving tree shapes}
+
+The same regrouping principle that erases boundary contributions also drastically thins out the nonlinear side: outside of five distinguished families, every multiplier vanishes. We list the survivors by the location of their final parents:
+\begin{itemize}
+\item[\bf (I)] $\TT=\<1>$, carrying the bilinear multiplier $\mul_1$ from~\eqref{eq:multiplicadores}.
+\item[\bf (II)] $j\ge 2$, $\TT^{0,\ff}=\{\star\}$ with $\star\neq \emptyset$, the dispersive piece $\Psi_0$ sitting at $\star$ under $\ind_{A_\star}$.
+\item[\bf (III)] same tree shape as (II), but with the energy piece $E\Psi_E$ at $\star$ under the complementary indicator $\ind_{A_\star^c}$; this family is absent in the KdV setting.
+\item[\bf (IV)] same tree shape as (II)--(III), with the multiplier seated one level higher, at the parent $\pb(\star)$ of the unique final parent.
+\item[\bf (V)] $j\ge 2$, $\TT^{0,\ff}=\{\star1,\star2\}$ (cherry-tipped): both children of $\star$ are final parents.
+\end{itemize}
+A common skeleton emerges: every surviving tree is a root attached to a single chain of \emph{strict} parents, each of which has one child in $\TT^\infty$ and the other carrying the chain onwards, terminated either by a single final parent (Types~II--IV) or by a sibling pair (Type~V). The fact that the infinite-tree children carry no constraint beyond $A^c_\bul$ is what drives the multilinear estimates of Section~\ref{sec:multi}.
+
+\begin{lemma}
+\label{LEM:wint}
+Let $w:\R \times \R^2 \to \R$ be smooth and $\NN$ as in~\eqref{NFE1a}. Then
+\begin{align}
+\label{wint0a}
+\sum_{j=1}^\infty \sum_{\TT\in \Tr_j} \NN\big(\TT; w+ \D[w, w] \big)
+=
+\sum_{j=1}^\infty \sum_{\TT\in\Tr_j} \sum_{\ell=1}^5  \NN_\ell(\TT; w),
+\end{align}
+where, for $\l = 1,\dots,5$,
+\begin{align}
+\label{wint0b}
+\Ft_x \big[ \NN_\ell (\TT; w) \big] = \Ical \big(\TT, {\mul}_\l(\TT); w \big),
+\end{align}
+with $\Ical(\TT, m; w)$ as in~\eqref{eq:defiI}, and the multipliers given by
+\begin{align}
+\label{eq:multiplicadores}
+\mul_1(\<1>) &= K\big(\ind_A  \Psi_0(\<1>) - E\Psi_E(\<1>)\big), \\
+\mul_2(\TT) &=(-1)^{j+1} \ind_{A_\star} K_\star\Psi_0(\star) \bigg( \prod_{\bul \in \TT^0 \setminus\{\star\}}  K_\bul  \ind_{A_\bul^c} \bigg),
+   && \hspace{-2.0cm}\text{if} \  \TT^{0,\ff} = \{\star\}, \ \star\neq \emptyset, \nonumber\\
+\mul_3(\TT) &=(-1)^{j} E  \ind_{A_\star^c} K_\star\Psi_E(\star) \bigg( \prod_{\bul \in \TT^0 \setminus\{\star\}}  K_\bul  \ind_{A_\bul^c} \bigg),
+   && \hspace{-2.0cm}\text{if} \  \TT^{0,\ff} = \{\star\}, \ \star\neq \emptyset, \nonumber\\
+\mul_4(\TT) &=(-1)^{j}  K_{\pb(\star)}\Psi(\pb(\star)) \bigg( \prod_{\bul \in \TT^0 \setminus\{\pb(\star)\}}  K_\bul  \ind_{A_\bul^c} \bigg),
+   && \hspace{-2.0cm}\text{if} \  \TT^{0,\ff} = \{\star\},  \ \star\neq \emptyset, \label{wint0c}\\
+\mul_5(\TT) &=(-1)^{j+1}  K_\star\Psi(\star) \bigg( \prod_{\bul \in \TT^0 \setminus\{\star\}}  K_\bul  \ind_{A_\bul^c} \bigg),
+   && \hspace{-2.0cm}\text{if} \  \TT^{0,\ff} = \{\star1, \star2\}, \nonumber\\
+\mul_\l(\TT) &= 0, \quad \l=2,3,4,5, && \hspace{-2.0cm}\text{otherwise}, \nonumber
+\end{align}
+with $\TT\in \Tr_j$, $j \ge 1$, and $K$ and $\Psi$ as in~\eqref{Kmul} and~\eqref{psi-circ}, respectively. We refer to the contributions $\NN_\l(\TT)$ as terms of Type $\I, \II, \III, \IV, \5$, respectively.
+\end{lemma}
+
+\begin{proof}
+The argument follows the inclusion-exclusion strategy of~\cite[Lemma~2.10, Steps~1--2]{chcora} verbatim, except for one new ingredient: the bookkeeping triggered by the energy phase $E\Psi_E$, which we record below.
+
+\medskip
+
+\noindent\emph{Homogeneity~$2$.}
+On the l.h.s.\ of~\eqref{wint0a}, only $\NN(\<1>;w,w)$ contributes at homogeneity $2$. Hence $\NN_1(\<1>;w)=\NN(\<1>;w,w)$ and $\mul_1(\<1>) = \mul(\<1>) = K(\ind_A\Psi_0(\<1>) - E\Psi_E(\<1>))$, matching~\eqref{eq:multiplicadores}.
+
+\medskip
+
+\noindent\emph{Higher homogeneity.}
+Now fix $j\ge 2$ and $\TT\in\Tr_j$. Following~\cite[Lemma~2.10]{chcora}, collect all l.h.s.\ contributions whose underlying uncoloured tree (after expanding each $\D[w,w]$) is $\TT$. Indexing such expansions by $C\subseteq \TT^{0,\ff}$, the aggregate multiplier is
+\[
+\wt{\mul}(\TT)
+= \sum_{C\subseteq \TT^{0,\ff}} \mul\big(\TT\overset{C}{\ominus}\<1>\big) \prod_{\star\in C}\mulB(\cherry{\star}{}{}).
+\]
+The splitting $\Psi(\star) = \Psi_0(\star) + E\Psi_E(\star)$ in the definition of $\mul$ (see~\eqref{NFE0b}) together with $\mulB(\cherry{\star}{}{}) = \ind_{A_\star^c}K_\star$ and $(\TT\overset{C}{\ominus}\<1>)^0 = \TT^0\setminus C$ decomposes
+\[
+\wt{\mul}(\TT) = \wt{\mul}_{\gfrak,0}(\TT) + \wt{\mul}_{\gfrak,E}(\TT) + \wt{\mul}_{\bfrak}(\TT),
+\]
+where $\wt{\mul}_{\gfrak,0}$ collects the $\ind_{A_\star}\Psi_0(\star)$-terms, $\wt{\mul}_{\gfrak,E}$ collects the $\ind_{A_\star^c}E\Psi_E(\star)$-terms (\emph{new with respect to KdV}), and $\wt{\mul}_{\bfrak}$ collects the $\Psi(\star)$-terms over strict parents $\star\in \TT^0\setminus \TT^{0,\ff}$. Explicitly, the $\gfrak_E$-piece reads
+\[
+\wt{\mul}_{\gfrak,E}(\TT)
+= (-1)^j E \bigg(\prod_{\bul\in \TT^0}K_\bul\bigg)
+\sum_{C\subseteq \TT^{0,\ff}}(-1)^{|C|}
+\sum_{\star\in (\TT\overset{C}{\ominus}\<1>)^{0,\ff}}
+\ind_{A_\star^c}\Psi_E(\star)
+\prod_{\bul\in \TT^0\setminus\{\star\}}\ind_{A_\bul^c};
+\]
+the expressions for $\wt{\mul}_{\gfrak,0}$ and $\wt{\mul}_\bfrak$ differ only by the sign, the energy prefactor, and the range of the inner sum.
+
+\medskip
+
+\noindent\textbf{Step 1 ($\bfrak$- and $\gfrak_0$-pieces).}
+The simplifications of $\wt{\mul}_\bfrak(\TT)$ and $\wt{\mul}_{\gfrak,0}(\TT)$ are imported, line for line, from~\cite[Lemma~2.10, Steps~1--2]{chcora}: collapsing the alternating sums via the case analysis recorded there gives
+\begin{align}
+\label{eq:mulb-nv}
+\wt{\mul}_{\bfrak}(\TT) &=(-1)^j \bigg(\prod_{\bul\in \TT^0}K_\bul\ind_{A_\bul^c}\bigg) \sum_{\star\in \TT^0\setminus \TT^{0,\ff}} \Psi(\star)
+\Big( \ind_{\TT^{0,\ff}=\{\star1\}} + \ind_{\TT^{0,\ff}=\{\star2\}} - \ind_{\TT^{0,\ff}=\{\star1,\star2\}}\Big),\\
+\label{eq:mulg0-nv}
+\wt{\mul}_{\gfrak,0}(\TT)
+&= (-1)^{j+1} \sum_{\star\in \TT^0} \ind_{A_\star}K_\star\Psi_0(\star) \bigg(\prod_{\bul\in \TT^0\setminus\{\star\}}K_\bul\ind_{A_\bul^c}\bigg) \nonumber\\
+&\quad \times\Big( \ind_{\TT^{0,\ff}=\{\star\}} - \ind_{\TT^{0,\ff}=\{\star1\}} - \ind_{\TT^{0,\ff}=\{\star2\}} + \ind_{\TT^{0,\ff}=\{\star1,\star2\}}\Big).
+\end{align}
+
+\medskip
+
+\noindent\textbf{Step 2 ($\gfrak_E$-piece, new with respect to KdV).}
+Fix $\star\in \TT^0$. Compared to $\wt{\mul}_{\gfrak,0}$, the indicator $\ind_{A_\star}$ becomes $\ind_{A_\star^c}$ and the factor $\Psi_0$ becomes $E\Psi_E$, while the index set of the inner alternating sum stays put, namely
+\[
+\big\{ C \subseteq \TT^{0,\ff} \, : \, \star \in (\TT\overset{C}{\ominus}\<1>)^{0,\ff} \big\}.
+\]
+Three cases arise.
+
+\noindent\underline{Case 1: $\star\in\TT^{0,\ff}$.} The membership $\star\in (\TT\overset{C}{\ominus}\<1>)^{0,\ff}$ holds iff $\star\notin C$, so
+\[
+\sum_{\substack{C\subseteq \TT^{0,\ff} \\ \star\in (\TT\overset{C}{\ominus}\<1>)^{0,\ff}}} (-1)^{|C|}
+= \sum_{C\subseteq \TT^{0,\ff}\setminus\{\star\}} (-1)^{|C|}
+= \ind_{\TT^{0,\ff}=\{\star\}}.
+\]
+
+\noindent\underline{Case 2: $(\star1,\star2)\in\TT^{0,\ff}\times\TT^\infty$ (or the symmetric case).} Here $\star\in(\TT\overset{C}{\ominus}\<1>)^{0,\ff}$ requires $\star1\in C$, so the alternating sum collapses to $-\ind_{\TT^{0,\ff}=\{\star1\}}$ (resp.\ $-\ind_{\TT^{0,\ff}=\{\star2\}}$).
+
+\noindent\underline{Case 3: $\star1,\star2\in\TT^{0,\ff}$.} Now $\star\in(\TT\overset{C}{\ominus}\<1>)^{0,\ff}$ requires $\{\star1,\star2\}\subseteq C$, yielding $\ind_{\TT^{0,\ff}=\{\star1,\star2\}}$.
+
+Assembling the three cases gives
+\begin{align}
+\label{eq:mulgE-nv}
+\wt{\mul}_{\gfrak,E}(\TT)
+&= (-1)^j E \sum_{\star\in \TT^0} \ind_{A_\star^c}K_\star\Psi_E(\star) \bigg(\prod_{\bul\in \TT^0\setminus\{\star\}}K_\bul\ind_{A_\bul^c}\bigg) \nonumber\\
+&\quad \times\Big( \ind_{\TT^{0,\ff}=\{\star\}} - \ind_{\TT^{0,\ff}=\{\star1\}} - \ind_{\TT^{0,\ff}=\{\star2\}} + \ind_{\TT^{0,\ff}=\{\star1,\star2\}}\Big).
+\end{align}
+At the formal level,~\eqref{eq:mulgE-nv} is obtained from~\eqref{eq:mulg0-nv} via the substitution $(\ind_{A_\star},\Psi_0,(-1)^{j+1}) \mapsto (\ind_{A_\star^c}, E\Psi_E,(-1)^j)$, which is the algebraic shadow of $\Psi=\Psi_0+E\Psi_E$ and is the only ingredient that distinguishes the NV bookkeeping from~\cite[Lemma~2.10]{chcora}.
+
+\medskip
+
+\noindent\textbf{Step 3 (combination of the three pieces).}
+Adding~\eqref{eq:mulb-nv},~\eqref{eq:mulg0-nv}, and~\eqref{eq:mulgE-nv} and splitting according to the shape of $\TT^{0,\ff}$:
+\begin{itemize}
+\item if $\TT^{0,\ff}=\{\star\}$ with $\star\neq \emptyset$, only the indices $\star$ and $\pb(\star)$ produce nonzero contributions. At $\star$, $\wt{\mul}_{\gfrak,0}$ and $\wt{\mul}_{\gfrak,E}$ combine to $\mul_2+\mul_3$ (Types~$\II$ and~$\III$). At $\pb(\star)$, only $\wt{\mul}_\bfrak$ contributes, giving $\mul_4$ (Type~$\IV$).
+\item if $\TT^{0,\ff}=\{\star1,\star2\}$, only the index $\star$ survives; the three pieces combine to $\mul_5$ (Type~$\5$).
+\item otherwise, every alternating sum in~\eqref{eq:mulb-nv}--\eqref{eq:mulgE-nv} vanishes, so $\wt{\mul}(\TT)=0$.
+\end{itemize}
+Consequently, for every $\TT\in \Tr_j$ with $j\ge 2$ the aggregate contribution carried by $\TT$ equals $\sum_{\ell=2}^5 \Ical(\TT,\mul_\ell(\TT);w)$. Summing over $j\ge 1$ and $\TT\in\Tr_j$ delivers~\eqref{wint0a}.
+\end{proof}
+
+\begin{remark}
+At fixed $j\ge 2$, Types~$\II$--$\III$ contribute $2^{j-1}$ trees of size $j$, and Type~$\IV$ contributes $2^{j-1}$ trees of size $j+2$; this is dramatically smaller than $|\Tr_j|\sim 4^j/j^{3/2}$. The decisive feature of Lemma~\ref{LEM:wint}, however, is not the cardinality but the rigid shape of the survivors, which forces a very restricted family of frequency interactions and underpins the frequency-restricted estimates in Section~\ref{sec:multi}.
+\end{remark}
+
+\subsubsection*{The modified normal form equation and its gauged version}
+
+Substituting Lemmas~\ref{LEM:wbd} and~\ref{LEM:wint} into~\eqref{w1} produces the modified normal form equation
+\begin{align}
+\label{w2}
+\dt w & =  \sum_{j=1}^\infty \sum_{\TT \in \Tr_j} \sum_{\l=1}^5  \NN_\l(\TT;w).
+\end{align}
+Setting
+\begin{align}
+\label{z0}
+z(t) := U(-t) w(t),
+\end{align}
+with $U(t)$ the linear Novikov--Veselov propagator, a direct calculation shows that $z$ obeys the \emph{gauged Novikov--Veselov equation}
+\begin{align}
+\label{z1}\tag{$\mathcal{G}_\delta$-NV}
+\dt z + (\partial^3+\overline{\partial}^3)z + E(\overline{\partial}^{-1}\partial^2 + \partial^{-1}\overline{\partial}^2)z
+&= \sum_{j=1}^\infty \sum_{\TT \in \Tr_j} \sum_{\l=1}^5  U(t) \NN_\l(\TT;U(-t)z)
+\nonumber\\
+&=: \sum_{j=1}^\infty \sum_{\TT \in \Tr_j} \sum_{\l=1}^5  \Ncal_\l(\TT;z).
+\end{align}
+Equation~\eqref{z1} is the focus of the next two sections: Section~\ref{sec:multi} establishes multilinear $X^{s,b}$-bounds for each $\Ncal_\l(\TT;z)$ that are summable in $j$ thanks to the rigid shape of the surviving trees, and Section~\ref{sec:lwp} deduces local well-posedness of~\eqref{z1} for $H^s(\R^2)$ data throughout the sharp range, before transferring the result back to (NV) via the gauge map.

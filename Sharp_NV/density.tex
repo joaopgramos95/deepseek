@@ -1,0 +1,400 @@
+% =====================================================================
+%  density.tex --- density argument for Sharp_NV (Theorem 1.1).
+%
+%  Adapted from §5.2-§5.3 of CC-kdv10.tex (\cite{chcora}). NV-specific
+%  features: (i) $\FL^{s,p}(\R)\rightsquigarrow H^s(\R^2)$, with the
+%  smallness $\dl\ll R^{-1/(2s+2)}$; (ii) the $E$-perturbation in the
+%  linear part of \eqref{eq:NV}; (iii) the multiplier $\Psi_E$ in the
+%  Type~III nonlinear term \eqref{eq:multiplicadores}; (iv) the planar
+%  outer integration costs one extra power of $n$ ($N_0=5$ versus
+%  $N_0=4$ in KdV).
+% =====================================================================
+
+The proof of Theorem~\ref{thm:main_intro} is closed by a frequency
+truncation/density procedure following \cite[\S5]{chcora}; the
+NV-specific deviations are listed in the header. The parameters
+$s'\ge s>-1$ (with $s'$ eventually large), $R>0$ and
+$0<\dl\ll R^{-1/(2s+2)}$ are fixed throughout, so that
+\eqref{eq:escolhadelta} holds.
+
+\subsection{Truncated dynamics}
+
+Given $n\in\N$, write $\mathbf{P}_n$ for the Fourier projector with
+symbol $\ind_{[0,n]}(|\xi|)$, $\xi\in\R^2$, and consider the
+\emph{frequency-truncated Novikov-Veselov equation}
+\begin{equation}\tag{NV$_n$}\label{eq:NV_n_dens}
+\dt u_n + (\partial^3+\overline\partial^3) u_n
++ \tfrac34 \mathbf{P}_n\!\left( \partial(u_n\overline\partial^{-1}\partial u_n)
++ \overline\partial(u_n\partial^{-1}\overline\partial u_n) \right)
++ E(\overline\partial^{-1}\partial^2 u_n+\partial^{-1}\overline\partial^2 u_n)=0,
+\end{equation}
+with $u_n(0)=u_0\in H^{s'}(\R^2)$. Since $\mathbf{P}_n$ commutes
+with the linear group, the resonance set $A$ and the phase
+$\Psi=\Psi_0+E\Psi_E$ from Section~\ref{sec:nfe} are insensitive to
+the cut-off; consequently the normal-form reduction of that section
+carries over to \eqref{eq:NV_n_dens} unchanged. Define
+\begin{equation}\label{eq:Kmul_n}
+K_{\bul,n} := K_\bul\, \ind_{[0,n]}(|\xi_\bul|),
+\qquad \bul\in\TT^0,
+\end{equation}
+the truncated analogue of $K_\bul$ in \eqref{Kmul}, and let
+$\Gc_{\dl,n}$ be the \emph{truncated gauge transform} determined by
+\begin{equation}\label{eq:gauge_n_dens}
+\Gc_{\dl,n}^{-1}[f] := f + \F_z^{-1}\!\left( \int_{\xi=\xi_1+\xi_2}
+K\,\ind_{[0,n]}(|\xi|)\, \mathbbm{1}_{A^c_\dl}(\xi_1,\xi_2)\,
+\widehat f(\xi_1)\widehat f(\xi_2)\, d\xi_1 \right),
+\end{equation}
+i.e.\ \eqref{eq:gauge} with the indicator inserted. The conclusions
+of Lemma~\ref{LEM:D} hold for $\Gc_{\dl,n}$ with $\dl$, $\eps$, $R$
+all uniform in $n$. The corresponding \emph{truncated gauged
+equation} is
+\begin{equation}\label{eq:GNV_n_dens}\tag{$\Gc_\dl$-NV$_n$}
+\dt z_n + (\partial^3+\overline\partial^3)z_n
++ E(\overline\partial^{-1}\partial^2+\partial^{-1}\overline\partial^2)z_n
+= \sum_{j=1}^\infty \sum_{\TT\in\Tr_j}\sum_{\l=1}^5
+\Ncal_{\l,n}(\TT;z_n),
+\end{equation}
+where $\Ncal_{\l,n}(\TT)$ arises from $\Ncal_\l(\TT)$ in \eqref{z1}
+by substituting each $K_\bul$ in \eqref{eq:multiplicadores} with
+$K_{\bul,n}$.
+
+\subsection{Multilinear estimates with $n$-loss}
+
+Since $\ind_{[0,n]}$ only shrinks the multipliers,
+Proposition~\ref{prop:bourgL2} transfers verbatim to $\Ncal_{\l,n}$.
+The equivalence argument also requires a coarser estimate trading
+the gap $s'-s$ for a polynomial factor in $n$ --- the planar version
+of \cite[Lemma~5.2]{chcora}.
+
+\begin{lemma}\label{lem:dens_estimativas}
+There exists $N_0=N_0(s)\in\N$ (with $N_0=5$ admissible for
+$-1<s\le 0$) such that, for $s'\ge s+2$, $j,n\in\N$, $\TT\in\Tr_j$,
+$\l\in\{1,\dots,5\}$, $1\le k\le j+1$ and
+$f_1,\dots,f_{j+1}\in H^{s'}(\R^2)$,
+\begin{equation}\label{eq:dens_estimativas}
+\|\Ncal_{\l,n}(\TT)[f_1,\dots,f_{j+1}]\|_{H^s(\R^2)}
+\le n^{N_0}\, C^j\, \|f_k\|_{H^s}
+\max_{\substack{1\le k'\le j+1\\ k'\ne k}}\!\left(
+\|f_{k'}\|_{H^{s'}}\!\!\!\prod_{\substack{k''\ne k,k'}}\!\!\|f_{k''}\|_{H^s}
+\right),
+\end{equation}
+for some $C=C(s,\dl)>0$ independent of $n$, $j$ and $\TT$.
+\end{lemma}
+
+\begin{proof}
+We import the strategy of \cite[Lemma~5.2]{chcora} and flag the two
+NV-specific entries. Combining \eqref{wint0c},
+\eqref{eq:multiplicadores} and \eqref{eq:Kmul_n} produces the
+pointwise bound
+\begin{equation}\label{eq:mul_n_pointwise}
+|\mul_{\l,n}(\TT)(\vec\xi)|
+\le C^j\, n\, \max_{\bul\in\TT^\infty}|\xi_\bul|^2\,
+\ind_{[0,n]}(|\xi|)
+\prod_{\bul\in\TT^\infty}\frac{1}{\jap{\xi_{\bul1}}\jap{\xi_{\bul2}}},
+\end{equation}
+in which $|\xi_\bul|\le n$ for $\bul\in\TT^0$ has already been used;
+the two derivatives sitting on the largest final frequency are
+swallowed by $s'\ge s+2$, exactly as in \cite{chcora}.
+
+The first NV-specific entry concerns the Type~III multiplier
+$\mul_3(\TT)$ of \eqref{eq:multiplicadores}: it carries an extra
+$E\Psi_E(\star)$ with $|\Psi_E(\star)|\lesssim|\xi_\star|$
+(Section~\ref{sec:multi}). Since the truncation forces
+$|\xi_\star|\le n$, this contributes one additional power of $n$
+beyond \eqref{eq:mul_n_pointwise}.
+
+The second is dimensional: the outer integration in
+\eqref{eq:dens_estimativas} takes place on $\R^2$. Running the
+$p=2$ argument of \cite[Lemma~5.2]{chcora} verbatim ---
+Cauchy-Schwarz, then successive integration along the final
+subtrees, then the elementary bound
+$\int_{|\xi|\le n}d\xi\lesssim n^d$ with $d=2$ in place of $d=1$ ---
+yields \eqref{eq:dens_estimativas} with the total loss
+$n^{3+d}=n^5$ (three powers from \eqref{eq:mul_n_pointwise} together
+with the recursion, one from the Type~III correction, plus $d=2$
+from the planar outer integral). The range $s\ge 0$ is reduced to
+the previous one via the standard inequality
+$\jap{\xi}^s\le j\,\max_{\bul\in\TT^\infty}\jap{\xi_\bul}^s$
+of \cite[Lemma~5.2]{chcora}.
+\end{proof}
+
+\subsection{High-regularity well-posedness for the truncated gauged equation}
+
+Following \cite[Lemma~5.4]{chcora}, we upgrade
+Proposition~\ref{prop:lwp_rnv} to a uniform-in-$n$ statement and
+sharpen uniqueness at the top regularity.
+
+\begin{lemma}\label{lem:zn_nv}
+Let $s'\ge s>-1$ with $s'\ge s+2$, $R>0$, and
+$0<\dl\ll R^{-1/(2s+2)}$. For every $n\in\N$ and every
+$z_{0,n}\in H^{s'}(\R^2)$ with $\|z_{0,n}\|_{H^s}\le R$, there exists
+a unique solution $z_n\in X^{s',b}(0,T_{\dl,R})$ to
+\eqref{eq:GNV_n_dens} with $z_n(0)=z_{0,n}$, where $T_{\dl,R}$ is
+the time from Proposition~\ref{prop:lwp_rnv} (independent of $n$).
+Moreover, for $t\in[0,T_{\dl,R}]$,
+\begin{equation}\label{eq:bounds_zn_nv}
+\|z_n(t)\|_{H^s}\le 2R,
+\qquad
+\|z_n(t)\|_{H^{s'}}\le 2\|z_{0,n}\|_{H^{s'}},
+\end{equation}
+and $z_n$ is unique in
+$\{z\in C([0,T_{\dl,R}]; H^{s'}(\R^2)):\,
+\|z\|_{L^\infty_t H^s_x}\le 10R\}$.
+\end{lemma}
+
+\begin{proof}
+The existence portion and the bounds \eqref{eq:bounds_zn_nv} are a
+direct consequence of the proof of Proposition~\ref{prop:lwp_rnv}
+together with Remark~\ref{remark:persistence}, since
+Proposition~\ref{prop:bourgL2} controls $\Ncal_{\l,n}$ with
+$n$-independent constants.
+
+For the sharper uniqueness statement, pick two candidates
+$z_n,z_n'$ as in the hypothesis, fix $0<T'\le T_{\dl,R}$, and
+combine the Duhamel formula with
+\eqref{eq:dens_estimativas} to get
+\begin{align*}
+\|z_n-z_n'\|_{L^\infty_{T'}H^s_x}
+\lesssim T'\, n^{N_0}\,
+\big(\|z_n\|_{L^\infty H^{s'}}+\|z_n'\|_{L^\infty H^{s'}}\big)
+\,\|z_n-z_n'\|_{L^\infty_{T'}H^s_x}
+\sum_{j\ge 0}(CR)^j.
+\end{align*}
+Choosing $T'$ small enough --- the threshold depends on $n$ and on
+the two $H^{s'}$ norms --- absorbs the right-hand side and gives
+$z_n=z_n'$ on $[0,T']$. A finite chain of such intervals covers
+$[0,T_{\dl,R}]$.
+\end{proof}
+
+\subsection{Equivalence of the truncated dynamics at high regularity}
+
+For smooth data, the next lemma matches \eqref{eq:NV_n_dens} and
+\eqref{eq:GNV_n_dens} through $\Gc_{\dl,n}$ on $[0,T_{\dl,R}]$.
+
+\begin{lemma}\label{lem:equiv_n_nv}
+Let $s'\gg 1$ be sufficiently large, $R>0$,
+$0<\dl\ll R^{-1/(2s+2)}$, and $u_0\in H^{s'}(\R^2)$ with
+$\|u_0\|_{H^s}<R$. Then, for every $n\in\N$:
+\begin{enumerate}
+\item[\textup{(i)}] there is a unique solution
+$u_n\in X^{s',b}(0,T_{\dl,R})$ to \eqref{eq:NV_n_dens} on the
+\emph{uniform} interval $[0,T_{\dl,R}]$, satisfying
+\begin{equation}\label{eq:bounds_un}
+\|u_n\|_{L^\infty([0,T_{\dl,R}];H^s)}<3R,
+\qquad
+\|u_n\|_{L^\infty([0,T_{\dl,R}];H^{s'})}<3\|u_0\|_{H^{s'}};
+\end{equation}
+\item[\textup{(ii)}] if $z_n$ is the solution to
+\eqref{eq:GNV_n_dens} furnished by Lemma~\ref{lem:zn_nv} with
+$z_{0,n}:=\Gc_{\dl,n}[u_0]$, then
+\begin{equation}\label{eq:equiv_n_nv}
+z_n=\Gc_{\dl,n}[u_n]
+\quad\text{in}\quad C([0,T_{\dl,R}];H^{s'}(\R^2));
+\end{equation}
+\item[\textup{(iii)}] $\|u_n\|_{X^{s',b}(0,T_{\dl,R})}\le
+C(\|u_0\|_{H^{s'}})$, with $C$ independent of $n$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The proof retains the three-step skeleton of
+\cite[Lemma~5.5]{chcora}; we record only the points where the NV
+features enter.
+
+\smallskip
+\noindent\underline{Step~1 (forward direction).}\
+Local well-posedness at high regularity
+\cite{angelopolous,kazeykinamunoz1,kazeykinamunoz2} produces $u_n$
+on a maximal $X^{s',b}_{\mathrm{loc}}$-interval $[0,T_n)$. Put
+$T_{0,n}:=\sup\{0<T\le\min(T_{\dl,R},T_n):
+\|u_n\|_{L^\infty_T H^s_x}<3R\}$ and let
+$v_n(t):=\F_z(U(-t)u_n(t))$. The algebra of
+Section~\ref{sec:nfe} sees only $A$ and $\Psi=\Psi_0+E\Psi_E$, both
+preserved by $\mathbf{P}_n$, so $v_n$ solves the truncated normal-form
+equation, and the four prerequisites (a)-(d) of
+\cite[\S4]{KOY20} are in place: $\F_z v_n(\xi)$ is $C^1$ in $t$ and
+has rapid decay in $\xi$ (because $s'\gg 1$), while
+Lemma~\ref{lem:dens_estimativas}, applied with $n$ fixed, supplies
+the summability and convergence of $\NN_n$, $\BB_n$ and $\MM_n$.
+The new Type~III term $\Ncal_{3,n}$ inherits the same bound; the
+factor $|\Psi_E(\star)|\lesssim|\xi_\star|$ has been incorporated
+into \eqref{eq:multiplicadores} once and for all. Setting
+$z_n':=\Gc_{\dl,n}[u_n]$, Lemma~\ref{LEM:D} (now read for
+$\Gc_{\dl,n}$) yields
+\begin{equation}\label{eq:z'n_a_priori}
+z_n'\in C([0,T_{0,n}];H^{s'}(\R^2)),
+\qquad
+\|z_n'\|_{L^\infty_{T_{0,n}}H^s_x}<(1+\eps)\,3R,
+\end{equation}
+and the chain of term-by-term cancellations from
+Lemmas~\ref{LEM:wbd}-\ref{LEM:wint}, identical to
+\cite{chcora}, certifies that $z_n'$ is an integral solution to
+\eqref{eq:GNV_n_dens}.
+
+\smallskip
+\noindent\underline{Step~2 (matching).}\
+Lemma~\ref{LEM:D} bounds
+$\|z_{0,n}\|_{H^s}=\|\Gc_{\dl,n}[u_0]\|_{H^s}\le R/(1-\eps)$, so the
+$z_n$ produced by Lemma~\ref{lem:zn_nv} obeys
+$\|z_n\|_{L^\infty_{T_{\dl,R}}H^s}\le 2R/(1-\eps)$. Coupled with
+\eqref{eq:z'n_a_priori}, the $C_t H^{s'}$ uniqueness clause of
+Lemma~\ref{lem:zn_nv} forces $z_n=z_n'$ in $C([0,T_{0,n}];H^{s'})$.
+Reading Lemma~\ref{LEM:D} backwards,
+\begin{equation}\label{eq:un_bound_step2}
+\|u_n\|_{L^\infty_{T_{0,n}}H^s_x}
+\le (1+\eps)\,\|z_n'\|_{L^\infty_{T_{0,n}}H^s_x}
+\le \tfrac{2(1+\eps)}{1-\eps}R<3R,
+\end{equation}
+provided $\eps$ is chosen small. Continuity together with the
+blow-up alternative of
+\cite{angelopolous,kazeykinamunoz1,kazeykinamunoz2} upgrades this to
+$T_n\ge T_{\dl,R}$ and $T_{0,n}=T_{\dl,R}$; the second half of
+\eqref{eq:bounds_un} is its $H^{s'}$ twin.
+
+\smallskip
+\noindent\underline{Step~3 ($X^{s',b}$-bound).}\
+On any sub-interval of length depending only on
+$M:=2\|u_0\|_{H^{s'}}$, the high-regularity well-posedness of
+\cite{angelopolous,kazeykinamunoz1,kazeykinamunoz2} gives
+$\|u_n\|_{X^{s',b}}\le C(M)$. A deterministic concatenation,
+identical to \cite[Lemma~5.5, Step~3]{chcora} and powered by
+\eqref{eq:bounds_un}, glues these pieces uniformly in $n$ and
+delivers (iii).
+\end{proof}
+
+\subsection{Proof of Proposition~\ref{PRO:equiv}}
+
+Push $n\to\infty$ in Lemma~\ref{lem:equiv_n_nv} along the lines of
+\cite[Proof of Proposition~5.6]{chcora}.
+
+\begin{proof}[Proof of Proposition~\textup{\ref{PRO:equiv}}]
+Take $u_0$ as in \eqref{equiv-0}. Denote by
+$z\in X^{s',b}(0,T_{\dl,R})$ the \eqref{z1} solution with data
+$z_0:=\Gc_\dl[u_0]$ (Proposition~\ref{prop:lwp_rnv}), and let
+$u\in X^{s',b}(0,T)$ be the maximal \eqref{eq:NV} solution issued
+from $u_0$
+\cite{angelopolous,kazeykinamunoz1,kazeykinamunoz2}. Lemma~\ref{lem:equiv_n_nv}
+furnishes $u_n,z_n$ with $u_n(0)=u_0$ and
+$z_n(0)=\Gc_{\dl,n}[u_0]$. The proof reduces to the pair of
+convergences
+\begin{align}
+\label{eq:conv_zn}
+z_n &\to z \quad\text{in}\quad C([0,T_{\dl,R}]; H^{s'-1}(\R^2)),
+\\
+\label{eq:conv_Gun}
+\Gc_{\dl,n}[u_n] &\to \Gc_\dl[u]
+\quad\text{in}\quad C([0,T\wedge T_{\dl,R}); H^{s'-1}(\R^2)).
+\end{align}
+Granted \eqref{eq:conv_zn}-\eqref{eq:conv_Gun}, the identity
+\eqref{eq:equiv_n_nv} yields $\Gc_\dl[u(t)]=z(t)$ in $H^{s'-1}$ on
+$[0,T\wedge T_{\dl,R})$. The $L^\infty_t H^{s'}$ control on $z$
+provided by Proposition~\ref{prop:lwp_rnv} and
+Remark~\ref{remark:persistence}, transferred through
+Lemma~\ref{LEM:D} as
+$\|u(t)\|_{H^{s'}}\le \|z\|_{L^\infty_t H^{s'}}/(1-\eps)$,
+prevents $u$ from blowing up before $T_{\dl,R}$. Thus
+$T\ge T_{\dl,R}$ and the identity persists to all of
+$[0,T_{\dl,R}]$, which is \eqref{equiv-1}.
+
+\smallskip
+\noindent\emph{Proof of \eqref{eq:conv_zn}.}\
+Subtracting the Duhamel formulations of \eqref{z1} and
+\eqref{eq:GNV_n_dens} splits $z(t)-z_n(t)$ into three pieces:
+\begin{align*}
+z(t)-z_n(t)
+&= U(t)(\Gc_\dl-\Gc_{\dl,n})[u_0]
++ \sum_{j,\TT,\l}\!\int_0^t\! U(t-t')
+\big[\Ncal_\l(\TT;z)-\Ncal_{\l,n}(\TT;z)\big]\,dt'
+\\
+&\quad
++ \sum_{j,\TT,\l}\!\int_0^t\! U(t-t')
+\big[\Ncal_{\l,n}(\TT;z)-\Ncal_{\l,n}(\TT;z_n)\big]\,dt'.
+\end{align*}
+Proposition~\ref{prop:bourgL2} (applied to the truncated multipliers,
+which it covers without change) together with the smallness of $z$
+and $z_n$ in $L^\infty_t H^s$ bounds the third sum by
+$\tfrac12\|z-z_n\|_{X^{s'-1,b}(0,T_{\dl,R})}$, which is absorbed.
+For the data term, the two presentations
+$u_0=\Gc_\dl[u_0]+\D[\Gc_\dl[u_0],\Gc_\dl[u_0]]
+=\Gc_{\dl,n}[u_0]+\mathbf{P}_n\D[\Gc_{\dl,n}[u_0],\Gc_{\dl,n}[u_0]]$
+of $u_0$ ($\D$ as in \eqref{eq:gauge}), combined with the
+small-Lipschitz estimate on $\D$ inside the proof of
+Lemma~\ref{LEM:D}, give
+\[
+\|(\Gc_\dl-\Gc_{\dl,n})[u_0]\|_{H^{s'-1}}
+\lesssim \|\mathbf{P}_{>n}\D[\Gc_\dl[u_0],\Gc_\dl[u_0]]\|_{H^{s'-1}}
+\lesssim n^{-1}\|\D[\Gc_\dl[u_0],\Gc_\dl[u_0]]\|_{H^{s'}}
+\to 0.
+\]
+Finally, $\Ncal_\l(\TT)-\Ncal_{\l,n}(\TT)$ decomposes into finitely
+many operators of the same multilinear form as $\Ncal_{\l,n}$,
+each picking up an indicator $\ind_{|\xi_\bul|>n}$ on some node;
+Proposition~\ref{prop:bourgL2} disposes of each, and trading the
+extra $\jap{\xi_\bul}$ against the $H^{s'-1}\hookrightarrow H^{s'}$
+upgrade (which $z$ provides uniformly) creates a saving
+$\jap{\xi_\bul}^{-1}\le n^{-1}$. The mechanism is the one of
+\cite{chcora}; the only NV twist is that the indicator now lives on
+$\R^2$. Summing the three contributions establishes
+\eqref{eq:conv_zn}.
+
+\smallskip
+\noindent\emph{Proof of \eqref{eq:conv_Gun}.}\
+The intermediate step is
+\begin{equation}\label{eq:conv_un}
+u_n \to u \quad\text{in}\quad C([0,T\wedge T_{\dl,R}); H^{s'-1}(\R^2)).
+\end{equation}
+Working on sub-intervals of length $T_*$ controlled only by
+$M:=2\|u_0\|_{H^{s'}}$, the high-regularity bilinear estimates
+\cite{angelopolous,kazeykinamunoz1,kazeykinamunoz2} furnish
+\[
+\|u_n-u\|_{X^{s'-1,b}(0,T_*)}
+\le \tfrac12\|u_n-u\|_{X^{s'-1,b}(0,T_*)}
++ \frac{C}{n}\,T_*^\theta\,\|u\|_{X^{s',b}(0,T_*)}^2,
+\]
+the factor $n^{-1}$ originating from upgrading $\mathbf{P}_{>n}$ from
+$s'-1$ to $s'$. Chaining these sub-intervals yields
+\eqref{eq:conv_un} and, together with \eqref{eq:bounds_un}, the
+auxiliary bound $\|u\|_{L^\infty_t H^s}<3R$ on
+$[0,T\wedge T_{\dl,R})$.
+
+The identity \eqref{eq:conv_Gun} follows by inserting the two
+representations
+$u_n=\Gc_{\dl,n}[u_n]+\mathbf{P}_n\D[\Gc_{\dl,n}[u_n],\Gc_{\dl,n}[u_n]]$
+and $u=\Gc_\dl[u]+\D[\Gc_\dl[u],\Gc_\dl[u]]$ into
+\[
+\Gc_{\dl,n}[u_n]-\Gc_\dl[u]
+= (u_n-u)
+- \mathbf{P}_n\big(\D[\Gc_{\dl,n}[u_n],\Gc_{\dl,n}[u_n]]
+- \D[\Gc_\dl[u],\Gc_\dl[u]]\big)
+- \mathbf{P}_{>n}\D[\Gc_\dl[u],\Gc_\dl[u]],
+\]
+and treating the three summands by \eqref{eq:conv_un}, by the
+small-Lipschitz estimate on $\D$ coming from the proof of
+Lemma~\ref{LEM:D}, and by the $H^{s'}$-control of
+$\D[\Gc_\dl[u],\Gc_\dl[u]]$, respectively.
+\end{proof}
+
+\subsection{Conclusion of Theorem~\ref{thm:main_intro}}
+
+Proposition~\ref{PRO:equiv} states that, restricted to the ball
+$B_R:=\{u_0\in H^s(\R^2):\|u_0\|_{H^s}<R\}$ and the uniform window
+$[0,T_{\dl,R}]$, the smooth \eqref{eq:NV} flow
+($u_0\in H^{s'}(\R^2)\cap B_R$, $s'\gg 1$) is the conjugate, by the
+analytic map $\Gc_\dl$ from Lemma~\ref{LEM:D}, of the \eqref{z1}
+flow. The latter admits a continuous --- indeed analytic ---
+extension from $H^{s'}\cap B_R$ to the full ball $B_R\subset H^s(\R^2)$,
+via Proposition~\ref{prop:lwp_rnv} together with the multilinear
+estimates of Proposition~\ref{prop:bourgL2}. Continuity of $\Gc_\dl$
+and $\Gc_\dl^{-1}$ on $B_R\subset H^s$ (Lemma~\ref{LEM:D}) makes the
+composition
+$\Gc_\dl^{-1}\circ\Phi^{\Gc_\dl\text{-NV}}\circ\Gc_\dl$
+a continuous prolongation of the \eqref{eq:NV} flow from
+$\mathcal{S}(\R^2)\cap B_R$ to $B_R$, with the existence time
+$T_{\dl,R}$ uniform across the ball. Density of
+$\mathcal{S}(\R^2)$ in $H^s(\R^2)$ identifies this extension with
+the limit of the smooth solutions
+$u_n\in C([0,T_{\dl,R}];H^{s'})$ of
+\cite{angelopolous,kazeykinamunoz1,kazeykinamunoz2}; analyticity is
+inherited from the factors. Theorem~\ref{thm:main_intro} is
+proved.
+\qed

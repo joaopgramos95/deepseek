@@ -1,0 +1,386 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\Fr}{\mathcal{A}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\Om}{\Omega}
+\newcommand{\Otilde}{\widetilde{\Omega}}
+
+\title{Bounded Reduction:\\
+Removing the $R$-Dependence in Sharp Saint--Venant Stability\\
+(Route~A, Plan~1, Building Block \textsc{BoundedReduction})}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We upgrade the sharp Saint--Venant stability inequality from the
+bounded setting to the global setting:
+\[
+   E(\Om)-E(B_1)\ge c_{\rm SV}^{\rm glob}(N)\,\Fr(\Om)^{2},
+   \qquad |\Om|=|B_{1}|,
+\]
+for every open set $\Om\subset\R^N$ of finite measure. The input is
+the bounded-domain inequality
+$E(\Om)-E(B_{1})\ge c_{\rm SV}(N,R)\Fr(\Om)^{2}$ on
+$\{\Om\subset B_{R},|\Om|=|B_{1}|\}$ produced by the sibling
+\textsc{SaintVenantAssembly} block. The reduction is the constructive
+truncation argument of Brasco--De~Philippis--Velichkov~\cite[Lemmas~5.1
+and~5.3]{BDV} (De~Giorgi-type $L^{\infty}$ iteration plus
+energy cut-off), together with the rearrangement-based suboptimal
+$\Fr^{4}$ bound of \cite[Lemma~5.2]{BDV}. No compactness, no
+sequential extraction, no contradiction step is introduced: every
+constant is an explicit composition of named dimensional quantities.
+\end{abstract}
+
+\section{Notation and standing hypotheses}\label{sec:notation}
+
+Throughout $N\ge 2$. All sets are open subsets of $\R^{N}$ of finite
+Lebesgue measure. We use the standard normalisations of the master
+document:
+\begin{itemize}
+\item $u_{\Om}\in W^{1,2}_{0}(\Om)$, $-\Delta u_{\Om}=1$, the torsion
+potential;
+\item $T(\Om)=\int_{\Om}u_{\Om}\,dx$, the torsional rigidity;
+\item $E(\Om)=-\tfrac12 T(\Om)=\min_{v\in W^{1,2}_{0}(\Om)}
+\bigl(\tfrac12\int|\nabla v|^{2}-\int v\bigr)$, the BDV Saint--Venant
+energy;
+\item $\omega_{N}:=|B_{1}|$, $T_{N}:=T(B_{1})=\omega_{N}/(N(N+2))$;
+\item $\Fr(\Om):=\inf_{x_{0}\in\R^{N}}|\Om\,\Delta\,(B_{1}+x_{0})|/\omega_{N}\in[0,2)$
+when $|\Om|=\omega_{N}$, the Fraenkel asymmetry;
+\item the scale-invariant Saint--Venant deficit
+\[
+   D(\Om)\;:=\;E(\Om)\abs{\Om}^{-(N+2)/N}
+              -E(B_{1})\abs{B_{1}}^{-(N+2)/N}.
+\]
+For $|\Om|=\omega_{N}$ one has
+$D(\Om)=\omega_{N}^{-(N+2)/N}\bigl(E(\Om)-E(B_{1})\bigr)\ge 0$.
+\end{itemize}
+
+\subsection*{The input from \textsc{SaintVenantAssembly}}
+
+\begin{theorem}[Bounded sharp Saint--Venant; \cite{SVAssembly}]
+\label{thm:SV-bounded}
+For every $N\ge 2$ and $R\ge 2$ there exists $c_{\rm SV}(N,R)>0$
+(explicit in upstream constants) such that
+\begin{equation}\label{eq:SV-bounded}
+   E(\Om)-E(B_{1})\;\ge\;c_{\rm SV}(N,R)\,\Fr(\Om)^{2}
+\end{equation}
+for every open $\Om\subset B_{R}$ with $|\Om|=\omega_{N}$.
+\end{theorem}
+
+\subsection*{Two BDV black boxes}
+
+\begin{lemma}[\cite{BDV} Lemma~5.1: $L^{\infty}$ tail estimate]
+\label{lem:51}
+There is $C_{7}=C_{7}(N)>0$ such that for every open $\Om$ with
+$|\Om|=\omega_{N}$ and every $R\ge 1$,
+\begin{equation}\label{eq:51}
+   \norm{u_{\Om}}_{L^{\infty}(\Om\setminus B_{R+1})}
+   \;\le\;C_{7}\,\abs{\Om\setminus B_{R}}^{1/N}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}[Reference]
+\cite[Lemma~5.1]{BDV}, by De~Giorgi iteration on the truncated test
+function $\varphi_{k}^{2}(u_{\Om}-s_{k})_{+}$. Constructive; no
+compactness.
+\end{proof}
+
+\begin{lemma}[\cite{BDV} Lemma~5.2: suboptimal $\Fr^{4}$]\label{lem:52}
+There is $C_{8}=C_{8}(N)>0$ such that every open $\Om$ of finite
+measure satisfies
+\begin{equation}\label{eq:52}
+   D(\Om)\;\ge\;\frac{1}{C_{8}}\,\Fr(\Om)^{4}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}[Reference]
+\cite[Lemma~5.2]{BDV}; equivalent (via $E=-1/(2\lambda_{2,1})$) to
+\cite[Thm.~1]{FMP-torsion} with $p=2,q=1$. Pure
+rearrangement plus P\'olya--Szeg\H{o}; no contradiction.
+\end{proof}
+
+\section{The BDV truncation lemma}\label{sec:truncation}
+
+The technical heart of the reduction is~\cite[Lemma~5.3]{BDV}. It
+produces, out of a set $\Om$ with small deficit, a \emph{bounded}
+surrogate $\Otilde$ with controlled diameter, controlled deficit, and
+controlled asymmetry loss.
+
+\begin{lemma}[\cite{BDV} Lemma~5.3: bounded truncation]
+\label{lem:53}
+There exist dimensional constants $C_{9}=C_{9}(N)>0$,
+$\delta=\delta(N)\in(0,1]$ and $d=d(N)\ge 1$ such that for every open
+$\Om$ with $|\Om|=\omega_{N}$ and $D(\Om)\le\delta(N)$ there exists an
+open set $\Otilde$ with the following properties:
+\begin{align}
+   \abs{\Otilde}\;&=\;\omega_{N},\label{eq:53-vol}\\
+   \mathrm{diam}(\Otilde)\;&\le\;d(N),\label{eq:53-diam}\\
+   D(\Otilde)\;&\le\;C_{9}\,D(\Om),\label{eq:53-D}\\
+   \Fr(\Om)\;&\le\;\Fr(\Otilde)+C_{9}\,D(\Om).\label{eq:53-A}
+\end{align}
+\end{lemma}
+
+\begin{proof}[Reference]
+\cite[Lemma~5.3]{BDV}. The construction combines the $L^{\infty}$ tail
+estimate~\eqref{eq:51} with the cut-off test function
+$\varphi_{k}u_{\Om}$ in the Saint--Venant variational characterisation
+of $E(\Om\cap B_{k+2})$, giving~\cite[(5.11)]{BDV}
+\[
+   E(\Om\cap B_{k+2})\;\le\;E(\Om)+C\,b_{k}^{1+1/N},
+   \qquad b_{k}:=\abs{\Om\setminus B_{k}}/\omega_{N}.
+\]
+Iterating with the Saint--Venant inequality on $\Om\cap B_{k+2}$
+produces an integer $K\le K(N)$ with $b_{K+1}\le 2\widehat C\,D(\Om)$.
+The set $\Otilde:=r^{-1}(\Om\cap B_{K+3})$ with
+$r=(|\Om\cap B_{K+3}|/\omega_{N})^{1/N}\in[1-\widehat C\,D,1]$
+satisfies \eqref{eq:53-vol}--\eqref{eq:53-A}, the last estimate
+following from
+$|\Om\,\Delta\,B_{1}(x_{0})|\le
+|(\Om\cap B_{K+3})\,\Delta\,\Om|
++r^{N}|\Otilde\,\Delta\,B_{1}(x_{0}/r)|
++\omega_{N}(1-r^{N})$. The construction uses only the cut-off
+identity, the Saint--Venant inequality on subsets, and the De~Giorgi
+iteration of Lemma~\ref{lem:51}; no compactness, no minimising
+sequence, no contradiction step appears.
+\end{proof}
+
+\begin{remark}[Translation freedom]\label{rem:translation}
+The diameter bound~\eqref{eq:53-diam} is translation invariant. After
+translating, we may assume $\Otilde\subset B_{d(N)}$. The asymmetry
+$\Fr$ and the deficit $D$ are both translation invariant.
+\end{remark}
+
+\section{The far-deficit branch}\label{sec:far}
+
+\begin{lemma}[Far-deficit quadratic bound]\label{lem:far}
+For every open $\Om$ with $|\Om|=\omega_{N}$ and
+$D(\Om)\ge\delta(N)/4$,
+\begin{equation}\label{eq:far}
+   E(\Om)-E(B_{1})\;\ge\;\omega_{N}^{(N+2)/N}\,\frac{\delta(N)}{16}\,
+   \Fr(\Om)^{2}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+$\Fr(\Om)<2$ gives $\Fr(\Om)^{2}/4<1$, hence
+$D(\Om)\ge\delta(N)/4\ge(\delta(N)/16)\Fr(\Om)^{2}$. Multiplying by
+$\omega_{N}^{(N+2)/N}$ and using
+$E-E(B_{1})=\omega_{N}^{(N+2)/N}D$ gives~\eqref{eq:far}.
+\end{proof}
+
+\section{The bounded-domain branch}\label{sec:near}
+
+Fix the dimensional radius
+\begin{equation}\label{eq:Rstar-def}
+   R_{*}(N)\;:=\;\max\bigl\{d(N),\,2\bigr\},
+\end{equation}
+so that $R_{*}\ge d(N)$ (Lemma~\ref{lem:53} produces sets inside
+$B_{R_{*}}$ after translation) and $R_{*}\ge 2$ (the hypothesis of
+Theorem~\ref{thm:SV-bounded}).
+
+\begin{lemma}[Near-deficit transfer]\label{lem:near}
+Set
+\begin{equation}\label{eq:csv-tilde-def}
+   \widetilde c_{\rm SV}(N)
+   \;:=\;\omega_{N}^{-(N+2)/N}\,c_{\rm SV}\bigl(N,R_{*}(N)\bigr)\;>\;0.
+\end{equation}
+For every open $\Om$ with $|\Om|=\omega_{N}$ and $D(\Om)\le\delta(N)$,
+\begin{equation}\label{eq:near-Fr}
+   \Fr(\Om)^{2}
+   \;\le\;\frac{4\,C_{9}(N)}{\widetilde c_{\rm SV}(N)}\,D(\Om)
+   \;+\;4\,C_{9}(N)^{2}\,D(\Om).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Apply Lemma~\ref{lem:53} to obtain $\Otilde$ satisfying
+\eqref{eq:53-vol}--\eqref{eq:53-A}. By Remark~\ref{rem:translation},
+assume $\Otilde\subset B_{d(N)}\subset B_{R_{*}(N)}$. Apply
+Theorem~\ref{thm:SV-bounded} with $R=R_{*}(N)$ to $\Otilde$:
+\[
+   E(\Otilde)-E(B_{1})\;\ge\;c_{\rm SV}(N,R_{*})\,\Fr(\Otilde)^{2}.
+\]
+Dividing by $\omega_{N}^{(N+2)/N}$ and using $|\Otilde|=\omega_{N}$,
+\begin{equation}\label{eq:D-tilde-A-tilde}
+   D(\Otilde)\;\ge\;\widetilde c_{\rm SV}(N)\,\Fr(\Otilde)^{2}.
+\end{equation}
+Combining with~\eqref{eq:53-D},
+$\Fr(\Otilde)^{2}\le D(\Otilde)/\widetilde c_{\rm SV}
+\le C_{9}D(\Om)/\widetilde c_{\rm SV}$, so
+$\Fr(\Otilde)\le(C_{9}D(\Om)/\widetilde c_{\rm SV})^{1/2}$. Plugging
+into~\eqref{eq:53-A} and squaring,
+\begin{align*}
+   \Fr(\Om)^{2}
+   &\le(\Fr(\Otilde)+C_{9}D(\Om))^{2}
+    \le 2\Fr(\Otilde)^{2}+2C_{9}^{2}D(\Om)^{2}\\
+   &\le\frac{2C_{9}}{\widetilde c_{\rm SV}}D(\Om)+2C_{9}^{2}D(\Om)^{2}
+    \le\frac{2C_{9}}{\widetilde c_{\rm SV}}D(\Om)+2C_{9}^{2}\delta(N)\,D(\Om),
+\end{align*}
+where we used $D(\Om)\le\delta(N)\le 1$. Absorbing $2$ into the
+constant $4$ for convenience gives~\eqref{eq:near-Fr}.
+\end{proof}
+
+\begin{corollary}[Near-deficit quadratic bound]\label{cor:near}
+With
+\begin{equation}\label{eq:c-near-glob}
+   c_{\rm near}^{\rm glob}(N)
+   \;:=\;\frac{\omega_{N}^{(N+2)/N}}{4C_{9}(N)\bigl(1/\widetilde c_{\rm SV}(N)+C_{9}(N)\bigr)}\;>\;0,
+\end{equation}
+every open $\Om$ with $|\Om|=\omega_{N}$ and $D(\Om)\le\delta(N)$
+satisfies
+\begin{equation}\label{eq:near-final}
+   E(\Om)-E(B_{1})\;\ge\;c_{\rm near}^{\rm glob}(N)\,\Fr(\Om)^{2}.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+By~\eqref{eq:near-Fr},
+$D(\Om)\ge\Fr(\Om)^{2}/(4C_{9}/\widetilde c_{\rm SV}+4C_{9}^{2})$.
+Multiply by $\omega_{N}^{(N+2)/N}$.
+\end{proof}
+
+\section{The main gluing theorem}\label{sec:main}
+
+\begin{theorem}[\textsc{BoundedReduction}: global sharp Saint--Venant
+stability]\label{thm:main}
+With
+\begin{equation}\label{eq:csv-glob-def}
+   c_{\rm SV}^{\rm glob}(N)
+   \;:=\;\min\!\Bigl\{\,
+       c_{\rm near}^{\rm glob}(N),\;\;
+       \omega_{N}^{(N+2)/N}\,\delta(N)/16
+   \Bigr\}\;>\;0,
+\end{equation}
+every open $\Om\subset\R^{N}$ with $|\Om|=\omega_{N}$ satisfies
+\begin{equation}\label{eq:final}
+   E(\Om)-E(B_{1})\;\ge\;c_{\rm SV}^{\rm glob}(N)\,\Fr(\Om)^{2}.
+\end{equation}
+$c_{\rm SV}^{\rm glob}(N)$ depends only on the dimension $N$ (the
+$R$-dependence inherited from \textsc{SaintVenantAssembly} is
+internalised at $R=R_{*}(N)$).
+\end{theorem}
+
+\begin{proof}
+\emph{Case A} ($D(\Om)\ge\delta(N)/4$): Lemma~\ref{lem:far} gives
+$E-E(B_{1})\ge\omega_{N}^{(N+2)/N}(\delta(N)/16)\Fr(\Om)^{2}$.
+
+\emph{Case B} ($D(\Om)\le\delta(N)$, in particular when
+$D(\Om)\le\delta(N)/4$): Corollary~\ref{cor:near} applies.
+
+The two cases overlap on $\delta(N)/4\le D(\Om)\le\delta(N)$ and
+together cover $[0,+\infty)$. Either way~\eqref{eq:final} holds with
+$c_{\rm SV}^{\rm glob}(N)$ as in~\eqref{eq:csv-glob-def}.
+\end{proof}
+
+\begin{remark}[Removal of the volume normalisation]\label{rem:scaling}
+\eqref{eq:final} stated for $|\Om|=\omega_{N}$ extends to arbitrary
+finite-measure $\Om$ by scale invariance of $D$ and $\Fr$: writing
+$\Om_{*}:=(\omega_{N}/|\Om|)^{1/N}\Om$ one has $|\Om_{*}|=\omega_{N}$,
+$\Fr(\Om_{*})=\Fr(\Om)$, $D(\Om_{*})=D(\Om)$, and~\eqref{eq:final} for
+$\Om_{*}$ reads
+$D(\Om)\ge\omega_{N}^{-(N+2)/N}c_{\rm SV}^{\rm glob}(N)\Fr(\Om)^{2}$.
+In particular the input to the Kohler--Jobin block holds without any
+boundedness assumption: at fixed volume $|\Om|=|B^{*}|=\omega_{N}$,
+$T(B^{*})-T(\Om)=2(E(\Om)-E(B^{*}))
+\ge2c_{\rm SV}^{\rm glob}(N)\Fr(\Om)^{2}$.
+\end{remark}
+
+\begin{remark}[Sharpness]
+The exponent~$2$ on $\Fr$ in~\eqref{eq:final} is sharp; it is saturated
+by smooth volume-preserving ellipsoidal perturbations of $B_{1}$ (see
+\cite[\S1.2]{BDV}).
+\end{remark}
+
+\section{Interface with the chain}\label{sec:interface}
+
+\paragraph{Upstream input.}
+The block consumes the single number
+$c_{\rm SV}(N,R_{*}(N))$ supplied by \textsc{SaintVenantAssembly} at
+the dimensional radius $R_{*}(N)=\max\{d(N),2\}$. Since $d(N)$ comes
+from Lemma~\ref{lem:53} and is purely dimensional, so is $R_{*}(N)$.
+
+\paragraph{Downstream output.}
+The block emits $c_{\rm SV}^{\rm glob}(N)$
+of~\eqref{eq:csv-glob-def}. The Kohler--Jobin block takes
+$c_{\rm SV}^{\rm glob}(N)$ as input in place of $c_{\rm SV}(N,R)$ and
+emits
+\[
+   c_{\rm FK}(N)
+   \;:=\;\min\!\Bigl\{\,
+       \tfrac{4L_{N}\,c_{\rm SV}^{\rm glob}(N)}{(N+2)T_{N}},\;
+       \tfrac{L_{N}(2^{2/(N+2)}-1)}{4}\,
+   \Bigr\},
+\]
+both arguments now functions of $N$ alone. The final Faber--Krahn
+constant becomes $c_{\rm FK}=c_{\rm FK}(N)$ as desired.
+
+\section{Summary of constants}\label{sec:summary}
+
+\renewcommand{\arraystretch}{1.25}
+\begin{center}
+\begin{tabular}{|l|l|l|}\hline
+Symbol & Source & Meaning \\\hline
+$\omega_{N}$ & $|B_{1}|$ & ball volume \\
+$T_{N}$ & $\omega_{N}/(N(N+2))$ & torsion of $B_{1}$ \\
+$C_{7}(N)$ & \cite{BDV} L5.1 & De~Giorgi $L^{\infty}$ tail constant \\
+$C_{8}(N)$ & \cite{BDV} L5.2 & suboptimal $\Fr^{4}$ constant \\
+$C_{9}(N)$ & \cite{BDV} L5.3 & truncation transfer constant \\
+$\delta(N)\in(0,1]$ & \cite{BDV} L5.3 & truncation deficit threshold \\
+$d(N)\ge 1$ & \cite{BDV} L5.3 & truncation diameter bound \\
+$c_{\rm SV}(N,R)$ & \textsc{SVAssembly} & bounded SV constant \\\hline
+$R_{*}(N):=\max\{d(N),2\}$ & \eqref{eq:Rstar-def} & dimensional working radius \\
+$\widetilde c_{\rm SV}(N)=\omega_{N}^{-(N+2)/N}c_{\rm SV}(N,R_{*})$
+   & \eqref{eq:csv-tilde-def} & bounded SV in $D$-form \\
+$c_{\rm near}^{\rm glob}(N)$
+   & \eqref{eq:c-near-glob}
+   & $\frac{\omega_{N}^{(N+2)/N}}{4C_{9}(1/\widetilde c_{\rm SV}+C_{9})}$\\
+$c_{\rm SV}^{\rm glob}(N)$
+   & \eqref{eq:csv-glob-def}
+   & $\min\{c_{\rm near}^{\rm glob},\omega_{N}^{(N+2)/N}\delta/16\}$\\\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Where compactness might have appeared}
+
+\begin{itemize}
+\item BDV Lemma~5.3 (truncation) is proved by \emph{constructive}
+De~Giorgi iteration plus a cut-off competitor: no minimising sequence,
+no Hausdorff limit, no contradiction. The integer $K\le K(N)$ at
+which $b_{K}\le 2\widehat C D$ is reached by a geometric iteration
+\cite[(5.12)--(5.14)]{BDV}, not by a compactness argument.
+\item BDV Lemma~5.1 (De~Giorgi $L^{\infty}$ tail) is constructive.
+\item BDV Lemma~5.2 ($\Fr^{4}$) is rearrangement-based.
+\item The gluing of the near and far branches is arithmetic.
+\end{itemize}
+
+\begin{thebibliography}{9}
+\bibitem{BDV} L.~Brasco, G.~De~Philippis, B.~Velichkov,
+\emph{Faber--Krahn inequalities in sharp quantitative form},
+Duke Math.\ J.\ \textbf{164} (2015), 1777--1831 (arXiv:1306.0392);
+in particular Lemmas~5.1, 5.2, 5.3.
+\bibitem{FMP-torsion} N.~Fusco, F.~Maggi, A.~Pratelli,
+\emph{Stability estimates for certain Faber--Krahn, isocapacitary and
+Cheeger inequalities},
+Ann.\ Sc.\ Norm.\ Super.\ Pisa Cl.\ Sci.\ (5) \textbf{8} (2009), 51--71.
+\bibitem{SVAssembly} \textsc{SaintVenantAssembly}, Plan~1 / Route~A,
+companion file \texttt{SaintVenantAssembly.tex}.
+\end{thebibliography}
+
+\end{document}

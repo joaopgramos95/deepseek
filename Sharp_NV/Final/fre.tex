@@ -1,0 +1,428 @@
+%==============================================================================
+%  WIP_fre.tex --- Section 3: Functional setting and multilinear estimates
+%
+%  Revision log (third pass, condensed)
+%  -------------------------------------
+%  Pass 1 (overlap catalogue). Identified the road map, FRE black-box lemmas,
+%    seven step openings, and Morse-with-parameters proof as paragraphs whose
+%    phrasing overlapped with the KdV companion's analogous §3.
+%  Pass 2 (road map + lemma setup). Rephrased the section-opening road map and
+%    the connective prose around Lemmas \ref{lem:fre_bi}-\ref{lem:eta1}.
+%  Pass 3 (per-step openings + Morse lemma). Reworked the opening sentence of
+%    each of the seven steps and the parameter-introducing prose of Lemma
+%    \ref{lem:prop_resonance}-(ii); H\"ormander / Duistermaat citation kept.
+%  Pass 4 (final read-through). Cross-checked all \ref/\eqref labels and the
+%    Step 7 expansion. Mathematical content unchanged.
+%==============================================================================
+
+\section{Functional setting and multilinear estimates}\label{sec:multi}
+
+Following the conventions of \cite{bourg1, bourg2, tao_book}, the Fourier restriction spaces tailored to the linearised flow are defined as follows. For exponents $s,b\in\R$, set
+\begin{equation}
+X^{s,b}=\left\{ u\in \S'(\R\times \R^2) : \jap{\tau-\phi(\xi)}^b\jap{\xi}^s  \widehat{u}\in L^2_{\tau,\xi}(\R\times \R^2)\right\},
+\end{equation}
+with the obvious norm. Its restriction to a time slab is, as usual,
+\begin{equation}
+X^{s,b}_T=\left\{ u\in \mathcal{D}'((0,T)\times \R^2) : u\equiv v\big|_{(0,T)}\mbox{ for some }v\in X^{s,b}  \right\},\quad T>0.
+\end{equation}
+
+\medskip
+
+\noi\textit{Road map of the section.} Local well-posedness of the gauged Novikov--Veselov equation~\eqref{z1} hinges on a single multilinear bound, Proposition~\ref{prop:bourgL2} below, in which the implicit constants are tracked uniformly across the infinite family of trees $\TT\in\Tr_j$. Our route to that bound is structural: each tree contribution is funnelled into one of three off-the-shelf frequency-restricted estimates from~\cite{CLS, COS} (Lemmas~\ref{lem:fre_bi}, \ref{lem:fre_tri}, \ref{lem:eta1} below), which translate an $L^2$-integration over the level set $\{|\Phi-\alpha|<M\}$ into a positive power of $M$. The geometric mechanism underlying every such translation is the NV resonance lemma~\ref{lem:prop_resonance}: away from a thin stationary stratum, the phase $\Theta=\phi(\xi)-\sum\phi(\xi_j)$ is non-stationary in $\xi_1$, and on the stationary stratum it admits a uniform Morse normal form with parameters. The proof of Proposition~\ref{prop:bourgL2} is then organised into seven steps, indexed by the tree type $\ell\in\{1,\dots,5\}$ and by whether the length $j$ is below or above the threshold dictated by the cluster of the focal node $\star$.
+
+\begin{proposition}\label{prop:bourgL2}
+Let $s>-1$, $E\in\CC$ with $|E|<1$, $0<\delta\ll 1$ and $T>0$. Given $j \in\N$, $\TT \in \Tr_j$, and $\Ncal_\l(\TT)$, $\l=1,\dots,5$, there exists $b>\frac12$ such that
+	\begin{align}\label{eq:bourg_bi_l2}
+		\left\|\int_0^t U(t-t') \Ncal_\l(\TT; z_1,\dots, z_{j+1})(t') dt'  \right\|_{X^{s,b}_T}  \le T^{0+} C^j\delta^{(2s+2)(j-3)-1}\prod_{k=1}^{j+1}\|z_k\|_{X^{s,b}_T}
+	\end{align}
+    for some constant $C>0$ independent of $j$ and $\TT$.
+\end{proposition}
+
+\begin{remark}\label{rmk:exponent_optimal}
+For $s>-1$ one has $2s+2>0$, and the seven steps below actually produce the sharper bounds $\delta^{-1}$ for $j=1$, $\delta^{(2s+2)(j-2)}$ in Step~2, $1$ for $j=2,3$ in Steps~3 and~6, and $\delta^{(2s+2)(j-3)}$ for $j\ge 3$ in Steps~4 and~7. Each of these is dominated by $\delta^{(2s+2)(j-3)-1}$, the only step requiring the extra $\delta^{-1}$ factor being Step~1 (Type~I). The uniform exponent in \eqref{eq:bourg_bi_l2} is convenient for the geometric-series argument in Proposition~\ref{prop:lwp_rnv}, whose summability is guaranteed by~\eqref{eq:escolhadelta}.
+\end{remark}
+
+The route from Proposition~\ref{prop:bourgL2} to frequency-restricted estimates is by now standard; for the convenience of the reader we collect below the precise statements that we shall plug into our case analysis. The bilinear and higher-multilinear versions appear separately, since the second admits a non-trivial splitting of the multiplier.
+
+\begin{lemma}[{\cite[Lemma 3.1]{CLS}}]\label{lem:fre_bi}
+Let $s\in\R$.
+Suppose that, for all $\al\in \R$ and $M>1$, there exists $0<\beta<1$, such that one of the following holds:
+\begin{enumerate}
+    \item[(i)] for all distinct $ k, \l\in\{\emptyset,1,2\}$\footnote{The empty-set symbol $\emptyset$ here corresponds to the frequency component $\xi$, without index.}
+    and $1<M\lesssim |\alpha|$,
+    \begin{equation}\label{eq:frequad}
+        \sup_{\xi_k}\int_{\xi=\xi_1+\xi_2}
+        \frac{|m_1(\<1>)|^2\jap{\xi}^{2s}}{\jap{\xi_{1}}^{2s}\jap{\xi_{2}}^{2s}}\mathbbm{1}_{|\Phi(\<1>)-\alpha|<M} d\xi_{\l} \lesssim \jap{\alpha}^\beta M^\beta;
+    \end{equation}
+
+    \item[(ii)] or we have that
+    \begin{equation}\label{eq:frequad3}
+        \sup_{\xi}\int_{\xi=\xi_1+\xi_2}\frac{|m_1(\<1>)|^2\jap{\xi}^{2s}}{\jap{\xi_{1}}^{2s}\jap{\xi_{2}}^{2s}}\mathbbm{1}_{|\Phi(\<1>)-\alpha|<M} d\xi_{1}  \lesssim \jap{\alpha}^\beta M.
+    \end{equation}
+\end{enumerate}
+Then there exists $b>\frac12$ such that \eqref{eq:bourg_bi_l2} holds for $\ell=1$ and $\TT=\<1>$.
+\end{lemma}
+
+\begin{lemma}[{\cite[Lemma 2]{COS}}]\label{lem:fre_tri}
+Let $s\in\R$, $j\ge 1$, $\ell=2,\dots,5$, and $\TT\in \Tr^j$. Let $B\subset \{\emptyset, 1, \ldots, j+1\}$ be a proper non-empty subset, and suppose that $\M_1, \M_2:\CC^{j} \to \R^+$ are multipliers satisfying
+\begin{align}
+\frac{|m_\ell(\TT)|^2\jap{\xi}^{2s}}{\prod_{k=1}^j\jap{\xi_{k}}^{2s}}
+\les
+\M_1(\vec\xi)\,\M_2(\vec\xi),
+\end{align}
+where $\vec\xi=(\xi_1, \ldots, \xi_{j+1})$.
+If there exists $0<\be<1$ such that
+\begin{equation}\label{L2hypo}
+\sup_{\xi_{k\in B}} \int_{\Gamma(\TT)} \mathcal{M}_1 (\vec\xi)\, \mathbbm{1}_{|\Phi(\TT)-\alpha|<M} \,d\xi_{j\notin B}
++ \sup_{\xi_{j\notin B}} \int_{\Gamma(\TT)} \mathcal{M}_2 (\vec\xi)\, \mathbbm{1}_{|\Phi(\TT)-\alpha|<M} \,d\xi_{j\in B}
+\lesssim C^j M^\beta,
+\end{equation}
+for all $M\ge 1$ and $\al\in\R$,
+then there exists $b>\frac12$, depending only on $\be$, such that \eqref{eq:bourg_bi_l2} holds.
+\end{lemma}
+
+The endpoint $\beta=1$ in the hypotheses of Lemmas~\ref{lem:fre_bi} and~\ref{lem:fre_tri} is not literally allowed, but it can be reached at the price of a small weight on the largest frequency. The following technical statement formalises this trade-off and will be invoked tacitly in every step of the proof.
+
+\begin{lemma}[{\cite[Lemma 3.3]{CLS}}]\label{lem:eta1}
+    Let $K:\R^n\times \R^m\times \R\to \R^+$ be a positive measurable function such that, for some $N\in \mathbb{N}$,
+    $$
+    |K(x,y,M)|\lesssim \max\{1,|x|,|y|\}^N,\quad \forall x\in\R^n,\ y\in \R^m, \ M\in \R.
+    $$
+    Suppose that
+    $$
+    \sup_y \int K(x,y,M)\max\{1,|x|,|y|\}^{0+} dx \lesssim M,\quad \mbox{for all }M>1.
+    $$
+    Then, there exists $0<\beta<1$ such that
+    $$
+    \sup_y \int K(x,y,M) dx \lesssim M^{\beta},\quad \mbox{for all } M>1.
+    $$
+\end{lemma}
+
+We turn next to the geometric heart of the proof: the behaviour of the resonance function $\Psi(\TT)$ on the support of the tree integral. The dichotomy below -- non-stationary in $\xi_1$ off a thin set, Morse with parameters on it -- is precisely the analytic content driving the optimal Strichartz estimates obtained in~\cite{kazeykinamunoz1, kazeykinamunoz2} for the linear Novikov--Veselov propagator, and reflects the convexity properties of $\phi(\xi)=\Re\xi^3$.
+
+\begin{lemma}\label{lem:prop_resonance}
+Fix $|E|<1$ and $k\ge 2$. Consider the mapping $\Theta:\CC^{k}\to \R$
+$$
+\Theta(\xi_1,\dots, \xi_{k})= \phi(\xi)-\sum_{j=1}^k \phi(\xi_j),\quad \xi=\sum_{j=1}^{k} \xi_j.
+$$
+
+\noi{\rm (i)} Over the region
+\begin{equation}
+V=\left\{\vec{\xi}\in \CC^{k} :\  \frac{1}{\delta}<|\xi_1|,\  |\xi_1\pm\xi|>\delta\max\{|\xi_1|, |\xi|\}\right\},
+\end{equation}
+we have
+$$
+|\nabla_{\xi_1}\Theta|\ge 2\delta^2\max\{|\xi_1|^2, |\xi|^2\}.
+$$
+
+\noi{\rm (ii)} Suppose that
+$$
+|\xi_1|\ge |\xi_2| \ge |\xi|\ge |\xi_3|\ge \dots \ge |\xi_k|.
+$$
+There exist $\delta, \delta'>0$, independent of $k$, and a change of coordinates
+\begin{align*}
+\varphi:U=\{\vec{\xi}\in \CC^{k} :\  \tfrac{1}{\delta}<|\xi_1|,\  |\xi_1+\xi|<\delta|\xi_1|\} \mapsto B_{\delta'}(0)\times \CC^{k-1}\\ \vec{\xi}\mapsto (q_1, \xi_2, \dots, \xi_k)
+\end{align*}
+satisfying
+\begin{equation}\label{eq:nondeg}
+|\det D_{\xi_1}\varphi| \sim |\xi_2|^{-2}
+\end{equation}
+and
+$$
+\Theta(\vec{\xi})=|\xi_2|^3\Re q_1^2 - \sum_{j=2}^k \phi(\xi_j).
+$$
+
+\end{lemma}
+\begin{proof}
+On the region $V$, a direct computation yields
+$$
+|\nabla_\xi (\phi_0(\xi)-\phi_0(\xi_1))| = 3|\xi^2-\xi_1^2|\ge 3\delta^2\max\{|\xi|^2,|\xi_1|^2\},\quad |\nabla_\xi (\phi_E(\xi)-\phi_E(\xi_1))|\lesssim 1.
+$$
+Combined with the lower bound $|\xi_1|>1/\delta$, this gives
+$$
+|\nabla_{\xi} \Theta|\gtrsim 3\delta^2\max\{|\xi|^2,|\xi_1|^2\} - 1 \gtrsim 2\delta^2\max\{|\xi|^2,|\xi_1|^2\},
+$$
+proving (i).
+
+\noi We now turn to (ii). The two ingredients driving the argument are (a) the comparability $|\xi_1|\le 2|\xi_2|$ on $U$, which makes $|\xi_2|$ the natural unit of length, and (b) the perturbative smallness $|E|/|\xi_2|^2<\delta^2$ of the energy term. We exploit them through the rescaling
+$$
+p_j=\frac{\xi_j}{|\xi_2|},\quad j=\emptyset, 1,\dots, k,
+$$
+which puts $\Theta$ into the form
+\begin{equation}\label{eq:Theta_rescaled}
+\Theta=|\xi_2|^3\left(\phi_0(p) - \sum_{j=1}^k \phi_0(p_j) - \frac{E}{|\xi_2|^2}\left(\phi_E(p) - \sum_{j=1}^k \phi_E(p_j)\right)\right).
+\end{equation}
+A short manipulation, using $c=\sum_{j=2}^k p_j=p-p_1$ and the shifted variable $p_1'=c^{\frac12}\bigl(p_1+\tfrac{c}{2}\bigr)$, identifies the principal part:
+$$
+\phi_0(p)-\phi_0(p_1) - \phi_0(c) = 3\Re (p_1')^2.
+$$
+The pieces $\phi_0(c)$ and $\sum_{j\ge 2}\phi_0(p_j)$ depend only on $p_2,\dots,p_k$, so they will eventually be reabsorbed into $\sum \phi(\xi_j)$ on the right of \eqref{eq:Theta_rescaled} once we revert to $\xi$-variables. The remaining variable $c$ ranges over the compact annulus $C:=\{c\in\CC: 1/3<|c|<3\}$, and the bound $|p_1'|<4\delta$ holds throughout $U$.
+
+It is convenient to package the energy contribution as a parameter:
+$$
+\varepsilon=\frac{E}{|\xi_2|^2},\qquad |\varepsilon|<\delta^2.
+$$
+With this choice, the function
+$$
+F(p_1', c, \varepsilon) = 3\Re (p_1')^2 - \varepsilon \bigl(\phi_E(p_1+c) - \phi_E(p_1)\bigr)
+$$
+becomes the object on which the Morse normal form is to be applied. Pick a reference point $c_0\in C$. At $\varepsilon=0$, the map $p_1'\mapsto F(p_1', c_0, 0)$ has an isolated critical point at $p_1'=0$ whose real Hessian has signature $(1,1)$. Invoking the Morse lemma with parameters, in the form available in H\"ormander, \emph{The Analysis of Linear Partial Differential Operators}, vol.~I, Lemma~C.6.1 (or Duistermaat, \emph{Fourier Integral Operators}, Section~3.4), we obtain radii $\eta(c_0),\eta'(c_0)>0$ and a smooth family $\varphi_{c,\varepsilon}:B_{\eta(c_0)}(0)\to B_{\eta'(c_0)}(0)$ of diffeomorphisms $\varphi_{c,\varepsilon}(p_1')=q_1$ such that, for $|c-c_0|+|\varepsilon|<\eta(c_0)$,
+$$
+F(p_1', c, \varepsilon) = \Re q_1^2,\qquad |\det D_{p_1'}\varphi_{c,\varepsilon}|\sim 1.
+$$
+The next step is to make the radii independent of $c$ via compactness. The family $\{|c-c_0|<\eta(c_0)\}_{c_0\in C}$ covers the compact annulus $C$, so we can extract a finite subcover indexed by $c_0^{(1)},\dots,c_0^{(N)}$ and define
+$$
+\delta=\min_{1\le i\le N}\eta(c_0^{(i)}),\qquad \delta'=\min_{1\le i\le N}\eta'(c_0^{(i)}).
+$$
+After shrinking $\delta$ further to ensure $\delta^2<\delta$, the constants depend on $E$ (through the upper bound $|E|<1$) but neither on the residual variables $p_2,\dots,p_k$ nor on the height~$k$ of the tree.
+
+Going back to the original coordinates,
+$$
+\Theta = |\xi_2|^3 F\left(p_1', c, \varepsilon\right) - \sum_{j=2}^k \phi(\xi_j) =  |\xi_2|^3\Re q_1^2 - \sum_{j=2}^k \phi(\xi_j).
+$$
+The Jacobian \eqref{eq:nondeg} of the resulting map $\varphi:\xi_1\mapsto q_1$ follows from chaining the rescaling $\xi_1=|\xi_2|p_1$ with the unit-Jacobian estimate $|\det D_{p_1'}\varphi_{c,\varepsilon}|\sim 1$.
+\end{proof}
+
+\begin{remark}
+By trivial permutations, the conclusions of Lemma \ref{lem:prop_resonance} also hold for other pairings of frequencies.
+\end{remark}
+
+For convenience, we record the pointwise estimates for the multipliers $\mul_\ell(\TT)$, $\ell=1,\dots,5$, of Lemma \ref{LEM:wint} in the following lemma, whose proof is immediate.
+
+\begin{lemma}\label{lem:pointwise_multipliers}
+Given $\xi_1,\xi_2\in\CC$ and $\xi=\xi_1+\xi_2$,
+$$
+|\Psi_0(\<1>)|\lesssim |\xi\xi_1\xi_2|,\quad  |\Psi_E(\<1>)|\lesssim \min_{j=\emptyset, 1,2}|\xi_j|,\quad |K|\lesssim \frac{1}{|\xi_1||\xi_2|}.
+$$
+If $|\xi|\gtrsim 1$, then $|\Psi(\<1>)|\lesssim |\xi\xi_1\xi_2|$.
+\end{lemma}
+
+\begin{proof}[Proof of Proposition \ref{prop:bourgL2}]
+The seven steps that follow are arranged primarily by tree type $\ell$ and, within each type, by whether the length $j$ falls below or above the smallest value for which the cluster of $\star$ is entirely interior to $\TT$.
+
+\medskip
+
+\noi\textit{Step 1. Type~I, $j=1$, $\TT=\<1>$: workhorse Lemma~\ref{lem:fre_bi}-(ii).} The bilinear estimate at $j=1$ is the only one not subsumed by Lemma~\ref{lem:fre_tri}; we split the multiplier $\mul_1(\<1>)$ into two pieces and feed each into Lemma~\ref{lem:fre_bi}-(ii) with $\beta=1$, the residual $\beta=1$ being relaxed to $\beta<1$ at the end via Lemma~\ref{lem:eta1}.
+We have
+$$
+|\mul_1(\<1>)|\lesssim |\xi|\ind_A + K|\Psi_E(\<1>)|\ind_{A^c} \lesssim |\xi|\ind_A + \frac{\ind_{A^c}}{\max_{\bul\in\{\emptyset, 1, 2\}}|\xi_\bul|}.
+$$
+Without loss of generality, $|\xi_1|\gtrsim |\xi_2|$.
+For the first term, $|\xi_2|\lesssim 1/\delta$ on $A$ and $|\partial_{\xi_2}\Psi(\<1>)|\gtrsim |\xi|^2$, so that
+$$
+\sup_\xi \int_A \frac{|\xi|^2\jap{\xi}^{2s}}{\jap{\xi_1}^{2s}\jap{\xi_2}^{2s}} \ind_{|\Psi(\<1>)-\alpha|<M} d\xi_2 \lesssim \sup_\xi \int_{|\zeta_2|<1/\delta}  \ind_{|\phi-\alpha|<M} \,d\phi\, d\zeta_2 \lesssim \delta^{-1}M.
+$$
+Lemma~\ref{lem:eta1} converts the $\delta^{-1}M$ on the right-hand side into $\delta^{-1}M^\beta$ for some $\beta<1$ (the $\delta^{-1}$ is harmless as it carries no $M$-dependence), so Lemma~\ref{lem:fre_bi}-(ii) applies.
+
+For the second term, we may assume that $\xi\not\simeq \pm \xi_2$ (otherwise $\xi_1\not\simeq \pm \xi_2$ and we swap the roles of $\xi$ and $\xi_1$), so that $|\partial_{\xi_2}\Psi(\<1>)|\gtrsim |\xi|^2$. Then
+$$
+\sup_\xi \int \frac{\jap{\xi}^{2s}}{\jap{\xi_1}^{2s+2-}\jap{\xi_2}^{2s}} \ind_{|\Psi(\<1>)-\alpha|<M} d\xi_2 \lesssim \sup_\xi \int \frac{1}{|\zeta_2|^{4+2s-}} \ind_{|\phi-\alpha|<M}\,d\phi\, d\zeta_2 \lesssim M,
+$$
+and Lemmas~\ref{lem:fre_bi}-(ii) and~\ref{lem:eta1} apply once more.
+
+The output is the bound $\delta^{-1}$, weaker than the uniform $\delta^{(2s+2)(j-3)-1}=\delta^{-4s-5}$ (cf.\ Remark~\ref{rmk:exponent_optimal}), but with the explicit $\delta^{-1}$ that controls the geometric series in $j$.
+
+\medskip
+
+For Types II--V (i.e.\ $\ell=2,\dots,5$) the workhorse switches from Lemma~\ref{lem:fre_bi} to Lemma~\ref{lem:fre_tri}, whose flexibility in choosing the splitting set $B$ is essential. Lemma~\ref{lem:eta1} is then applied at the very end of each step.
+
+\medskip
+
+\noi\textit{Step 2. Type~II, $\ell=2$, $j\ge 2$: workhorse Lemma~\ref{lem:fre_tri} with $B=\{\star 2\}$.}
+The Type~II multiplier carries an extra inverse weight at the parent leaf of $\star$. Choosing $B=\{\star 2\}$ splits the integrations so that resonance is traded only against $\xi_{\star 2}$ (yielding $M$), while each of the $j-2$ remaining internal nodes contributes a factor $\delta^{2s+2}$ via the small-frequency restriction $|\xi_{\bul 2}|\lesssim 1/\delta$; the cumulative effect is $\delta^{(2s+2)(j-2)}M$.
+We have, for $\TT\in \Tr_j$, $j\ge 2$,
+$$
+|\mul_2(\TT)| \lesssim \frac{\jap{\xi}^s}{\jap{\xi_{\star1}}^{s}\jap{\xi_{\star2}}^{s}\jap{\xi_{\sbf(\star)}}^{s+1}}\prod_{\substack{\bul\in\TT^0\\\bul\neq \star, \pb(\star)}} \frac{1}{\jap{\xi_{\bul1}}\jap{\xi_{\bul2}}^{s+1}}.
+$$
+On $A_\star$, we have $|\xi_{\star2}|\lesssim 1/\delta$. The worst-case scenario occurs when $\xi_{\star1}$ corresponds to the largest frequency (the specific tree structure plays no further role).\footnote{We can suppose this because the bound is symmetric in the leaves once we have isolated $\star$.} For $\xi$ and $\xi_{\bul2}$, $\bul\in \TT^0\setminus\{\star1\}$, fixed,
+\begin{equation}
+\int |\xi_{\star1}|^2\ind_{|\Psi(\TT)-\alpha|<M} \,d\xi_{\star2} \lesssim \int \ind_{|\phi-\alpha|<M} \,d\phi\, d\zeta_{\star2} \lesssim M.
+\end{equation}
+On the other hand, for $\xi_{\star1},\xi_{\star2}$ fixed, the resonance restriction is not used:
+\begin{align*}
+&\int \frac{\jap{\xi}^{2s}}{\jap{\xi_{\star1}}^{2s+2-}\jap{\xi_{\sbf(\star)}}^{2s+2}}\cdot\prod_{\substack{\bul\in\TT^0\\\bul\neq \star, \pb(\star)}} \frac{d\xi_{\bul2}}{\jap{\xi_{\bul1}}^2\jap{\xi_{\bul2}}^{2s+2}}\cdot \ind_{|\Psi(\TT)-\alpha|<M}\, d\xi\\
+\lesssim {}& \int\left(\int \frac{\jap{\xi}^{2s}\,d\xi}{\jap{\xi_{\star1}}^{2s+2-}\jap{\xi_{\sbf(\star)}}^{2s+2}}\right)\prod_{\substack{\bul\in\TT^0\\\bul\neq \star, \pb(\star)}} \frac{d\xi_{\bul2}}{\jap{\xi_{\bul1}}^2\jap{\xi_{\bul2}}^{2s+2}}  \lesssim \delta^{(2s+2)(j-2)}.
+\end{align*}
+Plugging both bounds into Lemma~\ref{lem:fre_tri} and then upgrading via Lemma~\ref{lem:eta1} delivers \eqref{eq:bourg_bi_l2}.
+
+\medskip
+
+\noi \textit{Step 3. Type~IV, $\ell=4$, $j=2$, $\TT=\<21>$: workhorse Lemma~\ref{lem:fre_tri} with $B=\{11\}$, supported by Lemma~\ref{lem:prop_resonance}.}
+With $j=2$ the only tree is $\TT=\<21>$. Both quantities \eqref{eq:type4interp1}--\eqref{eq:type4interp2} below are estimated by integrating along the resonance level set; the genuinely delicate situation is the stationary one (Case~B2 below), which is resolved by invoking the Morse change of coordinates of Lemma~\ref{lem:prop_resonance}-(ii).
+With $\TT=\<21>$,
+\begin{equation}
+\label{typeIVmult2}
+|\mul_4(\TT)|\lesssim \frac{\jap{\xi}^{s+1}}{\jap{\xi_{11}}^{s+1}\jap{\xi_{12}}^{s+1}\jap{\xi_2}^s}.
+\end{equation}
+The worst-case scenario corresponds to $|\xi_2|\ge |\xi|\ge |\xi_{11}|\ge |\xi_{12}|$. The proof proceeds by bounding
+\begin{equation}\label{eq:type4interp1}
+\sup_{\xi,\xi_{12},\alpha} \int |\xi|^{1-} \ind_{|\Psi(\TT)-\alpha|<M}\,d\xi_{11}
+\end{equation}
+and
+\begin{equation}\label{eq:type4interp2}
+\sup_{\xi_2,\xi_{11},\alpha} \int \frac{|\xi|^{1+}}{\jap{\xi_{12}}^{4s+4}}\ind_{|\Psi(\TT)-\alpha|<M}\,d\xi_{12}.
+\end{equation}
+
+\smallskip
+\noi\textbf{Case A.} $\xi\not\simeq \pm \xi_{12}$ and $\xi_2\not\simeq \pm \xi_{11}$.
+
+\noi For $\xi, \xi_{12}$ fixed,
+\begin{equation}\label{eq:typeIVest1}
+\eqref{eq:type4interp1}\lesssim \int \frac{1}{|\xi_2|^{1+}}\ind_{|\phi-\alpha|<M}\,d\phi\, d\zeta_{11} \lesssim M.
+\end{equation}
+For $\xi_2, \xi_{11}$ fixed,
+\begin{equation}\label{eq:typeIVest2}
+\eqref{eq:type4interp2} \lesssim \int \frac{1}{\jap{\xi_{12}}^{4s+4}|\xi|^{1-}}\ind_{|\Psi(\TT)-\alpha|<M}\,d\phi\, d\zeta_{12} \lesssim M.
+\end{equation}
+
+\smallskip
+\noi
+\textbf{Case B.} $\xi\simeq \pm \xi_{12}$ or $\xi_2\simeq \pm \xi_{11}$. Then all four frequencies are comparable, so that
+$$
+|\mul_4(\TT)|\lesssim |\xi|^{-1-2s}.
+$$
+
+\smallskip
+\noi
+\textbf{Case B1.} Up to permutations, the conditions of Case A are met; it suffices to repeat the arguments therein.
+
+\smallskip
+\noi
+\textbf{Case B2.} Three of the frequencies are equal up to a sign, say $\xi_2\simeq  \xi_{11} \simeq \pm \xi_{12}$. If the sign is positive, then
+$$
+\xi_2\simeq \xi_{11}\simeq \xi_{12} \simeq \tfrac{\xi}{3}.
+$$
+For $\xi_2, \xi_{11}$ fixed we proceed as in Case A (the non-stationarity condition still holds). For $\xi, \xi_{12}$ fixed, we apply Lemma \ref{lem:prop_resonance}-(ii) (with $\xi_1$ replaced by $\xi_{11}$, $\xi$ replaced by $\xi-\xi_{12}$, and parameters rescaled by $|\xi_2|$) to obtain
+\begin{align}
+\eqref{eq:type4interp1}\lesssim \int_{|q_1|\ll 1} |\xi_2|^{3-}\ind_{||\xi|^3\Re q_1^2 - \widetilde\alpha|<M} \,dq_1 \lesssim M^{1-}.
+\end{align}
+
+Finally, if $\xi_2\simeq \xi_{11}\simeq-\xi_{12}$, then $\xi\simeq -\xi_{12}$. In this case, both \eqref{eq:type4interp1} and \eqref{eq:type4interp2} are handled by Lemma \ref{lem:prop_resonance}-(ii) as above.
+
+The case $j\ge 3$, handled next, differs only in that the $j-3$ internal nodes outside the cluster of $\star$ contribute free $\delta^{2s+2}$ factors via $\Psi_E$.
+
+\medskip
+
+\noi \textit{Step 4. Type~IV, $\ell=4$, $j\ge 3$: workhorse Lemma~\ref{lem:fre_tri}, with the $j-3$ free integrations accumulating $\delta^{(2s+2)(j-3)}$.}
+At lengths $j\ge 3$ the tree has $j-3$ additional internal nodes outside the cluster of $\star$. Each contributes an unrestricted integration on $|\xi_{\bul 2}|\lesssim 1/\delta$, and the budget $\delta^{(2s+2)(j-3)}$ in the final bound comes entirely from these. The dichotomy of Step~3 -- non-stationary (Case~A) versus stationary (Case~B) -- is reproduced verbatim at the level of \eqref{eq:IVinterp1}--\eqref{eq:IVinterp2}.
+Set $\circ=\gb(\star)$. Then
+\begin{equation}\label{eq:typeIVmult}
+|\mul_4(\TT)|\lesssim \frac{\jap{\xi}^{s}}{\jap{\xi_{\circ111}}^{s+1}\jap{\xi_{\circ112}}^{s+1}\jap{\xi_{\circ12}}^{s}\jap{\xi_{\circ2}}^{s+1}} \prod_{\bul\in\TT^\infty, \bul\ngeq\circ} \frac{1}{\jap{\xi_\bul}^{s+1}\jap{\xi_{\sbf(\bul)}}}.
+\end{equation}
+We focus on the worst-case scenario $|\xi_{\circ12}|\ge |\xi_{\circ 2}|\ge |\xi_{\circ 111}| \ge |\xi_{\circ 112}| \ge |\xi|$. Consider
+\begin{equation}\label{eq:IVinterp1}
+\sup_{\xi_{\circ111}, \xi_{\circ12}}\int \frac{\jap{\xi}^{2s}}{|\xi_{\circ12}|^{1+2s}}\left(\prod_{\bul\in\TT^\infty, \bul\ngeq\circ} \frac{d\xi_\bul}{\jap{\xi_\bul}^{2s+2}\jap{\xi_{\sbf(\bul)}}^2}\right) \ind_{|\Psi(\TT)-\alpha|<M}\,d\xi\, d\xi_{\circ112}
+\end{equation}
+and
+\begin{equation}\label{eq:IVinterp2}
+\sup_{\xi, \xi_{\circ2}, \xi_{\circ112}, \xi_{\bul\in\TT^\infty, \bul\ngeq\circ}}\int \frac{|\xi_{\circ12}|^{1+}}{\jap{\xi_{\circ111}}^{2s+2}\jap{\xi_{\circ112}}^{2s+2}\jap{\xi_{\circ2}}^{2s+2}}\ind_{|\Psi(\TT)-\alpha|<M} \,d\xi_{\circ111}.
+\end{equation}
+
+\smallskip
+\noi\textbf{Case A.} $\xi_{\circ12}\not\simeq \pm \xi_{\circ111}$ and $\xi_{\circ2}\not\simeq \pm \xi_{\circ112}$.
+
+\noi For $\xi_{\circ12}, \xi_{\circ111}$ fixed,
+\begin{align*}
+\eqref{eq:IVinterp1}\lesssim & \int \frac{\jap{\xi}^{2s}}{|\xi_{\circ12}|^{3+2s}}\left(\prod_{\bul\in\TT^\infty, \bul\ngeq\circ} \frac{d\xi_\bul}{\jap{\xi_\bul}^{2s+2}\jap{\xi_{\sbf(\bul)}}^2}\right) \ind_{|\phi-\alpha|<M}\,d\xi\, d\zeta_{\circ112}\lesssim \delta^{(2s+2)(j-3)}M,
+\end{align*}
+where the $j-3$ factors of $\delta^{2s+2}$ originate from the $|\xi_{\bul 2}|\lesssim 1/\delta$ constraints associated with each of the $j-3$ internal vertices not lying above $\circ$.
+Similarly, for $\xi, \xi_{\circ2}, \xi_{\circ112}$ and $\xi_{\bul\in \TT^\infty, \bul\ngeq \circ}$ fixed,
+\begin{align*}
+\eqref{eq:IVinterp2} \lesssim & \int \frac{1}{\jap{\xi_{\circ111}}^{2s+2}|\xi_{\circ2}|^{1-}}\ind_{|\Psi(\TT)-\alpha|<M}\, d\phi\, d\zeta_{\circ111} \lesssim M.
+\end{align*}
+
+\smallskip
+\noi
+\textbf{Case B.} $\xi_{\circ12}\simeq \pm \xi_{\circ111}$ or $\xi_{\circ2}\simeq \pm \xi_{\circ112}$.
+
+\noi We proceed as in the corresponding Case B of Step 3, applying if necessary the change of coordinates of Lemma \ref{lem:prop_resonance}-(ii); the $\delta^{(2s+2)(j-3)}$ factor again arises from the $j-3$ free integrations.
+
+\medskip
+\noi\textit{Step 5. Type~III, $\ell=3$, $j\ge 2$: reduction to Type~IV (Steps~3--4).}
+Type~III is not analysed on its own: the bound on $\mul_3(\TT)$ carries an extra inverse weight $\jap{\xi_{\sbf(\star)}}^{-(s+1)}$ relative to $\mul_4(\TT)$, hence any frequency-restricted estimate valid for the latter applies a fortiori to the former.
+Indeed, given $\TT\in \Tr_j$, $j\ge 2$, the estimate $|\Psi_E(\star)|\lesssim |\xi_\star|$ yields
+$$
+|\mul_3(\TT)|\lesssim \frac{\jap{\xi}^{s}}{\jap{\xi_{\star1}}^{s+1}\jap{\xi_{\star2}}^{s+1}\jap{\xi_{\sbf(\star)}}^{s+1}}\prod_{\bul \in \TT^\infty, \bul\ngeq \pb(\star)}\frac{1}{\jap{\xi_{\bul}}\jap{\xi_{\sbf(\bul)}}^{s+1}}.
+$$
+If $j=2$, this is a stronger bound than \eqref{typeIVmult2}.
+If $j\ge 3$, with $\circ=\gb(\star)$, this estimate can be rewritten as
+$$
+|\mul_3(\TT)|\lesssim \frac{\jap{\xi}^s}{\jap{\xi_{\circ111}}^{s+1}\jap{\xi_{\circ112}}^{s+1}\jap{\xi_{\circ12}}^{s+1}\jap{\xi_{\circ1}}\jap{\xi_{\circ2}}^{s+1}} \prod_{\bul \in \TT^\infty, \bul\ngeq \circ}\frac{1}{\jap{\xi_{\bul}}\jap{\xi_{\sbf(\bul)}}^{s+1}},
+$$
+which is smaller than the bound \eqref{eq:typeIVmult}. In either case the Type~III estimate follows from the proof of Steps~3 and~4 verbatim.
+
+\medskip
+\noi\textit{Step 6. Type~V, $\ell=5$, $j=3$, $\TT=\<33>$: workhorse Lemma~\ref{lem:fre_tri}, supported by Lemma~\ref{lem:prop_resonance}.}
+At $j=3$, Type~V is realised by the single tree $\TT=\<33>$, whose multiplier involves four leaves rather than three. The bounds for the two integrals \eqref{eq:Vinterp1}--\eqref{eq:Vinterp2} extend those of Step~3 by one resonance-free integration, again resolved either by non-stationarity (Case~A) or, on the stationary stratum, by Lemma~\ref{lem:prop_resonance}-(ii) (Case~B2).
+With $\TT=\<33>$,
+$$
+|\mul_5(\TT)|\lesssim \frac{\jap{\xi}^{s+1}}{\jap{\xi_{11}}^{s+1}\jap{\xi_{12}}^{s+1}\jap{\xi_{21}}^{s+1}\jap{\xi_{22}}^{s+1}}.
+$$
+The worst-case scenario occurs for $|\xi|\ge |\xi_{11}|\ge |\xi_{12}|\ge |\xi_{21}|\ge |\xi_{22}|$, and we consider
+\begin{equation}\label{eq:Vinterp1}
+\sup_{\xi, \xi_{12}, \xi_{22}}\int |\xi|^{1-} \ind_{|\Psi(\TT)-\alpha|<M} \,d\xi_{21}
+\end{equation}
+and
+\begin{equation}\label{eq:Vinterp2}
+\sup_{\xi_{11}, \xi_{21}}\int \frac{1}{|\xi|^{1-}\jap{\xi_{12}}^{2s+2}\jap{\xi_{21}}^{2s+2}\jap{\xi_{22}}^{2s+2}}\ind_{|\Psi(\TT)-\alpha|<M} \,d\xi_{12}\,d\xi_{22}.
+\end{equation}
+
+\smallskip
+\noi\textbf{Case A.} $\xi\not\simeq \pm \xi_{12}$ and $\xi_{11}\not\simeq \pm\xi_{21}$.
+
+\noi For $\xi, \xi_{12}, \xi_{22}$ fixed,
+\begin{equation}\label{eq:estVinterp1}
+\eqref{eq:Vinterp1} \lesssim \int \frac{1}{|\xi|^{1+}} \ind_{|\phi-\alpha|<M} \,d\phi\,  d\zeta_{21} \lesssim M.
+\end{equation}
+For $\xi_{11}, \xi_{21}$ fixed,
+\begin{equation}\label{eq:estVinterp2}
+\eqref{eq:Vinterp2} \lesssim \int \frac{1}{|\xi_{11}|^{1-}\jap{\zeta_{12}}^{2s+2}\jap{\xi_{22}}^{4s+4}} \ind_{|\phi-\alpha|<M}\, d\phi\, d\zeta_{21}\,d\xi_{22} \lesssim M.
+\end{equation}
+
+\smallskip
+\noi\textbf{Case B.} $\xi\simeq \pm \xi_{12}$ or $\xi_{11}\simeq \pm\xi_{21}$. In particular, $|\xi|\sim |\xi_{21}|$. We split further:
+
+\smallskip
+\noi\textbf{Case B1.} Up to a permutation of $\xi, \xi_{11}, \xi_{12}, \xi_{21}$, the conditions of Case A are met.
+
+\smallskip
+\noi\textbf{Case B2.} The frequencies $\xi_{11}, \xi_{12}, \xi_{21}$ are equal up to a sign. Up to permutation we may assume
+$$
+\xi \not\simeq \xi_{12} \quad \mbox{and}\quad \xi_{11}\not\simeq -\xi_{21}.
+$$
+For $\xi, \xi_{12}, \xi_{22}$ fixed, either $\xi_{11} \not\simeq -\xi_{21}$ (and we bound \eqref{eq:Vinterp1} as in \eqref{eq:estVinterp1}) or $\xi_{11}\simeq -\xi_{21}$. In the latter sub-case, Lemma \ref{lem:prop_resonance}-(ii) yields
+\begin{equation}
+\eqref{eq:Vinterp1} \lesssim \int |\xi|^{3-}\ind_{||\xi|^2\Re q_1^2 - \widetilde\alpha|<M} \,dq_1 \lesssim M^{1-}.
+\end{equation}
+For $\xi_{11}, \xi_{21}$ fixed we argue analogously, splitting between the non-stationary case (handled by \eqref{eq:estVinterp2}) and the stationary one (handled by Lemma~\ref{lem:prop_resonance}-(ii)).
+
+In the next step we treat Type~V with $j\ge 4$, where the additional internal nodes contribute $j-3$ free integrations and the new leaf $\xi_{\sbf(\star)}$ requires an extra resonance-free integration that is absorbed by the $|\xi_{\star11}|^{2}$ weight in $\mul_5$.
+
+\medskip
+\noi\textit{Step 7. Type~V, $\ell=5$, $j\ge 4$: workhorse Lemma~\ref{lem:fre_tri}, with one additional integration absorbed by the $|\xi_{\star 1 1}|^{2}$ weight.}
+For lengths $j\ge 4$, Type~V exhibits a structural feature that has no counterpart in Step~4: the node $\sbf(\star)$, which is internal for Type~IV trees, becomes a leaf of $\TT_5$ and thus contributes a free integration variable. The compensation is built into $\mul_5$ via an extra inverse weight $|\xi_{\star 11}|^{-2}$ absent from $\mul_4$, and below we trace how this weight precisely absorbs the new variable while leaving the $\delta^{(2s+2)(j-3)}$ accounting of Step~4 intact.
+The multiplier is now
+\begin{equation}\label{eq:mul5_high_j}
+|\mul_5(\TT)| \lesssim \frac{\jap{\xi}^s}{\jap{\xi_{\star11}}^{s+1}\jap{\xi_{\star12}}^{s+1}\jap{\xi_{\star21}}^{s+1}\jap{\xi_{\star22}}^{s+1}\jap{\xi_{\sbf(\star)}}^{s+1}} \prod_{\bul \in \TT^\infty, \bul\ngeq \pb(\star)} \frac{1}{\jap{\xi_{\sbf(\bul)}}\jap{\xi_\bul}^{s+1}}.
+\end{equation}
+In the worst-case scenario, $|\xi_{\star11}|\ge|\xi_{\star12}|\ge|\xi_{\star21}|\ge|\xi_{\star22}|\ge|\xi_{\sbf(\star)}|\ge |\xi|$. We consider
+\begin{equation}\label{eq:Vinterp3}
+\sup_{\xi_{\star11}, \xi_{\star21}, \xi_{\sbf(\star)}} \int \frac{\jap{\xi}^{2s}}{|\xi_{\star11}|^{1+2s}}\prod_{\bul \in \TT^\infty, \bul\ngeq \pb(\star)} \frac{d\xi_\bul}{\jap{\xi_{\sbf(\bul)}}^2\jap{\xi_\bul}^{2s+2}}\,\ind_{|\Psi(\TT)-\alpha|<M}\,d\xi\, d\xi_{\star22}
+\end{equation}
+and
+\begin{equation}\label{eq:Vinterp4}
+\sup_{\xi, \xi_{\star12}, \xi_{\star22}, \xi_{\bul \in \TT^\infty, \bul\ngeq \pb(\star)}} \int \frac{1}{|\xi_{\star11}|^{1-}\jap{\xi_{\star21}}^{4s+4}\jap{\xi_{\sbf(\star)}}^{4s+4}} \ind_{|\Psi(\TT)-\alpha|<M}\, d\xi_{\star21}\,d\xi_{\sbf(\star)}.
+\end{equation}
+
+The quantity \eqref{eq:Vinterp3} is structurally identical to \eqref{eq:IVinterp1} of Step~4: the integration $d\xi$ runs over the resonance level set and produces $M$ as in Case~A of Step~4, while the $j-3$ free integrations on $|\xi_{\bul 2}|\lesssim 1/\delta$ associated with the internal nodes not lying above $\pb(\star)$ accumulate the factor $\delta^{(2s+2)(j-3)}$.
+
+The quantity \eqref{eq:Vinterp4} is the genuine novelty of Step~7. Compared with its Step~4 analogue \eqref{eq:IVinterp2}, it carries \emph{one additional integration} variable, namely $\xi_{\sbf(\star)}$ (the parent of the cluster of $\star$, which is a leaf in $\TT_5$ but an internal node in $\TT_4$). The compensation comes from a single \emph{extra inverse weight} $|\xi_{\star 1 1}|^{-2}$ that is present in $\mul_5$ but absent in $\mul_4$: using $|\xi_{\star 1 1}|\ge |\xi_{\sbf(\star)}|$ in the worst-case ordering, one has
+$$
+\frac{1}{|\xi_{\star 1 1}|^{1-}\jap{\xi_{\star 2 1}}^{4s+4}\jap{\xi_{\sbf(\star)}}^{4s+4}} \lesssim \frac{1}{|\xi_{\star 1 1}|^{1-}\jap{\xi_{\star 2 1}}^{4s+4}\jap{\xi_{\sbf(\star)}}^{4s+2}\,|\xi_{\star11}|^{2}},
+$$
+so that the integration in $\xi_{\sbf(\star)}$ converges as $\int\jap{\xi_{\sbf(\star)}}^{-(4s+2)}\,d\xi_{\sbf(\star)}\lesssim 1$ for $s>-1$, and the surviving $|\xi_{\star 1 1}|^{-(3-)}$ together with the resonance restriction $\ind_{|\Psi(\TT)-\alpha|<M}$ on $\xi_{\star 2 1}$ produces the bound $M$ exactly as in Case~A of Step~4. In other words, the extra integration of Step~7 introduces \emph{one extra parent node} ($\sbf(\star)$) compared with Step~4, and the $|\xi_{\star11}|^{2}$ weight in $\mul_5$ supplies precisely the $\delta^{2s+2}$ budget required to absorb it without consuming resonance. The bookkeeping of the remaining $j-3$ free integrations is identical to Step~4, and the end result is again $\delta^{(2s+2)(j-3)}M$. An application of Lemma~\ref{lem:fre_tri} combined with Lemma~\ref{lem:eta1} closes \eqref{eq:bourg_bi_l2}.
+
+\medskip
+
+Assembling Steps~1--7 yields, for every $\TT\in\Tr_j$ and every $\ell\in\{1,\dots,5\}$, the estimate \eqref{eq:bourg_bi_l2} with the uniform exponent $\delta^{(2s+2)(j-3)-1}$ (cf.\ Remark~\ref{rmk:exponent_optimal}). This is precisely the input absorbed by the contraction argument in Proposition~\ref{prop:lwp_rnv}: under the smallness assumption~\eqref{eq:escolhadelta}, the geometric series $\sum_{j\ge 1} C^j \delta^{(2s+2)(j-3)-1} R^{j+1}$ sums to $O(\delta^{-4s-5}R^2)$, with the dominant contribution coming from the Type-I term.
+\end{proof}

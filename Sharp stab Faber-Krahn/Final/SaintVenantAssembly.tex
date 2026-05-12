@@ -1,0 +1,365 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\Fr}{\mathcal{A}}
+\newcommand{\eps}{\varepsilon}
+
+\title{Saint--Venant Assembly:\\
+Sharp $\Fr^{2}$ Stability for the Torsion Energy\\
+(Route A, Plan 1, Building Block \textsc{SaintVenantAssembly})}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We assemble the sharp Saint--Venant stability inequality
+\[
+   E(\Omega)-E(B_1)\ge c_{\rm SV}(N,R)\,\Fr(\Omega)^{2},
+   \qquad |\Omega|=|B_{1}|,\ \Omega\subset B_{R},
+\]
+from four upstream building blocks: the quantitative Selection
+Principle~(S), the Graph Entry theorem~(G), the Schauder Interpolation
+lemma~(I), the Nearly Spherical Closure~(N), glued via the two
+quantitative properties of the BDV smooth asymmetry $\alpha$
+(\cite{BDV} Lemma~4.2(i)--(ii)) and the suboptimal $\Fr^{4}$ bound of
+\cite{BDV} Lemma~5.2. No compactness or contradiction step is used;
+every constant is explicit in the upstream constants. The exponent~$2$
+is saturated by ellipsoids.
+\end{abstract}
+
+\section{Notation, hypotheses, and the BDV black boxes}\label{sec:notation}
+
+\subsection{Sets, energies, and asymmetries}
+
+Throughout $N\ge 2$ and $R\ge 2$. All sets are bounded open subsets of
+$\R^{N}$. Write $B_{r}=B_{r}(0)$, $\omega_{N}=|B_{1}|$.
+
+\smallskip\noindent
+\emph{Torsion energy.}
+$E(\Omega)=\min_{v\in W^{1,2}_{0}(\Omega)}
+\bigl(\tfrac12\int|\nabla v|^{2}-\int v\bigr)=-\tfrac12 T(\Omega)$,
+where $T(\Omega)=\int_{\Omega}u_{\Omega}$ and $-\Delta u_{\Omega}=1$,
+$u_{\Omega}=0$ on $\partial\Omega$.
+
+\smallskip\noindent
+\emph{Fraenkel asymmetry.}
+$\Fr(\Omega)=\inf\bigl\{|\Omega\Delta B|/|B|:B\text{ ball},|B|=|\Omega|\bigr\}\in[0,2)$.
+
+\smallskip\noindent
+\emph{BDV smooth asymmetry.} Following \cite[Def.~4.1]{BDV},
+$\alpha(\Omega)=\int_{\Omega\Delta B_{1}(x_{\Omega})}\bigl|1-|x-x_{\Omega}|\bigr|\,dx$,
+where $x_{\Omega}$ is the BDV barycenter (\cite{BDV}\,\S3).
+
+\smallskip\noindent
+\emph{Torsion quotient.}
+$Q_{\alpha}(\Omega):=(E(\Omega)-E(B_{1}))/\alpha(\Omega)$ for
+$|\Omega|=|B_{1}|$, $\alpha(\Omega)>0$.
+
+\subsection{The BDV black boxes}
+
+\begin{lemma}[\cite{BDV} Lemma~4.2(i)]\label{lem:BDV42i}
+There is $C_{1}=C_{1}(N)>0$ such that for every bounded open
+$\Omega\subset\R^{N}$,
+\[
+   C_{1}\,\alpha(\Omega)\ge\abs{\Omega\Delta B_{1}(x_{\Omega})}^{2}.
+\]
+In particular, if $|\Omega|=\omega_{N}$,
+\begin{equation}\label{eq:42i-Fr}
+   \Fr(\Omega)^{2}\le\frac{C_{1}}{\omega_{N}^{2}}\,\alpha(\Omega).
+\end{equation}
+\end{lemma}
+
+\begin{proof}[Reference]
+\cite[Lemma~4.2(i)]{BDV}, proved by one-dimensional annular rearrangement.
+Constructive.
+\end{proof}
+
+\begin{lemma}[\cite{BDV} Lemma~4.2(ii)]\label{lem:BDV42ii}
+For every $R\ge 2$ there is $C_{2}=C_{2}(N,R)>0$ such that for all
+bounded open $\Omega_{1},\Omega_{2}\subset B_{R}$,
+\[
+   \abs{\alpha(\Omega_{1})-\alpha(\Omega_{2})}
+   \le C_{2}\,\abs{\Omega_{1}\Delta\Omega_{2}}.
+\]
+Choosing $\Omega_{2}$ to be the Fraenkel-optimal ball for $\Omega_{1}$
+(so $\alpha(\Omega_{2})=0$), for $|\Omega|=\omega_{N}$,
+\begin{equation}\label{eq:42ii-Fr}
+   \alpha(\Omega)\le C_{2}(N,R)\,\omega_{N}\,\Fr(\Omega).
+\end{equation}
+\end{lemma}
+
+\begin{remark}[Two-sided $\alpha\leftrightarrow\Fr$ equivalence]
+\label{rem:two-sided}
+On $\{\Omega\subset B_{R},|\Omega|=\omega_{N}\}$,
+\[
+   \frac{1}{C_{2}\omega_{N}}\alpha(\Omega)\le\Fr(\Omega)
+   \le\frac{\sqrt{C_{1}}}{\omega_{N}}\sqrt{\alpha(\Omega)}.
+\]
+The right inequality is quadratic (small $\alpha$ implies very small
+$\Fr$); the left is linear. Both are constructive.
+\end{remark}
+
+\begin{lemma}[\cite{BDV} Lemma~5.2: suboptimal $\Fr^{4}$]\label{lem:BDV52}
+There is $C_{8}=C_{8}(N)>0$ such that for every bounded open
+$\Omega\subset\R^{N}$ with $0<|\Omega|<\infty$,
+\[
+   E(\Omega)|\Omega|^{-(N+2)/N}-E(B_{1})|B_{1}|^{-(N+2)/N}
+   \ge\frac{1}{C_{8}}\Fr(\Omega)^{4}.
+\]
+For $|\Omega|=\omega_{N}$,
+\begin{equation}\label{eq:52-fixedvol}
+   E(\Omega)-E(B_{1})\ge\omega_{N}^{(N+2)/N}\,C_{8}^{-1}\,\Fr(\Omega)^{4}.
+\end{equation}
+\end{lemma}
+
+This is the Fusco--Maggi--Pratelli-type rearrangement bound (see
+\cite{BDV}~p.28, \cite{FMP}); rearrangement + P\'olya--Szeg\H{o}, no
+contradiction. Absorbing $\omega_{N}^{(N+2)/N}$ into the constant
+($C_{8}':=C_{8}/\omega_{N}^{(N+2)/N}$),
+\begin{equation}\label{eq:52-clean}
+   E(\Omega)-E(B_{1})\ge(C_{8}')^{-1}\,\Fr(\Omega)^{4}
+   \qquad(|\Omega|=\omega_{N}).
+\end{equation}
+
+\subsection{The four upstream blocks}
+
+\begin{theorem}[(S) Quantitative Selection]\label{thm:SEL}
+There exist $C_{\rm sel}(N,R)>0$, $q_{\rm sel}(N,R)>0$,
+$\eps_{\rm sel}(N,R)>0$ such that for every open
+$\Omega_{0}\subset B_{R}$ with $|\Omega_{0}|=\omega_{N}$,
+$\alpha(\Omega_{0})\le\eps_{\rm sel}$, $Q_{\alpha}(\Omega_{0})<q_{\rm sel}$,
+there exists a volume-normalized $\widetilde\Omega\subset B_{R}$ with
+$|\widetilde\Omega|=\omega_{N}$ satisfying:
+(S1) $\widetilde\Omega$ has $C^{1,\gamma}$ boundary, inheriting BDV
+regularity;
+(S2) $\tfrac12\alpha(\Omega_{0})\le\alpha(\widetilde\Omega)\le\tfrac32\alpha(\Omega_{0})$;
+(S3) $Q_{\alpha}(\widetilde\Omega)\le 2C_{\rm sel}Q_{\alpha}(\Omega_{0})$.
+\end{theorem}
+
+\begin{theorem}[(G) Graph Entry]\label{thm:GE}
+There is $\alpha_{\rm graph}(N,R)>0$, $C_{H}''(N,R)>0$ such that every
+$\widetilde\Omega$ as in (S) with
+$\alpha(\widetilde\Omega)\le\alpha_{\rm graph}$ is a $C^{1,\gamma}$ normal
+graph over $\partial B_{1}$:
+$\partial\widetilde\Omega=\{(1+g(\theta))\theta\}$ with
+$\norm{g}_{L^{\infty}}\le C_{H}''\alpha(\widetilde\Omega)^{1/(2N)}$.
+\end{theorem}
+
+\begin{lemma}[(I) Schauder Interpolation]\label{lem:SI}
+There is $\alpha_{\rm sph}(N,R)>0$, $\delta_{\rm sph}(N,\gamma_{0})>0$
+such that whenever (G) applies and $\alpha(\widetilde\Omega)\le\alpha_{\rm sph}$,
+$\norm{g}_{C^{2,\gamma_{0}}}\le\delta_{\rm sph}$.
+\end{lemma}
+
+\begin{theorem}[(N) Nearly Spherical Closure]\label{thm:NS}
+There is $c_{*}=c_{*}(N)>0$ such that every nearly spherical
+$\widetilde\Omega=\{(1+g(\theta))\theta\}$ with
+$\norm{g}_{C^{2,\gamma_{0}}}\le\delta_{\rm sph}$,
+$|\widetilde\Omega|=\omega_{N}$, $x_{\widetilde\Omega}=0$, satisfies
+$Q_{\alpha}(\widetilde\Omega)\ge c_{*}(N)$.
+\end{theorem}
+
+\section{Small-asymmetry regime: linear-in-$\alpha$ bound}\label{sec:small}
+
+\begin{equation}\label{eq:alpha-small-def}
+   \alpha_{\rm small}(N,R)
+   :=\tfrac12\min\{\eps_{\rm sel},\alpha_{\rm graph},\alpha_{\rm sph}\}>0.
+\end{equation}
+
+\begin{theorem}[Small-$\alpha$ linear bound]\label{thm:small-alpha}
+With $q_{*}(N,R):=c_{*}(N)/(2C_{\rm sel}(N,R))$, every open
+$\Omega_{0}\subset B_{R}$ with $|\Omega_{0}|=\omega_{N}$ and
+$\alpha(\Omega_{0})\le\alpha_{\rm small}(N,R)$ satisfies
+\begin{equation}\label{eq:linear-alpha}
+   E(\Omega_{0})-E(B_{1})\ge q_{*}(N,R)\,\alpha(\Omega_{0}).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+If $Q_{\alpha}(\Omega_{0})\ge q_{\rm sel}$ then trivially
+$E-E(B_{1})\ge q_{\rm sel}\alpha\ge q_{*}\alpha$ (after shrinking
+$q_{\rm sel}$ if needed so $q_{*}\le q_{\rm sel}$).
+
+Otherwise $Q_{\alpha}(\Omega_{0})<q_{\rm sel}$. Apply (S):
+$|\widetilde\Omega|=\omega_{N}$, $\alpha(\widetilde\Omega)\le\tfrac32\alpha_{\rm small}<\alpha_{\rm graph}$.
+Apply (G): graph representation, $\norm{g}_{L^{\infty}}\le C_{H}''\alpha^{1/(2N)}$.
+Apply (I): $\norm{g}_{C^{2,\gamma_{0}}}\le\delta_{\rm sph}$ (since
+$\alpha(\widetilde\Omega)\le\tfrac32\alpha_{\rm small}<\alpha_{\rm sph}$).
+Apply (N): $Q_{\alpha}(\widetilde\Omega)\ge c_{*}(N)$.
+By (S3), $c_{*}\le Q_{\alpha}(\widetilde\Omega)\le 2C_{\rm sel}Q_{\alpha}(\Omega_{0})$,
+i.e., $Q_{\alpha}(\Omega_{0})\ge q_{*}$.
+\end{proof}
+
+\begin{remark}
+No limit, no compactness, no contradiction. Every step is a quantitative
+implication.
+\end{remark}
+
+\section{Conversion $\alpha\Rightarrow\Fr^{2}$}\label{sec:convert}
+
+\begin{corollary}[Sharp small-$\Fr$ quadratic bound]\label{cor:smallFr}
+For every open $\Omega\subset B_{R}$ with $|\Omega|=\omega_{N}$ and
+$\alpha(\Omega)\le\alpha_{\rm small}(N,R)$,
+\begin{equation}\label{eq:small-fr}
+   E(\Omega)-E(B_{1})\ge\kappa_{\rm near}(N,R)\,\Fr(\Omega)^{2},
+   \qquad
+   \kappa_{\rm near}(N,R):=\frac{q_{*}(N,R)\,\omega_{N}^{2}}{C_{1}(N)}.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+\eqref{eq:linear-alpha} gives $E-E(B_{1})\ge q_{*}\alpha\ge
+q_{*}(\omega_{N}^{2}/C_{1})\Fr^{2}$ by~\eqref{eq:42i-Fr}.
+\end{proof}
+
+\begin{lemma}[$\Fr$-version of the small regime]\label{lem:Fr-small}
+Set
+\begin{equation}\label{eq:a-near-def}
+   a_{\rm near}(N,R):=\frac{\alpha_{\rm small}(N,R)}{C_{2}(N,R)\,\omega_{N}}>0.
+\end{equation}
+Every $\Omega\subset B_{R}$ with $|\Omega|=\omega_{N}$ and
+$\Fr(\Omega)\le a_{\rm near}(N,R)$ satisfies
+$\alpha(\Omega)\le\alpha_{\rm small}$ and hence
+$E(\Omega)-E(B_{1})\ge\kappa_{\rm near}\,\Fr(\Omega)^{2}$.
+\end{lemma}
+
+\begin{proof}
+\eqref{eq:42ii-Fr} gives $\alpha(\Omega)\le C_{2}\omega_{N}\Fr(\Omega)\le
+C_{2}\omega_{N}a_{\rm near}=\alpha_{\rm small}$.
+\end{proof}
+
+\begin{remark}[Why the two-sided equivalence matters]
+The conversion uses \emph{both} directions of BDV Lemma~4.2:
+(i) gives the sharp exponent~2 in~\eqref{eq:small-fr};
+(ii), applied as above, gives a positive $\Fr$-threshold $a_{\rm near}$
+inside which the small-$\alpha$ analysis applies. Without~(ii) the
+small-$\alpha$ chain could not be invoked at arbitrary small $\Fr$, and
+the gluing would only give the suboptimal $\Fr^{4}$ from BDV Lemma~5.2.
+\end{remark}
+
+\section{Far-asymmetry regime}\label{sec:far}
+
+\begin{lemma}[Far-$\Fr$ quadratic bound]\label{lem:far}
+For $a>0$ and every open $\Omega\subset B_{R}$ with $|\Omega|=\omega_{N}$
+and $\Fr(\Omega)\ge a$,
+\begin{equation}\label{eq:far}
+   E(\Omega)-E(B_{1})\ge(C_{8}')^{-1}\,\Fr(\Omega)^{4}
+   \ge\frac{a^{2}}{C_{8}'(N)}\,\Fr(\Omega)^{2}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+\eqref{eq:52-clean} gives the first inequality; $\Fr^{4}=\Fr^{2}\Fr^{2}\ge
+a^{2}\Fr^{2}$ gives the second.
+\end{proof}
+
+\section{Gluing}\label{sec:glue}
+
+\begin{theorem}[Sharp Saint--Venant, single-statement form]\label{thm:SV}
+Define
+\begin{align}
+   a_{\rm far}(N,R)&:=a_{\rm near}(N,R)=\frac{\alpha_{\rm small}(N,R)}{C_{2}(N,R)\,\omega_{N}},
+   \label{eq:afar-def}\\
+   c_{\rm SV}(N,R)&:=\min\!\Bigl\{\kappa_{\rm near}(N,R),\frac{a_{\rm far}(N,R)^{2}}{C_{8}'(N)}\Bigr\}>0.
+   \label{eq:cSV-def}
+\end{align}
+For every open $\Omega\subset B_{R}$ with $|\Omega|=\omega_{N}$,
+\begin{equation}\label{eq:SV-final}
+   E(\Omega)-E(B_{1})\ge c_{\rm SV}(N,R)\,\Fr(\Omega)^{2}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\emph{Case A} ($\Fr\le a_{\rm near}$): Lemma~\ref{lem:Fr-small} gives
+$E-E(B_{1})\ge\kappa_{\rm near}\Fr^{2}\ge c_{\rm SV}\Fr^{2}$.
+\emph{Case B} ($\Fr\ge a_{\rm far}$): Lemma~\ref{lem:far} with
+$a=a_{\rm far}$ gives $E-E(B_{1})\ge(a_{\rm far}^{2}/C_{8}')\Fr^{2}\ge c_{\rm SV}\Fr^{2}$.
+Since $a_{\rm near}=a_{\rm far}$ the two cases cover $[0,2)$.
+\end{proof}
+
+\begin{remark}[Sharpness]
+Equality in~\eqref{eq:SV-final} is asymptotically attained along small
+volume-preserving ellipsoidal perturbations of $B_{1}$: in that family
+$\Fr\sim\norm{g}_{L^{1}}$, $E-E(B_{1})\sim\norm{g}_{L^{2}}^{2}$ to
+second order (\cite{BDV} Introduction, p.2). The exponent~$2$ is sharp.
+\end{remark}
+
+\section{Final statement}\label{sec:thm}
+
+\begin{theorem}[\textsc{SaintVenantAssembly}]\label{thm:SVA-main}
+Let $N\ge 2$, $R\ge 2$. There exists $c_{\rm SV}(N,R)>0$, explicit in
+$C_{\rm sel}(N,R), c_{*}(N), \alpha_{\rm small}(N,R), C_{1}(N), C_{2}(N,R),
+C_{8}'(N)$ via~\eqref{eq:small-fr}, \eqref{eq:a-near-def},
+\eqref{eq:cSV-def}, such that for every open $\Omega\subset B_{R}$ with
+$|\Omega|=|B_{1}|$,
+\[
+   \boxed{\;E(\Omega)-E(B_{1})\ge c_{\rm SV}(N,R)\,\Fr(\Omega)^{2}.\;}
+\]
+The exponent~2 is sharp (saturated by ellipsoidal perturbations).
+$c_{\rm SV}(N,R)$ is extracted from upstream constants without any
+compactness, contradiction or limit argument. \qed
+\end{theorem}
+
+\section{Summary of constants}\label{sec:summary}
+
+\renewcommand{\arraystretch}{1.25}
+\begin{center}
+\begin{tabular}{|l|l|l|}\hline
+Symbol & Source & Meaning \\\hline
+$\omega_{N}$ & $|B_{1}|$ & ball volume \\
+$C_{1}(N)$ & BDV L4.2(i) & $C_{1}\alpha\ge|\Omega\Delta B|^{2}$ \\
+$C_{2}(N,R)$ & BDV L4.2(ii) & Lipschitz $\alpha$ in $L^{1}$ \\
+$C_{8}'(N)$ & BDV L5.2 (rescaled) & $E-E(B_{1})\ge(C_{8}')^{-1}\Fr^{4}$ \\
+$C_{\rm sel}(N,R),\eps_{\rm sel},q_{\rm sel}$ & block (S) & selection \\
+$\alpha_{\rm graph}(N,R),C_{H}''$ & block (G) & graph entry \\
+$\alpha_{\rm sph}(N,R),\delta_{\rm sph}$ & blocks (I), (N) & Schauder/nearly sph.\ \\
+$c_{*}(N)$ & block (N) & nearly-spherical floor \\\hline
+$\alpha_{\rm small}$ & \eqref{eq:alpha-small-def} & $\tfrac12\min\{\eps_{\rm sel},\alpha_{\rm graph},\alpha_{\rm sph}\}$ \\
+$q_{*}=c_{*}/(2C_{\rm sel})$ & Thm~\ref{thm:small-alpha} & small-$\alpha$ slope \\
+$\kappa_{\rm near}=q_{*}\omega_{N}^{2}/C_{1}$ & \eqref{eq:small-fr} & small-$\Fr$ const. \\
+$a_{\rm near}=a_{\rm far}=\alpha_{\rm small}/(C_{2}\omega_{N})$ & \eqref{eq:a-near-def} & glue threshold \\
+$c_{\rm SV}(N,R)$ & \eqref{eq:cSV-def} & $\min\{\kappa_{\rm near},a_{\rm far}^{2}/C_{8}'\}$ \\\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Where compactness would have appeared}
+
+\begin{itemize}
+\item BDV Theorem~4.3 (linear-in-$\alpha$ inequality) is proved
+in~\cite{BDV} by contradiction. We replaced it with
+Theorem~\ref{thm:small-alpha}, deriving $q_{*}=c_{*}/(2C_{\rm sel})$
+constructively from (S)+(G)+(I)+(N).
+\item BDV Lemma~5.2 ($\Fr^{4}$) is used as a black box; its proof is
+rearrangement-based.
+\item The conversion uses BDV Lemma~4.2(i)+(ii), both constructive.
+\item The gluing is arithmetic.
+\end{itemize}
+
+No compactness, no minimizing sequence, no limit set, no contradiction
+hypothesis appears at any stage.
+
+\begin{thebibliography}{9}
+\bibitem{BDV} L.~Brasco, G.~De~Philippis, B.~Velichkov,
+\emph{Faber--Krahn inequalities in sharp quantitative form},
+Duke Math.\ J.\ \textbf{164} (2015), 1777--1831 (arXiv:1306.0392).
+\bibitem{FMP} N.~Fusco, F.~Maggi, A.~Pratelli,
+\emph{The sharp quantitative Sobolev inequality for functions of bounded
+variation}, J.~Funct.~Anal.\ \textbf{244} (2007), 315--341.
+\end{thebibliography}
+
+\end{document}

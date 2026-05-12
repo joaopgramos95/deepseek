@@ -1,0 +1,1595 @@
+\documentclass[a4paper,
+11pt,  reqno]{amsart}
+\usepackage[margin=1.2in,marginparwidth=1.5cm, marginparsep=0.5cm]{geometry}
+
+
+\usepackage{amsmath,amssymb,amscd,amsthm,amsxtra, esint}
+\usepackage{mathrsfs}
+\usepackage[most]{tcolorbox}
+\usepackage{color}
+% \usepackage{showkeys}
+\usepackage{hyperref}
+\usepackage{subcaption}
+% TO USE FIGURE FOR SOME TREES BUT WITH PLACEMENT SPECIFIER H SO THAT IT DOES NOT BEHAVE LIKE A FLOAT
+\usepackage{float}
+
+%\usepackage[notcite,notref]{showkeys}
+% bbm package if present; otherwise emulate the indicator-1 by overlaying two sans-serif 1's.
+\IfFileExists{bbm.sty}{\usepackage{bbm}}{%
+  \newcommand{\mathbbm}[1]{\mathchoice%
+    {\hbox{\sffamily 1\kern-.40em 1}}%
+    {\hbox{\sffamily 1\kern-.40em 1}}%
+    {\hbox{\scriptsize\sffamily 1\kern-.30em 1}}%
+    {\hbox{\tiny\sffamily 1\kern-.25em 1}}}%
+}
+\usepackage{forest}
+\newcommand{\red}{\color{red}}
+\newcommand{\blue}{\color{blue}}
+\newcommand{\fia}{\mathbbm{1}_{|\Phi-\alpha|<M}}
+\newcommand{\psia}{\mathbbm{1}_{|\Psi-\alpha|<M}}
+\newcommand{\jap}[1]{\langle #1 \rangle}
+\newcommand{\I}{\hspace{0.2mm}\textup{I}\hspace{0.2mm}}
+%Roman II
+\newcommand{\II}{\textup{I \hspace{-2.9mm} I} }
+%%Roman III
+\newcommand{\III}{\textup{I \hspace{-2.9mm} I \hspace{-2.9mm} I}}
+%
+%%Roman IV
+\newcommand{\IV}{\textup{I \hspace{-2.9mm} V}}
+%%Roman V
+\newcommand{\5}{\textup{V}}
+
+\newcommand{\VI}{\text{V\hspace{-1.6mm} I}}
+
+\newcommand{\noi}{\noindent}
+\newcommand{\m}[1]{
+	\ifdefequal{#1}{1}
+	{\mathbbm{#1}}
+	{\mathbb{#1}}
+}
+\newcommand{\FL}{\mathcal{F} L}
+\newcommand{\ft}{\widehat}
+\newcommand{\ind}{\mathbbm 1}
+\newcommand{\les}{\lesssim}
+\newcommand{\dl}{\delta}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\eps}{\varepsilon}
+\DeclareMathOperator*{\intt}{\int}
+\newcommand{\wt}{\widetilde}
+\newcommand{\embeds}{\hookrightarrow}
+\newcommand{\dx}{\partial_x}
+\newcommand{\dt}{\partial_t}
+\newcommand{\jp}{\color{orange}}
+
+\allowdisplaybreaks[2]
+
+%%%% FROM COW22
+\newtheorem{theorem}{Theorem} [section]
+\newtheorem{maintheorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{notation}{Notation}[section]
+\newtheorem{claim}[theorem]{Claim}
+
+
+\newtheorem{problem}{Problem}
+
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{scheme}{Scheme}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+
+
+
+%Lower/Upper bound appears below /above the integral sign
+\DeclareMathOperator*{\supp}{supp}
+\DeclareMathOperator{\med}{med}
+\DeclareMathOperator*{\ess}{ess}
+\DeclareMathOperator*{\Area}{Area}
+\DeclareMathOperator{\MAX}{MAX}
+
+
+\DeclareMathOperator{\Id}{\rm Id}
+\DeclareMathOperator{\sgn}{sgn}
+
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs=true}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\bul}{\bullet}
+
+
+
+\let\Re=\undefined\DeclareMathOperator*{\Re}{Re}
+\let\Im=\undefined\DeclareMathOperator*{\Im}{Im}
+
+\DeclareMathOperator{\com}{\textsf{com}}
+
+
+\let\P= \undefined
+\newcommand{\P}{\mathbf{P}}
+
+\newcommand{\E}{\mathbb{E}}
+
+
+\renewcommand{\L}{\mathcal{L}}
+
+
+
+\newcommand{\LA}{\Lambda}
+
+\newcommand{\aA}{\mathbf{A}^{\hspace{-0.75mm} 1}}
+
+\newcommand{\bA}{\mathbf{A}^{\hspace{-0.75mm} 2}}
+
+
+\newcommand{\bfA}{\mathbf{A}}
+
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\TT}{\mathcal{T}}
+\newcommand{\Tr}{\mathrm{T}}
+
+
+
+\newcommand{\Nf}{\mathfrak{N}}
+\newcommand{\fn}{\mathfrak{n}}
+
+\newcommand{\Rf}{\mathfrak{R}}
+\newcommand{\Hf}{\mathfrak{H}}
+
+
+\newcommand{\hf}{\mathfrak{h}}
+\newcommand{\hei}{\textup{height}}
+
+
+\def\norm#1{\|#1\|}
+
+\newcommand{\al}{\alpha}
+\newcommand{\be}{\beta}
+
+\newcommand{\nb}{\nabla}
+
+
+\newcommand{\scrC}{\mathscr{C}}
+\newcommand{\scrD}{\mathscr{D}}
+
+\newcommand{\scrH}{\mathscr{H}}
+
+
+\newcommand{\Dl}{\Delta}
+
+\newcommand{\kk}{\kappa}
+\newcommand{\g}{\gamma}
+\newcommand{\G}{\Gamma}
+\newcommand{\bG}{\mathbf{\Gamma}}
+\newcommand{\ld}{\lambda}
+\newcommand{\Ld}{\Lambda}
+\newcommand{\s}{\sigma}
+
+\newcommand{\zb}{\mathbf{z}}
+
+\newcommand{\yb}{\mathbf{y}}
+
+
+\newcommand{\ub}{\mathbf{u}}
+
+
+
+\newcommand{\Xa}{\mathbf{X}}
+
+\newcommand{\Xab}{\mathbf{X}^{\hspace{-0.4mm}\mathfrak{b}}}
+\newcommand{\Xaa}{\mathbf{X}^{\hspace{-0.4mm}\mathfrak{g}}}
+
+%%%% START OF NEW MACROS 
+\newcommand{\bfrak}{\mathfrak{b}}
+\newcommand{\gfrak}{\mathfrak{g}}
+\newcommand{\Sf}{\mathfrak{S}}
+\newcommand{\OPP}{\mathcal{B}}
+\newcommand{\LOP}{\mathcal{L}}
+
+
+\newcommand{\Xabe}{\mathbf{X}^{\hspace{-0.4mm}(\varepsilon),\mathfrak{b}}}
+\newcommand{\Xaae}{\mathbf{X}^{\hspace{-0.4mm}(\varepsilon),\mathfrak{g}}}
+
+
+\newcommand{\vb}{\mathbf{v}}
+\newcommand{\wb}{\mathbf{w}}
+
+\newcommand{\pb}{\mathbf{p}}
+\newcommand{\gb}{\mathbf{g}}
+\newcommand{\sbf}{\mathbf{s}}
+
+%%%% END OF NEW MACROS ADDED 
+
+
+\newcommand{\bbX}{\mathbb{X}}
+\newcommand{\bbL}{\mathbb{L}}
+
+
+\newcommand{\bbXa}{\mathbb{X}^{\hspace{-0.4mm}\mathfrak{g}}}
+\newcommand{\bbXb}{\mathbb{X}^{\hspace{-0.4mm}\mathfrak{b}}}
+
+
+\newcommand{\bbW}{\mathbb{W}}
+
+
+\newcommand{\Xb}{\mathbf{X}^{\hspace{-0.4mm}2}}
+
+\newcommand{\Xbc}{\mathbf{X}^3}
+
+
+\newcommand{\Ta}{\mathbf{T}}
+
+\newcommand{\Taa}{\mathbf{T}^{\mathfrak{g}}}
+
+\newcommand{\Tab}{\mathbf{T}^{\mathfrak{b}}}
+
+
+\newcommand{\Tb}{\mathbf{T}^2}
+\newcommand{\Tba}{\mathbf{T}^{2,\mathfrak{g}}}
+\newcommand{\Tbb}{\mathbf{T}^{2,\mathfrak{b}}}
+
+
+
+\newcommand{\Tc}{\mathbf{T}^3}
+
+
+\newcommand{\bv}{\big|}
+
+
+\newcommand{\Bv}{\Big|}
+
+
+\newcommand{\Si}{\Sigma}
+
+\newcommand{\wh}{\widehat}
+
+\newcommand{\Ft}{{\mathcal{F}}}
+
+\newcommand{\cj}{\overline}
+
+\newcommand{\dd}{\partial}
+\newcommand{\invft}[1]{\overset{\vee}{#1}}
+\newcommand{\lrarrow}{\leftrightarrow}
+
+\newcommand{\LRA}{\Longrightarrow}
+\newcommand{\LLA}{\Longleftarrow}
+\newcommand{\LLRA}{\Longleftrightarrow}
+
+
+\newcommand{\hC}{\widehat{\mathcal{C}}}
+
+
+\newcommand{\ud}{\underline}
+
+\newcommand{\btl}{\blacktriangleleft}
+
+
+
+\newcommand{\ta}{\theta}
+
+\renewcommand{\l}{\ell}
+\renewcommand{\o}{\omega}
+
+
+\newcommand{\Om}{\Omega}
+
+
+
+\newcommand{\ges}{\gtrsim}
+
+
+\newcommand{\wto}{\rightharpoonup}
+
+%Japanese Bracket
+\newcommand{\jb}[1]
+{\langle #1 \rangle}
+
+
+
+
+%
+%bracket 2
+\newcommand{\jbb}[1]
+{[\hspace{-0.6mm}[ #1 ]\hspace{-0.6mm}]}
+
+
+
+\renewcommand{\b}{\beta}
+
+
+\renewcommand{\S}{\mathcal{S}}
+
+
+
+\newcommand{\gf}{\mathfrak{g}}
+
+\newcommand{\fc}{\mathfrak{c}}
+\newcommand{\af}{\mathfrak{a}}
+
+\newcommand{\fb}{\mathfrak{b}}
+
+
+\newcommand{\ff}{\mathfrak{f}}
+
+
+
+
+\newcommand{\pa}{\partial}
+\newcommand{\pP}{\mathbf{P}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\MMb}{\mathbf{M}}
+\def\e{\eps}
+
+\newcommand{\N}{\mathbb{N}}
+
+\newcommand{\oet}{(\omega|_{M})_{\eta}}
+\newcommand{\oget}{(\omega|_{M})_{g\cdot\eta}}
+\newcommand{\ze}{\zeta}
+
+
+\newcommand{\Pk}{P^{(2m)}_2}
+\newcommand{\Pkn}{P^{(2m)}_{2, N}}
+\newcommand{\Hcal}{\mathcal{H}}
+\newcommand{\Li}{L^{(1)}}
+
+\DeclareMathOperator{\Lip}{Lip}
+
+
+
+
+
+\DeclareMathOperator{\mul}{mul}
+\DeclareMathOperator{\mulB}{mul_{\BB}}
+
+
+
+% OTHER OPTION FOR TREES
+
+\tikzset{
+	dotA/.style={
+		transform shape, fill,circle,inner sep=1.5pt, label distance=-1pt,
+		%	transform shape,inner sep=0pt, label distance=-1pt,
+		font={\normalsize }
+	},
+	>=stealth,
+}
+
+\tikzset{
+	dotAB/.style={
+		transform shape, fill,circle,inner sep=1.5pt, label distance=-10pt,
+		%	transform shape,inner sep=0pt, label distance=-1pt,
+		font={\small }
+	},
+	>=stealth,
+}
+
+\makeatletter
+\def\DeclareSymbolNew#1#2#3#4#5{\expandafter\gdef\csname MH@symb@#1\endcsname{\tikz[baseline=#2,scale=0.5, every node/.style={dotA},
+		level distance=15pt,
+		level 1/.style={sibling distance=#3pt},
+		level 2/.style={sibling distance=#4pt},
+		level 3/.style={sibling distance=15pt}
+		]{#5}}}
+\def\<#1>{\csname MH@symb@#1\endcsname}
+\makeatother
+
+
+% Variables that determine the distance between the each generation of nodes
+\def\distC{15}
+
+
+
+
+\DeclareSymbolNew{1}{-7}{\distC}{\distC}
+{
+	\node   (root) {}
+	child
+	child
+	;
+	\node  at (root-1) {};
+	\node at (root-2) {};
+}
+
+\DeclareSymbolNew{11}{-7}{\distC}{\distC}
+{
+	\node   (root) {}
+	child
+	child
+	;
+	\node  at (root-1) {};
+	\node at (root-2) {};
+}
+
+\newcommand{\cherryS}{
+	\resizebox{!}{1.3ex}{%
+		\<1>%
+	}
+}
+
+\newcommand{\starT}{
+	\begin{tikzpicture}[
+		baseline=-3, scale=1, every node/.style={dotAB},
+		]
+		\node  [label={}, transform shape, star,transform shape, star, star point ratio=2.25,inner sep=1pt, label distance=-1pt]  (root) {};
+	\end{tikzpicture}
+}
+
+
+%cherry with labels
+\newcommand{\cherry}[3]{
+	\begin{tikzpicture}[
+		baseline=-8, scale=0.6, every node/.style={dotA},
+		level distance=15pt,
+		level 1/.style={sibling distance=\distC pt}
+		]
+		\node  [label=above:{$#1$}]  (root) {}
+		child
+		child
+		;
+		\node [label= left:{$#2$}]  at (root-1) {};
+		\node [label= right:{$#3$}] at (root-2) {};
+	\end{tikzpicture}
+}
+
+
+\DeclareSymbolNew{01}{-7}{\distC}{\distC}
+{
+	\node  [circle,draw=black, fill=white, inner sep=0pt,minimum size=7pt]  (root) {}
+	child  child;
+	\node  at (root-1) {};
+	\node at (root-2) {};
+}
+
+\DeclareSymbolNew{21}{-12}{\distC}{\distC}
+{
+	\node   (root) {}
+	child {child child} child;
+	\node  at (root-1) {};
+	\node at (root-2) {};
+	\node  at (root-1-1) {};
+	\node at (root-1-2) {};
+}
+
+\DeclareSymbolNew{22}{-12}{\distC}{\distC}
+{
+	\node   (root) {}
+	child child {child child};
+	\node  at (root-1) {};
+	\node at (root-2) {};
+	\node  at (root-2-1) {};
+	\node at (root-2-2) {};
+}
+
+\DeclareSymbolNew{31}{-12}{\distC}{\distC}
+{
+	\node   (root) {}
+	child {child {child child} child} child;
+	\node  at (root-1) {}; \node at (root-2) {};
+	\node at (root-1-1) {}; \node at (root-1-2) {};
+	\node  at (root-1-1-1) {}; \node at (root-1-1-2) {};
+}
+
+\DeclareSymbolNew{32}{-12}{\distC}{\distC}
+{
+	\node   (root) {}
+	child {child child {child child} } child;
+	\node  at (root-1) {}; \node at (root-2) {};
+	\node at (root-1-1) {}; \node at (root-1-2) {};
+	\node  at (root-1-2-1) {}; \node at (root-1-2-2) {};
+}
+
+\DeclareSymbolNew{33}{-12}{21}{\distC}
+{
+	\node   (root) {}
+	child {child child} child {child child};
+	\node  at (root-1) {}; \node at (root-2) {};
+	\node at (root-1-1) {}; \node at (root-1-2) {};
+	\node  at (root-2-1) {}; \node at (root-2-2) {};
+}
+
+\DeclareSymbolNew{34}{-12}{\distC}{\distC}
+{
+	\node   (root) {}
+	child child {child {child child} child  } ;
+	\node  at (root-1) {}; \node at (root-2) {};
+	\node at (root-2-1) {}; \node at (root-2-2) {};
+	\node  at (root-2-1-1) {}; \node at (root-2-1-2) {};
+}
+
+\DeclareSymbolNew{35}{-12}{\distC}{\distC}
+{
+	\node   (root) {}
+	child child {child child {child child} } ;
+	\node  at (root-1) {}; \node at (root-2) {};
+	\node at (root-2-1) {}; \node at (root-2-2) {};
+	\node  at (root-2-2-1) {}; \node at (root-2-2-2) {};
+}
+
+
+
+
+
+
+%--------------------------------------------------------------------
+
+\newtheorem*{ackno}{Acknowledgements}
+
+
+
+
+
+
+
+
+
+
+
+\newcommand{\J}{\mathcal{J}}
+\newcommand{\If}{\mathfrak{I}}
+\newcommand{\Jf}{\mathfrak{J}}
+\newcommand{\Af}{\textgoth{A}}
+\newcommand{\RR}{\mathcal{R}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\Ical}{\mathcal{I}}
+
+
+
+\newcommand{\NR}{\textit{NR}}
+
+
+\newcommand{\A}{\mathcal{A}}
+
+\newcommand{\Gc}{\mathcal{G}}
+
+\newcommand{\C}{\mathcal{C}}
+\numberwithin{equation}{section}
+\numberwithin{theorem}{section}
+
+
+%%%
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\PP}{\mathbb{P}}
+
+
+\DeclareMathOperator{\Law}{Law}
+
+\newcommand{\ZZ}{\mathfrak{Z}}
+\newcommand{\WW}{\mathfrak{W}}
+
+
+\newcommand{\muu}{\vec{\mu}}
+\newcommand{\muuu}{\vec{\wt{\mu}}}
+
+\newcommand{\rhoo}{\vec{\rho}}
+\newcommand{\rhooo}{\overrightarrow{{\rho}^\dia}}
+\newcommand{\rhoooN}{\overrightarrow{{\rho}_N^\dia}}
+
+
+
+\newcommand{\hra}{\hookrightarrow}
+
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\W}{\mathcal{W}}
+\newcommand{\U}{\mathcal{U}}
+
+\newcommand{\dr}{\theta}
+\newcommand{\Dr}{\Theta}
+
+\newcommand{\Ha}{\mathbb{H}_a}
+\newcommand{\Hc}{\mathbb{H}_c}
+
+\newcommand{\MM}{\mathrm{M}}
+\newcommand{\NN}{\mathrm{N}}
+\newcommand{\Ncal}{\mathcal{N}}
+\newcommand{\BB}{\mathrm{B}}
+\newcommand{\D}{\mathrm{D}}
+\newcommand{\DD}{\mathcal{D}}
+
+\newcommand{\Res}{\mathfrak{R}}
+\newcommand{\Qxy}{Q_{X,Y}}
+\newcommand{\qxy}{q_{X,Y}}
+
+\newcommand{\QN}[1]{Q_{N_#1}}
+\newcommand{\QxyN}{Q_{X_N,Y_N}}
+\newcommand{\Qk}[1]{Q_{X_{N_{#1}},Y_{N_{#1}}}}
+
+
+\newcommand{\Qu}{\wt Q}
+
+
+\newcommand{\wIf}{\wt \If_{\pl, \pe}}
+\newcommand{\wIfN}{\wt \If_{\pl, \pe, N}}
+\newcommand{\Kf}{\mathfrak K}
+
+
+\newcommand{\dia}{\diamond}
+\newcommand{\Y}{\bY}
+
+\newcommand{\Bf}{\mathfrak B}
+
+\newcommand{\bW}{\mathbb W}
+
+\newcommand{\bfW}{\mathbf W}
+
+
+
+\newcommand{\LHS}{\mathcal{L}_{\rm HS}}
+
+
+
+
+
+\newcommand{\bX}{\mathbb X}
+
+\newcommand{\bY}{\mathbb Y}
+
+\newcommand{\cP}{\mathcal P}
+
+\newcommand{\cQ}{\mathcal Q}
+
+
+\newcommand{\cZ}{\mathcal Z}
+
+\newcommand{\too}{\longrightarrow}
+
+\newcommand{\proj}{\Pi}
+
+\newcommand{\Ups}{\Upsilon}
+\newcommand{\UUps}{{\ud \Upsilon}}
+
+\newcommand{\Ab}{\mathbb{A}}
+\newcommand{\Psii}{\Psi \hspace{-2.55mm}\Uppsi}
+
+\newcommand{\RN}{\mathfrak{R}}
+\newcommand{\ldd}{\vec \ld}
+
+\newcommand{\plan}{\mathfrak{p}}
+
+\newcommand{\Xc}{\mathcal{X}}
+
+\newcommand{\Zc}{\cZ}
+\newcommand{\ba}{\pmb{a}}
+\newcommand{\hJ}{\mathcal{J}}
+
+
+
+\newcommand{\pPsi}{\mathbf{\Psi}}
+
+
+\newcommand{\XX}{\mathbf{X}}
+\newcommand{\YY}{\mathbf{Y}}
+
+\newcommand{\uu}{\pmb{u}}
+\newcommand{\w}{{\rm w}}
+
+
+\newcommand{\WP}{W^\Phi}
+
+
+\newcommand{\ssq}{\scaleto{\square}{3.5pt}}
+
+
+
+% Author note macros silenced for the Final version.
+\newcommand{\andreia}[1]{}
+\newcommand{\simao}[1]{}
+\newcommand{\joao}[1]{}
+
+
+
+
+
+
+\makeatletter
+\@namedef{subjclassname@2020}{%
+	\textup{2020} Mathematics Subject Classification}
+\makeatother
+
+
+\title{Sharp local well-posedness for the Novikov-Veselov equation}
+
+
+\title[Sharp LWP for the Novikov-Veselov equation]{Sharp local well-posedness for the Novikov-Veselov equation}
+\author[A.~Chapouto \and S.~Correia \and J.~P.~Ramos]
+{Andreia Chapouto \and Sim\~ao Correia \and Jo\~ao Pedro Ramos}
+
+
+\date{\today}
+
+
+\address{Andreia Chapouto,
+	CNRS, and Laboratoire de math\'ematiques de Versailles, UVSQ, Universit\'e Paris-Saclay, CNRS, 45 avenue des \'Etats-Unis, 78035 Versailles Cedex, France}
+
+\email{andreia.chapouto@uvsq.fr}
+
+\address{Sim\~ao Correia,
+	Center for Mathematical Analysis, Geometry and Dynamical Systems,
+	Department of Mathematics,
+	Instituto Superior T\'ecnico, Universidade de Lisboa
+	Av. Rovisco Pais, 1049-001 Lisboa, Portugal
+}
+
+\email{simao.f.correia@tecnico.ulisboa.pt}
+
+\address{Jo\~ao Pedro Ramos, 
+	IMPA, Rio de Janeiro, Brazil}
+
+\email{joao.ramos@impa.br}
+
+
+
+
+\subjclass[2020]{35A01, 35A22, 35Q53, 37K10}
+
+
+
+\keywords{Novikov-Veselov equation, gauge transform,
+	local well-posedness.
+}
+\begin{document}
+\maketitle
+\input{intro.tex}
+
+
+\section{Preliminaries}\label{sec:prem}
+
+
+\subsection{Tree formalism}	
+\label{SUB:tree}
+
+
+
+
+
+\begin{definition}
+\label{DEF:tree}
+\rm 
+A \emph{binary tree} $\TT$ is a partially ordered set (with partial order $\le$) satisfying the following properties:
+
+\begin{enumerate}
+\item[(i)] $\TT$ has a unique minimal element called the \textit{root node} labelled by $\emptyset$ (i.e., $\emptyset \le a$ for all $a \in \TT$). 
+
+\smallskip 
+\item[(ii)] Given $a\in \TT\setminus \{ \emptyset \}$, 
+there exists a unique $b \in \TT$ such that: $b\ne a$, $b \le a$, and $b \le c \le a$ implies $c\in\{a,b\}$. In that case, we say that $b$ is the \textit{parent} of $a$ and $a$ is a \textit{child} of $b$. 
+
+\smallskip 
+\item[(iii)] A node $a\in \TT$ is called \textit{terminal} or a \textit{leaf} if it has no children. A \textit{non-terminal node} or a \textit{parent} $a\in\TT$ is a node with exactly two children, one called \textit{left child} and the other \textit{right child}.\footnote{Introducing the notation of left and right children of a node  reflects the lack of ambiguity in the usual planar representation of binary trees.}  
+We write $\TT^0, \TT^\infty$ for the sets of parent and terminal nodes of $\TT$, respectively.  Note that $\TT$ is the disjoint union of $\TT^0$ and $\TT^\infty$. 
+
+\smallskip 
+\item[(iv)]
+Each node in $\TT$ is labelled with a word in the following way: the root node has word~$\emptyset$; and for a given parent node $a\in \TT^0$, its left and right children have labels $a1$ and $a2$,  obtained by concatenating $1$ or $2$ to the right of $a$, respectively. Note that children of the root node have labels 1 and 2. 
+
+
+\end{enumerate}
+
+
+
+\noi
+We interchangeably use $\TT$ to denote the representation of the tree as a finite connected graph and to denote the set of words used to label its nodes. Note that the latter is also a partially ordered set, with words $a,b$ satisfying $a\le b$ if there exists a word $c$ such that $b = ac$. 
+
+
+
+\end{definition}
+
+
+Given $j\in\N$, we use the notation $\Tr_j$ to denote the family of all binary trees
+with $j$ non-terminal nodes, which we call the $j$-th generation of trees. From Definition~\ref{DEF:tree}, it follows that 
+\begin{align}
+| \TT^0 |  = j \quad \text{and} \quad |\TT^\infty| = j+1.
+\end{align}
+
+
+\noi
+It is not difficult to see that the number of distinct trees in $\Tr_j$ is given by the $j$-th Catalan number
+\begin{align}\label{eq:catalan}
+| \Tr_j | = \frac{1}{j+1} \binom{2j}{j}  = \frac{(2j)!}{(j+1)! j !}.
+\end{align}
+In particular, the first 3 generations of trees are succintly written below, identified by their graphs:
+\begin{align*}
+\Tr_1 & = \big\{ \<1> \big\}, \\
+\Tr_2 & = \left\{ \<21>, \<22> \right\}, \\
+\Tr_3 &  = \left\{ \<31>, \<32>, \<33>, \<34>, \<35> \right\}.
+\end{align*}
+Similarly, we can represent the trees above by the following partially ordered sets of words used to label their nodes (as per Definition \ref{DEF:tree}(iv)):
+\begin{align}
+\<1> 
+&
+= \{\emptyset\}
+, 
+\\
+\<21>
+&
+=
+\{ \emptyset, 1 ,2, 11,12  \}
+, 
+\\
+\<22>
+&
+=
+\{\emptyset, 1,2, 21,22\}
+, 
+\\
+\<31>
+&
+= 
+\{
+\emptyset, 1,2, 11,12, 111, 112
+\}
+, \ldots
+\end{align}
+
+
+
+
+\smallskip
+
+
+
+
+
+
+
+
+For readibility, we will reserve the symbols $\bul$, $\star$, $\circ$, and $\ast$ to denote nodes in a tree and their respective associated word. 
+Next, we introduce some additional notation to identify different nodes in a tree. 
+
+
+\begin{definition}\rm
+\label{DEF:tree2}
+Let $\TT$ be a binary tree in the sense of Definition~\ref{DEF:tree} and 
+$\bul, \star$ be two nodes in $\TT$. 
+
+\begin{enumerate}
+
+
+
+\smallskip
+\item[(i)]
+If $\bul \in \TT\setminus \{ \emptyset\}$, we write $\pb(\bul)$ to denote the \emph{parent node} of $\bul$. If $\pb(\bul)\neq \emptyset$, we write $\gb(\bul)=\pb(\pb(\bul))$.
+
+\smallskip
+\item[(ii)] 
+If $\bul, \star\in \TT \setminus\{ \emptyset \}$ are distinct and share the same parent, they are called \textit{siblings}. We write $\sbf(\bul)$ for the sibling of $\bul$. 
+
+\smallskip
+\item[(iii)] 
+Given $\bul\in \TT^0$, we say $\bul$ is a \textit{final parent} if its children $\bul1, \bul2 \in \TT^\infty$. The set of final parents is denoted by $\TT^{0,\ff}$.
+
+
+\end{enumerate}
+
+
+
+\end{definition}
+
+
+\begin{remark}\rm 
+Note that from Definition~\ref{DEF:tree}, the maps $\pb, \sbf$, for the parent and sibling of a given node, are well-defined in their respective domains, since if either the parent or sibling node exists, it is unique. 
+
+\end{remark}
+
+
+
+
+
+We next introduce concatenation and subtraction of trees. 
+
+
+\begin{definition} 
+\label{DEF:tree3}
+\rm
+
+Let $\TT$ be a binary tree in the sense of Definition~\ref{DEF:tree}. 
+
+
+\begin{enumerate}
+
+
+
+
+\smallskip
+\item[(i)] (Concatenation)  
+Given $ \star \in \TT^\infty$, we define
+$$
+\TT \overset{\star}{\oplus} \<1>
+: = \TT \cup \{\star1, \star2\}
+$$
+as the result of adding the children $\star1,\star2$ of $\star$ to the tree $\TT$. 
+Note that this operation now makes $\star$ a final parent in the tree $\TT \overset{\star}{\oplus} \<1>$. 
+
+
+
+
+\smallskip
+\item[(ii)] (Subtraction) 
+Given a final parent $\star  \in \TT^{0,\ff}$, we define the tree
+$$
+\TT \overset{\star }{\ominus } \<1>
+: = \TT \setminus \{ \star1, \star2  \}
+$$
+as the result of eliminating the children $\star1, \star2$ of $\star$
+from $\TT$. Note that $\star$ becomes a terminal node in the new tree $\TT \overset{\star}{\ominus } \<1>$. 
+More generally, given $C\subseteq \TT^{0,f}$, we define
+\begin{align}
+\label{treeSubtr}
+\TT \overset{C}{\ominus} \<1> : =
+ \bigcap_{\star \in C} ( \TT \overset{\star}{\ominus}  \<1>)
+= \bigcap_{\star\in C} (\TT \setminus \{\star1,\star2\})
+= \TT \setminus \Big( \bigcup_{\star\in C} \{\star1,\star2\} \Big), 
+\end{align}
+which corresponds to the set where all the children of the final parents $\star\in C$ have been removed from the tree.
+
+
+\end{enumerate}
+
+
+
+\end{definition}
+
+
+
+The tree structure defined above and its word-labelling will help in keeping track of the nonlinear terms appearing in the normal form reduction performed in Subsection~\ref{sec:nfe}. There, after a differentiation-by-parts step in time, a time derivative falls on a $v$-factor and is replaced, via the equation for $\dt \widehat v$, by a quadratic term, generating a higher-degree nonlinear contribution. Binary trees provide a natural bookkeeping for the frequencies of the corresponding factors, in the following way.
+
+
+\begin{definition}\rm 
+
+Let $j\in\N$ and $\TT \in \Tr_j$. 
+
+\begin{enumerate}
+\item[(i)] (Index function) 
+We define the index function $\vec\xi : \TT\to \CC^\TT$ such that $\vec\xi = (\xi_\bul)_{\bul\in\TT}$, where
+\begin{align}
+\label{parent}
+\xi_\bul = \xi_{\bul1} + \xi_{\bul2}, \quad \bul\in \TT^0,
+\end{align}
+and $\bul1$ and $\bul2$ denote the children of $\bul$. Moreover, we define the set $\G(\TT)$ as the set of convolution relations on the tree $\TT$:
+\begin{align}
+\label{Gamma}
+\G(\TT) : = \big\{ \vec\xi \in \CC^\TT: \ \xi_\bul = \xi_{\bul1} + \xi_{\bul2}, \ \bul \in \TT^0 \big\}. 
+\end{align}
+
+
+\smallskip
+
+\item[(ii)] (Zero-energy phase function) 
+We use $\Psi_0(\TT)$ to denote the \textit{zero-energy phase function} associated with the tree $\TT$, given by
+\begin{align}
+\label{psi0-tree}
+\Psi_0(\TT)
+:=
+\Re\left(- \xi^3 + \sum_{\bul\in \TT^\infty} \xi_\bul^3\right)
+\end{align}
+where $\TT^\infty$ denotes the set of leaves of $\TT$. 
+
+
+Given a parent node $\star\in\TT^0$, we also introduce the partial zero-energy phase function for the tree $\cherry{\star}{}{}=\{\star, \star1, \star2\}$:
+\begin{align}
+\label{psi-circ}
+\Psi_0(\star) = \Psi_0(\cherry{\star}{}{}) : = - \xi^3_\star + \xi^3_{\star1} + \xi^3_{\star2}. 
+\end{align}
+Note that the following additivity property holds for $\Psi$:
+\begin{equation}\label{eq:additivity}
+\Psi_0(\TT) = \sum_{\star \in \TT^0} \Psi_0(\star). 
+\end{equation}
+\item[(iii)] (Energy phase function) Given a binary tree $\TT$, we also define the \textit{energy phase function} as
+\begin{align}
+\label{psiE-tree}
+\Psi_E(\TT)
+:=
+-\Re\left(- \frac{\xi^3}{|\xi|^2} + \sum_{\bul\in \TT^\infty} \frac{\xi_\bul^3}{|\xi_\bul|^2}\right).
+\end{align}
+The partial energy phase function is given as
+\begin{align}
+\label{psi-circ-E}
+\Psi_E(\star) = \Psi_E(\cherry{\star}{}{}).
+\end{align}
+\item[(iv)] (Phase function) For a fixed binary tree $\TT$, the (total) phase function is then defined as
+\begin{equation}
+\Psi(\TT)=\Psi_0(\TT) + E \Psi_E(\TT).
+\end{equation}
+Given $\star\in \TT^0$, we write
+$$
+\Psi(\star)=\Psi_0(\star) + E \Psi_E(\star)
+$$
+\item[(v)] 
+Lastly, for $\star\in \TT^0$, we define the multiplier $K_\star$ given by
+\begin{equation}
+\label{Kmul}
+K_{\star} := \frac{\xi_{\star1}\cdot\xi_{\star2}}{|\xi_{\star1}|^2|\xi_{\star2}|^2},
+\end{equation}
+where $\xi_{\star1}\cdot\xi_{\star2}$ is the $\R^2$ inner product.
+
+
+\end{enumerate}
+
+
+
+
+\end{definition}
+
+To describe the infinite normal form reduction, we introduce a correspondence between binary trees and oscillatory integrals. 
+Given $j\in\N$, a binary tree $\TT \in \Tr_j$, a multiplier $m:\CC^{\TT}\to \CC$ on $\TT$, and a
+function $v: \R\times \CC \to\CC$, we define the associated integral term
+\begin{equation}\label{eq:defiI}
+\Ical(\TT, m; v)(t) :=   i \int_{\G(\TT)}
+e^{it\Psi(\TT)}m(\vec{\xi})
+\prod_{\bul\in \TT^\infty}  \ft v_\bul (t) d\vec{\xi},
+\end{equation}
+where 
+we use the short-hand notation  $\ft v_\bul(t) := \ft v(t,\xi_\bul)$ for a label $\bul$. 
+
+\subsection{Deriving the normal form equation}\label{sec:nfe}
+
+Using the tree formalism in Subsection~\ref{SUB:tree}, we now derive the normal form equation which we shall use.
+We apply a normal form reduction in the form of ``differentiation-by-parts" as in \cite{bit}, only in a problematic region where we cannot show the nonlinear estimate at low regularity.
+In particular, we consider the following sets $A$ and $A^c = \G({\<1>}) \setminus A$: 
+\begin{align}
+\label{A}\begin{split} 
+A & := \big\{ (\xi_{1}, \xi_{2}) \in \R^2: \ \xi_{1}+ \xi_{2} = \xi, \  |\xi_{1}| \lor  |\xi_{2}| \le 1/\delta  \big\}, \\
+A^c & := \big\{ (\xi_{1}, \xi_2) \in \R^2: \ \xi_{1}+ \xi_{2} = \xi,  \ |\xi_{1}| \lor |\xi_{2}| \ge 1/\delta  \big\}, 
+\end{split}
+\end{align}
+
+where $A^c$ denotes the bad region where we perform a reduction. 
+
+
+Using the tree-indexing in Subsection~\ref{SUB:tree} and the notations in \eqref{psi0-tree}, \eqref{psi-circ}, and \eqref{Kmul}, the equation satisfied by $v=\F_z(U(-t)u)$, in the interaction representation, can be written as follows:
+\begin{align}
+\label{duhamel2}
+\dt\ft v(t) =  i \int_{\xi = \xi_1 + \xi_2} e^{it \Psi(\<1>)}  K \Psi_0(\<1>)   (\widehat{v}_{1} \widehat{v}_{2}) (t)
+d\xi_{1}.
+\end{align}
+(Absolute multiplicative constants in front of the integral have been absorbed into the multiplier; see the discussion preceding~\eqref{eq:NV2}.)
+Then, splitting the region of integration into $A\cup A^c$ as in \eqref{A}, we may write \eqref{duhamel2} as 
+\begin{align}
+\dt\ft v
+&
+= 
+\Ical\big( \<1>, \ind_A K \Psi_0(\<1>); v 
+\big)
++ \Ical\big( \<1>, \ind_{A^c} K \Psi_0(\<1>) ;v 
+\big)
+\label{NFE000}
+\end{align}
+where $\Ical$ is as in \eqref{eq:defiI}. In order to perform a differentiation-by-parts in time on the $\MM$-term restricted to the bad region $A^c$, we need to make the total phase $\Psi(\<1>)$ appear. Hence, we simply recall that 
+\[
+\Psi(\<1>) = \Psi_0(\<1>) + E \Psi_E (\<1>).
+\]
+This allows us to write 
+\begin{align}
+\dt\ft v
+&
+= 
+\Ical\big( \<1>, \ind_A K \Psi_0(\<1>); v 
+\big)
++ \Ical\big( \<1>, \ind_{A^c} K \Psi (\<1>) ;v 
+\big)
+\\
+& - \Ical \big(\<1>, E \cdot K \cdot \Psi_E(\<1>);v\big) + \Ical \big(\<1>, \ind_A K \cdot E \cdot \Psi_E(\<1>); v\big) 
+\\
+& 
+= \Ical \big(\<1>, \ind_A K \Psi_0(\<1>) - \ind_{A^c} K \cdot E \cdot \Psi_E(\<1>);v\big) + \Ical(\<1>, \ind_{A^c} K \Psi(\<1>);v) 
+\\
+& 
+=: \Ft_x[ \NN ( \<1>; v )] + \Ft_x[ \MM(\<1>; v) ].
+\label{NFE001}
+\end{align}
+In order to move on with our development, we start by using the relation
+$$
+\dt\frac{e^{it\Psi(\<1>)}}{i\Psi(\<1>)}=e^{it\Psi(\<1>)},
+$$ 
+which allows us to perform the first differentiation-by-parts step in our chain. We obtain
+\begin{align}
+\label{NFE01}
+\begin{split}
+\dt\ft v(t)  
+&=
+\Ft_x[ \NN ( \<1>; v )] (t)
++ \dt\bigg[ \int_{\xi = \xi_1 + \xi_2} e^{it \Psi(\<1>)} 
+[\ind_{A^c}
+ K ] 
+(\ft v_{1} \ft v_{2} )(t)
+d\xi_{1} 
+\bigg]
+\\
+&
+\quad 
+-
+   \int_{\xi = \xi_1 + \xi_2} e^{it \Psi(\<1>)} 
+[ \ind_{A^c} K ]
+\partial_{t} (\ft v_{1} \ft v_{2} )(t)
+d\xi_{1} 
+\\
+& =
+\Ft_x[ \NN ( \<1>; v )] (t)
++  \dt\bigg[ \int_{\xi = \xi_1 + \xi_2} e^{it \Psi(\<1>)} 
+[\ind_{A^c}
+ K ] 
+(\ft v_{1} \ft v_{2} )(t)
+d\xi_{1} 
+\bigg]
+\\
+&
+\quad 
+- i
+ \int_{\substack{\xi = \xi_1 + \xi_2 \\ \xi_1 = \xi_{11}+ \xi_{12}  }} \exp\Big(it \Psi(\<21>) \Big)
+[ \ind_{A^c} K K_1 \Psi_0(1) ]
+ (\ft v_{11} \ft v_{12} \ft v_2 )(t)
+d\xi_{1} d\xi_{11} 
+\\
+&
+\quad 
+-i  \int_{\substack{\xi = \xi_1 + \xi_2 \\ \xi_2 = \xi_{21}+ \xi_{22}  }} \exp\Big(it \Psi(\<22>) \Big)
+[ \ind_{A^c} K K_2 \Psi_0(2) ]
+ (\ft v_{1} \ft v_{21} \ft v_{22} )(t)
+d\xi_{1} d\xi_{21}
+\end{split}
+\end{align}
+where we replaced $\dt \ft v_j$ by \eqref{duhamel2} to obtain the last equality. This can be rewritten as
+\begin{align}
+\label{NFE00}
+\begin{split}
+\dt\ft v 
+&
+=
+ \Ft_x[ \NN ( \<1>; v )] 
++ 
+\dt\Ical \big( \<1>,  - i \ind_{A^c} K; v \big) 
+\\
+&
+\quad 
++
+\Ical \Big( \<21>, - \ind_{A^c} KK_1\Psi_0(1) ; v  \Big) 
++
+\Ical \Big( \<22>, - \ind_{A^c} KK_2\Psi_0(2) ; v  \Big) 
+. 
+\end{split}
+\end{align}
+
+
+
+
+
+
+In order to iterate the procedure taking \eqref{duhamel2} into \eqref{NFE00}, we use the following result. It provides a systematic way to perform a normal form reduction on integral terms of the form $\Ical$ in \eqref{eq:defiI}, which translates to an operation on trees (based on tree concatenation as defined in Definition~\ref{DEF:tree3}~(ii)) and suitable modifications of the multipliers. We refer the reader to the companion KdV paper~\cite{chcora} for the proof, which works in the exact same fashion in our setting.
+
+
+\begin{lemma}[Differentiation-by-parts on trees]
+\label{LEM:IBP}
+Let $j\in\N$, $\TT\in\Tr_j$, $m: \R^{\TT}\to \mathbb{C}$ a multiplier on $\TT$,
+and $v$ be a smooth function such that $\ft v$ satisfies \eqref{duhamel2}. Then, the following identity holds
+\begin{align}\label{IBP}
+\begin{split}
+\Ical (\TT,m; v)
+= \dt \Ical \Big(\TT,\frac{m}{ i \Psi(\TT)} ; v \Big)
++ \sum_{\star \in \TT^\infty} \Ical 
+\Big(\TT \overset{\star}{\oplus} \<1>
+, - K_\star \Psi_0(\star) \frac{m}{\Psi(\TT)} ; v \Big)
+,
+\end{split}
+\end{align}
+where $\Ical$ is the integral functional in \eqref{eq:defiI}, $\TT \overset{\star}{\oplus} \<1>$ denotes tree concatenation at the final node $\star\in \TT^\infty$ as in Definition~\ref{DEF:tree3}~(ii), and $\Psi(\TT)$, $\Psi(\star)$, $K_\star$ are as in \eqref{psi0-tree}, \eqref{psi-circ}, and \eqref{Kmul}.
+
+\end{lemma}
+
+
+
+\noi
+As in \eqref{NFE01}, we split each region of frequency integration between a good and a bad set, and only perform a differentiation-by-parts when restricted to the latter. Generalizing the definition of $A, A^c$ in \eqref{A}, given a tree $\TT$ and a parent node $\bul \in \TT^0$, we define the analogous sets $A_\bul$ and $A_\bul^c$ as
+\begin{align}
+A_\bul& 
+:=
+ \big\{ (\xi_{\bul1}, \xi_{\bul2}) \in \R^2: \ \xi_\bul =
+\xi_{\bul1}
++ \xi_{\bul2}, \ |\xi_{\bul1}| \lor  |\xi_{\bul2}|  \le 1/\delta 
+ \} , \\
+A_\bul^c & := \big\{ (\xi_{\bul1}, \xi_{\bul2}) \in \R^2: \ \xi_\bul =
+\xi_{\bul1} +
+\xi_{\bul2},\
+|\xi_{\bul1}| \lor |\xi_{\bul2}| \ge 1/\delta \big\} 
+.
+\label{defA}
+\end{align}
+Note that, when $\bul = \emptyset$ is the root node, $A_\bul =A$ as in \eqref{A}. 
+We will often omit the dependence on the children frequencies $\xi_{\bul 1}, \xi_{\bul2}$ of $\xi_\bul$, and use the short-hand notation $\ind_{A_\bul}=\ind_{A_\bul} (\xi_{\bul1},\xi_{\bul2})$.
+%Moreover, we note the following relation between the frequencies in the sets in \eqref{defA}:
+%\begin{align}
+%\label{defA2}
+%\begin{split}
+%(\xi_{\bul1}, \xi_{\bul2}) \in A_\bul 
+%&
+%\implies 1/\delta \le (|\xi_{\bul1}| \lor |\xi_{\bul2}|) \sim |\xi_\bul| \sim \big| | \xi_{\bul1}| - |\xi_{\bul2}| \big|
+%,
+%\\
+%(\xi_{\bul1}, \xi_{\bul2}) \in A_\bul^{c} 
+%&
+%\implies (1/\delta) \lor  |\xi_{\bul}|  \les |\xi_{\bul1}| \sim |\xi_{\bul2}|
+%.
+%\end{split}
+%\end{align}
+
+
+Returning to \eqref{NFE00}, we continue to derive the second iteration of the normal form equation.
+Unlike the first normal form reduction from equation \eqref{duhamel2} to \eqref{NFE00}, where we split the integral term into $A$ and $A^c$ (see \eqref{A}) and differentiate-by-parts in the latter region, we now have an additional step, which we describe in the following. Considering the two last terms in \eqref{NFE00}, we first split their regions of integration $(\xi_{\bul1}, \xi_{\bul2}) \in A_\bul \cup A_\bul^c$, where $\bul = 1,2$, respectively:
+\begin{align}
+\label{NFE001b}
+\dt\ft v
+&
+= 
+ \Ft_x[ \NN ( \<1>; v )]  
++ 
+\dt \Ical \big( \<1>, -i  \ind_{A^c} K; v \big)
+\\
+&
+\quad 
++
+\Ical \Big( \<21>, - \ind_{A^c \cap A_1} KK_1\Psi_0(1) ; v  \Big)  
++
+\Ical \Big( \<21>, - \ind_{A^c \cap A_1^c} KK_1\Psi_0(1) ; v  \Big) 
+\\
+&
+\quad 
++
+\Ical \Big( \<22>, - \ind_{A^c \cap A_2} KK_2\Psi_0(2) ; v  \Big) 
++
+\Ical \Big( \<22>, - \ind_{A^c \cap A_2^c} KK_2\Psi_0(2) ; v  \Big) .
+\end{align}
+As a first preparatory step, we add and subtract the `energy' terms, in order to complete the phases in the last couple of lines above. Indeed, we first write 
+\[
+\Psi(\star) = \big( \Psi_0(\star) + E \cdot \Psi_E (\star) \big) - E \cdot \Psi_E(\star),
+\]
+which allows us to write 
+\begin{align}
+\label{NFE0011}
+\dt\ft v
+&
+= 
+ \Ft_x[ \NN ( \<1>; v )]  
++ 
+\dt \Ical \big( \<1>, -i  \ind_{A^c} K; v \big)
+\\
+&
+\quad 
++
+\Ical \Big( \<21>, K K_1 \ind_{A^c} \cdot \left( E \ind_{A_1^c}  \Psi_E(1) - \ind_{A_1} \Psi_0(1) \right) ; v  \Big)  
++
+\Ical \Big( \<21>, - \ind_{A^c \cap A_1^c} KK_1\Psi(1) ; v  \Big) 
+\\
+&
+\quad 
++
+\Ical \Big( \<22>, KK_2 \ind_{A^c} \left( E \ind_{A_2^c} \Psi_E(2) - \ind_{A_2} \Psi_0(2)\right) ; v  \Big) 
++
+\Ical \Big( \<22>, - \ind_{A^c \cap A_2^c} KK_2\Psi(2) ; v  \Big). 
+\end{align}
+
+As before, we keep the integral contributions which either come from a `lower-order'/energy term, or which are localized to a ``good set" $A_\bul$. Regarding the contributions restricted to $A_\bul^c$ for all $\bul\in \TT^0$, despite the restriction to the ``bad regions'', we will keep a suitable part of these terms before performing another differentiation-by-parts. In particular, by using the additivity of the phase $\Psi$ in \eqref{eq:additivity}, we write
+\begin{align}
+\Psi(\star) 
+= \big[ \Psi(\star) + \Psi(\<1>) \big]- \Psi(\<1>) 
+=
+\Psi(\TT) - \Psi(\<1>),
+\quad (\star, \TT)\in \left\{ (1, \<21>) , (2, \<22>) \right\},
+\end{align}
+and keep the contributions with partial phase $-\Psi(\<1>)$, only differentiating-by-parts the terms with total phase $\Psi(\TT)$. Then, from \eqref{NFE001}, we obtain the second iteration of the normal form equation
+\begin{align}
+\dt\ft v
+&
+= 
+ \Ft_x[ \NN ( \<1>; v )] 
++ 
+\dt \Ical \big( \<1>, - i  \ind_{A^c} K; v \big)
+\\
+&
++
+\Ical \Big( \<21>,  K K_1 \ind_{A^c} \cdot \left( \ind_{A_1^c} \Psi(\<1>) + E \ind_{A_1^c}  \Psi_E(1) - \ind_{A_1} \Psi_0(1) \right); v  \Big) 
+\\
+&
++
+\Ical \Big( \<21>, - \ind_{A^c \cap A_1^c} KK_1\Psi(\<21>) ; v  \Big) 
+\\
+&
++
+\Ical \Big( \<22>, KK_2 \ind_{A^c} \left( \ind_{A_2^c} \Psi(\<1>) + E \ind_{A_2^c} \Psi_E(2) - \ind_{A_2} \Psi_0(2)\right) ; v  \Big) 
+\\
+&
++
+\Ical \Big( \<22>, - \ind_{A^c \cap A_2^c} KK_2\Psi(\<22>) ; v  \Big) 
+\\
+&
+= : 
+ \Ft_x[ \NN ( \<1>; v )]  
++ 
+ \Ft_x[ 
+\BB(\<1>;v)
+] 
+\\
+&
+\quad 
++ 
+ \Ft_x[ 
+\NN(\<21>; v )
+] 
++
+ \Ft_x[ 
+\MM(\<21>; v )
+] 
++
+ \Ft_x[ 
+\NN(\<22>; v)
+]  
++
+ \Ft_x[ 
+\MM(\<22>;v)
+]  
+.
+\label{NFE002}
+\end{align}
+In the Duhamel expansion of $v$, based on \eqref{NFE002}, $\NN$ corresponds to time-integral terms, $\BB$ to boundary terms, and $\MM$ are remainders, to which we apply \eqref{IBP} at the next step. Thus, in the following, we refer to them as integral terms, boundary terms, and remainders, respectively.
+
+
+
+In the following iterations of the normal form equation, as in \eqref{NFE00} and \eqref{NFE002}, for each tree $\TT$, we want to have a unique integral term $\NN(\TT)$ and boundary term $\BB(\TT)$, 
+where this must encode all the possible ways of arriving at such a tree structure. 
+From Lemma~\ref{LEM:IBP}, we note that given a tree $\TT \in \Tr_j$ for $j\ge2$, after differentiation-by-parts, the resulting contributions associated with the tree $\TT$ can come from any term of the form $\Ical(\TT \overset{\star}{\ominus} \<1>)$ where $\star \in \TT^{0, \ff}$, i.e., that the children of $\star$ are leaves in $\TT$. Consequently, in the following, we need to perform differentiation-by-parts on the remainder terms $\MM(\TT)$ simultaneously and combine any contributions associated with the same tree before preparing the integral terms to be kept and those which will be differentiated in the following step. 
+
+The following result provides a systematic way of repeating the process described above, with an explicit description of the contributions and multipliers involved at each finite normal form equation. 
+We note that we see one boundary term and an integral term for each tree of a given generation $\Tr_j$, with the complexity of the contributions being encoded in the corresponding multipliers.
+
+
+
+
+
+
+
+
+\begin{proposition}
+\label{PRO:NFE}
+Let $J\in\N$, $u$ be a smooth solution to \eqref{eq:NV}, and $v=\F_z(U(-t)u)$ be the corresponding solution to \eqref{duhamel2}.
+Then, 
+the $J$-th normal form equation for $v$ is given by
+\begin{align}
+\label{NFE1}
+\dt v=
+\sum_{j=1}^{J-1} \sum_{\TT\in \Tr_j} \BB(\TT; v) 
++ \sum_{j=1}^{J} \sum_{\TT\in \Tr_j} \NN(\TT; v) 
++ \sum_{\TT\in \Tr_{J}}
+\MM(\TT; v),
+\end{align}
+where the operators are defined via their spatial Fourier transforms
+\begin{align}
+\label{NFE1a}
+\begin{split}
+\Ft_x [\BB(\TT;v)]  & = \dt\Ical(\TT, - i \mulB(\TT); v),\\
+\Ft_x [\NN(\TT;v)]  & = \Ical(\TT, \mul(\TT) ; v  ), \\
+\Ft_x [\MM(\TT;v)] & = \Ical(\TT, \Psi(\TT)\mulB(\TT); v),
+\end{split}
+\end{align}
+
+\noi
+with $\Ical(\TT, m; v)$ as in \eqref{eq:defiI}.
+Moreover,
+the multipliers $\mul(\TT)$ and $\mulB(\TT)$ for $\TT\in \Tr_j$ are given by
+\begin{align}
+\label{NFE0b}
+\begin{split}
+\mulB(\TT)
+& =  (-1)^{j+1}  \prod_{\bul \in \TT^0}  \ind_{A^c_{\bul}} K_\bul
+,
+\\
+\mul(\TT) & =  (-1)^{j+1} \bigg(\prod_{\bul \in \TT^0} K_\bul \bigg) \bigg\{  \sum_{\star \in \TT^{0,f}}
+\left(\ind_{A_{\star}} \Psi_0(\star) - \ind_{A_{\star}^c} E\Psi_E(\star)\right)\bigg(\prod_{\substack{\bul \in \TT^0 \setminus\{\star\}
+}} \ind_{A^c_{\bul}} \bigg)\\
+&
+\hspace{4cm}
+-
+\bigg( \prod_{\bul \in \TT^0} \ind_{A_\bul^c} \bigg)
+\sum_{\star\in \TT^0 \setminus \TT^{0,\ff}} \Psi(\star)
+ \bigg\},
+\end{split}
+\end{align}
+where $K_\bul$ and $\Psi(\star)$ are as in \eqref{Kmul} and \eqref{psi-circ}. 
+
+\end{proposition}
+
+\input{gauge.tex}
+
+
+\input{fre.tex}
+
+
+\section{Proof of the main theorem}\label{sec:lwp}
+
+In this section, we prove Theorem \ref{thm:main_intro}. By a suitable rescaling, it suffices to consider the case $|E|<1$. Throughout this section, we fix $R\gg 1$ and take $\delta>0$ such that
+\begin{equation}\label{eq:escolhadelta}
+\delta^{2s+2}R\ll 1.
+\end{equation}
+
+\begin{proposition}[Local well-posedness for the gauged NV equation]\label{prop:lwp_rnv}
+Fix $s>-1$. Given $z_0\in H^s(\R^2)$ with $\|z_0\|_{H^s}<R$, there exist $T=T_{\delta,R}>0$ and a unique
+$$
+z\in X^{s,\frac12 +}(0,T)
+$$
+solution of \eqref{z1} over $(0,T)$ with initial data $z_0$.
+\end{proposition}
+
+\begin{proof}
+The argument is by Banach fixed point in the standard way; we record the main inequality in order to highlight the dependence on $\delta$.
+
+Fix $b=\frac12+$ and define
+$$
+B_{R,T}=\left\{ z\in X^{s,b}_T : \|z\|_{X^{s,b}(0,T)}\le 2R \right\},
+$$
+endowed with the induced distance, together with the integral map
+$$
+\Theta[z](t)=U(t)z_0 + \int_0^t U(t-t')\sum_{j=1}^\infty \sum_{\TT \in \Tr_j} \sum_{\l=1}^5  \Ncal_\l(\TT;z)(t')\,dt'.
+$$
+Applying the multilinear estimates of Proposition \ref{prop:bourgL2} and recalling that $|\Tr_j|$ grows only exponentially in $j$ (cf.~\eqref{eq:catalan}), for any $z\in B_{R,T}$ we obtain
+\begin{align}
+\|\Theta[z]\|_{X^{s,b}(0,T)}
+&\le \|z_0\|_{H^s} + T^{0+}\sum_{j=1}^\infty C^j\delta^{(2s+2)(j-3)-1}\|z\|_{X^{s,b}(0,T)}^{j+1} \\
+&\le R + T^{0+}\delta^{-4s-5}\sum_{j=1}^\infty \big(C \,\delta^{2s+2}\, R\big)^{j-1} \cdot C R^2 \\
+&\le R + T^{0+} C \,\delta^{-4s-5}\, R^2 \le 2R,
+\end{align}
+where the geometric series converges thanks to the smallness condition \eqref{eq:escolhadelta} and $T=T_{\delta,R}$ is chosen sufficiently small in the last inequality. Using the multilinear structure of the nonlinear terms, an analogous computation yields
+$$
+\|\Theta[z]-\Theta[z']\|_{X^{s,b}(0,T)} \le T^{0+}C\delta^{-4s-5}R\|z-z'\|_{X^{s,b}(0,T)} \le \tfrac12\|z-z'\|_{X^{s,b}(0,T)}.
+$$
+The result follows from Banach's fixed point theorem.
+\end{proof}
+
+\begin{remark}\label{remark:persistence}
+If $z_0\in H^{s'}(\R^2)$, for some $s'>s$, a standard persistence-of-regularity argument shows that $z\in X^{s',b}(0,T) \hookrightarrow C([0,T]; H^s(\R^2))$.
+\end{remark}
+
+
+Recall the (formal) definition of the gauge transform,
+\begin{equation}\label{eq:gauge}
+\mathcal{G}_\delta^{-1}[f]=f+\F_{z}^{-1}\left(\int_{\xi=\xi_1+\xi_2} K\mathbbm{1}_{A^c_\delta}(\xi_1,\xi_2)\widehat{f}(\xi_1)\widehat{f}(\xi_2)d\xi_1\right).
+\end{equation}
+
+
+
+\begin{lemma}\label{LEM:D}
+
+Consider the map  $\Gc^{-1}$ defined in \eqref{eq:gauge}.
+
+\smallskip
+
+
+
+\noi {\rm(i)}
+Let $s' \ge s>-1$, $R>0$, $0<\dl \ll R^{-\frac{1}{2s+2}}$, and $B^{s',s}_R$ be given by
+\begin{align}
+\label{Bss}
+B^{s',s}_R=\left\{ f\in H^{s'}(\R^2): \|f\|_{H^s} \le R \right\}.
+\end{align}
+Then, there exists $0<\eps\ll 1$ such that the map $\Gc_\dl^{-1}: B^{s',s}_R \to B^{s',s}_{(1+\eps)R}$ is continuous with a continuous inverse $\Gc_\dl: B^{s',s}_{(1-\eps)R} \to B^{s',s}_R$.
+
+\smallskip
+\noi {\rm(ii)} The map $\Gc_\dl^{-1}$ is unbounded on $H^s(\R^2)$ for $s< - 1$.
+
+
+\end{lemma}
+
+\begin{proof}
+We start with (i). It suffices to check that the quadratic term in \eqref{eq:gauge} is a (small) bilinear map over $B_R$. Supposing, without loss in generality, that $|\xi|\le |\xi_1|\sim |\xi_2|$,
+\begin{align*}
+&\sup_{\|g\|_{L^2}\le 1} \int_{\xi=\xi_1+\xi_2} \jap{\xi}^sK\mathbbm{1}_{A^c_\delta}(\xi_1,\xi_2)\widehat{f}_1(\xi_1)\widehat{f}_2(\xi_2)g(\xi)d\xi_1d\xi \\\lesssim & \sup_{\xi_1} \left(\int_{\xi=\xi_1+\xi_2} \mathbbm{1}_{A^c_\delta} \frac{\jap{\xi}^{2s}}{\jap{\xi_1}^{2s+2}\jap{\xi_2}^{2s+2}}d\xi\right)^{\frac12}\|f_1\|_{H^s}\|f_2\|_{H^s} \lesssim \delta^{2+2s}\|f_1\|_{H^s}\|f_2\|_{H^s},
+\end{align*}
+and the claim follows from \eqref{eq:escolhadelta}.
+
+To prove (ii), take $\widehat{f}(\xi)=\jap{\xi}^{-1-s-}$. Then, for $|\xi|<1$,
+$$
+\int_{\xi=\xi_1+\xi_2} K\ind_{A^c_\dl}(\xi_1,\xi_2)\widehat{f}(\xi_1)\widehat{f}(\xi_2)d\xi_1 \sim \int \frac{1}{\jap{\xi_1}^{4+2s+}}d\xi_1 = \infty,
+$$
+since $s<-1$.
+\end{proof}
+
+\begin{remark}
+At the endpoint $s=-1$ the gauge transform is still a bounded operator on $H^{-1}(\R^2)$: writing the relevant bilinear form in dual variables, the estimate reduces, via Sobolev embedding $W^{1,1}(\R^2)\embeds L^2(\R^2)$, to the standard duality $|\int \jap{\dx}^{-1} h\, g\,dx| \les \|h\|_{L^1}\|g\|_{L^2}$ applied with $h=(\mathbf{P}_{>1} f)^2$.
+\end{remark}
+
+To conclude the proof of Theorem~\ref{thm:main_intro}, we proceed via a density argument as in the KdV case~\cite{chcora}, which hinges on the following equivalence between the original and gauged flows at high regularity.
+
+\begin{proposition}\label{PRO:equiv}
+Let $s' \ge s > -1$ with $s'\gg1$ sufficiently large, $R>0$, $0<\dl \ll R^{-\frac{1}{2s+2}}$, and $u_0$ satisfying
+\begin{align}\label{equiv-0}
+u_0\in H^{s'}(\R^2) \quad \text{and} \quad \|u_0\|_{H^s}<R.
+\end{align}
+Let $u \in X^{s',b}(0,T)$ be the solution to \eqref{eq:NV} with initial data $u_0$ constructed in \cite{angelopolous, kazeykinamunoz1, kazeykinamunoz2}, where $T>0$ is its maximal time of existence, and let $z\in X^{s', b}(0,T_{\delta,R})$ be the solution to \eqref{z1} with initial data $z_0 := \Gc_\delta[u_0]$ provided by Proposition~\ref{prop:lwp_rnv}. Then $T \ge T_{\delta,R}$ and
+\begin{align}\label{equiv-1}
+z(t)=\Gc_\delta[u(t)] \quad \text{in} \quad C([0,T_{\delta,R}]; H^{s'}(\R^2)).
+\end{align}
+\end{proposition}
+
+The proof of Proposition~\ref{PRO:equiv} and the deduction of Theorem~\ref{thm:main_intro} from it occupy the remainder of this section.
+
+\input{density.tex}
+
+
+\appendix
+
+\section{Improved local well-posedness for $s>-\frac34$}\label{sec:s-34}
+
+In this short appendix, we extend the well-posedness result in $H^s, s>-\frac34,$ of Adams and Grünrock for the zero-energy \eqref{eq:NV} to the nonzero case. In particular, we are able to improve the properties of the \eqref{eq:NV} flow constructed in Theorem \ref{thm:main_intro}. 
+
+
+\begin{theorem}\label{thm:s-34}
+Fix $E\in \R$ and $s>-\frac34$. Given $u_0\in H^s(\R^2)$, there exists $T>0$ and a unique $u\in X^{s,b}_T$ strong integral solution to \eqref{eq:NV} with initial data $u_0$. Moreover, the data-to-solution map is analytic.
+\end{theorem}
+
+
+As before, using the scaling invariance, it suffices to prove Theorem \ref{thm:s-34} for $|E|<1$. We define the bilinear operator associated with the \eqref{eq:NV} nonlinearity (see \eqref{eq:NV2}):
+$$
+B[u_1,u_2]^\wedge(\xi):=\int_{\xi=\xi_1+\xi_2} K\Phi_0u_1(\xi_1)u_2(\xi_2)d\xi_1
+$$
+Then, using the standard theory of Fourier restriction norm spaces (\cite{bourg1,bourg2}, see also the monographs \cite{linaresponce, tao_book}), the proof of Theorem \ref{thm:s-34} follows from 
+
+\begin{proposition}\label{prop:bilin_s-34}
+Fix $E\in \R$ and $s>-\frac34$. Then
+\begin{equation}\label{eq:bilin_s-34}
+\left\| B[u_1,u_2]\right\|_{X^{s,-\frac12+}}\lesssim \|u_1\|_{X^{s,\frac12+}}\|u_2\|_{X^{s,\frac12+}}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+First, we decompose $B$ as
+\begin{align*}
+B[u_1,u_2]^\wedge(\xi)&=\int_{\xi=\xi_1+\xi_2} K\Phi\mathbbm{1}_{A^c}u_1(\xi_1)u_2(\xi_2)d\xi_1 \\&\qquad+ \int_{\xi=\xi_1+\xi_2} K(\Phi_0\mathbbm{1}_A -E\Phi_E\mathbbm{1}_{A^c})u_1(\xi_1)u_2(\xi_2)d\xi_1.
+\end{align*}
+The bilinear estimate for the last term has already been shown in Proposition \ref{prop:bourgL2} (it corresponds to the Type $\I$ term). For the remaining term, we use Lemma \ref{lem:fre_bi}-(i) (together with Lemma \ref{lem:eta1}) and prove the necessary frequency-restricted estimates.
+
+To simplify the exposition, we take $-\frac34<s<-\frac12$ and consider only the worst-case scenario $|\xi_1|\sim |\xi_2|\gtrsim |\xi|$. For $\alpha\in\R$ and $M>1$ with $|\alpha|\lesssim M$, we bound
+\begin{align}
+\frac{\jap{\xi}^{2s}|K\Phi|^2}{\jap{\xi_1}^{2s+0-}\jap{\xi_2}^{2s}}\mathbbm{1}_{A^c}\ind_{|\Phi-\alpha|<M}&\lesssim |\alpha|\frac{\jap{\xi}^{2s+1}}{\jap{\xi_1}^{2s+1-}\jap{\xi_2}^{2s+1}}\mathbbm{1}_{A^c}\ind_{|\Phi-\alpha|<M}\\&\lesssim |\alpha|\frac{1}{\jap{\xi_1}^{2s+1-}\jap{\xi_2}^{2s+1}}\mathbbm{1}_{A^c}\ind_{|\Phi-\alpha|<M}.
+\end{align}
+For $\xi_2$ fixed, if $\xi_1\not\simeq \pm\xi$, then, by Lemma \ref{lem:prop_resonance}-(i),
+$$
+|\nabla_{\xi_1}\Phi|\gtrsim |\xi_1|^2
+$$
+and
+\begin{align}
+\int \frac{1}{\jap{\xi_1}^{2s+1-}\jap{\xi_2}^{2s+1}}\ind_{|\Phi-\alpha|<M}d\xi_1 \lesssim \int \frac{1}{\jap{\zeta_1}^{4s+4-}}\ind_{|\Phi-\alpha|<M}d\Phi d\zeta_1 \lesssim M,
+\end{align}
+for $s>-\frac34$. On the other hand, if $\xi_1\simeq \pm \xi$, then all frequencies are comparable and, by Lemma \ref{lem:prop_resonance}-(ii), there exists a change of coordinates $\xi_1\mapsto q_1$, with jacobian $\sim |\xi_2|^2$, such that
+$$
+\Phi=|\xi_2|^3\Re q_1^2-\phi(\xi_2).
+$$
+Hence
+\begin{align*}
+\int_{|q_1|<1} \jap{\xi_2}^{-4s+0+}\ind_{||\xi_2|^3\Re q_1^2-\phi(\xi_2)-\alpha|<M}dq_1 \lesssim \jap{\xi_2}^{-4s-3+0+}M\lesssim M,
+\end{align*}
+for $s>-\frac34$.
+\smallskip
+For $\xi_1$ (or $\xi$) fixed, the proof follows the same lines \textit{mutatis mutandis}. Thus
+\begin{equation}\label{eq:final_appendix}
+\sup_{k\in\{\emptyset, 1, 2\}}\sup_{\xi_k}\int_{\xi=\xi_1+\xi_2}
+        \frac{|K\Phi|^2\jap{\xi}^{2s}}{\jap{\xi_{1}}^{2s+0-}\jap{\xi_{2}}^{2s}}\ind_{A^c}\mathbbm{1}_{|\Phi(\<1>)-\alpha|<M}\, d\xi_{k} \lesssim \jap{\alpha}\,M,
+    \end{equation}
+and \eqref{eq:bilin_s-34} follows from Lemma \ref{lem:fre_bi}-(i) and Lemma \ref{lem:eta1}.
+\end{proof}
+
+
+
+\bibliographystyle{plain}
+\bibliography{biblio}
+
+\end{document}
+
+
+
+

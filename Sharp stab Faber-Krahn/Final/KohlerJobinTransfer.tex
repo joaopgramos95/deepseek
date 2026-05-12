@@ -1,0 +1,268 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\dx}{\,dx}
+\DeclareMathOperator{\Asym}{\mathcal{A}}
+
+\title{The Kohler--Jobin transfer:\\
+sharp Faber--Krahn stability from sharp Saint--Venant stability}
+\author{Plan 1 / Route A, building block \textsc{KohlerJobinTransfer}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We record the Kohler--Jobin transfer step.
+\emph{Input:} the sharp Saint--Venant stability inequality
+\[
+E(\Omega)-E(B^*)\ge c_{\mathrm{SV}}(N)\,
+\Bigl(\frac{|B^*|}{|B_1|}\Bigr)^{(N+2)/N}\Asym(\Omega)^{2}
+\qquad\text{for every open }\Omega,\ \abs{\Omega}=\abs{B^*},
+\]
+produced by the \textsc{BoundedReduction} block from the sibling
+\textsc{SaintVenantAssembly} block.
+\emph{Output:} the sharp Faber--Krahn stability inequality
+\[
+\Bigl(\frac{|\Omega|}{|B_1|}\Bigr)^{2/N}
+\bigl(\lambda_1(\Omega)-\lambda_1(B^*)\bigr)
+\ge c_{\mathrm{FK}}(N)\,\Asym(\Omega)^{2}.
+\]
+The argument is non-perturbative: it uses only the Kohler--Jobin
+inequality $T\cdot\lambda_1^{(N+2)/2}\ge T_N L_N^{(N+2)/2}$ (cited from
+Brasco~\cite{Brasco2014}) and one elementary one-variable inequality.
+No compactness, no contradiction, no Taylor expansion.
+\end{abstract}
+
+\section{Notation}\label{sec:notation}
+
+For open bounded $\Omega\subset\R^N$ ($N\ge2$):
+\begin{itemize}
+\item $u_\Omega\in H_0^1(\Omega)$ is the torsion potential, the unique
+weak solution of $-\Delta u=1$ in $\Omega$, $u=0$ on $\partial\Omega$;
+\item $T(\Omega)=\int_\Omega u_\Omega\dx$ is the torsional rigidity;
+\item $\lambda_1(\Omega)$ is the first Dirichlet eigenvalue;
+\item $E(\Omega):=-T(\Omega)/2$ is the BDV-normalized Saint--Venant
+energy, so $T(B^*)-T(\Omega)=2(E(\Omega)-E(B^*))$;
+\item $B^*$ is the ball with $|B^*|=|\Omega|$, $B_R$ is the ball of
+radius $R$ at the origin;
+\item $\Asym(\Omega):=\inf_{x_0\in\R^N}|\Omega\Delta(x_0+B^*)|/|B^*|$ is
+the Fraenkel asymmetry;
+\item $B_1$ is the unit ball, $L_N:=\lambda_1(B_1)$, $T_N:=T(B_1)=|B_1|/(N(N+2))$.
+\end{itemize}
+
+The scaling laws
+\begin{equation}\label{eq:scaling}
+T(t\Omega)=t^{N+2}T(\Omega),\qquad
+\lambda_1(t\Omega)=t^{-2}\lambda_1(\Omega)\qquad(t>0),
+\end{equation}
+make $\Psi(\Omega):=T(\Omega)\cdot\lambda_1(\Omega)^{(N+2)/2}$ scale
+invariant. Write $\beta:=(N+2)/2$, $L:=\lambda_1(B^*)$, $T_0:=T(B^*)$.
+
+\section{The Kohler--Jobin inequality}\label{sec:kj}
+
+\begin{theorem}[Kohler--Jobin, 1978]\label{thm:kj}
+For every open bounded $\Omega\subset\R^N$ with $\lambda_1(\Omega)<\infty$
+and every ball $B$,
+\begin{equation}\label{eq:kjglobal}
+T(\Omega)\cdot\lambda_1(\Omega)^{\beta}
+\ge T(B)\cdot\lambda_1(B)^{\beta}.
+\end{equation}
+Equivalently $\Psi(\Omega)\ge\Psi(B_1)=T_N L_N^{\beta}$, with equality
+iff $\Omega$ is a ball (up to translation and a null set).
+\end{theorem}
+
+We invoke~\eqref{eq:kjglobal} as a black box; for a modern proof by
+Schwarz symmetrization see Brasco~\cite[Theorem~3.3]{Brasco2014}.
+
+\begin{remark}[Scaling check]\label{rem:scaling}
+$\beta=(N+2)/2$ is forced by scale-invariance of~\eqref{eq:kjglobal}.
+From~\eqref{eq:scaling}, $T(t\Omega)\lambda_1(t\Omega)^\beta =
+t^{N+2-2\beta}T(\Omega)\lambda_1(\Omega)^\beta$; invariance forces
+$N+2-2\beta=0$.
+\end{remark}
+
+\section{Pointwise transfer at fixed volume}
+
+\begin{lemma}[Pointwise Kohler--Jobin transfer]\label{lem:pointwise}
+For every open $\Omega\subset\R^N$ with $|\Omega|=|B^*|$,
+\begin{equation}\label{eq:ptwise}
+\lambda_1(\Omega)\ge L\cdot\Bigl(\frac{T_0}{T(\Omega)}\Bigr)^{1/\beta}
+=L\cdot\Bigl(\frac{T_0}{T(\Omega)}\Bigr)^{2/(N+2)}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Apply Theorem~\ref{thm:kj} with $B=B^*$ and rearrange.
+\end{proof}
+
+By the classical Saint--Venant inequality $T(\Omega)\le T_0$ at fixed
+volume, the Saint--Venant deficit
+$\delta_{\mathrm{SV}}(\Omega):=T_0-T(\Omega)\ge0$ is non-negative. Set
+$s:=\delta_{\mathrm{SV}}/T_0\in[0,1)$; \eqref{eq:ptwise} becomes
+\begin{equation}\label{eq:ptwises}
+\lambda_1(\Omega)-L\ge L\bigl[(1-s)^{-1/\beta}-1\bigr].
+\end{equation}
+
+\section{An elementary one-variable inequality}
+
+\begin{lemma}\label{lem:onevar}
+For $p\in(0,1]$, $s\in[0,1)$,
+\begin{equation}\label{eq:onevar}
+(1-s)^{-p}-1\ge p\,s.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+$f(s):=(1-s)^{-p}-1$ satisfies $f(0)=0$ and
+$f'(s)=p(1-s)^{-(p+1)}\ge p$ for $s\ge0$. By FTC,
+$f(s)=\int_0^s f'(\tau)d\tau\ge ps$.
+\end{proof}
+
+\begin{remark}
+No Taylor expansion; the inequality is exact on $[0,1)$. The factor $p$
+is sharp at $s=0$ since $f'(0)=p$. We use $p=1/\beta=2/(N+2)\in(0,1]$.
+\end{remark}
+
+\section{Small-deficit linearization}
+
+\begin{lemma}[Small-deficit linearization]\label{lem:linear}
+For every open $\Omega\subset\R^N$ with $|\Omega|=|B^*|$ and
+$\delta_{\mathrm{SV}}(\Omega)\le T_0/2$,
+\begin{equation}\label{eq:linear}
+\lambda_1(\Omega)-L\ge\frac{2L}{(N+2)T_0}\,\delta_{\mathrm{SV}}(\Omega).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+$s=\delta_{\mathrm{SV}}/T_0\le1/2$, $p=2/(N+2)$. By \eqref{eq:ptwises}
+and Lemma~\ref{lem:onevar},
+$\lambda_1(\Omega)-L\ge L[(1-s)^{-p}-1]\ge Lps=Lp\delta_{\mathrm{SV}}/T_0
+=(2L/((N+2)T_0))\delta_{\mathrm{SV}}$.
+\end{proof}
+
+The constant $2L/((N+2)T_0)$ is the universal \emph{Kohler--Jobin
+multiplier}. Both sides of~\eqref{eq:linear} scale, so it depends only
+on $N$: $2L/((N+2)T_0)=2L_N/((N+2)T_N)=2NL_N/|B_1|$.
+
+\section{Large-deficit branch}
+
+\begin{lemma}[Large-deficit bound]\label{lem:large}
+If $|\Omega|=|B^*|$ and $\delta_{\mathrm{SV}}(\Omega)>T_0/2$,
+\begin{equation}\label{eq:large}
+\lambda_1(\Omega)-L\ge L\bigl(2^{2/(N+2)}-1\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+$T_0/T(\Omega)>2$, so~\eqref{eq:ptwise} gives
+$\lambda_1(\Omega)\ge L\cdot 2^{2/(N+2)}$.
+\end{proof}
+
+Since $\Asym(\Omega)\in[0,2)$ for $|\Omega|=|B^*|$,
+$\Asym(\Omega)^2\le4$, so~\eqref{eq:large} yields in this regime
+\begin{equation}\label{eq:largeA}
+\lambda_1(\Omega)-L\ge\frac{L(2^{2/(N+2)}-1)}{4}\,\Asym(\Omega)^2.
+\end{equation}
+
+\section{Main transfer theorem}\label{sec:main}
+
+\begin{theorem}[Sharp Faber--Krahn via Kohler--Jobin]\label{thm:main}
+Assume sharp Saint--Venant stability in energy form: there exists
+$c_{\mathrm{SV}}(N)>0$
+such that
+\begin{equation}\label{eq:svinput}
+E(\Omega)-E(B^*)\ge c_{\mathrm{SV}}(N)
+\Bigl(\frac{|B^*|}{|B_1|}\Bigr)^{(N+2)/N}\Asym(\Omega)^2
+\quad\forall\,\Omega,\ 0<|\Omega|=|B^*|<\infty.
+\end{equation}
+Then for every such $\Omega$,
+\begin{equation}\label{eq:fkout}
+\Bigl(\frac{|\Omega|}{|B_1|}\Bigr)^{2/N}
+\bigl(\lambda_1(\Omega)-\lambda_1(B^*)\bigr)
+\ge c_{\mathrm{FK}}(N)\,\Asym(\Omega)^2,
+\end{equation}
+with
+\begin{equation}\label{eq:cfk}
+c_{\mathrm{FK}}(N):=\min\!\left\{
+\frac{4L_N\,c_{\mathrm{SV}}(N)}{(N+2)T_N},\;\;
+\frac{L_N(2^{2/(N+2)}-1)}{4}
+\right\}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Split on $\delta_{\mathrm{SV}}\le T_0/2$ vs.\ $\delta_{\mathrm{SV}}>T_0/2$.
+
+\emph{Case 1.} Put $r=(|B^*|/|B_1|)^{1/N}$. Lemma~\ref{lem:linear} and
+\eqref{eq:svinput} give
+$\lambda_1(\Omega)-L\ge(2L/((N+2)T_0))\delta_{\mathrm{SV}}
+\ge(4L\,c_{\mathrm{SV}}r^{N+2}/((N+2)T_0))\Asym^2
+=(4L_N c_{\mathrm{SV}}/((N+2)T_N))r^{-2}\Asym^2$ by scaling. Multiplying
+by $r^2=(|\Omega|/|B_1|)^{2/N}$ gives the first constant in~\eqref{eq:cfk}.
+
+\emph{Case 2.} \eqref{eq:largeA} gives
+$\lambda_1(\Omega)-L\ge r^{-2}(L_N(2^{2/(N+2)}-1)/4)\Asym^2$ by scaling.
+Multiplying by $r^2$ gives the second constant.
+
+Either way, the conclusion holds with~\eqref{eq:cfk}.
+\end{proof}
+
+\begin{remark}[Energy normalization]
+With $E:=-T/2$, the torsion deficit is
+$\delta_{\mathrm{SV}}=T(B^*)-T(\Omega)=2(E(\Omega)-E(B^*))$. This is the
+source of the factor $4L_N/((N+2)T_N)$ in the small-deficit branch of
+\eqref{eq:cfk}.
+\end{remark}
+
+\begin{remark}[Sharpness]
+The exponent~2 on $\Asym$ in~\eqref{eq:fkout} is sharp; it is saturated by
+smooth ellipsoidal perturbations of the ball where
+$\lambda_1(\Omega)-L$ and $\Asym^2$ are of the same order
+(\cite{Brasco2014} and references).
+\end{remark}
+
+\section{Summary of constants}\label{sec:const}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|l|l|l|}
+\hline
+Symbol & Value / dependence & Source \\
+\hline
+$N$ & dimension, $\ge2$ & hypothesis \\
+$L_N$ & $\lambda_1(B_1)=j_{N/2-1,1}^2$ & \\
+$T_N$ & $T(B_1)=|B_1|/(N(N+2))$ & \\
+$\beta=(N+2)/2$ & scaling exponent & Rmk.~\ref{rem:scaling} \\
+$L,T_0$ & $\lambda_1(B^*),T(B^*)$ & \\
+$2L_N/((N+2)T_N)=2NL_N/|B_1|$ & KJ multiplier & Lem.~\ref{lem:linear} \\
+$L_N(2^{2/(N+2)}-1)$ & large-deficit gap & Lem.~\ref{lem:large} \\
+$c_{\mathrm{SV}}(N)$ & global sharp Saint--Venant energy constant & \textsc{BoundedReduction} \\
+$c_1(N)$ & $4L_N c_{\mathrm{SV}}/((N+2)T_N)$ & small branch \\
+$c_2(N)$ & $L_N(2^{2/(N+2)}-1)/4$ & large branch \\
+$c_{\mathrm{FK}}(N)$ & $\min\{c_1(N),c_2(N)\}$ & Thm.~\ref{thm:main} \\
+\hline
+\end{tabular}
+\end{center}
+
+All constants are explicit; none depends on a compactness or contradiction
+step in the Kohler--Jobin transfer.
+
+\begin{thebibliography}{9}
+\bibitem{Brasco2014} L.~Brasco,
+\emph{On torsional rigidity and principal frequencies: an invitation to
+the Kohler--Jobin rearrangement technique},
+ESAIM Control Optim. Calc. Var. \textbf{20} (2014), 315--338.
+\end{thebibliography}
+
+\end{document}

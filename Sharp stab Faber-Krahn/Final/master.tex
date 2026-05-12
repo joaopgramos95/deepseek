@@ -1,0 +1,781 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Fr}{\mathcal{A}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Otilde}{\widetilde{\Omega}}
+\newcommand{\eps}{\varepsilon}
+
+\title{Sharp Quantitative Faber--Krahn Stability\\
+       via a Contradiction-Free Route}
+\author{Plan~1 / Route~A: assembled document}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We give a proof of the sharp quantitative Faber--Krahn inequality
+\[
+   \Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/N}
+   \bigl(\lambda_1(\Om)-\lambda_1(B^*)\bigr)
+   \ge c_{\rm FK}(N)\,\Fr(\Om)^2,
+\]
+with sharp exponent $2$ on the Fraenkel asymmetry $\Fr$ (equivalently
+$1/2$ on the scale-normalised deficit), in which the stability constant
+$c_{\rm FK}(N)$ is an explicit composition of named constants. The
+sequential-selection / compactness contradiction step in the proof of
+Brasco--De~Philippis--Velichkov \cite{BDV} is replaced by a
+single-set quantitative selection principle, and every subsequent step
+is constructive. The proof is organised into seven self-contained
+building blocks, each delivered as a separate \LaTeX{} document:
+\begin{itemize}
+   \item \texttt{SelectionPrinciple.tex} --- single-set quantitative
+   selection;
+   \item \texttt{GraphEntry.tex} --- BDV asymmetry $\to$ global
+   $C^{1,\gamma}$ normal graph;
+   \item \texttt{SchauderInterpolation.tex} --- $C^{1,\gamma}$ $\to$
+   small $C^{2,\gamma_0}$;
+   \item \texttt{NearlySphericalClosure.tex} --- BDV Theorem~3.3
+   delivers $Q_\alpha\ge c_*(N)$;
+   \item \texttt{SaintVenantAssembly.tex} --- small + far regimes glue
+   to sharp Saint--Venant stability inside a fixed ball $B_R$;
+   \item \texttt{BoundedReduction.tex} --- removes the
+   $R$-dependence by reducing the global case to the bounded one via
+   the constructive BDV truncation (\cite[\S5]{BDV});
+   \item \texttt{KohlerJobinTransfer.tex} --- Saint--Venant
+   $\to$ Faber--Krahn via Kohler--Jobin.
+\end{itemize}
+The introduction sets the result in the literature
+\cite{FMP,BDV,Brasco2014}; this master document gives the chain of
+labelled theorems and the final assembled statement.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}\label{sec:intro}
+
+\subsection{The Faber--Krahn inequality}\label{ssec:FK}
+
+Let $\Om\subset\R^N$, $N\ge2$, be an open set of finite Lebesgue measure
+and let
+\[
+   \lambda_1(\Om)\;=\;\min_{u\in H^1_0(\Om)\setminus\{0\}}
+                    \frac{\int_\Om|\nabla u|^2\,dx}{\int_\Om u^2\,dx}
+\]
+be the first Dirichlet eigenvalue of the Laplacian on $\Om$. The
+\emph{Faber--Krahn inequality} asserts that among open sets of a
+prescribed volume the ball uniquely minimises $\lambda_1$: writing
+$B^*$ for the ball with $|B^*|=|\Om|$,
+\begin{equation}\label{eq:FKsharp}
+   \lambda_1(\Om)\;\ge\;\lambda_1(B^*),
+\end{equation}
+with equality if and only if $\Om$ is a ball (up to a set of capacity
+zero). This was conjectured by Lord Rayleigh in the late nineteenth
+century in the planar case and proved in general dimension by
+Faber~\cite{Faber1923} and Krahn~\cite{Krahn1925} using Schwarz
+symmetrisation and the P\'olya--Szeg\H{o} principle. Rigidity reflects
+the fact that the only equality cases of Schwarz symmetrisation in the
+gradient norm are radially symmetric functions; modern accounts
+appear in~\cite{KawohlBook,HenrotBook,BucurButtazzo}.
+
+Once~\eqref{eq:FKsharp} has been proved with rigidity, it is natural
+to ask for a \emph{stability} statement: if $\lambda_1(\Om)$ is only
+slightly larger than $\lambda_1(B^*)$, then $\Om$ should be in a
+quantitative sense close to a ball. The natural way to measure the
+deviation from spherical symmetry is the \emph{Fraenkel asymmetry}
+\begin{equation}\label{eq:Fraenkel}
+   \Fr(\Om)\;=\;\inf_{x_0\in\R^N}
+   \frac{|\Om\,\Delta\,(B^*+x_0)|}{|B^*|}\;\in\;[0,2),
+\end{equation}
+which vanishes precisely on translates of the ball. A quantitative
+Faber--Krahn inequality is then an estimate of the form
+\begin{equation}\label{eq:qFKabstract}
+   \Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/N}
+   \bigl(\lambda_1(\Om)-\lambda_1(B^*)\bigr)
+   \;\ge\;c\,\omega(\Fr(\Om)),
+\end{equation}
+for some modulus $\omega:[0,2)\to[0,\infty)$ vanishing only at~$0$.
+The first systematic study of such bounds is due to Hansen and
+Nadirashvili~\cite{HansenNadirashvili1994}, with parallel
+contributions by Melas~\cite{Melas1992}; both gave
+bounds of the shape~\eqref{eq:qFKabstract} only for restricted
+classes of sets and with a non-sharp modulus. The first stability
+result valid for every open set in terms of the Fraenkel asymmetry was
+obtained by Bhattacharya~\cite{Bhattacharya2001} in dimension $N=2$
+(exponent~$3$). Fusco, Maggi and Pratelli~\cite{FMPLaplace}, exploiting
+their sharp quantitative isoperimetric inequality~\cite{FMP}, extended
+this to all dimensions with exponent~$4$ on~$\Fr$; see
+also~\cite{Brasco2014,BraDeP2017}.
+
+\subsection{The sharp exponent}\label{ssec:sharpexp}
+
+The optimal modulus in~\eqref{eq:qFKabstract} is dictated by the
+family of linear ellipsoidal perturbations of the ball,
+$\Om_\eps=\{(x',x_N)\in\R^N:|x'|^2+(1+\eps)x_N^2\le1\}$,
+$0<\eps\ll1$, for which a direct computation yields
+\[
+   \Fr(\Om_\eps)\;\simeq\;\eps,\qquad
+   \lambda_1(\Om_\eps)-\lambda_1(B^*)\;\simeq\;\eps^2;
+\]
+see~\cite[\S1.2]{BDV}. Consequently the sharp exponent is~$2$ on the
+asymmetry, equivalently $1/2$ on the spectral deficit, and the sharp
+quantitative Faber--Krahn inequality is the conjecture
+\begin{equation}\label{eq:sharpconj}
+   \Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/N}
+   \bigl(\lambda_1(\Om)-\lambda_1(B^*)\bigr)
+   \;\ge\;c(N)\,\Fr(\Om)^2.
+\end{equation}
+The exponent~$2$ is natural because the second variation of $\lambda_1$
+around the ball is non-degenerate on the subspace of volume- and
+barycentre-preserving normal perturbations.
+The conjecture~\eqref{eq:sharpconj} sits at the spectral end of a
+family of sharp quantitative problems (isoperimetric, Sobolev,
+log-Sobolev, P\'olya--Szeg\H o, Wulff, Riesz potentials), the
+prototype being the sharp quantitative isoperimetric inequality of
+Fusco--Maggi--Pratelli~\cite{FMP}, with later proofs and refinements
+by Cicalese--Leonardi~\cite{CL2012},
+Figalli--Maggi--Pratelli~\cite{FigalliMaggiPratelli}, and
+Fusco--Julin~\cite{FuscoJulin}; see~\cite{FuscoSurvey,Maggi2008} for
+surveys.
+
+\subsection{The Brasco--De~Philippis--Velichkov theorem}\label{ssec:BDV}
+
+The conjecture~\eqref{eq:sharpconj} was settled in 2015 by Brasco,
+De~Philippis and Velichkov~\cite{BDV}:
+
+\begin{theorem}[Brasco--De~Philippis--Velichkov; {\cite[Main Theorem]{BDV}}]
+\label{thm:BDV}
+For every $N\ge2$ there is a constant $\sigma=\sigma(N)>0$ such that
+\[
+   |\Om|^{2/N}\lambda_1(\Om)-|B^*|^{2/N}\lambda_1(B^*)
+   \;\ge\;\sigma\,\Fr(\Om)^2
+\]
+for every open set $\Om\subset\R^N$ of finite measure.
+\end{theorem}
+
+The strategy of~\cite{BDV} has two main pillars. First, an application
+of the Kohler--Jobin rearrangement inequality~\cite{KohlerJobin,Brasco2014}
+reduces~\eqref{eq:sharpconj} at fixed volume to the analogous
+\emph{sharp Saint--Venant stability}
+\begin{equation}\label{eq:sharpSV}
+   E(\Om)-E(B_1)\;\ge\;\sigma\,\Fr(\Om)^2,\qquad |\Om|=|B_1|,
+\end{equation}
+where $E(\Om)=\min\{\tfrac12\int|\nabla u|^2-\int u:u\in H^1_0(\Om)\}=
+-\tfrac12 T(\Om)$. Second, \eqref{eq:sharpSV} is proved by the
+\emph{selection principle} introduced by Cicalese and
+Leonardi~\cite{CL2012} for the isoperimetric inequality and refined by
+Acerbi--Fusco--Morini~\cite{AFM} in the nonlocal isoperimetric
+setting. Arguing by contradiction, one supposes a sequence $\Om_j$
+violates~\eqref{eq:sharpSV} with $\Fr(\Om_j)\to0$ and constructs an
+improved sequence $U_j$ by penalising the energy along BDV's smooth
+asymmetry $\alpha$:
+\begin{equation}\label{eq:BDVpenalised}
+   U_j\;\in\;\arg\min\Bigl\{\,E(\Om)
+      +\sqrt{\eps_j^2+\sigma(\alpha(\Om)-\eps_j)^2}\,:\,|\Om|=|B_1|\Bigr\}.
+\end{equation}
+The Alt--Caffarelli free-boundary regularity machinery~\cite{AC1981}
+applied to the perturbed Bernoulli problem~\eqref{eq:BDVpenalised}
+upgrades $L^1$ convergence $U_j\to B_1$ to $C^{2,\gamma}$ convergence
+of $\partial U_j$ as normal graphs. Once $U_j$ is a smooth normal
+graph over $B_1$ with small $C^{2,\gamma}$ norm, the explicit
+second-order Fuglede-type expansion~\cite{Fuglede,BDV} of the
+Saint--Venant energy --- BDV's nearly spherical Theorem~3.3 --- yields
+the desired contradiction.
+
+\subsection{The cost of the contradiction step}\label{ssec:cost}
+
+The proof of Theorem~\ref{thm:BDV} just sketched is conceptually clean
+but inherently \emph{non-constructive}: the constant $\sigma(N)$ in
+the main theorem is produced by a compactness--contradiction argument
+applied to the penalised sequence $U_j$. Three layers of
+non-effectiveness compound:
+\begin{enumerate}
+\item[\rm(a)] The selection step~\eqref{eq:BDVpenalised} works only
+``for $j$ large'' and the threshold is not localised.
+\item[\rm(b)] The smooth convergence $\partial U_j\to\partial B_1$ in
+$C^{2,\gamma}$ is obtained as a subsequential limit; no explicit
+threshold is given at which the graph entry holds.
+\item[\rm(c)] The contradiction itself uses the limit set $U_\infty$,
+not any specific $U_j$, so even if (a) and (b) were quantified the
+final constant $\sigma(N)$ would still be inaccessible.
+\end{enumerate}
+As a consequence, although Theorem~\ref{thm:BDV} is fully proved as a
+mathematical statement, the constant $\sigma(N,R)$ (restricted to sets
+in a fixed ball $B_R$) is not extractable from the proof, even in
+principle.
+
+This phenomenon is well known in the literature on sharp quantitative
+stability and is not specific to~\cite{BDV}: every proof based on
+penalisation + selection + Alt--Caffarelli regularity that we are
+aware of shares the same feature; see the
+surveys~\cite{FuscoSurvey,Maggi2008}.
+
+\subsection{Main result and contribution}\label{ssec:contribution}
+
+We give a proof of the sharp quantitative Faber--Krahn inequality in
+which the contradiction step is replaced by a single-set quantitative
+selection map and every subsequent step is constructive. Our main
+theorem is the following.
+
+\begin{theorem}[Sharp quantitative Faber--Krahn, constructive form]
+\label{thm:mainintro}
+Let $N\ge2$. There exists a constant $c_{\rm FK}(N)>0$, depending
+only on the dimension, given explicitly by the closed-form
+expression~\eqref{eq:cFKdef} below as a composition of the named
+constants of Theorems~\ref{thm:S}--\ref{thm:KJ}, such that
+\[
+   \Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/N}
+   \bigl(\lambda_1(\Om)-\lambda_1(B^*)\bigr)
+   \;\ge\;c_{\rm FK}(N)\,\Fr(\Om)^2
+\]
+for every open $\Om\subset\R^{N}$ of finite positive measure. The exponent~$2$
+on $\Fr$ is sharp.
+\end{theorem}
+
+The novelty is not the inequality itself --- which is~\cite{BDV} ---
+but its \emph{constant}. Theorem~\ref{thm:mainintro} provides a
+\emph{truly quantitative} version of the BDV theorem:
+$c_{\rm FK}(N)$ is presented as an explicit composition of
+$N$-dependent quantities, each of which is the named constant of a
+quantitative ingredient (BDV Lemmas~4.2, 4.5, 4.9, 4.12, 4.16, 5.1,
+5.2, 5.3, BDV Theorems~3.3 and~4.18; the dimensional constants
+$L_N,T_N$; the Lieberman--Schauder constant; the
+Gagliardo--Nirenberg interpolation constant). We emphasise that we do
+not compute $c_{\rm FK}(N)$ to a number: the BDV black boxes
+themselves are not numerically evaluated. What we deliver is a
+contradiction-free chain whose constants could in principle be
+computed if the BDV constants were.
+
+The conceptual gain is the following. In~\cite{BDV} the BDV penalised
+functional~\eqref{eq:BDVpenalised} is run along a sequence of
+near-extremals to produce a limit set. Here we run it \emph{once}, on
+a single near-extremal $\Om_0$, with the penalisation tuned to
+$\Om_0$ itself:
+\[
+   J_{\Om_0}(U)\;:=\;
+   E(U)+f_{\hat\eta}(|U|)+\sqrt{\eps^2+\tau^2(\alpha(U)-\eps)^2},
+   \qquad \eps:=\alpha(\Om_0),\ \tau=q^{1/4},
+\]
+where $q:=Q_\alpha(\Om_0)=(E(\Om_0)-E(B_1))/\alpha(\Om_0)$ is the
+Saint--Venant quotient of $\Om_0$. The direct method produces a single
+minimiser $U_*$ whose volume-normalised companion $\Otilde$ retains
+the same asymmetry order as $\Om_0$ and whose quotient is at most
+twice that of $\Om_0$ up to an $(N,R)$-explicit factor. The BDV
+regularity package, applied to this one set, then provides a
+$C^{1,\gamma}$ normal graph parametrisation of $\partial\Otilde$ at
+an explicit threshold; the Kinderlehrer--Nirenberg hodograph
+straightening~\cite{KN} with Lieberman's oblique Schauder
+bootstrap~\cite{Li86} promote this to a uniform $C^{5,\gamma}$ bound;
+Gagliardo--Nirenberg interpolation between $\|g\|_{L^\infty}$ (small)
+and $\|g\|_{C^{5,\gamma}}$ (large but controlled) reaches the small
+$C^{2,\gamma_0}$ regime in which BDV's nearly spherical Theorem~3.3
+applies directly to $\Otilde$. No subsequence, no limit, no
+contradiction.
+
+\subsection{Structure of the paper}\label{ssec:structure}
+
+The argument is organised as a chain of seven self-contained building
+blocks, each proved in a companion file and quoted as a labelled
+theorem in Section~\ref{sec:chain}. Schematically,
+\[
+   \underbrace{\text{(S)}}_{\text{selection}}\;\to\;
+   \underbrace{\text{(G)}}_{\text{graph entry}}\;\to\;
+   \underbrace{\text{(I)}}_{\text{Schauder + interpolation}}\;\to\;
+   \underbrace{\text{(N)}}_{\text{nearly spherical}}
+\]
+operates in the small-asymmetry regime, producing the linear bound
+$E(\Om_0)-E(B_1)\ge q_*(N,R)\alpha(\Om_0)$ on
+$\{\alpha\le\alpha_{\rm small}\}$. Combined with BDV Lemma~4.2 this
+yields the small-asymmetry portion of sharp Saint--Venant stability.
+The far regime is covered by BDV's rearrangement-based Lemma~5.2 (the
+suboptimal $\Fr^4$ bound, which contains no contradiction); the two
+regimes are glued at an explicit threshold supplied by BDV
+Lemma~4.2. The \textsc{SaintVenantAssembly} block
+(Theorem~\ref{thm:SV}) gives~\eqref{eq:sharpSV} with $c_{\rm SV}(N,R)$
+explicit. The Kohler--Jobin rearrangement transfer
+(Theorem~\ref{thm:KJ}), in the constructive form due to
+Brasco~\cite{Brasco2014}, takes Saint--Venant stability to
+Faber--Krahn stability with a multiplier $4L_N/((N+2)T_N)$ that is
+universal in $N$. Section~\ref{sec:assembled} states and proves the
+assembled Theorem~\ref{thm:final}, and Section~\ref{sec:replaces}
+summarises what replaces the contradiction.
+
+\subsection{Related literature}\label{ssec:related}
+
+Sharp quantitative stability of geometric and spectral inequalities
+is a vast subject. The prototype is the sharp quantitative
+isoperimetric inequality, first proved by
+Fusco--Maggi--Pratelli~\cite{FMP} by symmetrisation, then reproved by
+Cicalese--Leonardi~\cite{CL2012} via the selection principle, and by
+Figalli--Maggi--Pratelli~\cite{FigalliMaggiPratelli} via optimal
+transport; Fusco--Julin~\cite{FuscoJulin} gave a strong form involving
+an oscillation index. Sharp quantitative
+P\'olya--Szeg\H{o}, Sobolev and log-Sobolev inequalities were
+established by Cianchi--Fusco--Maggi--Pratelli~\cite{CFMP}. Stability
+for Wulff shapes is due to Figalli--Maggi--Pratelli and
+Neumayer~\cite{NeumayerWulff}. In the spectral direction,
+Brasco--Pratelli~\cite{BrascoPratelli} treated the second eigenvalue
+and the Szeg\H{o}--Weinberger inequality; recent work of
+Allen--Kriventsov--Neumayer~\cite{AKN} addresses Faber--Krahn-type
+inequalities via Alt--Caffarelli--Friedman monotonicity formulas.
+
+Two strands of recent work directly motivate the present paper.
+First, the use of regularity theory \emph{quantitatively}: the
+realisation that free-boundary regularity packages underlying
+selection-principle proofs can often be made effective on a single
+set if one is content with $(N,R)$-explicit constants. Second, the
+technique of Fuglede-style expansion for energy functionals around
+the ball~\cite{Fuglede,AFM,BDV}, which converts nearly spherical
+stability into a coercivity statement for a self-adjoint operator on
+$\partial B_1$. The present paper combines these ideas with the
+specific BDV proof: the BDV penalised functional is run once, the BDV
+regularity package is applied as a black box, the BDV nearly
+spherical theorem is invoked directly on the single selected set,
+and the resulting Saint--Venant stability is transferred to
+Faber--Krahn via the Brasco--Kohler--Jobin rearrangement. The outcome
+is a constructive constant chain for the sharp Faber--Krahn
+inequality.
+
+\begin{remark}[Reduction to bounded sets]
+The chain (S)$\to$(G)$\to$(I)$\to$(N) of
+Theorems~\ref{thm:S}--\ref{thm:N} produces the sharp Saint--Venant
+stability inside a fixed ball $B_R$ with constant $c_{\rm SV}(N,R)$.
+The \textsc{BoundedReduction} block (Theorem~\ref{thm:BR}) reduces
+the global case to the bounded case at the dimensional radius
+$R_{*}(N):=\max\{d(N),2\}$, using BDV's constructive truncation
+lemma~\cite[Lemma~5.3]{BDV}. The constants $d(N),\delta(N),C_{9}(N)$
+of that lemma are themselves obtained by De~Giorgi-type iteration and
+a cut-off competitor, with no contradiction step. As a consequence
+the constant $c_{\rm SV}^{\rm glob}(N)$ (and hence $c_{\rm FK}(N)$)
+depends only on $N$.
+\end{remark}
+
+\section{Notation and standing hypotheses}\label{sec:notation}
+
+Fix $N\ge2$ and $R\ge2$. We use the standard normalisations:
+\begin{itemize}
+\item $u_\Om\in H^1_0(\Om)$ is the torsion potential, $-\Delta u_\Om=1$
+in $\Om$, $u_\Om=0$ on $\partial\Om$;
+\item $T(\Om)=\int_\Om u_\Om\,dx$, the torsional rigidity;
+\item $E(\Om)=-T(\Om)/2$, the BDV-normalised Saint--Venant energy:
+\[
+E(\Om)=\min_{v\in W^{1,2}_0(\Om)}\Bigl(\tfrac12\int|\nabla v|^2-\int v\Bigr);
+\]
+\item $\lambda_1(\Om)$, the first Dirichlet eigenvalue of $-\Delta$;
+\item $\Fr(\Om)$, the Fraenkel asymmetry,
+$\inf_{x_0}|\Om\Delta(B^*+x_0)|/|B^*|$, where $B^*$ is the ball with
+$|B^*|=|\Om|$; $\Fr\in[0,2)$;
+\item $\alpha(\Om)$, the BDV smooth asymmetry of
+\cite[Def.~4.1]{BDV};
+\item $Q_\alpha(\Om)=(E(\Om)-E(B_1))/\alpha(\Om)$ at fixed volume
+$|\Om|=|B_1|=\omega_N$.
+\end{itemize}
+$L_N=\lambda_1(B_1)$ and $T_N=T(B_1)=|B_1|/(N(N+2))$ are universal
+dimensional constants. We write $B_R$ for the open ball of radius $R$
+about $0$.
+
+\section{The chain of building blocks}\label{sec:chain}
+
+Each block is stated here in the form it is proved in the
+corresponding companion file. Constants depend only on $(N,R)$ unless
+indicated.
+
+\subsection{Block I: single-set quantitative selection}
+
+\begin{theorem}[\textsc{SelectionPrinciple}; see
+\texttt{SelectionPrinciple.tex}]\label{thm:S}
+There exist $\eps_{\rm sel}(N,R), q_{\rm sel}(N,R)>0$ and
+$C_{\rm sel}(N,R)>0$ such that for every quasi-open
+$\Om_0\subset B_R$ with $|\Om_0|=|B_1|$,
+$\eps:=\alpha(\Om_0)\le\eps_{\rm sel}$, and
+$q:=Q_\alpha(\Om_0)\le q_{\rm sel}$, the penalised functional
+$J(U)=F_{\hat\eta}(U)+\sqrt{\eps^2+\tau^2(\alpha(U)-\eps)^2}$
+with $\tau=q^{1/4}$ admits a minimiser $U_*\subset B_R$ whose
+volume-normalised companion
+$\Otilde:=r_*^{-1}U_*$, $r_*=(|U_*|/|B_1|)^{1/N}$, satisfies:
+\begin{enumerate}
+\item[\rm(i)] $|\Otilde|=|B_1|$, $\tfrac12\eps\le\alpha(\Otilde)\le\tfrac32\eps$;
+\item[\rm(ii)] $Q_\alpha(\Otilde)\le 2C_{\rm sel}(N,R)\,Q_\alpha(\Om_0)$;
+\item[\rm(iii)] $\Otilde$ inherits the BDV penalised-minimiser regularity
+package (density estimates, Lipschitz nondegeneracy, smooth Bernoulli
+coefficient);
+\item[\rm(iv)] the Bernoulli law on $\partial\Otilde$ takes the
+volume-rescaled form $|\nabla\widetilde u|^2=\widetilde\Lambda+\widetilde
+a_\sigma\widetilde\Psi$.
+\end{enumerate}
+The proof is constructive: existence is by the direct method (BDV
+Lemma~4.6 used as a quantitative black box), and parts~(i)--(iv) are
+explicit estimates from the BDV regularity package and the volume
+scaling $E(\mu V)=\mu^{N+2}E(V)$.
+\end{theorem}
+
+\subsection{Block II: graph entry}
+
+\begin{theorem}[\textsc{GraphEntry}; see \texttt{GraphEntry.tex}]\label{thm:G}
+There exist
+$\alpha_{\rm graph}(N,R)$, $M_1(N,R)$, $C_H''(N,R)>0$ and
+$\gamma=\gamma(N,R)\in(0,1)$ such that every selected
+$\Otilde\subset B_R$ (Theorem~\ref{thm:S}) with
+$\alpha(\Otilde)\le\alpha_{\rm graph}$ is, after translation by its
+Fraenkel-optimal centre, a global $C^{1,\gamma}$ normal graph over
+$\partial B_1$:
+\[
+\partial\Otilde=\bigl\{(1+g(\theta))\theta:\theta\in\partial B_1\bigr\},
+\]
+with $\|g\|_{C^{1,\gamma}(\partial B_1)}\le M_1(N,R)$ and
+$\|g\|_{L^\infty(\partial B_1)}\le C_H''(N,R)\,\alpha(\Otilde)^{1/(2N)}$.
+The chain is asymmetry $\to$ Hausdorff (BDV Lemma~4.2 + density) $\to$
+Alt--Caffarelli flatness (BDV Theorem~4.18) $\to$ tubular
+patching. The threshold
+$\alpha_{\rm graph}(N,R)=
+\min\{\alpha_0,(h_F/C_H')^{2N},(h_F/C_{\rm Fr}')^2\}$ is explicit.
+\end{theorem}
+
+\subsection{Block III: Schauder bootstrap and interpolation}
+
+\begin{theorem}[\textsc{SchauderInterpolation}; see
+\texttt{SchauderInterpolation.tex}]\label{thm:I}
+Fix $0<\gamma_0<\gamma\le1$. There exist
+$M_5(N,R)$ and an explicit threshold
+$\alpha_{\rm sph}(N,R,\gamma_0)$ (closed form in upstream constants)
+such that the graph $g$ of Theorem~\ref{thm:G} satisfies
+\[
+\alpha(\Otilde)\le\alpha_{\rm sph}(N,R,\gamma_0)
+\quad\Longrightarrow\quad
+\|g\|_{C^{2,\gamma_0}(\partial B_1)}\le\delta_{\rm sph}(N,\gamma_0),
+\]
+where $\delta_{\rm sph}(N,\gamma_0)$ is the smallness threshold of
+BDV Theorem~3.3. The method is the Kinderlehrer--Nirenberg hodograph
+straightening of $\widetilde u$ on $\Otilde$, the oblique Schauder
+bootstrap of Lieberman to $\|g\|_{C^{5,\gamma}}\le M_5(N,R)$, and the
+Hölder interpolation $\|g\|_{C^{2,\gamma_0}}\le
+C_{\rm GN}\|g\|_{L^\infty}^{1-\theta}\|g\|_{C^{5,\gamma}}^\theta$
+with $\theta=(2+\gamma_0)/(5+\gamma)\le 1/2$.
+\end{theorem}
+
+\subsection{Block IV: nearly spherical closure}
+
+\begin{theorem}[\textsc{NearlySphericalClosure}; see
+\texttt{NearlySphericalClosure.tex}]\label{thm:N}
+There is $c_*(N)>0$, given explicitly by
+$c_*(N)=1/(32\,N^2\,C_3(N))$ where $C_3(N)$ is the BDV
+Lemma~4.2(iii) constant, such that every nearly spherical
+$\Otilde=(1+g)B_1$ with
+\[
+\|g\|_{C^{2,\gamma_0}}\le\delta_{\rm sph}(N,\gamma_0),\qquad
+|\Otilde|=|B_1|,\qquad x_{\Otilde}=0,
+\]
+satisfies $Q_\alpha(\Otilde)\ge c_*(N)$, equivalently
+$E(\Otilde)-E(B_1)\ge c_*(N)\alpha(\Otilde)$. Volume / barycenter
+perturbations are absorbed by an $O(\|g\|_{L^2})$ correction at the
+cost of a fixed dimensional factor. The proof is a direct substitution
+into BDV Theorem~3.3
+($E(\Om)-E(B_1)\ge(1/32N^2)\|g\|_{H^{1/2}}^2$) followed by the
+trace-Poincar\'e comparison and BDV Lemma~4.2(iii)
+($\alpha\le C_3\|g\|_{L^2}^2$).
+\end{theorem}
+
+\subsection{Block V: assembly to sharp Saint--Venant stability}
+
+Composing Blocks I--IV gives the linear-in-$\alpha$ inequality
+$E(\Om_0)-E(B_1)\ge q_*(N,R)\alpha(\Om_0)$ on a small-$\alpha$ regime,
+with $q_*(N,R)=c_*(N)/(2C_{\rm sel}(N,R))$. Combining with BDV
+Lemma~4.2(i) ($\Fr^2\le(C_1/\omega_N^2)\alpha$) gives the quadratic
+form $E-E(B_1)\ge\kappa_{\rm near}(N,R)\Fr^2$. The far regime is
+covered by BDV Lemma~5.2 ($E-E(B_1)\ge(C_8')^{-1}\Fr^4$), and the two
+regimes glue at a threshold $a_{\rm near}=a_{\rm far}$ supplied by BDV
+Lemma~4.2(ii).
+
+\begin{theorem}[\textsc{SaintVenantAssembly}; see
+\texttt{SaintVenantAssembly.tex}]\label{thm:SV}
+There exists $c_{\rm SV}(N,R)>0$, given by~\eqref{eq:cSVdef} below,
+such that for every open $\Om\subset B_R$ with $|\Om|=|B_1|$,
+\begin{equation}\label{eq:SV}
+   E(\Om)-E(B_1)\;\ge\;c_{\rm SV}(N,R)\,\Fr(\Om)^2.
+\end{equation}
+Concretely, with $\alpha_{\rm small}(N,R)
+:=\tfrac12\min\{\eps_{\rm sel},\alpha_{\rm graph},\alpha_{\rm sph}\}$ and
+$a_{\rm far}(N,R):=\alpha_{\rm small}(N,R)/(C_2(N,R)\omega_N)$,
+\begin{equation}\label{eq:cSVdef}
+   c_{\rm SV}(N,R)
+   :=\min\!\Bigl\{\,
+        \frac{q_*(N,R)\,\omega_N^2}{C_1(N)},\;\;
+        \frac{a_{\rm far}(N,R)^2}{C_8'(N)}
+   \Bigr\}.
+\end{equation}
+The exponent $2$ on $\Fr$ is sharp (ellipsoid example).
+\end{theorem}
+
+\subsection{Block VI: reduction to bounded sets}
+
+The Saint--Venant assembly of Theorem~\ref{thm:SV} delivers a
+constant $c_{\rm SV}(N,R)$ that depends on the confining radius
+$R$. We remove this dependence by invoking BDV's constructive
+truncation lemma~\cite[Lemma~5.3]{BDV}, which sits inside a chain of
+three quantitative ingredients of \cite[\S5]{BDV} (all
+constructive: De~Giorgi-type $L^{\infty}$ iteration, rearrangement,
+and a cut-off competitor; no contradiction). Applied at the
+dimensional radius $R_{*}(N):=\max\{d(N),2\}$ where $d(N)$ is the
+diameter bound of BDV Lemma~5.3, the truncation step converts the
+bounded-domain stability into a global one.
+
+\begin{theorem}[\textsc{BoundedReduction}; see
+\texttt{BoundedReduction.tex}]\label{thm:BR}
+With $R_{*}(N):=\max\{d(N),2\}$ and
+\begin{equation}\label{eq:cSVglob}
+   c_{\rm SV}^{\rm glob}(N)\;:=\;
+   \min\!\Bigl\{\,
+      c_{\rm near}^{\rm glob}(N),\;
+      \omega_{N}^{(N+2)/N}\,\delta(N)/16
+   \Bigr\}>0,
+\end{equation}
+where
+$c_{\rm near}^{\rm glob}(N)=\omega_{N}^{(N+2)/N}\bigl/\bigl[
+4C_{9}(N)(1/\widetilde c_{\rm SV}(N)+C_{9}(N))\bigr]$
+and $\widetilde c_{\rm SV}(N)=\omega_{N}^{-(N+2)/N}c_{\rm SV}(N,R_{*}(N))$,
+for every open $\Om\subset\R^{N}$ with $|\Om|=|B_{1}|$,
+\begin{equation}\label{eq:SVglob}
+   E(\Om)-E(B_{1})\;\ge\;c_{\rm SV}^{\rm glob}(N)\,\Fr(\Om)^{2}.
+\end{equation}
+$c_{\rm SV}^{\rm glob}(N)$ depends only on $N$; the
+$R$-dependence inherited from Theorem~\ref{thm:SV} is internalised at
+the dimensional radius $R_{*}(N)$.
+\end{theorem}
+
+\subsection{Block VII: Kohler--Jobin transfer}
+
+\begin{theorem}[\textsc{KohlerJobinTransfer}; see
+\texttt{KohlerJobinTransfer.tex}]\label{thm:KJ}
+Given the global sharp Saint--Venant inequality~\eqref{eq:SVglob},
+for every open $\Om\subset\R^{N}$ of finite positive measure,
+\begin{equation}\label{eq:FK}
+   \Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/N}
+   \bigl(\lambda_1(\Om)-\lambda_1(B^*)\bigr)
+   \;\ge\;c_{\rm FK}(N)\,\Fr(\Om)^2,
+\end{equation}
+where
+\begin{equation}\label{eq:cFKdef}
+   c_{\rm FK}(N)
+   :=\min\!\Bigl\{\,
+       \frac{4L_N\,c_{\rm SV}^{\rm glob}(N)}{(N+2)T_N},\;\;
+       \frac{L_N(2^{2/(N+2)}-1)}{4}
+   \Bigr\}.
+\end{equation}
+The proof uses the Kohler--Jobin inequality
+$T(\Om)\lambda_1(\Om)^{(N+2)/2}\ge T(B^*)\lambda_1(B^*)^{(N+2)/2}$
+(cited from \cite[Thm~3.3]{Brasco2014}), the pointwise transfer
+$\lambda_1(\Om)\ge\lambda_1(B^*)(T(B^*)/T(\Om))^{2/(N+2)}$, the elementary
+inequality $(1-s)^{-p}-1\ge p s$ for $p\in(0,1], s\in[0,1)$ (no
+Taylor), and a two-case split on $T_N-T(\Om)$ versus $T_N/2$. Note
+that the input~\eqref{eq:SVglob} is now unrestricted in $\Om$, so the
+output~\eqref{eq:FK} is too.
+\end{theorem}
+
+\section{The assembled theorem}\label{sec:assembled}
+
+Composing Theorems~\ref{thm:S}--\ref{thm:KJ}:
+
+\begin{theorem}[Sharp quantitative Faber--Krahn stability, Plan~1 /
+Route~A]\label{thm:final}
+Let $N\ge2$. There exists a constant $c_{\rm FK}(N)>0$, depending
+only on the dimension, given explicitly by~\eqref{eq:cFKdef} as a
+composition of the named constants of
+Theorems~\ref{thm:S}--\ref{thm:KJ}, such that for every open set
+$\Om\subset\R^{N}$ of finite positive measure (where $B^*$ is the ball
+of the same volume),
+\[
+   \boxed{\;
+   \Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/N}
+   \bigl(\lambda_1(\Om)-\lambda_1(B^*)\bigr)
+   \;\ge\;c_{\rm FK}(N)\,\Fr(\Om)^2.
+   \;}
+\]
+Equivalently, $\Fr(\Om)\le C(N)\bigl((|\Om|/|B_1|)^{2/N}
+(\lambda_1(\Om)-\lambda_1(B^*))\bigr)^{1/2}$,
+and the exponent $1/2$ on the deficit is sharp (saturated by
+volume-preserving ellipsoidal perturbations of $B^*$).
+\end{theorem}
+
+\begin{proof}
+Combine Theorem~\ref{thm:SV} (sharp Saint--Venant stability in
+$B_{R_{*}(N)}$) with Theorem~\ref{thm:BR} (\textsc{BoundedReduction},
+removing the $R$-dependence) and Theorem~\ref{thm:KJ}
+(Kohler--Jobin transfer). Theorem~\ref{thm:SV} is itself the result
+of composing Theorems~\ref{thm:S}--\ref{thm:N} at the dimensional
+radius $R=R_{*}(N)$ (the chain (S)$\to$(G)$\to$(I)$\to$(N) inside the
+small-$\alpha$ regime, combined with BDV Lemma~5.2 in the far regime,
+glued via the two directions of BDV Lemma~4.2).
+\end{proof}
+
+\section{What replaces the contradiction step}\label{sec:replaces}
+
+BDV's original proof~\cite{BDV} establishes Theorem~\ref{thm:final}
+via a sequential selection plus compactness contradiction: assume a
+sequence $\Om_n$ violating the inequality with $\Fr(\Om_n)\to0$, run
+the BDV penalised functional to select $\widetilde\Om_n$, extract an
+$L^1$-convergent subsequence, and reach a contradiction with the
+nearly spherical theorem at the limit. The compactness step makes the
+final constant $c_{\rm FK}$ non-extractable.
+
+Route~A replaces this with a \emph{single-set} version of the same
+selection (Theorem~\ref{thm:S}), augmented by the quantitative graph
+entry, Schauder bootstrap, and interpolation steps
+(Theorems~\ref{thm:G}--\ref{thm:I}), so that the BDV nearly spherical
+theorem (Theorem~\ref{thm:N}) can be applied to a single set
+$\widetilde\Om$ rather than to a limit. The Saint--Venant assembly
+(Theorem~\ref{thm:SV}) uses BDV's own Lemma~5.2 (proved by
+rearrangement, not contradiction) for the far regime. The
+\textsc{BoundedReduction} step (Theorem~\ref{thm:BR}) uses BDV's
+constructive truncation lemma~\cite[Lemma~5.3]{BDV} to remove the
+$R$-dependence (no contradiction there either). The Kohler--Jobin
+transfer (Theorem~\ref{thm:KJ}) is unchanged from BDV.
+
+Every constant in the chain depends only on $N$ and on the named
+constants of BDV's quantitative ingredients (Lemmas~4.2, 4.5, 4.9,
+4.12, 4.16, 5.1, 5.2, 5.3, Theorems~3.3, 4.18); none is set by a
+compactness or contradiction argument.
+
+\begin{thebibliography}{99}
+
+\bibitem{BDV} L.~Brasco, G.~De~Philippis, B.~Velichkov,
+\emph{Faber--Krahn inequalities in sharp quantitative form},
+Duke Math.\ J.\ \textbf{164} (2015), 1777--1831 (arXiv:1306.0392).
+
+\bibitem{FMP} N.~Fusco, F.~Maggi, A.~Pratelli,
+\emph{The sharp quantitative isoperimetric inequality},
+Ann.\ of Math.\ (2) \textbf{168} (2008), 941--980.
+
+\bibitem{Brasco2014} L.~Brasco,
+\emph{On torsional rigidity and principal frequencies: an invitation
+to the Kohler--Jobin rearrangement technique},
+ESAIM Control Optim.\ Calc.\ Var.\ \textbf{20} (2014), 315--338.
+
+\bibitem{KN} D.~Kinderlehrer, L.~Nirenberg,
+\emph{Regularity in free boundary problems},
+Ann.\ Scuola Norm.\ Sup.\ Pisa Cl.\ Sci.\ (4) \textbf{4} (1977), 373--391.
+
+\bibitem{Li86} G.~M.~Lieberman,
+\emph{Mixed boundary value problems for elliptic and parabolic
+differential equations of second order},
+J.~Math.\ Anal.\ Appl.\ \textbf{113} (1986), 422--440.
+
+\bibitem{Faber1923} G.~Faber,
+\emph{Beweis, dass unter allen homogenen Membranen von gleicher
+Fl\"ache und gleicher Spannung die kreisf\"ormige den tiefsten
+Grundton gibt},
+Sitzungsber.\ Bayer.\ Akad.\ Wiss.\ M\"unchen,
+Math.-Phys.\ Kl.\ (1923), 169--172.
+
+\bibitem{Krahn1925} E.~Krahn,
+\emph{\"Uber eine von Rayleigh formulierte Minimaleigenschaft des
+Kreises}, Math.\ Ann.\ \textbf{94} (1925), 97--100.
+
+\bibitem{KawohlBook} B.~Kawohl,
+\emph{Rearrangements and Convexity of Level Sets in PDE},
+Lecture Notes in Math.\ \textbf{1150}, Springer, 1985.
+
+\bibitem{HenrotBook} A.~Henrot,
+\emph{Extremum problems for eigenvalues of elliptic operators},
+Birkh\"auser, 2006.
+
+\bibitem{BucurButtazzo} D.~Bucur, G.~Buttazzo,
+\emph{Variational Methods in Shape Optimization Problems},
+Progr.\ Nonlinear Differential Equations Appl.\ \textbf{65},
+Birkh\"auser, 2005.
+
+\bibitem{HansenNadirashvili1994} W.~Hansen, N.~Nadirashvili,
+\emph{Isoperimetric inequalities in potential theory},
+Potential Anal.\ \textbf{3} (1994), 1--14.
+
+\bibitem{Melas1992} A.~D.~Melas,
+\emph{The stability of some eigenvalue estimates},
+J.\ Differential Geom.\ \textbf{36} (1992), 19--33.
+
+\bibitem{Bhattacharya2001} T.~Bhattacharya,
+\emph{Some observations about the first eigenvalue of the
+$p$-Laplacian and its connections with asymmetry},
+Electron.\ J.\ Differential Equations \textbf{35} (2001), 1--15.
+
+\bibitem{FMPLaplace} N.~Fusco, F.~Maggi, A.~Pratelli,
+\emph{Stability estimates for certain Faber--Krahn, isocapacitary and
+Cheeger inequalities},
+Ann.\ Sc.\ Norm.\ Super.\ Pisa Cl.\ Sci.\ (5) \textbf{8} (2009),
+51--71.
+
+\bibitem{BraDeP2017} L.~Brasco, G.~De~Philippis,
+\emph{Spectral inequalities in quantitative form}, in:
+\emph{Shape Optimization and Spectral Theory}, A.~Henrot (ed.),
+De Gruyter Open, 2017, pp.~201--281.
+
+\bibitem{CL2012} M.~Cicalese, G.~P.~Leonardi,
+\emph{A selection principle for the sharp quantitative isoperimetric
+inequality}, Arch.\ Ration.\ Mech.\ Anal.\ \textbf{206} (2012),
+617--643.
+
+\bibitem{FigalliMaggiPratelli} A.~Figalli, F.~Maggi, A.~Pratelli,
+\emph{A mass transportation approach to quantitative isoperimetric
+inequalities}, Invent.\ Math.\ \textbf{182} (2010), 167--211.
+
+\bibitem{FuscoJulin} N.~Fusco, V.~Julin,
+\emph{A strong form of the quantitative isoperimetric inequality},
+Calc.\ Var.\ Partial Differential Equations \textbf{50} (2014),
+925--937.
+
+\bibitem{FuscoSurvey} N.~Fusco,
+\emph{The quantitative isoperimetric inequality and related topics},
+Bull.\ Math.\ Sci.\ \textbf{5} (2015), 517--607.
+
+\bibitem{Maggi2008} F.~Maggi,
+\emph{Some methods for studying stability in isoperimetric type
+problems}, Bull.\ Amer.\ Math.\ Soc.\ \textbf{45} (2008), 367--408.
+
+\bibitem{KohlerJobin} M.-T.~Kohler-Jobin,
+\emph{Une m\'ethode de comparaison isop\'erim\'etrique de
+fonctionnelles de domaines de la physique math\'ematique},
+Z.\ Angew.\ Math.\ Phys.\ \textbf{29} (1978), 757--766.
+
+\bibitem{AFM} E.~Acerbi, N.~Fusco, M.~Morini,
+\emph{Minimality via second variation for a nonlocal isoperimetric
+problem}, Comm.\ Math.\ Phys.\ \textbf{322} (2013), 515--557.
+
+\bibitem{AC1981} H.~W.~Alt, L.~A.~Caffarelli,
+\emph{Existence and regularity for a minimum problem with free
+boundary}, J.\ Reine Angew.\ Math.\ \textbf{325} (1981), 105--144.
+
+\bibitem{Fuglede} B.~Fuglede,
+\emph{Stability in the isoperimetric problem for convex or nearly
+spherical domains in $\mathbb R^n$},
+Trans.\ Amer.\ Math.\ Soc.\ \textbf{314} (1989), 619--638.
+
+\bibitem{AKN} M.~Allen, D.~Kriventsov, R.~Neumayer,
+\emph{Sharp quantitative Faber--Krahn inequalities via the
+Alt--Caffarelli--Friedman monotonicity formula} (preprint).
+
+\bibitem{CFMP} A.~Cianchi, N.~Fusco, F.~Maggi, A.~Pratelli,
+\emph{The sharp Sobolev inequality in quantitative form},
+J.\ Eur.\ Math.\ Soc.\ \textbf{11} (2009), 1105--1139.
+
+\bibitem{NeumayerWulff} R.~Neumayer,
+\emph{A strong form of the quantitative Wulff inequality},
+SIAM J.\ Math.\ Anal.\ \textbf{48} (2016), 1727--1772.
+
+\bibitem{BrascoPratelli} L.~Brasco, A.~Pratelli,
+\emph{Sharp stability of some spectral inequalities},
+Geom.\ Funct.\ Anal.\ \textbf{22} (2012), 107--135.
+
+\end{thebibliography}
+
+\end{document}

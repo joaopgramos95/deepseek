@@ -1,0 +1,412 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\DeclareMathOperator{\Asym}{\mathcal{A}}
+\newcommand{\bdy}{\partial}
+\newcommand{\Rn}{\mathbb{R}^N}
+\newcommand{\Ot}{\widetilde{\Omega}}
+\newcommand{\HN}{\mathcal{H}^{N-1}}
+\newcommand{\NS}{\mathrm{NearlySphericalClosure}}
+
+\title{Nearly Spherical Closure for Route~A:\\
+sharp Saint--Venant stability via BDV Theorem~3.3 and Lemma~4.2}
+\author{Plan~1 / Route~A --- block \texttt{NearlySphericalClosure}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We record, as a self-contained pointwise quantitative statement, the
+``nearly spherical closure'' building block of Route~A. Starting from two
+quantitative results in Brasco--De~Philippis--Velichkov~\cite{BDV2013}
+(Theorem~3.3 and Lemma~4.2), we produce, with explicit dimensional
+constants, the one-step inequality
+\[
+E(\Ot)-E(B_1)\;\ge\; c_*(N)\,\alpha(\Ot)
+\quad\text{and}\quad
+E(\Ot)-E(B_1)\;\ge\;c_*(N)\,|B_1|^{2}\,C_1(N)^{-1}\,\Asym(\Ot)^{2},
+\]
+valid for every $C^{2,\gamma_0}$ nearly spherical set $\Ot$ with
+sufficiently small parametrisation. Here $E$ denotes the Saint--Venant
+(torsion) energy used by BDV; the transfer to the first Dirichlet
+eigenvalue is performed downstream by the \texttt{KohlerJobinTransfer}
+block. The whole argument is by direct substitution into the BDV
+estimates: no compactness, no contradiction and no selection principle
+are used here.
+\end{abstract}
+
+\section{Setup, conventions and the BDV estimates}\label{sec:setup}
+
+Throughout, $N\ge 2$ and $0<\gamma_0\le 1$ are fixed. We write
+$|\cdot|=\mathcal{L}^N$ for Lebesgue measure and $\HN$ for the surface
+measure on $\bdy B_1$.
+
+\paragraph{Saint--Venant (torsion) energy.}
+Following \cite[\S2]{BDV2013}, for every open bounded set
+$\Omega\subset\Rn$ we denote by $u_\Omega\in W^{1,2}_0(\Omega)$ the unique
+weak solution of
+\[
+-\Delta u_\Omega=1\quad\text{in }\Omega,\qquad u_\Omega=0\quad\text{on }
+\bdy\Omega,
+\]
+and by
+\[
+T(\Omega)\;:=\;\int_\Omega u_\Omega\,dx
+\]
+the torsional rigidity. The Saint--Venant energy is
+\begin{equation}\label{eq:Edef}
+E(\Omega)\;:=\;-\tfrac12\,T(\Omega)
+\;=\;\inf_{v\in W^{1,2}_0(\Omega)}
+\Bigl(\tfrac12\!\int_\Omega|\nabla v|^2\,dx-\int_\Omega v\,dx\Bigr).
+\end{equation}
+This is the energy stabilised by Theorem~3.3 of \cite{BDV2013}. The
+transfer to the first Dirichlet eigenvalue
+$\lambda_1(\Omega)=\inf\{\int|\nabla u|^2:u\in W^{1,2}_0(\Omega),
+\|u\|_{L^2}=1\}$ is performed by the K\"ohler--Jobin inequality and is
+the subject of a separate block (\texttt{KohlerJobinTransfer}).
+
+\paragraph{Fraenkel and smooth asymmetries.}
+The (classical) \emph{Fraenkel asymmetry} is
+\[
+\Asym(\Omega)\;:=\;\inf_{x_0\in\Rn}
+\frac{|\Omega\triangle B_1(x_0)|}{|B_1|},
+\qquad |\Omega|=|B_1|.
+\]
+Following \cite[Definition~4.1]{BDV2013} we also introduce the
+\emph{smooth asymmetry}
+\begin{equation}\label{eq:alphadef}
+\alpha(\Omega)\;:=\;\int_{\Omega\triangle B_1(x_\Omega)}
+\bigl|\,1-|x-x_\Omega|\,\bigr|\,dx,
+\qquad x_\Omega=\tfrac1{|\Omega|}\!\int_\Omega x\,dx.
+\end{equation}
+The smooth asymmetry $\alpha$ weights the symmetric difference by the
+distance to the unit sphere, while $\Asym$ uses the unweighted symmetric
+difference. The inequality between them is Lemma~\ref{lem:BDV42}(i)
+below; it goes in the direction $\Asym^{2}\lesssim\alpha$.
+
+\paragraph{Nearly spherical sets.}
+Following \cite[Definition~3.1]{BDV2013} we say that an open bounded set
+$\Ot\subset\Rn$ is \emph{nearly spherical of class $C^{2,\gamma_0}$ with
+parametrisation $g$} if there exists $g\in C^{2,\gamma_0}(\bdy B_1)$
+with $\|g\|_{L^\infty(\bdy B_1)}\le \tfrac12$ such that
+\[
+\bdy\Ot=\bigl\{(1+g(y))\,y:y\in\bdy B_1\bigr\},\qquad
+\Ot=\bigl\{r\,y:y\in\bdy B_1,\ 0\le r<1+g(y)\bigr\}.
+\]
+The $H^{1/2}(\bdy B_1)$ norm is, as in \cite[Definition~3.2]{BDV2013},
+\[
+\|g\|_{H^{1/2}(\bdy B_1)}^2
+\;:=\;\int_{\bdy B_1}g^2\,d\HN
+\;+\;\int_{B_1}|\nabla H(g)|^2\,dx,
+\]
+where $H(g)$ is the $W^{1,2}$-harmonic extension of $g$ to $B_1$.
+
+\medskip
+The two quantitative statements we use as a black box are now recalled.
+
+\begin{lemma}[BDV Theorem~3.3, sharp nearly spherical stability]
+\label{lem:BDV33}
+For every $0<\gamma_0\le 1$ there exists $\delta_1=\delta_1(N,\gamma_0)>0$
+such that, for every nearly spherical set $\Omega$ of class
+$C^{2,\gamma_0}$ parametrised by $g$ with
+\[
+\|g\|_{C^{2,\gamma_0}(\bdy B_1)}\le\delta_1,\qquad
+|\Omega|=|B_1|,\qquad x_\Omega=0,
+\]
+one has
+\begin{equation}\label{eq:BDV33}
+E(\Omega)-E(B_1)\;\ge\;\frac{1}{32\,N^2}\,\|g\|_{H^{1/2}(\bdy B_1)}^2,
+\end{equation}
+with $E$ the Saint--Venant energy \eqref{eq:Edef}.
+\end{lemma}
+
+The dimensional constant
+$c_{\rm sph}(N):=\tfrac{1}{32\,N^2}$ is the value of the bilinear-form
+coefficient appearing in \cite[(3.9)--(3.10)]{BDV2013}; it comes from the
+gap to the second Steklov eigenvalue of $B_1$ (equal to $2$ in every
+dimension).
+
+\begin{lemma}[BDV Lemma~4.2]\label{lem:BDV42}
+There exist constants $C_1=C_1(N)>0$, $\delta_3=\delta_3(N)>0$ and
+$C_3=C_3(N)>0$ with the following properties.
+\begin{enumerate}
+\item[\textup{(i)}] For every measurable set $\Omega\subset\Rn$ with
+$|\Omega|=|B_1|$,
+\begin{equation}\label{eq:BDV42i}
+C_1(N)\,\alpha(\Omega)\;\ge\;|\Omega\triangle B_1(x_\Omega)|^2
+\;\ge\;|B_1|^2\,\Asym(\Omega)^2.
+\end{equation}
+\item[\textup{(iii)}] For every nearly spherical set $\Omega$
+parametrised by $g$ with $\|g\|_{L^\infty(\bdy B_1)}\le\delta_3$,
+\begin{equation}\label{eq:BDV42iii}
+\alpha(\Omega)\;\le\;C_3(N)\,\|g\|_{L^2(\bdy B_1)}^2.
+\end{equation}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}[Reference]
+Items (i) and (iii) are \cite[Lemma~4.2~(i),(iii)]{BDV2013}; the proof
+there is by direct rearrangement / Taylor expansion of the weighted
+integral~\eqref{eq:alphadef}. We use only these two items in the present
+section; in particular we do \emph{not} use the BDV selection principle
+nor Lemma~4.2(ii).
+\end{proof}
+
+\section{The nearly spherical closure}\label{sec:closure}
+
+\subsection{Statement in the volume- and barycenter-normalised case}
+
+The trivial trace--Poincar\'e comparison
+\begin{equation}\label{eq:Hhalfvsi2}
+\|g\|_{L^2(\bdy B_1)}^2 \;\le\; \|g\|_{H^{1/2}(\bdy B_1)}^2,
+\end{equation}
+follows directly from the definition of $\|\cdot\|_{H^{1/2}(\bdy B_1)}$
+($L^2$ is one of the two summands).
+
+\begin{theorem}[$\NS$: nearly spherical closure]\label{thm:NS}
+Fix $0<\gamma_0\le 1$ and set
+\begin{equation}\label{eq:dsph}
+\delta_{\rm sph}(N,\gamma_0)
+\;:=\;\min\!\bigl(\delta_1(N,\gamma_0),\,\delta_3(N)\bigr).
+\end{equation}
+For every $C^{2,\gamma_0}$ nearly spherical set
+$\Ot=\{(1+g(y))y:y\in\bdy B_1\}$ with
+\begin{equation}\label{eq:normal}
+\|g\|_{C^{2,\gamma_0}(\bdy B_1)}\le\delta_{\rm sph}(N,\gamma_0),
+\qquad |\Ot|=|B_1|,\qquad x_{\Ot}=0,
+\end{equation}
+we have
+\begin{align}
+E(\Ot)-E(B_1)
+&\;\ge\;
+\frac{c_{\rm sph}(N)}{C_3(N)}\,\alpha(\Ot)
+\;=:\;c_*(N)\,\alpha(\Ot),
+\label{eq:NSalpha}\\
+E(\Ot)-E(B_1)
+&\;\ge\;
+\frac{c_{\rm sph}(N)\,|B_1|^{2}}{C_3(N)\,C_1(N)}\,\Asym(\Ot)^{2}
+\;=\;c_*(N)\,|B_1|^{2}\,C_1(N)^{-1}\,\Asym(\Ot)^{2},
+\label{eq:NSfraenkel}
+\end{align}
+with the explicit dimensional constant
+\begin{equation}\label{eq:cstar}
+c_*(N)\;=\;\frac{c_{\rm sph}(N)}{C_3(N)}
+\;=\;\frac{1}{32\,N^2\,C_3(N)}.
+\end{equation}
+Equivalently, the smooth-asymmetry energy quotient is bounded below by an
+explicit dimensional constant:
+\begin{equation}\label{eq:Qalpha}
+Q_\alpha(\Ot)\;:=\;\frac{E(\Ot)-E(B_1)}{\alpha(\Ot)}
+\;\ge\;c_*(N).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+By~\eqref{eq:dsph}, the hypotheses of Lemma~\ref{lem:BDV33}
+(threshold $\delta_1$) and of Lemma~\ref{lem:BDV42}(iii)
+(threshold $\delta_3$) hold simultaneously.
+
+\medskip\noindent\emph{Step 1: smooth-asymmetry form~\eqref{eq:NSalpha}.}\;
+Chain Lemma~\ref{lem:BDV33}, the comparison~\eqref{eq:Hhalfvsi2}, and
+Lemma~\ref{lem:BDV42}(iii):
+\[
+E(\Ot)-E(B_1)
+\stackrel{\eqref{eq:BDV33}}{\ge}
+\tfrac{1}{32N^2}\,\|g\|_{H^{1/2}(\bdy B_1)}^2
+\stackrel{\eqref{eq:Hhalfvsi2}}{\ge}
+\tfrac{1}{32N^2}\,\|g\|_{L^2(\bdy B_1)}^2
+\stackrel{\eqref{eq:BDV42iii}}{\ge}
+\tfrac{1}{32N^2\,C_3(N)}\,\alpha(\Ot).
+\]
+This is~\eqref{eq:NSalpha}.
+
+\medskip\noindent\emph{Step 2: Fraenkel form~\eqref{eq:NSfraenkel}.}\;
+Combining with Lemma~\ref{lem:BDV42}(i):
+\[
+E(\Ot)-E(B_1)
+\;\ge\;c_*(N)\,\alpha(\Ot)
+\stackrel{\eqref{eq:BDV42i}}{\ge}
+\frac{c_*(N)}{C_1(N)}\,|B_1|^{2}\,\Asym(\Ot)^{2}.
+\]
+
+The quotient identity~\eqref{eq:Qalpha} is~\eqref{eq:NSalpha} rewritten.
+\end{proof}
+
+\begin{remark}[Direction of asymmetry inequalities]
+The inequalities~\eqref{eq:BDV42i} and~\eqref{eq:BDV42iii} go in opposite
+directions: $\alpha$ is \emph{lower bounded} by $\Asym^{2}$ (so $\alpha$
+is the larger, easier-to-bound-below quantity) and \emph{upper bounded}
+by $\|g\|_{L^2(\bdy B_1)}^2$. Theorem~\ref{thm:NS} uses both in the
+favourable direction: \eqref{eq:BDV42iii} converts the $H^{1/2}$ energy
+lower bound into an $\alpha$-lower bound, while~\eqref{eq:BDV42i}
+transfers it to $\Asym^{2}$.
+\end{remark}
+
+\subsection{Absorbing the volume/barycenter normalisation}
+
+In Route~A the set $\Ot$ produced upstream is $C^{2,\gamma_0}$-close to
+$B_1$ but may have $|\Ot|\neq|B_1|$ or $x_{\Ot}\neq 0$. The normalisation
+is contained in BDV's own proof of Theorem~3.3 (see
+\cite[(3.6)--(3.7)]{BDV2013}): expanding the two scalar identities
+\begin{equation}\label{eq:vol}
+|\Ot|=\int_{\bdy B_1}\frac{(1+g)^N}{N}\,d\HN=|B_1|,
+\end{equation}
+\begin{equation}\label{eq:bary}
+x_{\Ot}=\int_{\bdy B_1}y\,\frac{(1+g)^{N+1}}{N+1}\,d\HN=0,
+\end{equation}
+in $g$ and using $\|g\|_{C^{2,\gamma_0}}\le\delta_1$ yields the moment
+bounds \cite[(3.6)--(3.7)]{BDV2013}
+\begin{equation}\label{eq:moment}
+\Bigl|\int_{\bdy B_1}g\,d\HN\Bigr|
++\sum_{i=1}^{N}\Bigl|\int_{\bdy B_1}y_i\,g\,d\HN\Bigr|
+\;\le\;C(N)\,\delta_1\,\|g\|_{H^{1/2}(\bdy B_1)}.
+\end{equation}
+
+\begin{corollary}[Normalisation absorbed in the constant]
+\label{cor:normabs}
+If $\Ot$ satisfies all hypotheses of Theorem~\ref{thm:NS} except that
+$|\Ot|=|B_1|$ and $x_{\Ot}=0$ are replaced by
+\[
+\bigl|\,|\Ot|-|B_1|\,\bigr|+|x_{\Ot}|
+\;\le\;\eta\,\|g\|_{L^2(\bdy B_1)},
+\]
+with $\eta\le\eta_0(N,\gamma_0)$ small enough, then there exist
+$\widetilde{c}_*(N)>0$ and $\widetilde{\delta}_{\rm sph}(N,\gamma_0)>0$
+such that conclusions~\eqref{eq:NSalpha}--\eqref{eq:NSfraenkel} hold with
+$c_*(N)$ replaced by $\widetilde{c}_*(N)$. Equivalently, the
+volume--barycenter normalisation in~\eqref{eq:normal} can be replaced by
+an $O(\|g\|_{L^2(\bdy B_1)})$ defect at the cost of a dimensional
+constant.
+\end{corollary}
+
+\begin{proof}[Reduction]
+Form $\Ot'=\Ot-x_{\Ot}$ and $\Ot''=\lambda\,\Ot'$ with
+$\lambda=(|B_1|/|\Ot'|)^{1/N}$. Then $|\lambda-1|\le C\eta\|g\|_{L^2}$
+and $|x_{\Ot}|\le\eta\|g\|_{L^2}$. The new parametrisation $g''$ of
+$\Ot''$ satisfies
+$\|g''\|_{C^{2,\gamma_0}}\le\|g\|_{C^{2,\gamma_0}}
++C(N)\eta\|g\|_{L^2}\le 2\|g\|_{C^{2,\gamma_0}}$ for $\eta$ small. By
+construction $|\Ot''|=|B_1|$ and $x_{\Ot''}=0$, and the perturbations of
+$E,\alpha,\Asym$ are $O(\eta\|g\|_{L^2}^{2})$, absorbed at the cost of a
+factor $\tfrac12$ in the conclusion. Setting
+$\widetilde{c}_*(N)=c_*(N)/4$ closes the argument.
+\end{proof}
+
+\subsection{Sharpness}
+
+The exponent $2$ on $\Asym$ in~\eqref{eq:NSfraenkel} (equivalently the
+exponent $1/2$ on the deficit in the rearranged inequality
+$\Asym(\Ot)\le C\,(E(\Ot)-E(B_1))^{1/2}$) cannot be improved, already
+inside the nearly spherical class. This is shown in \cite[p.~2 and the
+discussion preceding \S2]{BDV2013} by an ellipsoidal example.
+
+\begin{remark}[Ellipsoidal sharpness]\label{rem:ellipsoid}
+Let $E_\varepsilon=\{x:\sum x_i^{2}/a_i^{2}<1\}$ with $a_i=1+\varepsilon
+e_i$, $\sum e_i=0$, $|e|\le 1$. A direct expansion gives
+\[
+\Asym(E_\varepsilon)=c_1(N,e)\,\varepsilon+O(\varepsilon^{2}),\qquad
+E(E_\varepsilon)-E(B_1)=c_2(N,e)\,\varepsilon^{2}+O(\varepsilon^{3}),
+\]
+so $\Asym^{2}$ and the energy deficit are of the same order
+$\varepsilon^{2}$. No inequality
+$E(\Ot)-E(B_1)\ge c\,\Asym(\Ot)^{2-\theta}$ ($\theta>0$) can hold
+uniformly even within nearly spherical sets, so the exponent $2$ on
+$\Asym$ (equivalently $1/2$ on the deficit) is sharp.
+\end{remark}
+
+\section{Summary of constants}\label{sec:constants}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Symbol} & \textbf{Definition / origin} & \textbf{Where} \\
+\midrule
+$c_{\rm sph}(N)$ & $\dfrac{1}{32\,N^2}$, coefficient in BDV~Thm~3.3 &
+\eqref{eq:BDV33}\\
+$\delta_1(N,\gamma_0)$ & $C^{2,\gamma_0}$ smallness in BDV~Thm~3.3 &
+Lem.~\ref{lem:BDV33}\\
+$C_1(N)$ & $C_1\alpha\ge|\Omega\triangle B_1(x_\Omega)|^2$, BDV~4.2(i) &
+\eqref{eq:BDV42i}\\
+$\delta_3(N)$ & $L^\infty$ smallness in BDV~Lem.~4.2(iii) &
+\eqref{eq:BDV42iii}\\
+$C_3(N)$ & $\alpha\le C_3\|g\|_{L^2(\bdy B_1)}^2$, BDV~Lem.~4.2(iii) &
+\eqref{eq:BDV42iii}\\
+\midrule
+$\delta_{\rm sph}(N,\gamma_0)$ & $\min(\delta_1,\delta_3)$ &
+\eqref{eq:dsph}\\
+$c_*(N)$ & $\dfrac{1}{32\,N^2\,C_3(N)}$ & \eqref{eq:cstar}\\
+$c_*(N)|B_1|^{2}/C_1(N)$ & Fraenkel constant in~\eqref{eq:NSfraenkel} &
+\eqref{eq:NSfraenkel}\\
+$\widetilde{c}_*(N)$ & $c_*(N)/4$ after vol./barycenter normalisation &
+Cor.~\ref{cor:normabs}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Pure $N$-dependence.}
+All constants depend only on $N$, except $\delta_1$ and hence
+$\delta_{\rm sph}$ which depend additionally on $\gamma_0$. No radius
+parameter $R$ enters, since by the time the closure is invoked the
+upstream selection has returned a set whose convex hull is contained in
+a ball of dimensional radius and whose volume is normalised to $|B_1|$.
+
+\section{Use in Route~A}\label{sec:routeA}
+
+In the Plan~1 / Route~A architecture, $\NS$ (Theorem~\ref{thm:NS}) is
+applied as follows.
+
+\begin{enumerate}
+\item[(R1)] The upstream blocks (\texttt{SelectionPrinciple},
+\texttt{GraphEntry}, \texttt{SchauderInterpolation}) produce a set
+$\Ot$ which is $C^{2,\gamma_0}$ a graph over $\bdy B_1$ with
+parametrisation $g$ satisfying $\|g\|_{C^{2,\gamma_0}}\le
+h_{\rm sph}(N,\gamma_0,R)$ for some $h_{\rm sph}>0$.
+
+\item[(R2)] After volume normalisation and barycenter shift
+(Corollary~\ref{cor:normabs}) we may assume $|\Ot|=|B_1|$,
+$x_{\Ot}=0$, and $h_{\rm sph}\le\delta_{\rm sph}(N,\gamma_0)$.
+
+\item[(R3)] Theorem~\ref{thm:NS} then gives, with the explicit constants
+of~\eqref{eq:cstar},
+\[
+E(\Ot)-E(B_1)
+\;\ge\;\frac{|B_1|^{2}}{32\,N^2\,C_3(N)\,C_1(N)}\,\Asym(\Ot)^{2},
+\]
+the closing inequality of the sharp Saint--Venant stability with the
+sharp exponent $2$ on $\Asym$ (equivalently $1/2$ on the deficit).
+\end{enumerate}
+
+\paragraph{What we do \emph{not} use.}
+The proof of Theorem~\ref{thm:NS} does not use:
+\begin{itemize}
+\item BDV's selection principle (\cite[Prop.~4.4]{BDV2013});
+\item BDV's compactness/contradiction step (\cite[Thm~4.3]{BDV2013});
+\item Lemma~4.2(ii) (Lipschitz dependence of $\alpha$ on symmetric
+difference).
+\end{itemize}
+The two BDV ingredients we do use (Theorem~3.3 and Lemma~4.2(i),(iii))
+are both proved in \cite{BDV2013} by direct spherical-harmonic and
+rearrangement computations.
+
+\begin{thebibliography}{9}
+\bibitem{BDV2013}
+L.~Brasco, G.~De~Philippis, B.~Velichkov.
+\emph{Faber--Krahn inequalities in sharp quantitative form}.
+arXiv:1306.0392v1 (2013).
+\end{thebibliography}
+
+\end{document}

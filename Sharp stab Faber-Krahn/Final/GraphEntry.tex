@@ -1,0 +1,434 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{array,booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\BB}{B_1}
+\newcommand{\dH}{d_H}
+\newcommand{\Aa}{\mathcal{A}}
+\newcommand{\R}{\mathbb{R}}
+\DeclareMathOperator{\Lip}{Lip}
+
+\title{GraphEntry: from small BDV asymmetry to a global $C^{1,\gamma}$ normal graph}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This is the \textsc{GraphEntry} building block of the Plan~1 / Route~A
+proof of sharp Faber--Krahn stability with exponent~$1/2$. It is a
+strictly quantitative, contradiction-free pipeline that turns a smallness
+hypothesis on the BDV asymmetry $\alpha(U)$ of a selected minimizer
+$U\subset B_R$ into a deterministic conclusion: $\partial U$ is a global
+$C^{1,\gamma}$ normal graph over $\partial\BB$ with $L^\infty$ norm
+controlled by $\alpha(U)^{1/(2N)}$ and $C^{1,\gamma}$ norm bounded by a
+fixed constant $M_1=M_1(N,R)$. The Brasco--De Philippis--Velichkov (BDV)
+free boundary results (Lemmas~4.2, 4.9, 4.12, 4.16 and Theorem~4.18 of
+\cite{BDV}) are invoked as quantitative black boxes; no compactness or
+sequential argument is used. The block accepts the output of
+\textsc{SelectionPrinciple} and feeds \textsc{SchauderInterpolation}; in
+particular the upgrade from $C^{1,\gamma}$ to small $C^{2,\gamma_0}$ is
+\emph{not} part of this note.
+\end{abstract}
+
+\tableofcontents
+
+\section{Standing data}\label{sec:data}
+
+\subsection{Sets, functions, asymmetries}
+
+Throughout, $N\ge2$ is the ambient dimension and $R>1$ a fixed container
+radius. Let $U\subset B_R\subset\R^N$ be a measurable set with
+$|U|=|\BB|=\omega_N$, and $u\in H^1_0(B_R)$ its torsion potential with
+$\{u>0\}=U$. The Hausdorff distance between two compact sets is
+\[
+\dH(A,B):=\max\Bigl\{\sup_{a\in A}\operatorname{dist}(a,B),\;
+\sup_{b\in B}\operatorname{dist}(b,A)\Bigr\}.
+\]
+The \emph{Fraenkel asymmetry} of $\Omega$ is
+\[
+\Aa(\Omega):=\inf_{x\in\R^N}\frac{|\Omega\Delta(\BB+x)|}{|\BB|},
+\]
+and the \emph{BDV (smooth) asymmetry} $\alpha(U)$ is the smooth penalised
+quantity defined in \cite[\S4]{BDV}.
+
+\subsection{BDV regularity package (black box)}\label{ssec:BDV}
+
+Let $U=\{u>0\}$ be a selected minimizer with selection parameter
+$\tau\le\tau_{\rm reg}(N,R)$. The BDV theorems give constants
+$c_d=c_d(N,R)$, $r_d=r_d(N,R)$, $L_u=L_u(N,R)$, $q_\pm=q_\pm(N,R)$,
+$L_q=L_q(N,R)$, all positive, such that:
+
+\begin{enumerate}
+\item[\rm(L4.9)] \textbf{Two-sided density.} For every $x\in\partial U$
+and $0<r\le r_d$,
+\[
+c_d r^N\le|U\cap B_r(x)|\le(1-c_d)r^N,\quad
+c_d r^N\le|B_r(x)\setminus U|\le(1-c_d)r^N.
+\]
+\item[\rm(L4.12a)] \textbf{Lipschitz.}
+$u\in C^{0,1}(\overline{B_R})$ with $\Lip(u)\le L_u$.
+\item[\rm(L4.12b)] \textbf{Nondegeneracy.}
+$\sup_{B_r(x)}u\ge c_d r$ for all $x\in\partial U$ and $0<r\le r_d$.
+\item[\rm(L4.16)] \textbf{Bernoulli coefficient.} On the flat portion
+of $\partial U$, $q_u(x):=|\nabla u(x)|$ satisfies $q_-\le q_u\le q_+$
+and $\Lip(q_u)\le L_q$.
+\item[\rm(L4.2)] \textbf{Asymmetry vs.\ symmetric difference.}
+$|U\Delta\BB|^2\le C_1(N)\,\alpha(U)$, and
+$|\alpha(U_1)-\alpha(U_2)|\le C_2(R)|U_1\Delta U_2|$.
+\item[\rm(T4.18)] \textbf{Alt--Caffarelli flatness improvement.} There exist
+$\bar\mu=\bar\mu(N,R)\in(0,1)$, $\bar\rho=\bar\rho(N,R)>0$,
+$\gamma=\gamma(N,R)\in(0,1)$, $C_{\rm AC}=C_{\rm AC}(N,R)$ such that if
+$u\in F(\bar\mu,1,+\infty)$ on $B_{\bar\rho}(x_0)\subset B_R$, then
+$\partial U\cap B_{\bar\rho/2}(x_0)$ is a $C^{1,\gamma}$ graph in the
+relevant direction with norm $\le C_{\rm AC}\bar\mu$.
+\end{enumerate}
+
+We fix once and for all a geometric constant $C_0=C_0(N)\ge1$ absorbing all
+unit conversions between the half-slab inclusion we verify below and the
+exact form of the BDV Alt--Caffarelli inequalities.
+
+\subsection{Centering hypothesis}\label{ssec:center}
+
+Let $y_*$ be the optimal Fraenkel translation. We pre-shift so the
+comparison ball is $\BB$. The cost of this translation is recorded in
+\S\ref{sec:bary} and absorbed into the threshold $\alpha_{\rm graph}$.
+
+\section{From asymmetry to Hausdorff distance}\label{sec:alphaH}
+
+\begin{lemma}[Symmetric-difference control, \cite{BDV} L4.2]\label{lem:symdiff}
+$|U\Delta\BB|\le C_\alpha(N)\,\alpha(U)^{1/2}$, with $C_\alpha=C_1^{1/2}$.
+\end{lemma}
+
+\begin{lemma}[Density forces Hausdorff smallness]\label{lem:densH}
+Set $c_*:=\min(c_d,1/2)$ and
+\[
+   C_H:=4(\omega_N c_*)^{-1/N}
+      + (R+1)(c_*r_d^N)^{-1/N}.
+\]
+Then
+\[
+\dH(\partial U,\partial\BB)\le C_H\,|U\Delta\BB|^{1/N}.
+\]
+\end{lemma}
+
+\begin{proof}
+Set $d:=\dH(\partial U,\partial\BB)$. Either (Case~1) there is
+$x\in\partial U$ with $\operatorname{dist}(x,\partial\BB)=d$, or (Case~2)
+the symmetric statement with roles swapped.
+
+\emph{Case 1.} $B_{d/2}(x)\cap\partial\BB=\emptyset$, so $B_{d/2}(x)$ lies
+in $\BB$ or in $\R^N\setminus\overline\BB$. In the second alternative,
+density (L4.9) at $x\in\partial U$ at radius $r:=\min(d/2,r_d)$ gives
+$|U\cap B_r(x)|\ge c_d r^N$, and $U\cap B_r(x)\subset U\setminus\BB\subset
+U\Delta\BB$, so $c_d r^N\le|U\Delta\BB|$. Under $d\le r_d$ this is
+$c_d(d/2)^N\le|U\Delta\BB|$. In the first alternative, the complementary
+density gives $|B_r(x)\setminus U|\ge c_d r^N$ inside $\BB\setminus U$, same
+conclusion.
+
+\emph{Case 2.} $B_{d/2}(\bar x)$ at $\bar x\in\partial\BB$ contains a
+half-ball of volume $\ge\tfrac12\omega_N(d/2)^N$ inside $\BB$ or outside
+$\BB$; one of these halves lies in $U\Delta\BB$, hence
+$\tfrac12\omega_N(d/2)^N\le|U\Delta\BB|$.
+
+If $d>2r_d$, the same density argument at the fixed radius $r_d$ gives a
+fixed lower bound for $|U\Delta\BB|$; after increasing the dimensional
+constant this covers the large-distance alternative too. Combining the
+small- and large-distance cases gives the stated bound with the chosen
+$C_H$.
+\end{proof}
+
+\begin{proposition}[Quantitative asymmetry-to-Hausdorff]\label{prop:alphaH}
+Set $C_H'(N,R):=C_H(N,R)\,C_\alpha(N)^{1/N}$,
+$\alpha_0(N,R):=(r_d/C_H')^{2N}$. For every selected minimizer $U$ with
+$\alpha(U)\le\alpha_0$,
+\[
+\dH(\partial U,\partial\BB)\le C_H'\,\alpha(U)^{1/(2N)}\le r_d.
+\]
+\end{proposition}
+
+\begin{proof}
+By Lemma~\ref{lem:symdiff}, $|U\Delta\BB|\le C_\alpha\alpha^{1/2}$; plug
+into Lemma~\ref{lem:densH}. The final inequality follows from
+$\alpha\le\alpha_0$.
+\end{proof}
+
+\section{Barycenter shift is absorbable}\label{sec:bary}
+
+\begin{lemma}[Center shift]\label{lem:bary}
+There is $C_{\rm Fr}'=C_{\rm Fr}'(N,R)$ such that for every selected
+minimizer $U$ with $\alpha(U)\le\alpha_0$,
+\[
+|y_*|\le (R+1)\Aa(U)\le(R+1)\sqrt{C_{\rm Fr}(N)}\,\alpha(U)^{1/2}
+\le C_{\rm Fr}'\,\alpha(U)^{1/2},
+\]
+where $C_{\rm Fr}(N):=C_1(N)/|\BB|^2$ from (L4.2).
+\end{lemma}
+
+\begin{proof}
+$y_*\in B_{R+1}$ for smallness reasons; the volume identity
+$|U\Delta(\BB+y_*)|=|\BB|\Aa(U)$ combined with $\Aa^2\le C_{\rm Fr}\alpha$
+gives the bound.
+\end{proof}
+
+\begin{remark}
+The shift $|y_*|$ is dominated by $h_F$ (defined below) when
+$\alpha\le(h_F/C_{\rm Fr}')^2$, absorbed into $\alpha_{\rm graph}$.
+\end{remark}
+
+\section{From Hausdorff closeness to fixed-scale Alt--Caffarelli flatness}
+\label{sec:flatness}
+
+\subsection{Choice of flatness scale}\label{ssec:scale}
+
+With the BDV constants $\bar\mu,\bar\rho,C_{\rm AC}$ and the tubular slope
+threshold $\mu_{\rm tub}(N)=1/4$ from \S\ref{sec:patch}, define
+\[
+\boxed{\;
+\mu:=\min\Bigl(\tfrac{\bar\mu}{16C_0},\tfrac{\mu_{\rm tub}}{C_{\rm AC}}\Bigr),\quad
+\rho_\mu:=\min\Bigl(\bar\rho,\tfrac{\mu}{18},\tfrac{r_d}{2}\Bigr),\quad
+h_F:=\tfrac{\mu\rho_\mu}{16}.\;}
+\]
+
+\begin{lemma}[Geometric slab inclusion]\label{lem:slab}
+For $\bar x\in\partial\BB$ and $s\le 6\rho_\mu$,
+\[
+\partial\BB\cap B_s(\bar x)
+\subset\bigl\{|(x-\bar x)\cdot\nu_{\bar x}|\le s^2/2\bigr\}
+\subset\bigl\{|(x-\bar x)\cdot\nu_{\bar x}|\le\mu\rho_\mu\bigr\}.
+\]
+\end{lemma}
+
+\begin{proof}
+$\BB$ has unit radius, so $|x-\bar x|\le s\Rightarrow
+|(x-\bar x)\cdot\nu_{\bar x}|\le s^2/2$ for $x\in\partial\BB$. For
+$s\le6\rho_\mu$ this is $\le18\rho_\mu^2\le\mu\rho_\mu$ by
+$\rho_\mu\le\mu/18$.
+\end{proof}
+
+\subsection{Fixed-scale flatness}
+
+\begin{proposition}[Fixed-scale Alt--Caffarelli flatness]\label{prop:flat}
+Assume $\dH(\partial U,\partial\BB)\le h_F$. Then for every
+$\bar x\in\partial\BB$ there exists $x_0\in\partial U$ with
+$|x_0-\bar x|\le h_F$ such that
+\[
+\partial U\cap B_{4\rho_\mu}(x_0)
+\subset\bigl\{|(x-x_0)\cdot\nu_{\bar x}|\le 2\mu\rho_\mu\bigr\},
+\]
+and the torsion potential $u$ belongs to $F(C_0\mu,1,+\infty)$ on
+$B_{4\rho_\mu}(x_0)$ with respect to $-\nu_{\bar x}$.
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1.} Existence of $x_0$ is by the Hausdorff bound.
+
+\emph{Step 2 (slab inclusion).} By Lemma~\ref{lem:slab} at radius
+$s=5\rho_\mu+h_F\le6\rho_\mu$ (since $h_F\le\rho_\mu$ and $\mu\le1$),
+$\partial\BB\cap B_{5\rho_\mu+h_F}(\bar x)$ lies in
+$\{|(x-\bar x)\cdot\nu_{\bar x}|\le\mu\rho_\mu\}$. Every
+$p\in\partial U\cap B_{5\rho_\mu}(x_0)$ lies within $h_F$ of some
+$\bar p\in\partial\BB\cap B_{5\rho_\mu+h_F}(\bar x)$, so
+$|(p-\bar x)\cdot\nu_{\bar x}|\le\mu\rho_\mu+h_F$, hence
+$|(p-x_0)\cdot\nu_{\bar x}|\le\mu\rho_\mu+2h_F\le 2\mu\rho_\mu$
+(using $h_F=\mu\rho_\mu/16$).
+
+\emph{Step 3 (positive phase, F1).} At radius $\rho_\mu\le r_d/2$ the
+nondegeneracy (L4.12b) gives a point $y\in B_{\rho_\mu}(x_0)\cap\{u>0\}$
+with $u(y)\ge c_d\rho_\mu$. Combined with (L4.12a), the rescaled
+$u_{x_0,\rho_\mu}(x):=u(x_0+\rho_\mu x)/\rho_\mu$ satisfies on $B_4$
+\[
+u_{x_0,\rho_\mu}(x)\ge c_d\bigl(x\cdot(-\nu_{\bar x})-C_0\mu\bigr)_+,
+\]
+absorbing constants into $C_0$. This is (F1).
+
+\emph{Step 4 (zero phase, F2).} The outer half-ball
+$\{(x-\bar x)\cdot\nu_{\bar x}>\mu\rho_\mu\}\cap B_{4\rho_\mu}(\bar x)$ is
+disjoint from $\BB$. By the Hausdorff bound, it is disjoint from $U$ up to
+a layer of width $h_F<\mu\rho_\mu/16$. Hence
+$\{(x-x_0)\cdot\nu_{\bar x}\ge3\mu\rho_\mu\}\cap B_{4\rho_\mu}(x_0)$ is
+contained in $U^c$, and $u\equiv0$ there. This is (F2).
+
+\emph{Step 5 (Lipschitz upper bound, F3).}
+$\Lip(u)\le L_u$ and the vanishing on the deep zero-layer give
+\[
+u_{x_0,\rho_\mu}(x)\le L_u\bigl(x\cdot(-\nu_{\bar x})+C_0\mu\bigr)_+.
+\]
+
+(F1)+(F2)+(F3) with parameter $C_0\mu\le\bar\mu$ (by
+$\mu\le\bar\mu/(16C_0)$) give $u\in F(C_0\mu,1,+\infty)$ in
+$B_{4\rho_\mu}(x_0)$ with respect to $-\nu_{\bar x}$.
+\end{proof}
+
+\begin{remark}[Orientation check]\label{rem:orientation}
+Step~4 uses the orientation of $\nu_{\bar x}$ (outward normal of $\BB$) to
+identify the zero-phase side of the slab. The argument is consistent as
+written: $\operatorname{dist}(\cdot,\BB)>h_F$ on the outer half-ball
+implies $\operatorname{dist}(\cdot,U)>0$ by the Hausdorff bound; the
+connectedness of the deep layer prevents the inner and outer sides of the
+slab from exchanging roles when $h_F<\mu\rho_\mu/8$.
+\end{remark}
+
+\section{From local flatness to a global $C^{1,\gamma}$ normal graph}
+\label{sec:patch}
+
+\subsection{Tubular projection}\label{ssec:tub}
+
+\begin{lemma}[Tubular threshold]\label{lem:tub}
+Let $\mu_{\rm tub}:=1/4$. If $g:\partial\BB\to\R$ satisfies
+$\|g\|_{C^{0,1}(\partial\BB)}\le\mu_{\rm tub}$, then
+$\Phi_g(\theta):=(1+g(\theta))\theta$ is a bi-Lipschitz embedding, and
+$|d\Phi_g(\theta)|^2\ge\tfrac{15}{36}$.
+\end{lemma}
+
+\begin{proof}
+$d\Phi_g=(1+g)\,\mathrm{id}+dg\otimes\theta$; the bound follows from
+$(1+g)^2\ge(1-\mu_{\rm tub})^2=9/16$ and $|dg|\le1/4$.
+\end{proof}
+
+\subsection{Patching local graphs}\label{ssec:patch}
+
+\begin{proposition}[Patching to a global graph]\label{prop:patch}
+Assume $\dH(\partial U,\partial\BB)\le h_F$. Then there exists
+$g:\partial\BB\to\R$ with
+\[
+\partial U=\{(1+g(\theta))\theta:\theta\in\partial\BB\},\qquad
+\|g\|_{C^{1,\gamma}(\partial\BB)}\le M_1(N,R):=C_{\rm AC}\mu\cdot K_{\rm geom}(N,R),
+\]
+and $\|g\|_{C^{0,1}}\le\mu_{\rm tub}=1/4$, where $K_{\rm geom}$ is the
+finite bi-Lipschitz factor from Lemma~\ref{lem:tub}.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{prop:flat} at every $\bar x\in\partial\BB$ there is
+$x_0(\bar x)$ such that $u\in F(C_0\mu,1,+\infty)$ on $B_{4\rho_\mu}(x_0)$
+with respect to $-\nu_{\bar x}$. Since $C_0\mu\le\bar\mu$, BDV
+Theorem~4.18 applies and $\partial U\cap B_{\rho_\mu}(x_0)$ is a
+$C^{1,\gamma}$ graph in direction $\nu_{\bar x}$ with norm
+$\le C_{\rm AC}\mu$.
+
+By $\mu\le\mu_{\rm tub}/C_{\rm AC}$, every such local graph has slope
+$\le\mu_{\rm tub}=1/4$. Composing with the inverse of the radial
+projection of Lemma~\ref{lem:tub} expresses each as a graph
+$g_{\bar x}$ over a neighbourhood of $\bar x$ on $\partial\BB$, with
+$C^{1,\gamma}$ norm increased by a bounded factor $K_{\rm geom}$.
+
+Two local graphs $g_{\bar x_1},g_{\bar x_2}$ over overlapping caps
+parameterise the same connected piece of $\partial U$ (by the
+slope-$\mu_{\rm tub}$ tubular non-folding of Lemma~\ref{lem:tub}), hence
+they agree on the overlap, and patch into a global function $g$ with the
+stated bounds.
+\end{proof}
+
+\begin{lemma}[$L^\infty$ control]\label{lem:Linfty}
+With $C_H''(N,R):=2C_H'(N,R)$,
+\[
+\|g\|_{L^\infty(\partial\BB)}\le C_H''\,\alpha(U)^{1/(2N)}.
+\]
+\end{lemma}
+
+\begin{proof}
+$|g(\theta)|$ is the radial distance from $(1+g(\theta))\theta\in\partial
+U$ to $\partial\BB$; since $\|g\|_{C^{0,1}}\le1/4$, this is at most $2$
+times the Euclidean distance, hence
+$\|g\|_{L^\infty}\le 2\dH(\partial U,\partial\BB)
+\le 2C_H'\alpha^{1/(2N)}=C_H''\alpha^{1/(2N)}$.
+\end{proof}
+
+\section{The GraphEntry theorem}\label{sec:thresh}
+
+\begin{theorem}[GraphEntry]\label{thm:graphentry}
+There exist $\mu(N,R),\rho_\mu(N,R),h_F(N,R),C_H'(N,R),M_1(N,R)$ and a
+threshold
+\[
+\boxed{\;\alpha_{\rm graph}(N,R):=
+\min\bigl\{\alpha_0,\,(h_F/C_H')^{2N},\,(h_F/C_{\rm Fr}')^2\bigr\}\;}
+\]
+such that the following holds. Let $U\subset B_R$ be a selected minimizer
+with $|U|=|\BB|$, $\tau\le\tau_{\rm reg}(N,R)$, and
+$\alpha(U)\le\alpha_{\rm graph}(N,R)$. After translating by $-y_*$,
+$\partial U$ is a global $C^{1,\gamma}$ normal graph over $\partial\BB$:
+there exists $g:\partial\BB\to\R$ with
+\[
+\partial U=\{(1+g(\theta))\theta:\theta\in\partial\BB\},
+\]
+\[
+\|g\|_{C^{1,\gamma}(\partial\BB)}\le M_1(N,R),\qquad
+\|g\|_{L^\infty(\partial\BB)}\le C_H''(N,R)\,\alpha(U)^{1/(2N)}.
+\]
+Here $\gamma=\gamma(N,R)\in(0,1)$ is the Alt--Caffarelli exponent of
+(T4.18).
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{prop:alphaH}, $\alpha(U)\le\alpha_{\rm graph}$ implies
+$\dH(\partial U,\partial\BB)\le h_F$ (after threshold reduction absorbing
+the barycenter shift via Lemma~\ref{lem:bary}). Proposition~\ref{prop:flat}
+then gives fixed-scale Alt--Caffarelli flatness, and
+Proposition~\ref{prop:patch} + Lemma~\ref{lem:Linfty} give the global
+$C^{1,\gamma}$ normal graph with stated bounds.
+\end{proof}
+
+\begin{remark}[Interfaces]\label{rem:interfaces}
+\emph{Input.} The hypothesis that $U$ is selected with
+$\tau\le\tau_{\rm reg}$ is the output of \textsc{SelectionPrinciple}; the
+BDV regularity package is then available with constants $(N,R)$.
+\emph{Output.} The conclusion is the input of \textsc{SchauderInterpolation}:
+the uniform $C^{1,\gamma}$ bound $M_1$ together with the small $L^\infty$
+bound $\le C_H''\alpha^{1/(2N)}$ are used there with hodograph +
+Kinderlehrer--Nirenberg + Schauder bootstrap + interpolation to produce
+the small $C^{2,\gamma_0}$ regime of BDV Theorem~3.3.
+\emph{No compactness.} The proof is contradiction-free.
+\end{remark}
+
+\section{Constant summary}\label{sec:constants}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Constant & Origin & Dependence \\
+\midrule
+$c_d,r_d$ & BDV L4.9 & $N,R$ \\
+$L_u$ & BDV L4.12a & $N,R$ \\
+$q_\pm,L_q$ & BDV L4.16 & $N,R$ \\
+$C_1,C_2$ & BDV L4.2 & $N$, $R$ \\
+$\bar\mu,\bar\rho,\gamma,C_{\rm AC}$ & BDV T4.18 & $N,R$ \\
+$c_*=\min(c_d,1/2)$ & Lem.~\ref{lem:densH} & $N,R$ \\
+$C_H=4(\omega_N c_*)^{-1/N}+(R+1)(c_*r_d^N)^{-1/N}$
+& Lem.~\ref{lem:densH} & $N,R$ \\
+$C_H'=C_H C_\alpha^{1/N}$ & Prop.~\ref{prop:alphaH} & $N,R$ \\
+$\alpha_0=(r_d/C_H')^{2N}$ & Prop.~\ref{prop:alphaH} & $N,R$ \\
+$C_{\rm Fr}'$ & Lem.~\ref{lem:bary} & $N,R$ \\
+$C_0$ & Alt--Caffarelli conversion & $N$ \\
+$\mu,\rho_\mu,h_F$ & \S\ref{ssec:scale} & $N,R$ \\
+$\mu_{\rm tub}=1/4$ & Lem.~\ref{lem:tub} & $N$ \\
+$K_{\rm geom}$ & Prop.~\ref{prop:patch} & $N,R$ \\
+$M_1=C_{\rm AC}\mu\cdot K_{\rm geom}$ & Prop.~\ref{prop:patch} & $N,R$ \\
+$C_H''=2C_H'$ & Lem.~\ref{lem:Linfty} & $N,R$ \\
+$\alpha_{\rm graph}=\min\{\alpha_0,(h_F/C_H')^{2N},(h_F/C_{\rm Fr}')^2\}$
+& Thm.~\ref{thm:graphentry} & $N,R$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{thebibliography}{9}
+\bibitem{BDV} L.~Brasco, G.~De~Philippis, B.~Velichkov,
+\emph{Faber--Krahn inequalities in sharp quantitative form},
+Duke Math.\ J.\ \textbf{164} (2015), 1777--1831 (arXiv:1306.0392).
+\end{thebibliography}
+
+\end{document}

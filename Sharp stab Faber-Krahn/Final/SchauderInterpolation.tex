@@ -1,0 +1,380 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Om}{\widetilde{\Omega}}
+\newcommand{\Sph}{\mathbb{S}^{N-1}}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\Lip}{\operatorname{Lip}}
+\newcommand{\bdry}{\partial}
+\newcommand{\sph}{\mathrm{sph}}
+
+\title{Schauder bootstrap and Hölder interpolation:\\
+       a quantitative $C^{1,\gamma}$ $\to$ small $C^{2,\gamma_{0}}$ module\\
+       for sharp Faber--Krahn stability}
+\author{Plan~1 / Route A, building block \textsc{SchauderInterpolation}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note isolates the quantitative regularity step that turns the global
+$C^{1,\gamma}$ graph produced by \texttt{GraphEntry} into a graph of
+\emph{small} $C^{2,\gamma_{0}}$ norm --- the smallness hypothesis required
+by BDV's nearly spherical theorem (Theorem~3.3 of~\cite{BDV}). The argument
+is constructive: no compactness, no contradiction. All constants are named
+with their $(N,R)$-dependence. The two black boxes are
+Kinderlehrer--Nirenberg~\cite{KN}~\S2--\S3 (hodograph straightening of the
+torsion problem) and Lieberman~\cite{Li86} (Schauder estimates for oblique
+problems with Hölder coefficients).
+\end{abstract}
+
+\tableofcontents
+
+\section{Input: what \texttt{GraphEntry} and BDV supply}\label{sec:input}
+
+We work under the standing setup of Route~A. After single-set selection
+and volume normalization
+($r_{*}=(|U_{*}|/|B_{1}|)^{1/N}$, $|r_{*}-1|\le C\delta_{T}$), the
+rescaled minimizer $\Om\subset B_{R}$ has $|\Om|=|B_{1}|$.
+
+\subsection*{(a)--(b) Graph and Hausdorff size.}
+\texttt{GraphEntry} produces $g:\Sph\to\R$ with
+\begin{equation}\label{eq:graph}
+   \bdry\Om=\bigl\{(1+g(\theta))\theta:\theta\in\Sph\bigr\},
+\end{equation}
+satisfying
+\begin{align}
+   \norm{g}_{C^{1,\gamma}(\Sph)}    & \le M_{1}(N,R),
+   \label{eq:input-a}\\
+   \norm{g}_{L^{\infty}(\Sph)}      & \le C_{H}''(N,R)\,
+                                      \alpha(\Om)^{1/(2N)},
+   \label{eq:input-b}
+\end{align}
+where $\alpha(\Om)$ is the BDV smooth asymmetry, $\gamma=\gamma(N,R)\in(0,1)$
+is the Alt--Caffarelli exponent of BDV Theorem~4.18, $M_{1}(N,R)$ comes
+from the flatness theorem together with BDV Lemma~4.16, and $C_{H}''(N,R)$
+is the asymmetry-to-Hausdorff constant of \texttt{GraphEntry}.
+
+\subsection*{(c)--(d) BDV regularity package.}
+The torsion potential $\widetilde u\in W^{1,\infty}_{0}(\Om)\cap C^{\infty}(\Om)$
+solves $-\Delta\widetilde u=1$ in $\Om$, $\widetilde u=0$ on $\bdry\Om$. We
+use:
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.5em]
+  \item \emph{Lipschitz nondegeneracy} (BDV Lemma~4.12):
+        $L_{u}^{-1}\dist(x,\bdry\Om)\le\widetilde u(x)\le L_{u}\dist(x,\bdry\Om)$
+        for $x\in\Om\cap\{\dist(\cdot,\bdry\Om)\le r_{d}\}$,
+        with $L_{u}=L_{u}(N,R)$, $r_{d}=r_{d}(N,R)$.
+  \item \emph{Smooth Bernoulli coefficient} (BDV Lemma~4.16): the
+        coefficient $q(y):=|\nabla\widetilde u(y)|$ on $\bdry\Om$ admits a
+        $C^{1,\gamma}$ extension to a one-sided collar with
+        $q_{-}\le q\le q_{+}$ and $\norm{q}_{C^{1,\gamma}}\le L_{q}(N,R)$.
+\end{enumerate}
+All constants depend only on $(N,R)$ and degrade by at most $1+O(\delta_{T})$
+under volume normalization.
+
+\section{Hodograph straightening following Kinderlehrer--Nirenberg}\label{sec:hodo}
+
+This section reduces the curved obstacle problem on $\Om$ to a
+fixed-domain oblique BVP, following \cite{KN}~\S2--\S3.
+
+\subsection{Chart, partial hodograph, inverse map}\label{ss:hodo-chart}
+
+Fix $y_{0}\in\bdry\Om$. By~\eqref{eq:input-a} the inward normal $\nu(y_{0})$
+makes an angle $\le\arctan M_{1}$ with the radial direction. After a
+rigid motion assume $y_{0}=0$, $\nu(y_{0})=e_{N}$, and write $x=(x',x_{N})$.
+By~\eqref{eq:input-a} there is $R_{0}=R_{0}(N,R)>0$ such that in
+$\mathcal{C}_{R_{0}}=\{|x'|<R_{0},|x_{N}|<R_{0}\}$,
+\[
+   \bdry\Om\cap\mathcal{C}_{R_{0}}
+      =\{x_{N}=\widetilde g(x'):|x'|<R_{0}\},
+   \qquad \norm{\widetilde g}_{C^{1,\gamma}}\le M_{1}'(N,R),
+\]
+and $\Om\cap\mathcal{C}_{R_{0}}=\{x_{N}>\widetilde g(x')\}$. Set
+$u(x):=\widetilde u(x',x_{N})$; then
+\begin{equation}\label{eq:torsion-cyl}
+   -\Delta u=1\text{ in }\{x_{N}>\widetilde g(x')\},\qquad
+   u=0\text{ on }\{x_{N}=\widetilde g(x')\},
+\end{equation}
+together with the Bernoulli condition $|\nabla u|=q$ on the free boundary,
+$q\in C^{1,\gamma}$, $q\ge q_{-}>0$ (BDV Lemma~4.16).
+
+\paragraph{Partial hodograph.}
+By Lipschitz nondegeneracy and positivity of $q$, in a one-sided
+neighborhood of $0$ we have $\partial_{N}u(x)\ge q_{-}/2>0$. The
+partial hodograph map
+\[
+   \Phi:(x',x_{N})\mapsto(x',\,t),\qquad t:=u(x',x_{N}),
+\]
+is a $C^{1,\gamma}$ diffeomorphism from $\Om\cap\mathcal{C}_{R_{0}/2}$
+onto a domain $\{(x',t):|x'|<R_{0}/2,0<t<T_{0}\}$ for $T_{0}=T_{0}(N,R)>0$.
+Its inverse coordinate gives
+\[
+   \psi(x',t):=x_{N}=\Phi^{-1}(x',t)_{N},\qquad
+   \psi(x',0)=\widetilde g(x'),
+\]
+exactly the construction of \cite{KN}~\S2.
+
+\subsection{Derived quasilinear PDE}\label{ss:hodo-PDE}
+
+A direct change of variables (\cite{KN} (2.10)--(2.12); paralleling
+(4.10)--(4.12) for the free-boundary application) gives
+\begin{equation}\label{eq:psi-PDE}
+   F[\psi]
+     :=\frac{1+|\nabla_{x'}\psi|^{2}}{(\partial_{t}\psi)^{2}}\partial_{t}^{2}\psi
+        -2\,\frac{\nabla_{x'}\psi\cdot\nabla_{x'}\partial_{t}\psi}{\partial_{t}\psi}
+        +\Delta_{x'}\psi
+     =\partial_{t}\psi
+\end{equation}
+in $\{0<t<T_{0}\}$. \eqref{eq:psi-PDE} is uniformly elliptic in $\psi$ as
+long as $\partial_{t}\psi\ge\eta>0$ and $|\nabla_{x'}\psi|\le K$, with
+ellipticity constants bounded between $\eta_{*}(\eta,K)$ and
+$\eta_{*}^{-1}$.
+
+\subsection{Nonlinear oblique boundary condition}\label{ss:hodo-BC}
+
+The free-boundary condition $|\nabla u|^{2}=q^{2}$ at $t=0$ translates
+into
+\begin{equation}\label{eq:BC-psi}
+   \partial_{t}\psi(x',0)
+   = \sqrt{\frac{1+|\nabla_{x'}\psi(x',0)|^{2}}{q(x',\psi(x',0))^{2}}}
+   \qquad\text{on }\{t=0\},
+\end{equation}
+the formula in \cite{KN}~(3.4)--(3.5).
+
+\paragraph{Transversality.}
+Linearising $B[\psi]:=\partial_{t}\psi-G(x',\nabla_{x'}\psi,\psi)=0$
+gives $\partial B/\partial(\partial_{t}\psi)\equiv1$. In Lieberman's
+conventions \cite[\S1]{Li86}, the obliqueness coefficient is
+$\beta_{N}=1$, uniformly positive. Tangential coefficients
+$\beta_{i}=-\partial G/\partial(\partial_{i}\psi)$, $i<N$, are bounded
+by $(N,R,L_{q})$-constants.
+
+\subsection{Initial regularity of $\psi$ and norm equivalence}\label{ss:hodo-norm}
+
+The graph $g$ (spherical chart) and the Cartesian $\widetilde g$ are
+related by a $(N,R)$-bilipschitz $C^{\infty}$ change of coordinates, so
+\begin{equation}\label{eq:norm-equiv-g-tildeg}
+   c(N,R,k,\beta)\norm{g}_{C^{k,\beta}(\Sph)}
+   \le\norm{\widetilde g}_{C^{k,\beta}}
+   \le C(N,R,k,\beta)\norm{g}_{C^{k,\beta}(\Sph)}.
+\end{equation}
+$\widetilde g(x')=\psi(x',0)$, so
+\begin{equation}\label{eq:norm-equiv-tildeg-psi}
+   \norm{\widetilde g}_{C^{k,\beta}(|x'|<R_{0}/2)}
+   \le\norm{\psi}_{C^{k,\beta}(\{t=0\})}
+   \le\norm{\psi}_{C^{k,\beta}(\{0\le t\le T_{0}/2\})}.
+\end{equation}
+Together,
+\begin{equation}\label{eq:norm-three-way}
+   \norm{g}_{C^{k,\beta}(\Sph)}\sim_{N,R}
+   \norm{\widetilde g}_{C^{k,\beta}}\sim_{N,R}
+   \norm{\psi(\cdot,0)}_{C^{k,\beta}}.
+\end{equation}
+The initial bound $\norm{\psi}_{C^{1,\gamma}}\le C(N,R)$ on
+$\{0\le t\le T_{0}/2\}$ follows from~(i), implicit function theorem on
+$t=u(x',x_{N})$, and chain rule. A cover of $\bdry\Om$ by
+$N_{0}(N,R)$ charts extends~\eqref{eq:norm-three-way} globally.
+
+\section{Schauder bootstrap via Lieberman's oblique theorem}\label{sec:schauder}
+
+\begin{theorem}[Lieberman \cite{Li86}, Theorem~1]\label{thm:lieberman}
+Let $v$ solve
+$a^{ij}(x,v,\nabla v)\partial_{ij}v+b(x,v,\nabla v)=0$ in $B^{+}_{R_{0}/2}$,
+$b^{i}(x,v,\nabla v)\partial_{i}v+b_{0}(x,v)=0$ on $\{x_{N}=0\}$, with
+coefficients of class $C^{m-1,\gamma}$, ellipticity $\eta_{*}$,
+obliqueness $\beta_{0}$, and $\norm{v}_{C^{1,\gamma}}\le N_{0}$. For
+every $m\ge 2$,
+\[
+   \norm{v}_{C^{m,\gamma}(B^{+}_{R_{0}/4})}
+      \le \mathcal{S}_{m}\bigl(N,\eta_{*},\beta_{0},N_{0},
+                                \norm{\mathrm{coeffs}}_{C^{m-1,\gamma}}\bigr).
+\]
+\end{theorem}
+
+Setting $\eta_{m}:=\norm{\psi}_{C^{m,\gamma}(\{0\le t\le T_{0}/2\})}$,
+Theorem~\ref{thm:lieberman} applied iteratively on shrinking half-cylinders
+gives
+\begin{equation}\label{eq:eta-recursion}
+   \eta_{m+1}\le\mathcal{S}_{m+1}\bigl(N,\eta_{*},1,\eta_{m},L_{q}\bigr)
+                =:F_{m}(\eta_{m},L_{q},N,R),
+\end{equation}
+and inductively
+\begin{equation}\label{eq:Mm}
+   \boxed{\;M_{m}(N,R):=F_{m-1}\bigl(\cdots F_{1}(\eta_{1},L_{q},N,R)
+                                            \cdots,L_{q},N,R\bigr),\;}
+\end{equation}
+with $\eta_{1}=C(N,R)$ from \S\ref{ss:hodo-norm}.
+
+\begin{proposition}[Uniform Schauder bootstrap]\label{prop:bootstrap}
+For every $m\ge 1$ there is $M_{m}(N,R)<\infty$, given by~\eqref{eq:Mm},
+such that
+\begin{equation}\label{eq:bootstrap}
+   \norm{g}_{C^{m,\gamma}(\Sph)}\le M_{m}(N,R).
+\end{equation}
+\end{proposition}
+
+\section{Hölder interpolation to small $C^{2,\gamma_{0}}$}\label{sec:interp}
+
+\begin{lemma}[Hölder interpolation on $\Sph$]\label{lem:interp}
+Fix $0\le k<m$, $0<\gamma_{0}\le\gamma\le1$ with $(k,\gamma_{0})\neq(m,\gamma)$,
+and set
+\begin{equation}\label{eq:theta}
+   \theta_{m,k}:=\frac{k+\gamma_{0}}{m+\gamma}\in(0,1).
+\end{equation}
+There is $C_{\mathrm{GN}}=C_{\mathrm{GN}}(N,m,k,\gamma,\gamma_{0})>0$ such
+that for every $f\in C^{m,\gamma}(\Sph)$,
+\begin{equation}\label{eq:interp}
+   \norm{f}_{C^{k,\gamma_{0}}(\Sph)}
+   \le C_{\mathrm{GN}}\,
+       \norm{f}_{L^{\infty}(\Sph)}^{1-\theta_{m,k}}\,
+       \norm{f}_{C^{m,\gamma}(\Sph)}^{\theta_{m,k}}.
+\end{equation}
+\end{lemma}
+
+This is the standard GT/BL convexity inequality on a compact manifold;
+see \cite[Lemma~6.32]{GT} and \cite[Theorem~6.4.5]{BL}.
+
+We apply Lemma~\ref{lem:interp} with $k=2$, $m=5$:
+\[
+   \theta:=\theta_{5,2}=\frac{2+\gamma_{0}}{5+\gamma}.
+\]
+Since $\gamma_{0}\le\gamma\le1$,
+$\theta\le(2+\gamma)/(5+\gamma)\le1/2$, hence
+\begin{equation}\label{eq:theta-bound}
+   \theta\le\tfrac12,\qquad 1-\theta\ge\tfrac12.
+\end{equation}
+
+\section{Inversion: closed-form $\alpha_{\sph}(N,R,\gamma_{0})$}\label{sec:closed-form}
+
+\begin{theorem}[Schauder--interpolation entry, quantitative]\label{thm:sph-entry}
+Let $0<\gamma_{0}<\gamma\le1$. Choose $m=5$, $\theta=\theta_{5,2}$, and
+define
+\begin{equation}\label{eq:alpha-sph}
+   \boxed{\;
+   \alpha_{\sph}(N,R,\gamma_{0})
+      :=\left(
+              \frac{\delta_{\sph}(N,\gamma_{0})}
+                   {C_{\mathrm{GN}}\,C_{H}''(N,R)^{1-\theta}\,
+                    M_{5}(N,R)^{\theta}}
+            \right)^{\!2N/(1-\theta)}.\;}
+\end{equation}
+Then every set $\Om$ produced by \texttt{GraphEntry} with
+$\alpha(\Om)\le\alpha_{\sph}(N,R,\gamma_{0})$ satisfies
+\begin{equation}\label{eq:smallC2}
+   \norm{g}_{C^{2,\gamma_{0}}(\Sph)}\le\delta_{\sph}(N,\gamma_{0}),
+\end{equation}
+the smallness hypothesis of BDV Theorem~3.3.
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{prop:bootstrap} with $m=5$ and
+Lemma~\ref{lem:interp} with $k=2$,
+\[
+   \norm{g}_{C^{2,\gamma_{0}}}
+      \le C_{\mathrm{GN}}\,\norm{g}_{L^{\infty}}^{1-\theta}\,
+           \norm{g}_{C^{5,\gamma}}^{\theta}
+      \le C_{\mathrm{GN}}\,M_{5}(N,R)^{\theta}\,
+           \norm{g}_{L^{\infty}}^{1-\theta}.
+\]
+Insert~\eqref{eq:input-b}:
+\[
+   \norm{g}_{L^{\infty}}^{1-\theta}
+      \le C_{H}''(N,R)^{1-\theta}\,\alpha(\Om)^{(1-\theta)/(2N)}.
+\]
+$\norm{g}_{C^{2,\gamma_{0}}}\le\delta_{\sph}$ is equivalent to
+$\alpha(\Om)^{(1-\theta)/(2N)}\le
+\delta_{\sph}/(C_{\mathrm{GN}}C_{H}''^{1-\theta}M_{4}^{\theta})$;
+raising to the power $2N/(1-\theta)$ gives $\alpha(\Om)\le\alpha_{\sph}$.
+\end{proof}
+
+\begin{remark}[Sharp exponent]
+By~\eqref{eq:theta-bound}, $1-\theta\ge1/2$, so the exponent
+$2N/(1-\theta)\le 4N$ is uniformly bounded in $\gamma,\gamma_{0}$. The
+$L^{\infty}$-power $1-\theta\ge1/2$ recovers the sharp $1/2$ exponent
+needed downstream.
+\end{remark}
+
+\begin{remark}[Why $m=5$]
+Any $m\ge 3$ with $\theta_{m,2}<1$ works for interpolation; $m=5$ makes
+$\theta\le1/2$ explicit and uniform for all $0<\gamma_0<\gamma\le1$.
+\end{remark}
+
+\begin{remark}[No compactness]
+Every step is constructive. $M_{4}(N,R)$ in~\eqref{eq:Mm} is a finite
+iteration of Theorem~\ref{thm:lieberman}, whose constants are explicit
+in the input data. $C_{\mathrm{GN}}$ is the constant in classical Hölder
+interpolation. No sequence, no limit, no contradiction.
+\end{remark}
+
+\section{Summary of constants}\label{sec:summary}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.20}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Symbol & Origin & Depends on \\
+\midrule
+$\gamma$ & Alt--Caffarelli (BDV T4.18) & $N,R$ \\
+$\gamma_{0}\in(0,\gamma)$ & free parameter & user \\
+$L_{u},r_{d}$ & BDV L4.12 & $N,R$ \\
+$q_{\pm},L_{q}$ & BDV L4.16 & $N,R$ \\
+$M_{1}(N,R)$ & \texttt{GraphEntry}+BDV~4.16 & $N,R$ \\
+$C_{H}''(N,R)$ & \texttt{GraphEntry} & $N,R$ \\
+$\eta_{*}(N,R)$ & ellipticity of~\eqref{eq:psi-PDE} & $N,R$ \\
+$\beta_{0}=1$ & obliqueness~\eqref{eq:BC-psi} & universal \\
+$\mathcal{S}_{m}$ & Lieberman~\cite{Li86} Thm.~1 & inputs \\
+$F_{m}$ & recursion~\eqref{eq:eta-recursion} & $N,R,L_{q}$ \\
+$M_{m}(N,R)$ & iteration~\eqref{eq:Mm} & $N,R$ \\
+$\theta_{m,k}=(k+\gamma_{0})/(m+\gamma)$ & GT/BL & $N,m,k,\gamma,\gamma_{0}$ \\
+$\theta=\theta_{5,2}\le1/2$ & $m=5,k=2$ & $\gamma,\gamma_{0}$ \\
+$C_{\mathrm{GN}}$ & GT/BL interpolation & $N,m,k,\gamma,\gamma_{0}$ \\
+$\delta_{\sph}(N,\gamma_{0})$ & BDV T3.3 & $N,\gamma_{0}$ \\
+$c_{\sph}(N)$ & BDV T3.3 & $N$ \\
+\midrule
+$\boxed{\alpha_{\sph}(N,R,\gamma_{0})}$
+   & Eq.~\eqref{eq:alpha-sph}
+   & $N,R,\gamma_{0}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{thebibliography}{9}
+\bibitem{KN} D.~Kinderlehrer, L.~Nirenberg,
+\emph{Regularity in free boundary problems},
+Ann.~Scuola Norm.~Sup.~Pisa Cl.~Sci.\ (4) \textbf{4} (1977), 373--391.
+\bibitem{Li86} G.~M.~Lieberman,
+\emph{The Perron process applied to oblique derivative problems},
+Adv.\ in Math.\ \textbf{55} (1985), 161--172; and
+\emph{Mixed boundary value problems\ldots},
+J.~Math.\ Anal.\ Appl.\ \textbf{113} (1986), 422--440.
+\bibitem{GT} D.~Gilbarg, N.~S.~Trudinger,
+\emph{Elliptic Partial Differential Equations of Second Order},
+2nd ed., Springer, 1983, Lemma~6.32.
+\bibitem{BL} J.~Bergh, J.~L\"ofstr\"om,
+\emph{Interpolation Spaces. An Introduction},
+Springer, 1976, Theorem~6.4.5.
+\bibitem{BDV} L.~Brasco, G.~De~Philippis, B.~Velichkov,
+\emph{Faber--Krahn inequalities in sharp quantitative form},
+Duke Math.\ J.\ \textbf{164} (2015), 1777--1831 (arXiv:1306.0392).
+\end{thebibliography}
+
+\end{document}

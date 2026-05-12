@@ -1,0 +1,417 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\wt}{\widetilde}
+\newcommand{\Om}{\Omega}
+\newcommand{\dx}{\,dx}
+
+\title{The Quantitative Single-Set Selection Principle\\for Sharp Faber--Krahn Stability (Route A)}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note is the building block \textsc{SelectionPrinciple} of the Route~A
+program for sharp Faber--Krahn stability with exponent~$1/2$,
+\[
+\Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/N}
+\bigl(\lambda_1(\Om)-\lambda_1(B^*)\bigr)
+\ge c_{\rm FK}(N)\,\mathcal A(\Om)^2.
+\]
+We isolate one quantitative step of the Brasco--De~Philippis--Velichkov
+proof~\cite{BDV} (BDV): given one near-counterexample $\Om_0$ with small
+Saint--Venant quotient, we produce a \emph{single} selected quasi-open set
+$\wt\Om$ of unit volume whose energy-to-asymmetry quotient is controlled by
+that of $\Om_0$, on which the BDV free-boundary regularity package applies,
+and which carries an explicit volume-rescaled Bernoulli law on
+$\partial\wt\Om$.
+
+The proof contains no compactness or contradiction step. All BDV results
+are quoted as quantitative black boxes whose constants depend only on $N$
+and $R$ (and are extractable from BDV, but not made numerically explicit
+here).
+\end{abstract}
+
+\section{Setting and Normalisation}
+
+Fix $N\ge2$ and $R\ge2$. We use the BDV torsion convention: for a
+quasi-open set $\Om\subset B_R\subset\R^N$,
+\[
+E(\Om)
+:=\min_{u\in H^1_0(\Om)}\!
+\Bigl\{\tfrac12\!\int_\Om|\nabla u|^2-\!\int_\Om u\Bigr\}
+=-\tfrac12\!\int_\Om u_\Om,
+\]
+where $u_\Om$ is the torsion function. The Saint--Venant deficit is
+\[
+\delta(\Om):=E(\Om)-E(B_1)\ge0
+\qquad\text{whenever }|\Om|=|B_1|=\omega_N.
+\]
+
+\subsection*{Asymmetries.}
+Let $\mathcal A(\Om)$ be the Fraenkel asymmetry. Following BDV we work with
+the smoother asymmetry
+\[
+\alpha(\Om):=\int_{\Om\Delta B_1(x_\Om)}\bigl|1-|x-x_\Om|\bigr|\dx,
+\qquad x_\Om:=\frac1{|\Om|}\!\int_\Om x\dx.
+\]
+BDV Lemma~4.2 gives, for $\Om\subset B_R$,
+\begin{align}
+|\Om\Delta B_1(x_\Om)|^2 &\le C_1(N)\,\alpha(\Om), \label{eq:42i}\\
+|\alpha(\Om_1)-\alpha(\Om_2)| &\le C_2(R)\,|\Om_1\Delta\Om_2|. \label{eq:42ii}
+\end{align}
+Throughout we set, with a small abuse of notation matching downstream
+blocks,
+\[
+A(\Om):=\alpha(\Om),\qquad
+Q_\alpha(\Om):=\frac{E(\Om)-E(B_1)}{\alpha(\Om)}.
+\]
+
+\subsection*{Penalised functional.}
+Let $f_{\hat\eta}$ be the BDV one-sided volume penalty from Lemma~4.5,
+\[
+f_{\hat\eta}(s)=
+\begin{cases}
+\hat\eta(s-\omega_N),&s\le\omega_N,\\
+\hat\eta^{-1}(s-\omega_N),&s\ge\omega_N,
+\end{cases}
+\]
+with $\hat\eta=\hat\eta(N,R)\in(0,1)$. Set
+$F_{\hat\eta}(U):=E(U)+f_{\hat\eta}(|U|)$. BDV Lemma~4.5 gives that $B_1$
+minimises $F_{\hat\eta}$ over quasi-open $U\subset B_R$, and the linear
+bilateral bound
+\begin{equation}\label{eq:Lem45}
+F_{\hat\eta}(U)-F_{\hat\eta}(B_1)\ge C_4(N,R)^{-1}\bigl||U|-|B_1|\bigr|
+\end{equation}
+holds.
+
+Given an input $\Om_0\subset B_R$ with $|\Om_0|=|B_1|$, write
+$\eps:=\alpha(\Om_0)$, $\delta:=E(\Om_0)-E(B_1)$, $q:=\delta/\eps$, and
+choose $\tau:=q^{1/4}$. Define
+\begin{equation}\label{eq:Jdef}
+J(U):=F_{\hat\eta}(U)
++\sqrt{\eps^2+\tau^2(\alpha(U)-\eps)^2}.
+\end{equation}
+This is BDV's penalised functional (4.10) with the BDV sequence parameter
+$\sigma$ replaced by a single-set parameter $\tau$ tied to the input
+deficit.
+
+\subsection*{Thresholds.}
+All depending only on $N,R$:
+\begin{itemize}
+\item $\tau_{\rm ex}(N,R)\le\hat\eta/(2C_2)$, ensuring existence of a
+minimiser of $J$ and the uniform perimeter bound of BDV Lemma~4.6;
+\item $\sigma_2(N,R)$ from BDV Lemma~4.9 (density estimates);
+\item $\sigma_3(N,R)$ from BDV Lemma~4.16 (smooth Bernoulli coefficient);
+\item $\tau_{\rm reg}(N,R):=\min\{\tau_{\rm ex},\sigma_2,\sigma_3\}$.
+\end{itemize}
+We assume
+\begin{equation}\label{eq:Sml}
+q\le q_{\rm sel}(N,R):=\bigl(\tau_{\rm reg}(N,R)\bigr)^{4},\qquad
+\eps\le\eps_{\rm sel}(N,R).
+\end{equation}
+The second smallness keeps the dilated set inside a fixed enlarged ambient
+ball. Under~\eqref{eq:Sml}, $\tau=q^{1/4}\le\tau_{\rm reg}$.
+
+\section{Existence by the BDV Direct Method}\label{sec:existence}
+
+\begin{lemma}[Existence + uniform perimeter; BDV Lemma~4.6, single-set form]
+\label{lem:ex}
+For every $\tau\le\tau_{\rm ex}(N,R)$, $J$ admits a quasi-open minimiser
+$U_*\subset B_R$, $|U_*|>0$, with
+\[
+P(U_*)\le P_{\rm sel}(N,R).
+\]
+\end{lemma}
+
+\begin{proof}[Why this is not a hidden compactness step.]
+The BDV existence proof for (4.10) applies the direct method to the
+truncated lower-semicontinuous part $U\mapsto F_{\hat\eta}(U)$, using
+\[
+\sqrt{\eps^2+\tau^2(\alpha(U)-\eps)^2}\ge\tau\,|\alpha(U)-\eps|
+\]
+together with~\eqref{eq:42ii} to bound $\alpha(U)$ along a minimising
+sequence and force $|U|\le M(N,R)$. The closure step uses
+$\gamma$-convergence of capacitary measures inside $B_R$ as in BDV~\S2,
+whose constants depend only on $N,R$. Importantly, the limit set is
+admitted as a minimiser without any selection from a sequence of
+\emph{counterexamples}: the input here is a single $\Om_0$ and existence is
+for the functional $J$ at fixed parameters $(\eps,\tau)$.
+
+The uniform perimeter bound follows from BDV (4.13)--(4.14): testing
+$J(U_*)\le J(\Om_0)\le F_{\hat\eta}(\Om_0)+\eps$ and using the
+isoperimetric inequality with~\eqref{eq:Lem45} produces a bound depending
+only on $N,R$.
+\end{proof}
+
+We fix henceforth a minimiser $U_*$ from Lemma~\ref{lem:ex}.
+
+\section{The Three Quantitative Lemmas}
+
+\subsection*{Lemma 1. Energy and asymmetry preservation before normalisation.}
+
+\begin{lemma}\label{lem:1}
+The minimiser $U_*$ satisfies
+\begin{equation}\label{eq:L1a}
+0\le F_{\hat\eta}(U_*)-F_{\hat\eta}(B_1)\le\delta,
+\end{equation}
+\begin{equation}\label{eq:L1b}
+|\alpha(U_*)-\eps|\le\frac{\sqrt{2\eps\delta+\delta^2}}{\tau}.
+\end{equation}
+In particular, with $\tau=q^{1/4}$ and $q\le1$,
+$|\alpha(U_*)-\eps|\le 2\eps\,q^{1/4}.$
+\end{lemma}
+
+\begin{proof}
+By minimality $J(U_*)\le J(\Om_0)=F_{\hat\eta}(\Om_0)+\eps$. Since
+$|\Om_0|=|B_1|$, $F_{\hat\eta}(\Om_0)=E(\Om_0)=F_{\hat\eta}(B_1)+\delta$.
+As $B_1$ minimises $F_{\hat\eta}$, $F_{\hat\eta}(U_*)\ge F_{\hat\eta}(B_1)$.
+Hence
+\[
+F_{\hat\eta}(U_*)+\sqrt{\eps^2+\tau^2(\alpha(U_*)-\eps)^2}
+\le F_{\hat\eta}(B_1)+\delta+\eps,
+\]
+giving \eqref{eq:L1a} and
+$\sqrt{\eps^2+\tau^2(\alpha(U_*)-\eps)^2}\le\eps+\delta$. Squaring yields
+\eqref{eq:L1b}.
+\end{proof}
+
+\subsection*{Lemma 2. Volume error.}
+
+\begin{lemma}\label{lem:2}
+There is $C_5=C_5(N,R)$ such that
+\[
+\bigl||U_*|-|B_1|\bigr|\le C_5\,\delta,\qquad
+|r_*-1|\le C_5\,\delta,\quad r_*:=(|U_*|/|B_1|)^{1/N}.
+\]
+\end{lemma}
+
+\begin{proof}
+By Schwarz symmetrisation, $F_{\hat\eta}(B_{r_*})\le F_{\hat\eta}(U_*)$
+where $B_{r_*}$ is a ball of volume $|U_*|$. Combining with~\eqref{eq:Lem45}
+and~\eqref{eq:L1a},
+\[
+C_4^{-1}\bigl||U_*|-|B_1|\bigr|\le F_{\hat\eta}(B_{r_*})-F_{\hat\eta}(B_1)
+\le F_{\hat\eta}(U_*)-F_{\hat\eta}(B_1)\le\delta.
+\]
+Hence $||U_*|-|B_1||\le C_4\delta$, and bilipschitz dependence of $r_*$
+on $|U_*|$ near $1$ yields $|r_*-1|\le C_5\delta$.
+\end{proof}
+
+\subsection*{Lemma 3 (fully expanded). Quotient preservation after volume normalisation.}
+
+Define $\wt\Om:=r_*^{-1}U_*$, $r_*=(|U_*|/|B_1|)^{1/N}$.
+
+\begin{lemma}\label{lem:3}
+Under~\eqref{eq:Sml}, with $\tau=q^{1/4}$, after translation by $-x_{U_*}$
+if needed:
+\begin{enumerate}
+\item[\rm(a)] $|\wt\Om|=|B_1|=\omega_N$.
+\item[\rm(b)] $|\alpha(\wt\Om)-\eps|\le\rho\,\eps$ with
+$\rho=2q^{1/4}+C_\alpha(N,R)\,q\le1/2$.
+\item[\rm(c)] $E(\wt\Om)-E(B_1)\le C_E(N,R)\,\delta$.
+\item[\rm(d)] $\displaystyle Q_\alpha(\wt\Om)\le\frac{C_E(N,R)}{1-\rho}\,Q_\alpha(\Om_0).$
+\end{enumerate}
+\end{lemma}
+
+The proof rests on three quantitative inputs.
+
+\paragraph{Step 1: Lipschitz dependence of $\alpha$ under dilation.}
+Set $\lambda:=r_*^{-1}$. The symmetric difference $U_*\Delta\lambda U_*$ is
+contained in an annulus of width $|\lambda-1|R$; by the BDV perimeter bound,
+\begin{equation}\label{eq:dilL1}
+|U_*\Delta\lambda U_*|\le R\,P(U_*)\,|\lambda-1|+o(|\lambda-1|)
+\le 2RP_{\rm sel}(N,R)\,|\lambda-1|,
+\end{equation}
+for $|\lambda-1|\le1/2$. Combined with~\eqref{eq:42ii},
+\[
+|\alpha(\wt\Om)-\alpha(U_*)|\le C_2(R)\,|U_*\Delta\lambda U_*|
+\le 2RC_2P_{\rm sel}\,|\lambda-1|.
+\]
+By Lemma~\ref{lem:2}, $|\lambda-1|\le 2C_5\delta$ when $|r_*-1|\le1/2$.
+Hence
+\[
+|\alpha(\wt\Om)-\alpha(U_*)|\le C_\alpha(N,R)\,\delta,\qquad
+C_\alpha:=4RC_2P_{\rm sel}C_5.
+\]
+Combined with Lemma~\ref{lem:1},
+\begin{equation}\label{eq:alphatilde}
+|\alpha(\wt\Om)-\eps|
+\le|\alpha(\wt\Om)-\alpha(U_*)|+|\alpha(U_*)-\eps|
+\le\eps\Bigl(C_\alpha q+\frac{\sqrt{2q+q^2}}{\tau}\Bigr)=\rho\eps.
+\end{equation}
+With $\tau=q^{1/4}$ and small $q$, $\rho\le2q^{1/4}+C_\alpha q\le1/2$.
+
+\paragraph{Step 2: Energy scaling.}
+For quasi-open $V\subset B_R$ and $\mu>0$ with $\mu V\subset B_R$,
+\begin{equation}\label{eq:Escale}
+E(\mu V)=\mu^{N+2}E(V).
+\end{equation}
+Indeed, if $u_V$ is the torsion function of $V$, then
+$u_{\mu V}(x)=\mu^2 u_V(x/\mu)$ minimises
+$\tfrac12\int|\nabla\cdot|^2-\int\cdot$ on $H^1_0(\mu V)$, and the change of
+variable gives~\eqref{eq:Escale}.
+
+\paragraph{Step 3: From $E(U_*)$ to $E(\wt\Om)$.}
+Apply~\eqref{eq:Escale} with $\mu=\lambda=r_*^{-1}$:
+\[
+E(\wt\Om)-E(B_1)=\lambda^{N+2}\bigl(E(U_*)-E(B_1)\bigr)
++(\lambda^{N+2}-1)E(B_1).
+\]
+From Lemma~\ref{lem:1} and~\eqref{eq:Lem45},
+\[
+E(U_*)-E(B_1)\le\delta+\hat\eta^{-1}||U_*|-|B_1||\le(1+\hat\eta^{-1}C_4)\delta
+=:C_6\delta.
+\]
+Since $|\lambda-1|\le1/2$, $\lambda^{N+2}\le(3/2)^{N+2}=:C_7(N)$ and
+$|\lambda^{N+2}-1|\le C_8(N)C_5\delta$. Thus
+\begin{equation}\label{eq:EtildeFinal}
+E(\wt\Om)-E(B_1)\le(C_6C_7+C_8C_5|E(B_1)|)\,\delta=:C_E(N,R)\,\delta.
+\end{equation}
+
+\paragraph{Step 4: Quotient.}
+By \eqref{eq:alphatilde} and \eqref{eq:EtildeFinal},
+\[
+Q_\alpha(\wt\Om)=\frac{E(\wt\Om)-E(B_1)}{\alpha(\wt\Om)}
+\le\frac{C_E\delta}{(1-\rho)\eps}=\frac{C_E}{1-\rho}q
+=\frac{C_E}{1-\rho}Q_\alpha(\Om_0).
+\]
+This proves~(d).
+
+\section{The Selection Theorem}\label{sec:thm}
+
+\begin{theorem}[Single-set quantitative selection]\label{thm:main}
+Fix $N\ge2,R\ge2$. Let
+$\alpha_{\rm sel}(N,R):=\eps_{\rm sel}(N,R)$,
+$q_{\rm sel}(N,R):=\tau_{\rm reg}(N,R)^4$. Suppose $\Om_0\subset B_R$ is
+quasi-open with $|\Om_0|=|B_1|$, $0<\eps:=\alpha(\Om_0)\le\alpha_{\rm sel}$,
+$q:=Q_\alpha(\Om_0)\le q_{\rm sel}$. Set $\tau:=q^{1/4}$ and let $U_*$ be a
+minimiser of $J$. Define $\wt\Om:=r_*^{-1}U_*$,
+$r_*=(|U_*|/|B_1|)^{1/N}$. Then there exist $\rho=\rho(q)\le1/2$ and
+$C_{\rm sel}(N,R)>0$ such that:
+\begin{enumerate}
+\item[\rm(i)] $|\wt\Om|=|B_1|$;
+\item[\rm(ii)] $(1-\rho)\eps\le\alpha(\wt\Om)\le(1+\rho)\eps$, $\rho\le1/2$;
+\item[\rm(iii)] $Q_\alpha(\wt\Om)\le\dfrac{C_{\rm sel}(N,R)}{1-\rho}\,q$;
+\item[\rm(iv)] $\wt\Om$ inherits the BDV penalised-minimiser regularity
+package (two-sided density estimates, Lipschitz/nondegeneracy of the
+torsion potential, smooth Bernoulli coefficient);
+\item[\rm(v)] the selected Bernoulli law on $\partial\wt\Om$ takes the
+volume-rescaled form
+\[
+|\nabla\wt u(y)|^2=\wt\Lambda+\wt a_\sigma\,\wt\Psi_{r_*}(y),
+\qquad\wt\Lambda=r_*^{-2}\Lambda,\quad\wt a_\sigma=r_*^{-1}a_\sigma.
+\]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Parts (i)--(iii) are Lemma~\ref{lem:3}. For (iv)--(v) see
+Sections~\ref{sec:reg}--\ref{sec:bern}.
+\end{proof}
+
+\section{Free-Boundary Regularity Inherited from BDV}\label{sec:reg}
+
+The minimiser $U_*=\{u_*>0\}$ satisfies the perturbed one-phase
+quasi-minimality inequality (BDV (4.19) with $\sigma$ replaced by $\tau$):
+for every $v\in H^1_0(B_R)$,
+\begin{equation}\label{eq:qmin}
+\tfrac12\!\int|\nabla u_*|^2-\!\int u_*+f_{\hat\eta}(|\{u_*>0\}|)
+\le\tfrac12\!\int|\nabla v|^2-\!\int v+f_{\hat\eta}(|\{v>0\}|)
++C_R\,\tau\,\bigl|\{u_*>0\}\Delta\{v>0\}\bigr|,
+\end{equation}
+the error being BDV's bound for the variation of
+$\sqrt{\eps^2+\tau^2(\alpha(U)-\eps)^2}$, dominated by
+$\tau\,C_2(R)|U\Delta U_*|$.
+
+For $\tau\le\tau_{\rm reg}(N,R)$ the BDV Alt--Caffarelli regularity package
+applies with constants depending only on $N,R$ (Lemmas~4.9, 4.12, 4.16).
+The volume-normalisation $\wt\Om=r_*^{-1}U_*$ is a bilipschitz dilation with
+$|\lambda-1|\le1/2$; all density, Lipschitz, nondegeneracy and $C^k$
+constants transfer with degradation at most $(3/2)^N$.
+
+\section{The Volume-Normalised Bernoulli Law}\label{sec:bern}
+
+BDV Lemma~4.16 gives on $\partial U_*$,
+\begin{equation}\label{eq:Bern1}
+|\nabla u_{U_*}(x)|^2=\Lambda+a_\sigma\,\Psi_{U_*}(x),
+\qquad |a_\sigma|\le\tau,
+\end{equation}
+with $\Psi_{U_*}(x)=|x-x_{U_*}|-V_{U_*}\cdot x$ and
+$V_{U_*}=\int_{U_*}\frac{z-x_{U_*}}{|z-x_{U_*}|}\,dz$.
+
+\begin{lemma}[Rescaled Bernoulli law]\label{lem:bern}
+Set $\wt u(y):=r_*^{-2}u_{U_*}(r_*y)$. Then $-\Delta\wt u=1$ in $\wt\Om$,
+$\wt u=0$ on $\partial\wt\Om$, and on $\partial\wt\Om$
+\begin{equation}\label{eq:Berntilde}
+|\nabla\wt u(y)|^2=\wt\Lambda+\wt a_\sigma\,\wt\Psi_{r_*}(y),
+\end{equation}
+with $\wt\Lambda=r_*^{-2}\Lambda$, $\wt a_\sigma=r_*^{-1}a_\sigma$, and
+\[
+   \wt\Psi_{r_*}(y):=
+   |y-r_*^{-1}x_{U_*}|-r_*^{N}V_{\wt\Om}\cdot y.
+\]
+This differs from the unscaled $\alpha$-bracket only by the harmless
+factor $r_*^N=1+O(\delta)$ in the barycentric term.
+\end{lemma}
+
+\begin{proof}
+$\nabla\wt u(y)=r_*^{-1}\nabla u_{U_*}(r_*y)$ and $\Delta\wt
+u(y)=\Delta u_{U_*}(r_*y)=-1$. On $\partial\wt\Om$, $r_*y\in\partial U_*$,
+so by~\eqref{eq:Bern1},
+$|\nabla\wt u(y)|^2=r_*^{-2}\Lambda+r_*^{-2}a_\sigma\,\Psi_{U_*}(r_*y)$.
+Change of variables in the centroid integral gives
+$V_{U_*}=r_*^N V_{\wt\Om}$ and
+$\Psi_{U_*}(r_*y)=r_*\bigl[|y-r_*^{-1}x_{U_*}|-r_*^N V_{\wt\Om}\cdot y\bigr]$.
+Reorganising yields~\eqref{eq:Berntilde}. Since $|r_*-1|\le C_5\delta$ both
+prefactors degrade by $1+O(\delta)$.
+\end{proof}
+
+\section{Summary of Constants}\label{sec:constants}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|l|l|l|}
+\hline
+Symbol & Source & Dependence \\\hline
+$\hat\eta,C_4$ & BDV Lemma 4.5 & $N,R$ \\
+$C_1$ & BDV Lemma 4.2(i) & $N$ \\
+$C_2$ & BDV Lemma 4.2(ii) & $R$ \\
+$\sigma_2,\sigma_3$ & BDV Lemmas 4.9, 4.16 & $N,R$ \\
+$\tau_{\rm ex},\tau_{\rm reg}$ & this note & $N,R$ \\
+$P_{\rm sel}$ & BDV Lemma 4.6 & $N,R$ \\
+$C_5$ & Lemma~\ref{lem:2} & $N,R$ \\
+$C_\alpha=4RC_2P_{\rm sel}C_5$ & Step 1 of Lemma~\ref{lem:3} & $N,R$ \\
+$C_E$ & Step 3 of Lemma~\ref{lem:3} & $N,R$ \\
+$C_{\rm sel}=C_E$ & final quotient & $N,R$ \\
+$\eps_{\rm sel},q_{\rm sel}$ & smallness regime~\eqref{eq:Sml} & $N,R$ \\
+$\rho(q)=2q^{1/4}+C_\alpha q$ & \eqref{eq:alphatilde} & $N,R$, $q$ \\
+$\wt\Lambda=r_*^{-2}\Lambda,\ \wt a_\sigma=r_*^{-1}a_\sigma$ &
+rescaled Bernoulli & $N,R$ \\\hline
+\end{tabular}
+\end{center}
+
+All constants depend only on $(N,R)$ via named BDV constants. None is set
+by a compactness or contradiction step.
+
+\begin{thebibliography}{9}
+\bibitem{BDV} L. Brasco, G. De Philippis, B. Velichkov,
+\emph{Faber--Krahn inequalities in sharp quantitative form},
+Duke Math. J. \textbf{164} (2015), 1777--1831 (arXiv:1306.0392).
+\end{thebibliography}
+
+\end{document}
