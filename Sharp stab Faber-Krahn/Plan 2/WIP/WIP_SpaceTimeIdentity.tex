@@ -30,34 +30,46 @@
 \maketitle
 
 \begin{abstract}
-We prove the space-time radial-moment identity
+This auxiliary block records the exact space-time radial-moment identity
 \[
    \int_{\rstar}^{\rho_{\delta}}\PiE\,d\mu(\rho)
    =(n-1)\!\int_{\widetilde{\Om}}\!\sigma(x)\,dx,
 \]
-together with the integrated quadratic Fusco--Julin boundary
-oscillation
+and isolates the quantitative centroid-route estimate
+\[
+   \int_{\rstar}^{\rho_\delta}\PiE\,d\mu(\rho)
+   \le C_\Pi(n,R,\rstar)\,\delta_T(\Om).
+\tag{$\Pi$-int}
+\]
+Conditional on \textup{($\Pi$-int)}, we prove the integrated
+quadratic boundary oscillation
 \[
    \int_{\rstar}^{\rho_{\delta}}\!\!\int_{\partial^{*}E_{\rho}}|\nu_{E_{\rho}}-\er|^{2}\,d\mathcal H^{n-1}\,d\mu(\rho)
    \le C(n,R,\rstar)\,\delta_{T}(\Om),
    \quad\textup{(B$^{2}$-int)}
 \]
-and the integrated radial trace
+and, under an additional annular/perimeter cap for the centroid slices, the
+integrated radial trace
 \[
    \int_{\rstar}^{\rho_{\delta}}\!\!\Bigl(\int_{\partial^{*}E_{\rho}}|H_{\zbar,\rho}-1|\,d\mathcal H^{n-1}\Bigr)^{2}d\mu(\rho)
    \le C(n,R,\rstar)\,\delta_{T}(\Om),
    \quad\textup{(T$_{1}^{2}$-int)}
 \]
-conditional only on the H$^{1}$-in-$\rho$ centroid bound (F) of
-\cite{CentroidBound}. The proof of (T$_{1}^{2}$-int) uses a
+The proof of (T$_{1}^{2}$-int) uses a
 \emph{slicing-then-squaring} decomposition $T_{1}=T_{1}^{\rm rad,slic}+T_{1}^{\rm tan}$,
 in which the radial piece is bounded \emph{linearly} (not at the FMP
 rate $\sqrt{\delta}$) via the good-ray equality of slicewise volumes
 and the bad-ray multiplicity bound of \cite{LevelSetIdentity}; the
 squared volume Fraenkel $|E_{\rho}\Delta B_{\rho}|^{2}$ is controlled
 at rate $\delta$ via the new pointwise slice-rearrangement inequality
-$|E_{\rho}\Delta B_{\rho}|^{2}\le C\,\PiE$. The per-$\rho$ radial $L^{1}$
-trace (R) is genuinely \emph{not} used.
+$|E_{\rho}\Delta B_{\rho}|^{2}\le C\,\PiE$. The repaired downstream
+metric route in \cite{WeightedMetricTrace} no longer depends on
+\textup{($\Pi$-int)}, but this block remains a useful diagnostic for the
+centroid-based space--time approach.
+The invalid shortcut from the rearranged Talenti profile to
+\textup{($\Pi$-int)} has been removed; proving \textup{($\Pi$-int)}
+would be an additional structural theorem, not a prerequisite for the
+current metric closure.
 \end{abstract}
 
 \section{Notation and statement of the targets}\label{sec:targets}
@@ -69,16 +81,19 @@ with $|\Om|=\omega_n$, $\delta:=\delta_T(\Om)\le\delta_0(n,R,\rstar)$.
 Let $u=u_\Om$ be the variational torsion function,
 $t:[\rstar,1]\to(0,\|u\|_\infty)$ the volume-radius parametrisation,
 $E_\rho:=\{u>t(\rho)\}$, $t_B(\rho):=(1-\rho^2)/(2n)$,
-$\psi(\rho):=-t'(\rho)-(-t_B'(\rho))\ge 0$,
+$\psi(\rho):=(-t_B'(\rho))-(-t'(\rho))=\rho/n+t'(\rho)\ge 0$,
 $\rho_\delta:=1-\kappa\sqrt\delta$,
 $\mu(d\rho):=(-t'(\rho))d\rho$.
+By coarea applied to $u\in W^{1,2}_0$, $E_\rho$ has finite
+perimeter for a.e.\ $\rho$.
 
 For each $\rho$, $\zbar=\bar z_\rho$ is the centroid of $E_\rho$
-(\cite{CentroidBound} Theorem F). By \cite{LevelSetIdentity} Lemma 2.2,
-$B(\zbar,\rho/4)\subset E_\rho\subset B(\zbar,3\rho)$, in particular
-$\rstar/2\le|x-\zbar|\le 2R$ on $\partial^*E_\rho$.
+(\cite{CentroidBound} Theorem F). Since $E_\rho\subset B_R$, also
+$\zbar\in B_R$.  No Cicalese--Leonardi containment is assumed at this
+stage; any lower bound on $|x-\zbar|$ must be justified separately on
+good levels or by truncating the kernel.
 
-The L² divergence identity of \cite{LevelSetIdentity} (5.3):
+The $L^2$ divergence identity in \cite{LevelSetIdentity}:
 \begin{equation}\label{eq:53prime}
    \int_{\partial^*E_\rho}|\nu_{E_\rho}-\er|^2 d\mathcal H^{n-1}
    = 2(P(E_\rho)-P(B_\rho))+2\PiE,
@@ -93,21 +108,35 @@ where
 
 \begin{theorem}[Space-time $\Pi$ identity, (G1)]\label{thm:G1}
 $\int_{\rstar}^{\rho_\delta}\PiE d\mu(\rho)=(n-1)\int_{\widetilde\Om}\sigma(x)dx$
-for a signed Fubini density $\sigma$ with
-$|\sigma(x)|\le(4/n\rstar)\mathcal L^1(J_x)$, where
+for a signed Fubini density $\sigma$ satisfying the kernel-weighted bound
+\[
+   |\sigma(x)|\le \int_{J_x}|x-\bar z_\rho|^{-1}\,d\mu(\rho),
+\]
+where
 $J_x:=\{\rho:x\in B_\rho(\zbar)\Delta E_\rho\}$.
 \end{theorem}
 
-\begin{theorem}[Integrated (B²-int), (G3)]\label{thm:G3}
-Conditional on (F),
+\begin{theorem}[Integrated (B$^2$-int) from \textup{($\Pi$-int)}]\label{thm:G3}
+Assume \textup{($\Pi$-int)}:
+\[
+   \int_{\rstar}^{\rho_\delta}\PiE\,d\mu(\rho)
+   \le C_\Pi(n,R,\rstar)\,\delta_T(\Om).
+\]
+Then
 \[
    \int_{\rstar}^{\rho_\delta}\int_{\partial^*E_\rho}|\nu_{E_\rho}-\er|^2 d\mathcal H^{n-1} d\mu(\rho)
    \le C_{B^2}(n,R,\rstar)\,\delta_T(\Om).
 \]
 \end{theorem}
 
-\begin{theorem}[Integrated radial trace, (T$_1^2$-int)]\label{thm:T1sq}
-Conditional on (F),
+\begin{theorem}[Auxiliary integrated radial trace, (T$_1^2$-int)]\label{thm:T1sq}
+Assume \textup{($\Pi$-int)} and the auxiliary annular/perimeter cap
+\[
+   \rstar/2\le |x-\bar z_\rho|\le 2R \text{ on the relevant boundary pieces},
+   \qquad
+   P(E_\rho)-P(B_\rho)+\PiE\le M_A(n,R,\rstar)
+\]
+for a.e.\ $\rho\in[\rstar,\rho_\delta]$. Then
 \[
    \int_{\rstar}^{\rho_\delta}\Bigl(\int_{\partial^*E_\rho}|H_{\zbar,\rho}-1|d\mathcal H^{n-1}\Bigr)^2 d\mu(\rho)
    \le C_{\rm radial}(n,R,\rstar)\,\delta_T(\Om).
@@ -123,43 +152,68 @@ By joint Borel measurability and Fubini,
    = (n-1)\int_{\R^n}\sigma(x)dx,
 \end{equation}
 where $\sigma(x):=\int_{\rstar}^{\rho_\delta}(\mathbf 1_{B_\rho(\zbar)}-\mathbf 1_{E_\rho})/|x-\zbar|\,d\mu(\rho)$.
-By CL containment, the integrand vanishes outside
-$\widetilde\Om:=\Om\cup B_{3R}$ and $|x-\zbar|\ge\rstar/2$ on its support;
-combined with $-t'\le 1/n$,
-$|\sigma(x)|\le (4/n\rstar)\mathcal L^1(J_x)$. \hfill\qed
+The integrand vanishes outside
+$\widetilde\Om:=B_{R+1}$ (which contains $\Om\subset B_R$), because $\zbar\in B_R$ and
+$\rho\le1$. The kernel is locally integrable in dimension $n\ge2$; if desired,
+one first proves the identity with $\min\{|x-\zbar|^{-1},M\}$ and then lets
+$M\to\infty$ by monotone convergence applied to the positive and negative
+parts. Taking absolute values inside the $\rho$-integral gives the stated
+kernel-weighted crossing bound. \hfill\qed
 
-\section{Profile-gap conversion with centre drift (G2)}\label{sec:G2}
+\section{The remaining quantitative input}\label{sec:G2}
 
-By Talenti / Nicola--Tilli profile gap \cite{LevelSetIdentity} Lemma 8.1,
-$0\le t_B(\rho)-t(\rho)\le 2\delta/(\omega_n\rstar^n)$. With
-$\tau_0:=\rstar/(2n)$ and on the good profile set $\{-t'\ge\tau_0\}$,
-$|\rho_E(x)-\rho_B^*(x)|\le C_T\delta$ by MVT.
+The identity of Theorem~\ref{thm:G1} rewrites
+$\int\PiE\,d\mu$ as an integral over the space--time mismatch
+\[
+   J_x:=\{\rho\in[\rstar,\rho_\delta]:
+          x\in B_\rho(\zbar)\Delta E_\rho\}.
+\]
+The rearranged Talenti/Nicola--Tilli profile gap controls the
+one-dimensional distributional profiles \(t(\rho)\) and \(t_B(\rho)\).
+It does \emph{not}, by itself, control the physical crossing set
+\(J_x\), because \(J_x\) also depends on the moving spatial radius
+\(|x-\bar z_\rho|\). Therefore the implication
+\[
+   \mathcal L^1(J_x)\lesssim\delta_T(\Om)
+\]
+is not asserted here. The additional theorem that would finish this
+centroid subroute is the following integrated moment estimate.
 
-For moving centre, use $\varphi_x(\rho):=|x-\zbar|-\rho$;
-on $\{|\bar z_\rho'|\le 1/2\}$, $\varphi_x'\le-1/2$. The good/bad
-decomposition via Chebyshev on $\{|\bar z_\rho'|>1/2\}$ controlled by
-(F) gives:
-\begin{equation}\label{eq:G2}
-   \mathcal L^1(J_x)\le C_T\delta+\int|\bar z_\rho'|\mathbf 1_{A_x}d\rho+4\int|\bar z_\rho'|^2 d\rho.
+\begin{theorem}[Integrated \(\Pi\)-control; remaining centroid-route input]
+\label{thm:PiInput}
+There is \(C_\Pi(n,R,\rstar)>0\) such that, for every bounded open
+\(\Om\subset B_R\) with \(|\Om|=\omega_n\) in the small-deficit regime,
+\begin{equation}\label{eq:PiInput}
+   \int_{\rstar}^{\rho_\delta}\PiE\,d\mu(\rho)
+   \le C_\Pi(n,R,\rstar)\,\delta_T(\Om).
+   \tag{\(\Pi\)-int}
 \end{equation}
+\end{theorem}
 
-\section{Assembly of (B²-int)}\label{sec:G3}
+\begin{remark}[Possible proof route]
+A viable proof of Theorem~\ref{thm:PiInput} would have to combine the
+Fubini identity of Theorem~\ref{thm:G1} with a genuine space--time
+coarea or transport estimate for the physical crossings of
+\(|x-\bar z_\rho|=\rho\). The \(H^1\)-in-\(\rho\) centroid estimate of
+\cite{CentroidBound} is the natural input for controlling the moving
+centre term, but an extra argument is still needed to convert the
+profile gap into the physical crossing-length bound.
+\end{remark}
 
-By \eqref{eq:53prime} integrated,
+\section{Assembly of (B$^2$-int) from \textup{($\Pi$-int)}}\label{sec:G3}
+
+Assume \eqref{eq:PiInput}. By \eqref{eq:53prime} integrated,
 \[
    \int|\nu-\er|^2 dH d\mu = 2\int(P-P_\rho)d\mu+2\int\PiE d\mu.
 \]
-The first piece is $\le C\delta$ via Agent 1's deficit identity.
-The second piece is bounded via (G1)+(G2)+(F)+Cauchy--Schwarz:
-\[
-   \int\PiE d\mu \le \tfrac{4(n-1)}{n\rstar}\int_{\widetilde\Om}\mathcal L^1(J_x)dx
-   \le C_2(n,R,\rstar,C_F)\,\delta.
-\]
-Both pieces $O(\delta)$ gives (B²-int). \hfill\qed
+The first piece is $\le C\delta$ via the deficit identity in
+\cite{LevelSetIdentity}.
+The second piece is exactly \eqref{eq:PiInput}. Both pieces are
+\(O(\delta)\), giving Theorem~\ref{thm:G3}. \hfill\qed
 
 \section{The integrated radial trace (T$_1^2$-int) --- slicing-then-squaring}\label{sec:T1}
 
-Write $T_1=T_1(E_\rho,\zbar):=\int_{\partial^*E_\rho}||x-\zbar|/\rho-1|d\mathcal H^{n-1}$
+Write $T_1=T_1(E_\rho,\zbar):=\int_{\partial^*E_\rho}\lvert\,\lvert x-\zbar\rvert/\rho-1\,\rvert\,d\mathcal H^{n-1}$
 and decompose
 \[
    T_1 = T_1^{\rm rad,slic}+T_1^{\rm tan},
@@ -195,15 +249,28 @@ with $\beta_n=\beta_n(R,\rstar)$. Integrating and using spherical Fubini:
    \int_{\{N=1\}}|r_{\theta,1}/\rho-1|r_{\theta,1}^{n-1}d\theta \le n\beta_n|E_\rho\Delta B_\rho(\zbar)|.
 \]
 
-\emph{Bad rays.} $|r_{\theta,j}/\rho-1|r_{\theta,j}^{n-1}\le (2R)^{n-1}$,
-summed gives $\le (2R)^{n-1}(1+k(\theta))$. By the elementary bad-ray multiplicity bound
-$\int k(\theta)\,d\theta\le(2/\rstar)^{n-1}(P(E_\rho)-P(B_\rho))$,
-which follows from the slicing identity~\eqref{eq:S1}, the inner-ball
-containment, and the isoperimetric inequality
-(each extra crossing contributes $\ge(\rstar/2)^{n-1}$ to
-$P(E_\rho)$ beyond the spherical baseline $P(B_\rho)$),
+\emph{Bad rays.} $|r_{\theta,j}/\rho-1|r_{\theta,j}^{n-1}\le C(R,\rstar)$,
+summed gives $\le (2R)^{n-1}(1+k(\theta))$. We claim the bad-ray
+multiplicity bound
+\[
+   \int_{S^{n-1}} k(\theta)\,d\theta
+   \;\le\; (\rstar/2)^{-(n-1)}\,(P(E_\rho)-P(B_\rho)),
+\]
+which we prove as follows (note: this estimate is conditional on the
+auxiliary annular cap of Theorem~\ref{thm:T1sq}, which provides
+$|x-\zbar|\ge\rstar/2$ on the relevant boundary pieces). For each
+direction $\theta\in S^{n-1}$, let $k(\theta)\ge 0$ count the crossings
+of the radial ray with $\partial^*E_\rho$ beyond the spherical baseline.
+By the radial-projection inequality and the area formula,
+$\int_{S^{n-1}}\sum_j r_{\theta,j}^{n-1}\,d\theta = P_{\rm rad}(E_\rho)
+\le P(E_\rho)$, where $r_{\theta,j}$ are the crossing radii. Each
+crossing contributes $\ge(\rstar/2)^{n-1}$ to this integral, since
+$|x-\zbar|\ge\rstar/2$ on the annular cap. Summing the contributions
+beyond the spherical baseline gives
+$\int_{S^{n-1}}k(\theta)\,d\theta \le (\rstar/2)^{-(n-1)}\,
+(P(E_\rho)-P(B_\rho))$, as claimed.
 
-Combining gives the claim.
+Combining the two estimates gives the claim.
 \end{proof}
 
 \subsection{Pointwise bound for $T_1^{\rm tan}$}
@@ -213,9 +280,9 @@ $T_1^{\rm tan}\le (P(E_\rho)-P(B_\rho))+\PiE$.
 \end{lemma}
 
 \begin{proof}
-By CL, $||x-\zbar|/\rho-1|\le 1$, so
-$T_1^{\rm tan}\le\int(1-|\er\cdot\nu|)dH\le\int(1-\er\cdot\nu)dH=(P-P_\rho)+\PiE$
-by \cite{LevelSetIdentity} (5.3).
+Under the auxiliary annular cap, $||x-\zbar|/\rho-1|\le C(R,\rstar)$, so
+$T_1^{\rm tan}\le C(R,\rstar)\int(1-|\er\cdot\nu|)dH\le C(R,\rstar)\int(1-\er\cdot\nu)dH=C(R,\rstar)((P-P_\rho)+\PiE)$
+by the divergence identity in \cite{LevelSetIdentity}.
 \end{proof}
 
 \subsection{Squaring and integrating}
@@ -228,20 +295,45 @@ Integrating against $d\mu$ and bounding each piece by $C\delta$:
 \begin{itemize}
 \item $\int|E_\rho\Delta B_\rho|^2 d\mu\le C_8\int\PiE d\mu\le C\delta$
 via the slice-rearrangement (§\ref{sec:slice}) + (G3).
-\item $\int(P-P_\rho)^2 d\mu\le 2P(B_\rho)\int(P-P_\rho)d\mu\le C\delta$
-via Agent 1.
-\item $\int\PiE^2 d\mu\le\Pi_{\max}\int\PiE d\mu\le C\delta$ since
-$\Pi$ is bounded by CL.
+\item $\int(P-P_\rho)^2 d\mu\le M_A\int(P-P_\rho)d\mu\le C\delta$
+under the auxiliary cap (uses $(P-P_\rho)\ge 0$ to bound
+$(P-P_\rho)^2\le M_A(P-P_\rho)$ on the cap).
+\item $\int\PiE^2 d\mu\le M_A\int\PiE d\mu\le C\delta$ under the same cap.
 \end{itemize}
 Hence $\int T_1^2 d\mu\le C_{T_1^2}\delta$.
 
-Combining with (G3) gives (T$_1^2$-int) since
-$|H-1|\le||x-\zbar|/\rho-1|+|\er\cdot\nu-1|$ and the second term
-is controlled by $|\er-\nu|$ + Cauchy--Schwarz + (G3). \hfill\qed
+Combining with (G3) gives (T$_1^2$-int) as follows. Since
+$H_{\zbar,\rho} = (|x-\zbar|/\rho)\,(\er\cdot\nu)$, we decompose
+\[
+   H_{\zbar,\rho} - 1 \;=\; \bigl(|x-\zbar|/\rho - 1\bigr)\,(\er\cdot\nu)
+                       \;+\; \bigl(\er\cdot\nu - 1\bigr),
+\]
+where on the annular cap $|\er\cdot\nu|\le 1$ and
+$\bigl||x-\zbar|/\rho-1\bigr|\le C(R,\rstar)$, so both factors are
+bounded. Taking absolute values and integrating over $\partial^*E_\rho$
+yields
+\[
+   \int_{\partial^*E_\rho}|H_{\zbar,\rho}-1|\,d\mathcal H^{n-1}
+   \;\le\; T_1
+   \;+\; \int_{\partial^*E_\rho}|\er\cdot\nu-1|\,d\mathcal H^{n-1}.
+\]
+For the second term, using $|\er\cdot\nu-1|\le|\er-\nu|$ and applying
+Cauchy--Schwarz with respect to $d\mathcal H^{n-1}\,d\mu$ together with
+the perimeter bound $P(E_\rho)\le M_A$ on the bounded reduction,
+\[
+   \Bigl(\int|\er-\nu|\,d\mathcal H^{n-1}\,d\mu\Bigr)^2
+   \;\le\; M_A\cdot\int|\er-\nu|^2\,d\mathcal H^{n-1}\,d\mu.
+\]
+The $L^2$-bound on $|\er-\nu|^2$ provided by (G3) (Theorem~\ref{thm:G3})
+then gives an $O(\delta)$ control. Squaring the pointwise decomposition,
+applying $(a+b)^2\le 2(a^2+b^2)$, integrating against $d\mu$, and
+combining with $\int T_1^2\,d\mu\le C_{T_1^2}\delta$ yields
+(T$_1^2$-int). \hfill\qed
 
 \section{The slice-rearrangement inequality}\label{sec:slice}
 
 \begin{lemma}\label{lem:slice-rearrange}
+Under the annular cap $\rstar/2\le r\le 2R$,
 $|E_\rho\Delta B_\rho(\zbar)|^2\le C_8(n,R,\rstar)\PiE$ pointwise in
 the smallness regime.
 \end{lemma}
@@ -259,8 +351,11 @@ $\sigma(\theta)^2\le 4R\,m_1(\theta)$ with
 $\sigma(\theta)=\mathcal L^1(E_{\rho,\theta}\Delta(0,\rho))$,
 $m_1(\theta)=\int|r-\rho|\mathbf 1_{E_{\rho,\theta}\Delta(0,\rho)}dr$.
 Cauchy--Schwarz on $S^{n-1}$ then gives
-$(\int\sigma d\theta)^2\le 4R|S^{n-1}|\int m_1 d\theta$. Boosting
-slice integrals to global integrals via the $r^{n-1}$ weight bounds:
+$(\int\sigma d\theta)^2\le 4R|S^{n-1}|\int m_1 d\theta$. Since
+$\sigma(\theta)\,d\theta\cdot r^{n-1}$ (for $\rstar/2\le r\le 2R$)
+gives the volume element up to the comparable factors $(\rstar/2)^{n-1}$
+and $(2R)^{n-1}$, the slice-to-volume conversion preserves the bound up
+to constants depending only on $n,\rstar,R$; this yields
 $|E_\rho\Delta B_\rho|^2\le C_9\,M_1$.
 
 Combining Steps 1--2 gives the claim.
@@ -272,7 +367,7 @@ Combining Steps 1--2 gives the claim.
 The $T_2$-route would extract on good rays
 $(r_{\theta,1}/\rho-1)^2 r_{\theta,1}^{n-1}\le C|r_{\theta,1}^{n-1}-\rho^{n-1}|$
 (a square on LHS, unsigned mismatch on RHS), then need
-$\int|r_{\theta,1}^{n-1}-\rho^{n-1}|d\theta\le C\sqrt{\delta_\rho}$
+$\int|r_{\theta,1}^{n-1}-\rho^{n-1}|d\theta\le C\sqrt{\delta_T}$
 (FMP rate). Integrating against $d\mu$ leaks at $\sqrt\delta$.
 
 The $T_1$-route uses linear good-ray equality \eqref{eq:eq-slicewise}
@@ -283,15 +378,22 @@ integrating avoids the FMP bottleneck.
 
 \section{Conditionality}\label{sec:conditionality}
 
-\textbf{Inputs used (all unconditional given (F)):}
-CL containment; slicing identity (Maggi); bad-ray multiplicity bound (elementary, see proof of Lemma~\ref{lem:T1rad}); slicewise good-ray equality; spherical Fubini;
+\textbf{Inputs used after \textup{($\Pi$-int)} and the auxiliary annular/perimeter cap:}
+slicing identity (Maggi); bad-ray multiplicity bound (elementary, see proof of Lemma~\ref{lem:T1rad}); slicewise good-ray equality; spherical Fubini;
 divergence identity (5.3); Talenti profile gap;
 slice-rearrangement Lemma \ref{lem:slice-rearrange}; (F) of
 \cite{CentroidBound}.
 
 \textbf{Inputs explicitly not used:} the per-$\rho$ pointwise radial-trace inputs (1.1), (1.2)=(R),
-(2.4); pointwise (B²); Agent 3 (7.1); any selection, graph entry,
+(2.4); pointwise (B²); the boundary-layer pointwise (7.1) of
+\cite{BoundaryLayerTransfer}; any selection, graph entry,
 Schauder, Fuglede.
+
+\textbf{Centroid-route status:} Theorem~\ref{thm:PiInput}, plus the
+annular/perimeter cap stated in Theorem~\ref{thm:T1sq}, would complete this
+centroid subroute. Without them the present block proves the exact
+space--time identity and a conditional centroid closure only. The repaired
+metric closure is instead supplied by \cite{WeightedMetricTrace}.
 
 \begin{thebibliography}{99}
 
@@ -307,29 +409,11 @@ Plan~2 building block \textsc{CentroidBound}.
 \bibitem{WeightedMetricTrace}
 Plan~2 building block \textsc{WeightedMetricTrace}.
 
+\bibitem{BoundaryLayerTransfer}
+Plan~2 building block \textsc{BoundaryLayerTransfer}.
+
 \bibitem{Maggi2012}
 F.~Maggi, Cambridge Univ. Press, 2012. Thm 15.9, 18.11, 19.4.
-
-\bibitem{AFP2000}
-L.~Ambrosio, N.~Fusco, D.~Pallara, Oxford, 2000.
-
-\bibitem{FMP2010}
-A.~Figalli, F.~Maggi, A.~Pratelli, Invent. Math. \textbf{182} (2010), 167--211.
-
-\bibitem{FJ2014}
-N.~Fusco, V.~Julin, Calc. Var. PDE \textbf{50} (2014), 925--937.
-
-\bibitem{CL2012}
-M.~Cicalese, G.\,P.~Leonardi, ARMA \textbf{206} (2012), 617--643.
-
-\bibitem{AFM2013}
-E.~Acerbi, N.~Fusco, M.~Morini, CMP \textbf{322} (2013), 515--557.
-
-\bibitem{Talenti1976}
-G.~Talenti, Ann. Mat. Pura Appl. (4) \textbf{110} (1976), 353--372.
-
-\bibitem{NicolaTilli}
-F.~Nicola, P.~Tilli, Invent. Math. \textbf{230} (2022), 1--30.
 
 \end{thebibliography}
 

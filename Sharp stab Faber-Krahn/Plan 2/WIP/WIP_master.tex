@@ -43,7 +43,7 @@ We give a proof of the sharp quantitative Faber--Krahn inequality
 with sharp exponent~$2$ on the Fraenkel asymmetry $\Fr$
 (equivalently $1/2$ on the scale-normalised spectral deficit) that
 is structurally distinct from the
-Brasco--De~Philippis--Velichkov~\cite{BDV} proof and from the
+Brasco--De~Philippis--Velichkov~\cite{BraDeP2017} proof and from the
 contradiction-free Plan~1 / Route~A proof~\cite{Plan1Master}. The
 present proof, which we call \emph{Route~$\delta$}, makes no use of
 any of the following four classical ingredients: (i) the
@@ -66,7 +66,9 @@ is organised into seven self-contained building blocks
 document. The last two stages of the chain (bounded reduction and
 the Kohler--Jobin rearrangement) are imported verbatim from the
 Plan~1 Final/ library, so that the methodological novelty is
-concentrated in the first five blocks.
+concentrated in the first five blocks. The route avoids the
+pointwise quadratic Fusco--Julin oscillation~$(B^2)$ entirely; only
+its integrated form is consumed.
 \end{abstract}
 
 \tableofcontents
@@ -117,11 +119,13 @@ Hansen--Nadirashvili~\cite{HansenNadirashvili1994} and
 Melas~\cite{Melas1992} for restricted classes of sets. Bhattacharya
 \cite{Bhattacharya2001} reached every planar open set with
 exponent~$3$. Fusco--Maggi--Pratelli~\cite{FMPLaplace}, using their
-sharp quantitative isoperimetric inequality~\cite{FMP}, extended
-this to all dimensions with exponent~$4$ on $\Fr$.
+sharp quantitative isoperimetric inequality~\cite{FMP2008} (see also
+the mass-transport approach of Figalli--Maggi--Pratelli
+\cite{FMP2010}), extended this to all dimensions with exponent~$4$
+on $\Fr$.
 
 The sharp conjecture with exponent~$2$ was settled in 2015 by
-Brasco--De~Philippis--Velichkov~\cite{BDV}: there exists
+Brasco--De~Philippis--Velichkov~\cite{BraDeP2017}: there exists
 $\sigma(n)>0$ with
 $|\Om|^{2/n}\lambda_1(\Om)-|\Bstar|^{2/n}\lambda_1(\Bstar)\ge
 \sigma\Fr(\Om)^2$. The BDV strategy has two pillars: a
@@ -130,10 +134,11 @@ Faber--Krahn to the analogous sharp Saint--Venant stability, then a
 selection principle in the spirit of
 Cicalese--Leonardi~\cite{CL2012} and
 Acerbi--Fusco--Morini~\cite{AFM2013} combined with free-boundary
-regularity~\cite{AC1981} and a Fuglede-type
-expansion~\cite{Fuglede} to produce a nearly spherical
-contradiction. Subsequent work of Brasco--De~Philippis~\cite{BraDeP2017}
-and Allen--Kriventsov--Neumayer~\cite{AKN} addresses related
+regularity~\cite{AC1981} and a nearly-spherical expansion
+(classical for the isoperimetric deficit \cite{Fuglede}, extended
+to first-eigenvalue deficit in \cite[Thm.~3.3]{BraDeP2017}) to produce
+a nearly spherical contradiction. Subsequent work of
+Allen--Kriventsov--Neumayer~\cite{AKN} addresses related
 spectral stability inequalities via different routes.
 
 A constructive-constant version of the BDV theorem was given in
@@ -258,9 +263,10 @@ building blocks. Schematically,
    \textsc{GlobalAssembly}.
 \]
 The first six blocks are the geometric heart of Plan~2; the seventh
-imports the bounded reduction of \cite[\S5]{BDV} (equivalently
-Plan~1's \textsc{BoundedReduction}) and the Kohler--Jobin transfer
-of Brasco~\cite{Brasco2014} (Plan~1's \textsc{KohlerJobinTransfer}).
+imports the bounded reduction of \cite[\S5]{BraDeP2017} (equivalently
+Plan~1's \textsc{BoundedReduction}~\cite{BDV-BoundedReduction-Plan1})
+and the Kohler--Jobin transfer of Brasco~\cite{Brasco2014} (Plan~1's
+\textsc{KohlerJobinTransfer}~\cite{KohlerJobinTransfer-Plan1}).
 
 \section{Notation and standing hypotheses}\label{sec:notation}
 
@@ -287,6 +293,12 @@ $\rhad\in[\rho_\delta-C_*\delta_T,\rho_\delta]$ the metric-trace radius.
 \item $R_*(n)=\max\{d(n),2\}$ the BDV bounded-reduction radius; we
 fix $\rstar=1/2$.
 \end{itemize}
+
+\noindent\textbf{Notation convention (two parametrisations).} We use
+both notations: $E_t=\{u>t\}$ (level-set parametrisation, Block~I)
+and $E_\rho=\{u>t(\rho)\}$ with $|E_\rho|=\omega_n\rho^n$
+(volume-radius parametrisation, Blocks~II--VII). The map
+$t\leftrightarrow\rho$ is the inverse distribution function.
 
 \section{The seven building blocks chained}\label{sec:chain}
 
@@ -393,12 +405,12 @@ with $|\Om|=\omega_n$ satisfies
 \;}
 \end{equation}
 The proof combines \eqref{eq:Kboxed} with Lemma~8.3 of
-Theorem~\ref{thm:L} ($\Fr(\Om)\le\Fr(E_{\rhad})+2|\Om\setminus
+\cite{BoundaryLayerTransfer} ($\Fr(\Om)\le\Fr(E_{\rhad})+2|\Om\setminus
 E_{\rhad}|/\omega_n$) and the squaring identity
 $(a+b)^2\le 2(a^2+b^2)$; sharp exponent~$2$.
 \end{theorem}
 
-\subsection{Block VII: \textsc{GlobalAssembly}}\label{ssec:FK}
+\subsection{Block VII: \textsc{GlobalAssembly}}\label{ssec:GA}
 
 \begin{theorem}[Sharp Faber--Krahn; \cite{GlobalAssembly}]
 \label{thm:Glob}
@@ -433,8 +445,10 @@ The exponent~$2$ on $\Fr$ is sharp.
 \end{theorem}
 
 \begin{proof}
-Fix $\rstar=1/2$. The chain
-Theorems~\ref{thm:L}--\ref{thm:BL} delivers the bounded
+By scale invariance of both sides --- $(|\Om|/|B_1|)^{2/n}(\lambda_1(\Om)-\lambda_1(B^*))$
+is dimensionless, as is $\Fr(\Om)$ --- WLOG $|\Om|=\omega_n$ after
+rescaling $\Om\mapsto(\omega_n/|\Om|)^{1/n}\Om$. Fix $\rstar=1/2$.
+The chain Theorems~\ref{thm:L}--\ref{thm:BL} delivers the bounded
 Saint--Venant inequality at $R=R_*(n)$.
 Theorem~\ref{thm:Glob} then internalises the $R$-dependence via
 the BDV bounded reduction and converts to Faber--Krahn via
@@ -462,7 +476,7 @@ $\rstar=1/2$, $R\to R_*(n)$ & $C(n,R_*(n),1/2)$ & $n$ \\
 \end{tabular}
 \end{center}
 
-\textbf{Verdict.} All $R$- and $\rstar$-dependence is absorbed at
+\textbf{Conclusion.} All $R$- and $\rstar$-dependence is absorbed at
 the Block~($\partial$) $\to$ (FK) interface; final constant
 $c_{\rm FK}(n)$ depends only on $n$.
 
@@ -495,8 +509,8 @@ Centroid kinematic identity (no homothety) & not used & uses \\
 Space--time $\Pi$ identity & not used & uses \\
 Slicing-then-squaring (good rays / bad rays) & not used & uses \\
 Slice-rearrangement $|E\Delta B|^2\le C\Pi$ & not used & uses \\
-Sobolev--Sard (Figalli--Maggi App.~A) & not used & uses \\\hline
-BDV bounded reduction \cite[\S5]{BDV} & uses & uses \\
+Sobolev--Sard (Figalli--Maggi App.~A \cite{FigalliMaggi2011}) & not used & uses \\\hline
+BDV bounded reduction \cite[\S5]{BraDeP2017} & uses & uses \\
 Kohler--Jobin transfer & uses & uses \\\hline
 \end{tabular}
 \end{center}
@@ -512,19 +526,20 @@ The Plan~2 chain has been audited in three waves on the markdown
 source side; each post-audit correction is reflected in the
 \texttt{WIP\_X.tex} files.
 
-\textbf{Wave~1} (\texttt{agent6-adversarial-audit.md}) flagged five
-issues: centre-choice ambiguity (Fraenkel vs.\ centroid); reliance
+\textbf{Wave~1}\footnote{Internal audit trail: source file
+\texttt{agent6-adversarial-audit.md}.} flagged five issues: centre-choice ambiguity (Fraenkel vs.\ centroid); reliance
 on the open pointwise per-$\rho$ radial trace (R); missing
 Sobolev--Sard citation; broken Cauchy--Schwarz in (G4)~§5.2;
 notational drift between centre choices.
 
-\textbf{Wave~2} (\texttt{wave2-*}) addressed: the centroid choice
+\textbf{Wave~2}\footnote{Internal audit trail: source files
+\texttt{wave2-*}.} addressed: the centroid choice
 $\zbar=|E_\rho|^{-1}\int_{E_\rho}x$; the integrated form (B$^2$-int)
 replacing pointwise (R); the Figalli--Maggi App.~A Sobolev--Sard
 citation; the kinetic bound (K) rederivation from (B$^2$-int).
 
-\textbf{Wave~3} (\texttt{wave3-F,G,H,J}) introduced two new
-structural inputs: (F) the $H^1$-in-$\rho$ centroid bound
+\textbf{Wave~3}\footnote{Internal audit trail: source files
+\texttt{wave3-F,G,H,J}.} introduced two new structural inputs: (F) the $H^1$-in-$\rho$ centroid bound
 (\textsc{CentroidBound}); and the slicing-then-squaring
 decomposition (\textsc{SpaceTimeIdentity} §5). The latter replaces
 the broken Cauchy--Schwarz of (G4) §5.2 by the linear good-ray
@@ -569,7 +584,7 @@ Plan~2 building block \textsc{GlobalAssembly},
 \texttt{WIP\_GlobalAssembly.tex}.
 
 \bibitem{Plan1Master}
-Plan~1 master document, \texttt{Final/master.tex}.
+Plan~1 master document (companion route), \texttt{Final/master.tex}.
 
 \bibitem{BDV-BoundedReduction-Plan1}
 Plan~1 building block \textsc{BoundedReduction},
@@ -579,11 +594,12 @@ Plan~1 building block \textsc{BoundedReduction},
 Plan~1 building block \textsc{KohlerJobinTransfer},
 \texttt{Final/KohlerJobinTransfer.tex}.
 
-\bibitem{BDV} L.~Brasco, G.~De~Philippis, B.~Velichkov,
+\bibitem{BraDeP2017} L.~Brasco, G.~De~Philippis, B.~Velichkov,
 \emph{Faber--Krahn inequalities in sharp quantitative form},
 Duke Math.\ J.\ \textbf{164} (2015), 1777--1831.
 
-\bibitem{FMP} N.~Fusco, F.~Maggi, A.~Pratelli,
+\bibitem{FMP2008} N.~Fusco, F.~Maggi, A.~Pratelli,
+\emph{The sharp quantitative isoperimetric inequality},
 Ann.\ of Math.\ \textbf{168} (2008), 941--980.
 
 \bibitem{FMPLaplace} N.~Fusco, F.~Maggi, A.~Pratelli,
@@ -640,9 +656,6 @@ J.\ Differential Geom.\ \textbf{36} (1992), 19--33.
 
 \bibitem{Bhattacharya2001} T.~Bhattacharya,
 Electron.\ J.\ Differential Equations \textbf{35} (2001), 1--15.
-
-\bibitem{BraDeP2017} L.~Brasco, G.~De~Philippis,
-in \emph{Shape Optimization and Spectral Theory}, De Gruyter Open, 2017.
 
 \bibitem{AKN} M.~Allen, D.~Kriventsov, R.~Neumayer,
 Ars Inveniendi Analytica (2023).

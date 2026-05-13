@@ -47,10 +47,10 @@ $H^{1}$-in-$\rho$ bound
 \]
 The proof uses the centroid kinematic identity (a bulk-coarea
 computation that has \emph{no} homothety term), the unconditional
-$D_H$-only Cauchy--Schwarz of the velocity defect, the
+Cauchy--Schwarz of the velocity defect controlled by $D_H+D_I$, the
 Figalli--Maggi--Pratelli volume Fraenkel estimate, the Fusco--Julin
 $L^1$ oscillation, the divergence theorem for finite-perimeter sets,
-and Agent~B's integrated Talenti gap. No graph parametrisation, no
+and the integrated Talenti gap of \cite{LevelSetIdentity}. No graph parametrisation, no
 selection principle, no pointwise quantitative isoperimetric form is
 invoked.
 \end{abstract}
@@ -60,7 +60,9 @@ invoked.
 Fix $n\ge 2$, $R\ge 2$, $\rstar\in(0,1)$, and $\kappa>0$. Let
 $\Om\subset B_R\subset\R^n$ be a bounded open set with
 $|\Om|=\omega_n:=|B_1|$ and Saint--Venant deficit
-$\delta:=\delta_T(\Om)\le\delta_0(n,R,\rstar)$. Let $u\in
+$\delta:=\delta_T(\Om)\le\delta_0(n,R,\rstar)$, where
+$\delta_T(\Om):=1-T(\Om)/T(B_1)$ and $T(\cdot)$ denotes the
+Saint--Venant torsional rigidity. Let $u\in
 W^{1,2}_0(\Om)\cap W^{2,p}_{\rm loc}(\Om)$ ($p>n$) be the variational
 torsion function of $\Om$, $t:[\rstar,1]\to(0,\|u\|_\infty)$ the
 volume-radius parametrisation defined by
@@ -69,6 +71,10 @@ $|\{u>t(\rho)\}|=\omega_n\rho^n$, $E_\rho:=\{u>t(\rho)\}$, and
    V_\rho(x):=\frac{-t'(\rho)}{|\nabla u(x)|}
    \qquad\text{on }\partial^*E_\rho\cap\{|\nabla u|>0\}.
 \]
+The set $\{|\nabla u|=0\}\cap\partial^*E_\rho$ has
+$\mathcal H^{n-1}$-measure zero on $G_{\rm CL}$ (Sard plus regularity,
+cf.\ \cite{LevelSetIdentity}), so $V_\rho$ is
+$\mathcal H^{n-1}$-a.e.\ defined on $\partial^*E_\rho$ at good levels.
 Set $\rho_\delta:=1-\kappa\sqrt{\delta}$.
 
 \begin{definition}[Centroid field]\label{def:centroid}
@@ -108,21 +114,47 @@ constants exactly as in Wave~2~C~§C1.
 
 \section{Setup, measurability, Lipschitz-in-$\rho$}\label{sec:setup}
 
-\subsection{The smallness regime}
+\subsection{Good levels and the CL regime}
 
-By the smallness propagation (Figalli--Maggi--Pratelli
-\cite{FMP2010} applied levelwise plus the integrated
-$\int D_I\,d\mu \le C\delta_T$ of \cite{LevelSetIdentity}),
-$\mathcal A(E_\rho)\le C(n,\rstar)\sqrt{\delta_T(\Om)}\le\eps_0$ for
-all $\rho\in[\rstar,1]$, with $\eps_0$ the CL 2012 smallness threshold.
-The CL containment
-\begin{equation}\label{eq:CL}
-   B(z^{\rm Fr}_\rho,\rho/2)\subset E_\rho\subset B(z^{\rm Fr}_\rho,2\rho)
+The exact level-set identity gives the integrated bound
+\begin{equation}\label{eq:int-DHDI}
+   \int_{\rstar}^{1}\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)\,d\mu(\rho)
+   \le C(n,\rstar)\,\delta_T(\Om),
+   \qquad d\mu=(-t')\,d\rho.
 \end{equation}
-holds for a.e.\ $\rho$. Combined with the centroid--Fraenkel proximity,
-$B(\zbar,\rho/4)\subset E_\rho\subset B(\zbar,3\rho)$. In particular
-$|x-\zbar|\le 3\rho\le 3$ on $\partial^*E_\rho$ and
-$\zbar\in E_\rho^\circ$.
+It does \emph{not} imply pointwise smallness of \(D_I(t(\rho))\) for
+every \(\rho\). We therefore use the following good-level split. Let
+\(\eta_{\rm CL}(n,\rstar)>0\) be small enough that
+\[
+   D_I(t(\rho))\le\eta_{\rm CL}
+   \quad\Longrightarrow\quad
+   \mathcal A(E_\rho)\le\eps_0(n)
+\]
+by the quantitative isoperimetric inequality. Define
+\[
+   G_{\rm CL}:=\{\rho\in[\rstar,1]:D_I(t(\rho))\le\eta_{\rm CL}\},
+   \qquad B_{\rm CL}:=[\rstar,1]\setminus G_{\rm CL}.
+\]
+Then \(\mu(B_{\rm CL})\le C\delta_T(\Om)\) by
+\eqref{eq:int-DHDI}. (Chebyshev: on $B_{\rm CL}$ one has $D_I(t(\rho))
+>\eta_{\rm CL}$, so $\eta_{\rm CL}\,\mu(B_{\rm CL}) \le
+\int_{B_{\rm CL}}D_I\,d\mu \le \int_{\rstar}^{1}(D_H+D_I)\,d\mu
+\le C(n,\rstar)\,\delta_T(\Om)$, whence
+$\mu(B_{\rm CL})\le C'\delta_T(\Om)$.)
+On \(G_{\rm CL}\), Cicalese--Leonardi gives a
+Fraenkel centre \(z^{\rm Fr}_\rho\) with
+\begin{equation}\label{eq:CL}
+   B(z^{\rm Fr}_\rho,\rho/2)\subset E_\rho\subset B(z^{\rm Fr}_\rho,2\rho).
+\end{equation}
+Combined with the centroid--Fraenkel proximity, after decreasing
+\(\delta_0\) if needed,
+\[
+   B(\zbar,\rho/4)\subset E_\rho\subset B(\zbar,3\rho)
+   \qquad\text{for a.e. }\rho\in G_{\rm CL}.
+\]
+In particular \(|x-\zbar|\le 3\) on \(\partial^*E_\rho\) and
+\(\zbar\in E_\rho^\circ\) on the good levels. On \(B_{\rm CL}\) we use
+only the global Lipschitz bound of Lemma~\ref{lem:Lip}.
 
 \subsection{Borel measurability and Lipschitz}
 
@@ -162,14 +194,28 @@ By the coarea identity \cite[\S3]{LevelSetIdentity} and Sobolev--Sard
 \cite[App.~A, Thm.~A.1]{FigalliMaggi2011}, for every Lipschitz $f:B_R\to\R$ and
 a.e.\ $\rho\in[\rstar,1]$,
 $\frac{d}{d\rho}\int_{E_\rho}f\,dx=\int_{\partial^*E_\rho}f V_\rho\,d\mathcal H^{n-1}$.
-Taking $f(x)=x_i$ and applying the product rule:
+By the volume normalisation $|E_\rho|=\omega_n\rho^n$ we have
+$\tfrac{d}{d\rho}|E_\rho|=n\omega_n\rho^{n-1}=P(B_\rho)$, and combining
+with coarea ($f\equiv 1$) gives
+$\int_{\partial^*E_\rho}V_\rho\,d\mathcal H^{n-1}=\tfrac{d}{d\rho}|E_\rho|=P(B_\rho)$.
+Taking $f(x)=x_i$ in the coarea identity and applying the product
+rule to $\bar z_{\rho,i}=|E_\rho|^{-1}\int_{E_\rho}x_i\,dx$:
 \[
    \bar z_{\rho,i}'
-   =\frac{1}{|E_\rho|}\int_{\partial^*E_\rho}x_i V_\rho dH
-   -\frac{P(B_\rho)}{|E_\rho|^2}\int_{E_\rho}x_i dx
-   =\frac{1}{|E_\rho|}\int_{\partial^*E_\rho}(x_i-\bar z_{\rho,i})V_\rho dH,
+   =\frac{1}{|E_\rho|}\int_{\partial^*E_\rho}x_i V_\rho\,d\mathcal H^{n-1}
+   -\frac{1}{|E_\rho|^2}\Bigl(\tfrac{d}{d\rho}|E_\rho|\Bigr)
+       \int_{E_\rho}x_i\,dx.
 \]
-using $\int V_\rho dH=P(B_\rho)$ (coarea with $f\equiv 1$).
+Substituting the coarea form
+$\tfrac{d}{d\rho}|E_\rho|=\int_{\partial^*E_\rho}V_\rho\,d\mathcal H^{n-1}$
+into the second term yields
+\[
+   \bar z_{\rho,i}'
+   =\frac{1}{|E_\rho|}\int_{\partial^*E_\rho}(x_i-\bar z_{\rho,i})\,V_\rho\,d\mathcal H^{n-1},
+\]
+the displayed identity. The equality
+$\tfrac{d}{d\rho}|E_\rho|=P(B_\rho)$ is here a \emph{consequence} of
+the volume normalisation, not a perimeter identity for $E_\rho$.
 \end{proof}
 
 \begin{remark}[No homothety term --- the structural mechanism]
@@ -179,15 +225,16 @@ to the centroid. \emph{No homothetic vector field
 $H_{z,\rho}(x)=(x-z)\cdot\nu_E/\rho$ enters.} By contrast, defining
 the centre field via the Fraenkel functional first-order condition
 would yield a kinematic formula whose right-hand side involves
-$V_\rho-H_{z,\rho}$, and the bound would consume the per-$\rho$ homothetic velocity defect of \texttt{gmt-inputs-for-metric-closure.md}~(2.4),
+$V_\rho-H_{z,\rho}$, and the bound would consume the per-$\rho$
+homothetic velocity defect (audit-trail markdown note, input~(2.4)),
 itself conditional on the per-$\rho$ radial trace~(R)/(1.2), which is
 open in the no-graph regime. The centroid choice eliminates the
 homothety because it is defined directly by a bulk integral, not by a
 minimisation principle comparing to balls. This is precisely the
 structural mechanism by which Theorem~\ref{thm:F} avoids (R), (B²),
-the per-$\rho$ pointwise radial-trace inputs of
-the Wave-1 audit (\texttt{gmt-inputs-for-metric-closure.md}~(1.1),
-(1.2)=(R), (2.4) in the source notation) entirely.
+and the per-$\rho$ pointwise radial-trace inputs of the Wave-1 audit
+(audit-trail markdown note, inputs~(1.1), (1.2)=(R), (2.4) in the
+source notation) entirely.
 \end{remark}
 
 \section{Pointwise bound $|\bar z_\rho'|^{2}\le C(D_H+D_I)$}\label{sec:pointwise}
@@ -195,11 +242,10 @@ the Wave-1 audit (\texttt{gmt-inputs-for-metric-closure.md}~(1.1),
 We bound the integrand in~\eqref{eq:F} pointwise by the two algebraic
 deficits $D_H(t(\rho)),D_I(t(\rho))$ of \cite{LevelSetIdentity}.
 
-\begin{lemma}[Pointwise centroid-velocity bound]\label{lem:4.1}
-There is $C_*=C_*(n,R,\rstar)$ such that for a.e.\ $\rho\in[\rstar,1]$
-in the smallness regime,
+\begin{lemma}[Pointwise centroid-velocity bound on good levels]\label{lem:4.1}
+There is $C_*=C_*(n,R,\rstar)$ such that for a.e.\ $\rho\in G_{\rm CL}$,
 \begin{equation}\label{eq:4.1}
-   |\bar z_\rho'|^{2}\le C_*\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr).
+   |\bar z_\rho'|^{2}\le C_*\bigl(D_H(t(\rho))+D_I(t(\rho))+\delta_T(\Om)\bigr).
 \end{equation}
 \end{lemma}
 
@@ -213,28 +259,48 @@ $V_\rho=\bar V_\rho+(V_\rho-\bar V_\rho)$ in~\eqref{eq:3.2}:
 \end{equation}
 
 \emph{Bound on (II).} By CL, $|x-\zbar|\le 3$, so
-$|(\mathrm{II})|\le 3\int|V_\rho-\bar V_\rho|$. By the unconditional
-Cauchy--Schwarz on $V_\rho$, an algebraic consequence of
-\cite{LevelSetIdentity}: writing $\bar V_\rho=A_\rho/P(E_\rho)$ and applying
-$\int|f|\le(\int f^2/V)^{1/2}(\int V)^{1/2}$ with $f=|V_\rho-\bar V_\rho|$,
-$V=V_\rho$, together with the exact identity
-$\int(V_\rho-\bar V_\rho)^2/V_\rho\,d\mathcal H^{n-1}=(A_\rho/P(E_\rho)^2)D_H$,
+$|(\mathrm{II})|\le 3\int|V_\rho-\bar V_\rho|\,d\mathcal H^{n-1}$.
+Set $A_\rho:=\int_{\partial^*E_\rho}V_\rho\,d\mathcal H^{n-1}=P(B_\rho)$
+(by coarea with $f\equiv 1$ as in the proof of Lemma~\ref{lem:3.1});
+the mean here is the perimeter-mean
+$\bar V_\rho=A_\rho/P(E_\rho)$. The algebraic Cauchy--Schwarz
+\[
+   \Bigl(\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,d\mathcal H^{n-1}\Bigr)^2
+   \;\le\; P(E_\rho)\,
+     \int_{\partial^*E_\rho}(V_\rho-\bar V_\rho)^2\,d\mathcal H^{n-1}
+\]
+together with the variance-form bound
+$\int(V_\rho-\bar V_\rho)^2\,d\mathcal H^{n-1}\le C(n,\rstar)\,D_H(t(\rho))$
+(exact identity of \cite{LevelSetIdentity}, controlling $D_H$ by the
+$L^2$ variance of $V_\rho$ around $\bar V_\rho$), and the perimeter
+bound $P(E_\rho)\le C(n,\rstar)$ on $G_{\rm CL}$, give
 \begin{equation}\label{eq:4.3}
-   \Bigl(\int|V_\rho-\bar V_\rho|d\mathcal H^{n-1}\Bigr)^2\le C_{n,\rstar}D_H(t(\rho)).
+   \Bigl(\int|V_\rho-\bar V_\rho|\,d\mathcal H^{n-1}\Bigr)^2
+   \le C_{n,\rstar}\,D_H(t(\rho)).
 \end{equation}
 
 \emph{Bound on (I).} We claim, for each $i$,
 \begin{equation}\label{eq:4.4}
    \Bigl|\int_{\partial^*E_\rho}(x-\zbar)_i\,d\mathcal H^{n-1}\Bigr|
-   \le C_2(n,\rstar)\sqrt{\delta_\rho},
+   \le C_2(n,\rstar)\bigl(\sqrt{\delta_\rho}+\sqrt{\delta_T}\bigr),
 \end{equation}
 with $\delta_\rho:=P(E_\rho)-P(B_\rho)$. To see this, write
 $(x-\zbar)_i=|x-\zbar|(e_r)_i$, and split
 $(e_r)_i=(\nu_E)_i+((e_r)_i-(\nu_E)_i)$.
 
 For the first piece, apply the divergence theorem to the Lipschitz
-field $V^{(i)}(x):=|x-\zbar|\,e_i$ ($W^{1,\infty}$, kink at $\zbar$ is
-$\mathcal H^{n-1}$-null): $\partial_j V^{(i)}_j=(e_r)_i$, so by
+field $V^{(i)}(x):=|x-\zbar|\,e_i$ (where $e_i$ is the $i$-th standard
+basis vector, so $V^{(i)}$ has only its $i$-th component nonzero).
+Hence
+\[
+   \mathrm{div}\,V^{(i)}(x)
+   = \partial_i\,|x-\zbar|
+   = (e_r(x))_i,
+   \qquad e_r(x):=\frac{x-\zbar}{|x-\zbar|}.
+\]
+The kink at $x=\zbar$ is a single point; since $n\ge 2$ this set has
+codimension $\ge 2$, hence is $\mathcal H^{n-1}$-null and contributes no
+singular part to the distributional gradient. By
 \cite[Thm.~15.9]{Maggi2012},
 \begin{equation}\label{eq:4.6}
    \int_{\partial^*E_\rho}|x-\zbar|(\nu_E)_i d\mathcal H^{n-1}
@@ -242,8 +308,21 @@ $\mathcal H^{n-1}$-null): $\partial_j V^{(i)}_j=(e_r)_i$, so by
 \end{equation}
 On $B_\rho(\zbar)$, $\int(e_r)_i=0$ by spherical symmetry. Hence
 $|\int_{E_\rho}(e_r)_i|\le|E_\rho\Delta B_\rho(\zbar)|$. By FMP
-\cite{FMP2010} and the centroid-Fraenkel proximity,
-$|E_\rho\Delta B_\rho(\zbar)|\le C\sqrt{\delta_\rho}$.
+\cite{FMP2010} at the Fraenkel centre $z^{\rm Fr}_\rho$,
+$|E_\rho\Delta B_\rho(z^{\rm Fr}_\rho)|\le C\sqrt{\delta_\rho}$, while
+the centroid--Fraenkel proximity
+$|\zbar-z^{\rm Fr}_\rho|\le C'\sqrt{\delta_T}$ (Remark~\ref{rmk:CFr})
+costs an additional
+$|B_\rho(\zbar)\Delta B_\rho(z^{\rm Fr}_\rho)|
+\le |\zbar-z^{\rm Fr}_\rho|\cdot P(B_\rho)
+\le C''\sqrt{\delta_T}$
+in recentring. Hence
+\[
+   |E_\rho\Delta B_\rho(\zbar)|
+   \le C\bigl(\sqrt{\delta_\rho}+\sqrt{\delta_T}\bigr).
+\]
+On the good set $G_{\rm CL}$, both $\delta_\rho$ and the recentring
+cost $\sqrt{\delta_T}$ are controlled, so the rate is preserved.
 
 For the second piece, $|x-\zbar|\le 3$ and the FJ $L^1$ oscillation
 \cite{FJ2014} at the centroid (with $O(\sqrt{\delta_\rho})$ change-of-centre
@@ -253,34 +332,44 @@ Combining gives \eqref{eq:4.4}.
 
 \emph{Combining.} From \eqref{eq:4.2}, \eqref{eq:4.3}, \eqref{eq:4.4}:
 \[
-   |E_\rho|^2|\bar z_\rho'|^2\le 2C_2^2\delta_\rho+2C_1 D_H,
+   |E_\rho|^2|\bar z_\rho'|^2
+   \le 4C_2^2\,\delta_\rho + 4C_2^2\,\delta_T + 2C_1 D_H,
 \]
-where $C_1=9C_{n,\rstar}$. Use $\delta_\rho\le D_I/(n\omega_n\rstar^{n-1})$
-and $|E_\rho|^2\ge\omega_n^2\rstar^{2n}$ to get \eqref{eq:4.1}.
+where $C_1=9C_{n,\rstar}$ (the $9$ comes from $3^2$ since
+$|x-\zbar|\le 3$ on the bounded reduction). Use
+$\delta_\rho\le D_I/(n\omega_n\rstar^{n-1})$ and
+$|E_\rho|^2\ge\omega_n^2\rstar^{2n}$ to get \eqref{eq:4.1}.
 \end{proof}
 
 \section{Closing the integral}\label{sec:closing}
 
 \begin{proof}[Proof of Theorem~\ref{thm:F}]
-By Lemma~\ref{lem:4.1} and the algebraic identity $D_H+D_I=P(B_\rho)^2|\psi|/(-t')$
-(immediate from \cite{LevelSetIdentity})
-($D_H+D_I=P(B_\rho)^2|\psi|/(-t')$ with $\psi:=-t_B'-(-t')$), and
-the integrated Talenti gap $\int_{\rstar}^{1}|\psi(\rho)|\,d\rho\le K_1\delta$,
-$K_1=2/(\omega_n\rstar^n)$, of \cite{LevelSetIdentity}:
+Split the integral into \(G_{\rm CL}\cup B_{\rm CL}\). On \(G_{\rm CL}\),
+Lemma~\ref{lem:4.1}, \eqref{eq:int-DHDI}, and the finiteness
+$\mu([\rstar,1])<\infty$ give
 \[
-   \int_{\rstar}^{\rho_\delta}|\bar z_\rho'|^2(-t')d\rho
-   \le C_*\int(D_H+D_I)(-t')d\rho
-   =C_*\int P(B_\rho)^2|\psi|d\rho
-   \le C_*(n\omega_n)^2 K_1\delta
-   =:C_{\rm cent}\delta.\qedhere
+   \int_{G_{\rm CL}\cap[\rstar,\rho_\delta]}
+      |\bar z_\rho'|^2\,d\mu(\rho)
+   \le C_*\int_{\rstar}^{1}(D_H+D_I)\,d\mu
+       + C_*\,\delta_T(\Om)\,\mu([\rstar,1])
+   \le C\delta.
 \]
+On \(B_{\rm CL}\), Lemma~\ref{lem:Lip} gives
+\(|\bar z_\rho'|\le L_{\rm cent}\) a.e., while
+\(\mu(B_{\rm CL})\le C\delta\). Hence
+\[
+   \int_{B_{\rm CL}\cap[\rstar,\rho_\delta]}
+      |\bar z_\rho'|^2\,d\mu(\rho)
+   \le L_{\rm cent}^2\mu(B_{\rm CL})\le C\delta.
+\]
+Combining the two estimates proves \eqref{eq:F}.\qedhere
 \end{proof}
 
 \section{Conditionality and remarks}\label{sec:conditionality}
 
 \textbf{Claim: Theorem~\ref{thm:F} is unconditional.} It uses none of:
 the per-$\rho$ pointwise inputs (1.1), (1.2)=(R), (2.4)
-of \texttt{gmt-inputs-for-metric-closure.md} (open in the no-graph regime);
+of the audit-trail markdown note (open in the no-graph regime);
 the pointwise quadratic (B$^2$); Agent 3 (7.1); any
 selection, graph entry, BDV minimiser, Schauder, or Fuglede expansion.
 

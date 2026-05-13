@@ -95,7 +95,7 @@ $t$ \cite{DeGiorgi1958}.
    \qquad
    \beta(t):=\int_{\partial^{*}E_{t}}|\nabla u|\,d\mathcal H^{n-1},
 \]
-defined for a.e.\ $t$ (see Lemma~\ref{lem:coarea}--\ref{lem:flux}), and
+defined for a.e.\ $t$ (see Lemmas~\ref{lem:coarea} and~\ref{lem:flux}), and
 $c_{n}:=n^{2}\omega_{n}^{2/n}$.
 \end{itemize}
 
@@ -309,7 +309,8 @@ a.e.\ $s\in(0,|\Om|)$.
 
 \begin{proof}
 By~\eqref{eq:talenti} $u^{*}\in L^{\infty}(0,|\Om|)$; in particular
-$u^{*}$ is bounded and Borel, hence in $L^{1}(0,|\Om|)$. By
+$u^{*}$ is bounded and Borel, hence in $L^{1}(0,|\Om|)$ (since
+$|\Om|<\infty$). By
 Lemma~\ref{lem:I3a}, $I$ is the indefinite integral of $u^{*}$, so the
 Lebesgue differentiation theorem gives the claim.
 \end{proof}
@@ -317,6 +318,15 @@ Lebesgue differentiation theorem gives the claim.
 \begin{lemma}[Second derivative --- corrected form]\label{lem:I3c}
 The rearrangement $u^{*}$ is absolutely continuous on
 $[s_{0},|\Om|-\eps]$ for every $0<s_{0}<|\Om|-\eps<|\Om|$, and
+
+Two intermediate steps justify the displayed chain below: (a) the
+identity $I''=(u^{*})'$ follows from Lemma~\ref{lem:I3b}
+($I'=u^{*}$) combined with the absolute continuity of $u^{*}$ on
+closed subintervals of $(0,|\Om|)$ (so that the distributional
+derivative of $I'$ coincides with the a.e.\ classical derivative of
+$u^{*}$); and (b) $\alpha(t)>0$ for a.e.\ $t$, since $\alpha=-m'$
+by Lemma~\ref{lem:coarea} and $m$ is strictly decreasing a.e.\ on
+its non-plateau range, so the reciprocal is well defined a.e.
 \begin{equation}\label{eq:L3c}
    I''(s)=(u^{*})'(s)
    =\frac{1}{m'(u^{*}(s))}
@@ -339,7 +349,8 @@ inverse-function theorem for monotone AC functions \cite[Thm.~3.99]{AFP2000},
 \end{proof}
 
 \begin{remark}[Notational fix vs.\ the source note]\label{rem:fix}
-The companion note `level-set-deficit-identity.md' wrote the second
+The companion note `level-set-deficit-identity.md' (audit-trail
+markdown note, not a mathematical reference) wrote the second
 derivative as $I''(s)=-1/a(u^{*}(s))$ with $a(t):=\int_{\partial^{*}E_{t}}
 |\nabla u|$, i.e.\ with $\beta$ in place of $\alpha$. By
 Lemma~\ref{lem:flux} we have $\beta(t)=m(t)$, so this would give
@@ -458,7 +469,8 @@ on $(\eps,L)$:
    =\bigl[s\,G'(s)\bigr]_{\eps}^{L}-\int_{\eps}^{L}G'(s)\,ds
    =L\,G'(L)-\eps\,G'(\eps)-G(L)+G(\eps).
 \]
-By Lemma~\ref{lem:I3b}, $G'(s)=u^{*}(s)+\frac{s^{2/n}}{2n\omega_{n}^{2/n}}$,
+By Lemma~\ref{lem:I3b}, $G'(s)=u^{*}(s)+\frac{s^{2/n}}{2n\omega_{n}^{2/n}}$
+(using $\frac{1+2/n}{4+2n}=\frac{1}{2n}$),
 which is bounded; hence $\eps G'(\eps)\to 0$ and $G(\eps)\to G(0)=0$ as
 $\eps\downarrow 0$. Dividing by $L$ gives the claim.
 \end{proof}
@@ -485,9 +497,24 @@ By Lemma~\ref{lem:I3b}, $I'(L)=u^{*}(L)=0$, so $G'(L)=
     -\frac{1}{L}\int_{\Om}u\,dx
    =\frac{L^{2/n}}{2n(n+2)\omega_{n}^{2/n}}-\frac{1}{L}\int_{\Om}u\,dx.
 \]
-The same computation for $u_{B}$ on $\Om=B$ (where equality holds
-throughout because $D_{H},D_{I}\equiv 0$ on $B$) gives
-$\Gamma(B)=0$, i.e.\
+(Note $4+2n=2(n+2)$, reconciling the constant $1/(4+2n)$ in the
+corrector~\eqref{eq:Gdef} with $1/(2n(n+2))$ here.)
+For the ball $B=B_{R}$ with $|B_{R}|=L$, the torsion function is
+$u_{B}(x)=(R^{2}-|x|^{2})/(2n)$ (so $-\Delta u_{B}=1$, $u_{B}=0$ on
+$\partial B_{R}$). Take $|B|=\omega_{n}$ (so $R=1$, $L=\omega_{n}$,
+$L^{2/n}=\omega_{n}^{2/n}$); direct integration in polar coordinates
+yields
+\[
+   \int_{B_{1}}u_{B}\,dx
+   =\frac{1}{2n}\int_{B_{1}}(1-|x|^{2})\,dx
+   =\frac{1}{2n}\cdot n\omega_{n}\int_{0}^{1}(1-r^{2})r^{n-1}\,dr
+   =\frac{\omega_{n}}{2n(n+2)}.
+\]
+Substituting into $\Gamma$ (still with $L=\omega_{n}$),
+$\frac{1}{L}\int_{B}u_{B}=\frac{1}{2n(n+2)}$ and
+$\frac{L^{2/n}}{2n(n+2)\omega_{n}^{2/n}}=\frac{1}{2n(n+2)}$, hence
+$\Gamma(B)=0$. By scaling, the same conclusion holds for arbitrary
+$L>0$, giving
 $\frac{L^{2/n}}{2n(n+2)\omega_{n}^{2/n}}=\frac{1}{L}\int_{B}u_{B}\,dx$.
 Subtracting,
 \[
@@ -611,17 +638,16 @@ $D_{H}$ from the identity~\eqref{eq:main}. See Remark~\ref{rem:fix}.
 \paragraph{Forward references.} Theorem~\ref{thm:main} is the input
 identity for the rest of the Plan~2 chain. The metric framework
 \cite{MetricFramework} extracts a first-variation/velocity defect from
-the integrated $D_{H}+D_{I}$. The centroid bound
-\cite{CentroidBound} pins the natural centre to the centroid of
-$u$. The space--time identity \cite{SpaceTimeIdentity} squares the
-slicing $T_{1}=T_{1}^{\rm rad,slic}+T_{1}^{\rm tan}$ to convert the
-integrated defect into the (B$^{2}$-int) bound. The weighted metric
-trace \cite{WeightedMetricTrace} promotes integrated action to a
+the integrated $D_{H}+D_{I}$. The weighted metric trace
+\cite{WeightedMetricTrace} uses the levelwise Fusco--Julin centre and
+a good/bad isoperimetric split to promote integrated action to a
 pointwise endpoint at $\widehat\rho$. The boundary-layer transfer
 \cite{BoundaryLayerTransfer} carries control on $E_{\widehat\rho}$ back
 to $\Om$ via Lemma~8.3 of the source note, and the global assembly
 \cite{GlobalAssembly} closes the chain with bounded reduction and the
-Kohler--Jobin transfer to the Faber--Krahn deficit.
+Kohler--Jobin transfer.  The centroid and space--time blocks
+\cite{CentroidBound,SpaceTimeIdentity} remain auxiliary diagnostics for
+the alternate centroid route.
 
 \paragraph{What is genuinely new vs.\ cited.} The BV coarea, the
 divergence theorem on sets of finite perimeter, the rearrangement
@@ -647,7 +673,8 @@ Applications}, Pitman, 1980. Ch.~II.
 
 \bibitem{BBC1975} P.~B\'enilan, H.~Brezis, M.~G.~Crandall,
 \emph{A semilinear equation in $L^{1}(\R^{N})$}, J.~Anal.\ Math.\
-\textbf{27} (1975) (BV chain rule for monotone AC inverses).
+\textbf{27} (1975), pp.~273--299; see Thm.~0.4 and \S1 (BV chain
+rule for monotone AC inverses).
 
 \bibitem{BrothersZiemer1988} J.~E.~Brothers, W.~P.~Ziemer,
 \emph{Minimal rearrangements of Sobolev functions}, J.~Reine
@@ -681,28 +708,32 @@ Univ.\ Press, 1951.
 \emph{Elliptic equations and rearrangements}, Ann.\ Mat.\ Pura Appl.\
 \textbf{110} (1976), 353--372.
 
+\paragraph{Companion blocks (Plan~2 internal cross-references).}
+The following are internal cross-references to sibling Plan~2
+building blocks, not external bibliography.
+
 \bibitem{MetricFramework} \emph{Metric Framework: $\mathcal X$,
 first variation, per-$\rho$ velocity defect}, Plan~2 building block
-\textsc{MetricFramework}.
+\textsc{MetricFramework} (Plan~2 internal).
 
 \bibitem{CentroidBound} \emph{$H^{1}$ centroid bound}, Plan~2 building
-block \textsc{CentroidBound}.
+block \textsc{CentroidBound} (Plan~2 internal).
 
 \bibitem{SpaceTimeIdentity} \emph{Space--time $\Pi$ identity and
 (B$^{2}$-int) via slicing-then-squaring}, Plan~2 building block
-\textsc{SpaceTimeIdentity}.
+\textsc{SpaceTimeIdentity} (Plan~2 internal).
 
 \bibitem{WeightedMetricTrace} \emph{Integrated action to pointwise
 endpoint at $\widehat\rho$}, Plan~2 building block
-\textsc{WeightedMetricTrace}.
+\textsc{WeightedMetricTrace} (Plan~2 internal).
 
 \bibitem{BoundaryLayerTransfer} \emph{Boundary-layer transfer:
 $E_{\widehat\rho}\to\Om$, bounded sharp Saint--Venant}, Plan~2 building
-block \textsc{BoundaryLayerTransfer}.
+block \textsc{BoundaryLayerTransfer} (Plan~2 internal).
 
 \bibitem{GlobalAssembly} \emph{Bounded reduction and Kohler--Jobin
 transfer to sharp Faber--Krahn}, Plan~2 building block
-\textsc{GlobalAssembly}.
+\textsc{GlobalAssembly} (Plan~2 internal).
 
 \end{thebibliography}
 

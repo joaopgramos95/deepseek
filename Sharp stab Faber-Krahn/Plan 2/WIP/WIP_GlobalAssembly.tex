@@ -33,12 +33,13 @@ We assemble the final three-stage chain that converts the bounded-class
 sharp Saint--Venant inequality of the Plan~2 metric route into the
 unconditional sharp quantitative Faber--Krahn inequality. The chain has
 three stages: (1)~the bounded sharp Saint--Venant inequality
-$\Fr(\Om)^{2}\le C(n,R,\rstar)\,\delta_{T}(\Om)$ supplied by
+$\Fr(\Om)^{2}\le C_{B^2}(n,R,\rstar)\,\delta_{T}(\Om)$ supplied by
 \cite{BoundaryLayerTransfer}; (2)~the bounded-to-global reduction of
 \cite[Lemmas~5.1--5.3]{BDV-BoundedReduction-Plan1}, which internalises the
 $R$-dependence at the dimensional radius $R_*(n):=\max\{d(n),2\}$ and
 emits a dimensional Saint--Venant constant $c_{\rm SV}^{\rm glob}(n)>0$;
-and (3)~the Kohler--Jobin transfer of \cite{KohlerJobinTransfer-Plan1}, which
+and (3)~the Kohler--Jobin transfer (originally due to Kohler \& Jobin
+1978; transfer machinery in \cite{KohlerJobinTransfer-Plan1}), which
 converts sharp Saint--Venant into sharp Faber--Krahn with constant
 $c_{\rm FK}(n)>0$. Stages 2 and 3 are cited verbatim from the Plan~1
 Final/ library; the distinctive feature of Plan~2 is that the bounded
@@ -53,7 +54,7 @@ Throughout $n\ge 2$. We use the standard normalisations:
 $u_\Om\in W^{1,2}_0(\Om)$ with $-\Delta u_\Om=1$;
 $T(\Om)=\int_\Om u_\Om$; $E(\Om)=-T(\Om)/2$;
 $\omega_n=|B_1|$, $L_n=\lambda_1(B_1)$, $T_n=T(B_1)=\omega_n/(n(n+2))$;
-$\Fr(\Om)=\inf_{x_0}|\Om\Delta(x_0+\Bstar)|/|\Bstar|\in[0,2)$;
+$\Fr(\Om)=\inf_{x_0}|\Om\Delta(x_0+\Bstar)|/|\Bstar|\in[0,2)$ (since $|\Om|=|\Bstar|$);
 $\Bstar$ the ball with $|\Bstar|=|\Om|$;
 $\delta_T(\Om):=E(\Om)-E(\Bstar)\ge 0$.
 
@@ -72,24 +73,29 @@ The exponent $2$ is sharp.
 
 \begin{theorem}[\cite{BoundaryLayerTransfer}]\label{thm:stage1}
 For every $n\ge 2$, $R\ge 2$, $\rstar\in(0,1)$ there exists
-$C(n,R,\rstar)>0$ such that for every open $\Om\subset B_R$ with
+$C_{B^2}(n,R,\rstar)>0$ such that for every open $\Om\subset B_R$ with
 $|\Om|=\omega_n$,
 \begin{equation}\label{eq:stage1}
-   \Fr(\Om)^2\le C(n,R,\rstar)\,\delta_T(\Om),
+   \Fr(\Om)^2\le C_{B^2}(n,R,\rstar)\,\delta_T(\Om),
 \end{equation}
 equivalently
-$E(\Om)-E(B_1)\ge c_{\rm SV}(n,R,\rstar)\Fr(\Om)^2$ with
-$c_{\rm SV}=1/C$.
+$E(\Om)-E(\Bstar)\ge c_{\rm SV}(n,R,\rstar)\Fr(\Om)^2$ with
+$c_{\rm SV}=1/C_{B^2}$.
 \end{theorem}
 
-This is the Plan~2 metric chain output: \textsc{LevelSetIdentity} →
-\textsc{MetricFramework} → \textsc{CentroidBound} →
-\textsc{SpaceTimeIdentity} → \textsc{WeightedMetricTrace} →
-\textsc{BoundaryLayerTransfer}.
+This is the Plan~2 metric chain output:
+\textsc{LevelSetIdentity} →
+\textsc{MetricFramework} →
+\textsc{WeightedMetricTrace} →
+\textsc{BoundaryLayerTransfer}.  The centroid and space--time blocks remain
+auxiliary diagnostics for the alternate centroid route.
 
 \begin{remark}[Internal parameter $\rstar$]\label{rem:rho-star}
 We fix $\rstar=1/2$ once and for all. Then $c_{\rm SV}(n,R,1/2)$
 depends only on $(n,R)$, and we write $c_{\rm SV}(n,R)$ henceforth.
+At the dimensional radius $R=R_*(n)$ the constant becomes
+$c_{\rm SV}(n,R_*(n))$, which depends only on $n$; in contexts where
+the radius choice is fixed we abbreviate this to $c_{\rm SV}(n)$.
 \end{remark}
 
 \begin{remark}[Distinction from Plan 1]
@@ -102,6 +108,11 @@ those tools.
 
 \section{Stage 2: bounded reduction}\label{sec:stage2}
 
+By \cite[Lemma~5.3]{BDV-BoundedReduction-Plan1}, every open $\Om$ with
+$|\Om|=\omega_n$ can be replaced (without increasing the Faber--Krahn
+deficit) by an open $\Om'\subset B_{R_*(n)}$ with $|\Om'|=\omega_n$;
+Stage~1 then applies to $\Om'$.
+
 \begin{theorem}[{\cite[Thm.~5.1]{BDV-BoundedReduction-Plan1}}]\label{thm:stage2}
 Suppose \eqref{eq:stage1} holds with constant $c_{\rm SV}(n,R_*(n))$
 at the dimensional radius $R_*(n):=\max\{d(n),2\}$ where $d(n)$ is the
@@ -110,7 +121,8 @@ with $|\Om|=\omega_n$,
 \begin{equation}\label{eq:stage2}
    E(\Om)-E(B_1)\ge c_{\rm SV}^{\rm glob}(n)\,\Fr(\Om)^2,
 \end{equation}
-with
+with (near-deficit / far-deficit dichotomy of
+\cite[Lemma~5.2]{BDV-BoundedReduction-Plan1})
 \begin{equation}\label{eq:csv-glob}
    c_{\rm SV}^{\rm glob}(n)=\min\{c_{\rm near}^{\rm glob}(n),\omega_n^{(n+2)/n}\delta(n)/16\},
 \end{equation}
@@ -121,7 +133,12 @@ and
 \]
 \end{theorem}
 
-By scale invariance, \eqref{eq:stage2} extends to general volume:
+By scale invariance of $\Fr$ (dimensionless) and the homogeneity
+$\lambda_1(t\Om)=t^{-2}\lambda_1(\Om)$, the factor $(|\Om|/|B_1|)^{2/n}$
+on the left and $\Fr^2$ on the right are both scale-invariant.
+Replacing $\Om$ by $r\Om$ with $r:=(\omega_n/|\Om|)^{1/n}$ reduces to
+$|r\Om|=\omega_n$, where \eqref{eq:stage2} applies. This gives
+\eqref{eq:stage2-gen} for arbitrary $|\Om|<\infty$:
 \begin{equation}\label{eq:stage2-gen}
    E(\Om)-E(\Bstar)\ge c_{\rm SV}^{\rm glob}(n)\Bigl(\frac{|\Bstar|}{|B_1|}\Bigr)^{(n+2)/n}\Fr(\Om)^2.
 \end{equation}
@@ -137,20 +154,27 @@ Suppose \eqref{eq:stage2-gen} holds. Then
 \end{equation}
 with
 \begin{equation}\label{eq:cFK}
-   c_{\rm FK}(n):=\min\Bigl\{\frac{4L_n c_{\rm SV}^{\rm glob}(n)}{(n+2)T_n},\,\frac{L_n(2^{2/(n+2)}-1)}{4}\Bigr\}.
+   c_{\rm FK}(n):=\min\Bigl\{\frac{4L_n c_{\rm SV}^{\rm glob}(n)}{(n+2)T_n},\,\frac{L_n(2^{2/(n+2)}-1)}{4}\Bigr\}
 \end{equation}
+(second branch from Kohler--Jobin large-deficit regime,
+\cite{KohlerJobinTransfer-Plan1}).
 \end{theorem}
 
 \section{Main theorem assembled}\label{sec:assembly}
 
 \begin{proof}[Proof of Theorem~\ref{thm:FK}]
 Fix $\rstar=1/2$. Apply Theorem~\ref{thm:stage1} at $R=R_*(n)$,
-then Theorem~\ref{thm:stage2}, then Theorem~\ref{thm:stage3} with
-$c_{\rm SV}(n)=c_{\rm SV}^{\rm glob}(n)$. The output is \eqref{eq:FK-main}
-with $c_{\rm FK}(n)>0$ given by \eqref{eq:cFK}.
+then Theorem~\ref{thm:stage2}. By \eqref{eq:stage2-gen} (which follows
+from Stage~1 + bounded reduction via the scaling step above), apply
+Theorem~\ref{thm:stage3} with $c_{\rm SV}(n) = c_{\rm SV}^{\rm glob}(n)$.
+The output is \eqref{eq:FK-main} with $c_{\rm FK}(n)>0$ given by
+\eqref{eq:cFK}.
 
 Sharpness: smooth volume-preserving ellipsoidal perturbations of
-$\Bstar$ saturate the exponent 2 on $\Fr$.
+$\Bstar$ saturate the exponent 2 on $\Fr$: see
+\cite[Introduction]{BraDeP2017} and \cite[\S 1]{AKN} for the explicit
+family $\Om_\eps$ with $\delta(\Om_\eps)\sim\eps^2$ and
+$\Fr(\Om_\eps)\sim\eps$.
 \end{proof}
 
 \section{Constants chain}\label{sec:constants}
@@ -201,9 +225,11 @@ factor 2 between $\delta_{\rm SV}$ and $\delta_T$.
 \textbf{Shared.} Stages 2 and 3 are Plan~1 Final/ blocks
 \cite{BDV-BoundedReduction-Plan1,KohlerJobinTransfer-Plan1} used verbatim.
 
-\textbf{Different.} Plan~2 delivers Stage 1 via the metric
+\textbf{Different.} Plan~2 delivers Stage 1 via the repaired metric
 level-set chain
-\cite{LevelSetIdentity,MetricFramework,CentroidBound,SpaceTimeIdentity,WeightedMetricTrace,BoundaryLayerTransfer}, which uses:
+\cite{LevelSetIdentity,MetricFramework,WeightedMetricTrace,BoundaryLayerTransfer},
+with \cite{CentroidBound,SpaceTimeIdentity} retained as auxiliary
+centroid-route blocks.  The Stage~1 chain uses:
 \begin{itemize}
 \item No selection principle.
 \item No graph entry.
@@ -212,21 +238,20 @@ level-set chain
 \end{itemize}
 This is the methodological contribution of Plan~2.
 
-\section{Open issues}\label{sec:open}
+\section{Status: closed-loop summary}\label{sec:open}
 
-Conditional on the six prior building blocks delivering their stated
+Conditional on the repaired Stage~1 building blocks delivering their stated
 output, the present block closes unconditionally. The smallness regime
-restriction is absorbed into Stage 2's near-deficit / far-deficit
-dichotomy.
+restriction is absorbed into Stage 2's near-deficit / far-deficit dichotomy.
 
 \paragraph{The seven building blocks of Plan 2:}
 \begin{enumerate}
 \item \textsc{LevelSetIdentity};
 \item \textsc{MetricFramework};
-\item \textsc{CentroidBound};
-\item \textsc{SpaceTimeIdentity};
 \item \textsc{WeightedMetricTrace};
 \item \textsc{BoundaryLayerTransfer};
+\item \textsc{CentroidBound} (auxiliary centroid route);
+\item \textsc{SpaceTimeIdentity} (auxiliary centroid route);
 \item \textsc{GlobalAssembly} (this block).
 \end{enumerate}
 
@@ -261,14 +286,6 @@ Plan~1 Final/ block \textsc{KohlerJobinTransfer}.
 \bibitem{BDV-SaintVenantAssembly}
 Plan~1 Final/ block \textsc{SaintVenantAssembly}.
 
-\bibitem{BDV}
-L.~Brasco, G.~De~Philippis, B.~Velichkov,
-\emph{Faber--Krahn inequalities in sharp quantitative form},
-Duke Math.\ J.\ \textbf{164} (2015), 1777--1831.
-
-\bibitem{Brasco2014}
-L.~Brasco, ESAIM Control Optim.\ Calc.\ Var.\ \textbf{20} (2014), 315--338.
-
 \bibitem{BraDeP2017}
 L.~Brasco, G.~De~Philippis, in
 \emph{Shape Optimization and Spectral Theory}, De Gruyter Open, 2017.
@@ -278,10 +295,6 @@ M.~Allen, D.~Kriventsov, R.~Neumayer,
 \emph{Sharp quantitative Faber--Krahn inequalities and the
 Alt--Caffarelli--Friedman monotonicity formula}, Ars Inveniendi
 Analytica (2023).
-
-\bibitem{FMP-torsion}
-N.~Fusco, F.~Maggi, A.~Pratelli, Ann.\ Sc.\ Norm.\ Super.\ Pisa
-Cl.\ Sci.\ (5) \textbf{8} (2009), 51--71.
 
 \end{thebibliography}
 

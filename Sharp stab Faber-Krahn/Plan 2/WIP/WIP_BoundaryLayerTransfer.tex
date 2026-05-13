@@ -28,10 +28,10 @@
 \maketitle
 
 \begin{abstract}
-We close the route-$\delta$ chain by transferring the metric-trace
-estimate at the inner level $\rhad$ back to the original set $\Om$.
-The upstream weighted metric trace
-(\cite{WeightedMetricTrace}) supplies a radius
+We close the route-$\delta$ chain \emph{relative to the upstream metric
+trace input} by transferring the metric-trace estimate at the inner
+level $\rhad$ back to the original set $\Om$.
+The upstream weighted metric trace (\cite{WeightedMetricTrace}) supplies a radius
 $\rhad\in[\rho_\delta-C_*\delta_T,\rho_\delta]$, with
 $\rho_\delta=1-\kappa\sqrt{\delta_T}$, such that
 $d_{\X}(F_{\rhad},B_1)^2\le C_*\,\delta_T(\Om)$. The boundary-layer
@@ -57,7 +57,7 @@ Throughout, $n\ge 2$, $R\ge 2$, $\rstar\in(0,1)$ are fixed.
 $\Om\subset\R^n$ denotes a bounded open set with $|\Om|=\omega_n$ and
 $\Om\subset B_R$. The torsion functional is normalised by
 $\delta_T(\Om):=E(\Om)-E(B_1)\ge 0$.
-The Fraenkel asymmetry is
+The Fraenkel asymmetry (cf.\ \cite{AFP2000}) is
 \[
 \Fr(\Om):=\inf\!\left\{\frac{|\Om\Delta(z+B_1)|}{\omega_n}\;:\;z\in\R^n\right\}\in[0,2).
 \]
@@ -79,9 +79,11 @@ every open $\Om\subset B_R$ with $|\Om|=\omega_n$ satisfies
 \Fr(\Om)^{2}\le C(n,R,\rstar)\,\delta_T(\Om).
 \end{equation}
 The constant $C(n,R,\rstar)$ is polynomial in $1/\rstar$, $R$, $n$
-and the constants of \cite{CentroidBound},
-\cite{SpaceTimeIdentity}, \cite{WeightedMetricTrace}. The exponent
-$2$ is sharp.
+and the constants of \cite{WeightedMetricTrace}. The exponent $2$ is sharp.
+We further assume $\Om$ is open of full measure $|\Om|=\omega_n$
+contained in $B_R$, sufficient that the torsion function
+$u_\Om\in W^{1,2}_0(\Om)$ exists with level sets $E_\rho$ of finite
+perimeter for a.e.\ $\rho$ (\cite{Maggi2012} coarea).
 \end{theorem}
 
 The proof occupies \S\ref{sec:setup}--\S\ref{sec:smallness}: the
@@ -94,18 +96,21 @@ $4/\delta_0$ into $C$.
 \section{The metric-trace input}\label{sec:setup}
 
 We record, in the form needed below, the output of the weighted
-metric trace lemma assembled in \cite{WeightedMetricTrace} from
-\cite{SpaceTimeIdentity} and \cite{CentroidBound}. Set
+metric trace lemma assembled in \cite{WeightedMetricTrace}. Set
 \begin{equation}\label{eq:rho-delta}
 \rho_\delta:=1-\kappa\sqrt{\delta_T(\Om)},
 \end{equation}
 where $\kappa=\kappa(n,\rstar)>0$ is the profile-gap constant fixed
-in \cite[\S5]{SpaceTimeIdentity}; equivalently
+in \cite{LevelSetIdentity}; equivalently
 $\rho_\delta$ is the largest radius for which the profile-gap lower
 bound on the measure $d\mu(\rho)=(-t'(\rho))\,d\rho$ holds (cf.\
 \cite[(5.1)]{LevelSetIdentity}).
 
-\begin{theorem}[Metric trace at $\rhad$; \cite{WeightedMetricTrace}]
+The admissible class of $\Om$ here is the output of the bounded
+reduction \cite{BDV-BoundedReduction-Plan1}, which produces
+$\Om\subset B_{R_*(n)}$ with $|\Om|=\omega_n$.
+
+\begin{theorem}[Metric trace at $\rhad$; upstream input from \cite{WeightedMetricTrace}]
 \label{thm:metric-trace}
 There exist $C_*=C_*(n,R,\rstar)>0$ and
 $\delta_1=\delta_1(n,R,\rstar)>0$ such that for every open
@@ -120,14 +125,13 @@ d_{\X}(F_{\rhad},B_1)^{2}\le C_*\,\delta_T(\Om).
 \end{equation}
 \end{theorem}
 
-\begin{proof}[Reference]
-This is the conclusion of \cite[Theorem on weighted metric trace]{WeightedMetricTrace},
+\paragraph{Reference.}
+This is the conclusion of \cite[Thm.~5.6]{WeightedMetricTrace},
 combining the integrated metric-derivative bound
 \cite[(4.2)]{WeightedMetricTrace} with the profile-gap measure
 \cite[(5.1)]{LevelSetIdentity} and the
 metric Sobolev trace lemma \cite[Lemma~3.1]{WeightedMetricTrace}.
 No additional input is needed here.
-\end{proof}
 
 \begin{remark}\label{rem:asym-as-distance}
 By the definition of $d_{\X}$ and the volume normalisation
@@ -170,7 +174,10 @@ applied on $[\rhad,1]\subset[\rstar,1]$,
 \]
 For $\delta_T(\Om)\le 1$, the second summand is bounded by
 $C_*\sqrt{\delta_T(\Om)}$, giving \eqref{eq:layer-vol} with
-$C_n:=\omega_n n(\kappa+C_*)$. Choosing $\delta_2:=\min\{1,\delta_1\}$
+$C_n:=\omega_n n(\kappa+C_*)$. Equivalently, write $C'_n:=n(\kappa+C_*)$
+so that $C_n=\omega_n C'_n$ and the prefactor in
+\eqref{eq:transfer-rhat} simplifies to $2C'_n$ without
+double-cancellation of $\omega_n$. Choosing $\delta_2:=\min\{1,\delta_1\}$
 ensures both \eqref{eq:rhad-window} and $\delta_T(\Om)\le 1$.
 \end{proof}
 
@@ -210,8 +217,7 @@ Pick $\eps\in(0,L)$ and choose $z\in\R^n$ such that
 |E_t\Delta(z+B_{r_s})|\le s\,\bigl(\Fr(E_t)+\eps\bigr).
 \end{equation}
 We compare $\Om$ to the ball $z+B_1$ of volume $L$. The triangle
-inequality for symmetric differences gives, since
-$z+B_{r_s}\subset z+B_1$ (because $r_s\le 1$),
+inequality for symmetric differences gives
 \begin{equation}\label{eq:tri}
 |\Om\Delta(z+B_1)|\le |\Om\Delta E_t|+|E_t\Delta(z+B_{r_s})|+|(z+B_{r_s})\Delta(z+B_1)|.
 \end{equation}
@@ -254,7 +260,8 @@ difference $|E_t\Delta(z+B_{r_s})|$ is measured at the natural scale
 $s$ of $E_t$, and the cross term to scale $L$ is precisely
 $|B_1\setminus B_{r_s}|$. This is the same combinatorial identity
 used in \cite[Lemma~8.3]{LevelSetIdentity} and in the
-Cicalese--Leonardi $L^1$-rearrangement bookkeeping \cite{Maggi2012}.
+$L^1$-rearrangement bookkeeping in \cite{Maggi2012}
+(see also \cite{FigalliMaggi2011}).
 \end{remark}
 
 \begin{corollary}[Transfer at the level $\rhad$]\label{cor:transfer}
@@ -262,9 +269,10 @@ Let $\Om\subset B_R$ with $|\Om|=\omega_n$,
 $\delta_T(\Om)\le\delta_2$, and let $\rhad$ be as in
 Theorem~\ref{thm:metric-trace}. Then
 \begin{equation}\label{eq:transfer-rhat}
-\Fr(\Om)\le \Fr(E_{\rhad})+\frac{2C_n}{\omega_n}\sqrt{\delta_T(\Om)},
+\Fr(\Om)\le \Fr(E_{\rhad})+2C'_n\sqrt{\delta_T(\Om)},
 \end{equation}
-where $C_n$ is the constant of Lemma~\ref{lem:layer-vol}.
+where $C'_n=n(\kappa+C_*)$ (equivalently $C_n=\omega_n C'_n$) is the
+constant of Lemma~\ref{lem:layer-vol}.
 \end{corollary}
 
 \begin{proof}
@@ -293,16 +301,16 @@ $\delta_T(\Om)\le \delta_0$ satisfies
 \begin{proof}
 Take $\delta_T(\Om)\le\delta_2$ so that
 Corollary~\ref{cor:transfer} applies. Set
-$a:=\Fr(E_{\rhad})$, $b:=\frac{2C_n}{\omega_n}\sqrt{\delta_T(\Om)}$.
+$a:=\Fr(E_{\rhad})$, $b:=2C'_n\sqrt{\delta_T(\Om)}$.
 Then \eqref{eq:transfer-rhat} reads $\Fr(\Om)\le a+b$. Squaring,
 \begin{equation}\label{eq:square}
 \Fr(\Om)^2\le 2a^2+2b^2
-=2\Fr(E_{\rhad})^2+\frac{8C_n^2}{\omega_n^2}\delta_T(\Om).
+=2\Fr(E_{\rhad})^2+8(C'_n)^{2}\,\delta_T(\Om).
 \end{equation}
 By \eqref{eq:Aerho},
 $\Fr(E_{\rhad})^2\le \omega_n^{-2}C_*\delta_T(\Om)$. Substituting,
 \begin{equation}\label{eq:final-const}
-\Fr(\Om)^2\le \frac{2C_*+8C_n^2}{\omega_n^2}\,\delta_T(\Om)
+\Fr(\Om)^2\le \left(\frac{2C_*}{\omega_n^{2}}+8(C'_n)^{2}\right)\delta_T(\Om)
 =:C_3\,\delta_T(\Om).
 \end{equation}
 This proves \eqref{eq:small-delta} with $\delta_0:=\delta_2$. The
@@ -328,29 +336,29 @@ choice is $\theta=1$, giving \eqref{eq:final-const}.
 The constant $C_3=C_3(n,R,\rstar)$ produced by
 Theorem~\ref{thm:small-delta} unwinds as
 \begin{equation}\label{eq:C3-chain}
-C_3=\frac{2C_*+8C_n^2}{\omega_n^2},
+C_3=\frac{2C_*}{\omega_n^{2}}+8(C'_n)^{2},
+\qquad C'_n=n(\kappa+C_*),
 \end{equation}
 where the inputs are:
 
 \begin{itemize}
 \item $C_*=C_*(n,R,\rstar)$: the metric trace constant of
 Theorem~\ref{thm:metric-trace}, supplied by
-\cite[Theorem on weighted metric trace]{WeightedMetricTrace}. By the
-analysis in \cite[\S7]{SpaceTimeIdentity}, $C_*$ is polynomial in
-$(1/\rstar, R, n)$ and linear in the centroid-bound constant
-$C_F=C_F(n,R,\rstar)$ of \cite{CentroidBound}.
+\cite[Theorem on weighted metric trace]{WeightedMetricTrace}. In the
+repaired metric-trace block, $C_*$ is polynomial in
+$(1/\rstar, R, n)$ and in the constants of the Fusco--Julin and
+oriented radial-trace inputs.
 
 \item $C_n=\omega_n n(\kappa+C_*)$ from Lemma~\ref{lem:layer-vol},
 where $\kappa=\kappa(n,\rstar)$ is the profile-gap constant of
-\cite[\S5]{SpaceTimeIdentity}.
+\cite{LevelSetIdentity}.
 
 \item $\omega_n=|B_1|$ is purely dimensional.
 \end{itemize}
 
-In particular, $C_3$ is polynomial in
-$(1/\rstar, R, n, C_F)$ and \emph{tracks linearly} in the new structural
-input $C_F$ from the centroid bound. Specialising to $R=R_*(n)$ (the
-bounded reduction radius) and $\rstar=1/2$ as in
+In particular, $C_3$ is polynomial in $(1/\rstar, R, n)$ and in the
+explicit constants of the repaired metric trace. Specialising to
+$R=R_*(n)$ (the bounded reduction radius) and $\rstar=1/2$ as in
 \cite{WeightedMetricTrace}, $C_3$ depends only on $n$.
 
 \begin{remark}[Sharpness of the dependence]
@@ -358,15 +366,16 @@ The polynomial dependence on $1/\rstar$ enters through (i) the
 profile-gap constant in \cite[(5.1)]{LevelSetIdentity}; (ii) the
 Cauchy--Schwarz bookkeeping in the metric derivative bound
 \cite[(2.4),(4.2)]{WeightedMetricTrace}; and (iii) the
-oscillation-index input to the homothetic velocity defect
-\cite{SpaceTimeIdentity}. None of these can be improved beyond
+Fusco--Julin/oriented-radial-trace input to the homothetic velocity defect
+\cite{WeightedMetricTrace}. None of these can be improved beyond
 polynomial without altering the upstream construction.
 \end{remark}
 
 \section{Smallness regime parametrisation and the global bound}
 \label{sec:smallness}
 
-Theorem~\ref{thm:small-delta} closes the small-$\delta_T$ regime.
+Theorem~\ref{thm:small-delta} closes the small-$\delta_T$ regime
+relative to the upstream metric-trace input.
 For the complementary regime $\delta_T(\Om)\ge\delta_0$, the trivial
 bound $\Fr(\Om)<2$ suffices.
 
@@ -387,7 +396,7 @@ $\Fr(\Om)^2\le 4\le 4\delta_T(\Om)/\delta_0$.
 
 \begin{remark}[Alternative via FMP]\label{rem:FMP}
 A second proof of \eqref{eq:large-delta} uses the FMP quantitative
-isoperimetric/Saint--Venant inequality \cite{FMP2010,Maggi2012} applied
+isoperimetric/Saint--Venant inequality \cite{FMP2008,Maggi2012} applied
 to $\Om$ itself: $\Fr(\Om)^4\le C_{\rm FMP}\delta_T(\Om)$, which on
 $\delta_T(\Om)\ge\delta_0$ implies a quadratic bound with constant
 $C'_{\rm FMP}/\delta_0^{1/2}$. The bound via $\Fr<2$ is sharper for
@@ -405,8 +414,10 @@ C(n,R,\rstar):=\max\!\left\{C_3(n,R,\rstar),\frac{4}{\delta_0(n,R,\rstar)}\right
 \end{equation}
 proves \eqref{eq:main} on the whole admissible class.
 
-Sharpness of the exponent~$2$ is the standard ellipsoidal saturation
-of \cite[Introduction]{BDV}: along the family of
+Sharpness of the exponent~$2$ is the standard ellipsoidal saturation:
+e.g., \cite[Introduction]{BraDeP2017} shows
+$\delta_T(\Om_\eps)\sim\eps^2$ for the ellipsoidal one-parameter family
+$\Om_\eps$. Along this family of
 volume-preserving ellipsoidal perturbations $\Om_\eps$ of $B_1$,
 $\Fr(\Om_\eps)\sim\eps$ and $\delta_T(\Om_\eps)\sim\eps^2$ to second
 order, so any bound $\Fr(\Om)^p\le C\delta_T(\Om)$ requires $p\ge 2$.
@@ -414,10 +425,10 @@ order, so any bound $\Fr(\Om)^p\le C\delta_T(\Om)$ requires $p\ge 2$.
 
 \begin{remark}[How this slots into \textsc{GlobalAssembly}]
 \label{rem:downstream}
-Theorem~\ref{thm:main} is precisely the input to the bounded
-reduction step of \cite[Theorem~5.1]{BDV-BoundedReduction-Plan1},
-specialised to $R=R_*(n)$. Together with the Kohler--Jobin transfer
-of \cite[Theorem~6.1]{KohlerJobinTransfer-Plan1}, it yields the
+Theorem~\ref{thm:main} is precisely the input to the bounded reduction
+step of \cite[Theorem~5.1]{BDV-BoundedReduction-Plan1}, specialised to
+$R=R_*(n)$. Together with the Kohler--Jobin transfer of
+\cite[Theorem~6.1]{KohlerJobinTransfer-Plan1}, it yields the
 sharp quantitative Faber--Krahn inequality
 \[
 \bigl(|\Om|/|B_1|\bigr)^{2/n}\bigl(\lambda_1(\Om)-\lambda_1(B^*)\bigr)
@@ -430,9 +441,7 @@ as assembled in \cite[\S6]{GlobalAssembly}.
 The boundary-layer transfer is the last \emph{geometric} step in the
 route-$\delta$ chain. Upstream, \cite{LevelSetIdentity} provides the
 exact deficit identity, \cite{MetricFramework} the metric first
-variation, \cite{CentroidBound} the H$^1$-in-$\rho$ centroid bound,
-\cite{SpaceTimeIdentity} the integrated profile-gap (B$^2$-int)
-inequality, and \cite{WeightedMetricTrace} the metric trace at
+variation, and \cite{WeightedMetricTrace} the metric trace at
 $\rhad$. The present block does \emph{not} use any pointwise (R)-type
 input, only the metric trace \eqref{eq:metric-trace} and the elementary
 triangle inequality of \S\ref{sec:transfer}. In particular, no
@@ -454,13 +463,11 @@ defect.
 
 \bibitem{CentroidBound}
 Plan~2 building block \textsc{CentroidBound}.
-H$^1$-in-$\rho$ Fraenkel-centroid bound (the new structural input);
-constant $C_F=C_F(n,R,\rstar)$.
+Auxiliary centroid estimates for the alternative space--time route.
 
 \bibitem{SpaceTimeIdentity}
 Plan~2 building block \textsc{SpaceTimeIdentity}.
-Space-time $\Pi$ identity; integrated (B$^2$-int) inequality via
-slicing-then-squaring; profile-gap measure constant $\kappa$.
+Space-time $\Pi$ identity and auxiliary centroid-route diagnostics.
 
 \bibitem{WeightedMetricTrace}
 Plan~2 building block \textsc{WeightedMetricTrace}.
@@ -474,15 +481,15 @@ Bounded reduction + Kohler--Jobin transfer; final sharp Faber--Krahn
 inequality.
 
 \bibitem{BDV-BoundedReduction-Plan1}
-\texttt{Final/BoundedReduction.tex}.
+\texttt{Final/BoundedReduction.tex} (Plan~1 import).
 Bounded reduction theorem at $R=R_*(n)$.
 
 \bibitem{KohlerJobinTransfer-Plan1}
-\texttt{Final/KohlerJobinTransfer.tex}.
+\texttt{Final/KohlerJobinTransfer.tex} (Plan~1 import).
 Kohler--Jobin transfer from sharp Saint--Venant to sharp
 Faber--Krahn.
 
-\bibitem{FMP2010}
+\bibitem{FMP2008}
 N.~Fusco, F.~Maggi, A.~Pratelli,
 \emph{The sharp quantitative isoperimetric inequality},
 Ann.\ of Math.\ \textbf{168} (2008), 941--980.
@@ -498,6 +505,22 @@ Cambridge University Press (2012).
 L.~Brasco, G.~De~Philippis, B.~Velichkov,
 \emph{Faber--Krahn inequalities in sharp quantitative form},
 Duke Math.\ J.\ \textbf{164} (2015), 1777--1831 (arXiv:1306.0392).
+
+\bibitem{BraDeP2017}
+L.~Brasco, G.~De~Philippis,
+\emph{Spectral inequalities in quantitative form},
+in: \emph{Shape Optimization and Spectral Theory},
+A.~Henrot (ed.), De Gruyter Open (2017), 201--281.
+
+\bibitem{AFP2000}
+L.~Ambrosio, N.~Fusco, D.~Pallara,
+\emph{Functions of bounded variation and free discontinuity problems},
+Oxford Mathematical Monographs, Oxford University Press (2000).
+
+\bibitem{FigalliMaggi2011}
+A.~Figalli, F.~Maggi,
+\emph{On the shape of liquid drops and crystals in the small mass regime},
+Arch.\ Ration.\ Mech.\ Anal.\ \textbf{201} (2011), 143--207.
 
 \end{thebibliography}
 

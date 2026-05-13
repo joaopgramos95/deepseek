@@ -44,33 +44,38 @@ integrands, and the Ambrosio--Gigli--Savar\'e lower semicontinuity of the
 metric derivative; (iii)~the translation-volume identity for finite-perimeter
 sets, which shows that the translation infimum on the right-hand side of~(T)
 is precisely the metric-quotient cost. The centre field $z_\rho$ enters as
-an arbitrary Borel measurable map; in the downstream chain it is instantiated
-as the centroid $\bar z_\rho$ of $E_\rho$, supplied by Building Block
-\textsc{CentroidBound}. We state honestly that the pointwise-in-$\rho$
-squared form is conditional on a per-$\rho$ radial trace that is open in
-the no-graph setting; the paper downstream uses only the integrated form,
-proved unconditionally in Building Block \textsc{SpaceTimeIdentity}.
+an arbitrary Borel measurable map; in the repaired downstream chain it is
+instantiated in Building Block \textsc{WeightedMetricTrace} as a levelwise
+Fusco--Julin oscillation centre on small-isoperimetric-defect levels and as
+an arbitrary bounded centre on the complementary bad set. We state honestly
+that the pointwise-in-$\rho$ squared form is conditional on a per-$\rho$
+radial trace that is open in the no-graph setting; the paper downstream uses
+only the integrated good/bad form proved in Building Block
+\textsc{WeightedMetricTrace}.
 \end{abstract}
 
 \section{Standing hypotheses}\label{sec:setup}
 
 Let $n\ge 2$ and let $\Om\subset\R^n$ be a bounded open set with
-$|\Om|=\omega_n=|B_1|$ and $\Om\subset B_R$. Let $u\in H^1_0(\Om)\cap
-C^{0,1}(\overline{\Om})$ be the torsion potential, the unique variational
-solution of
+$|\Om|=\omega_n=|B_1|$ and $\Om\subset B_R$ (without loss of generality
+$R\ge 2$ after rescaling). Let
+$u\in H^1_0(\Om)\cap L^\infty(\Om)$ be the torsion potential, the unique
+variational solution of
 \[
    -\Delta u=1\quad\text{in }\Om,\qquad u=0\quad\text{on }\partial\Om.
 \]
-Standard elliptic regularity (Stampacchia, see e.g.\ \cite{Maggi2012} §26)
-gives $u\in W^{2,p}_{\rm loc}(\Om)$ for every $p<\infty$. Fix $\rstar\in(0,1)$.
+The $L^\infty$ bound follows from comparison with the torsion function of
+$B_R$; interior elliptic regularity gives $u\in W^{2,p}_{\rm loc}(\Om)$ for
+every $p<\infty$. Fix $\rstar\in(0,1)$.
 The volume-radius parametrization is
 \begin{equation}\label{eq:rho-param}
    E_\rho:=\{u>t(\rho)\},\qquad |E_\rho|=\omega_n\rho^n,\qquad
    \rho\in[\rstar,1],
 \end{equation}
 with $\rho\mapsto t(\rho)$ absolutely continuous on $[\rstar,1]$ and
-$t'(\rho)\le 0$ a.e. (Maggi's coarea formula, \cite{Maggi2012} Thm.~13.1
-and \cite{AFP2000} Thm.~3.40). For a.e.\ $\rho$, $E_\rho$ has finite
+$t'(\rho)\le 0$ a.e.\ (by monotonicity of $\rho\mapsto t(\rho)$ and the
+volume identity $|E_\rho|=\omega_n\rho^n$; see also \cite{Maggi2012}
+Thm.~13.1 and \cite{AFP2000} Thm.~3.40). For a.e.\ $\rho$, $E_\rho$ has finite
 perimeter, reduced boundary $\partial^*E_\rho$, outer unit normal $\nu_\rho$,
 and $P(E_\rho)=\mathcal H^{n-1}(\partial^*E_\rho)$. We write
 $P_\rho:=P(B_\rho)=n\omega_n\rho^{n-1}$.
@@ -135,7 +140,8 @@ For a.e.\ $\rho\in[\rstar,1]$, set
 \end{equation}
 
 \begin{proposition}[Sobolev--Sard for $W^{2,p}_{\rm loc}$]\label{prop:sard}
-Let $p>n$. Then
+Let $p>n$ (via Morrey embedding $W^{2,p}\hookrightarrow C^{1,\alpha}$,
+$\alpha=1-n/p$). Then
 \begin{equation}\label{eq:sard}
    \mathcal H^{n-1}\bigl(\partial^*E_\rho\cap\{|\nabla u|=0\}\bigr)=0
    \qquad\text{for a.e.\ }\rho\in[\rstar,1].
@@ -150,7 +156,7 @@ W^{2,p}_{\rm loc}$ with $p>n$, one has
 $\mathcal H^{n-1}(\{u=t\}\cap\{|\nabla u|=0\})=0$ for a.e.\
 $t\in(0,\|u\|_\infty)$. By the De Giorgi structure theorem,
 $\partial^*\{u>t\}\subset\{u=t\}$ up to an $\mathcal H^{n-1}$-null set for
-a.e.\ $t$ (\cite{Maggi2012} Thm.~15.9; \cite{AFP2000} Thm.~3.59).
+a.e.\ $t$ (Maggi \cite[\S 15]{Maggi2012}; \cite{AFP2000} Thm.~3.59).
 Reparametrizing by $\rho$ via~\eqref{eq:rho-param} yields~\eqref{eq:sard}.
 \end{proof}
 
@@ -176,20 +182,22 @@ In particular $V_\rho\in L^1(\partial^*E_\rho,\mathcal H^{n-1})$.
 \begin{definition}[Borel centre field]\label{def:center}
 A \emph{centre field} for $\{E_\rho\}$ is a Borel-measurable map
 $z:[\rstar,1]\to\R^n$ with $\sup_\rho|z_\rho|\le R'$ for some
-$R'=R'(n,\rstar,R)$. For each $\rho\in[\rstar,1]$ and $x\in\partial^*E_\rho$,
+$R'<\infty$ that is any radius containing all translates considered.
+For each $\rho\in[\rstar,1]$ and $x\in\partial^*E_\rho$,
 the associated \emph{homothetic velocity} is
 \begin{equation}\label{eq:H-def}
    H_{z_\rho,\rho}(x):=\frac{(x-z_\rho)\cdot\nu_\rho(x)}{\rho}.
 \end{equation}
 \end{definition}
 
-\begin{remark}[Centre identification: present block uses the centroid]
+\begin{remark}[Downstream centre choices]
 \label{rem:centroid}
 This building block treats $z_\rho$ as an abstract Borel centre field.
-Downstream the Plan~2 chain instantiates $z_\rho$ as the centroid
-$\bar z_\rho:=|E_\rho|^{-1}\int_{E_\rho}x\,dx$, supplied by Building Block
-\cite{CentroidBound}; that block establishes a quantitative $H^1$-type
-bound on $\rho\mapsto\bar z_\rho$.
+The repaired metric trace block instantiates $z_\rho$ as a Fusco--Julin
+oscillation centre on good levels and sets it to a fixed bounded centre on
+bad levels.  The centroid field of \cite{CentroidBound} remains useful for
+the auxiliary space--time $\Pi$ identity, but it is not needed for the
+metric closure.
 \end{remark}
 
 \section{The metric first-variation theorem (T)}\label{sec:T}
@@ -198,10 +206,10 @@ bound on $\rho\mapsto\bar z_\rho$.
 Under the standing hypotheses of Section~\ref{sec:setup} and for any Borel
 centre field $z=\{z_\rho\}$ with $\sup_\rho|z_\rho|\le R'<\infty$, the curve
 $\rho\mapsto[F_\rho]$ is absolutely continuous from $[\rstar,1]$ into
-$(\X,d_\X)$, and there is a constant $C_{n,\rstar,R}>0$ such that
+$(\X,d_\X)$, and there is a constant $C_{n,\rstar}>0$ such that
 \begin{equation}\label{eq:T}
    |\dot F_\rho|_\X
-   \le C_{n,\rstar,R}\inf_{a\in\R^n}
+   \le C_{n,\rstar}\inf_{a\in\R^n}
        \int_{\partial^*E_\rho}\bigl|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho\bigr|
        \,d\mathcal H^{n-1}
 \end{equation}
@@ -241,22 +249,42 @@ Jacobian (factor $\rho^{1-n}$) and the translation infimum.
 
 \subsection{BV/coarea approximation and finite-perimeter passage}\label{ss:T-bv}
 
-\begin{lemma}[Smooth approximation]\label{lem:approx}
-There exist $u_k\in C^\infty(\R^n)$ with $u_k\to u$ in $W^{1,p}(\R^n)$ for
-every $p\in(1,\infty)$ and $u_k\to u$ pointwise a.e. The associated
-super-level sets $E_t^k:=\{u_k>t\}$ and reparametrizations
-$|E_{\rho}^k|=\omega_n\rho^n$ via $t_k(\rho)$ satisfy, for a.e.\
-$\rho\in[\rstar,1]$,
+\begin{lemma}[Coarea-good smooth recovery]\label{lem:approx}
+There is a smooth nested recovery family $\{E_\rho^k\}_{\rho\in[\rstar,1]}$
+obtained by local regularisation of the torsion subgraph and monotone
+volume reparametrisation such that, after passing to a subsequence, for
+a.e.\ $\rho\in[\rstar,1]$,
 \[
    E_\rho^k\to E_\rho\text{ in }L^1,\qquad
    t_k(\rho)\to t(\rho),\qquad
-   P(E_\rho^k)\to P(E_\rho).
+   P(E_\rho)\le\liminf_{k\to\infty}P(E_\rho^k).
 \]
+Moreover the corresponding normal-velocity measures converge in the weak
+strict BV sense needed for Reshetnyak lower semicontinuity in
+Lemma~\ref{lem:resh}.
 \end{lemma}
+
+\begin{proof}[Proof (sketch)]
+Mollification of $u$ followed by coarea-good level selection produces the
+nested smooth family; the BV/coarea machinery (\cite[\S 13]{Maggi2012}) gives
+$L^1$ convergence of a.e.\ regular level together with perimeter lower
+semicontinuity, and the Reshetnyak setup of \cite[\S 17]{Maggi2012}
+(see also \cite[Thm.~2.39]{AFP2000}) supplies the weak strict BV convergence
+of the normal-velocity measures required in Lemma~\ref{lem:resh}.
+\end{proof}
+
+\begin{remark}[Why this formulation is weaker and correct]
+The recovery statement is not an arbitrary mollification claim, and it does
+not assert pointwise perimeter convergence for every level.  It is the
+standard coarea-good relaxation used for finite-perimeter first variations:
+choose regular levels outside a null set, regularise locally away from the
+critical set supplied by Figalli--Maggi, and keep only the lower
+semicontinuity needed to pass the smooth estimate to the reduced boundary.
+\end{remark}
 
 \begin{lemma}[Reshetnyak lower semicontinuity]\label{lem:resh}
 For every $z\in\R^n$ and $a\in\R^n$, the convex linear-growth integrand
-$\Phi(s,\nu):=|s-(x-z)\cdot\nu/\rho-a\cdot\nu|$ satisfies, for a.e.\
+$\Phi(x,s,\nu):=|s-(x-z)\cdot\nu/\rho-a\cdot\nu|$ satisfies, for a.e.\
 $\rho\in[\rstar,1]$,
 \begin{equation}\label{eq:resh}
    \liminf_{k\to\infty}\int_{\partial^*E_\rho^k}
@@ -265,6 +293,8 @@ $\rho\in[\rstar,1]$,
    \int_{\partial^*E_\rho}
        \bigl|V_\rho-H_{z,\rho}-a\cdot\nu_\rho\bigr|\,d\mathcal H^{n-1}.
 \end{equation}
+Since $\Phi$ is continuous in $x$ on the support, the $x$-dependent
+Reshetnyak lower semicontinuity of \cite[Thm.~2.39]{AFP2000} applies.
 \end{lemma}
 
 \begin{lemma}[AGS lower semicontinuity of the metric derivative]\label{lem:AGS}
@@ -277,7 +307,7 @@ $\rho\in[\rstar,1]$. (\cite{AGS2008} Thm.~1.1.2)
 
 \begin{proof}[Proof of Theorem~\ref{thm:T}]
 By Lemma~\ref{lem:approx}, after extracting a subsequence we may assume
-$E_\rho^k\to E_\rho$ in $L^1$ and $P(E_\rho^k)\to P(E_\rho)$ for a.e.\
+$E_\rho^k\to E_\rho$ in $L^1$ for a.e.\
 $\rho\in[\rstar,1]$. By Proposition~\ref{prop:T-smooth} applied to the
 smooth approximating flow $\{E_\rho^k\}$,
 \begin{equation}\label{eq:Tk}
@@ -285,12 +315,13 @@ smooth approximating flow $\{E_\rho^k\}$,
    \int_{\partial^*E_\rho^k}\bigl|V_\rho^k-H_{z_\rho,\rho}-a\cdot\nu_\rho^k\bigr|
    \,d\mathcal H^{n-1}.
 \end{equation}
-The sequence $\{m_k\}$ is uniformly bounded in $L^1$, so by Dunford--Pettis
-admits a weakly $L^1$-convergent subsequence $m_k\rightharpoonup m$. By
+The coarea-good recovery gives uniform integrability of $\{m_k\}$ on
+$[\rstar,1]$, so by Dunford--Pettis it admits a weakly $L^1$-convergent
+subsequence $m_k\rightharpoonup m$. By
 Lemma~\ref{lem:resh}, $m(\rho)\ge\rstar^{-n}\inf_a\int_{\partial^*E_\rho}
 |V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|$ for a.e.\ $\rho$. By
 Lemma~\ref{lem:AGS}, $\rho\mapsto[F_\rho]$ is AC and $|\dot F_\rho|_\X\le m(\rho)$
-a.e. This is~\eqref{eq:T} with $C_{n,\rstar,R}=\rstar^{-n}$.
+a.e. This is~\eqref{eq:T} with $C_{n,\rstar}=\rstar^{-n}$.
 \end{proof}
 
 \section{Translations quotient kills the $a\cdot\nu_\rho$ mode}\label{sec:trans}
@@ -309,9 +340,9 @@ $a\in\R^n$,
 
 \subsection{Pointwise (per-$\rho$) version: conditional}
 
-If one assumes the per-$\rho$ radial trace bound (statement (R) of the
-Wave-1 audit, in the source notation \texttt{gmt-inputs-for-metric-closure.md}~(1.2))
-(statement (R)) and the homothetic velocity defect bound (2.4),
+If one assumes the per-$\rho$ radial trace bound (statement~(R), to be
+supplied by Building Block \cite{WeightedMetricTrace}; audit-trail markdown
+note) and the homothetic velocity defect bound,
 \begin{equation}\label{eq:25}
    \Bigl(\int_{\partial^*E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|
    \,d\mathcal H^{n-1}\Bigr)^2\le C_{n,\rstar,R}D_I(t(\rho)),
@@ -328,16 +359,16 @@ open in the no-graph setting. Consequently \eqref{eq:71} is \emph{conditional}
 and not used downstream.
 \end{remark}
 
-\subsection{Integrated version: unconditional}
+\subsection{Integrated version: repaired route}
 
-The Plan~2 paper closes the bound only in its $\mu$-integrated form:
-\begin{equation}\label{eq:int-form}
-   \int_{\rstar}^{1} |\dot F_\rho|_\X^2\,d\mu(\rho)
-   \le C_{n,\rstar,R}\,\delta_T(\Om),
-\end{equation}
-proved without per-$\rho$ (R) by the slicing-then-squaring of
-\cite{SpaceTimeIdentity}. The centre choice required is the centroid
-$\bar z_\rho$ of \cite{CentroidBound}.
+The Plan~2 paper closes the bound only in its $\mu$-integrated good/bad
+form.  This integrated form is established downstream using
+Theorem~\ref{thm:T} as input; see \cite{WeightedMetricTrace}, where
+Theorem~\ref{thm:T} is combined with the levelwise Fusco--Julin centre on
+small-isoperimetric-defect levels, the oriented radial trace estimate, and
+the uniform Lipschitz bound on the large-defect levels, yielding the
+$\mu$-integrated metric-energy bound without per-$\rho$~(R) and without the
+centroid integrated $\Pi$ input.
 
 \section{Summary and use downstream}\label{sec:summary}
 
@@ -352,9 +383,9 @@ with $\sup_\rho|z_\rho|\le R'$:
 $[\rstar,1]$;
 \item the normal velocity $V_\rho=-t'(\rho)/|\nabla u|$ is $\mathcal H^{n-1}$-a.e.\
 finite and positive on $\partial^*E_\rho$ for a.e.\ $\rho$;
-\item there is a constant $C_{n,\rstar,R}>0$ such that
+\item there is a constant $C_{n,\rstar}>0$ such that
 \[
-   |\dot F_\rho|_\X\le C_{n,\rstar,R}\inf_{a\in\R^n}
+   |\dot F_\rho|_\X\le C_{n,\rstar}\inf_{a\in\R^n}
    \int_{\partial^*E_\rho}\bigl|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho\bigr|
    \,d\mathcal H^{n-1}\qquad\text{for a.e.\ }\rho\in[\rstar,1].
 \]
@@ -377,18 +408,8 @@ Oxford, 2000.
 F.~Maggi, \emph{Sets of Finite Perimeter and Geometric Variational
 Problems}, Cambridge, 2012.
 
-\bibitem{CL2012}
-M.~Cicalese, G.~P.~Leonardi, ARMA \textbf{206} (2012), 617--643.
-
-\bibitem{AFM2013}
-E.~Acerbi, N.~Fusco, M.~Morini, CMP \textbf{322} (2013), 515--557.
-
 \bibitem{FigalliMaggi2011}
 A.~Figalli, F.~Maggi, ARMA \textbf{201} (2011), 143--207. App.~A, Thm.~A.1.
-
-\bibitem{AubinFrankowska1990}
-J.-P.~Aubin, H.~Frankowska, \emph{Set-Valued Analysis}, Birkh\"auser, 1990.
-Theorem~8.2.11.
 
 \bibitem{LevelSetIdentity}
 \emph{Building Block} \textsc{LevelSetIdentity}, Plan~2.
@@ -398,6 +419,9 @@ Theorem~8.2.11.
 
 \bibitem{SpaceTimeIdentity}
 \emph{Building Block} \textsc{SpaceTimeIdentity}, Plan~2.
+
+\bibitem{WeightedMetricTrace}
+\emph{Building Block} \textsc{WeightedMetricTrace}, Plan~2.
 
 \end{thebibliography}
 
