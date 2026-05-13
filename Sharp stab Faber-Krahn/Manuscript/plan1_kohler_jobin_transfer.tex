@@ -1,0 +1,762 @@
+% UNIFIED 2026-05-13
+% SOURCE MAP:
+%   - Plan 1/faber-krahn-transfer.tex          (Kohler--Jobin transfer; constants c_1, c_2)
+%   - Plan 1/faber-krahn-transfer.md           (same, prose version)
+%   - Final/BoundedReduction.tex               (BDV truncation; c_SV(n,R) -> c_SV^{glob}(n))
+%   - Final/KohlerJobinTransfer.tex            (canonical scale-invariant statement)
+%   - Manuscript/00_notation_register.md       (n, R_*(n), delta_T, delta_FK, A=Fraenkel)
+%   - Manuscript/source_map.md  §D.4           (this subsection's items D4.1-D4.6)
+%
+% Inputs consumed from earlier subsections of 02_plan1_draft.tex:
+%   - Agent 7 (NearlySphericalClosure / SaintVenantAssembly), Theorem (SV-bounded):
+%        E(\Om)-E(B_1) \ge c_{\rm SV}(n,R)\,\Fr(\Om)^2
+%     for every open \Om \subset B_R with |\Om|=\omega_n, where R\ge 2.
+%
+% Notation register:
+%   - dimension is n (N converted);
+%   - \Fr := Fraenkel asymmetry (\mathcal A);
+%   - \deltaT(\Om) := E(\Om)-E(B^*) (BDV-normalised, E=-T/2);
+%   - \deltaFK(\Om) := (|\Om|/\omega_n)^{2/n}(\lambda_1(\Om)-\lambda_1(B^*));
+%   - L_n := \lambda_1(B_1), T_n := T(B_1) = \omega_n/(n(n+2)).
+%
+% Output of this subsection:
+%   - Theorem (BR): global sharp Saint--Venant, c_{\rm SV}^{\rm glob}(n);
+%   - Theorem (KJ-FK): \Fr(\Om)^2 \le C_{\rm FK}(n)\,\deltaFK(\Om).
+%
+% This file is intended to be the final subsection of Manuscript/02_plan1_draft.tex
+% and is integrated by Agent 19.
+
+\subsection{Bounded reduction and the Kohler--Jobin transfer to Faber--Krahn}
+\label{sec:plan1-kj-transfer}
+
+This subsection closes Plan~1. The input is the bounded sharp
+Saint--Venant inequality of Agent~7 (Theorem~\ref{thm:SV-bounded}).
+Three steps follow:
+\begin{enumerate}
+\item[(i)] \emph{Bounded reduction}
+(\S\ref{ssec:bounded-reduction}). Using the constructive BDV
+truncation lemma, we replace an arbitrary open
+$\Om\subset\R^n$ with finite measure by a translate that lies in a
+ball of \emph{dimensional} radius $R_*(n)$, while controlling the loss
+of both the Saint--Venant deficit and the Fraenkel asymmetry. This
+removes the $R$-dependence from the Saint--Venant constant.
+\item[(ii)] \emph{Kohler--Jobin inequality}
+(\S\ref{ssec:kj-inequality}). We state the scale-invariant comparison
+$T(\Om)\,\lambda_1(\Om)^{(n+2)/2}\ge T_n L_n^{(n+2)/2}$ and derive the
+pointwise lower bound for $\lambda_1(\Om)-L$ in terms of the torsion
+deficit.
+\item[(iii)] \emph{Final Plan~1 theorem}
+(\S\ref{ssec:plan1-final}). Combining (i) and (ii) yields the sharp
+quantitative Faber--Krahn inequality in the canonical normalisation of
+the notation register,
+\[
+\Fr(\Om)^2 \le C_{\rm FK}(n)\,\deltaFK(\Om),
+\]
+with $C_{\rm FK}(n)$ depending only on the dimension.
+\end{enumerate}
+
+\subsubsection*{Standing input from Plan~1, Agent~7.}
+
+\begin{theorem}[Bounded sharp Saint--Venant; Agent~7, item D3.8]
+\label{thm:SV-bounded}
+For every $n\ge 2$ and every $R\ge 2$ there is a constant
+$c_{\rm SV}(n,R)>0$, explicit in the BDV constants of the
+selection / graph entry / nearly-spherical chain, such that
+\begin{equation}\label{eq:SV-bounded}
+\deltaT(\Om) \;=\; E(\Om)-E(B_1) \;\ge\; c_{\rm SV}(n,R)\,\Fr(\Om)^2
+\end{equation}
+for every open set $\Om\subset B_R$ with $|\Om|=\omega_n$.
+\end{theorem}
+
+The hypothesis $|\Om|=\omega_n$ is the standing volume normalisation
+of the chain; we will remove it by scaling at the end
+(Remark~\ref{rem:scale-removal}).
+
+% =====================================================================
+\subsubsection{Bounded reduction: removing the $R$-dependence}
+\label{ssec:bounded-reduction}
+% =====================================================================
+
+The bounded reduction is the BDV truncation argument
+\cite[Lemmas~5.1--5.3]{BDV}. It is constructive: a De~Giorgi
+$L^\infty$ iteration is combined with an energy cut-off competitor;
+no compactness, no minimising sequence, and no contradiction step is
+used. The end product is a bounded surrogate $\Otilde$ of $\Om$ inside
+a dimensional ball, with quantitatively controlled loss.
+
+\paragraph{Scale-invariant Saint--Venant deficit.} It is convenient to
+work with the scale-invariant deficit
+\begin{equation}\label{eq:Dscaled}
+D(\Om) \;:=\; \omega_n^{-(n+2)/n}\,\deltaT(\Om)
+\;=\; \omega_n^{-(n+2)/n}\,\bigl(E(\Om)-E(B^*)\bigr).
+\end{equation}
+When $|\Om|=\omega_n$ we have $B^*=B_1$ and $D(\Om)\ge 0$ is the
+volume-normalised Saint--Venant deficit. The Fraenkel asymmetry
+$\Fr(\Om)$ is dimensionless and scale invariant.
+
+\paragraph{Two BDV black boxes.} We import two estimates from
+\cite{BDV} as black boxes.
+
+\begin{lemma}[\protect{\cite[Lemma~5.1]{BDV}}: De~Giorgi $L^\infty$ tail]
+\label{lem:51}
+There is $C_7=C_7(n)>0$ such that, for every open $\Om$ with
+$|\Om|=\omega_n$ and every $R\ge 1$,
+\begin{equation}\label{eq:tail}
+\|u_\Om\|_{L^\infty(\Om\setminus B_{R+1})}
+\;\le\; C_7\,|\Om\setminus B_R|^{1/n}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}[Reference]
+\cite[Lemma~5.1]{BDV}; De~Giorgi iteration on the truncated test
+function $\varphi_k^2(u_\Om-s_k)_+$. Constructive; constant $C_7(n)$
+explicit.
+\end{proof}
+
+\begin{lemma}[\protect{\cite[Lemma~5.2]{BDV}}: suboptimal
+$\Fr^4$ bound]\label{lem:52}
+There is $C_8=C_8(n)>0$ such that for every open $\Om$ of finite
+measure,
+\begin{equation}\label{eq:far}
+D(\Om) \;\ge\; \frac{1}{C_8}\,\Fr(\Om)^4.
+\end{equation}
+\end{lemma}
+
+\begin{proof}[Reference]
+\cite[Lemma~5.2]{BDV}; equivalent, via $E=-T/2$, to
+\cite[Theorem~1]{FMPLaplace} with $p=2,q=1$. Pure rearrangement plus
+P\'olya--Szeg\H{o}; no contradiction.
+\end{proof}
+
+\paragraph{The truncation lemma.} The core construction.
+
+\begin{lemma}[\protect{\cite[Lemma~5.3]{BDV}}: bounded truncation]
+\label{lem:53}
+There exist dimensional constants $C_9=C_9(n)>0$,
+$\delta_{\rm BDV}=\delta_{\rm BDV}(n)\in(0,1]$, and
+$d(n)\ge 1$ such that for every open $\Om$ with $|\Om|=\omega_n$ and
+$D(\Om)\le\delta_{\rm BDV}(n)$, there exists an open set
+$\Otilde\subset\R^n$ satisfying
+\begin{align}
+|\Otilde| &= \omega_n, \label{eq:53vol} \\
+\mathrm{diam}(\Otilde) &\le d(n), \label{eq:53diam} \\
+D(\Otilde) &\le C_9(n)\,D(\Om), \label{eq:53D} \\
+\Fr(\Om) &\le \Fr(\Otilde) + C_9(n)\,D(\Om). \label{eq:53A}
+\end{align}
+\end{lemma}
+
+\begin{proof}[Sketch and reference]
+\cite[Lemma~5.3]{BDV}. The proof combines~\eqref{eq:tail} with the
+cut-off test function $\varphi_k u_\Om$ in the Saint--Venant
+variational characterisation of $E(\Om\cap B_{k+2})$, yielding
+\cite[(5.11)]{BDV}
+\[
+E(\Om\cap B_{k+2}) \;\le\; E(\Om) + C\,b_k^{1+1/n},
+\qquad b_k := |\Om\setminus B_k|/\omega_n.
+\]
+A geometric iteration on $k\le K\le K(n)$ produces $b_{K+1}\le
+2\widehat C\,D(\Om)$. Set $r:=(|\Om\cap B_{K+3}|/\omega_n)^{1/n}\in
+[1-\widehat C\,D(\Om),1]$ and $\Otilde:=r^{-1}(\Om\cap B_{K+3})$.
+Properties~\eqref{eq:53vol}--\eqref{eq:53D} follow directly. The
+asymmetry estimate~\eqref{eq:53A} uses
+\[
+|\Om\,\Delta\,(B_1+x_0)|
+\;\le\;
+|(\Om\cap B_{K+3})\,\Delta\,\Om|
++ r^n\,|\Otilde\,\Delta\,(B_1+x_0/r)|
++ \omega_n(1-r^n),
+\]
+followed by $1-r^n\le n\widehat C\,D(\Om)$. The construction is
+\emph{constructive}: no minimising sequence, no Hausdorff limit, no
+contradiction step.
+\end{proof}
+
+\begin{remark}[Translation freedom]\label{rem:translation}
+The diameter bound~\eqref{eq:53diam} is translation invariant. After
+translating $\Otilde$ we may assume $\Otilde\subset B_{d(n)}$. Both
+$\Fr$ and $D$ are translation invariant.
+\end{remark}
+
+\paragraph{Working radius.} Define the \emph{bounded-reduction radius}
+\begin{equation}\label{eq:Rstar}
+R_*(n) \;:=\; \max\bigl\{d(n),\,2\bigr\}.
+\end{equation}
+By Remark~\ref{rem:translation} any $\Otilde$ produced by
+Lemma~\ref{lem:53} can be translated into $B_{R_*(n)}$, so
+Theorem~\ref{thm:SV-bounded} applies with the dimensional choice
+$R=R_*(n)$.
+
+\paragraph{Far-deficit branch.}
+
+\begin{lemma}[Far-deficit quadratic bound]\label{lem:far}
+For every open $\Om$ with $|\Om|=\omega_n$ and
+$D(\Om)\ge\delta_{\rm BDV}(n)/4$,
+\begin{equation}\label{eq:far-quad}
+E(\Om)-E(B_1) \;\ge\;
+\omega_n^{(n+2)/n}\,\frac{\delta_{\rm BDV}(n)}{16}\,\Fr(\Om)^2.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Since $\Fr(\Om)<2$, $\Fr(\Om)^2/4<1$. Hence
+$D(\Om)\ge\delta_{\rm BDV}(n)/4\ge(\delta_{\rm BDV}(n)/16)\Fr(\Om)^2$.
+Multiplying by $\omega_n^{(n+2)/n}$ and using
+$E(\Om)-E(B_1)=\omega_n^{(n+2)/n}D(\Om)$ at volume $\omega_n$ gives the
+claim.
+\end{proof}
+
+\begin{remark}
+The estimate~\eqref{eq:far-quad} is much weaker than~\eqref{eq:far}
+(it converts the $\Fr^4$ control into an $\Fr^2$ control by absorbing
+$\Fr^2\le 4$), but in this regime $D$ is bounded below by a
+dimensional constant, so the trade is harmless.
+\end{remark}
+
+\paragraph{Near-deficit branch.}
+
+\begin{lemma}[Near-deficit transfer]\label{lem:near}
+Set
+\begin{equation}\label{eq:csv-tilde}
+\widetilde c_{\rm SV}(n)
+\;:=\; \omega_n^{-(n+2)/n}\,c_{\rm SV}\bigl(n,R_*(n)\bigr)\;>\;0.
+\end{equation}
+For every open $\Om$ with $|\Om|=\omega_n$ and
+$D(\Om)\le\delta_{\rm BDV}(n)$,
+\begin{equation}\label{eq:near-Fr}
+\Fr(\Om)^2 \;\le\;
+\Bigl(\frac{2C_9(n)}{\widetilde c_{\rm SV}(n)}
++2C_9(n)^2\,\delta_{\rm BDV}(n)\Bigr)\,D(\Om).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Apply Lemma~\ref{lem:53} to obtain $\Otilde$ satisfying
+\eqref{eq:53vol}--\eqref{eq:53A}, and by Remark~\ref{rem:translation}
+assume $\Otilde\subset B_{d(n)}\subset B_{R_*(n)}$. Apply
+Theorem~\ref{thm:SV-bounded} with $R=R_*(n)$ to $\Otilde$:
+\[
+E(\Otilde)-E(B_1) \;\ge\; c_{\rm SV}\bigl(n,R_*(n)\bigr)\,\Fr(\Otilde)^2.
+\]
+Divide by $\omega_n^{(n+2)/n}$ (and use $|\Otilde|=\omega_n$) to obtain
+\begin{equation}\label{eq:Dtilde-Atilde}
+D(\Otilde) \;\ge\; \widetilde c_{\rm SV}(n)\,\Fr(\Otilde)^2.
+\end{equation}
+Combined with~\eqref{eq:53D},
+\[
+\Fr(\Otilde)^2 \;\le\;
+\frac{D(\Otilde)}{\widetilde c_{\rm SV}(n)}
+\;\le\;
+\frac{C_9(n)\,D(\Om)}{\widetilde c_{\rm SV}(n)}.
+\]
+Hence
+$\Fr(\Otilde)\le\bigl(C_9(n)D(\Om)/\widetilde c_{\rm SV}(n)\bigr)^{1/2}$.
+Plugging this into~\eqref{eq:53A} and squaring,
+\begin{align*}
+\Fr(\Om)^2
+&\le \bigl(\Fr(\Otilde) + C_9(n)\,D(\Om)\bigr)^2
+\;\le\; 2\Fr(\Otilde)^2 + 2\,C_9(n)^2\,D(\Om)^2 \\
+&\le \frac{2C_9(n)}{\widetilde c_{\rm SV}(n)}\,D(\Om)
+   + 2\,C_9(n)^2\,D(\Om)^2 \\
+&\le \Bigl(\frac{2C_9(n)}{\widetilde c_{\rm SV}(n)}
+   + 2\,C_9(n)^2\,\delta_{\rm BDV}(n)\Bigr)\,D(\Om),
+\end{align*}
+where the last step uses $D(\Om)\le\delta_{\rm BDV}(n)\le 1$.
+\end{proof}
+
+\begin{corollary}[Near-deficit quadratic bound]\label{cor:near}
+With
+\begin{equation}\label{eq:c-near-glob}
+c_{\rm near}^{\rm glob}(n)
+\;:=\;
+\frac{\omega_n^{(n+2)/n}}
+{2C_9(n)\bigl(1/\widetilde c_{\rm SV}(n)+C_9(n)\delta_{\rm BDV}(n)\bigr)},
+\end{equation}
+every open $\Om$ with $|\Om|=\omega_n$ and
+$D(\Om)\le\delta_{\rm BDV}(n)$ satisfies
+\begin{equation}\label{eq:near-final}
+E(\Om)-E(B_1) \;\ge\; c_{\rm near}^{\rm glob}(n)\,\Fr(\Om)^2.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+\eqref{eq:near-Fr} gives
+$D(\Om)\ge\Fr(\Om)^2/\bigl(2C_9/\widetilde c_{\rm SV}+2C_9^2\delta_{\rm BDV}\bigr)$.
+Multiply by $\omega_n^{(n+2)/n}$ and use $E-E(B_1)=\omega_n^{(n+2)/n}D$
+to get~\eqref{eq:near-final}.
+\end{proof}
+
+\paragraph{Global bounded reduction.}
+
+\begin{theorem}[Global sharp Saint--Venant; bounded reduction]
+\label{thm:BR}
+Define
+\begin{equation}\label{eq:csv-glob}
+c_{\rm SV}^{\rm glob}(n)
+\;:=\;
+\min\!\Bigl\{
+c_{\rm near}^{\rm glob}(n),\;
+\omega_n^{(n+2)/n}\,\delta_{\rm BDV}(n)/16
+\Bigr\}\;>\;0.
+\end{equation}
+Then for every open set $\Om\subset\R^n$ with $|\Om|=\omega_n$,
+\begin{equation}\label{eq:BR}
+\deltaT(\Om) \;=\; E(\Om)-E(B_1)
+\;\ge\; c_{\rm SV}^{\rm glob}(n)\,\Fr(\Om)^2.
+\end{equation}
+The constant $c_{\rm SV}^{\rm glob}(n)$ depends only on the dimension
+$n$: the $R$-dependence inherited from
+Theorem~\ref{thm:SV-bounded} has been internalised at the
+dimensional choice $R=R_*(n)$.
+\end{theorem}
+
+\begin{proof}
+The bound $D(\Om)\ge 0$ is the classical Saint--Venant inequality.
+We split into two cases.
+
+\emph{Case A} ($D(\Om)\ge\delta_{\rm BDV}(n)/4$):
+Lemma~\ref{lem:far} gives
+$E(\Om)-E(B_1)\ge\omega_n^{(n+2)/n}\bigl(\delta_{\rm BDV}(n)/16\bigr)\Fr(\Om)^2$,
+which is~\eqref{eq:BR} with constant
+$\omega_n^{(n+2)/n}\delta_{\rm BDV}(n)/16$.
+
+\emph{Case B} ($D(\Om)\le\delta_{\rm BDV}(n)$, which in particular
+covers $D(\Om)\le\delta_{\rm BDV}(n)/4$):
+Corollary~\ref{cor:near} applies and gives~\eqref{eq:BR} with
+constant $c_{\rm near}^{\rm glob}(n)$.
+
+The two cases overlap on
+$\delta_{\rm BDV}(n)/4\le D(\Om)\le\delta_{\rm BDV}(n)$ and together
+cover $D(\Om)\in[0,+\infty)$. Taking the minimum of the two
+constants gives~\eqref{eq:csv-glob}.
+\end{proof}
+
+\begin{remark}[Dependence on $R$]\label{rem:R-dropout}
+The dependence on the confining radius $R$ enters only via
+Theorem~\ref{thm:SV-bounded}, which is applied to the surrogate
+$\Otilde\subset B_{R_*(n)}$. Since $R_*(n)$ is itself dimensional, the
+final constant $c_{\rm SV}^{\rm glob}(n)$ in~\eqref{eq:csv-glob}
+depends only on $n$. Concretely, the
+$R$-dependence is absorbed in
+$\widetilde c_{\rm SV}(n)=\omega_n^{-(n+2)/n}c_{\rm SV}(n,R_*(n))$ in
+\eqref{eq:csv-tilde}; everything downstream is purely dimensional.
+\end{remark}
+
+\begin{remark}[Removal of the volume normalisation]\label{rem:scale-removal}
+\eqref{eq:BR} stated for $|\Om|=\omega_n$ extends to every open
+$\Om\subset\R^n$ with $0<|\Om|<\infty$ by scale invariance of $D$ and
+$\Fr$: writing
+$\Om_*:=(\omega_n/|\Om|)^{1/n}\Om$ one has $|\Om_*|=\omega_n$,
+$\Fr(\Om_*)=\Fr(\Om)$, and $D(\Om_*)=D(\Om)$. Hence~\eqref{eq:BR}
+applied to $\Om_*$ reads
+\begin{equation}\label{eq:BR-scaleinv}
+\omega_n^{(n+2)/n}\,D(\Om) \;=\; |\Om|^{(n+2)/n}\,D(\Om)\cdot
+\bigl(\omega_n/|\Om|\bigr)^{(n+2)/n}
+\quad\text{etc.}
+\end{equation}
+Equivalently, at volume $|B^*|=|\Om|$,
+\begin{equation}\label{eq:torsion-deficit-out}
+T(B^*) - T(\Om)
+\;=\; 2\bigl(E(\Om)-E(B^*)\bigr)
+\;\ge\; 2\,c_{\rm SV}^{\rm glob}(n)\,
+\Bigl(\frac{|\Om|}{\omega_n}\Bigr)^{(n+2)/n}\Fr(\Om)^2.
+\end{equation}
+This is the input to the Kohler--Jobin transfer
+(\S\ref{ssec:kj-inequality}).
+\end{remark}
+
+% =====================================================================
+\subsubsection{The Kohler--Jobin inequality and the pointwise transfer}
+\label{ssec:kj-inequality}
+% =====================================================================
+
+\paragraph{Statement.} We invoke the Kohler--Jobin inequality in the
+following scale-invariant form, which is the form needed to transfer
+Saint--Venant stability to Faber--Krahn stability.
+
+\begin{theorem}[Kohler--Jobin inequality]\label{thm:kj}
+For every open set $\Om\subset\R^n$ with $0<|\Om|<\infty$ and
+$\lambda_1(\Om)<\infty$, and for every ball $B$,
+\begin{equation}\label{eq:kj-global}
+T(\Om)\,\lambda_1(\Om)^{(n+2)/2}
+\;\ge\; T(B)\,\lambda_1(B)^{(n+2)/2}.
+\end{equation}
+Equivalently, $\Psi(\Om):=T(\Om)\,\lambda_1(\Om)^{(n+2)/2}\ge
+\Psi(B_1)=T_n L_n^{(n+2)/2}$. Equality holds if and only if $\Om$ is a
+ball (up to translation and a Lebesgue null set).
+\end{theorem}
+
+\begin{proof}[Reference]
+The original statement is in Kohler--Jobin \cite{KohlerJobin1978}. We
+use the form of \cite[Theorem~3.3, p.~322]{Brasco2014}, proved by
+Schwarz symmetrisation and a one-dimensional rearrangement of the
+torsion potential along level sets of the eigenfunction. The
+characterisation of the equality case is \cite[Theorem~3.3]{Brasco2014}.
+\end{proof}
+
+\begin{remark}[Canonical normalisation and scaling]\label{rem:kj-canonical}
+The exponent $(n+2)/2$ in~\eqref{eq:kj-global} is forced by scale
+invariance: from $T(t\Om)=t^{n+2}T(\Om)$ and
+$\lambda_1(t\Om)=t^{-2}\lambda_1(\Om)$ we read
+$\Psi(t\Om)=t^{n+2-2\cdot(n+2)/2}\Psi(\Om)=\Psi(\Om)$, so $\Psi$ is
+scale-invariant. This is the canonical form of the inequality used
+throughout the manuscript; both source files
+\texttt{Plan~1/faber-krahn-transfer.tex} and
+\texttt{Final/KohlerJobinTransfer.tex} use the same form
+(with $N$ converted to $n$).
+\end{remark}
+
+\paragraph{Pointwise transfer at fixed volume.} Fix the comparison ball
+$B^*$ with $|B^*|=|\Om|$, and write
+\[
+L:=\lambda_1(B^*),\qquad T_0:=T(B^*),\qquad \beta:=\frac{n+2}{2}.
+\]
+By scaling $L=L_n(\omega_n/|B^*|)^{2/n}$ and
+$T_0=T_n(|B^*|/\omega_n)^{(n+2)/n}$.
+
+\begin{lemma}[Pointwise Kohler--Jobin transfer]\label{lem:KJ-ptwise}
+For every open $\Om$ with $|\Om|=|B^*|$ and $\lambda_1(\Om)<\infty$,
+\begin{equation}\label{eq:plan1-KJ-ptwise}
+\lambda_1(\Om)
+\;\ge\; L\cdot\Bigl(\frac{T_0}{T(\Om)}\Bigr)^{1/\beta}
+\;=\; L\cdot\Bigl(\frac{T_0}{T(\Om)}\Bigr)^{2/(n+2)}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Apply Theorem~\ref{thm:kj} with $B=B^*$ and rearrange. Since $T(\Om)>0$
+and $\lambda_1(\Om)<\infty$, both sides are finite and positive.
+\end{proof}
+
+\begin{lemma}[Elementary one-variable inequality]\label{lem:plan1-onevar}
+For every $p\in(0,1]$ and every $s\in[0,1)$,
+\begin{equation}\label{eq:plan1-onevar}
+(1-s)^{-p}-1 \;\ge\; p\,s.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set $f(s):=(1-s)^{-p}-1$. Then $f(0)=0$ and
+$f'(s)=p(1-s)^{-(p+1)}\ge p$ for $s\in[0,1)$. By the fundamental
+theorem of calculus,
+$f(s)=\int_0^s f'(\tau)\,d\tau\ge ps$, which is~\eqref{eq:plan1-onevar}.
+The factor $p$ on the right is sharp: $f'(0)=p$, so the linear
+approximation is tight at $s=0$.
+\end{proof}
+
+\paragraph{Small-deficit linearisation.} The classical Saint--Venant
+inequality gives $T(\Om)\le T_0$ at fixed volume, so the torsion
+deficit $\sigma(\Om):=T_0-T(\Om)\ge 0$. (We use the local symbol
+$\sigma$ here, since the manuscript reserves $\delta_T$ for the
+energy-form deficit.) Equivalently
+$\sigma(\Om)=2\,\deltaT(\Om)$, and setting
+$s:=\sigma(\Om)/T_0\in[0,1)$, \eqref{eq:plan1-KJ-ptwise} becomes
+\begin{equation}\label{eq:KJ-s}
+\lambda_1(\Om)-L \;\ge\; L\bigl[(1-s)^{-1/\beta}-1\bigr].
+\end{equation}
+
+\begin{lemma}[Small-deficit Kohler--Jobin linearisation]\label{lem:KJ-linear}
+For every open $\Om$ with $|\Om|=|B^*|$ and $\sigma(\Om)\le T_0/2$,
+\begin{equation}\label{eq:plan1-KJ-linear}
+\lambda_1(\Om)-L
+\;\ge\; \frac{2L}{(n+2)\,T_0}\,\sigma(\Om)
+\;=\; \frac{4L}{(n+2)\,T_0}\,\deltaT(\Om).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+With $p=1/\beta=2/(n+2)\in(0,1]$ and $s=\sigma(\Om)/T_0\in[0,1/2]$,
+combine~\eqref{eq:KJ-s} and Lemma~\ref{lem:plan1-onevar}:
+\[
+\lambda_1(\Om)-L
+\;\ge\; L\,p\,s
+\;=\; \frac{2L}{(n+2)\,T_0}\,\sigma(\Om).
+\]
+The second equality uses $\sigma=2\deltaT$.
+\end{proof}
+
+\begin{remark}[Universal multiplier]\label{rem:multiplier}
+The factor $2L/((n+2)T_0)$ is the \emph{Kohler--Jobin multiplier}.
+Both $L$ and $T_0$ scale, but the product is dimensionless:
+$2L/((n+2)T_0)=2L_n/((n+2)T_n)\cdot(\omega_n/|B^*|)^{(n+2)/n}/(\omega_n/|B^*|)^{2/n}\cdots$,
+which simplifies to
+\begin{equation}\label{eq:multiplier-explicit}
+\frac{2L}{(n+2)T_0}
+\;=\;
+\frac{2L_n}{(n+2)T_n}\cdot\Bigl(\frac{\omega_n}{|B^*|}\Bigr)^{(n+4)/n}\;.
+\end{equation}
+Using $T_n=\omega_n/(n(n+2))$, the dimensional part simplifies to
+$2L_n/((n+2)T_n)=2nL_n/\omega_n$.
+\end{remark}
+
+\paragraph{Large-deficit branch.}
+
+\begin{lemma}[Large-deficit Kohler--Jobin bound]\label{lem:KJ-large}
+For every open $\Om$ with $|\Om|=|B^*|$ and $\sigma(\Om)>T_0/2$,
+\begin{equation}\label{eq:KJ-large}
+\lambda_1(\Om)-L
+\;\ge\; L\bigl(2^{2/(n+2)}-1\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+$\sigma>T_0/2$ means $T_0/T(\Om)>2$, so~\eqref{eq:plan1-KJ-ptwise} gives
+$\lambda_1(\Om)\ge L\cdot 2^{2/(n+2)}$, i.e.~\eqref{eq:KJ-large}.
+\end{proof}
+
+Since $|\Om|=|B^*|$ forces $\Fr(\Om)\in[0,2)$ (so $\Fr^2\le 4$),
+in the large-deficit regime we may rewrite~\eqref{eq:KJ-large} as
+\begin{equation}\label{eq:KJ-large-Fr}
+\lambda_1(\Om)-L
+\;\ge\; \frac{L\bigl(2^{2/(n+2)}-1\bigr)}{4}\,\Fr(\Om)^2.
+\end{equation}
+
+% =====================================================================
+\subsubsection{Final Plan~1 sharp Faber--Krahn theorem}
+\label{ssec:plan1-final}
+% =====================================================================
+
+We now combine the global Saint--Venant inequality
+(Theorem~\ref{thm:BR}) and the pointwise Kohler--Jobin transfer
+(Lemmas~\ref{lem:KJ-linear} and~\ref{lem:KJ-large}) to obtain the
+sharp quantitative Faber--Krahn inequality in the canonical
+normalisation of the notation register.
+
+\paragraph{Statement in the lower form.}
+
+\begin{theorem}[Sharp Faber--Krahn via Kohler--Jobin; lower form]
+\label{thm:KJ-FK-lower}
+There is a dimensional constant $c_{\rm FK}(n)>0$ such that, for
+every open $\Om\subset\R^n$ with $0<|\Om|<\infty$,
+\begin{equation}\label{eq:KJ-FK-lower}
+\deltaFK(\Om)
+\;=\;
+\Bigl(\frac{|\Om|}{\omega_n}\Bigr)^{2/n}
+\bigl(\lambda_1(\Om)-\lambda_1(B^*)\bigr)
+\;\ge\; c_{\rm FK}(n)\,\Fr(\Om)^2.
+\end{equation}
+The constant is given explicitly by
+\begin{equation}\label{eq:cFKdef}
+c_{\rm FK}(n) \;:=\;
+\min\!\Bigl\{
+c_1(n),\; c_2(n)
+\Bigr\},
+\end{equation}
+where
+\begin{equation}\label{eq:c1c2-def}
+c_1(n) := \frac{4 L_n\,c_{\rm SV}^{\rm glob}(n)}{(n+2)\,T_n}
+\;=\; \frac{4 n L_n}{\omega_n}\,c_{\rm SV}^{\rm glob}(n),
+\qquad
+c_2(n) := \frac{L_n\bigl(2^{2/(n+2)}-1\bigr)}{4}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We first reduce to the volume-normalised case $|\Om|=\omega_n$. The
+quantity $\deltaFK(\Om)$ is scale invariant: if
+$\Om_*:=(\omega_n/|\Om|)^{1/n}\Om$, then $|\Om_*|=\omega_n$,
+$\Fr(\Om_*)=\Fr(\Om)$, and
+$\deltaFK(\Om_*)=\lambda_1(\Om_*)-L_n=
+(|\Om|/\omega_n)^{2/n}(\lambda_1(\Om)-L)$ by the scaling
+$\lambda_1(t\Om)=t^{-2}\lambda_1(\Om)$ (with $t=(\omega_n/|\Om|)^{1/n}$),
+which equals $\deltaFK(\Om)$.
+Thus it suffices to prove
+$\lambda_1(\Om)-L_n\ge c_{\rm FK}(n)\Fr(\Om)^2$ for
+$|\Om|=\omega_n$ (in which case $B^*=B_1$, $L=L_n$, $T_0=T_n$,
+$\deltaFK(\Om)=\lambda_1(\Om)-L_n$).
+
+Assume henceforth $|\Om|=\omega_n$. Theorem~\ref{thm:BR} gives
+$\deltaT(\Om)\ge c_{\rm SV}^{\rm glob}(n)\Fr(\Om)^2$, so the torsion
+deficit
+\begin{equation}\label{eq:torsion-input}
+\sigma(\Om) \;=\; T_n - T(\Om) \;=\; 2\deltaT(\Om)
+\;\ge\; 2\,c_{\rm SV}^{\rm glob}(n)\,\Fr(\Om)^2.
+\end{equation}
+
+\emph{Case 1: $\sigma(\Om)\le T_n/2$.}
+Lemma~\ref{lem:KJ-linear} (with $L=L_n$, $T_0=T_n$)
+and~\eqref{eq:torsion-input} give
+\[
+\lambda_1(\Om) - L_n
+\;\ge\;
+\frac{2 L_n}{(n+2) T_n}\,\sigma(\Om)
+\;\ge\;
+\frac{2 L_n}{(n+2) T_n}\cdot 2\,c_{\rm SV}^{\rm glob}(n)\,\Fr(\Om)^2
+\;=\;
+\frac{4 L_n\,c_{\rm SV}^{\rm glob}(n)}{(n+2) T_n}\,\Fr(\Om)^2
+\;=\;
+c_1(n)\,\Fr(\Om)^2,
+\]
+the last equality being the definition of $c_1(n)$
+in~\eqref{eq:c1c2-def}. The first inequality used the small-deficit
+Kohler--Jobin linearisation expressed in terms of the torsion deficit
+$\sigma$; the second inequality used $\sigma=2\deltaT$ combined with
+the Saint--Venant input
+$\deltaT\ge c_{\rm SV}^{\rm glob}\Fr^2$.
+
+\emph{Case 2: $\sigma(\Om)>T_n/2$.}
+\eqref{eq:KJ-large-Fr} with $L=L_n$ gives
+\[
+\lambda_1(\Om)-L_n
+\;\ge\; \frac{L_n\bigl(2^{2/(n+2)}-1\bigr)}{4}\,\Fr(\Om)^2
+\;=\; c_2(n)\,\Fr(\Om)^2.
+\]
+
+Combining the two cases gives
+$\lambda_1(\Om)-L_n\ge\min\{c_1(n),c_2(n)\}\Fr(\Om)^2
+=c_{\rm FK}(n)\Fr(\Om)^2$, which is~\eqref{eq:KJ-FK-lower} in the
+volume-normalised case, and hence (by the first paragraph) in general.
+\end{proof}
+
+\begin{remark}[Canonical form of $c_1$]\label{rem:factor-two}
+The constant $c_1(n)$ in~\eqref{eq:c1c2-def} matches
+\cite[\S3, eq.~(3.1)]{Brasco2014} and the canonical form in
+\texttt{Final/KohlerJobinTransfer.tex} (equations $c_1$, $c_{\rm FK}$).
+Note that the source file
+\texttt{Plan~1/faber-krahn-transfer.tex} states the small-deficit
+multiplier as $2L/((n+2)T_0)$ applied to the torsion deficit
+$\sigma=T_0-T$, while our proof applies it after the substitution
+$\sigma=2\deltaT$; this accounts for the explicit factor of $4$ (not
+$2$) on $L_n c_{\rm SV}^{\rm glob}/((n+2)T_n)$ in
+\eqref{eq:c1c2-def}. The two source files
+\texttt{Final/KohlerJobinTransfer.tex} (eq.~(\ref{eq:c1c2-def}) above)
+and \texttt{Plan~1/faber-krahn-transfer.tex} (\S\,Quantitative
+dependence) agree on this normalisation.
+\end{remark}
+
+\paragraph{Convenient abbreviation.} Throughout the rest of the
+manuscript we write
+\begin{equation}\label{eq:c1-canonical}
+c_1(n) \;:=\; \frac{4 L_n\,c_{\rm SV}^{\rm glob}(n)}{(n+2)\,T_n}
+\;=\; \frac{4 n L_n}{\omega_n}\,c_{\rm SV}^{\rm glob}(n),
+\end{equation}
+which is the definition just used.
+
+\paragraph{Canonical statement (upper form).}
+Inverting~\eqref{eq:KJ-FK-lower}, the inequality reads
+$\Fr(\Om)^2\le C_{\rm FK}(n)\,\deltaFK(\Om)$ with
+$C_{\rm FK}(n)=1/c_{\rm FK}(n)$. This is the upper form required by
+the master brief (and shared with Plan~2).
+
+\begin{theorem}[Sharp Faber--Krahn; Plan~1, upper form]
+\label{thm:KJ-FK-upper}
+There is a dimensional constant $C_{\rm FK}(n)>0$ such that, for every
+open set $\Om\subset\R^n$ with $0<|\Om|<\infty$,
+\begin{equation}\label{eq:KJ-FK-upper}
+\boxed{\;
+\Fr(\Om)^2 \;\le\; C_{\rm FK}(n)\,\deltaFK(\Om),
+\;}
+\end{equation}
+where
+\begin{equation}\label{eq:CFK}
+C_{\rm FK}(n)
+\;:=\; \frac{1}{c_{\rm FK}(n)}
+\;=\; \max\!\Bigl\{
+\frac{(n+2)\,T_n}{4 L_n\,c_{\rm SV}^{\rm glob}(n)},\;\;
+\frac{4}{L_n\bigl(2^{2/(n+2)}-1\bigr)}
+\Bigr\},
+\end{equation}
+with $c_{\rm SV}^{\rm glob}(n)$ defined in~\eqref{eq:csv-glob}.
+Equality cases: by Theorem~\ref{thm:kj}, $\deltaFK(\Om)=0$
+iff $\Om$ is a ball; in this case $\Fr(\Om)=0$.
+\end{theorem}
+
+\begin{proof}
+If $\lambda_1(\Om)=+\infty$ then $\deltaFK(\Om)=+\infty$ and the
+inequality \eqref{eq:KJ-FK-upper} is trivial (the left-hand side is
+bounded above by $4$ since $\Fr(\Om)<2$). Otherwise
+$\lambda_1(\Om)<\infty$ and the result is immediate from
+Theorem~\ref{thm:KJ-FK-lower} with the canonical $c_1(n)$
+from~\eqref{eq:c1-canonical}: invert the lower bound. The
+constant $C_{\rm FK}(n)$ depends only on $n$ because
+$c_{\rm SV}^{\rm glob}(n)$ does (Remark~\ref{rem:R-dropout}) and $L_n,
+T_n$ are dimensional.
+\end{proof}
+
+\begin{remark}[$R$ drops out]\label{rem:R-removal-final}
+The dependence on the confining radius $R$ is removed in two stages:
+\begin{itemize}
+\item Theorem~\ref{thm:SV-bounded} (Agent~7) provides
+$c_{\rm SV}(n,R)$ for $\Om\subset B_R$. We \emph{instantiate} this
+input at $R=R_*(n)=\max\{d(n),2\}$, a purely dimensional radius
+defined in~\eqref{eq:Rstar}.
+\item The bounded reduction (Theorem~\ref{thm:BR}) transfers this
+to $c_{\rm SV}^{\rm glob}(n)$ via the BDV truncation lemma, which
+produces a translate $\Otilde\subset B_{R_*(n)}$.
+\end{itemize}
+No subsequent step reintroduces $R$: the Kohler--Jobin inequality
+\eqref{eq:kj-global} is independent of any confining ball, and the
+pointwise transfer~\eqref{eq:plan1-KJ-ptwise} depends only on the
+universal ball constants $L_n=\lambda_1(B_1)$, $T_n=T(B_1)$, and the
+torsion deficit at fixed volume.
+\end{remark}
+
+\begin{remark}[Sharpness of the exponent]
+The exponent $2$ on $\Fr$ in~\eqref{eq:KJ-FK-upper} is sharp; it is
+saturated by smooth volume-preserving ellipsoidal perturbations of the
+ball, for which $\Fr(\Om)$ and $\deltaFK(\Om)^{1/2}$ are of the same
+order. See \cite[\S1.2]{BDV} for the construction.
+\end{remark}
+
+\begin{remark}[Match with Plan~2 normalisation]\label{rem:plan2-match}
+The final theorem~\eqref{eq:KJ-FK-upper} is stated in the canonical
+normalisation of the notation register (item~D4.6 of
+\texttt{Manuscript/source\_map.md}), with $\deltaFK$ defined as in
+notation register \S4: $\deltaFK(\Om)=(|\Om|/\omega_n)^{2/n}(\lambda_1(\Om)-\lambda_1(B^*))$.
+This is exactly the normalisation of the Plan~2 final theorem
+(item~E5.8); the two proofs share both the bounded reduction
+(Theorem~\ref{thm:BR}) and the Kohler--Jobin transfer step
+(\S\ref{ssec:kj-inequality}). The constant $C_{\rm FK}(n)$ produced
+here and the constant $C_{\rm FK}^{\rm Plan~2}(n)$ produced in
+\S\ref{sec:plan2-global-assembly} differ only through the
+Saint--Venant constant $c_{\rm SV}^{\rm glob}(n)$, which each route
+constructs independently.
+\end{remark}
+
+\paragraph{Summary of constants.}
+\renewcommand{\arraystretch}{1.25}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+Symbol & Value/dependence & Source \\
+\hline
+$\omega_n$ & $|B_1|$ & dimensional \\
+$T_n$ & $\omega_n/(n(n+2))$ & dimensional \\
+$L_n$ & $\lambda_1(B_1)=j_{n/2-1,1}^2$ & dimensional \\
+$\beta$ & $(n+2)/2$ & Theorem~\ref{thm:kj} \\
+$C_7(n)$ & \cite[Lem.~5.1]{BDV} & Lemma~\ref{lem:51} \\
+$C_8(n)$ & \cite[Lem.~5.2]{BDV} & Lemma~\ref{lem:52} \\
+$C_9(n)$ & \cite[Lem.~5.3]{BDV} & Lemma~\ref{lem:53} \\
+$\delta_{\rm BDV}(n)\in(0,1]$ & \cite[Lem.~5.3]{BDV} & Lemma~\ref{lem:53} \\
+$d(n)\ge 1$ & \cite[Lem.~5.3]{BDV} & Lemma~\ref{lem:53} \\
+$R_*(n)=\max\{d(n),2\}$ & dimensional & \eqref{eq:Rstar} \\
+$c_{\rm SV}(n,R)$ & Agent~7 & Theorem~\ref{thm:SV-bounded} \\
+$\widetilde c_{\rm SV}(n)$ & $\omega_n^{-(n+2)/n}c_{\rm SV}(n,R_*(n))$ & \eqref{eq:csv-tilde} \\
+$c_{\rm near}^{\rm glob}(n)$ & \eqref{eq:c-near-glob} & Corollary~\ref{cor:near} \\
+$c_{\rm SV}^{\rm glob}(n)$ & $\min\{c_{\rm near}^{\rm glob},\omega_n^{(n+2)/n}\delta_{\rm BDV}/16\}$ & Theorem~\ref{thm:BR} \\
+$c_1(n)$ & $4L_n c_{\rm SV}^{\rm glob}/((n+2)T_n)=4nL_n c_{\rm SV}^{\rm glob}/\omega_n$ & \eqref{eq:c1-canonical} \\
+$c_2(n)$ & $L_n(2^{2/(n+2)}-1)/4$ & \eqref{eq:c1c2-def} \\
+$c_{\rm FK}(n)$ & $\min\{c_1(n),c_2(n)\}$ & Theorem~\ref{thm:KJ-FK-lower} \\
+$C_{\rm FK}(n)$ & $1/c_{\rm FK}(n)$ & Theorem~\ref{thm:KJ-FK-upper} \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Where compactness could have entered (and does not).}
+The bounded reduction (\S\ref{ssec:bounded-reduction}) is the only step
+where one might fear a hidden compactness argument. We record:
+\begin{itemize}
+\item BDV Lemma~5.1 (Lemma~\ref{lem:51}) is De~Giorgi
+$L^\infty$ iteration: constructive, no minimising sequence.
+\item BDV Lemma~5.2 (Lemma~\ref{lem:52}) is rearrangement plus
+P\'olya--Szeg\H{o}: no contradiction.
+\item BDV Lemma~5.3 (Lemma~\ref{lem:53}) reaches the truncation
+index $K\le K(n)$ by a geometric iteration
+\cite[(5.12)--(5.14)]{BDV}, not by Hausdorff compactness.
+\item The gluing of near and far branches (Theorem~\ref{thm:BR}) is
+arithmetic.
+\item The Kohler--Jobin transfer (\S\ref{ssec:kj-inequality}) uses
+only \eqref{eq:kj-global}, the FTC, and elementary monotone-function
+inequalities.
+\end{itemize}
+
+This closes Plan~1.

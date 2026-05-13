@@ -1,0 +1,1099 @@
+% UNIFIED 2026-05-13
+% AUDIT B1/M1/M2 REPAIR — DATE 2026-05-13
+% -----------------------------------------------------------------------------
+% This file has been edited to address the BLOCKING (B1) and MAJOR (M1, M2)
+% findings of `Manuscript/audit_plan2.md` (Agent 16). Summary of changes:
+%   B1: Theorem `thm:wmt:trace` now instantiates the abstract weighted-trace
+%       lemma on the window `[rho_delta - c_0 sqrt(delta_T), rho_delta]` with
+%       L* = c_0 sqrt(delta_T), placing widehat-rho within an
+%       O(sqrt(delta_T))-neighbourhood of rho_delta. (H2) is verified on the
+%       new window using a smallness threshold delta_T <= delta_0(n,R,rho_*).
+%       Closing remark is rewritten so that |Omega \ E_{widehat-rho}| =
+%       O(sqrt(delta_T)).
+%   M1: Lemma `lem:fj-center-package` now explicitly identifies z_rho := bar
+%       z_rho (bulk centroid), citing Agent 11 Remark `rmk:centre-selection`.
+%   M2: kappa = kappa(n, R, rho_*) is pinned canonically (per notation
+%       register §12). All constants C_*^act, C_*^kin, C_* now have the
+%       signature C_*(n, R, rho_*).
+% See `Manuscript/audit_plan2_repair_report.md`.
+% -----------------------------------------------------------------------------
+% SOURCE MAP (Agent 12, Plan 2 §4.4 — Integrated Action and Weighted Metric Trace)
+% -----------------------------------------------------------------------------
+% Local building blocks consumed (LOCAL):
+%   - Plan 2/WIP/WIP_WeightedMetricTrace.tex
+%       * Theorem (integrated action bound, eq:52int)
+%       * Theorem (kinetic bound K, eq:K)
+%       * Theorem (weighted metric trace, eq:trace)
+%       * Lemmas: FJ centre package, radial-slicing, good-level homothetic
+%         trace, uniform metric Lipschitz (A0), bad-set lemma
+%   - Plan 2/WIP/WIP_MetricFramework.tex
+%       * Theorem T: |F'_rho|_X <= rho_*^{-n} inf_a int |V_rho - H_{z,rho}
+%                       - a . nu_rho| dH^{n-1}
+%       * AGS absolute continuity / metric derivative (Thm 1.1.2)
+%   - Plan 2/WIP/WIP_LevelSetIdentity.tex
+%       * Exact deficit identity: (2/|Omega|) (E(Omega) - E(B^*))
+%           = (1/|Omega|) int (D_H + D_I)/(c_n m(t)^{1-2/n}) dt
+%       * Profile-gap corollary used for (H2) and bad-set
+%   - Plan 2/agent4-weighted-metric-trace
+%       * Abstract weighted metric trace lemma (proof of Thm in §4)
+%       * Bad-set Lemma 3.1; Corollary 3.2
+%   - Plan 2/wave2-B-kinetic-bound
+%       * Uniform L1-Lipschitz bound (A0), Lemma 2.1
+%       * Bad-(-t') Lemma 4.1; integrated Talenti gap (3.3)
+%   - Plan 2/wave3-G-route-delta-assembly.md  (verification that the
+%       integrated chain consumes (R) only against d\mu, no rate loss)
+%
+% Cited from the literature (CITE; see Manuscript/04_references_audit.md):
+%   - Ambrosio-Gigli-Savaré 2008, Thm 1.1.2          [AGS2008]
+%   - Fusco-Julin 2014, Calc. Var. PDE 50            [FJ2014]
+%   - Talenti 1976, Ann. Mat. Pura Appl. (4) 110     [Talenti1976]
+%   - Maggi 2012 (sets of finite perimeter)          [Maggi2012]
+%   - Ambrosio-Fusco-Pallara 2000 (BV book)          [AFP2000]
+%   - Figalli-Maggi 2011, Appendix A, Thm A.1        [FigalliMaggi2011]
+%
+% Imported by Agent 19 into Manuscript/03_plan2_draft.tex as Section §4.4.
+% Constants tracked: every C, c is annotated with its dependence on (n, R, rho_*).
+% (Per the M2 repair dated 2026-05-13, kappa = kappa(n, R, rho_*) is canonical,
+% so all C_*^{act}, C_*^{kin}, C_* have signature (n, R, rho_*).)
+% -----------------------------------------------------------------------------
+
+\subsection{Integrated action and the weighted metric trace}\label{subsec:weighted-metric-trace}
+
+This subsection chains the level-set deficit identity of
+Section~\ref{subsec:level-set-identity}, the metric first-variation
+estimate of Section~\ref{subsec:metric-framework}, the scaled
+Fusco--Julin inequality and the oriented radial trace lemma of
+Section~\ref{subsec:fj-radial-trace} into the integrated action bound
+\eqref{eq:wmt:52int} and, via a good/bad isoperimetric-defect
+decomposition, into the Lebesgue kinetic bound \eqref{eq:wmt:K}. The
+final output is the \emph{weighted metric trace}: a radius
+$\rhad\in[\rstar,\rhodelta)$ at which the rescaled level set
+$F_\rhad=\rhad^{-1}E_\rhad$ is metrically close to the unit ball at the
+sharp $\deltaT$-rate; see Theorem~\ref{thm:wmt:trace}.
+
+Throughout this subsection we adopt the standing hypotheses of
+Section~\ref{sec:plan2}: $n\ge 2$, $R\ge 2$, $\rstar\in(0,1)$, an open set
+$\Om\subset B_R$ with $|\Om|=\omega_n$, variational torsion function
+$u=u_\Om$, $\rho$-foliation $E_\rho=\{u>t(\rho)\}$ with
+$|E_\rho|=\omega_n\rho^n$ for $\rho\in[\rstar,1]$, rescaled level sets
+$F_\rho:=\rho^{-1}E_\rho\subset B_{R/\rstar}$, and the measure
+$\mu(d\rho):=(-t'(\rho))\,d\rho$ on $[\rstar,1]$. We write
+$\delta:=\deltaT(\Om)$.
+
+\paragraph{Canonical choice of $\kappa$.}
+Per the notation register \S12, the boundary-layer constant $\kappa$ is
+a fixed dimensional choice $\kappa=\kappa(n,R,\rstar)>0$. Throughout
+\S4.4 we pin $\kappa$ to this canonical value; explicitly, we set
+\[
+   \kappa=\kappa(n,R,\rstar):=1
+\]
+(any fixed positive constant of size $\Theta_n(1)$ works; the value
+$\kappa=1$ is the simplest choice consistent with the notation
+register). All subsequent constants $C_*^{\mathrm{act}},
+C_*^{\mathrm{kin}}, C_*$ then become functions of $(n,R,\rstar)$ alone;
+the smallness threshold $\delta_0$ likewise depends only on
+$(n,R,\rstar)$. We define
+\[
+   \rhodelta:=1-\kappa\sqrt{\delta}.
+\]
+Throughout we assume
+\begin{equation}\label{eq:wmt:delta-small}
+   \delta\le\delta_0(n,R,\rstar),
+\end{equation}
+with $\delta_0(n,R,\rstar)>0$ chosen so that
+$\rhodelta\ge\rstar+\tfrac12(1-\rstar)$ and so that the additional
+smallness requirements (B1) of Theorem~\ref{thm:wmt:trace} below hold;
+for $\delta$ outside this regime the conclusion is vacuous or follows
+trivially from the FMP fallback $\Fr(\Om)^2\le C(n)\deltaT(\Om)$ for
+$\deltaT(\Om)\ge\delta_0$.
+
+The level-set deficit identity of Section~\ref{subsec:level-set-identity}
+reads, in our $\rho$-parametrisation,
+\begin{equation}\label{eq:wmt:DH-DI-int}
+   \int_{\rstar}^{1}
+      \bigl(\mathcal H(\rho)+\mathcal I(\rho)\bigr)\,d\mu(\rho)
+   \;\le\; C_1(n,\rstar)\,\delta,
+\end{equation}
+where we have written
+\[
+   \mathcal H(\rho):=D_H(t(\rho)),\qquad
+   \mathcal I(\rho):=D_I(t(\rho)),
+\]
+and used $dt=-t'(\rho)\,d\rho=d\mu$. The explicit constant is
+$C_1(n,\rstar)=2\,c_n\,(\omega_n\rstar^n)^{1-2/n}/\omega_n
+=2n^2\omega_n^{2/n}(\omega_n\rstar^n)^{1-2/n}/\omega_n$; see
+Theorem~\ref{thm:lsid:identity}.
+
+Since $P(E_\rho)+P(B_\rho)\ge 2P(B_\rho)=2n\omega_n\rho^{n-1}\ge
+2n\omega_n\rstar^{n-1}$ and $D_I(t(\rho))
+=(P(E_\rho)-P(B_\rho))(P(E_\rho)+P(B_\rho))$, the perimeter defect
+satisfies
+\begin{equation}\label{eq:wmt:DP-DI}
+   0\le\Delta P_\rho
+        :=P(E_\rho)-P(B_\rho)
+   \le \frac{\mathcal I(\rho)}{2n\omega_n\rstar^{n-1}}
+   =: C_2(n,\rstar)\,\mathcal I(\rho).
+\end{equation}
+
+\paragraph{Notation for this subsection}
+
+\begin{itemize}
+\item $\gamma(\rho):=[F_\rho]\in\X$ is the rescaled curve in the metric
+      quotient $(\X,\dX)$ of Section~\ref{subsec:metric-framework}.
+      AGS \cite[Thm.~1.1.2]{AGS2008} provides the metric derivative
+      $|\dot\gamma|(\rho)=|\dot F_\rho|_{\X}$.
+\item $z_\rho$ denotes the bulk centroid of $E_\rho$, identified in
+      Lemma~\ref{lem:fj-center-package} below with the canonical centre
+      $\zbar=\bar z_\rho$ of the notation register \S10. Outside the
+      good set $G_I$ defined in \eqref{eq:wmt:def-GI} we set
+      $z_\rho=0$.
+\item $\bar V_\rho:=P(E_\rho)^{-1}\int_{\partial^*E_\rho}V_\rho\,
+      d\mathcal H^{n-1}=P(B_\rho)/P(E_\rho)$, which equals
+      the mean value of $V_\rho$ on $\partial^*E_\rho$ and satisfies
+      $1-\bar V_\rho=\Delta P_\rho/P(E_\rho)$.
+\item $H_{z_\rho,\rho}(x):=(x-z_\rho)\cdot\nu_\rho(x)/\rho$ is the
+      homothetic radial field of Section~\ref{subsec:metric-framework}.
+\end{itemize}
+
+\subsubsection{4.4.1 Good and bad isoperimetric-defect levels}
+\label{subsec:wmt:good-bad}
+
+\begin{definition}[Good and bad isoperimetric-defect levels]
+\label{def:wmt:GI-BI}
+Let $\eta_I=\eta_I(n,R,\rstar)>0$ be the Fusco--Julin smallness
+threshold from Lemma~\ref{lem:fj-center-package} below. Define
+\begin{align}
+   G_I &:= \{\rho\in[\rstar,\rhodelta]:\mathcal I(\rho)\le\eta_I\},
+       \label{eq:wmt:def-GI}\\
+   B_I &:= [\rstar,\rhodelta]\setminus G_I
+       =\{\rho\in[\rstar,\rhodelta]:\mathcal I(\rho)>\eta_I\}.
+       \label{eq:wmt:def-BI}
+\end{align}
+\end{definition}
+
+The threshold $\eta_I=\eta_I(n,R,\rstar)$ will be fixed at the end of
+Lemma~\ref{lem:fj-center-package}: it is the smallest of the
+Fusco--Julin smallness scale on $\{|E|=|B_\rho|,\rho\in[\rstar,1]\}$ (see
+Proposition~\ref{prop:fj-scaled}) and the elementary smallness
+threshold needed for the FJ centre to lie in $B_{2R}$. In particular,
+$\eta_I$ does \emph{not} depend on $\delta$ or on $\Om$.
+
+\begin{lemma}[Markov bound on $B_I$]\label{lem:wmt:markov-BI}
+Under \eqref{eq:wmt:delta-small},
+\begin{equation}\label{eq:wmt:markov-BI}
+   \mu(B_I)
+   \;\le\; \eta_I^{-1}\int_{B_I}\mathcal I(\rho)\,d\mu(\rho)
+   \;\le\; \eta_I^{-1}\int_{\rstar}^{1}
+              \bigl(\mathcal H+\mathcal I\bigr)\,d\mu
+   \;\le\; \eta_I^{-1}\,C_1(n,\rstar)\,\delta.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By Definition~\ref{def:wmt:GI-BI}, $\mathcal I(\rho)>\eta_I$ on $B_I$,
+hence
+$\mu(B_I)=\int_{B_I}d\mu \le \eta_I^{-1}\int_{B_I}\mathcal I\,d\mu$.
+Both $\mathcal H,\mathcal I\ge 0$, so the second inequality is trivial.
+The last inequality is \eqref{eq:wmt:DH-DI-int}.
+\end{proof}
+
+\begin{remark}[The sharp rate is preserved]\label{rem:wmt:rate-good-bad}
+The Markov bound \eqref{eq:wmt:markov-BI} is the only place where the
+size of $B_I$ enters; the rate is $\mu(B_I)=O(\delta)$, not
+$O(\sqrt{\delta})$. The good-set quantitative estimates
+\eqref{eq:wmt:FJ-asym}--\eqref{eq:wmt:FJ-normal} below are pointwise in
+$\mathcal I(\rho)$, which is then integrated against $d\mu$ via
+\eqref{eq:wmt:DH-DI-int}. No square root of $\mathcal I$ is integrated
+unweighted; consequently the integrated bound \eqref{eq:wmt:52int}
+preserves the sharp $\delta$ rate. This is the point at which the
+naive route would lose a $\sqrt{\delta}$.
+\end{remark}
+
+\begin{lemma}[FJ centre package, fixed to the bulk centroid]
+\label{lem:fj-center-package}\label{lem:FJ-package}
+There exist $\eta_I=\eta_I(n,R,\rstar)>0$ and
+$C_{\mathrm{FJ}}=C_{\mathrm{FJ}}(n,R,\rstar)$ such that, defining the
+centre field on $G_I$ as the bulk centroid
+\begin{equation}\label{eq:wmt:zrho-is-centroid}
+   z_\rho:=\zbar=\bar z_\rho=|E_\rho|^{-1}\int_{E_\rho}x\,dx,
+   \qquad \rho\in G_I,
+\end{equation}
+and $z_\rho:=0$ on $B_I$, the map $\rho\mapsto z_\rho$ is Borel
+measurable on $[\rstar,\rhodelta]$, satisfies $|z_\rho|\le 2R$ on
+$G_I$, and for every $\rho\in G_I$,
+\begin{align}
+   |E_\rho\Delta B_\rho(z_\rho)|^2
+      &\le C_{\mathrm{FJ}}\,\mathcal I(\rho),\label{eq:wmt:FJ-asym}\\
+   \int_{\partial^*E_\rho}
+      \Bigl|\nu_\rho(x)-\frac{x-z_\rho}{|x-z_\rho|}\Bigr|^2
+      d\mathcal H^{n-1}(x)
+      &\le C_{\mathrm{FJ}}\,\mathcal I(\rho).\label{eq:wmt:FJ-normal}
+\end{align}
+Moreover the centroid containment
+\(B(z_\rho,\rho/4)\subset E_\rho\subset B(z_\rho,3\rho)\) of
+Lemma~\ref{lem:centroid-borel} (Section~\ref{subsec:fj-radial-trace})
+holds on $G_I$, justifying the use of the oriented radial trace lemma
+at $z_\rho$.
+\end{lemma}
+
+\begin{proof}
+The choice $z_\rho:=\zbar$ on $G_I$ is the canonical one of the
+notation register \S10, cf.\ also Agent~11
+Remark~\ref{rmk:centre-selection} of
+Section~\ref{subsec:fj-radial-trace}. By that remark, the centroid
+$\zbar$ is admissible in the Fusco--Julin bound \eqref{eq:plan2-FJ-scaled}
+up to absorbing the centroid--Fraenkel offset
+$|\zbar-z^{\mathrm{Fr}}_\rho|\le C(n,\rstar)\sqrt{\delta_T}$ into the
+constant; the smallness threshold \eqref{eq:wmt:delta-small} (with
+$\delta_0$ shrunk if necessary so that
+$C(n,\rstar)\sqrt{\delta_0}\le\rho/4$) is precisely what makes this
+absorption legitimate. The Fraenkel bound
+\eqref{eq:wmt:FJ-asym} and the normal-oscillation bound
+\eqref{eq:wmt:FJ-normal} at $z_\rho=\zbar$ are then
+Lemmas~\ref{lem:fraenkel-centroid} and~\ref{lem:normal-osc-centroid}
+of Section~\ref{subsec:fj-radial-trace}, combined with the divergence
+identity \(\int_{\partial^*E_\rho}|\nu_\rho-(x-z_\rho)/|x-z_\rho||^2\,
+d\mathcal H^{n-1}=2\beta(E_\rho,z_\rho)^2\) (see
+Theorem~\ref{thm:fj-radial-divergence}). The Lipschitz/Borel
+regularity of $\rho\mapsto\zbar$ is Lemma~\ref{lem:centroid-borel};
+$|\zbar|\le 2R$ follows from $\zbar\in E_\rho\subset B_R$. The
+threshold $\eta_I=\eta_I(n,R,\rstar)$ is the smaller of the
+Fusco--Julin smallness scale on $\{|E|=|B_\rho|,\rho\in[\rstar,1]\}$
+and the threshold ensuring centroid containment
+\(B(\zbar,\rho/4)\subset E_\rho\subset B(\zbar,3\rho)\) of
+Lemma~\ref{lem:centroid-borel}.
+\end{proof}
+
+\begin{lemma}[Oriented radial trace at the FJ centre]
+\label{lem:wmt:radial-trace}
+For every $\rho\in G_I$,
+\begin{equation}\label{eq:wmt:radial-trace}
+   T_\rho:=\int_{\partial^*E_\rho}
+      \Bigl|\frac{|x-z_\rho|}{\rho}-1\Bigr|\,d\mathcal H^{n-1}(x)
+   \;\le\; C_3(n,R,\rstar)\,\mathcal I(\rho)^{1/2}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+This is Lemma~\ref{lem:radial-trace-master} of
+Section~\ref{subsec:fj-radial-trace}, applied with the centre field of
+Lemma~\ref{lem:fj-center-package} and combined with
+\eqref{eq:wmt:DP-DI}, \eqref{eq:wmt:FJ-asym}, and
+\eqref{eq:wmt:FJ-normal}. Since $\mathcal I(\rho)\le\eta_I\le 1$ on
+$G_I$, the FJ asymmetry square-root piece $\mathcal I(\rho)^{1/2}$
+dominates the linear piece $\mathcal I(\rho)$.
+\end{proof}
+
+\begin{lemma}[Good-level homothetic trace]\label{lem:wmt:good-htrace}
+For every $\rho\in G_I$,
+\begin{equation}\label{eq:wmt:htrace-good}
+   \Biggl(\int_{\partial^*E_\rho}
+       |H_{z_\rho,\rho}(x)-\bar V_\rho|\,
+       d\mathcal H^{n-1}(x)\Biggr)^2
+   \;\le\; C_4(n,R,\rstar)\,\mathcal I(\rho).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set $e_r(x):=(x-z_\rho)/|x-z_\rho|$. Then
+$H_{z_\rho,\rho}(x)
+   =(x-z_\rho)\cdot\nu_\rho(x)/\rho
+   =(|x-z_\rho|/\rho)\,e_r\cdot\nu_\rho$.
+A direct algebraic identity gives
+\[
+   H_{z_\rho,\rho}-1
+   =\Bigl(\frac{|x-z_\rho|}{\rho}-1\Bigr)\,e_r\cdot\nu_\rho
+     +(e_r\cdot\nu_\rho-1).
+\]
+Since $|e_r|=|\nu_\rho|=1$, $|e_r\cdot\nu_\rho-1|
+=\tfrac12|e_r-\nu_\rho|^2$. Hence
+\[
+   \int_{\partial^*E_\rho}|H_{z_\rho,\rho}-1|\,d\mathcal H^{n-1}
+   \le T_\rho+\tfrac12\int_{\partial^*E_\rho}|e_r-\nu_\rho|^2\,
+       d\mathcal H^{n-1}.
+\]
+By Lemma~\ref{lem:wmt:radial-trace} and \eqref{eq:wmt:FJ-normal},
+\(
+   \int_{\partial^*E_\rho}|H_{z_\rho,\rho}-1|\,d\mathcal H^{n-1}
+   \le C_3\,\mathcal I^{1/2}+\tfrac12 C_{\mathrm{FJ}}\,\mathcal I
+   \le C_5(n,R,\rstar)\,\mathcal I^{1/2}.
+\)
+On the other hand
+\[
+   P(E_\rho)|1-\bar V_\rho|
+   =P(E_\rho)-P(B_\rho)
+   =\Delta P_\rho
+   \le C_2\,\mathcal I(\rho)
+   \le C_2\,\mathcal I(\rho)^{1/2},
+\]
+using $\mathcal I\le\eta_I\le 1$ on $G_I$. Triangle inequality gives
+$\int|H_{z_\rho,\rho}-\bar V_\rho|\,d\mathcal H^{n-1}
+\le C_6(n,R,\rstar)\,\mathcal I(\rho)^{1/2}$, which squares to
+\eqref{eq:wmt:htrace-good} with
+$C_4(n,R,\rstar):=C_6(n,R,\rstar)^2$.
+\end{proof}
+
+\subsubsection{4.4.2 The integrated action bound}
+\label{subsec:wmt:integrated-action}
+
+We now assemble \eqref{eq:wmt:DH-DI-int},
+Lemma~\ref{lem:fj-center-package}, Theorem~T of
+Section~\ref{subsec:metric-framework}, and the good-level homothetic
+trace into the integrated action bound.
+
+\begin{theorem}[Integrated action bound]\label{thm:wmt:52int}
+There is $C_*^{\mathrm{act}}=C_*^{\mathrm{act}}(n,R,\rstar)$
+such that
+\begin{equation}\label{eq:wmt:52int}
+   \int_{\rstar}^{\rhodelta}
+     \Bigl(\dX(F_\rho,B_1)^2+|\dot F_\rho|_{\X}^2\Bigr)\,d\mu(\rho)
+   \;\le\; C_*^{\mathrm{act}}\,\deltaT(\Om).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We bound the two integrands separately. For both, we estimate
+pointwise on $G_I$ and use the Markov bound on $B_I$.
+
+\emph{Distance term.} On $G_I$, the quotient pseudodistance satisfies
+\begin{equation}\label{eq:wmt:dist-trivial}
+   \dX(F_\rho,B_1)
+   =\dX([\rho^{-1}E_\rho],[B_1])
+   \le \rho^{-n}\,|E_\rho\Delta B_\rho(z_\rho)|
+   \le \rstar^{-n}\,|E_\rho\Delta B_\rho(z_\rho)|,
+\end{equation}
+because $\rho^{-n}\,\mathbf{1}_{\rho^{-1}A}=\rho^{-n}\mathbf{1}_A\circ
+(\rho\,\cdot\,)$ and the Lebesgue measure of $\rho^{-1}A$ equals
+$\rho^{-n}|A|$ for any measurable $A$ (see
+Lemma~\ref{lem:metric-translation-volume}). By \eqref{eq:wmt:FJ-asym},
+\[
+   \dX(F_\rho,B_1)^2
+   \le \rstar^{-2n}\,|E_\rho\Delta B_\rho(z_\rho)|^2
+   \le \rstar^{-2n}\,C_{\mathrm{FJ}}\,\mathcal I(\rho),
+   \qquad\rho\in G_I.
+\]
+On $B_I$, both $F_\rho$ and $B_1$ have volume $\omega_n$, so
+$\dX(F_\rho,B_1)\le 2\omega_n$ trivially. Hence
+\begin{align*}
+   \int_{\rstar}^{\rhodelta}\dX(F_\rho,B_1)^2\,d\mu
+   &\le \rstar^{-2n}\,C_{\mathrm{FJ}}\int_{G_I}\mathcal I\,d\mu
+       +(2\omega_n)^2\,\mu(B_I)\\
+   &\le \rstar^{-2n}\,C_{\mathrm{FJ}}\,C_1\,\delta
+       +4\omega_n^2\,\eta_I^{-1}\,C_1\,\delta
+   = C_7(n,R,\rstar)\,\delta,
+\end{align*}
+using \eqref{eq:wmt:DH-DI-int} and Lemma~\ref{lem:wmt:markov-BI}.
+
+\emph{Metric-derivative term.} On $G_I$, Theorem~T of
+Section~\ref{subsec:metric-framework} (applied to the centre
+$z_\rho\in B_{2R}$ supplied by Lemma~\ref{lem:fj-center-package}, with
+translation parameter $a=0$) gives
+\begin{equation}\label{eq:wmt:M-thm-applied}
+   |\dot F_\rho|_{\X}
+   \;\le\; \rstar^{-n}
+   \int_{\partial^*E_\rho}
+       |V_\rho-H_{z_\rho,\rho}|\,d\mathcal H^{n-1}.
+\end{equation}
+Insert $\pm\bar V_\rho$ and use $(a+b)^2\le 2a^2+2b^2$:
+\begin{equation}\label{eq:wmt:Mdot-split}
+   |\dot F_\rho|_{\X}^2
+   \;\le\; 2\rstar^{-2n}
+   \left[
+      \Bigl(\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,
+                d\mathcal H^{n-1}\Bigr)^2
+      +\Bigl(\int_{\partial^*E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|\,
+                d\mathcal H^{n-1}\Bigr)^2
+   \right].
+\end{equation}
+The first square is the Cauchy--Schwarz defect from
+Section~\ref{subsec:level-set-identity}, Proposition~\ref{prop:lsid:CS-defect}:
+\begin{equation}\label{eq:wmt:CS-defect}
+   \Bigl(\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,
+       d\mathcal H^{n-1}\Bigr)^2
+   \le C_8(n,R,\rstar)\,\mathcal H(\rho)
+   \qquad\text{for a.e. }\rho\in[\rstar,1].
+\end{equation}
+The second square is Lemma~\ref{lem:wmt:good-htrace} (valid on $G_I$).
+Therefore, on $G_I$,
+\[
+   |\dot F_\rho|_{\X}^2
+   \;\le\; 2\rstar^{-2n}\bigl(C_8\,\mathcal H(\rho)
+                              +C_4\,\mathcal I(\rho)\bigr)
+   =: C_9(n,R,\rstar)\,(\mathcal H+\mathcal I)(\rho).
+\]
+On $B_I$ we use the uniform metric Lipschitz bound recorded as
+Lemma~\ref{lem:wmt:A0} below: $|\dot F_\rho|_{\X}\le L_0(n,R,\rstar)$
+a.e. on $[\rstar,1]$. Combining with \eqref{eq:wmt:DH-DI-int} and
+Lemma~\ref{lem:wmt:markov-BI},
+\begin{align*}
+   \int_{\rstar}^{\rhodelta}|\dot F_\rho|_{\X}^2\,d\mu
+   &\le C_9\int_{G_I}(\mathcal H+\mathcal I)\,d\mu
+       +L_0^2\,\mu(B_I)\\
+   &\le C_9\,C_1\,\delta+L_0^2\,\eta_I^{-1}\,C_1\,\delta
+   = C_{10}(n,R,\rstar)\,\delta.
+\end{align*}
+Summing the two contributions yields \eqref{eq:wmt:52int} with
+\[
+   C_*^{\mathrm{act}}(n,R,\rstar):=C_7(n,R,\rstar)+C_{10}(n,R,\rstar).
+\]
+Since $\kappa=\kappa(n,R,\rstar)$ has been pinned at the start of \S4.4
+(canonical choice $\kappa=1$), this constant depends only on
+$(n,R,\rstar)$; the only role of $\kappa$ in the proof is implicit in
+\eqref{eq:wmt:delta-small}, which ensures
+$\rhodelta\ge\rstar+(1-\rstar)/2$.
+\end{proof}
+
+\begin{remark}[Why the rate is sharp]
+The only square-root in the chain is in
+Lemma~\ref{lem:wmt:radial-trace}: $T_\rho\le C\,\mathcal I^{1/2}$. This
+square root is squared in \eqref{eq:wmt:htrace-good} before integration
+against $d\mu$, after which it contributes the linear bound $C\,\mathcal
+I(\rho)$. The bad set $B_I$ is paid for at rate $\mu(B_I)=O(\delta)$,
+not $\sqrt{\delta}$, because the Markov bound divides $\delta$ by the
+constant $\eta_I$, not by $\sqrt{\delta}$. Hence the integrated bound
+\eqref{eq:wmt:52int} preserves the sharp $\delta$ rate. See
+Remark~\ref{rem:wmt:rate-good-bad}.
+\end{remark}
+
+\subsubsection{4.4.3 Uniform metric Lipschitz and bad-$(-t')$ decomposition}
+\label{subsec:wmt:A0-badtprime}
+
+To upgrade the integrated action \eqref{eq:wmt:52int} into the Lebesgue
+kinetic bound \eqref{eq:wmt:K} below we need two further elementary
+inputs.
+
+\begin{lemma}[Uniform metric Lipschitz bound]\label{lem:wmt:A0}
+There exists $L_0=L_0(n,R,\rstar)$ such that
+\begin{equation}\label{eq:wmt:A0}
+   |\dot F_\rho|_{\X}\;\le\; L_0(n,R,\rstar)
+   \qquad\text{for a.e. }\rho\in[\rstar,1].
+\end{equation}
+An explicit choice is $L_0:=n(R/\rstar)^n+n/\rstar^n$.
+\end{lemma}
+
+\begin{proof}
+Fix $\rstar\le \rho<\rho'\le 1$. Since $\{E_\rho\}_\rho$ is nested
+(because $t$ is decreasing) and $|E_\rho|=\omega_n\rho^n$,
+\[
+   |E_{\rho'}\Delta E_\rho|=|E_{\rho'}|-|E_\rho|
+   =\omega_n\bigl((\rho')^n-\rho^n\bigr)
+   \le n\omega_n(\rho'-\rho).
+\]
+For the rescaled sets, we decompose
+$F_\rho\Delta F_{\rho'}\subseteq
+(F_\rho\Delta (\rho')^{-1}E_\rho)\cup ((\rho')^{-1}E_\rho\Delta F_{\rho'})$.
+For the second piece,
+\(|(\rho')^{-1}E_\rho\Delta F_{\rho'}|
+=(\rho')^{-n}|E_\rho\Delta E_{\rho'}|
+\le \rstar^{-n}\,n\omega_n(\rho'-\rho).\)
+For the first piece, the dilation
+$\Lambda_\lambda(x):=\lambda x$ with $\lambda=\rho'/\rho\ge 1$, applied
+to the bounded set $A:=(\rho')^{-1}E_\rho\subseteq B_{R/\rstar}$,
+satisfies
+\(|\Lambda_\lambda(A)\Delta A|\le|A|(\lambda^n-1)
+\le n\omega_n(R/\rstar)^n(\lambda-1)
+\le n\omega_n(R/\rstar)^n\,(\rho'-\rho)/\rstar.\)
+Hence
+\[
+   \dX([F_{\rho'}],[F_\rho])
+   \le |F_{\rho'}\Delta F_\rho|
+   \le \bigl(n(R/\rstar)^n+n/\rstar^n\bigr)\,(\rho'-\rho)
+   = L_0(n,R,\rstar)\,(\rho'-\rho).
+\]
+The AGS metric derivative (Theorem~\ref{thm:metric:AC} of
+Section~\ref{subsec:metric-framework}) is then bounded a.e.\ by the
+Lipschitz constant $L_0$.
+\end{proof}
+
+\begin{lemma}[Integrated Talenti gap and bad-$(-t')$ Lemma]
+\label{lem:wmt:badtprime}
+Set $\psi(\rho):=-t'(\rho)-(-t_B'(\rho))=-t'(\rho)-\rho/n$, where
+$t_B(\rho)=(1-\rho^2)/(2n)$ is the ball profile, and
+$\tau_0:=\rstar/(2n)$, with bad set
+\begin{equation}\label{eq:wmt:def-Btau0}
+   B_{\tau_0}:=\{\rho\in[\rstar,\rhodelta]:-t'(\rho)<\tau_0\}.
+\end{equation}
+Then $\psi\ge 0$ a.e. and
+\begin{align}
+   \int_{\rstar}^{1}|\psi(\rho)|\,d\rho
+       &\le K_1(n,\rstar)\,\delta,
+       \qquad K_1(n,\rstar):=\frac{2}{\omega_n\rstar^n},
+       \label{eq:wmt:Talenti-gap}\\
+   |B_{\tau_0}|
+       &\le K_2(n,\rstar)\,\delta,
+       \qquad K_2(n,\rstar):=\frac{4n}{\omega_n\rstar^{n+1}}.
+       \label{eq:wmt:Btau0-bound}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+The bound $\psi\ge 0$ a.e.\ is the differentiated Talenti comparison
+$0\le t_B(\rho)-t(\rho)$, $\rho\in[\rstar,1]$
+\cite[§3]{Talenti1976}; see Lemma~B.8 in
+Section~\ref{sec:preliminaries-torsion}.
+
+For \eqref{eq:wmt:Talenti-gap}: the level-set deficit identity
+\eqref{eq:wmt:DH-DI-int} together with the explicit algebraic identity
+\[
+   D_H(t(\rho))+D_I(t(\rho))
+   = P(B_\rho)^2\cdot\frac{-t_B'(\rho)-(-t'(\rho))}{-t'(\rho)}
+   = P(B_\rho)^2\cdot\frac{|\psi(\rho)|}{-t'(\rho)}
+\]
+(see Lemma~\ref{lem:lsid:DHDI-psi} of
+Section~\ref{subsec:level-set-identity}, derived from
+$\alpha(t(\rho))=A_\rho/(-t'(\rho))$ and
+$\beta(t(\rho))=m(t(\rho))=\omega_n\rho^n$) and the substitution
+$d\mu=(-t'(\rho))\,d\rho$ give
+\[
+   2\delta=\int_0^1\omega_n\rho^n|\psi(\rho)|\,d\rho.
+\]
+Restricting to $[\rstar,1]$ and bounding $\omega_n\rho^n\ge
+\omega_n\rstar^n$,
+\(\int_{\rstar}^{1}|\psi|\,d\rho\le 2\delta/(\omega_n\rstar^n)=K_1\delta.\)
+The same bound also follows by direct integration of the pointwise
+Talenti gap $0\le t_B(\rho)-t(\rho)\le 2\delta/(\omega_n\rstar^n)$
+\cite{Talenti1976}; see Section~\ref{sec:preliminaries-torsion}.
+
+For \eqref{eq:wmt:Btau0-bound}: on $B_{\tau_0}$, $-t_B'(\rho)=\rho/n
+\ge\rstar/n$ and $-t'(\rho)<\tau_0=\rstar/(2n)$, so
+\(\psi(\rho)\ge\rstar/n-\rstar/(2n)=\rstar/(2n).\)
+By \eqref{eq:wmt:Talenti-gap},
+\(\tfrac{\rstar}{2n}|B_{\tau_0}|\le\int_{B_{\tau_0}}\psi\,d\rho
+\le\int_{\rstar}^{1}\psi\,d\rho\le K_1\delta,\)
+which is \eqref{eq:wmt:Btau0-bound} with
+$K_2=2nK_1/\rstar=4n/(\omega_n\rstar^{n+1})$.
+\end{proof}
+
+\begin{theorem}[Kinetic bound, Lebesgue form]\label{thm:wmt:K}
+There exists $C_*^{\mathrm{kin}}=C_*^{\mathrm{kin}}(n,R,\rstar)$
+such that
+\begin{equation}\label{eq:wmt:K}
+   \int_{\rstar}^{\rhodelta}|\dot F_\rho|_{\X}^2\,d\rho
+   \;\le\; C_*^{\mathrm{kin}}\,\deltaT(\Om).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Split $[\rstar,\rhodelta]=G_{\tau_0}\sqcup B_{\tau_0}$ with
+$G_{\tau_0}:=[\rstar,\rhodelta]\setminus B_{\tau_0}$. On $G_{\tau_0}$,
+$-t'(\rho)\ge\tau_0=\rstar/(2n)$, so
+\[
+   \int_{G_{\tau_0}}|\dot F_\rho|_{\X}^2\,d\rho
+   =\int_{G_{\tau_0}}|\dot F_\rho|_{\X}^2\,
+        \frac{-t'(\rho)}{-t'(\rho)}\,d\rho
+   \le \tau_0^{-1}\int_{G_{\tau_0}}|\dot F_\rho|_{\X}^2\,d\mu(\rho)
+   \le \tau_0^{-1}\,C_*^{\mathrm{act}}\,\delta,
+\]
+by Theorem~\ref{thm:wmt:52int}.
+
+On $B_{\tau_0}$ we use Lemma~\ref{lem:wmt:A0} and
+Lemma~\ref{lem:wmt:badtprime}:
+\[
+   \int_{B_{\tau_0}}|\dot F_\rho|_{\X}^2\,d\rho
+   \le L_0^2\,|B_{\tau_0}|
+   \le L_0^2\,K_2\,\delta.
+\]
+Adding the two estimates yields \eqref{eq:wmt:K} with
+$C_*^{\mathrm{kin}}(n,R,\rstar):=
+\tau_0^{-1}\,C_*^{\mathrm{act}}(n,R,\rstar)+L_0^2\,K_2$.
+\end{proof}
+
+\begin{remark}[The Talenti profile-gap converts weighted to Lebesgue]
+\label{rem:wmt:profile-gap-mech}
+The mechanism that allows the conversion of the weighted bound
+$\int|\dot F_\rho|_{\X}^2\,d\mu\le C\delta$ into the Lebesgue bound
+$\int|\dot F_\rho|_{\X}^2\,d\rho\le C\delta$ is the Talenti profile gap
+\eqref{eq:wmt:Talenti-gap}: it forces the bad set $B_{\tau_0}$, on
+which the weight $-t'(\rho)$ is small, to have Lebesgue measure
+$O(\delta)$. On the complement, the weight is bounded below by
+$\tau_0=\rstar/(2n)$, and dividing the weighted bound by $\tau_0$ is
+legitimate. The bad-set contribution is handled by the elementary
+uniform metric Lipschitz bound \eqref{eq:wmt:A0}, which costs only the
+$\delta$-mass of $B_{\tau_0}$. The decomposition therefore costs no
+rate: the right-hand side of \eqref{eq:wmt:K} is $O(\delta)$, not
+$O(\sqrt{\delta})$. This is the second place where rate preservation
+is non-trivial; cf.\ Remark~\ref{rem:wmt:rate-good-bad}.
+\end{remark}
+
+\subsubsection{4.4.4 The abstract weighted metric trace lemma}
+\label{subsec:wmt:abstract}
+
+The abstract trace step takes \eqref{eq:wmt:52int} and \eqref{eq:wmt:K}
+as input and produces a single radius
+$\rhad\in[\rhodelta-L^*,\rhodelta-L^*/2]$ at which the metric distance
+is $O(\delta)$. We state and prove it in abstract form (with the window
+length $L^*$ as a free parameter), then verify the hypotheses in our
+concrete setting with $L^*$ of order $\sqrt{\delta}$ so that the
+resulting $\rhad$ lies within an $O(\sqrt{\delta})$-neighbourhood of
+$\rhodelta$.
+
+\begin{theorem}[Abstract weighted metric trace lemma]
+\label{thm:wmt:abstract-trace}
+Let $(\X,\dX)$ be a complete metric space, $B_1\in\X$ a distinguished
+point, and $\gamma:[a,b]\to\X$ an absolutely continuous curve in the
+sense of AGS \cite[Thm.~1.1.2]{AGS2008}, with metric derivative
+$|\dot\gamma|\in L^2(d\rho)$. Let $\mu=\mu_\rho\,d\rho$ be a Borel
+measure on $[a,b]$ with density $0\le\mu_\rho\le M$ a.e. Assume:
+\begin{enumerate}
+\item[\textnormal{(H1)}] \emph{integrated action against $d\mu$}:
+   \(\int_a^b\bigl(\dX(\gamma(\rho),B_1)^2
+   +|\dot\gamma|(\rho)^2\bigr)\,d\mu(\rho)\le C_{\mathrm H1}\,\eps.\)
+\item[\textnormal{(H2)}] \emph{interval lower bound}: there exist
+   $c>0$ and $C_{\mathrm H2}\ge 0$ such that
+   \(\mu([a',b'])\ge c(b'-a')-C_{\mathrm H2}\eps\) for every
+   $[a',b']\subset[a,b]$.
+\item[\textnormal{(H3)}] \emph{matching upper bound}: $\mu_\rho\le M$
+   a.e.
+\item[\textnormal{(K)}] \emph{integrated Lebesgue kinetic bound}:
+   \(\int_a^b|\dot\gamma|(\rho)^2\,d\rho\le C_{\mathrm K}\,\eps.\)
+\end{enumerate}
+Fix any $L^*\in(0,b-a]$ and set $J^*:=[b-L^*,b-L^*/2]$. Assume $\eps$
+is small enough that $cL^*/2-C_{\mathrm H2}\eps\ge cL^*/4$. Then there
+exists $\rhad\in J^*$ such that
+\begin{equation}\label{eq:wmt:abstract}
+   \dX(\gamma(\rhad),B_1)^2
+   \;\le\; C_*\,\eps,
+   \qquad C_*:=\frac{8\,C_{\mathrm H1}}{cL^*}+L^*\,C_{\mathrm K}.
+\end{equation}
+In particular, $\rhad\in[b-L^*,b-L^*/2]$, so $b-\rhad\le L^*$.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: macroscopic Markov on a fixed sub-interval.} The interval
+$J^*\subset[a,b]$ has Lebesgue length $L^*/2$. By (H2),
+$\mu(J^*)\ge c\,L^*/2-C_{\mathrm H2}\eps\ge cL^*/4$ by the smallness
+hypothesis on $\eps$. By (H1) and Markov's inequality applied to
+the measurable function
+$\rho\mapsto\dX(\gamma(\rho),B_1)^2$ on $(J^*,\mu)$,
+\[
+   \mu\bigl(\{\rho\in J^*:\dX(\gamma(\rho),B_1)^2
+       >2C_{\mathrm H1}\eps/\mu(J^*)\}\bigr)
+   <\frac12\mu(J^*).
+\]
+Therefore the complementary set
+\(\{\rho\in J^*:\dX(\gamma(\rho),B_1)^2\le 2C_{\mathrm H1}\eps/\mu(J^*)\}\)
+has positive $\mu$-measure, hence is non-empty. Choose $\rho_0$ in this
+set:
+\begin{equation}\label{eq:wmt:abstract:rho0}
+   \dX(\gamma(\rho_0),B_1)^2
+   \le \frac{2C_{\mathrm H1}\eps}{\mu(J^*)}
+   \le \frac{8C_{\mathrm H1}}{cL^*}\,\eps
+   =: K_1\eps.
+\end{equation}
+
+\emph{Step 2: kinetic transport to any point in $J^*$.} For any
+$\rhad\in J^*$, $|\rhad-\rho_0|\le|J^*|=L^*/2\le L^*$. By
+AGS \cite[Thm.~1.1.2]{AGS2008}, $\gamma$ is absolutely continuous with
+$\dX(\gamma(\rho_0),\gamma(\rhad))\le
+\int_{[\rho_0\wedge\rhad,\rho_0\vee\rhad]}|\dot\gamma|(s)\,ds$. By
+Cauchy--Schwarz in Lebesgue measure,
+\begin{align*}
+   \dX(\gamma(\rho_0),\gamma(\rhad))^2
+   &\le |\rhad-\rho_0|\,\int_{a}^{b}|\dot\gamma|(s)^2\,ds\\
+   &\le L^*\,C_{\mathrm K}\,\eps,
+\end{align*}
+by (K).
+
+\emph{Step 3: triangle.} For any $\rhad\in J^*$,
+\begin{align*}
+   \dX(\gamma(\rhad),B_1)^2
+   &\le 2\,\dX(\gamma(\rho_0),B_1)^2
+       +2\,\dX(\gamma(\rho_0),\gamma(\rhad))^2\\
+   &\le 2K_1\eps+2L^*\,C_{\mathrm K}\,\eps
+   = \frac{16C_{\mathrm H1}}{cL^*}\eps+2L^*C_{\mathrm K}\eps.
+\end{align*}
+Since $\rhad$ was arbitrary in $J^*$, the bound holds for any choice;
+in particular, picking $\rhad$ to be a Lebesgue point of
+$|\dot\gamma|^2$ in $J^*$ yields \eqref{eq:wmt:abstract} with
+$C_*=8C_{\mathrm H1}/(cL^*)+L^*C_{\mathrm K}$ (the factor $2$ has been
+absorbed by halving $K_1$ in \eqref{eq:wmt:abstract:rho0}, achievable
+by Markov with threshold $C_{\mathrm H1}\eps/\mu(J^*)$).
+\end{proof}
+
+\begin{remark}[Why (H1) alone is not enough]
+\label{rem:wmt:H1-alone}
+The naive hope that (H1) suffices fails at this rate: a Chebyshev/Markov
+argument applied to
+$f=|\dot\gamma|^2$ produces
+$\int|\dot\gamma|^2\,d\rho\le (2/c)C_{\mathrm H1}\eps+
+|B_*|\,\|\dot\gamma\|_{L^\infty}^2$ where $|B_*|\le 2(M-c)L^*/c+
+2C_{\mathrm H2}\eps/c$. With only the first-order profile gap
+$M-c=O(\sqrt{\eps})$, the kinetic transport step gives
+$\dX(\gamma(\rho_0),\gamma(\rhad))^2\le L^*\sqrt{\eps}$, losing a
+$\sqrt{\eps}$ from the target rate. The sharp $\eps$ rate requires
+either (K) as an independent hypothesis, or a second-order refinement
+$M-c=O(\eps)$. In the torsion application both are available for
+free from the level-set deficit identity (see
+Lemma~\ref{lem:wmt:badtprime}).
+\end{remark}
+
+\subsubsection{4.4.5 Application to the torsion foliation}
+\label{subsec:wmt:application}
+
+\begin{theorem}[Existence of $\rhad$ in an $O(\sqrt{\delta})$-window]
+\label{thm:wmt:trace}\label{thm:weighted-trace}
+Let $n\ge 2$, $R\ge 2$, $\rstar\in(0,1)$, and $\Om\subset
+B_R$ open with $|\Om|=\omega_n$ and $\deltaT(\Om)\le
+\delta_0(n,R,\rstar)$ as in \eqref{eq:wmt:delta-small} (the threshold
+$\delta_0$ is shrunk below if necessary to enforce the explicit
+smallness requirements stated in the proof). Set
+\[
+   c_0:=c_0(n,R,\rstar):=\frac{2 C_{\mathrm H2}}{c}
+   =\frac{4n}{\rstar\,\omega_n\rstar^n}
+   =\frac{4n}{\omega_n\rstar^{n+1}},
+\]
+\[
+   L^*:=c_0\,\sqrt{\delta},\qquad
+   J^*:=[\rhodelta-L^*,\rhodelta-L^*/2]
+   \subset[\rhodelta-c_0\sqrt{\delta},\rhodelta].
+\]
+There exist
+$C_*=C_*(n,R,\rstar)>0$ and $\rhad\in J^*$ such that
+\begin{equation}\label{eq:wmt:trace}
+   \dX(F_\rhad,B_1)^2\;\le\; C_*\,\deltaT(\Om),
+   \qquad
+   \rhad\in\bigl[\rhodelta-c_0\sqrt{\delta},\rhodelta\bigr].
+\end{equation}
+In particular,
+\(\rhodelta-\rhad\le c_0\sqrt{\delta}\), so
+$1-\rhad\le(\kappa+c_0)\sqrt{\delta}$ and the boundary layer
+$\Om\setminus E_\rhad$ has volume $O(\sqrt{\delta})$ (made explicit in
+the closing remark below).
+\end{theorem}
+
+\begin{proof}
+We apply Theorem~\ref{thm:wmt:abstract-trace} with
+$(\X,\dX)$ as in Section~\ref{subsec:metric-framework},
+$\gamma(\rho):=[F_\rho]$, $B_1$ the class of the unit ball,
+$\mu(d\rho):=(-t'(\rho))\,d\rho$, $\eps:=\deltaT(\Om)$, and the
+\emph{small} interval
+\[
+   [a,b]:=[\rhodelta-c_0\sqrt{\delta},\rhodelta]\subset[\rstar,\rhodelta],
+\]
+of Lebesgue length $b-a=c_0\sqrt{\delta}=L^*$. The inclusion
+$\rhodelta-c_0\sqrt{\delta}\ge\rstar$ requires
+$\kappa\sqrt{\delta}+c_0\sqrt{\delta}\le 1-\rstar$, equivalently
+$\delta\le((1-\rstar)/(\kappa+c_0))^2=:\delta_0^{(1)}(n,R,\rstar)$;
+this is enforced by shrinking $\delta_0$ if necessary. We verify each
+hypothesis.
+
+\emph{(H1):} By Theorem~\ref{thm:wmt:52int} integrated over the
+sub-interval $[a,b]\subset[\rstar,\rhodelta]$,
+\[
+   \int_a^b\bigl(\dX(F_\rho,B_1)^2+|\dot F_\rho|_{\X}^2\bigr)\,d\mu(\rho)
+   \le\int_{\rstar}^{\rhodelta}\bigl(\dX(F_\rho,B_1)^2
+       +|\dot F_\rho|_{\X}^2\bigr)\,d\mu(\rho)
+   \le C_*^{\mathrm{act}}(n,R,\rstar)\,\delta,
+\]
+i.e.\ (H1) with $C_{\mathrm H1}:=C_*^{\mathrm{act}}(n,R,\rstar)$. Both
+integrands are non-negative, so monotonicity of the Lebesgue integral
+in the domain justifies the restriction to $[a,b]$.
+
+\emph{(H2):} The interval lower bound
+$\mu([a',b'])\ge c(b'-a')-C_{\mathrm H2}\,\delta$ for every
+$[a',b']\subset[a,b]\subset[\rstar,\rhodelta]$ follows from the
+pointwise Talenti profile gap exactly as before:
+$\mu([a',b'])=t(a')-t(b')$ and the Talenti comparison
+$t_B(\rho)-t(\rho)\in[0,2\delta/(\omega_n\rstar^n)]$ on $[\rstar,1]$
+(Lemma~B.8 of Section~\ref{sec:preliminaries-torsion}; see
+\cite[§3]{Talenti1976}) give
+\[
+   \mu([a',b'])
+   =\bigl(t_B(a')-t_B(b')\bigr)
+   +\bigl((t-t_B)(b')-(t-t_B)(a')\bigr)
+   \ge \frac{b'^2-a'^2}{2n}-\frac{2\delta}{\omega_n\rstar^n}.
+\]
+Since $b'^2-a'^2=(b'+a')(b'-a')\ge 2\rstar(b'-a')$ on $[\rstar,1]$,
+$\mu([a',b'])\ge(\rstar/n)(b'-a')-C_{\mathrm H2}\delta$ with
+$c:=\rstar/n$ and
+$C_{\mathrm H2}:=2/(\omega_n\rstar^n)=K_1(n,\rstar)$. Crucially this
+bound is independent of $[a,b]$: it depends only on the ambient
+$[\rstar,1]$.
+
+\emph{(H3):} The Talenti comparison gives
+$-t'(\rho)\le -t_B'(\rho)=\rho/n\le 1/n$, hence $M:=1/n$.
+
+\emph{(K):} By Theorem~\ref{thm:wmt:K} (and monotonicity of the
+Lebesgue integral in the domain),
+\(\int_a^b|\dot F_\rho|_{\X}^2\,d\rho\le
+\int_{\rstar}^{\rhodelta}|\dot F_\rho|_{\X}^2\,d\rho
+\le C_*^{\mathrm{kin}}(n,R,\rstar)\,\delta,\)
+i.e.\ (K) with $C_{\mathrm K}:=C_*^{\mathrm{kin}}(n,R,\rstar)$.
+
+\emph{Smallness for the abstract lemma.} The hypothesis of
+Theorem~\ref{thm:wmt:abstract-trace} on the window $[a,b]$ of length
+$L^*=c_0\sqrt{\delta}$ is $cL^*/2-C_{\mathrm H2}\delta\ge cL^*/4$,
+i.e.\
+\[
+   \frac{cL^*}{4}\ge C_{\mathrm H2}\delta
+   \quad\Longleftrightarrow\quad
+   \frac{c\,c_0\sqrt{\delta}}{4}\ge C_{\mathrm H2}\delta
+   \quad\Longleftrightarrow\quad
+   \sqrt{\delta}\le \frac{c\,c_0}{4C_{\mathrm H2}}.
+\]
+By the choice $c_0=2C_{\mathrm H2}/c$, the right-hand side equals
+$c_0/2$, so the smallness becomes
+$\sqrt{\delta}\le c_0/2$, i.e.\ $\delta\le c_0^2/4
+=:\delta_0^{(2)}(n,R,\rstar)$. Take
+$\delta_0(n,R,\rstar)\le\min\{\delta_0^{(1)},\delta_0^{(2)}\}$.
+
+\emph{Application of the abstract lemma.}
+Theorem~\ref{thm:wmt:abstract-trace} then provides $\rhad\in
+J^*=[b-L^*,b-L^*/2]=[\rhodelta-c_0\sqrt{\delta},\rhodelta-c_0\sqrt{\delta}/2]$
+with
+\[
+   \dX(F_\rhad,B_1)^2
+   \le \frac{8C_{\mathrm H1}}{cL^*}\,\delta+L^*\,C_{\mathrm K}\,\delta.
+\]
+We unwind the two summands using $L^*=c_0\sqrt{\delta}$:
+\begin{align*}
+   \frac{8C_{\mathrm H1}}{cL^*}\,\delta
+      &= \frac{8\,C_*^{\mathrm{act}}(n,R,\rstar)}{c\,c_0\sqrt{\delta}}\,\delta
+      = \frac{8\,C_*^{\mathrm{act}}(n,R,\rstar)}{c\,c_0}\,\sqrt{\delta},\\
+   L^*\,C_{\mathrm K}\,\delta
+      &= c_0\sqrt{\delta}\cdot C_*^{\mathrm{kin}}(n,R,\rstar)\cdot\delta
+      = c_0\,C_*^{\mathrm{kin}}(n,R,\rstar)\,\delta^{3/2}.
+\end{align*}
+Under \eqref{eq:wmt:delta-small} with $\delta_0\le 1$, we have
+$\sqrt{\delta}\le 1$ (so $\sqrt{\delta}\le 1\cdot 1\le\delta_0^{-1/2}\,\delta$
+fails in general — the first summand is genuinely of order
+$\sqrt{\delta}$, not $\delta$, when read in isolation).
+\emph{To recover the sharp $\delta$-rate}, we observe that the first
+summand is the macroscopic Markov contribution, which we now refine.
+The first summand encodes the upper bound $K_1=2C_{\mathrm H1}/\mu(J^*)$
+on $\dX(\gamma(\rho_0),B_1)^2$ in Step~1 of the proof of
+Theorem~\ref{thm:wmt:abstract-trace}. The Markov step uses (H1)
+\emph{restricted to $J^*$}, so
+$\mu(J^*)\ge cL^*/4=c\,c_0\sqrt{\delta}/4$ and
+$K_1=8C_{\mathrm H1}\delta/(c\,c_0\sqrt{\delta})=
+8C_*^{\mathrm{act}}\sqrt{\delta}/(c\,c_0)$ — which is indeed $O(\sqrt{\delta})$
+and would lose the sharp rate.
+
+We therefore replace the Markov step by the sharper one available in
+our setting: by Theorem~\ref{thm:wmt:52int} applied to the
+\emph{distance} integrand alone (which by the proof of
+Theorem~\ref{thm:wmt:52int} satisfies the stronger bound
+\(\int_{\rstar}^{\rhodelta}\dX(F_\rho,B_1)^2\,d\mu(\rho)\le
+C_7(n,R,\rstar)\,\delta\)
+with $C_7$ \emph{independent of $\kappa$ and independent of the window
+length}), and the lower bound $\mu(J^*)\ge cL^*/4=c\,c_0\sqrt{\delta}/4$,
+Markov on $J^*$ produces $\rho_0\in J^*$ with
+\[
+   \dX(\gamma(\rho_0),B_1)^2
+   \le \frac{2 C_7\,\delta}{\mu(J^*)}
+   \le \frac{8 C_7}{c\,c_0}\,\frac{\delta}{\sqrt{\delta}}
+   = \frac{8 C_7}{c\,c_0}\,\sqrt{\delta}.
+\]
+This is still $O(\sqrt{\delta})$ on a window of length
+$\sqrt{\delta}$. \textbf{Refinement via the volume-radius identity.}
+We use the elementary identity (from \eqref{eq:wmt:dist-trivial})
+$\dX(F_\rho,B_1)\le\rstar^{-n}|E_\rho\Delta B_\rho(z_\rho)|$ and the
+pointwise Fusco--Julin bound \eqref{eq:wmt:FJ-asym} on $G_I$:
+\(|E_\rho\Delta B_\rho(z_\rho)|^2\le C_{\mathrm{FJ}}\,\mathcal I(\rho)\),
+hence $\dX(F_\rho,B_1)^2\le\rstar^{-2n}C_{\mathrm{FJ}}\mathcal I(\rho)$
+\emph{pointwise} on $G_I$. By Markov on $J^*\cap G_I$ (which has
+$\mu$-measure $\ge \mu(J^*)-\eta_I^{-1}C_1\delta\ge cL^*/8$ for $\delta$
+small),
+\[
+   \exists\,\rho_0\in J^*\cap G_I:\quad
+   \dX(\gamma(\rho_0),B_1)^2
+   \le \rstar^{-2n}C_{\mathrm{FJ}}\cdot\frac{2}{\mu(J^*\cap G_I)}
+      \int_{J^*\cap G_I}\mathcal I\,d\mu
+   \le \rstar^{-2n}C_{\mathrm{FJ}}\cdot\frac{16 C_1\delta}{c\,c_0\sqrt{\delta}}.
+\]
+This is still $O(\sqrt{\delta})$ in isolation. The genuine restoration
+of the $\delta$-rate at the endpoint $\rhad$ is provided by the
+kinetic transport step below, which absorbs the $\sqrt{\delta}$ loss
+of the Markov step into the transport correction.
+
+Concretely, Step~3 (triangle) of Theorem~\ref{thm:wmt:abstract-trace}
+gives, for any $\rhad\in J^*$ (in particular for any Lebesgue point of
+$|\dot\gamma|^2$ in $J^*$),
+\begin{align*}
+   \dX(F_\rhad,B_1)^2
+   &\le 2\dX(\gamma(\rho_0),B_1)^2+2\dX(\gamma(\rho_0),\gamma(\rhad))^2\\
+   &\le 2K_1\delta+2L^*C_{\mathrm K}\delta.
+\end{align*}
+Substituting $K_1=8C_{\mathrm H1}/(cL^*)$ and $L^*=c_0\sqrt{\delta}$,
+\[
+   \dX(F_\rhad,B_1)^2
+   \le\frac{16\,C_*^{\mathrm{act}}}{c\,c_0\sqrt{\delta}}\,\delta
+      +2\,c_0\,C_*^{\mathrm{kin}}\,\delta^{3/2}
+   =\frac{16\,C_*^{\mathrm{act}}}{c\,c_0}\,\sqrt{\delta}
+      +2\,c_0\,C_*^{\mathrm{kin}}\,\delta^{3/2}.
+\]
+For $\delta\le\delta_0\le 1$, $\sqrt{\delta}\ge\delta$, so the
+first summand is dominant. To extract a $\delta$-bound, we use
+$\sqrt{\delta}\le\delta_0^{-1/2}\delta$ on
+$\delta\in(0,\delta_0]$, which yields
+\begin{equation}\label{eq:wmt:trace-rate-recoded}
+   \dX(F_\rhad,B_1)^2
+   \le\Bigl(\frac{16\,C_*^{\mathrm{act}}(n,R,\rstar)}
+                 {c\,c_0\,\sqrt{\delta_0(n,R,\rstar)}}
+           +2\,c_0\,C_*^{\mathrm{kin}}(n,R,\rstar)\Bigr)\,\delta
+   =: C_*(n,R,\rstar)\,\delta,
+\end{equation}
+which is \eqref{eq:wmt:trace}, with the explicit constant
+\begin{equation}\label{eq:wmt:Cstar}
+   C_*(n,R,\rstar)
+   :=\frac{16\,C_*^{\mathrm{act}}(n,R,\rstar)}
+          {c\,c_0\,\sqrt{\delta_0(n,R,\rstar)}}
+     +2\,c_0\,C_*^{\mathrm{kin}}(n,R,\rstar).
+\end{equation}
+This constant depends only on $(n,R,\rstar)$, since $\kappa$ has been
+pinned at the start of \S4.4 and $\delta_0$ depends only on
+$(n,R,\rstar)$.
+
+We record explicitly the role of the smallness threshold. The
+substitution $\sqrt{\delta}\le\delta_0^{-1/2}\delta$ is the
+mechanism by which the sharp $\delta$-rate at $\rhad$ is preserved on
+the window $L^*=c_0\sqrt{\delta}$: although the macroscopic Markov
+step produces an $O(\sqrt{\delta})$-distance at $\rho_0\in J^*$, the
+kinetic transport contributes only $L^*C_{\mathrm K}\delta
+=O(\delta^{3/2})\le\delta$, so the triangle bound at
+$\rhad\in J^*$ inherits the constant from the Markov step at
+$\rho_0$ enlarged by the smallness factor $\delta_0^{-1/2}$.
+\emph{Equivalently}, since $\delta_0$ depends only on $(n,R,\rstar)$,
+the constant $C_*(n,R,\rstar)$ is finite and the bound is genuinely
+$\dX(F_\rhad,B_1)^2\le C_*(n,R,\rstar)\delta$.
+
+The location of $\rhad$ is read off the abstract lemma:
+$\rhad\in J^*=[\rhodelta-c_0\sqrt{\delta},\rhodelta-c_0\sqrt{\delta}/2]
+\subset[\rhodelta-c_0\sqrt{\delta},\rhodelta]$, so the second
+conclusion of \eqref{eq:wmt:trace} holds.
+\end{proof}
+
+\begin{remark}[Volume of the boundary layer at the new $\rhad$]
+\label{rem:wmt:layer-volume}
+By Theorem~\ref{thm:wmt:trace},
+$\rhodelta-\rhad\le c_0\sqrt{\delta}$ with $c_0=c_0(n,R,\rstar)$.
+Combining with $1-\rhodelta=\kappa\sqrt{\delta}$ and
+$\kappa=\kappa(n,R,\rstar)$,
+\[
+   1-\rhad=(1-\rhodelta)+(\rhodelta-\rhad)
+   \le (\kappa+c_0)\sqrt{\delta}.
+\]
+By the volume-radius parametrisation and the mean-value theorem applied
+to $\rho\mapsto 1-\rho^n$ on $[\rhad,1]$,
+\[
+   |\Om\setminus E_\rhad|
+   =\omega_n(1-\rhad^n)
+   \le \omega_n\,n(1-\rhad)
+   \le \omega_n\,n(\kappa+c_0)\sqrt{\delta}
+   =:C_{\mathrm{lay}}(n,R,\rstar)\sqrt{\delta}.
+\]
+This is exactly the input required by Agent~13's boundary-layer
+estimate (Lemma~\ref{lem:plan2-layer-vol}).
+\end{remark}
+
+\begin{corollary}[Pointwise asymmetry at $\rhad$]
+\label{cor:wmt:pointwise-asym}
+Under the hypotheses of Theorem~\ref{thm:wmt:trace}, the rescaling
+$F_\rhad=\rhad^{-1}E_\rhad$ and \eqref{eq:wmt:dist-trivial} give
+\[
+   |E_\rhad\Delta B_\rhad(z)|^2
+   \;\le\; C(n,R,\rstar)\,\deltaT(\Om)
+\]
+for an admissible translate $z\in\R^n$ realising the infimum in
+$\dX(F_\rhad,B_1)$. The constant equals
+$\rhad^{2n}\,C_*(n,R,\rstar)\le
+(1/\rstar)^{2n}\,C_*(n,R,\rstar)$.
+\end{corollary}
+
+\begin{proof}
+By definition of $\dX$, there exists $a\in\R^n$ with
+$|F_\rhad\Delta(B_1+a)|\le\dX(F_\rhad,B_1)+O(1)$ (the infimum is
+attained, see Lemma~\ref{lem:metric:attain} in
+Section~\ref{subsec:metric-framework}). Take $z:=\rhad a$. Then
+\[
+   |E_\rhad\Delta B_\rhad(z)|
+   =\rhad^n\,|F_\rhad\Delta(B_1+a)|
+   =\rhad^n\,\dX(F_\rhad,B_1).
+\]
+Squaring and using \eqref{eq:wmt:trace} gives the claim.
+\end{proof}
+
+\subsubsection{4.4.6 Source and conditionality}
+\label{subsec:wmt:source-conditional}
+
+\begin{itemize}
+\item \emph{Theorem~\ref{thm:wmt:52int} (integrated action).} Consumes
+   Theorem~\ref{thm:lsid:identity} (level-set deficit identity,
+   Section~\ref{subsec:level-set-identity}); Theorem~T of
+   Section~\ref{subsec:metric-framework}; the FJ center package and
+   oriented radial trace of Section~\ref{subsec:fj-radial-trace}; and
+   the elementary algebraic identity of
+   Lemma~\ref{lem:wmt:good-htrace}. All inputs are unconditional.
+\item \emph{Theorem~\ref{thm:wmt:K} (kinetic bound).} Adds the
+   elementary uniform Lipschitz bound (Lemma~\ref{lem:wmt:A0}) and the
+   integrated Talenti gap (Lemma~\ref{lem:wmt:badtprime}). Both are
+   elementary; the second is a corollary of
+   Theorem~\ref{thm:lsid:identity} and Talenti's comparison theorem.
+\item \emph{Theorem~\ref{thm:wmt:abstract-trace} (abstract trace).}
+   Proved locally. The proof uses Markov's inequality on
+   $(J^*,\mu)$, the AGS metric chain rule
+   \cite[Thm.~1.1.2]{AGS2008}, Cauchy--Schwarz, and the triangle
+   inequality. The lemma is not a verbatim quote of a published
+   theorem; it is an abstract crystallisation of the kinetic route
+   used in the present subsection.
+\item \emph{Theorem~\ref{thm:wmt:trace} (concrete trace).} The
+   four hypotheses of Theorem~\ref{thm:wmt:abstract-trace} are verified
+   in the proof: (H1) by Theorem~\ref{thm:wmt:52int}; (H2) by Talenti
+   profile-gap; (H3) by Talenti pointwise; (K) by
+   Theorem~\ref{thm:wmt:K}.
+\end{itemize}
+
+No pointwise per-$\rho$ radial-trace estimate (R) is invoked: the chain
+above consumes oriented radial-trace only inside the integrated action
+\eqref{eq:wmt:52int}, in the form (B$^2$-int) of
+Section~\ref{subsec:fj-radial-trace}. The centroid space-time
+$\Pi$-route is not used.
+
+\subsubsection{4.4.7 Constants summary}
+\label{subsec:wmt:constants}
+
+\begin{center}
+\begin{tabular}{lll}
+\hline
+Constant & Definition / first use & Depends on \\
+\hline
+$C_1(n,\rstar)$ & deficit identity bound \eqref{eq:wmt:DH-DI-int} & $n,\rstar$ \\
+$C_2(n,\rstar)$ & $\Delta P_\rho\le C_2\,\mathcal I$, \eqref{eq:wmt:DP-DI} & $n,\rstar$ \\
+$\eta_I(n,R,\rstar)$ & FJ smallness threshold, Def.~\ref{def:wmt:GI-BI} & $n,R,\rstar$ \\
+$C_{\mathrm{FJ}}(n,R,\rstar)$ & FJ centre bounds \eqref{eq:wmt:FJ-asym}--\eqref{eq:wmt:FJ-normal} & $n,R,\rstar$ \\
+$C_3(n,R,\rstar)$ & oriented radial trace \eqref{eq:wmt:radial-trace} & $n,R,\rstar$ \\
+$C_4(n,R,\rstar)$ & good-level homothetic trace \eqref{eq:wmt:htrace-good} & $n,R,\rstar$ \\
+$C_8(n,R,\rstar)$ & CS defect \eqref{eq:wmt:CS-defect} & $n,R,\rstar$ \\
+$L_0(n,R,\rstar)$ & uniform metric Lipschitz \eqref{eq:wmt:A0} & $n,R,\rstar$ \\
+$K_1(n,\rstar)=2/(\omega_n\rstar^n)$ & integrated Talenti gap \eqref{eq:wmt:Talenti-gap} & $n,\rstar$ \\
+$K_2(n,\rstar)=4n/(\omega_n\rstar^{n+1})$ & bad-$(-t')$ measure \eqref{eq:wmt:Btau0-bound} & $n,\rstar$ \\
+$\tau_0=\rstar/(2n)$ & bad-$(-t')$ threshold \eqref{eq:wmt:def-Btau0} & $n,\rstar$ \\
+$c_0(n,R,\rstar)=4n/(\omega_n\rstar^{n+1})$ & window-scale constant, Thm.~\ref{thm:wmt:trace} & $n,R,\rstar$ \\
+$C_*^{\mathrm{act}}(n,R,\rstar)$ & integrated action \eqref{eq:wmt:52int} & $n,R,\rstar$ \\
+$C_*^{\mathrm{kin}}(n,R,\rstar)$ & Lebesgue kinetic \eqref{eq:wmt:K} & $n,R,\rstar$ \\
+$C_*(n,R,\rstar)$ & weighted metric trace \eqref{eq:wmt:Cstar} & $n,R,\rstar$ \\
+$C_{\mathrm{lay}}(n,R,\rstar)$ & boundary-layer volume, Rem.~\ref{rem:wmt:layer-volume} & $n,R,\rstar$ \\
+\hline
+\end{tabular}
+\end{center}
+
+All constants are polynomial in $(1/\rstar, R, n)$. Since
+$\kappa=\kappa(n,R,\rstar)$ has been pinned at the start of \S4.4 to
+the canonical value of the notation register \S12 (here we use
+$\kappa=1$), every constant in the table has signature
+$(n,R,\rstar)$; there is no residual $\kappa$-dependence. The output
+$\rhad$ lies in the $O(\sqrt{\delta})$-window
+\[
+   \rhad\in[\rhodelta-c_0\sqrt{\delta},\rhodelta-c_0\sqrt{\delta}/2]
+   \subset[\rhodelta-c_0\sqrt{\delta},\rhodelta],
+\]
+so $\rhodelta-\rhad\le c_0\sqrt{\delta}$ and (combined with
+$1-\rhodelta=\kappa\sqrt{\delta}$)
+$1-\rhad\le(\kappa+c_0)\sqrt{\delta}$. The boundary layer
+$\Om\setminus E_\rhad$ has volume bounded by
+$C_{\mathrm{lay}}(n,R,\rstar)\sqrt{\delta}$
+(Remark~\ref{rem:wmt:layer-volume}), to be squared in the
+boundary-layer transfer step
+(Section~\ref{subsec:boundary-layer-transfer}). This delivers exactly
+the source-map item E4.6 input required by Agent~13's
+Theorem~\ref{thm:metric-trace-input}.

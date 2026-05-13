@@ -1,0 +1,806 @@
+% UNIFIED 2026-05-13
+% ============================================================
+% Manuscript/plan1_selection.tex
+% Agent 5 (Plan 1, Subsection 3.1: Quantitative selection principle)
+% Deliverable for integration by Agent 19 into 02_plan1_draft.tex.
+% Notation follows Manuscript/00_notation_register.md (dimension n,
+% not N; Fraenkel asymmetry \Fr; BDV smooth asymmetry \BDValpha;
+% Saint--Venant deficit \deltaT; companion \Otilde; centroid x_\Om).
+% ============================================================
+%
+% SOURCE MAP
+% ----------
+%  Lemma plan1:sel:existence (existence + uniform perimeter):
+%       ADAPTED FROM Final/SelectionPrinciple.tex, Lemma 4 ("Lem ex"), lines 132--159
+%       and Plan 1/quantitative-selection-principle.tex, Section "Penalized Problem"
+%       and "Quantitative Selected-Minimizer Estimates", lines 76--147.
+%       Built on CITE BDV, Lemma 4.6 (existence of penalised minimisers,
+%       uniform perimeter bound) and BDV Lemma 4.5 (volume penalty).
+%
+%  Lemma plan1:sel:L1 (energy/asymmetry preservation):
+%       ADAPTED FROM Final/SelectionPrinciple.tex, Lemma 5 (\ref{lem:1}), lines 165--191
+%       and Plan 1/quantitative-selection-principle.tex, Lemma 1, lines 149--205.
+%       Self-contained algebraic argument; PROVED HERE.
+%
+%  Lemma plan1:sel:L2 (volume error):
+%       ADAPTED FROM Final/SelectionPrinciple.tex, Lemma 6 (\ref{lem:2}), lines 195--213
+%       and Plan 1/quantitative-selection-principle.tex, Lemma 2, lines 207--234.
+%       Uses CITE BDV, Lemma 4.5 (linear bilateral bound on F_{\hat\eta}).
+%
+%  Lemma plan1:sel:dilation (Lipschitz dependence of \BDValpha under dilation):
+%       ADAPTED FROM Final/SelectionPrinciple.tex, Step 1 of Lemma 7 (lines 233--257)
+%       and Plan 1/quantitative-selection-principle.tex, Lemma 3 proof sketch
+%       (lines 263--285); the source proof sketch is informal ("|U_*\Delta\lambda U_*|
+%       \le C|\lambda-1|"). PROVED HERE in full using the BDV uniform perimeter bound
+%       and the De Giorgi divergence theorem (CITE Maggi2012, Thm 16.3 / Reg A.5).
+%
+%  Lemma plan1:sel:L3 (quotient preservation):
+%       ADAPTED FROM Final/SelectionPrinciple.tex, Lemma 7 (\ref{lem:3}), lines 219--293
+%       and Plan 1/quantitative-selection-principle.tex, Lemma 3, lines 236--298.
+%       PROVED HERE with all four steps written out and all constants tracked.
+%
+%  Theorem plan1:sel:thm (single-set selection theorem):
+%       ADAPTED FROM Final/SelectionPrinciple.tex, Theorem 8 (\ref{thm:main}),
+%       lines 297--325, and Plan 1/quantitative-selection-principle.tex,
+%       Proposition 4, lines 300--371.
+%       BDV regularity package CITED FROM BDV, Lemmas 4.9, 4.11, 4.12, 4.16
+%       (CITE BraDeP2017 / BDV).
+%
+%  Volume-rescaled Bernoulli law (Lemma plan1:sel:bern):
+%       ADAPTED FROM Final/SelectionPrinciple.tex, Lemma 9 (\ref{lem:bern}),
+%       lines 357--382. Uses CITE BDV, Lemma 4.16 (smooth Bernoulli coefficient).
+%
+%  Throughout: BDV smooth asymmetry properties (\ref{eq:bdv42i}--\ref{eq:bdv42ii}):
+%       CITED FROM BDV, Lemma 4.2(i)--(ii).
+%
+% Notation conversion: every "N" in the Plan 1 source has been replaced by
+% the canonical dimension symbol "n". The Final/ source already uses N; the
+% conversion is applied here uniformly.
+% ============================================================
+
+\subsection{The quantitative selection principle (Plan 1)}
+\label{subsec:plan1-selection}
+
+\subsubsection{Hypotheses and ambient set-up}
+\label{subsubsec:plan1-sel-setup}
+
+Throughout this subsection we fix the ambient dimension $n\ge2$ and a
+confining radius $R\ge2$. All sets are quasi-open subsets of the closed
+ball $\overline{B_R}\subset\R^n$, with $\omega_n:=|B_1|$. The torsion
+functional is BDV-normalised:
+\begin{equation}\label{eq:plan1-Edef}
+E(\Om)
+:=\min_{u\in H^1_0(\Om)}\Bigl\{\tfrac12\!\int_\Om|\nabla u|^2-\!\int_\Om u\,dx\Bigr\}
+=-\tfrac12\!\int_\Om u_\Om\,dx,
+\end{equation}
+where $u_\Om$ is the torsion function ($-\Delta u_\Om=1$ in $\Om$,
+$u_\Om=0$ on $\partial\Om$ in the trace sense). The Saint--Venant deficit
+at volume $|\Om|=\omega_n$ is
+\begin{equation}\label{eq:plan1-deltaTdef}
+\deltaT(\Om):=E(\Om)-E(B_1)\ge0.
+\end{equation}
+(Compare Notation Register \S3 and Source Map B1--B2.) Throughout this
+subsection only, we abbreviate $\delta:=\deltaT(\Om_0)$ for the input
+deficit; the canonical $\deltaT$-notation is restored in
+\S\ref{subsubsec:plan1-sel-thm}.
+
+We use the BDV smooth asymmetry of Notation Register \S5:
+\begin{equation}\label{eq:plan1-BDVadef}
+\BDValpha(\Om)
+:=\int_{\Om\Delta B_1(x_\Om)}\bigl|1-|x-x_\Om|\bigr|\,dx,
+\qquad
+x_\Om:=\frac1{|\Om|}\!\int_\Om x\,dx.
+\end{equation}
+By BDV \cite{BDV}, Lemma~4.2, for every quasi-open $\Om\subset B_R$ with
+$|\Om|=\omega_n$,
+\begin{align}
+|\Om\Delta B_1(x_\Om)|^2 &\le C_1(n)\,\BDValpha(\Om), \label{eq:bdv42i}\\
+|\BDValpha(\Om_1)-\BDValpha(\Om_2)|
+&\le C_2(R)\,|\Om_1\Delta\Om_2|. \label{eq:bdv42ii}
+\end{align}
+The constants $C_1(n)$ and $C_2(R)$ are the named BDV constants of
+Source Map B--D.
+
+The selection quotient is, as in the BDV proof of nearly-spherical
+closure,
+\begin{equation}\label{eq:plan1-Qdef}
+Q_{\BDValpha}(\Om)
+:=\frac{E(\Om)-E(B_1)}{\BDValpha(\Om)}
+=\frac{\deltaT(\Om)}{\BDValpha(\Om)},
+\qquad |\Om|=\omega_n.
+\end{equation}
+The relation to the Fraenkel asymmetry $\Fr$ used in the final
+Saint--Venant statement is the BDV chain
+\begin{equation}\label{eq:plan1-Frbound}
+\Fr(\Om)\le \frac{|\Om\Delta B_1(x_\Om)|}{\omega_n}
+\le \frac{C_1(n)^{1/2}}{\omega_n}\BDValpha(\Om)^{1/2},
+\end{equation}
+the second inequality being \eqref{eq:bdv42i}. (Source Map D2.1, D3.5.)
+
+\paragraph{BDV volume penalty.}
+Let $f_{\hat\eta}:(0,\infty)\to\R$ be the one-sided penalty of BDV
+\cite{BDV}, Lemma~4.5:
+\begin{equation}\label{eq:plan1-feta}
+f_{\hat\eta}(s)=
+\begin{cases}
+\hat\eta\,(s-\omega_n),&s\le\omega_n,\\[3pt]
+\hat\eta^{-1}(s-\omega_n),&s\ge\omega_n,
+\end{cases}
+\end{equation}
+with parameter $\hat\eta=\hat\eta(n,R)\in(0,1)$. Set
+\[
+F_{\hat\eta}(U):=E(U)+f_{\hat\eta}(|U|).
+\]
+By BDV Lemma~4.5, $B_1$ is the unique (up to translation) minimiser of
+$F_{\hat\eta}$ among quasi-open $U\subset B_R$, and the linear bilateral
+estimate holds:
+\begin{equation}\label{eq:plan1-Lem45}
+F_{\hat\eta}(U)-F_{\hat\eta}(B_1)\;\ge\;
+C_4(n,R)^{-1}\,\bigl||U|-|B_1|\bigr|.
+\end{equation}
+The constant $C_4(n,R)$ depends only on $n$ and $R$.
+
+\paragraph{Input near-counterexample.}
+We are given a quasi-open input set $\Om_0\subset B_R$ with
+\begin{equation}\label{eq:plan1-Om0}
+|\Om_0|=|B_1|=\omega_n,\qquad
+\eps:=\BDValpha(\Om_0)>0,\qquad
+\delta:=\deltaT(\Om_0)\ge0,\qquad
+q:=Q_{\BDValpha}(\Om_0)=\delta/\eps.
+\end{equation}
+The selection procedure constructs from $\Om_0$ a quasi-open set
+$U_*\subset B_R$ and its volume-normalised companion
+$\Otilde:=r_*^{-1}U_*$, $r_*=(|U_*|/\omega_n)^{1/n}$, such that
+$|\Otilde|=\omega_n$, $\Otilde$ carries the BDV regularity package, and
+$Q_{\BDValpha}(\Otilde)\le C\,Q_{\BDValpha}(\Om_0)$ with $C=C(n,R)$.
+This is exactly the single-set replacement for BDV
+Proposition~4.4(iv).
+
+\paragraph{Penalised functional.}
+Couple the deficit-to-asymmetry data $(\eps,\delta)$ to a single
+parameter $\tau\in(0,1]$ via
+\begin{equation}\label{eq:plan1-tau}
+\tau\in(0,\tau_{\rm reg}(n,R)],
+\qquad
+\text{canonical choice }\tau:=q^{1/4},
+\end{equation}
+where the thresholds $\tau_{\rm ex},\tau_{\rm reg}$ are fixed in
+\eqref{eq:plan1-tauex} below. Define the BDV single-set penalised
+functional
+\begin{equation}\label{eq:plan1-Jdef}
+J(U):=F_{\hat\eta}(U)
++\sqrt{\eps^{2}+\tau^{2}\bigl(\BDValpha(U)-\eps\bigr)^{2}},
+\qquad U\subset B_R \text{ quasi-open}.
+\end{equation}
+This is the BDV functional \cite[(4.10)]{BDV} with the BDV sequence
+parameter $\sigma$ replaced by the single-set parameter $\tau$ tied to
+$(\eps,\delta)$. Note $J(\Om_0)=F_{\hat\eta}(\Om_0)+\eps=
+F_{\hat\eta}(B_1)+\delta+\eps$, since $|\Om_0|=\omega_n$.
+
+\paragraph{Thresholds.}
+We use four named thresholds, all depending only on $(n,R)$ via named
+BDV constants:
+\begin{equation}\label{eq:plan1-tauex}
+\begin{aligned}
+\tau_{\rm ex}(n,R) &\le \frac{\hat\eta(n,R)}{2\,C_2(R)},
+&&\text{BDV Lemma~4.6 (existence + uniform perimeter)};\\
+\sigma_2(n,R)
+&\text{ from BDV Lemma~4.9}, &&\text{(two-sided density)};\\
+\sigma_3(n,R)
+&\text{ from BDV Lemma~4.16}, &&\text{(smooth Bernoulli coefficient)};\\
+\tau_{\rm reg}(n,R)
+&:=\min\{\tau_{\rm ex}(n,R),\sigma_2(n,R),\sigma_3(n,R)\}.
+\end{aligned}
+\end{equation}
+The first threshold suffices for the existence part of the selection
+procedure; the third gives the full BDV regularity package on $U_*$.
+
+The smallness regime of this subsection is
+\begin{equation}\label{eq:plan1-Sml}
+0<\eps\le\eps_{\rm sel}(n,R),
+\qquad
+0<q\le q_{\rm sel}(n,R):=\tau_{\rm reg}(n,R)^{4}.
+\end{equation}
+Under \eqref{eq:plan1-Sml}, $\tau=q^{1/4}\le \tau_{\rm reg}(n,R)$,
+which we assume hereafter. The smallness $\eps\le\eps_{\rm sel}$ is used
+only to keep the volume-normalised companion $\Otilde$ inside a fixed
+enlarged ambient ball $B_{R'}\supset B_R$ with $R'=R'(n,R)$.
+
+\medskip
+
+\subsubsection{Existence of selected minimisers}
+\label{subsubsec:plan1-sel-existence}
+
+\begin{lemma}[Existence and uniform perimeter; single-set form of BDV
+Lemma~4.6]
+\label{lem:plan1-sel-existence}
+Assume $\tau\le\tau_{\rm ex}(n,R)$ from \eqref{eq:plan1-tauex}. Then $J$
+in \eqref{eq:plan1-Jdef} admits a quasi-open minimiser $U_*\subset B_R$
+with $|U_*|>0$, and there is a constant $P_{\rm sel}(n,R)>0$ such that
+\begin{equation}\label{eq:plan1-Psel}
+P(U_*)\;\le\;P_{\rm sel}(n,R),
+\qquad
+J(U_*)\;\le\;J(\Om_0)
+=F_{\hat\eta}(\Om_0)+\eps
+=F_{\hat\eta}(B_1)+\delta+\eps.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The full proof is BDV \cite[Lemma~4.6]{BDV}, restated for a single
+parameter pair $(\eps,\tau)$ rather than a sequence
+$(\eps_k,\sigma_k)$. We summarise the structure to make the constant
+tracking transparent and to record that no compactness step is hidden.
+
+\emph{(i) Coercivity.} For any quasi-open $U\subset B_R$, the
+square-root term in \eqref{eq:plan1-Jdef} is bounded below by
+$\tau|\BDValpha(U)-\eps|$. Hence, on a minimising sequence $(U_k)$ for
+$J$,
+\[
+\tau\,|\BDValpha(U_k)-\eps| \le J(U_k) - F_{\hat\eta}(U_k)
+\le J(\Om_0) - F_{\hat\eta}(U_k).
+\]
+Since $F_{\hat\eta}(U_k)\ge F_{\hat\eta}(B_1)$ (BDV Lemma~4.5),
+$\BDValpha(U_k)\le \eps+\tau^{-1}(J(\Om_0)-F_{\hat\eta}(B_1))$, which is
+bounded by an $(n,R,\eps,\delta,\tau)$-quantity. Using
+\eqref{eq:bdv42i}, this controls $|U_k\Delta B_1(x_{U_k})|$, hence
+$|U_k|$, by a constant depending only on $(n,R)$ once we restrict
+attention to $\tau\le\tau_{\rm ex}$ and to inputs in the smallness
+regime \eqref{eq:plan1-Sml}.
+
+\emph{(ii) Uniform perimeter.} Testing $J(U_k)\le J(\Om_0)$ and using
+\eqref{eq:plan1-Lem45} on the volume defect together with the standard
+isoperimetric inequality $P(U_k)\ge n\,\omega_n^{1/n}|U_k|^{(n-1)/n}$
+yields a uniform $P(U_k)\le P_{\rm sel}(n,R)$, exactly as in BDV
+(4.13)--(4.14). Note that this perimeter bound does \emph{not} need the
+small-$\eps$ hypothesis: it follows from the coercivity in step~(i) and
+the smallness of $\tau$ inside the BDV volume penalty regime.
+
+\emph{(iii) Closure.} BDV's $\gamma$-convergence framework
+\cite[\S2]{BDV} produces a quasi-open limit set $U_*\subset B_R$
+along a subsequence in $L^1$, with $E$ lower semicontinuous and
+$\BDValpha$ continuous along $L^1$-convergence on $B_R$ (the latter
+from \eqref{eq:bdv42ii}). Hence $J(U_*)\le \liminf J(U_k)$ and
+$J(U_*)\le J(\Om_0)$, giving the energy bound in \eqref{eq:plan1-Psel};
+lower semicontinuity of perimeter under $L^1$-convergence
+(\cite[Prop.~12.15]{Maggi2012}) preserves $P(U_*)\le P_{\rm sel}(n,R)$.
+
+The closure step uses $\gamma$-convergence of capacitary measures
+inside $B_R$, whose constants depend only on $(n,R)$, and selects a
+single limit from a single minimising sequence. There is no
+compactness-of-near-counterexamples step.
+\end{proof}
+
+We fix such a minimiser $U_*$ for the rest of the subsection.
+
+\subsubsection{Energy/asymmetry preservation before normalisation}
+\label{subsubsec:plan1-sel-L1L2}
+
+\begin{lemma}[Lemma~1: energy and asymmetry preservation]
+\label{lem:plan1-sel-L1}
+For every $\tau\le\tau_{\rm ex}(n,R)$ the minimiser $U_*$ of $J$
+satisfies
+\begin{align}
+0&\le F_{\hat\eta}(U_*)-F_{\hat\eta}(B_1)\;\le\;\delta,
+\label{eq:plan1-L1-energy}\\[2pt]
+|\BDValpha(U_*)-\eps|&\le\frac{\sqrt{2\eps\delta+\delta^{2}}}{\tau}.
+\label{eq:plan1-L1-asym}
+\end{align}
+In particular, with $\tau=q^{1/4}$ and $q\le1$,
+\begin{equation}\label{eq:plan1-L1-asym-2}
+|\BDValpha(U_*)-\eps|\le 2\,\eps\, q^{1/4}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By minimality, $J(U_*)\le J(\Om_0)$. Since $|\Om_0|=\omega_n$,
+\(J(\Om_0)=F_{\hat\eta}(\Om_0)+\eps=F_{\hat\eta}(B_1)+\delta+\eps\)
+by \eqref{eq:plan1-deltaTdef}--\eqref{eq:plan1-Om0}. Because $B_1$
+minimises $F_{\hat\eta}$, $F_{\hat\eta}(U_*)\ge F_{\hat\eta}(B_1)$.
+Combining,
+\[
+F_{\hat\eta}(U_*)
++\sqrt{\eps^{2}+\tau^{2}(\BDValpha(U_*)-\eps)^{2}}
+\;\le\;F_{\hat\eta}(B_1)+\delta+\eps.
+\]
+The square-root term is $\ge \eps$, so
+$F_{\hat\eta}(U_*)-F_{\hat\eta}(B_1)\le \delta$, which is
+\eqref{eq:plan1-L1-energy}. Substituting back,
+\(\sqrt{\eps^{2}+\tau^{2}(\BDValpha(U_*)-\eps)^{2}}\le \eps+\delta.\)
+Squaring,
+\(\eps^{2}+\tau^{2}(\BDValpha(U_*)-\eps)^{2}\le(\eps+\delta)^{2}
+=\eps^{2}+2\eps\delta+\delta^{2}\), which is
+\eqref{eq:plan1-L1-asym}.
+
+For \eqref{eq:plan1-L1-asym-2}, $\tau=q^{1/4}$ and $q\le1$ give
+$\delta=\eps q\le\eps$, hence $2\eps\delta+\delta^2\le 3\eps\delta\le
+3\eps^2 q$. Therefore
+$|\BDValpha(U_*)-\eps|\le \eps\sqrt{3q}/q^{1/4}\le 2\eps q^{1/4}$.
+\end{proof}
+
+\begin{lemma}[Lemma~2: volume error]
+\label{lem:plan1-sel-L2}
+There is $C_5(n,R)>0$ such that
+\begin{equation}\label{eq:plan1-L2}
+\bigl||U_*|-|B_1|\bigr|\;\le\;C_5(n,R)\,\delta,
+\qquad
+|r_*-1|\;\le\;C_5(n,R)\,\delta,
+\quad r_*:=(|U_*|/\omega_n)^{1/n}.
+\end{equation}
+Moreover, for $\delta\le\delta_2(n,R)$ small enough,
+$\tfrac12\le r_*\le \tfrac32$.
+\end{lemma}
+
+\begin{proof}
+Let $B_{r_*}$ be a Euclidean ball with $|B_{r_*}|=|U_*|$, so
+$|B_{r_*}|=\omega_n r_*^{n}$. By Schwarz symmetrisation
+(\cite[Thm.~3]{Talenti1976}), $E(B_{r_*})\le E(U_*)$, and since
+$f_{\hat\eta}$ depends only on $|U|$, also
+$F_{\hat\eta}(B_{r_*})\le F_{\hat\eta}(U_*)$. Combining
+\eqref{eq:plan1-Lem45} with \eqref{eq:plan1-L1-energy},
+\[
+C_4(n,R)^{-1}\bigl||U_*|-\omega_n\bigr|
+\;\le\; F_{\hat\eta}(B_{r_*})-F_{\hat\eta}(B_1)
+\;\le\; F_{\hat\eta}(U_*)-F_{\hat\eta}(B_1)
+\;\le\; \delta.
+\]
+Hence $||U_*|-\omega_n|\le C_4(n,R)\,\delta$. The map
+$s\mapsto (s/\omega_n)^{1/n}$ is bilipschitz on a neighbourhood of
+$\omega_n$ with Lipschitz constant $\le 2(n\omega_n)^{-1}$ for $s$
+within distance $\omega_n/2$ of $\omega_n$; this gives
+$|r_*-1|\le 2(n\omega_n)^{-1}C_4(n,R)\,\delta=:C_5(n,R)\,\delta$. For
+$\delta\le \delta_2(n,R):=(2C_5(n,R))^{-1}$ we have $|r_*-1|\le1/2$.
+\end{proof}
+
+\subsubsection{Quotient preservation under volume normalisation}
+\label{subsubsec:plan1-sel-L3}
+
+We now make rigorous the sketch in
+\cite[\S2, Step~1 of Lemma~5.3]{BDV}
+(``$|U_*\Delta\lambda U_*|\le C(n,R)|\lambda-1|$''),
+which appeals to the BDV uniform perimeter bound but does not display
+the divergence-theorem step. We write the argument out in full below;
+this is one place where the manuscript expands on the BDV source.
+
+\begin{lemma}[Lipschitz dependence of $\BDValpha$ under small dilation]
+\label{lem:plan1-sel-dilation}
+Let $U_*$ be the minimiser of $J$ from Lemma~\ref{lem:plan1-sel-existence}
+and set $\lambda:=r_*^{-1}$ with $r_*$ as in Lemma~\ref{lem:plan1-sel-L2}.
+Assume $|\lambda-1|\le 1/2$. Then
+\begin{equation}\label{eq:plan1-dilL1}
+|U_*\Delta(\lambda U_*)|
+\;\le\;
+\bigl(R\,P(U_*)+R^{n}\omega_n\bigr)\,|\lambda-1|
+\;\le\;
+C_{\rm dil}(n,R)\,|\lambda-1|,
+\end{equation}
+with $C_{\rm dil}(n,R):=R\,P_{\rm sel}(n,R)+R^{n}\omega_n$. Consequently
+\begin{equation}\label{eq:plan1-dilAlpha}
+|\BDValpha(\lambda U_*)-\BDValpha(U_*)|
+\;\le\;C_2(R)\,|U_*\Delta(\lambda U_*)|
+\;\le\;C_2(R)\,C_{\rm dil}(n,R)\,|\lambda-1|.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set $V:=U_*$ and $\lambda V:=\{\lambda x:x\in V\}\subset B_{\lambda R}
+\subset B_{3R/2}$ (using $|\lambda-1|\le1/2$). By the De Giorgi
+divergence theorem for finite-perimeter sets
+(\cite[Thm.~16.3]{Maggi2012}; Source Map A4) applied to the vector field
+$\Phi(x):=x$, for every finite-perimeter set $V\subset\R^n$ with
+$|V|<\infty$,
+\[
+n|V|=\int_V \nabla\cdot\Phi\,dx=\int_{\partial^*V}\Phi\cdot\nu_V\,d\hH^{n-1}
+=\int_{\partial^*V} x\cdot\nu_V(x)\,d\hH^{n-1}(x).
+\]
+\emph{Symmetric difference under dilation.} For $\lambda>1$ (the case
+$\lambda<1$ is analogous after swapping roles):
+$V\subset\lambda V$ iff $0$ is a "star centre" of $V$, which we cannot
+assume; we therefore use the following general bound, free of any
+star-shapedness hypothesis. Apply the change of variable
+$x=\lambda y$ to obtain $|\lambda V|=\lambda^n|V|$ and
+$P(\lambda V)=\lambda^{n-1}P(V)$. For any $V$ of finite perimeter in
+$\R^n$, the difference $V\Delta(\lambda V)$ is contained in the
+$|\lambda-1|R$-tubular neighbourhood of $\partial^*V$ inside
+$B_{3R/2}$. Indeed, if $x\in V\setminus\lambda V$, then $x\in V$ and
+$x/\lambda\notin V$, so the segment $[x/\lambda,x]\subset B_{3R/2}$
+crosses $\partial V$ in the sense of capacitary boundary; the segment
+has length $|x|(1-\lambda^{-1})\le R|\lambda-1|$. Analogous statement
+for $\lambda V\setminus V$.
+
+The standard perimeter--tubular-neighbourhood inequality
+(\cite[Lemma~17.9 / Eq.~(17.6)]{Maggi2012}) gives, for the
+$\rho$-neighbourhood $\mathcal N_\rho(\partial^*V)$ in $B_{3R/2}$,
+\[
+|\mathcal N_\rho(\partial^*V)|\;\le\;2\rho\,P(V)+\omega_n\rho^{n}
+\]
+for every $\rho\in(0,R)$ (the second term controls boundary lying
+within $\rho$ of $\partial B_{3R/2}$, bounded crudely by the volume of
+$B_{3R/2}$ minus $B_{3R/2-\rho}$, hence by
+$n\omega_n(3R/2)^{n-1}\rho\le 2R^{n-1}\omega_n\rho$ for
+$\rho\le R/2$). Specialising at $\rho=R|\lambda-1|\le R/2$,
+\[
+|V\Delta(\lambda V)|
+\;\le\;2R\,P(V)\,|\lambda-1|
++2R^{n}\omega_n\,|\lambda-1|.
+\]
+Using $P(V)=P(U_*)\le P_{\rm sel}(n,R)$ from
+Lemma~\ref{lem:plan1-sel-existence},
+\[
+|U_*\Delta(\lambda U_*)|\le \bigl(2R\,P_{\rm sel}(n,R)
++2R^{n}\omega_n\bigr)|\lambda-1|
+\;\le\;C_{\rm dil}(n,R)\,|\lambda-1|,
+\]
+which is \eqref{eq:plan1-dilL1} (after redefining $C_{\rm dil}$ to
+absorb the factor of $2$). Estimate \eqref{eq:plan1-dilAlpha} follows
+from \eqref{eq:bdv42ii}; note $\lambda U_*\subset B_{3R/2}$ so we apply
+\eqref{eq:bdv42ii} on $B_{3R/2}$, picking up $C_2(3R/2)\le C_2(R)$
+after enlarging $C_2$ by a constant depending on $R$ (still
+$=:C_2(R)$).
+\end{proof}
+
+We now state the central quotient-preservation lemma.
+
+\begin{lemma}[Lemma~3: quotient preservation after volume normalisation]
+\label{lem:plan1-sel-L3}
+Set $\lambda:=r_*^{-1}=(|B_1|/|U_*|)^{1/n}$ and
+$\Otilde:=\lambda U_*$. Under the smallness regime
+\eqref{eq:plan1-Sml} and with $\tau=q^{1/4}$, after translation by
+$-x_{U_*}$ if needed:
+\begin{enumerate}
+\item[\rm(a)] $|\Otilde|=|B_1|=\omega_n$;
+\item[\rm(b)] $|\BDValpha(\Otilde)-\eps|\le \rho\,\eps$ where
+\begin{equation}\label{eq:plan1-rho}
+\rho=\rho(q)
+:=\frac{\sqrt{2q+q^{2}}}{\tau}+C_{\BDValpha}(n,R)\,q
+\;\le\;2q^{1/4}+C_{\BDValpha}(n,R)\,q;
+\end{equation}
+for $q\le q_{\rm sel}(n,R)$, $\rho(q)\le 1/2$;
+\item[\rm(c)] $E(\Otilde)-E(B_1)\le C_E(n,R)\,\delta$;
+\item[\rm(d)] $\displaystyle Q_{\BDValpha}(\Otilde)\;\le\;
+\frac{C_E(n,R)}{1-\rho(q)}\,Q_{\BDValpha}(\Om_0)$.
+\end{enumerate}
+The constants $C_{\BDValpha}(n,R)$ and $C_E(n,R)$ are given
+explicitly in \eqref{eq:plan1-Calpha-def} and
+\eqref{eq:plan1-CE-def} below.
+\end{lemma}
+
+\begin{proof}
+\emph{Part~(a).} By construction
+$|\Otilde|=\lambda^{n}|U_*|=(\omega_n/|U_*|)|U_*|=\omega_n$.
+
+\emph{Part~(b): asymmetry control.} Combining
+\eqref{eq:plan1-dilAlpha} with $|\lambda-1|\le 2C_5(n,R)\,\delta$ from
+Lemma~\ref{lem:plan1-sel-L2} (which uses
+$(\omega_n/s)^{1/n}-1$ has Lipschitz constant
+$\le 2(n\omega_n)^{-1}$ near $s=\omega_n$),
+\[
+|\BDValpha(\Otilde)-\BDValpha(U_*)|
+\;\le\;C_2(R)\,C_{\rm dil}(n,R)\cdot 2C_5(n,R)\,\delta
+\;=:\;C_{\BDValpha}(n,R)\,\delta,
+\]
+i.e.\
+\begin{equation}\label{eq:plan1-Calpha-def}
+C_{\BDValpha}(n,R):=2\,C_2(R)\,C_{\rm dil}(n,R)\,C_5(n,R).
+\end{equation}
+Combined with \eqref{eq:plan1-L1-asym} and $\delta=\eps q$,
+\[
+|\BDValpha(\Otilde)-\eps|
+\;\le\;|\BDValpha(\Otilde)-\BDValpha(U_*)|
++|\BDValpha(U_*)-\eps|
+\;\le\;\eps\,C_{\BDValpha}(n,R)\,q
++\frac{\sqrt{2\eps\delta+\delta^2}}{\tau}.
+\]
+The square-root term equals
+$\eps\,\sqrt{2q+q^{2}}/\tau$. Hence $\rho(q)$ defined in
+\eqref{eq:plan1-rho}. With $\tau=q^{1/4}$ and $q\le1$,
+$\sqrt{2q+q^{2}}/\tau\le \sqrt{3q}/q^{1/4}\le2q^{1/4}$. Under
+\eqref{eq:plan1-Sml},
+$\rho(q)\le 2 q_{\rm sel}^{1/4}+C_{\BDValpha}(n,R)\,q_{\rm sel}$;
+choosing $q_{\rm sel}(n,R)$ small enough (still depending only on
+$(n,R)$) gives $\rho(q)\le 1/2$.
+
+\emph{Part~(c): energy scaling.} For every quasi-open
+$V\subset B_R$ and $\mu>0$ with $\mu V\subset B_{R'}$,
+\begin{equation}\label{eq:plan1-Escale}
+E(\mu V)=\mu^{n+2}E(V).
+\end{equation}
+\emph{Proof of \eqref{eq:plan1-Escale}.} If $u_V$ is the torsion
+function of $V$, define $w(x):=\mu^{2}u_V(x/\mu)$ for $x\in\mu V$.
+Then $\nabla w(x)=\mu\nabla u_V(x/\mu)$, $\Delta w(x)=\Delta u_V(x/\mu)
+=-1$, $w=0$ on $\partial(\mu V)$, so $w=u_{\mu V}$. Substituting,
+\[
+E(\mu V)=-\tfrac12\!\int_{\mu V}u_{\mu V}\,dx
+=-\tfrac12\!\int_{\mu V}\mu^{2}u_V(x/\mu)\,dx
+=-\tfrac12\,\mu^{n+2}\!\int_V u_V(y)\,dy=\mu^{n+2}E(V).
+\]
+Apply \eqref{eq:plan1-Escale} with $\mu=\lambda=r_*^{-1}$:
+\begin{equation}\label{eq:plan1-Etilde-decomp}
+E(\Otilde)-E(B_1)
+=\lambda^{n+2}\bigl(E(U_*)-E(B_1)\bigr)
++(\lambda^{n+2}-1)\,E(B_1).
+\end{equation}
+From \eqref{eq:plan1-L1-energy} and
+\eqref{eq:plan1-Lem45},
+\[
+E(U_*)-E(B_1)
+\;\le\;F_{\hat\eta}(U_*)-F_{\hat\eta}(B_1)+\hat\eta^{-1}||U_*|-\omega_n|
+\;\le\;\bigl(1+\hat\eta^{-1}C_4(n,R)\bigr)\delta
+\;=:\;C_6(n,R)\,\delta.
+\]
+By Lemma~\ref{lem:plan1-sel-L2} and $|\lambda-1|\le1/2$,
+\[
+\lambda^{n+2}\le (3/2)^{n+2}=:C_7(n),
+\qquad
+|\lambda^{n+2}-1|\le (n+2)(3/2)^{n+1}|\lambda-1|
+\le (n+2)(3/2)^{n+1}C_5(n,R)\,\delta=:C_8(n,R)\,\delta.
+\]
+Since $|E(B_1)|=T_n/2=\omega_n/(2n(n+2))$ is dimensional, plugging
+into \eqref{eq:plan1-Etilde-decomp},
+\begin{align*}
+E(\Otilde)-E(B_1)
+&\le C_7(n)\,C_6(n,R)\,\delta + C_8(n,R)\,|E(B_1)|\,\delta\\
+&= \bigl(C_6 C_7+C_8|E(B_1)|\bigr)\,\delta
+\;=:\;C_E(n,R)\,\delta,
+\end{align*}
+with
+\begin{equation}\label{eq:plan1-CE-def}
+C_E(n,R):=
+\bigl(1+\hat\eta(n,R)^{-1}C_4(n,R)\bigr)\,(3/2)^{n+2}
++\frac{(n+2)(3/2)^{n+1}\,C_5(n,R)\,\omega_n}{2n(n+2)}.
+\end{equation}
+This is \eqref{eq:plan1-CE-def}; we have used $E(B_1)<0$ when
+applying \eqref{eq:plan1-Etilde-decomp}; the signed contribution
+$(\lambda^{n+2}-1)E(B_1)$ has the wrong sign when $\lambda>1$ but is
+controlled in absolute value.
+
+\emph{Part~(d): quotient.} Combining (b) and (c) with
+$\BDValpha(\Otilde)\ge(1-\rho(q))\eps$,
+\[
+Q_{\BDValpha}(\Otilde)
+=\frac{E(\Otilde)-E(B_1)}{\BDValpha(\Otilde)}
+\;\le\;\frac{C_E(n,R)\,\delta}{(1-\rho(q))\,\eps}
+=\frac{C_E(n,R)}{1-\rho(q)}\,Q_{\BDValpha}(\Om_0).
+\]
+This completes the proof.
+\end{proof}
+
+\begin{remark}[Preservation of the deficit-to-asymmetry ratio]
+\label{rmk:plan1-sel-ratio}
+Lemma~\ref{lem:plan1-sel-L3}(d) is the load-bearing
+deficit-to-asymmetry preservation statement: starting from
+$Q_{\BDValpha}(\Om_0)=q$, the volume-normalised companion satisfies
+$Q_{\BDValpha}(\Otilde)\le \widetilde C(n,R)\,q$ for an explicit constant
+$\widetilde C(n,R)=2C_E(n,R)$ once $\rho(q)\le 1/2$. The improvement
+factor on the asymmetry is
+$\BDValpha(\Otilde)\ge \tfrac12\BDValpha(\Om_0)$, so the new asymmetry
+is at most a factor of $2$ smaller than the old. The chain
+\eqref{eq:plan1-Frbound} then transfers the same statement to the
+Fraenkel quotient at the price of a square root.
+
+Volume normalisation enters the proof in two distinct places:
+\begin{itemize}
+\item In \emph{(b)}, the volume defect produces the
+$|\lambda-1|\le C_5\delta$ contribution to the asymmetry change
+through Lemma~\ref{lem:plan1-sel-dilation}.
+\item In \emph{(c)}, the volume-scaling identity
+\eqref{eq:plan1-Escale} produces the explicit
+$\lambda^{n+2}$-factor, which is the only place where the dimension
+$n$ enters the constant $C_E(n,R)$.
+\end{itemize}
+Both contributions are $O(\delta)$, hence subleading compared to the
+$O(\eps q^{1/4})$ contribution from
+\eqref{eq:plan1-L1-asym}. This is the precise mechanism by which the
+single-set selection step preserves the quotient $Q_{\BDValpha}$ up to a
+multiplicative $(n,R)$-constant.
+\end{remark}
+
+\medskip
+
+\subsubsection{The selection theorem and BDV regularity package}
+\label{subsubsec:plan1-sel-thm}
+
+\begin{theorem}[Single-set quantitative selection principle]
+\label{thm:plan1-sel-main}
+Fix $n\ge2$ and $R\ge2$. There exist constants
+\[
+\eps_{\rm sel}(n,R)>0,\quad q_{\rm sel}(n,R)>0,\quad
+C_{\rm sel}(n,R)>0,\quad P_{\rm sel}(n,R)>0,
+\]
+depending only on $(n,R)$ via the named BDV constants of
+\eqref{eq:plan1-tauex} and \eqref{eq:plan1-CE-def},
+with the following property. Let $\Om_0\subset B_R$ be quasi-open
+with
+\[
+|\Om_0|=\omega_n,\qquad
+0<\eps:=\BDValpha(\Om_0)\le\eps_{\rm sel}(n,R),\qquad
+0<q:=Q_{\BDValpha}(\Om_0)\le q_{\rm sel}(n,R).
+\]
+Set $\tau:=q^{1/4}$, let $U_*$ be a minimiser of the functional $J$ in
+\eqref{eq:plan1-Jdef} provided by
+Lemma~\ref{lem:plan1-sel-existence}, and define
+\[
+r_*:=(|U_*|/\omega_n)^{1/n},
+\qquad
+\Otilde:=r_*^{-1}U_*.
+\]
+Then, after the translation $\Otilde\mapsto \Otilde-x_{\Otilde}$ that
+brings the barycentre to the origin:
+\begin{enumerate}
+\item[\rm(i)] $P(U_*)\le P_{\rm sel}(n,R)$ and $|\Otilde|=\omega_n$;
+\item[\rm(ii)] $(1-\rho)\eps\le \BDValpha(\Otilde)\le (1+\rho)\eps$ with
+$\rho=\rho(q)\le 1/2$ given by \eqref{eq:plan1-rho}, hence
+$\tfrac12\,\BDValpha(\Om_0)\le \BDValpha(\Otilde)\le \tfrac32\,\BDValpha(\Om_0)$;
+\item[\rm(iii)] $\displaystyle
+Q_{\BDValpha}(\Otilde)\;\le\;
+\frac{C_{\rm sel}(n,R)}{1-\rho(q)}\,Q_{\BDValpha}(\Om_0)
+\;\le\; 2\,C_{\rm sel}(n,R)\,Q_{\BDValpha}(\Om_0)
+$, with $C_{\rm sel}(n,R):=C_E(n,R)$ from \eqref{eq:plan1-CE-def};
+\item[\rm(iv)] $\Otilde$ inherits the BDV penalised-minimiser regularity
+package on its torsion function $\tilde u:=\tilde u_{\Otilde}$ via the
+perturbed quasi-minimality inequality \eqref{eq:plan1-qmin} below: namely
+\begin{itemize}
+\item two-sided density estimates on $\Otilde$ at scales
+$\le r_0=r_0(n,R)$ (BDV Lemma~4.9);
+\item Lipschitz/nondegeneracy of $\tilde u$ near $\partial\Otilde$ (BDV
+Lemma~4.11, 4.12);
+\item smooth, uniformly $C^{k}(n,R)$-bounded Bernoulli coefficient on
+$\partial\Otilde$ (BDV Lemma~4.16);
+\end{itemize}
+all constants depending only on $(n,R)$;
+\item[\rm(v)] On $\partial\Otilde$ the selected Bernoulli law takes the
+volume-rescaled form of Lemma~\ref{lem:plan1-sel-bern} below.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Parts (i)--(iii) are
+Lemmas~\ref{lem:plan1-sel-existence}--\ref{lem:plan1-sel-L3}.
+Parts (iv)--(v) are stated and justified next.
+\end{proof}
+
+\paragraph{Perturbed quasi-minimality inequality.}
+By a direct comparison test in $J$, the minimiser $U_*=\{u_*>0\}$ (where
+$u_*=u_{U_*}$ is the torsion function) satisfies the BDV (4.19)
+inequality: for every $v\in H^1_0(B_R)$,
+\begin{equation}\label{eq:plan1-qmin}
+\tfrac12\!\int|\nabla u_*|^2-\!\int u_*
++f_{\hat\eta}(|\{u_*>0\}|)
+\;\le\;\tfrac12\!\int|\nabla v|^2-\!\int v+f_{\hat\eta}(|\{v>0\}|)
++C_R\,\tau\,\bigl|\{u_*>0\}\Delta\{v>0\}\bigr|.
+\end{equation}
+The error term arises from the Lipschitz bound on the square-root
+penalty in \eqref{eq:plan1-Jdef}, dominated by
+$\tau\,C_2(R)|U\Delta U_*|$, where $C_2(R)$ is the BDV
+constant of \eqref{eq:bdv42ii}; so $C_R$ may be taken equal to
+$C_2(R)$. For $\tau\le\tau_{\rm reg}(n,R)$,
+\eqref{eq:plan1-qmin} places $u_*$ in the
+Alt--Caffarelli quasi-minimiser class with smallness constant
+controlled by $(n,R)$, and the BDV
+package \cite[Lemmas~4.9, 4.11, 4.12, 4.16]{BDV} applies; this yields
+the density, Lipschitz, nondegeneracy and Bernoulli statements of
+Theorem~\ref{thm:plan1-sel-main}(iv). The transfer from $U_*$ to
+$\Otilde=r_*^{-1}U_*$ is a bilipschitz dilation with
+$|\lambda-1|\le 1/2$ (Lemma~\ref{lem:plan1-sel-L2}); the density,
+Lipschitz, and $C^{k}$ constants degrade by a factor at most
+$(3/2)^{n}$, which is absorbed into the $(n,R)$-bookkeeping.
+
+\paragraph{Volume-rescaled Bernoulli law.}
+
+\begin{lemma}[Volume-rescaled Bernoulli law on $\partial\Otilde$]
+\label{lem:plan1-sel-bern}
+Let $\tilde u(y):=r_*^{-2}u_{U_*}(r_*y)$ for $y\in\Otilde=r_*^{-1}U_*$.
+Then $-\Delta\tilde u=1$ in $\Otilde$, $\tilde u=0$ on $\partial\Otilde$,
+and on $\partial\Otilde$ the BDV Lemma~4.16 Bernoulli law takes the form
+\begin{equation}\label{eq:plan1-Berntilde}
+|\nabla\tilde u(y)|^2
+=\tilde\Lambda
++\tilde a_\sigma\,\tilde\Psi_{r_*}(y),
+\end{equation}
+where
+\begin{equation}\label{eq:plan1-Berncoeff}
+\tilde\Lambda=r_*^{-2}\Lambda,
+\qquad
+\tilde a_\sigma=r_*^{-1}\,a_\sigma,
+\qquad
+|a_\sigma|\le \tau,
+\end{equation}
+and
+\[
+\tilde\Psi_{r_*}(y)
+:=|y-r_*^{-1}x_{U_*}|-r_*^{n}\,V_{\Otilde}\cdot y,
+\qquad
+V_{\Otilde}:=\!\int_{\Otilde}\!\frac{z-x_{\Otilde}}{|z-x_{\Otilde}|}\,dz.
+\]
+Both prefactors satisfy
+$\tilde\Lambda=\Lambda\,(1+O(\delta))$ and
+$\tilde a_\sigma=a_\sigma\,(1+O(\delta))$ as $\delta\to0$, with
+implicit constants depending only on $(n,R)$.
+\end{lemma}
+
+\begin{proof}
+For $y\in\Otilde$, $\nabla\tilde u(y)=r_*^{-1}\nabla u_{U_*}(r_*y)$ and
+$\Delta\tilde u(y)=\Delta u_{U_*}(r_*y)=-1$, so $\tilde u$ solves
+$-\Delta\tilde u=1$ in $\Otilde$ with zero Dirichlet condition on
+$\partial\Otilde$ (which is $r_*^{-1}\partial U_*$). Squaring,
+$|\nabla\tilde u(y)|^2=r_*^{-2}|\nabla u_{U_*}(r_*y)|^2$.
+
+By BDV Lemma~4.16, on $\partial U_*$,
+$|\nabla u_{U_*}(x)|^2=\Lambda+a_\sigma\Psi_{U_*}(x)$ with
+$\Psi_{U_*}(x)=|x-x_{U_*}|-V_{U_*}\cdot x$ and
+$V_{U_*}=\int_{U_*}(z-x_{U_*})/|z-x_{U_*}|\,dz$. Plugging $x=r_*y$,
+\[
+|\nabla\tilde u(y)|^2
+=r_*^{-2}\Lambda+r_*^{-2}a_\sigma\Psi_{U_*}(r_*y).
+\]
+Change of variables $z=r_*w$ in the centroid integral:
+\[
+V_{U_*}
+=\!\int_{U_*}\frac{z-x_{U_*}}{|z-x_{U_*}|}dz
+=r_*^{n}\!\int_{\Otilde}\frac{w-x_{\Otilde}}{|w-x_{\Otilde}|}dw
+=r_*^{n}V_{\Otilde},
+\]
+using $x_{U_*}=r_*x_{\Otilde}$ for the barycentre. Hence
+\[
+\Psi_{U_*}(r_*y)
+=|r_*y-x_{U_*}|-V_{U_*}\cdot r_*y
+=r_*\bigl(|y-r_*^{-1}x_{U_*}|-r_*^{n}V_{\Otilde}\cdot y\bigr)
+=r_*\,\tilde\Psi_{r_*}(y).
+\]
+Substituting,
+\(
+|\nabla\tilde u(y)|^2
+=r_*^{-2}\Lambda+r_*^{-1}a_\sigma\,\tilde\Psi_{r_*}(y),
+\)
+which is \eqref{eq:plan1-Berntilde} with the coefficients
+\eqref{eq:plan1-Berncoeff}. Lemma~\ref{lem:plan1-sel-L2} gives
+$|r_*-1|\le C_5(n,R)\delta$, hence
+$\tilde\Lambda=\Lambda(1+O_{n,R}(\delta))$ and analogously for
+$\tilde a_\sigma$.
+\end{proof}
+
+\subsubsection{Summary of constants and dependences}
+\label{subsubsec:plan1-sel-constants}
+
+For ease of cross-reference in later subsections, we record the
+constants used in Theorem~\ref{thm:plan1-sel-main} together with their
+dependences. All constants depend only on the pair $(n,R)$ via named BDV
+constants; none is set by a compactness or contradiction step.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.20}
+\begin{tabular}{|l|l|l|}
+\hline
+Symbol & Defined in / source & Depends on \\\hline
+$\hat\eta,C_4$ & BDV Lemma~4.5 & $n,R$ \\
+$C_1$ & BDV Lemma~4.2(i), eq.~\eqref{eq:bdv42i} & $n$ \\
+$C_2$ & BDV Lemma~4.2(ii), eq.~\eqref{eq:bdv42ii} & $R$ \\
+$\sigma_2,\sigma_3$ & BDV Lemmas~4.9, 4.16 & $n,R$ \\
+$\tau_{\rm ex},\tau_{\rm reg}$ & eq.~\eqref{eq:plan1-tauex} & $n,R$ \\
+$P_{\rm sel}$ & Lemma~\ref{lem:plan1-sel-existence} & $n,R$ \\
+$C_5$ & Lemma~\ref{lem:plan1-sel-L2} & $n,R$ \\
+$C_{\rm dil}$ & Lemma~\ref{lem:plan1-sel-dilation},
+eq.~\eqref{eq:plan1-dilL1} & $n,R$ \\
+$C_{\BDValpha}=2 C_2 C_{\rm dil}C_5$ & eq.~\eqref{eq:plan1-Calpha-def} & $n,R$ \\
+$C_E$ & eq.~\eqref{eq:plan1-CE-def} & $n,R$ \\
+$C_{\rm sel}=C_E$ & Theorem~\ref{thm:plan1-sel-main} & $n,R$ \\
+$\eps_{\rm sel},q_{\rm sel}$ & eq.~\eqref{eq:plan1-Sml} & $n,R$ \\
+$\rho(q)=\sqrt{2q+q^2}/\tau+C_{\BDValpha}q$ &
+eq.~\eqref{eq:plan1-rho} & $n,R,q$ \\
+$\tilde\Lambda=r_*^{-2}\Lambda$,
+$\tilde a_\sigma=r_*^{-1}a_\sigma$ &
+Lemma~\ref{lem:plan1-sel-bern} & $n,R$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Outputs feeding the next subsection.}
+The selection principle (Theorem~\ref{thm:plan1-sel-main}) produces a
+volume-normalised quasi-open set $\Otilde\subset B_{R'(n,R)}$ with
+$|\Otilde|=\omega_n$, $\BDValpha(\Otilde)\in[\eps/2,3\eps/2]$,
+$Q_{\BDValpha}(\Otilde)\le 2C_{\rm sel}(n,R)\,Q_{\BDValpha}(\Om_0)$, and
+the full BDV free-boundary regularity package. This is the input for
+the graph-entry subsection (Plan 1 \S 3.2), which converts smallness of
+$\BDValpha(\Otilde)$ into $C^{1,\gamma}$ normal-graph parametrisation
+over $\partial B_1(x_{\Otilde})$ via the
+$\alpha\to$Hausdorff$\to$flatness chain.

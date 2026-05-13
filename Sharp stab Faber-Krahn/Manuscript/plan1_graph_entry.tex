@@ -1,0 +1,806 @@
+% UNIFIED 2026-05-13
+% SOURCE MAP
+% ----------
+% This subsection is the Plan 1 / Route A ``graph entry and regularity'' block.
+% It is intended for inclusion (by Agent 19) into Manuscript/02_plan1_draft.tex
+% as the subsection that follows Agent 5's selection-principle subsection and
+% precedes Agent 7's nearly-spherical closure subsection.
+%
+% Mapping of items to sources (file paths relative to repository root):
+%
+%   - Plan 1 input / regularity package (BDV black boxes):
+%       Plan 1/graph-entry-closure.tex  (selected-minimizer input, §2-§3)
+%       Plan 1/graph-entry-closure.md
+%       Final/GraphEntry.tex             (Lemmas 2.1, 2.2; §3 flatness;
+%                                         §4 patching; Theorem 4.1 = GraphEntry)
+%       Final/SchauderInterpolation.tex  (§2 hodograph, §3 Schauder bootstrap,
+%                                         §4 interpolation, Theorem 4.1 = Sph-entry)
+%
+%   - Item D2.1 (BDV Lemma 4.2 chain): CITE(BDV, Lem. 4.2), as in
+%       Final/GraphEntry.tex Lemma 2.1 and Plan 1/graph-entry-closure.tex §2.
+%   - Item D2.2 (Alt-Caffarelli flatness, BDV Theorem 4.18 form):
+%       CITE(BDV, Thm. 4.18); used as the black box (T4.18) in
+%       Final/GraphEntry.tex §1.2.
+%   - Item D2.3 (Global C^{1,gamma} normal graph, threshold alpha_graph):
+%       LOCAL(Final/GraphEntry.tex Theorem 6.1) and
+%       LOCAL(Plan 1/graph-entry-closure.tex §5).
+%   - Item D2.4 (Kinderlehrer-Nirenberg hodograph straightening):
+%       CITE(KN1977); LOCAL(Final/SchauderInterpolation.tex §2).
+%   - Item D2.5 (Lieberman oblique Schauder bootstrap to C^{m,gamma}):
+%       CITE(Li86); LOCAL(Final/SchauderInterpolation.tex §3).
+%   - Item D2.6 (Gagliardo-Nirenberg / Holder interpolation on the sphere):
+%       CITE(GT Lemma 6.32), CITE(BL Thm 6.4.5);
+%       LOCAL(Final/SchauderInterpolation.tex Lemma 4.1).
+%   - Item D2.7 (Schauder-interpolation threshold alpha_sph(n,R,gamma_0)):
+%       LOCAL(Final/SchauderInterpolation.tex Theorem 5.1).
+%
+% Notation conversion. All sources use the dimension symbol N. By
+% Manuscript/00_notation_register.md §1 (canonical n) and §17.1, every N
+% has been replaced by n in this draft. The BDV smooth asymmetry of the
+% selected (volume-normalised) minimizer is written alpha_BDV(Otilde) and
+% the Fraenkel asymmetry of the original domain Omega is A(Omega), per
+% the notation register §5.
+%
+% Hypothesis class. The standing hypothesis throughout is the bounded
+% Saint-Venant setting: Omega open in R^n, |Omega| = omega_n, Omega ⊂ B_R,
+% R ≥ 2. The graph-entry subsection applies to the volume-normalised
+% selected minimizer Otilde produced by Agent 5; the selection parameter
+% tau is bounded above by the regularity threshold tau_reg(n,R) of BDV.
+% Selected minimizers are quasi-minimizers of the BDV penalised Bernoulli
+% functional (Agent 5, item D1.4), hence the BDV regularity package (L4.9,
+% L4.12, L4.16, T4.18) is available with constants depending only on (n,R).
+%
+% Status: every numerical lemma below is either drafted here (DRAFT) with
+% full proof at the level of detail of the source, or stated and cited
+% with the exact source label.
+
+\subsection{Graph entry and regularity}
+\label{subsec:plan1-graph-entry}
+
+\paragraph{Standing hypotheses (Plan 1 / Route A).}
+Let \(n\ge 2\) and \(R\ge 2\) be fixed. Throughout this subsection,
+\(\Otilde\subset B_R\subset\R^n\) denotes the \emph{volume-normalised
+selected minimizer} produced by the selection principle of
+Subsection~\ref{subsec:plan1-selection} (Agent~5). It satisfies
+\begin{equation}\label{eq:plan1-ge-Otilde}
+   |\Otilde|=|B_1|=\omega_n,\qquad \Otilde\subset B_R,
+\end{equation}
+and is, by construction, an almost-minimizer of the BDV penalised Bernoulli
+functional with selection parameter \(\tau\le\tau_{\rm reg}(n,R)\), where
+\(\tau_{\rm reg}(n,R)>0\) is the regularity threshold fixed in
+\cite[\S 4]{BDV} (BDV) and recorded in Subsection~\ref{subsec:plan1-selection}.
+The BDV smooth asymmetry of \(\Otilde\) is denoted by \(\BDValpha(\Otilde)\)
+(notation register \S 5; in the selection-principle subsection this is
+written \(\alpha(\Otilde)\) without ambiguity, but the global manuscript
+uses \(\BDValpha\) whenever there is a clash with the coarea quantity
+\(\alpha(t)\) of Plan~2).
+
+By the BDV regularity package, which is inherited by every selected
+minimizer with \(\tau\le\tau_{\rm reg}(n,R)\), there exist positive
+constants
+\[
+   c_d=c_d(n,R),\quad r_d=r_d(n,R),\quad
+   L_u=L_u(n,R),\quad
+   q_\pm=q_\pm(n,R),\quad L_q=L_q(n,R),
+\]
+for which the following hold; cf.\
+\cite[Lemmas 4.9, 4.12, 4.16, Theorem 4.18]{BDV}.
+
+\begin{enumerate}[label=\textup{(R\arabic*)},leftmargin=2.7em]
+\item\label{R1} \emph{Two-sided density.} For every \(x\in\partial\Otilde\)
+   and every \(r\in(0,r_d]\),
+   \[
+      c_d r^n
+      \le|\Otilde\cap B_r(x)|
+      \le(1-c_d)r^n,
+      \qquad
+      c_d r^n
+      \le|B_r(x)\setminus\Otilde|
+      \le(1-c_d)r^n.
+   \]
+\item\label{R2} \emph{Lipschitz nondegeneracy.} The torsion potential
+   \(\widetilde u\in H^1_0(\Otilde)\) of \(\Otilde\) extends to
+   \(C^{0,1}(\overline{B_R})\) with \(\Lip(\widetilde u)\le L_u\), and
+   \(\sup_{B_r(x)}\widetilde u\ge c_d r\) for every
+   \(x\in\partial\Otilde\), \(r\in(0,r_d]\).
+\item\label{R3} \emph{Bernoulli coefficient.} On the flat portion of
+   \(\partial\Otilde\) the function
+   \(q(\cdot):=|\nabla\widetilde u(\cdot)|\) admits a \(C^{1,\gamma}\)
+   one-sided extension with \(q_-\le q\le q_+\) and
+   \(\|q\|_{C^{1,\gamma}}\le L_q\).
+\item\label{R4} \emph{Alt--Caffarelli flatness improvement.} There exist
+   \(\bar\mu=\bar\mu(n,R)\in(0,1)\), \(\bar\rho=\bar\rho(n,R)>0\),
+   \(\gamma=\gamma(n,R)\in(0,1)\) and \(C_{\rm AC}=C_{\rm AC}(n,R)\) such
+   that, whenever \(\widetilde u\) is of Alt--Caffarelli class
+   \(F(\bar\mu,1,+\infty)\) on a ball \(B_{\bar\rho}(x_0)\subset B_R\),
+   the portion \(\partial\Otilde\cap B_{\bar\rho/2}(x_0)\) is a
+   \(C^{1,\gamma}\) graph in the relevant direction with norm
+   \(\le C_{\rm AC}\bar\mu\).
+\end{enumerate}
+
+\paragraph{Linking asymmetries.}
+The Fraenkel asymmetry \(\Fr(\cdot)\) and the BDV smooth asymmetry
+\(\BDValpha(\cdot)\) are linked by
+\cite[Lemma~4.2]{BDV}: there are positive constants \(C_{\Fr}(n)\) and
+\(C_\alpha(n)\) such that, for every measurable \(U\) with \(|U|=|B_1|\),
+\begin{equation}\label{eq:plan1-ge-BDVL42}
+   \Fr(U)^2\le C_{\Fr}(n)\,\BDValpha(U),\qquad
+   |U\Delta B_1|\le C_\alpha(n)\,\BDValpha(U)^{1/2}.
+\end{equation}
+The constants \(C_{\Fr}(n)\) and \(C_\alpha(n)\) are dimensional; they
+come from the BDV definition of \(\BDValpha\). We use both directions of
+\eqref{eq:plan1-ge-BDVL42}: the first to control the optimal Fraenkel
+translation, the second to transfer smallness of \(\BDValpha\) to
+\(L^1\)-closeness to \(B_1\).
+
+We now proceed in five steps:
+\begin{enumerate}
+\item[(S1)] From \(\BDValpha(\Otilde)\) small to small Hausdorff distance
+   \(d_H(\partial\Otilde,\partial B_1)\).
+\item[(S2)] From small Hausdorff distance to fixed-scale Alt--Caffarelli
+   flatness of \(\widetilde u\).
+\item[(S3)] Patching to a global \(C^{1,\gamma}\) normal graph; threshold
+   \(\alpha_{\rm graph}(n,R)\).
+\item[(S4)] Hodograph straightening + Lieberman oblique Schauder bootstrap
+   to uniform \(C^{m,\gamma}\) regularity, with explicit constants
+   \(M_m(n,R)\).
+\item[(S5)] H\"older interpolation on \(\partial B_1\); threshold
+   \(\alpha_{\rm sph}(n,R,\gamma_0)\) for small \(C^{2,\gamma_0}\) norm.
+\end{enumerate}
+
+\subsubsection{Step 1: from asymmetry to Hausdorff distance}
+\label{subsubsec:plan1-ge-S1}
+
+\begin{lemma}[Density forces Hausdorff smallness]
+\label{lem:plan1-ge-density-Hausdorff}
+Set \(c_*:=\min(c_d,1/2)\) and
+\begin{equation}\label{eq:plan1-ge-CH}
+   C_H(n,R)
+   :=4(\omega_n c_*)^{-1/n}+(R+1)(c_*r_d^n)^{-1/n}.
+\end{equation}
+Then every selected minimizer \(\Otilde\) as above satisfies
+\begin{equation}\label{eq:plan1-ge-dH-bound}
+   d_H(\partial\Otilde,\partial B_1)
+   \le C_H(n,R)\,|\Otilde\Delta B_1|^{1/n}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Write \(d:=d_H(\partial\Otilde,\partial B_1)\). By definition there is a
+point \(x\in\partial\Otilde\) (or, by symmetry, in \(\partial B_1\)) with
+\(\dist(x,\partial B_1)=d\) (resp.\ \(\dist(x,\partial\Otilde)=d\)).
+
+\emph{Case 1: \(x\in\partial\Otilde\), \(\dist(x,\partial B_1)=d\le 2 r_d\).}
+Then \(B_{d/2}(x)\) is disjoint from \(\partial B_1\), hence
+\(B_{d/2}(x)\subset B_1\) or \(B_{d/2}(x)\subset\R^n\setminus\overline{B_1}\).
+In the first case, the density estimate \ref{R1} at the radius
+\(r:=\min(d/2,r_d)\) gives
+\(|B_r(x)\setminus\Otilde|\ge c_d r^n\), and
+\(B_r(x)\setminus\Otilde\subset B_1\setminus\Otilde
+\subset\Otilde\Delta B_1\), so
+\(c_d (d/2)^n\le|\Otilde\Delta B_1|\). In the second case, density of
+\(\Otilde\) inside \(B_r(x)\) yields the same conclusion with
+\(\Otilde\cap B_r(x)\subset\Otilde\setminus B_1\). Either way,
+\(d\le 2(c_d^{-1}|\Otilde\Delta B_1|)^{1/n}\).
+
+\emph{Case 2: \(x\in\partial B_1\), \(\dist(x,\partial\Otilde)=d\le 2 r_d\).}
+The half-ball \(B_{d/2}(x)\cap B_1\) (or its complement, depending on
+orientation) has volume at least \(\tfrac12\omega_n(d/2)^n\) and lies in
+\(B_1\setminus\Otilde\) or \(\Otilde\setminus B_1\); both are subsets of
+\(\Otilde\Delta B_1\). Hence
+\(\tfrac12\omega_n(d/2)^n\le|\Otilde\Delta B_1|\).
+
+\emph{Case 3: \(d>2 r_d\).} Apply the same density argument at fixed
+radius \(r_d\) to a point realising the distance: this yields
+\(c_d r_d^n\le|\Otilde\Delta B_1|\). Hence
+\(d\le R+1\le(R+1)(c_d r_d^n)^{-1/n}|\Otilde\Delta B_1|^{1/n}\) (using
+\(d\le\diam(B_R\cup B_1)\le R+1\)).
+
+Combining the three cases and bounding all dimensional constants by
+\(c_*=\min(c_d,1/2)\) gives~\eqref{eq:plan1-ge-dH-bound} with
+\(C_H(n,R)\) defined by~\eqref{eq:plan1-ge-CH}.
+\end{proof}
+
+\begin{proposition}[Quantitative asymmetry-to-Hausdorff]
+\label{prop:plan1-ge-alpha-to-H}
+Set
+\begin{equation}\label{eq:plan1-ge-CHprime}
+   C_H'(n,R):=C_H(n,R)\,C_\alpha(n)^{1/n},
+\end{equation}
+and
+\begin{equation}\label{eq:plan1-ge-alpha0}
+   \alpha_0(n,R):=\bigl(r_d(n,R)/C_H'(n,R)\bigr)^{2n}.
+\end{equation}
+Then every selected minimizer \(\Otilde\) with
+\(\BDValpha(\Otilde)\le\alpha_0(n,R)\) satisfies
+\begin{equation}\label{eq:plan1-ge-dH-alpha}
+   d_H(\partial\Otilde,\partial B_1)
+   \le C_H'(n,R)\,\BDValpha(\Otilde)^{1/(2n)}\le r_d(n,R).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+The second half of~\eqref{eq:plan1-ge-BDVL42} gives
+\(|\Otilde\Delta B_1|\le C_\alpha(n)\BDValpha(\Otilde)^{1/2}\). Insertion
+into Lemma~\ref{lem:plan1-ge-density-Hausdorff} gives the first inequality
+of~\eqref{eq:plan1-ge-dH-alpha}. The second inequality is the definition
+of \(\alpha_0\) in~\eqref{eq:plan1-ge-alpha0}.
+\end{proof}
+
+\begin{lemma}[Barycentre shift absorbable in the threshold]
+\label{lem:plan1-ge-bary}
+Write \(y_*=y_*(\Otilde)\in\R^n\) for the optimal Fraenkel translation,
+i.e.\ a minimiser of \(y\mapsto|\Otilde\Delta(B_1+y)|/|B_1|\). There exists
+\(C_{\Fr}'(n,R)\) such that, for every selected minimizer \(\Otilde\) with
+\(\BDValpha(\Otilde)\le\alpha_0(n,R)\),
+\begin{equation}\label{eq:plan1-ge-bary-bound}
+   |y_*|\le(R+1)\,\Fr(\Otilde)
+   \le (R+1)\sqrt{C_{\Fr}(n)}\,\BDValpha(\Otilde)^{1/2}
+   =: C_{\Fr}'(n,R)\,\BDValpha(\Otilde)^{1/2}.
+\end{equation}
+After replacing \(\Otilde\) by its translate \(\Otilde-y_*\) (which leaves
+the energy unchanged) we may, and from now on do, assume \(y_*=0\), so the
+comparison ball is centred at the origin.
+\end{lemma}
+
+\begin{proof}
+The first inequality of~\eqref{eq:plan1-ge-bary-bound} follows from
+\(\Otilde\subset B_R\) and \(|\Otilde\Delta(B_1+y_*)|=|B_1|\Fr(\Otilde)\):
+if \(|y_*|>(R+1)\Fr(\Otilde)\) then \(B_1\) and \(B_1+y_*\) are essentially
+disjoint, and the trivial bound \(\Fr\le 2\) gives a contradiction. The
+second inequality is the first half of~\eqref{eq:plan1-ge-BDVL42}.
+\end{proof}
+
+\subsubsection{Step 2: Hausdorff closeness yields fixed-scale flatness}
+\label{subsubsec:plan1-ge-S2}
+
+Fix once and for all a universal geometric constant \(C_0=C_0(n)\ge 1\)
+absorbing the conversions between the half-slab geometry below and the
+exact normalisation of the Alt--Caffarelli class
+\(F(\bar\mu,1,+\infty)\) used in \ref{R4}; cf.\
+\cite[\S 4]{BDV}.
+
+Define the tubular slope threshold
+\begin{equation}\label{eq:plan1-ge-mutub}
+   \mu_{\rm tub}:=\tfrac14,
+\end{equation}
+which will be used in Step~3, and set
+\begin{equation}\label{eq:plan1-ge-mu-choices}
+   \mu:=\min\!\Bigl(\tfrac{\bar\mu(n,R)}{16\,C_0(n)},
+                    \tfrac{\mu_{\rm tub}}{C_{\rm AC}(n,R)}\Bigr),\quad
+   \rho_\mu:=\min\!\Bigl(\bar\rho(n,R),\tfrac{\mu}{18},\tfrac{r_d(n,R)}{2}\Bigr),\quad
+   h_F:=\tfrac{\mu\,\rho_\mu}{16}.
+\end{equation}
+All three constants depend only on \((n,R)\).
+
+\begin{lemma}[Geometric slab inclusion for \(\partial B_1\)]
+\label{lem:plan1-ge-slab}
+For \(\bar x\in\partial B_1\) and \(s\le 6\rho_\mu\),
+\[
+   \partial B_1\cap B_s(\bar x)
+   \subset\{x\in\R^n:|(x-\bar x)\cdot\nu_{\bar x}|\le s^2/2\}
+   \subset\{x:|(x-\bar x)\cdot\nu_{\bar x}|\le\mu\rho_\mu\},
+\]
+where \(\nu_{\bar x}\) is the outward unit normal to \(\partial B_1\) at
+\(\bar x\).
+\end{lemma}
+
+\begin{proof}
+\(B_1\) has unit radius, hence \(|x-\bar x|\le s\) implies
+\(|(x-\bar x)\cdot\nu_{\bar x}|\le s^2/2\) for \(x\in\partial B_1\). For
+\(s\le 6\rho_\mu\) the bound \(s^2/2\le 18\rho_\mu^2\le\mu\rho_\mu\) is
+the condition \(\rho_\mu\le\mu/18\) used to define \(\rho_\mu\) in
+\eqref{eq:plan1-ge-mu-choices}.
+\end{proof}
+
+\begin{proposition}[Fixed-scale Alt--Caffarelli flatness]
+\label{prop:plan1-ge-flatness}
+Suppose \(d_H(\partial\Otilde,\partial B_1)\le h_F\). Then for every
+\(\bar x\in\partial B_1\) there exists \(x_0\in\partial\Otilde\) with
+\(|x_0-\bar x|\le h_F\) such that
+\[
+   \partial\Otilde\cap B_{4\rho_\mu}(x_0)
+   \subset\{x:|(x-x_0)\cdot\nu_{\bar x}|\le 2\mu\rho_\mu\},
+\]
+and the torsion potential \(\widetilde u\) belongs to the Alt--Caffarelli
+class \(F(C_0\mu,1,+\infty)\) on \(B_{4\rho_\mu}(x_0)\) with respect to
+the direction \(-\nu_{\bar x}\).
+\end{proposition}
+
+\begin{proof}
+\emph{Step 1: existence of \(x_0\).} By
+\(d_H(\partial\Otilde,\partial B_1)\le h_F\) there is
+\(x_0\in\partial\Otilde\) with \(|x_0-\bar x|\le h_F\).
+
+\emph{Step 2: slab inclusion.} Set \(s:=5\rho_\mu+h_F\). Since
+\(h_F=\mu\rho_\mu/16\le\rho_\mu\) and \(\mu\le 1\), we have
+\(s\le 6\rho_\mu\), so Lemma~\ref{lem:plan1-ge-slab} applies. Every
+\(p\in\partial\Otilde\cap B_{5\rho_\mu}(x_0)\) lies within \(h_F\) of
+some \(\bar p\in\partial B_1\cap B_s(\bar x)\), hence
+\(|(p-\bar x)\cdot\nu_{\bar x}|\le\mu\rho_\mu+h_F\), and moving the
+centre to \(x_0\) costs at most \(h_F\), giving
+\(|(p-x_0)\cdot\nu_{\bar x}|\le\mu\rho_\mu+2h_F=\mu\rho_\mu+\mu\rho_\mu/8
+\le 2\mu\rho_\mu\).
+
+\emph{Step 3 (positive phase, F1).} The rescaled torsion potential
+\(\widetilde u_{x_0,\rho_\mu}(x):=\widetilde u(x_0+\rho_\mu x)/\rho_\mu\)
+is defined on \(B_4\). The nondegeneracy from \ref{R2} at radius
+\(\rho_\mu\le r_d/2\) gives a point \(y\in B_{\rho_\mu}(x_0)\cap\{\widetilde u>0\}\)
+with \(\widetilde u(y)\ge c_d\rho_\mu\). Combined with the Lipschitz bound
+of \ref{R2}, this gives
+\[
+   \widetilde u_{x_0,\rho_\mu}(x)\ge c_d\bigl(x\cdot(-\nu_{\bar x})-C_0\mu\bigr)_+
+   \qquad\text{on }B_4,
+\]
+after absorbing dimensional conversions into \(C_0=C_0(n)\). This is the
+lower (\emph{positive-phase}) condition of the Alt--Caffarelli class
+\(F(C_0\mu,1,+\infty)\).
+
+\emph{Step 4 (zero phase, F2).} The exterior half-ball
+\(\{(x-\bar x)\cdot\nu_{\bar x}>\mu\rho_\mu\}\cap B_{4\rho_\mu}(\bar x)\)
+is disjoint from \(B_1\). By
+\(d_H(\partial\Otilde,\partial B_1)\le h_F<\mu\rho_\mu/16\), it is
+disjoint from \(\Otilde\) except possibly in a layer of width \(h_F\).
+Hence
+\(\{(x-x_0)\cdot\nu_{\bar x}\ge 3\mu\rho_\mu\}\cap B_{4\rho_\mu}(x_0)
+\subset\R^n\setminus\Otilde\), so \(\widetilde u\equiv 0\) there. This is
+the (F2) condition.
+
+\emph{Step 5 (Lipschitz upper bound, F3).} By \ref{R2},
+\(\Lip(\widetilde u)\le L_u\), and zero in the deep zero-layer gives
+\(\widetilde u_{x_0,\rho_\mu}(x)\le
+L_u(x\cdot(-\nu_{\bar x})+C_0\mu)_+\) on \(B_4\), which is (F3).
+
+The three conditions (F1)--(F3) with parameter \(C_0\mu\le\bar\mu\) (by
+the choice of \(\mu\) in~\eqref{eq:plan1-ge-mu-choices}) place
+\(\widetilde u\) in the Alt--Caffarelli class
+\(F(C_0\mu,1,+\infty)\) on \(B_{4\rho_\mu}(x_0)\) with respect to
+\(-\nu_{\bar x}\).
+\end{proof}
+
+\subsubsection{Step 3: patching local graphs into a global graph}
+\label{subsubsec:plan1-ge-S3}
+
+\begin{lemma}[Tubular threshold]\label{lem:plan1-ge-tubular}
+Let \(\mu_{\rm tub}=1/4\) as in~\eqref{eq:plan1-ge-mutub}. If
+\(g:\partial B_1\to\R\) satisfies
+\(\|g\|_{C^{0,1}(\partial B_1)}\le\mu_{\rm tub}\), then the radial map
+\(\Phi_g(\theta):=(1+g(\theta))\theta\) is a bi-Lipschitz embedding of
+\(\partial B_1\) onto a hypersurface in \(\R^n\), and the radial
+projection from any such hypersurface back onto \(\partial B_1\) is a
+diffeomorphism with bounded \(C^{1,\gamma}\) inverse, controlled by an
+explicit constant \(K_{\rm geom}(n,R)\).
+\end{lemma}
+
+\begin{proof}
+Compute \(d\Phi_g=(1+g)\mathrm{id}+\theta\otimes dg\) on \(T_\theta\partial B_1\)
+(extended trivially in the radial direction). The smallest singular value
+is bounded below by \(\sqrt{(1+g)^2-|dg|^2}\ge\sqrt{(3/4)^2-(1/4)^2}
+=\sqrt{1/2}\ge 1/\sqrt2\). Hence \(\Phi_g\) is bi-Lipschitz with bilipschitz
+constant \(\le 2\). The radial projection \(\theta\mapsto\theta/|\theta|\)
+is smooth on \(\R^n\setminus\{0\}\) with derivatives controlled by
+\(\dist(\cdot,0)\); composing with the inverse map of \(\Phi_g\) on the
+image \(\Phi_g(\partial B_1)\subset\{|x|\ge 3/4\}\) gives a
+diffeomorphism whose \(C^{1,\gamma}\) norm is bounded by an explicit
+function of \(n,R,\gamma\), denoted \(K_{\rm geom}(n,R)\).
+\end{proof}
+
+\begin{proposition}[Global \(C^{1,\gamma}\) normal graph]
+\label{prop:plan1-ge-patching}
+Assume \(d_H(\partial\Otilde,\partial B_1)\le h_F\). Then there exists a
+unique function \(g:\partial B_1\to\R\) such that
+\begin{equation}\label{eq:plan1-ge-graph}
+   \partial\Otilde=\bigl\{(1+g(\theta))\theta:\theta\in\partial B_1\bigr\},
+\end{equation}
+with
+\begin{equation}\label{eq:plan1-ge-norm-graph}
+   \|g\|_{C^{1,\gamma}(\partial B_1)}\le M_1(n,R)
+   :=C_{\rm AC}(n,R)\,\mu\,K_{\rm geom}(n,R),\qquad
+   \|g\|_{C^{0,1}(\partial B_1)}\le\mu_{\rm tub}=\tfrac14.
+\end{equation}
+Here \(\gamma=\gamma(n,R)\) is the Alt--Caffarelli exponent of
+\ref{R4}.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{prop:plan1-ge-flatness}, for every
+\(\bar x\in\partial B_1\) there is \(x_0=x_0(\bar x)\in\partial\Otilde\)
+such that \(\widetilde u\in F(C_0\mu,1,+\infty)\) on
+\(B_{4\rho_\mu}(x_0)\) with respect to \(-\nu_{\bar x}\). Since
+\(C_0\mu\le\bar\mu\), the Alt--Caffarelli flatness improvement \ref{R4}
+upgrades \(\partial\Otilde\cap B_{\rho_\mu}(x_0)\) to a \(C^{1,\gamma}\)
+graph in direction \(\nu_{\bar x}\), with norm \(\le C_{\rm AC}\mu\).
+
+By the choice \(\mu\le\mu_{\rm tub}/C_{\rm AC}\) in
+\eqref{eq:plan1-ge-mu-choices}, the local slope is \(\le\mu_{\rm tub}=1/4\),
+hence Lemma~\ref{lem:plan1-ge-tubular} applies: the local Cartesian graph
+is reparametrised as a spherical normal graph \(g_{\bar x}\) over a
+neighbourhood of \(\bar x\) in \(\partial B_1\), with \(C^{1,\gamma}\)
+norm increased by at most \(K_{\rm geom}(n,R)\).
+
+Two local graphs \(g_{\bar x_1}\) and \(g_{\bar x_2}\) over overlapping
+caps parametrise the same connected portion of \(\partial\Otilde\): by
+the slope bound \(\le\mu_{\rm tub}\), the radial projection from
+\(\partial\Otilde\) to \(\partial B_1\) is injective, hence the two
+parametrisations agree on the overlap. Patching using a finite cover of
+\(\partial B_1\) by caps of radius \(\rho_\mu\) yields a unique global
+\(g\) with the stated \(C^{1,\gamma}\) and \(C^{0,1}\) bounds.
+\end{proof}
+
+\begin{lemma}[\(L^\infty\) control of \(g\)]
+\label{lem:plan1-ge-Linfty}
+With \(C_H''(n,R):=2\,C_H'(n,R)\) (see \eqref{eq:plan1-ge-CHprime}),
+\begin{equation}\label{eq:plan1-ge-Linfty}
+   \|g\|_{L^\infty(\partial B_1)}
+   \le C_H''(n,R)\,\BDValpha(\Otilde)^{1/(2n)}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+For \(\theta\in\partial B_1\), \(|g(\theta)|\) is the radial distance
+from \((1+g(\theta))\theta\in\partial\Otilde\) to \(\theta\in\partial B_1\).
+Since \(\|g\|_{C^{0,1}}\le 1/4\), the radial distance is at most twice
+the Euclidean distance, so
+\(\|g\|_{L^\infty}\le 2\,d_H(\partial\Otilde,\partial B_1)
+\le 2C_H'\,\BDValpha(\Otilde)^{1/(2n)}=C_H''\,\BDValpha(\Otilde)^{1/(2n)}\)
+by Proposition~\ref{prop:plan1-ge-alpha-to-H}.
+\end{proof}
+
+\begin{theorem}[Graph-entry theorem]
+\label{thm:plan1-ge-graphentry}
+There exist explicit positive constants \(\mu(n,R)\), \(\rho_\mu(n,R)\),
+\(h_F(n,R)\), \(C_H'(n,R)\), \(C_H''(n,R)\), \(C_{\Fr}'(n,R)\),
+\(M_1(n,R)\) and an entry threshold
+\begin{equation}\label{eq:plan1-ge-alpha-graph}
+   \alpha_{\rm graph}(n,R)
+   :=\min\Bigl\{
+       \alpha_0(n,R),\,
+       (h_F/C_H')^{2n},\,
+       (h_F/C_{\Fr}')^2
+   \Bigr\}
+\end{equation}
+such that the following holds. Let \(\Otilde\subset B_R\) be a selected
+minimizer (in the sense of Subsection~\ref{subsec:plan1-selection}) with
+\(|\Otilde|=|B_1|\), \(\tau\le\tau_{\rm reg}(n,R)\) and
+\(\BDValpha(\Otilde)\le\alpha_{\rm graph}(n,R)\). After translating by
+\(-y_*\) (Lemma~\ref{lem:plan1-ge-bary}), there exists a unique
+\(g:\partial B_1\to\R\) such that
+\eqref{eq:plan1-ge-graph}, \eqref{eq:plan1-ge-norm-graph} and
+\eqref{eq:plan1-ge-Linfty} hold; in particular
+\[
+   \|g\|_{C^{1,\gamma}(\partial B_1)}\le M_1(n,R),\qquad
+   \|g\|_{L^\infty(\partial B_1)}
+   \le C_H''(n,R)\,\BDValpha(\Otilde)^{1/(2n)}.
+\]
+\end{theorem}
+
+\begin{proof}
+The choice~\eqref{eq:plan1-ge-alpha-graph} ensures both
+\(\BDValpha(\Otilde)\le\alpha_0(n,R)\) (so
+Proposition~\ref{prop:plan1-ge-alpha-to-H} applies) and
+\(C_H'\BDValpha^{1/(2n)}\le h_F\); together with the barycentre control
+of Lemma~\ref{lem:plan1-ge-bary} this gives
+\(d_H(\partial\Otilde,\partial B_1)\le h_F\) (after the translation
+\(y_*\to 0\)). Proposition~\ref{prop:plan1-ge-patching} then yields
+the global \(C^{1,\gamma}\) graph with the stated bounds, and
+Lemma~\ref{lem:plan1-ge-Linfty} gives the \(L^\infty\) bound.
+\end{proof}
+
+\paragraph{Discussion of the regularity input.}
+The regularity theorem driving Step~3 is the Alt--Caffarelli flatness
+improvement in the form recorded by Brasco--De~Philippis--Velichkov as
+\cite[Theorem~4.18]{BDV}; in the source this is stated as a black-box
+quantitative replacement of the original Alt--Caffarelli theorem
+\cite{AC1981}, valid for the BDV-class of one-phase Bernoulli
+free boundaries with a smooth bounded coefficient
+\((q_-\le q\le q_+,\ \|q\|_{C^{1,\gamma}}\le L_q)\). \emph{It is not the
+De Giorgi--Almgren \(\eps\)-regularity theorem for area-minimisers, nor is
+it the Tamanini quasi-minimality regularity}: although the selected
+minimizer \(\Otilde\) is a quasi-minimizer of perimeter (Agent~5,
+D1.4), what we use here is the stronger one-phase Bernoulli flatness
+improvement of BDV, which is tailored to the penalised functional
+\(J_{\Omega_0}\). This input is recorded in the source map as item
+D2.2 with citation \cite[Theorem~4.18]{BDV} and origin
+\cite{AC1981}.
+
+\subsubsection{Step 4: Schauder bootstrap to \(C^{m,\gamma}\) regularity}
+\label{subsubsec:plan1-ge-S4}
+
+Let \(\widetilde u\in H^1_0(\Otilde)\) be the torsion potential of
+\(\Otilde\), and let \(\bar x\in\partial B_1\) be fixed. By a translation
+and rotation we may assume \(\bar x=0\) and the outward unit normal to
+\(\partial B_1\) at \(\bar x\) is \(e_n\). By
+Proposition~\ref{prop:plan1-ge-patching} there is \(R_0=R_0(n,R)>0\) and a
+Cartesian function \(\widetilde g:\{|x'|<R_0\}\to\R\) with
+\(\|\widetilde g\|_{C^{1,\gamma}}\le M_1'(n,R)\), where
+\(M_1'(n,R):=C(n,R)M_1(n,R)\) absorbs the conversion between spherical
+graphs over \(\partial B_1\) and Cartesian graphs in a chart, such that
+inside the cylinder
+\(\mathcal C_{R_0}:=\{|x'|<R_0,|x_n|<R_0\}\),
+\[
+   \partial\Otilde\cap\mathcal C_{R_0}
+   =\{x_n=\widetilde g(x'):|x'|<R_0\},\quad
+   \Otilde\cap\mathcal C_{R_0}
+   =\{x_n>\widetilde g(x')\}.
+\]
+
+\paragraph{Hodograph straightening.}
+By the Lipschitz nondegeneracy \ref{R2} and the positive Bernoulli
+coefficient \ref{R3}, in a one-sided neighbourhood of \(0\) the partial
+derivative \(\partial_n\widetilde u\) is bounded below by \(q_-/2>0\).
+The Kinderlehrer--Nirenberg partial hodograph map
+\cite[\S 2]{KN1977}
+\[
+   \Phi(x',x_n):=(x',t),\qquad t:=\widetilde u(x',x_n),
+\]
+is therefore a \(C^{1,\gamma}\) diffeomorphism from
+\(\Otilde\cap\mathcal C_{R_0/2}\) onto a domain
+\(\{(x',t):|x'|<R_0/2,\ 0<t<T_0\}\) for some \(T_0=T_0(n,R)>0\), with
+inverse \(x_n=\psi(x',t)\) satisfying \(\psi(x',0)=\widetilde g(x')\).
+
+A direct change of variables, identical to
+\cite[(2.10)--(2.12)]{KN1977}, gives that \(\psi\) satisfies, in
+\(\{0<t<T_0\}\), the quasilinear PDE
+\begin{equation}\label{eq:plan1-ge-psi-PDE}
+   F[\psi]
+     :=\frac{1+|\nabla_{x'}\psi|^{2}}{(\partial_t\psi)^{2}}\,\partial_t^{2}\psi
+        -2\,\frac{\nabla_{x'}\psi\cdot\nabla_{x'}\partial_t\psi}{\partial_t\psi}
+        +\Delta_{x'}\psi
+     =\partial_t\psi,
+\end{equation}
+which is uniformly elliptic in \(\psi\) as long as
+\(\partial_t\psi\ge\eta>0\) and \(|\nabla_{x'}\psi|\le K\); from
+\ref{R2}--\ref{R3} these bounds hold with constants \(\eta_*(n,R)\) and
+\(K_*(n,R)\). The free-boundary Bernoulli condition
+\(|\nabla\widetilde u|^2=q^2\) at \(t=0\) transforms into
+the nonlinear oblique boundary condition
+\begin{equation}\label{eq:plan1-ge-BC-psi}
+   \partial_t\psi(x',0)
+   =\sqrt{\frac{1+|\nabla_{x'}\psi(x',0)|^{2}}{q(x',\psi(x',0))^{2}}}
+   \qquad\text{on }\{t=0\}.
+\end{equation}
+Linearising
+\(B[\psi]:=\partial_t\psi-G(x',\nabla_{x'}\psi,\psi)=0\) gives
+\(\partial B/\partial(\partial_t\psi)\equiv 1\): the obliqueness
+coefficient \(\beta_n=1\) is uniformly positive in Lieberman's
+notation \cite[\S 1]{Li86b}, and the tangential coefficients are
+bounded by an \((n,R,L_q)\)-constant. The initial bound
+\(\|\psi\|_{C^{1,\gamma}}\le C(n,R)\) on \(\{0\le t\le T_0/2\}\)
+follows from \ref{R2}, the implicit function theorem on
+\(t=\widetilde u(x',x_n)\) and the chain rule.
+
+\paragraph{Schauder bootstrap.}
+We apply Lieberman's oblique-derivative Schauder theorem for nonlinear
+elliptic equations with smooth coefficients, in the form stated as
+\cite[Theorem~1]{Li86b}:
+
+\begin{theorem}[Lieberman \cite{Li86b}, Thm.~1]
+\label{thm:plan1-ge-lieberman}
+Let \(v\) solve
+\(a^{ij}(x,v,\nabla v)\partial_{ij}v+b(x,v,\nabla v)=0\) in
+\(B_{R_0/2}^+\), \(b^i(x,v,\nabla v)\partial_i v+b_0(x,v)=0\) on
+\(\{x_n=0\}\), with coefficients of class \(C^{m-1,\gamma}\), ellipticity
+\(\eta_*\), obliqueness \(\beta_0\), and \(\|v\|_{C^{1,\gamma}}\le N_0\).
+For every integer \(m\ge 2\),
+\[
+   \|v\|_{C^{m,\gamma}(B_{R_0/4}^+)}
+   \le\mathcal S_m\bigl(n,\eta_*,\beta_0,N_0,\|\mathrm{coeffs}\|_{C^{m-1,\gamma}}\bigr).
+\]
+\end{theorem}
+
+Setting \(\eta_m:=\|\psi\|_{C^{m,\gamma}(\{0\le t\le T_0/2\})}\), the
+PDE~\eqref{eq:plan1-ge-psi-PDE} and the oblique
+BC~\eqref{eq:plan1-ge-BC-psi} have coefficients of class \(C^{m-1,\gamma}\)
+once \(\psi\) is of class \(C^{m-1,\gamma}\), with norms bounded by
+\(L_q,\eta_m,n,R\). Applying Theorem~\ref{thm:plan1-ge-lieberman}
+iteratively on shrinking half-cylinders gives the recursion
+\begin{equation}\label{eq:plan1-ge-recursion}
+   \eta_{m+1}\le\mathcal S_{m+1}\bigl(n,\eta_*,1,\eta_m,L_q\bigr)
+   =:F_m(\eta_m,L_q,n,R),
+\end{equation}
+with \(\eta_1=C(n,R)\). Inductively define
+\begin{equation}\label{eq:plan1-ge-Mm}
+   M_m(n,R):=F_{m-1}\bigl(F_{m-2}\bigl(\cdots F_1(\eta_1,L_q,n,R)\cdots\bigr),L_q,n,R\bigr).
+\end{equation}
+
+\paragraph{Norm transfer back to \(g\).}
+The graph \(g\) on \(\partial B_1\) and the Cartesian \(\widetilde g\) on
+\(\{|x'|<R_0\}\) are related by an \((n,R)\)-bilipschitz \(C^\infty\)
+chart, so for every \(k\ge 0\) and \(0<\beta\le 1\),
+\begin{equation}\label{eq:plan1-ge-norm-transfer}
+   c(n,R,k,\beta)\,\|g\|_{C^{k,\beta}(\partial B_1)}
+   \le\|\widetilde g\|_{C^{k,\beta}}
+   \le C(n,R,k,\beta)\,\|g\|_{C^{k,\beta}(\partial B_1)}.
+\end{equation}
+Since \(\widetilde g(x')=\psi(x',0)\) by construction,
+\(\|\widetilde g\|_{C^{k,\beta}}\le\|\psi\|_{C^{k,\beta}(\{0\le t\le T_0/2\})}
+\le\eta_k\). Combining with~\eqref{eq:plan1-ge-norm-transfer} and using a
+finite cover of \(\partial B_1\) by \(N_0(n,R)\) charts gives the
+following.
+
+\begin{proposition}[Uniform Schauder bound]
+\label{prop:plan1-ge-schauder-bootstrap}
+For every integer \(m\ge 1\) there is \(M_m(n,R)<\infty\), given by
+\eqref{eq:plan1-ge-Mm}, such that under the hypotheses of
+Theorem~\ref{thm:plan1-ge-graphentry},
+\begin{equation}\label{eq:plan1-ge-schauder-bound}
+   \|g\|_{C^{m,\gamma}(\partial B_1)}\le M_m(n,R).
+\end{equation}
+\end{proposition}
+
+\subsubsection{Step 5: H\"older interpolation to small \(C^{2,\gamma_0}\)}
+\label{subsubsec:plan1-ge-S5}
+
+\begin{lemma}[H\"older interpolation on \(\partial B_1\)]
+\label{lem:plan1-ge-interp}
+Let \(0\le k<m\) be integers, \(0<\gamma_0\le\gamma\le 1\), with
+\((k,\gamma_0)\neq(m,\gamma)\), and set
+\begin{equation}\label{eq:plan1-ge-theta}
+   \theta_{m,k}:=\frac{k+\gamma_0}{m+\gamma}\in(0,1).
+\end{equation}
+There is \(C_{\rm GN}=C_{\rm GN}(n,m,k,\gamma,\gamma_0)>0\) such that for
+every \(f\in C^{m,\gamma}(\partial B_1)\),
+\begin{equation}\label{eq:plan1-ge-interp}
+   \|f\|_{C^{k,\gamma_0}(\partial B_1)}
+   \le C_{\rm GN}\,
+   \|f\|_{L^\infty(\partial B_1)}^{1-\theta_{m,k}}\,
+   \|f\|_{C^{m,\gamma}(\partial B_1)}^{\theta_{m,k}}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+This is the standard Gagliardo--Nirenberg / Bergh--L\"ofstr\"om convexity
+inequality for H\"older spaces, transferred from Euclidean charts to the
+compact manifold \(\partial B_1\); see
+\cite[Lemma~6.32]{GT1983} and
+\cite[Theorem~6.4.5]{BL1976}. The dimension dependence enters
+through the partition of unity and the number of charts.
+\end{proof}
+
+We apply~\eqref{eq:plan1-ge-interp} with \(k=2\), \(m=5\) and
+\(\gamma_0\in(0,\gamma)\). Since \(\gamma_0\le\gamma\le 1\),
+\[
+   \theta:=\theta_{5,2}=\frac{2+\gamma_0}{5+\gamma}
+   \le\frac{2+\gamma}{5+\gamma}\le\frac12,
+\]
+so
+\begin{equation}\label{eq:plan1-ge-theta-half}
+   \theta\le\tfrac12,\qquad 1-\theta\ge\tfrac12.
+\end{equation}
+
+\begin{theorem}[Schauder--interpolation entry; threshold
+\(\alpha_{\rm sph}\)]
+\label{thm:plan1-ge-sph-entry}
+Let \(\gamma_0\in(0,\gamma)\). Let \(\delta_{\rm sph}=\delta_{\rm sph}(n,\gamma_0)>0\)
+denote the smallness threshold of \cite[Theorem~3.3]{BDV} (the BDV
+nearly-spherical theorem; see Subsection~\ref{subsec:plan1-ns} for the
+exact statement). Define
+\begin{equation}\label{eq:plan1-ge-alpha-sph}
+   \alpha_{\rm sph}(n,R,\gamma_0)
+   :=\Bigl(
+       \frac{\delta_{\rm sph}(n,\gamma_0)}
+            {C_{\rm GN}(n,5,2,\gamma,\gamma_0)\,
+             C_H''(n,R)^{1-\theta}\,
+             M_5(n,R)^{\theta}}
+     \Bigr)^{\!2n/(1-\theta)}.
+\end{equation}
+Then for every selected minimizer \(\Otilde\) with
+\(\BDValpha(\Otilde)\le\min\{\alpha_{\rm graph}(n,R),\alpha_{\rm sph}(n,R,\gamma_0)\}\)
+the graph \(g\) of Theorem~\ref{thm:plan1-ge-graphentry} satisfies
+\begin{equation}\label{eq:plan1-ge-smallC2}
+   \|g\|_{C^{2,\gamma_0}(\partial B_1)}\le\delta_{\rm sph}(n,\gamma_0).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{thm:plan1-ge-graphentry} and
+Proposition~\ref{prop:plan1-ge-schauder-bootstrap} (applied with
+\(m=5\)),
+\[
+   \|g\|_{C^{2,\gamma_0}}
+   \le C_{\rm GN}\,\|g\|_{L^\infty}^{1-\theta}\,
+                  \|g\|_{C^{5,\gamma}}^{\theta}
+   \le C_{\rm GN}\,M_5(n,R)^{\theta}\,
+                  \|g\|_{L^\infty}^{1-\theta}.
+\]
+Insertion of the \(L^\infty\) bound \eqref{eq:plan1-ge-Linfty} gives
+\[
+   \|g\|_{C^{2,\gamma_0}}
+   \le C_{\rm GN}\,M_5^{\theta}\,
+                  C_H''^{\,1-\theta}\,
+                  \BDValpha(\Otilde)^{(1-\theta)/(2n)}.
+\]
+The bound \(\|g\|_{C^{2,\gamma_0}}\le\delta_{\rm sph}\) holds iff
+\(\BDValpha(\Otilde)^{(1-\theta)/(2n)}\le
+\delta_{\rm sph}/(C_{\rm GN}M_5^{\theta}C_H''^{\,1-\theta})\), which is
+exactly \(\BDValpha(\Otilde)\le\alpha_{\rm sph}(n,R,\gamma_0)\) by
+\eqref{eq:plan1-ge-alpha-sph}. The hypothesis
+\(\BDValpha(\Otilde)\le\alpha_{\rm graph}\) ensures
+Theorem~\ref{thm:plan1-ge-graphentry} and
+Proposition~\ref{prop:plan1-ge-schauder-bootstrap} apply in the first
+place.
+\end{proof}
+
+\paragraph{Remarks on the threshold and the exponent.}
+\begin{enumerate}
+\item By~\eqref{eq:plan1-ge-theta-half}, \(1-\theta\ge 1/2\), so the
+exponent \(2n/(1-\theta)\) in~\eqref{eq:plan1-ge-alpha-sph} is bounded by
+\(4n\) uniformly in \(\gamma,\gamma_0\). The \(L^\infty\)-power
+\(1-\theta\ge 1/2\) is what preserves the sharp \(1/2\)-exponent
+downstream in the nearly-spherical theorem; cf.\
+\cite[Theorem~6.4.5]{BL1976}.
+\item Any integer \(m\ge 3\) for which \(\theta_{m,2}<1\) is admissible
+for the interpolation; the choice \(m=5\) makes \(\theta\le 1/2\)
+explicit and uniform in \((\gamma_0,\gamma)\).
+\item The whole argument is constructive: no compactness, no
+contradiction. The threshold
+\(\alpha_{\rm small}^{\rm graph}(n,R,\gamma_0):=\min\{\alpha_{\rm graph}(n,R),
+\alpha_{\rm sph}(n,R,\gamma_0)\}\) is explicit in the BDV regularity
+constants of the package \ref{R1}--\ref{R4} and the
+Kinderlehrer--Nirenberg / Lieberman / Gagliardo--Nirenberg constants.
+\end{enumerate}
+
+\subsubsection{Conclusion of the graph-entry subsection}
+
+The output of this subsection is the following theorem, used by
+Subsection~\ref{subsec:plan1-ns} (Agent~7) as input to the BDV
+nearly-spherical theorem.
+
+\begin{theorem}[Graph entry and regularity, Plan~1]
+\label{thm:plan1-ge-main}
+Let \(n\ge 2\), \(R\ge 2\), and \(\gamma_0\in(0,\gamma(n,R))\). There
+exist explicit positive constants \(\tau_{\rm reg}(n,R)\),
+\(\alpha_{\rm graph}(n,R)\) (defined by \eqref{eq:plan1-ge-alpha-graph}),
+\(\alpha_{\rm sph}(n,R,\gamma_0)\) (defined by
+\eqref{eq:plan1-ge-alpha-sph}), \(M_m(n,R)\) for every
+\(m\ge 1\) (defined by \eqref{eq:plan1-ge-Mm}), and \(C_H''(n,R)\) such
+that the following holds. Let \(\Otilde\subset B_R\) be a selected
+minimizer with \(|\Otilde|=|B_1|\), \(\tau\le\tau_{\rm reg}(n,R)\) and
+\[
+   \BDValpha(\Otilde)\le\alpha_{\rm small}^{\rm graph}(n,R,\gamma_0)
+   :=\min\bigl\{\alpha_{\rm graph}(n,R),\alpha_{\rm sph}(n,R,\gamma_0)\bigr\}.
+\]
+Then, after translating by the optimal Fraenkel translation
+(Lemma~\ref{lem:plan1-ge-bary}), there exists a unique
+\(g:\partial B_1\to\R\) with
+\[
+   \partial\Otilde=\bigl\{(1+g(\theta))\theta:\theta\in\partial B_1\bigr\},
+\]
+\[
+   \|g\|_{L^\infty(\partial B_1)}\le C_H''(n,R)\,\BDValpha(\Otilde)^{1/(2n)},\quad
+   \|g\|_{C^{m,\gamma}(\partial B_1)}\le M_m(n,R)\quad(m\ge 1),\quad
+   \|g\|_{C^{2,\gamma_0}(\partial B_1)}\le\delta_{\rm sph}(n,\gamma_0).
+\]
+\end{theorem}
+
+\begin{proof}
+Combine Theorem~\ref{thm:plan1-ge-graphentry},
+Proposition~\ref{prop:plan1-ge-schauder-bootstrap}, and
+Theorem~\ref{thm:plan1-ge-sph-entry}.
+\end{proof}
+
+\paragraph{Constants used in this subsection.}
+The constants explicitly defined and tracked in this subsection are
+\(c_d,r_d,L_u,q_\pm,L_q\) (BDV regularity package, \(n,R\)-dependent);
+\(C_{\Fr}(n)\), \(C_\alpha(n)\) (BDV Lemma~4.2, dimensional);
+\(\bar\mu,\bar\rho,\gamma,C_{\rm AC}\) (Alt--Caffarelli flatness,
+\(n,R\)-dependent); \(C_0(n)\) (geometric conversion);
+\(c_*,C_H,C_H',C_H''\) (Hausdorff bounds, \(n,R\)-dependent);
+\(C_{\Fr}',\alpha_0,\alpha_{\rm graph}\) (entry thresholds,
+\(n,R\)-dependent); \(\mu,\rho_\mu,h_F,\mu_{\rm tub},K_{\rm geom},M_1\)
+(graph-patching, \(n,R\)-dependent); \(R_0,T_0,\eta_*,K_*,M_m\)
+(hodograph / Schauder, \(n,R\)-dependent); \(C_{\rm GN},\theta,\delta_{\rm sph},
+\alpha_{\rm sph}\) (interpolation, \((n,R,\gamma_0)\)-dependent). No
+\(C\) symbol is used without declared dependence.
+
+\paragraph{What feeds the next subsection.}
+Subsection~\ref{subsec:plan1-ns} (Agent~7) consumes
+Theorem~\ref{thm:plan1-ge-main} via the BDV nearly-spherical theorem
+\cite[Theorem~3.3]{BDV}, applied to the graph \(g\), yielding the
+quadratic lower bound
+\(E(\Otilde)-E(B_1)\ge c_{\rm sph}(n)\,\|g\|_{H^{1/2}(\partial B_1)}^2\)
+and, after BDV Lemma~4.2(i), the bound
+\(E(\Otilde)-E(B_1)\ge c_*^{\rm NS}(n)\,\BDValpha(\Otilde)\) in the small
+asymmetry regime \(\BDValpha(\Otilde)\le\alpha_{\rm small}(n,R,\gamma_0)\).
+The far regime \(\BDValpha(\Otilde)\ge\alpha_{\rm small}\) is handled by
+BDV Lemma~5.2 (rearrangement-based) in Subsection~\ref{subsec:plan1-ns}.

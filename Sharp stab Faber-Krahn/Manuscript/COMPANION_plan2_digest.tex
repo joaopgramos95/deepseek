@@ -1,0 +1,418 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\newcommand{\fint}{\,\rlap{\kern.15em\rule[.6ex]{.4em}{.06ex}}\int}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\usepackage{parskip}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Erho}{E_\rho}
+\newcommand{\Frho}{F_\rho}
+\newcommand{\rhad}{\widehat{\rho}}
+\newcommand{\rhodelta}{\rho_\delta}
+\newcommand{\rstar}{\rho_*}
+\newcommand{\Bstar}{B^{*}}
+\newcommand{\Fr}{\mathcal{A}}
+\newcommand{\deltaT}{\delta_T}
+\newcommand{\deltaFK}{\delta_{FK}}
+\newcommand{\dX}{d_{\X}}
+
+\title{\textbf{Plan 2 in plain English}\\[2pt]
+\large A companion to the second proof of the sharp quantitative Faber--Krahn inequality}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-2em}
+
+\begin{center}
+\emph{Reading time $\approx$ 30 minutes. The aim is to convey what the proof is doing and why,\\
+not to replicate any estimate.}
+\end{center}
+
+\bigskip
+
+\section*{0.\ What is the problem?}
+
+The \textbf{Faber--Krahn inequality} says: among all open sets in $\R^n$ of a given volume, the ball minimises the first Dirichlet eigenvalue of the Laplacian:
+\[
+\lambda_1(\Omega) \;\ge\; \lambda_1(\Bstar),
+\]
+where $\Bstar$ is the ball of the same volume as $\Omega$. The classical proof (Faber 1923, Krahn 1925) uses symmetrisation.
+
+We care about \emph{how rigid} this is. If $\Omega$ is only ``a little'' non-ball --- quantified by the \textbf{Fraenkel asymmetry}
+\[
+\Fr(\Omega) \;=\; \inf_{x \in \R^n} \frac{|\Omega \triangle \Bstar(x)|}{|\Omega|}
+\]
+(the symmetric difference between $\Omega$ and its best-matching ball) --- then $\lambda_1$ should be only a little above $\lambda_1(\Bstar)$. The \textbf{sharp quantitative Faber--Krahn inequality} says exactly that:
+\[
+\deltaFK(\Omega) \;\ge\; c(n)\,\Fr(\Omega)^2,
+\]
+where $\deltaFK(\Omega) = (|\Omega|/\omega_n)^{2/n}(\lambda_1(\Omega) - \lambda_1(\Bstar))$ is the normalised eigenvalue gap. The exponent $2$ is \emph{sharp} (an ellipsoid with one axis stretched by $\varepsilon$ gives $\Fr \sim \varepsilon$ and $\deltaFK \sim \varepsilon^2$, so you can't ask for any smaller exponent on the right). Proving this was the conjecture closed by Brasco--De Philippis--Velichkov (BDV) in 2015. Plan~1 of this manuscript polishes their argument; Plan~2 gives a \emph{different} proof.
+
+\subsection*{Two simplifications before we start}
+
+\textbf{Trade $\lambda_1$ for the torsion function.} It is much easier to work with the \textbf{torsion function} $u_\Omega$, the unique solution of
+\[
+-\Delta u = 1 \text{ in } \Omega, \qquad u = 0 \text{ on } \partial \Omega.
+\]
+The \textbf{torsional rigidity} is $T(\Omega) = \int_\Omega u$. Saint--Venant gives $T(\Omega) \le T(\Bstar)$ and a corresponding deficit $\deltaT(\Omega)$.
+
+The two stability problems are \emph{not independent}. Kohler--Jobin (1978) proved
+\[
+T(\Omega)\,\lambda_1(\Omega)^{(n+2)/2} \;\ge\; T(\Bstar)\,\lambda_1(\Bstar)^{(n+2)/2},
+\]
+and a small computation turns this into:
+\begin{center}
+\fbox{\textbf{sharp $\deltaT$-stability \;$\Longrightarrow$\; sharp $\deltaFK$-stability}}
+\end{center}
+with an explicit dimensional constant. \textbf{So our entire job reduces to proving} $\deltaT(\Omega) \ge c(n) \, \Fr(\Omega)^2$. That is the target. Plan~1 and Plan~2 both produce this same input.
+
+\textbf{Reduce to bounded $\Omega$.} A separate lemma (BDV, Lemma~5.3) shows that for stability you may assume $\Omega \subset B_R$ for some explicit $R = R(n)$. Constants in the proof may depend on $R$; bounded reduction at the end removes that dependence. This is just bookkeeping, common to both plans.
+
+So: \textbf{the problem is} $\deltaT(\Omega) \ge c(n, R)\,\Fr(\Omega)^2$ \textbf{for bounded $\Omega$.}
+
+\section*{1.\ The big idea of Plan 2}
+
+Plan~1 (BDV) is a \textbf{selection} argument: find one near-extremal $\Omega$, prove it is smooth enough to be a graph over the unit sphere, then quote Fuglede's \emph{nearly spherical theorem}, which says a near-ball that is actually a graph satisfies the inequality directly.
+
+Plan~2 is a \textbf{foliation} argument. Instead of looking at $\Omega$ as a single shape, slice $u_\Omega$ into its superlevel sets
+\[
+\Erho \;:=\; \{u_\Omega > t(\rho)\}, \qquad |\Erho| = \omega_n \rho^n.
+\]
+As $\rho$ runs from $0$ (top of $u$) to $1$ (whole $\Omega$), the sets $\Erho$ swell from a point up to $\Omega$. Each is a finite-perimeter set. By Talenti's classical theorem, the rearrangement of $u_\Omega$ matches the rearrangement of the torsion function of $\Bstar$, so the \emph{volumes} behave correctly; the question is how the \emph{shapes} behave.
+
+The strategy:
+\begin{center}
+\fbox{\parbox{0.85\linewidth}{\centering Watch every level set, control it using Fusco--Julin isoperimetric stability, integrate against a clever weight, and read off control of $\Fr(\Omega)$ at the end.}}
+\end{center}
+
+Six things have to happen in sequence:
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \textbf{The Saint--Venant deficit must be expressible as a $\rho$-integral} over the foliation. (level-set deficit identity)
+\item \textbf{The foliation must be a well-defined path in some metric space of shapes}, so that we can talk about its ``speed'' and its ``distance from the unit ball''. (metric framework)
+\item \textbf{Each level set must have a centre} with respect to which we can quantify how non-ball it is. (Fusco--Julin centres)
+\item \textbf{A geometric estimate (the radial trace lemma) must convert ``distance from ball'' to defects the level set already controls.} (oriented $L^1$ radial trace)
+\item \textbf{Integrating along the foliation must produce a single special radius $\rhad$ where $F_{\rhad}$ is genuinely close to $B_1$.} (weighted metric trace)
+\item \textbf{That control must transfer back to $\Omega$ itself}, with the boundary layer $\Omega \setminus E_{\rhad}$ behaving tamely. (boundary-layer transfer)
+\end{enumerate}
+
+Each is a separate idea, each is necessary, and none is conditional.
+
+\section*{2.\ Step 1 --- The level-set deficit identity}
+
+This is the \textbf{foundation}. There is a non-negative weight $w(\rho)$ on $(0,1)$ and two non-negative defects $D_H(t)$, $D_I(t)$ such that
+\[
+\deltaT(\Omega) \;\simeq\; \int_{0}^{1} \bigl(D_H(t(\rho)) + D_I(t(\rho))\bigr)\, w(\rho)\, d\rho.
+\]
+The deficit, an a-priori opaque single number, is \emph{exactly} the integral of two pointwise non-negative defects along the foliation. \textbf{A single global inequality has become an integrated identity.}
+
+\subsection*{What do $D_H$ and $D_I$ measure?}
+
+Both come from rewriting Saint--Venant's proof one level at a time. Define
+\[
+\alpha(t) = \int_{\partial^* E_t} \frac{d\mathcal{H}^{n-1}}{|\nabla u|},
+\qquad
+\beta(t) = \int_{\partial^* E_t} |\nabla u|\, d\mathcal{H}^{n-1}.
+\]
+By Cauchy--Schwarz, $\alpha(t)\beta(t) \ge P(E_t)^2$, with equality iff $|\nabla u|$ is constant on $\partial^* E_t$.
+
+\begin{itemize}[leftmargin=*]
+\item $D_H(t) \;=\; \alpha(t)\beta(t) - P(E_t)^2 \;\ge\; 0$ --- the \textbf{Cauchy--Schwarz defect}. Measures oscillation of $|\nabla u|$ along the level set. Zero when $|\nabla u|$ is constant on $\partial^* E_t$. ($H$ for ``Hessian-like''.)
+\item $D_I(t) \;=\; P(E_t)^2 - c_n |E_t|^{2-2/n} \;\ge\; 0$ --- the \textbf{squared isoperimetric defect} of the level set. Zero when $E_t$ is a ball. ($I$ for ``Isoperimetric''.)
+\end{itemize}
+
+So the identity says: the Saint--Venant deficit is the integral over levels of (gradient oscillation on the level) + (how far the level is from a ball), weighted by something explicit.
+
+\subsection*{Why this is true}
+
+Talenti's rearrangement proof of $T(\Omega) \le T(\Bstar)$ involves two Cauchy--Schwarz-like steps --- one giving an isoperimetric inequality on level perimeters, one on gradient integrals. Each contributes a non-negative defect at every level. Plan~2's first move is to refuse to throw these defects away. Saint--Venant becomes an \emph{equality} in which the two defects sum, integrated against an explicit weight, to give $\deltaT$.
+
+This is in the spirit of Nicola--Tilli's recent work on the short-time Fourier Faber--Krahn problem. Plan~2 imports the idea into the Dirichlet Saint--Venant world.
+
+\subsection*{Why it matters}
+
+Two non-negative summands on the right that sum to something small means that \emph{both} are integrally small:
+\[
+\int D_H(t(\rho)) w(\rho)\, d\rho \le \deltaT, \qquad \int D_I(t(\rho)) w(\rho)\, d\rho \le \deltaT.
+\]
+The first will control the \emph{speed} of the foliation (Step~2/4); the second will control how \emph{ball-shaped} each level is (Step~3).
+
+\section*{3.\ Step 2 --- The metric framework}
+
+We want to think of the family $\{\Erho\}$ as a \textbf{path} in a space of shapes. Then ``speed'' and ``distance from a target'' make sense, and standard metric-space arc-length tools apply.
+
+\subsection*{The space $\X$}
+
+Define $\X$ to be the space of finite-perimeter sets in $\R^n$ \emph{modulo translations}, with distance
+\[
+\dX([A], [B]) \;=\; \inf_{v \in \R^n} |A \triangle (B+v)|.
+\]
+Two sets are at distance zero iff they're translates of one another. The completion is Polish (``nice enough'' that Ambrosio--Gigli--Savar\'e metric arc-length theory works).
+
+\subsection*{The path}
+
+Consider the \textbf{rescaled} foliation
+\[
+\Frho \;:=\; \rho^{-1} \Erho.
+\]
+Why rescale? Because $|\Erho| = \omega_n \rho^n$, so $|\Frho| = \omega_n = |B_1|$ \emph{for every $\rho$}. All the $\Frho$ live on the same volume scale, so it is meaningful to compare them to the unit ball $B_1$.
+
+Plan~2 proves two things about this path:
+\begin{itemize}[leftmargin=*]
+\item \textbf{It is absolutely continuous.} $\rho \mapsto [\Frho]$ has finite metric derivative $|\dot \Frho|_{\X}$ a.e.
+\item \textbf{The metric speed is bounded geometrically.} Roughly, $|\dot \Frho|_{\X}$ is controlled by the $L^1$ norm of the normal velocity $V_\rho = -t'(\rho)/|\nabla u|$ on $\partial^* \Erho$, after rescaling.
+\end{itemize}
+
+This step is \emph{almost smooth-flow geometry}. If $\Omega$ were smooth and $u_\Omega$ Morse, the level sets would move with normal velocity $V_\rho$ and a one-line first-variation argument would give the bound. The work is to make this rigorous when $\Omega$ is only of finite perimeter --- no smoothness, no Lipschitz boundary. One mollifies $u_\Omega$, applies the smooth identity to the mollified levels, and passes to the limit using Reshetnyak lower-semicontinuity. The technical care is non-trivial but the \textbf{idea} is just: the foliation is a Lipschitz path, in the right metric.
+
+\section*{4.\ Step 3 --- Fusco--Julin centres and the oriented radial trace}
+
+This is the heart of Plan 2. We must convert isoperimetric defect into $F_\rho$'s distance from the unit ball.
+
+\subsection*{The Fusco--Julin inequality}
+
+The classical Fuglede--Fusco--Maggi--Pratelli inequality (2008) says: for any $E$ with the volume of a ball,
+\[
+\Fr(E)^2 \;\le\; C(n)\, \mathcal{D}(E),
+\]
+where $\mathcal{D}(E) = (P(E) - P(\Bstar))/P(\Bstar)$ is the linear isoperimetric deficit. Exponent~2 is sharp.
+
+Fusco--Julin (2014) strengthened this to a \emph{two-term} inequality:
+\[
+\Fr(E)^2 \;+\; \beta(E)^2 \;\le\; C(n)\, \mathcal{D}(E),
+\quad
+\beta(E)^2 \;=\; \inf_{z \in \R^n}\, \fint_{\partial^* E} \Bigl|\nu_E(x) - \frac{x-z}{|x-z|}\Bigr|^2\, d\mathcal{H}^{n-1}.
+\]
+For the optimal centre $z$, $\beta(E)$ measures how much the outer normal $\nu_E$ differs from the radial direction pointing away from $z$ --- i.e., how much $\partial^* E$ fails to be a sphere around $z$.
+
+Both terms --- symmetric difference \emph{and} normal oscillation --- are controlled by the (single) isoperimetric deficit. \textbf{This is what makes a foliation argument possible}: at every level, FJ gives us two pieces of geometric information, and we need both.
+
+\subsection*{The Fusco--Julin centres}
+
+For each $\rho$ where $D_I(t(\rho))$ is small enough --- the \textbf{good levels} --- pick a centre $z_\rho$ that almost realises the FJ infimum. The canonical concrete choice is the \textbf{bulk centroid} of $\Erho$; it's automatically Borel in $\rho$ and (with a small Wave~3 argument) it sits well inside $\Erho$, which is exactly the analytic input we need below.
+
+So now we have, for a.e.\ good $\rho$:
+\begin{itemize}[leftmargin=*]
+\item (asymmetry) $|\Erho \triangle B_\rho(z_\rho)| \le \rho^n \cdot O(\sqrt{D_I(t(\rho))})$,
+\item (oscillation) $\int_{\partial^* \Erho} |\nu_\rho - (x-z_\rho)/|x-z_\rho||^2\, d\mathcal{H}^{n-1} \le O(D_I(t(\rho)))$.
+\end{itemize}
+
+\subsection*{The oriented $L^1$ radial trace lemma}
+
+This is the most delicate step and the \textbf{load-bearing original lemma} of Plan~2:
+\[
+\boxed{
+\int_{\partial^* \Erho} \Bigl|\frac{|x - z_\rho|}{\rho} - 1\Bigr|\, d\mathcal{H}^{n-1}
+\;\le\; C\Bigl(\underbrace{|\Erho \triangle B_\rho(z_\rho)|}_{\text{symmetric difference}} + \underbrace{\int_{\partial^* \Erho} \bigl|\nu_\rho - \tfrac{x-z_\rho}{|x-z_\rho|}\bigr|^2\, d\mathcal{H}^{n-1}}_{\text{normal oscillation}}\Bigr).
+}
+\]
+In words: the \textbf{average distance of $\partial^* \Erho$ from the sphere of radius $\rho$ around $z_\rho$} is controlled by the FJ defects.
+
+\paragraph{The intuition.}
+Think of $\partial^* \Erho$ as a closed surface near the sphere of radius $\rho$ centered at $z_\rho$. The integrand $||x-z_\rho|/\rho - 1|$ measures, at each boundary point, how far its distance to $z_\rho$ deviates from $\rho$. The left side is the total ``radial deviation'' of the surface.
+
+We control it by \textbf{applying the divergence theorem to the radial vector field}
+\[
+X(x) \;=\; \Bigl|\frac{|x - z_\rho|}{\rho} - 1\Bigr| \cdot \frac{x - z_\rho}{|x - z_\rho|}.
+\]
+Outside the sphere $|x-z_\rho|=\rho$ this points outward radially; inside, inward radially. The divergence theorem says
+\[
+\int_{\partial^* \Erho} X \cdot \nu_\rho \, d\mathcal{H}^{n-1} \;=\; \int_{\Erho} \mathrm{div}\, X.
+\]
+The right side expands into a \emph{signed} version of $|\Erho \triangle B_\rho(z_\rho)|$ plus error. The left side bounds the radial trace only if you replace $X \cdot \nu_\rho$ by $|X|$, which costs an oscillation term $|\nu_\rho - (x-z_\rho)/|x-z_\rho||$. Squaring gives the second term on the right. Combining: the inequality.
+
+\paragraph{Why this is delicate.}
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item The vector field $X$ has a \textbf{singularity at $z_\rho$}. You can't apply the divergence theorem naively --- you must truncate $X$ near $z_\rho$, apply the theorem to a smooth truncation, and pass to the limit. This is the \emph{truncation argument}, made rigorous for finite-perimeter sets in the preliminaries.
+\item For the truncation to be free, $z_\rho$ must be \textbf{interior} to $\Erho$ at uniform positive distance. This is exactly why we chose the bulk centroid: it satisfies $B(z_\rho, \rho_*/4) \subset \Erho$ on good levels. The symmetric-difference region then stays away from $z_\rho$ and the truncation limit is \emph{trivial} (not just convergent).
+\item The lemma is \emph{linear} in the radial deviation (left side) and combines a linear term plus a \emph{squared} oscillation term on the right. \textbf{This linear-vs-squared mismatch is what makes the final rate sharp instead of degraded.}
+\end{enumerate}
+
+\paragraph{Why this is the load-bearing step.}
+Earlier attempts tried to use $L^2$ radial traces (square the left side too) and \emph{ray-slicing} arguments. Both failed: Wave 2 audits flagged the $L^2$ version as inconsistent with the FJ scaling, and ray-slicing doesn't work for finite-perimeter sets. \textbf{The $L^1$ oriented trace via divergence theorem with truncation is what saves Plan~2.} The audit (Agent 16) explicitly verifies that the named vector field $X$, the truncation argument, and the finite-perimeter divergence theorem are all present.
+
+\section*{5.\ Step 4 --- The weighted metric trace}
+
+We now have, for each good level:
+\begin{itemize}[itemsep=1pt,leftmargin=*]
+\item a centre $z_\rho$,
+\item a radial trace estimate (Step 3),
+\item the level-set identity for $\deltaT$ (Step 1),
+\item the metric derivative bound for the path $\Frho$ (Step 2).
+\end{itemize}
+We want to find \textbf{one specific $\rhad$ near $1$} such that $F_{\rhad}$ is close to $B_1$ in $\X$.
+
+\subsection*{The integrated action inequality}
+
+Chaining the above estimates: the radial trace, rescaled, turns the FJ pair (asymmetry + oscillation) into a single bound on $\dX([\Frho], [B_1])^2$ at each good level. Combining with the metric derivative bound (Step~2, controlled by $D_H$ via the normal-velocity formula), and integrating against the natural weight $\mu(d\rho) = -t'(\rho)\, d\rho$:
+\[
+\int_{[\rstar, 1]} \Bigl( \dX([\Frho], [B_1])^2 + |\dot \Frho|_{\X}^2 \Bigr)\, \mu(d\rho)
+\;\le\; C(n, R, \rstar)\, \deltaT(\Omega).
+\]
+\textbf{This is the metric-space avatar of the level-set deficit identity.} The integrated ``action'' of the path $\Frho$ (distance to target $+$ speed squared, weighted) is controlled by the deficit.
+
+\subsection*{Good vs. bad levels}
+
+A subtle point: FJ only gives information on levels where $D_I$ is small. On \emph{bad} levels (where $D_I$ is above some fixed threshold), we have no centre, no radial trace, nothing. \textbf{Markov's inequality saves the day}: the bad-level set has weighted measure at most $\deltaT/\text{threshold}$, so it's a tiny piece of $[\rstar, 1]$ when $\deltaT$ is small.
+
+A separate good/bad decomposition is needed for the levels where the \emph{profile slope} $-t'(\rho)$ is small. There the weight $\mu$ is too small for the integrated bound to be useful. Talenti's bad-set Lebesgue estimate gives that this bad-$\mu$ region has Lebesgue measure $O(\deltaT)$, and a uniform Lipschitz bound on the path absorbs it without rate loss.
+
+After both decompositions, the integrated action holds on the \emph{whole} interval $[\rstar, 1]$, with the bad-set contributions absorbed.
+
+\subsection*{The abstract metric trace argument}
+
+We have an absolutely continuous path $\rho \mapsto [\Frho]$ in $\X$, an integrated bound on (distance to $B_1$)$^2$ + speed$^2$, and we want to extract \textbf{one good radius} $\rhad$.
+
+This is a classical arc-length argument. Heuristically: if $\int (d^2 + |\dot F|^2)\,d\mu \le \varepsilon$ over a window of weighted length $L^*$, then by averaging there is some $\rhad$ in the window where $d([F_{\rhad}], [B_1])^2 \le \varepsilon / L^*$ (Markov in $d^2$) and the kinetic transport within the window is bounded by $L^*\cdot$(speed term).
+
+The critical choice --- and this is exactly what the audit (B1) caught and the repair fixed --- is the \textbf{window scale}:
+\[
+\rhad \in [\rhodelta - c_0\sqrt{\deltaT},\; \rhodelta], \qquad \rhodelta = 1 - \kappa\sqrt{\deltaT}.
+\]
+The window has length $c_0 \sqrt{\deltaT}$, \emph{not} a fixed $O(1)$ length. With this scale the boundary layer $\Omega \setminus E_{\rhad}$ will be $O(\sqrt{\deltaT})$ in measure (Step~5). The original draft had an $O(1)$ window, which would have \emph{broken} Step~5; the repair fixed it.
+
+The output:
+\[
+\boxed{\dX([F_{\rhad}], [B_1])^2 \;\le\; C_*(n, R, \rstar)\, \deltaT(\Omega).}
+\]
+In words: there is a level $\rhad$ very close to the top of the foliation at which the rescaled superlevel set is within distance $\sqrt{\deltaT}$ of a unit ball in the shape metric.
+
+\section*{6.\ Step 5 --- Boundary-layer transfer and assembly}
+
+We have $F_{\rhad}$ close to $B_1$ in $\X$. We want $\Omega$ close to $\Bstar$. There is a gap: $E_{\rhad}$ is a \emph{superlevel set} of $\Omega$, not $\Omega$ itself.
+
+\subsection*{The boundary layer}
+
+Since $\rhad \in [\rhodelta - c_0\sqrt{\deltaT}, \rhodelta]$ and $|\Erho| = \omega_n \rho^n$,
+\[
+|\Omega \setminus E_{\rhad}| \;=\; \omega_n(1 - \rhad^n) \;\le\; C\sqrt{\deltaT(\Omega)}.
+\]
+This \emph{is} a rate loss --- ``$E_{\rhad}$ differs from $\Omega$ by $O(\sqrt{\deltaT})$'' --- but it's harmless if handled correctly.
+
+\subsection*{The squaring trick}
+
+We have:
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+\item $\Fr(E_{\rhad}) \le O(\sqrt{\deltaT})$ (after unscaling from $F_{\rhad}$ to $E_{\rhad}$).
+\item $\Fr(\Omega) \le \Fr(E_{\rhad}) + 2|\Omega \setminus E_{\rhad}|/|\Omega| \le \Fr(E_{\rhad}) + C\sqrt{\deltaT}$ (triangle inequality for asymmetry).
+\end{itemize}
+So $\Fr(\Omega) \le O(\sqrt{\deltaT})$. \textbf{Squaring} gives $\Fr(\Omega)^2 \le O(\deltaT)$ --- the sharp exponent. Concretely, $(a + b)^2 \le 2a^2 + 2b^2$ doubles a constant but does \emph{not} degrade the exponent.
+
+This is the famous ``\textbf{square at the end, not in the middle}'' principle. Earlier drafts of Plan~2 (the centroid / $\Pi$-route, now an auxiliary remark) squared too early and ended with $\sqrt{\deltaT}$ on the right of the final inequality --- the wrong rate. The repaired Plan~2 squares \emph{after} the transfer to $\Omega$ and preserves exponent~2.
+
+\subsection*{Bounded reduction and Kohler--Jobin}
+
+At this point:
+\[
+\Fr(\Omega)^2 \;\le\; C(n, R)\, \deltaT(\Omega) \qquad \text{for $\Omega \subset B_R$.}
+\]
+\textbf{Bounded reduction} (BDV Lemma~5.3, imported from Plan~1's \texttt{BoundedReduction} block) removes the $R$ dependence; \textbf{Kohler--Jobin} transfers $\deltaT$-stability to $\deltaFK$-stability. Both reductions are common to both Plans, so Plan~2's final theorem
+\[
+\deltaFK(\Omega) \;\ge\; c_{FK}(n)\, \Fr(\Omega)^2
+\]
+is stated in \emph{the same normalisation and with the same dimensional constant} as Plan~1's.
+
+\section*{7.\ A one-page summary}
+
+Read this when you forget what just happened.
+
+\begin{center}
+\begin{tabular}{c}
+\fbox{\parbox{0.92\linewidth}{\ttfamily\small
+\phantom{x}\\
+\hspace*{6em}$\deltaT(\Omega)$\\
+\hspace*{6em}$\downarrow$\;\textit{Step 1: level-set deficit identity}\\
+$\int \,[\, D_H(t(\rho)) + D_I(t(\rho)) \,]\, w(\rho)\, d\rho$\\
+$\quad\uparrow$ gradient osc.\quad $\uparrow$ isoperimetric defect\\
+\hspace*{6em}$\downarrow$\;\textit{Step 2: rescale $\Erho \to \Frho$; metric framework}\\
+\hspace*{6em}$\downarrow$\;\textit{controls $|\dot \Frho|_\X$ by $D_H$}\\
+$\int |\dot \Frho|_\X^2\, d\mu \;\le\; \text{($D_H$ term)} \;\le\; \deltaT$\\
+\hspace*{6em}$\downarrow$\;\textit{Step 3: Fusco--Julin centre $z_\rho$}\\
+\hspace*{6em}$\downarrow$\;\textit{+ ORIENTED RADIAL TRACE LEMMA}\\
+\hspace*{6em}$\downarrow$\;\textit{converts $D_I$ into $\dX(\Frho, B_1)^2$}\\
+$\int [\, \dX([\Frho],[B_1])^2 + |\dot \Frho|_\X^2 \,]\, d\mu \;\le\; C \cdot \deltaT$\\
+\hspace*{6em}$\downarrow$\;\textit{Step 4: weighted metric trace}\\
+\hspace*{6em}$\downarrow$\;\textit{on window $[\rhodelta - c_0\sqrt{\deltaT},\, \rhodelta]$}\\
+$\exists \rhad:\; \dX([F_{\rhad}], [B_1])^2 \;\le\; C_* \cdot \deltaT$\\
+\hspace*{6em}$\downarrow$\;\textit{Step 5: $|\Omega \setminus E_{\rhad}| = O(\sqrt{\deltaT})$}\\
+\hspace*{6em}$\downarrow$\;\textit{transfer + squaring trick}\\
+$\Fr(\Omega)^2 \;\le\; C(n,R)\cdot \deltaT(\Omega)$\\
+\hspace*{6em}$\downarrow$\;\textit{Bounded reduction (removes $R$)}\\
+\hspace*{6em}$\downarrow$\;\textit{Kohler--Jobin ($\deltaT \to \deltaFK$)}\\
+$\deltaFK(\Omega) \;\ge\; c_{FK}(n)\cdot \Fr(\Omega)^2$\\
+}}
+\end{tabular}
+\end{center}
+
+\section*{8.\ How Plan 2 differs from Plan 1}
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}l X X@{}}
+\toprule
+\textbf{Aspect} & \textbf{Plan 1 (BDV)} & \textbf{Plan 2 (level-set/metric)}\\
+\midrule
+Object & One near-extremal $\Omega$ found by selection & The whole foliation $\{\Erho\}$ of $u_\Omega$\\
+Regularity used & $C^{2,\gamma}$ graph over the sphere & Finite perimeter only\\
+Isoperimetric input & Fuglede's nearly-spherical theorem & Fusco--Julin two-term sharp inequality\\
+Closing step & Contradiction at the selected minimiser & Arc-length trace argument in $\X$\\
+Common final step & Bounded reduction + Kohler--Jobin & Same\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Why bother including Plan 2?}
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \textbf{Structurally different.} It doesn't smooth $\Omega$; it doesn't pick out one near-ball; it doesn't graph anything over a sphere. It treats $\Omega$ as a foliation and watches every level.
+\item \textbf{Direct use of FJ.} Plan~1 uses isoperimetric stability only indirectly, through regularity. Plan~2 plugs FJ into every level set; the role of quantitative isoperimetry is laid bare.
+\item \textbf{Finite-perimeter native.} The whole proof works for finite-perimeter $\Omega$ with no graph assumption. The metric framework and the radial trace lemma are designed for finite perimeter from the start.
+\item \textbf{A new lemma.} The oriented $L^1$-radial trace lemma (Step~3) is, to our knowledge, new in this Saint--Venant / Faber--Krahn context. It is the conceptual core of the proof.
+\end{enumerate}
+
+\section*{9.\ What is \emph{not} used in Plan 2}
+
+The manuscript also contains an \textbf{auxiliary} section on the \textbf{centroid kinematic identity} and the \textbf{space-time $\Pi$-identity}. These are diagnostic computations:
+\begin{itemize}[leftmargin=*]
+\item The bulk centroid $\bar z_\rho$ as a function of $\rho$ has a kinematic formula (Lipschitz in $\rho$, derivative computable from $|\nabla u|$ on the level set).
+\item A space-time identity decomposes the signed ``$\Pi$-moment'' $\int |x - \bar z_\rho| - \rho$ on $\partial^* \Erho$ across $\rho$.
+\end{itemize}
+These are \emph{not} load-bearing for the repaired Plan~2. The original first attempt at Plan~2 tried to close the chain through pointwise $\Pi$-control instead of the oriented radial trace lemma, and required an \emph{integrated} $\Pi$-control estimate we could not prove. The repaired chain (Steps~1--5) bypasses the $\Pi$-route entirely. The auxiliary section is kept as a record of the route and a place to upgrade if a future integrated $\Pi$-bound is proved, but \textbf{nothing in Plan~2 currently depends on it.} The auditor (Agent~16) verified this explicitly.
+
+\section*{10.\ Where to look in the manuscript}
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}l X@{}}
+\toprule
+\textbf{If you want to read about\ldots} & \textbf{Look at}\\
+\midrule
+Step 0 (Kohler--Jobin bridge, Talenti, FJ, GMT toolbox) & \texttt{01\_preliminaries\_draft.tex}\\
+Step 1 (level-set identity) & \texttt{plan2\_levelset\_identity.tex}\\
+Step 2 (metric framework, first variation) & \texttt{plan2\_metric\_framework.tex}\\
+Step 3 (FJ centres, oriented radial trace) & \texttt{plan2\_fj\_center\_radial\_trace.tex}\\
+Step 4 (weighted metric trace) & \texttt{plan2\_weighted\_metric\_trace.tex}\\
+Step 5 (boundary layer, assembly) & \texttt{plan2\_boundary\_layer\_assembly.tex}\\
+Auxiliary centroid/$\Pi$-route (not load-bearing) & \texttt{plan2\_aux\_centroid\_note.tex}\\
+What the audit found and how it was repaired & \texttt{audit\_plan2.md}, \texttt{audit\_plan2\_repair\_report.md}\\
+What's the final verdict & \texttt{final\_adversarial\_audit.md}, \texttt{audit\_final\_repair\_report.md}\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The compiled manuscript is \texttt{Manuscript/main.pdf} (119 pages).
+
+\section*{11.\ The two-sentence version}
+
+Plan~2 expresses the Saint--Venant deficit as an integral over the superlevel-set foliation of the torsion function, controls each level using Fusco--Julin centres and an oriented $L^1$ radial trace lemma, and extracts a single near-ball level via a weighted metric-space arc-length argument; transferring back to $\Omega$ and squaring at the end (not in the middle) gives the sharp $\Fr(\Omega)^2 \le C\,\deltaT(\Omega)$. Kohler--Jobin then turns this into the sharp quantitative Faber--Krahn inequality with the same dimensional constant Plan~1 produces.
+
+\end{document}

@@ -1,0 +1,718 @@
+% UNIFIED 2026-05-13
+% =====================================================================
+% Preliminaries -- Geometric Measure Theory
+% Agent 2 deliverable. To be merged by Agent 17 into
+%     Manuscript/01_preliminaries_draft.tex.
+%
+% Notation: follows Manuscript/00_notation_register.md verbatim.
+% Macros assumed loaded (per register, §15): \R, \Fr, \Om, \eps,
+%     \rstar, \rhad, \rhodelta, \zbar, \X, \dX, \Bstar, \Erho, \Frho,
+%     \Vrho, \nurho, \deltaT, \deltaFK.
+%
+% SOURCE MAP for this section (each item is one of:
+%   PROVED HERE / CITED FROM <ref> / ADAPTED FROM <local file>):
+%
+%   §A.1  Lebesgue/Hausdorff measure, perimeter, reduced boundary
+%         and normal $\nurho$
+%             CITED FROM Maggi, "Sets of Finite Perimeter and
+%             Geometric Variational Problems" (Cambridge 2012),
+%             Def. 12.1, Def. 15.1, Thm. 15.9.
+%             CITED FROM Ambrosio--Fusco--Pallara (AFP),
+%             "Functions of Bounded Variation and Free Discontinuity
+%             Problems" (Oxford 2000), Def. 3.1, Thm. 3.59.
+%
+%   §A.2  Lower semicontinuity of perimeter under $L^1_{\rm loc}$ conv.
+%             CITED FROM Maggi 2012, Prop. 12.15.
+%             CITED FROM AFP 2000, Thm. 3.7.
+%
+%   §A.3  BV coarea formula (statement + integrated form)
+%             CITED FROM Maggi 2012, Thm. 13.1 (BV coarea),
+%             and Thm. 18.1 (Sobolev coarea).
+%             CITED FROM AFP 2000, Thm. 3.40.
+%
+%   §A.4  Sobolev coarea applied to the torsion function $u_\Om$ and
+%         Sobolev--Sard a.e. regular-level statement giving
+%         $\Vrho=-t'(\rho)/|\nabla u|$ a.e.
+%             CITED FROM Figalli--Maggi, "On the shape of liquid drops
+%             and crystals in the small mass regime", Arch. Ration.
+%             Mech. Anal. 201 (2011), App. A, Thm. A.1.
+%             ADAPTED FROM Plan 2/WIP/WIP_LevelSetIdentity.tex
+%             §2 (coarea applicability) and §4.
+%
+%   §A.5  Divergence theorem on sets of finite perimeter
+%         (Gauss--Green for $C^1_c$ fields and for $C^1$ fields
+%         bounded on $E$ together with $\Div X$ in $L^1(E)$).
+%             CITED FROM Maggi 2012, Thm. 15.5 (Gauss--Green
+%             for sets of finite perimeter) and Thm. 16.3 (its
+%             $C^1$/$L^1$ form via approximation).
+%
+%   §A.6  Lipschitz truncation flux identity for the torsion function
+%         (replacing the boundary trace of $\nabla u$ on
+%         $\partial^*\Erho$ by the BV coarea+Lipschitz cutoff).
+%             ADAPTED FROM Plan 2/WIP/WIP_LevelSetIdentity.tex,
+%             Lem. "Flux = volume" (lem:flux) and Rem. rem:divergence.
+%
+%   §A.7  Truncation lemma for singular vector fields of the type
+%         $X(x)=w(|x-z|)(x-z)/|x-z|$ with $w$ bounded.
+%             PROVED HERE.
+%             Used by Agent 11 in the oriented radial trace lemma
+%             (notation register §9: $T_\rho$). The proof is the
+%             rigorous form of the truncation argument written
+%             informally in Plan 2/WIP/WIP_WeightedMetricTrace.tex
+%             (proof of lem:radial-slicing, lines 182--195) and is
+%             load-bearing.
+%
+%   §A.8  Reshetnyak lower semicontinuity for linear-growth
+%         integrands on sets of finite perimeter; passage of the
+%         finite-perimeter first variation from smooth flows.
+%             CITED FROM AFP 2000, Thm. 2.38 (Reshetnyak lower
+%             semicontinuity).
+%             ADAPTED FROM Plan 2/gmt-inputs-for-metric-closure.md §5
+%             (the four-step approximation procedure).
+%
+%   §A.9  Measurable selection of levelwise centres
+%             PROVED HERE (via Aumann/Kuratowski--Ryll-Nardzewski
+%             selection).
+%             CITED FROM Castaing--Valadier, "Convex Analysis and
+%             Measurable Multifunctions" (Springer LNM 580, 1977),
+%             Thm. III.6 and Thm. III.8;
+%             alternatively Federer, "Geometric Measure Theory"
+%             (Springer 1969), §2.13.
+%             ADAPTED FROM Plan 2/WIP/WIP_WeightedMetricTrace.tex
+%             (proof of lem:FJ-package, last paragraph).
+%
+% =====================================================================
+
+\subsection{Preliminaries: geometric measure theory}\label{sec:prelim-gmt}
+
+This section fixes the finite-perimeter, slicing, and divergence-theorem
+tools used throughout the manuscript.  All notation matches
+\S\ref{sec:notation} (see also \texttt{00\_notation\_register.md}).
+The ambient dimension is denoted $n\ge 2$.  We write $|A|=\mathcal L^n(A)$
+for the Lebesgue measure of a Borel set $A\subset\R^n$,
+$\mathcal H^k$ for the $k$-dimensional Hausdorff measure, and we
+identify two sets that differ by an $\mathcal L^n$-null set.
+
+\subsubsection{Finite-perimeter sets and reduced boundary}
+\label{ssec:prelim-fp}
+
+\begin{definition}[Finite perimeter and reduced boundary]
+\label{def:perimeter}
+A Lebesgue-measurable set $E\subset\R^n$ has \emph{finite perimeter}
+in an open set $U\subset\R^n$ if the indicator $\mathbf 1_E$ belongs
+to $BV(U)$, i.e.\ if
+\[
+   P(E;U):=\sup\Bigl\{
+      \int_E \Div\varphi\,dx :
+      \varphi\in C^1_c(U;\R^n),\ \|\varphi\|_\infty\le1
+   \Bigr\}<\infty.
+\]
+When $U=\R^n$ we write $P(E):=P(E;\R^n)$.  The
+\emph{De Giorgi reduced boundary} $\partial^*E$ is the set of points
+$x\in\R^n$ at which the limit
+\[
+   \nu_E(x)
+   :=\lim_{r\downarrow0}
+      \frac{D\mathbf 1_E(B_r(x))}{|D\mathbf 1_E|(B_r(x))}
+\]
+exists in the unit sphere $\mathbb S^{n-1}$; $\nu_E(x)$ is the
+\emph{measure-theoretic outer unit normal} of $E$ at $x$.
+By De Giorgi's structure theorem,
+\[
+   P(E;B)=\mathcal H^{n-1}(\partial^*E\cap B)
+   \qquad\text{for every Borel } B\subset\R^n,
+\]
+and $\partial^*E$ is countably $(n-1)$-rectifiable.
+\end{definition}
+
+For the canonical reference see
+\cite[Def.~12.1, Thm.~15.9]{Maggi2012}; equivalently
+\cite[Def.~3.1, Thm.~3.59]{AFP2000}.  Throughout the manuscript
+$P(E)$ always denotes the De Giorgi perimeter and $\nu_E$ (or $\nurho$
+when $E=\Erho$) the measure-theoretic outer normal, consistently with
+\S 7 of the notation register.
+
+\begin{proposition}[$L^1_{\rm loc}$ lower semicontinuity]
+\label{prop:lsc-perimeter}
+Let $(E_j)_{j\ge1}$ be measurable subsets of $\R^n$ with
+$\mathbf 1_{E_j}\to\mathbf 1_E$ in $L^1_{\rm loc}(\R^n)$ as
+$j\to\infty$.  Then for every open $U\subset\R^n$,
+\[
+   P(E;U)\le\liminf_{j\to\infty}P(E_j;U).
+\]
+In particular, if $\sup_j P(E_j)<\infty$ and $|E_j|$ is uniformly
+bounded, then $(E_j)$ has a subsequence converging in $L^1_{\rm loc}$
+to a finite-perimeter set $E$ with $P(E)\le\liminf P(E_j)$.
+\end{proposition}
+
+\begin{proof}[Reference]
+Lower semicontinuity is
+\cite[Prop.~12.15]{Maggi2012} (equivalently
+\cite[Thm.~3.7]{AFP2000}); the compactness in $L^1_{\rm loc}$ is
+\cite[Thm.~12.26]{Maggi2012}.
+\end{proof}
+
+\subsubsection{Coarea, BV coarea, and Sobolev--Sard for the torsion
+            function}
+\label{ssec:prelim-coarea}
+
+\begin{theorem}[BV coarea formula]\label{thm:bv-coarea}
+Let $v\in BV(U)$ on an open set $U\subset\R^n$.  Then $\{v>t\}$ has
+finite perimeter in $U$ for $\mathcal L^1$-a.e.\ $t\in\R$, and for
+every Borel function $\varphi:U\to[0,\infty]$
+\begin{equation}\label{eq:bv-coarea}
+   \int_U \varphi\,d|Dv|
+   =\int_\R\Bigl(\int_{\partial^*\{v>t\}\cap U}\varphi\,d\mathcal H^{n-1}
+      \Bigr)\,dt.
+\end{equation}
+If $v\in W^{1,1}(U)$ (or $v\in H^1_0(U)$ extended by zero outside
+$U$), then $d|Dv|=|\nabla v|\,d\mathcal L^n$ and~\eqref{eq:bv-coarea}
+reduces to the Federer--Fleming coarea formula
+\begin{equation}\label{eq:fed-fleming}
+   \int_U\varphi\,|\nabla v|\,dx
+   =\int_\R\Bigl(\int_{\partial^*\{v>t\}\cap U}\varphi\,d\mathcal H^{n-1}
+      \Bigr)\,dt.
+\end{equation}
+\end{theorem}
+
+\begin{proof}[Reference]
+This is \cite[Thm.~13.1 and Thm.~18.1]{Maggi2012}; equivalently
+\cite[Thm.~3.40 and (3.40)(b)]{AFP2000}.  The vanishing of the
+contribution of the critical set $\{\nabla v=0\}$ to the
+right-hand side of~\eqref{eq:bv-coarea} is \cite[Thm.~3.40(b)]{AFP2000}.
+\end{proof}
+
+\begin{corollary}[Coarea for the torsion function]
+\label{cor:coarea-torsion}
+Let $\Om\subset\R^n$ be open with $0<|\Om|<\infty$ and let $u=u_\Om$ be
+the torsion function (\S 3 of the notation register).  Then $u\in
+H^1_0(\Om)\cap L^\infty(\Om)$, and after extending $u$ by zero on
+$\R^n\setminus\Om$ we have $u\in BV_{\rm loc}(\R^n)\cap L^\infty(\R^n)$.
+For every Borel $\varphi:\R^n\to[0,\infty]$,
+\begin{equation}\label{eq:coarea-u}
+   \int_{\R^n}\varphi\,|\nabla u|\,dx
+   =\int_0^{\|u\|_\infty}
+      \Bigl(\int_{\partial^*\{u>t\}}\varphi\,d\mathcal H^{n-1}\Bigr)dt.
+\end{equation}
+In particular the super-level set $E_t=\{u>t\}$ has finite perimeter
+for $\mathcal L^1$-a.e.\ $t\in(0,\|u\|_\infty)$, and the function
+$m(t):=|E_t|$ is non-increasing, absolutely continuous on
+$(0,\|u\|_\infty)$ in the strict sense made precise in
+\S\ref{ssec:level-set-prelim} below.
+\end{corollary}
+
+\begin{theorem}[Sobolev--Sard for the torsion function;
+                Figalli--Maggi 2011, App.~A, Thm.~A.1]
+\label{thm:sobolev-sard}
+Let $u=u_\Om$ be as in Corollary~\ref{cor:coarea-torsion}.  There is a
+Borel set $\mathcal R\subset(0,\|u\|_\infty)$ of full $\mathcal L^1$
+measure such that for every $t\in\mathcal R$:
+\begin{enumerate}
+   \item[(i)] $E_t=\{u>t\}$ has finite perimeter and
+       $m'(t)=-\int_{\partial^*E_t}|\nabla u|^{-1}\,d\mathcal H^{n-1}
+        \in(-\infty,0)$;
+   \item[(ii)] $|\nabla u|>0$ for $\mathcal H^{n-1}$-a.e.
+       $x\in\partial^*E_t$ and the De Giorgi outer normal is
+       $\nu_{E_t}(x)=-\nabla u(x)/|\nabla u(x)|$ at $\mathcal H^{n-1}$
+       -a.e.\ such $x$;
+   \item[(iii)] (Volume-radius parametrisation,
+       cf.\ register \S 7.)  The function
+       $\rho\mapsto t(\rho)$, characterised by
+       $|\{u>t(\rho)\}|=\omega_n\rho^n$, is absolutely continuous on
+       $[\rstar,1]$ with $t'(\rho)\le0$, and the normal velocity
+       \[
+          V_\rho(x):=\frac{-t'(\rho)}{|\nabla u(x)|}
+       \]
+       is well-defined and positive for $\mathcal H^{n-1}$-a.e.\
+       $x\in\partial^*\Erho$, for $\mathcal L^1$-a.e.\
+       $\rho\in[\rstar,1]$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}[Reference]
+(i)--(ii) are \cite[App.~A, Thm.~A.1]{FigalliMaggi2011}; see also
+\cite[Lem.~17.1]{Maggi2012}.  (iii) follows by composition: the
+inverse-distribution function $\rho\mapsto t(\rho)$ is the strict-AC
+inverse of the strict-AC function $t\mapsto (m(t)/\omega_n)^{1/n}$
+(use \cite[Thm.~3.99]{AFP2000} on monotone AC functions), and the
+formula for $V_\rho$ then follows from the chain rule and
+$m'(t)=-\int|\nabla u|^{-1}$.  The level-set identity draft
+\texttt{WIP\_LevelSetIdentity.tex} \S 4 records the same statement.
+\end{proof}
+
+\subsubsection{Divergence theorem on sets of finite perimeter}
+\label{ssec:div-thm}
+
+\begin{theorem}[Gauss--Green; Maggi Thm.~15.5]
+\label{thm:gauss-green}
+Let $E\subset\R^n$ have finite perimeter and let
+$X\in C^1_c(\R^n;\R^n)$.  Then
+\begin{equation}\label{eq:gauss-green-Cc}
+   \int_E \Div X\,dx
+   =\int_{\partial^*E}X\cdot\nu_E\,d\mathcal H^{n-1}.
+\end{equation}
+More generally, if $E$ has finite perimeter and finite Lebesgue
+measure and $X\in C^1(\R^n;\R^n)\cap L^\infty(E;\R^n)$ satisfies
+$\Div X\in L^1(E)$, then~\eqref{eq:gauss-green-Cc} continues to hold
+(both sides being finite), as soon as the support of $X$ on
+$\partial^*E$ has finite $\mathcal H^{n-1}$ measure (e.g.\ when $E$
+is bounded).
+\end{theorem}
+
+\begin{proof}[Reference]
+The $C^1_c$ statement is \cite[Thm.~15.5]{Maggi2012} or
+\cite[Thm.~3.36]{AFP2000}.  The extension to $C^1$ fields bounded on
+$E$ with $\Div X\in L^1(E)$ follows by multiplying by a smooth
+compactly supported cutoff $\chi_R$, $\chi_R=1$ on $B_R$, sending
+$R\to\infty$, and using dominated convergence on both sides; this is
+\cite[Thm.~16.3]{Maggi2012} or the form used in
+\cite[Ch.~17]{Maggi2012}.
+\end{proof}
+
+We will need a slight strengthening allowing $X$ to have a single
+locally integrable singularity inside $E$.  The following lemma
+is load-bearing for the oriented radial trace estimate of
+Agent~11 (\S\ref{thm:radial-trace} below cross-references it).
+
+\begin{lemma}[Truncation lemma for fields with locally integrable
+              singularity]\label{lem:truncation}
+Let $E\subset\R^n$ have finite perimeter and finite Lebesgue measure,
+let $z\in\R^n$, and let $X:\R^n\setminus\{z\}\to\R^n$ be of class
+$C^1$ with the following properties:
+\begin{itemize}
+   \item[(a)] $X\in L^\infty(\R^n;\R^n)$, i.e.\ $|X(x)|\le M_0$ for
+       $x\ne z$, for some constant $M_0\ge0$;
+   \item[(b)] $\Div X\in L^1_{\rm loc}(\R^n\setminus\{z\})$, and
+       there is a constant $K_0\ge0$ such that
+       \[
+          |\Div X(x)|\le \frac{K_0}{|x-z|}
+          \qquad\text{for all }x\ne z;
+       \]
+   \item[(c)] $E$ is bounded, $E\subset B_R$ for some $R\ge1$.
+\end{itemize}
+Then $\Div X\in L^1(E)$ (since $n\ge2$) and
+\begin{equation}\label{eq:trunc-flux}
+   \int_E\Div X\,dx
+   =\int_{\partial^*E}X\cdot\nu_E\,d\mathcal H^{n-1},
+\end{equation}
+where the right-hand side is absolutely integrable.
+
+The prototypical $X$ to which this lemma applies is
+\[
+   X(x)
+   =w(|x-z|)\,\frac{x-z}{|x-z|},
+\]
+where $w:[0,\infty)\to\R$ is bounded with $w(0)=0$ in the natural
+sense (so that $|X|\le\|w\|_\infty$).  In dimension $n\ge2$ such $X$
+has $\Div X(x)=w'(|x-z|)+(n-1)w(|x-z|)/|x-z|$ for $x\ne z$, whose
+absolute value is $O(|x-z|^{-1})$ if $w$ is bounded with bounded
+$w'$.
+\end{lemma}
+
+\begin{proof}
+We may translate so that $z=0$.  The function $x\mapsto|x|^{-1}$ is
+locally integrable in $\R^n$ for $n\ge2$, so (b) gives
+$\Div X\in L^1(B_{2R})\supset L^1(E)$.  This proves the first
+assertion.
+
+Now choose a fixed cutoff $\eta\in C^\infty(\R)$ with $\eta\equiv0$
+on $(-\infty,1]$, $\eta\equiv1$ on $[2,\infty)$ and $0\le\eta\le1$,
+and for $\eps\in(0,1)$ set
+\[
+   \eta_\eps(x):=\eta\bigl(\eps^{-1}|x|\bigr),
+   \qquad
+   X_\eps(x):=\eta_\eps(x)\,X(x).
+\]
+Then $X_\eps\equiv 0$ on $B_\eps$, $X_\eps\equiv X$ on $\R^n\setminus
+B_{2\eps}$, and $X_\eps\in C^1(\R^n;\R^n)$ (the singularity at $0$
+has been removed).  Also $X_\eps$ is bounded by $M_0$ on $\R^n$ and
+has compact support if we further multiply by a smooth cutoff
+$\chi_R\in C^\infty_c(\R^n)$ with $\chi_R\equiv 1$ on $B_R$,
+$\chi_R\equiv0$ on $\R^n\setminus B_{2R}$, $|\nabla\chi_R|\le2/R$;
+since $E\subset B_R$, this further cutoff does not affect any of the
+integrals over $E$ or $\partial^*E$.
+
+Apply Theorem~\ref{thm:gauss-green} (the $C^1_c$ version) to
+$\chi_R X_\eps$:
+\begin{equation}\label{eq:trunc-step}
+   \int_E \Div(\chi_R X_\eps)\,dx
+   =\int_{\partial^*E}(\chi_R X_\eps)\cdot\nu_E\,d\mathcal H^{n-1}.
+\end{equation}
+Since $\chi_R\equiv1$ on a neighbourhood of $E\subset B_R$, the
+left-hand side equals $\int_E\Div X_\eps\,dx$ and the right-hand side
+equals $\int_{\partial^*E}X_\eps\cdot\nu_E\,d\mathcal H^{n-1}$.
+
+We now let $\eps\downarrow0$ and verify the two convergences:
+
+\emph{Right-hand side.}  $X_\eps\to X$ pointwise on
+$\R^n\setminus\{0\}$, hence $\mathcal H^{n-1}$-a.e.\ on $\partial^*E$
+(the single point $0$ has $\mathcal H^{n-1}(\{0\})=0$ since
+$n\ge2$).  By (a), $|X_\eps\cdot\nu_E|\le M_0$ pointwise; since
+$\mathcal H^{n-1}(\partial^*E)=P(E)<\infty$, dominated convergence
+gives
+\[
+   \int_{\partial^*E}X_\eps\cdot\nu_E\,d\mathcal H^{n-1}
+   \longrightarrow
+   \int_{\partial^*E}X\cdot\nu_E\,d\mathcal H^{n-1},
+\]
+and the right-hand integral is absolutely convergent.
+
+\emph{Left-hand side.}  A direct computation gives
+\[
+   \Div X_\eps(x)
+   =\eta_\eps(x)\,\Div X(x)
+   +\eps^{-1}\eta'\bigl(\eps^{-1}|x|\bigr)\,
+       \frac{x}{|x|}\cdot X(x).
+\]
+The first summand converges pointwise on $\R^n\setminus\{0\}$ to
+$\Div X(x)$ as $\eps\downarrow0$.  It is bounded in absolute value
+by $|\Div X(x)|\le K_0/|x|$, which is integrable on $E\subset B_R$.
+Dominated convergence gives
+\[
+   \int_E\eta_\eps\,\Div X\,dx
+   \longrightarrow\int_E\Div X\,dx.
+\]
+For the second summand,
+\[
+   \Bigl|\eps^{-1}\eta'(\eps^{-1}|x|)\,
+         \tfrac{x}{|x|}\cdot X(x)\Bigr|
+   \le \frac{\|\eta'\|_\infty M_0}{\eps}\,\mathbf 1_{\{\eps\le|x|\le2\eps\}}.
+\]
+Hence
+\[
+   \Bigl|\int_E
+      \eps^{-1}\eta'(\eps^{-1}|x|)\,\tfrac{x}{|x|}\cdot X(x)\,dx\Bigr|
+   \le
+   \frac{\|\eta'\|_\infty M_0}{\eps}\,|B_{2\eps}|
+   =\|\eta'\|_\infty M_0\,\omega_n\,2^n\eps^{n-1}.
+\]
+For $n\ge2$ this tends to $0$ as $\eps\downarrow0$.
+
+Combining, the left-hand side of~\eqref{eq:trunc-step} converges to
+$\int_E\Div X\,dx$ and the right-hand side converges to
+$\int_{\partial^*E}X\cdot\nu_E\,d\mathcal H^{n-1}$.
+This proves~\eqref{eq:trunc-flux}.
+\end{proof}
+
+\begin{remark}[Why this matters]\label{rem:trunc-use}
+Lemma~\ref{lem:truncation} is used twice in the manuscript:
+
+\noindent(i) (Agent~11, oriented radial trace.) Applied to
+\[
+   X(x)=w(|x-z|)\,\frac{x-z}{|x-z|},
+   \qquad
+   w(r)=\Bigl|\tfrac{r}{\rho}-1\Bigr|,
+\]
+on a bounded torsion level $\Erho\subset B_R$, with the centre
+$z=\zbar$ or, more generally, the Fusco--Julin centre on a good
+isoperimetric level.  Note that $w$ is bounded by $C(R,\rstar)$ on
+$\partial^*\Erho$ (since $|x-z|\le R+R'$ for some
+$R'=R'(R,\rstar)$), and a direct computation gives
+\[
+   \Div X(x)=w'(|x-z|)+(n-1)\frac{w(|x-z|)}{|x-z|},
+\]
+which is bounded by $C(R,\rstar)(1+|x-z|^{-1})$ pointwise.
+Hypotheses (a)--(c) of Lemma~\ref{lem:truncation} are met (with
+$M_0=\|w\|_\infty$, $K_0=(n-1)\|w\|_\infty$ and a harmless
+$L^\infty$ contribution from $w'$).
+
+\noindent(ii) (Identification of the FJ oscillation index, used in
+Agent~4 / Agent~11 background.)  Applied to $X(x)=(x-z)/|x-z|$ on
+$\Erho$, hypothesis (b) holds with $K_0=n-1$ since
+$\Div((x-z)/|x-z|)=(n-1)/|x-z|$ for $x\ne z$; the divergence
+identity
+\[
+   \int_{\partial^*\Erho}
+      \Bigl|\nurho-\frac{x-z}{|x-z|}\Bigr|^2\,d\mathcal H^{n-1}
+   =2\,\beta(\Erho,z)^2,
+\]
+quoted in~\eqref{eq:beta-divergence} below, is a direct consequence
+together with the identity $|\xi-\eta|^2=2-2\xi\cdot\eta$ for unit
+vectors.
+\end{remark}
+
+\subsubsection{Lipschitz truncation flux identity for the torsion
+            function}
+\label{ssec:flux-torsion}
+
+For the torsion function $u_\Om$ on a regular level $\Erho$, the
+boundary trace of $\nabla u$ on $\partial^*\Erho$ is not a classical
+trace.  The following identity replaces the formal application of
+the divergence theorem to $\nabla u$ on $\Erho$; it is used in
+Agent~9 to derive the deficit identity.
+
+\begin{lemma}[Flux $=$ volume; cf.\ Maggi Ch.~17]
+\label{lem:flux-volume}
+Let $\Om\subset\R^n$ be open with $0<|\Om|<\infty$ and let
+$u=u_\Om$.  For $\mathcal L^1$-a.e.\ $t\in(0,\|u\|_\infty)$, the
+super-level $E_t=\{u>t\}$ has finite perimeter and
+\begin{equation}\label{eq:flux-volume}
+   \int_{\partial^*E_t}|\nabla u|\,d\mathcal H^{n-1}=|E_t|.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+This is proved in
+\texttt{WIP\_LevelSetIdentity.tex}~Lem.~3.x via Lipschitz
+truncation of the test function $\eta_\eps(x):=\phi_\eps(u(x)-t)$
+with $\phi_\eps(s)=\min(1,\max(0,s/\eps))$, testing the weak
+equation $-\Delta u=1$ in $H^1_0(\Om)$ against $\eta_\eps$, applying
+the coarea formula~\eqref{eq:fed-fleming} to the right-hand side
+$\int|\nabla u\cdot\nabla\eta_\eps|=\eps^{-1}\int_{\{t<u<t+\eps\}}
+|\nabla u|^2$, and passing to the limit $\eps\downarrow 0$ at every
+Lebesgue point of $t\mapsto\int_{\partial^*E_t}|\nabla u|$.  The same
+calculation, with $|\nabla u|^2$ replaced by $|\nabla u|^p$ for
+suitable $p$, gives the rigorous interpretation of
+$\int_{\partial^*E_t}\nabla u\cdot\nu_{E_t}\,d\mathcal H^{n-1}
+=-\int_{\partial^*E_t}|\nabla u|$ as the boundary trace of
+$\nabla u$ on $\partial^*E_t$ in $L^1$ sense; see
+\cite[Ch.~17]{Maggi2012}.
+\end{proof}
+
+\subsubsection{Reshetnyak lower semicontinuity and finite-perimeter
+            passage of first variations}
+\label{ssec:reshetnyak}
+
+\begin{theorem}[Reshetnyak lower semicontinuity for linear-growth
+                integrands]\label{thm:reshetnyak}
+Let $U\subset\R^n$ be open and let
+$f:U\times\R^n\to[0,\infty)$ be continuous, $f(x,\cdot)$ convex and
+positively $1$-homogeneous for every $x\in U$.  If
+$E_j,E\subset\R^n$ are sets of finite perimeter with
+$\mathbf 1_{E_j}\to\mathbf 1_E$ in $L^1_{\rm loc}(U)$, and if the
+distributional gradients $D\mathbf 1_{E_j}$ converge weakly-$*$ in
+$U$ to $D\mathbf 1_E$, then
+\[
+   \int_{\partial^*E\cap U}f\bigl(x,\nu_E(x)\bigr)\,d\mathcal H^{n-1}
+   \le\liminf_{j\to\infty}\int_{\partial^*E_j\cap U}
+        f\bigl(x,\nu_{E_j}(x)\bigr)\,d\mathcal H^{n-1}.
+\]
+\end{theorem}
+
+\begin{proof}[Reference]
+\cite[Thm.~2.38]{AFP2000}.
+\end{proof}
+
+This is the workhorse used to pass smooth-flow first-variation
+identities to the finite-perimeter setting: the smooth-flow proof of
+the metric first-variation bound is performed in
+\texttt{WIP\_MetricFramework.tex}, and the four-step approximation
+of \texttt{Plan 2/gmt-inputs-for-metric-closure.md} \S 5 turns it
+into a finite-perimeter statement.  Concretely the approximation is:
+
+\begin{enumerate}
+   \item approximate $u_\Om$ by $u_j\in C^\infty(\Om)$ with $u_j\to
+       u$ in $W^{1,2}(\Om)$ and, after a Sobolev--Sard reduction to a
+       full-measure set of levels, in the coarea sense on the fixed
+       annulus $\rho\in[\rstar,1]$;
+   \item form the smooth nested family
+       $E_{\rho,j}:=\{u_j>t_j(\rho)\}$, with $t_j(\rho)$ the
+       inverse-distribution function of $u_j$;
+   \item apply the smooth first-variation bound (proved in
+       \texttt{WIP\_MetricFramework.tex} and recalled in
+       \texttt{Plan 2/gmt-inputs-for-metric-closure.md} \S 4) to
+       $\rho\mapsto E_{\rho,j}$;
+   \item pass to the limit using Proposition~\ref{prop:lsc-perimeter}
+       (lower semicontinuity of perimeter),
+       Theorem~\ref{thm:reshetnyak} (Reshetnyak lower semicontinuity
+       for the normal integrals
+       $\int|V_\rho-H_{\zbar,\rho}-a\cdot\nurho|\,d\mathcal H^{n-1}$),
+       and the standard lower semicontinuity of metric derivatives
+       for $L^1$-convergent curves \cite[Thm.~2.2.1]{AGS2008}.
+\end{enumerate}
+
+The detailed passage is contained in the metric-framework section
+(Agent~10).  We isolate the following corollary, which is the form
+needed by Agents 11--12.
+
+\begin{corollary}[Reshetnyak passage for the homothetic defect]
+\label{cor:reshetnyak-homot}
+Let $E_j,E\subset B_R$ have finite perimeter with $|E_j|=|E|=
+\omega_n\rho^n$ and $\mathbf 1_{E_j}\to\mathbf 1_E$ in $L^1(\R^n)$,
+together with $P(E_j)\to P(E)$.  Let $z_j\to z\in\R^n$ be a sequence
+of centres.  For every $a\in\R^n$,
+\[
+   \int_{\partial^*E}
+      \bigl|V-H_{z,\rho}-a\cdot\nu_E\bigr|\,d\mathcal H^{n-1}
+   \le\liminf_{j\to\infty}
+   \int_{\partial^*E_j}
+      \bigl|V_j-H_{z_j,\rho}-a\cdot\nu_{E_j}\bigr|\,d\mathcal H^{n-1},
+\]
+whenever $V_j\to V$ in $L^1(\mathcal H^{n-1}\llcorner\partial^*E_j)$ in
+the sense of weak convergence of varifolds.
+\end{corollary}
+
+\begin{proof}[Sketch]
+Apply Theorem~\ref{thm:reshetnyak} to the integrand
+$f(x,\nu)=|V(x)-H_{z,\rho}(x)-a\cdot\nu|$, which is continuous in
+$x$, convex in $\nu$, and positively $1$-homogeneous (because
+$H_{z,\rho}(x)=(x-z)\cdot\nu(x)/\rho$ is linear in $\nu$).  The
+convergence $P(E_j)\to P(E)$ together with $\mathbf 1_{E_j}\to
+\mathbf 1_E$ in $L^1$ gives, by~\cite[Thm.~12.30]{Maggi2012}, weak-$*$
+convergence of $D\mathbf 1_{E_j}$ to $D\mathbf 1_E$ in the sense
+needed by Theorem~\ref{thm:reshetnyak}.  Convergence of $V_j$ in
+varifold sense is the standing hypothesis.
+\end{proof}
+
+\subsubsection{Measurable selection of levelwise centres}
+\label{ssec:meas-sel}
+
+The Fusco--Julin centre package (Agent~11) attaches to every level
+$\rho\in[\rstar,\rho_\delta]$ in the good set $G_I\subset
+[\rstar,\rho_\delta]$ at least one point $z\in\R^n$ such that the
+quantitative isoperimetric inequality is realised at $z$; this point
+is unique only up to a translation in the bad set, and to use it
+inside metric-derivative integrals one must choose it in a Borel way.
+
+\begin{lemma}[Borel selection of centres]
+\label{lem:borel-selection}
+Let $G\subset[\rstar,1]$ be Borel and for each $\rho\in G$ let
+$Z(\rho)\subset\R^n$ be a non-empty closed set; suppose the
+graph $\{(\rho,z)\in G\times\R^n:z\in Z(\rho)\}$ is a Borel subset of
+$G\times\R^n$ and $\sup_{\rho\in G}\sup_{z\in Z(\rho)}|z|<\infty$.
+Then there exists a bounded Borel map $\sigma:G\to\R^n$ with
+$\sigma(\rho)\in Z(\rho)$ for every $\rho\in G$.
+\end{lemma}
+
+\begin{proof}
+The graph of $Z$ is a Borel subset of the standard Borel space
+$G\times\R^n$ with non-empty closed $\rho$-sections.  The
+Kuratowski--Ryll-Nardzewski measurable selection theorem
+\cite[Thm.~III.6 and Thm.~III.8]{CastaingValadier} (also Federer,
+\cite[\S 2.13]{Federer1969}) provides a Borel selection
+$\sigma:G\to\R^n$.  Boundedness of $\sigma$ follows from the standing
+hypothesis that the union $\bigcup_{\rho\in G}Z(\rho)$ is bounded.
+
+Outside $G$ (i.e.\ in the bad set), set $\sigma(\rho):=0$; this
+extends $\sigma$ to a bounded Borel map on $[\rstar,1]$.
+\end{proof}
+
+\begin{remark}[Application]\label{rem:borel-application}
+In the manuscript, $Z(\rho)$ is taken to be the set of
+$\eta_I$-almost minimisers in the scaled Fusco--Julin inequality
+applied to $\Erho$: explicitly, the set of $z\in\R^n$ such that
+\[
+   |\Erho\Delta B_\rho(z)|^2+\rho^{n+1}\beta(\Erho,z)^2
+   \le 2\,C_n\,\rho^{n+1}\bigl(P(\Erho)-P(B_\rho)\bigr),
+\]
+with $C_n$ the Fusco--Julin constant
+\cite[Thm.~1.1]{FJ2014}; this is non-empty by Fusco--Julin
+itself, closed by lower semicontinuity of the integrals in $z$
+(continuity of $z\mapsto|\Erho\Delta B_\rho(z)|$ is elementary, and
+continuity of $z\mapsto\beta(\Erho,z)^2=P(\Erho)-(n-1)\int_{\Erho}
+|x-z|^{-1}dx$ follows from dominated convergence using the bound
+$|x-z|^{-1}\le|x-z_0|^{-1}+|z-z_0||x-z|^{-1}|x-z_0|^{-1}$), and
+bounded in $z$ because the Fraenkel part forces $|z|\le R+\rho$ on
+$E\subset B_R$.  Lemma~\ref{lem:borel-selection} then provides a
+bounded Borel field $\rho\mapsto z_\rho$ on the good set $G_I$.
+The Borel-measurability of the graph follows from the fact that
+both $(z,E)\mapsto|E\Delta B_\rho(z)|$ and $(z,E)\mapsto
+\beta(E,z)^2$ are Borel maps in $z$ for fixed $E$ (in fact
+continuous), so the level set is closed and the graph is therefore
+Borel.
+\end{remark}
+
+\subsubsection{Two auxiliary identities used downstream}
+\label{ssec:aux-identities}
+
+For convenience we record two identities used by Agents~11 and~12.
+
+\begin{lemma}[FJ oscillation index identity]
+\label{lem:beta-divergence}
+Let $E\subset\R^n$ have finite perimeter and finite measure with
+$z\notin\R^n$ playing the role of a centre.  Define
+\[
+   \beta(E,z)^2:=P(E)-(n-1)\int_E|x-z|^{-1}\,dx.
+\]
+Then $\beta(E,z)^2\ge 0$ and
+\begin{equation}\label{eq:beta-divergence}
+   \int_{\partial^*E}
+      \Bigl|\nu_E(x)-\frac{x-z}{|x-z|}\Bigr|^2\,d\mathcal H^{n-1}
+   =2\,\beta(E,z)^2.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The identity $|\nu_E(x)-e_r|^2=2-2e_r\cdot\nu_E(x)$ for unit vectors
+$e_r$ gives
+\[
+   \int_{\partial^*E}|\nu_E-e_r|^2
+   =2P(E)-2\int_{\partial^*E}e_r\cdot\nu_E\,d\mathcal H^{n-1}.
+\]
+Apply Lemma~\ref{lem:truncation} (with $z$ in place of the origin) to
+the vector field $X(x):=(x-z)/|x-z|$.  Hypothesis (a) holds with
+$M_0=1$, and a direct computation gives $\Div X(x)=(n-1)/|x-z|$ for
+$x\ne z$, so (b) holds with $K_0=n-1$.  (c) holds because $E$ has
+finite measure and, in the manuscript application, $E\subset B_R$.
+Therefore
+\[
+   \int_{\partial^*E}\frac{x-z}{|x-z|}\cdot\nu_E\,d\mathcal H^{n-1}
+   =\int_E\Div X\,dx
+   =(n-1)\int_E|x-z|^{-1}\,dx.
+\]
+Combining gives~\eqref{eq:beta-divergence}.  Non-negativity is then
+immediate from the left-hand side, and equality with the right-hand
+side proves $\beta(E,z)^2\ge0$.
+\end{proof}
+
+\begin{lemma}[Total flux of $H_{z,\rho}$]\label{lem:H-total-flux}
+For $z\in\R^n$ and a set $\Erho$ of finite perimeter with
+$|\Erho|=\omega_n\rho^n$,
+\[
+   \int_{\partial^*\Erho}H_{z,\rho}\,d\mathcal H^{n-1}
+   =\frac{n|\Erho|}{\rho}=n\omega_n\rho^{n-1}=P(B_\rho).
+\]
+\end{lemma}
+
+\begin{proof}
+Apply Theorem~\ref{thm:gauss-green} to $X(x):=(x-z)/\rho\in
+C^1(\R^n;\R^n)$, which is $C^1$ everywhere and bounded on $\Erho$
+(any finite-measure set is $\mathcal H^{n-1}$-essentially bounded on
+its reduced boundary; in the manuscript $\Erho\subset B_R$).
+$\Div X=n/\rho$, so the divergence theorem gives
+$\int_{\partial^*\Erho}X\cdot\nurho\,d\mathcal H^{n-1}=n|\Erho|/\rho$.
+Since $(x-z)\cdot\nurho(x)/\rho=H_{z,\rho}(x)$, the lemma follows.
+\end{proof}
+
+\subsubsection{Summary of the GMT preliminaries and how they are used}
+\label{ssec:summary}
+
+For the convenience of the reader we summarise which GMT facts enter
+each Plan~2 section.
+
+\begin{itemize}
+   \item \emph{Level-set deficit identity (Agent~9).}
+       BV coarea (Theorem~\ref{thm:bv-coarea}), the Sobolev--Sard
+       statement for the torsion function
+       (Theorem~\ref{thm:sobolev-sard}), and the Lipschitz-truncation
+       flux identity (Lemma~\ref{lem:flux-volume}).
+
+   \item \emph{Metric framework (Agent~10).}
+       Lower semicontinuity of perimeter
+       (Proposition~\ref{prop:lsc-perimeter}), the divergence
+       theorem (Theorem~\ref{thm:gauss-green}), and Reshetnyak lower
+       semicontinuity together with the smooth-to-finite-perimeter
+       approximation (Theorem~\ref{thm:reshetnyak},
+       Corollary~\ref{cor:reshetnyak-homot}).
+
+   \item \emph{Fusco--Julin centre and oriented radial trace
+       (Agent~11).}
+       Truncation lemma (Lemma~\ref{lem:truncation}); the FJ
+       oscillation-index identity (Lemma~\ref{lem:beta-divergence});
+       and the Borel selection
+       (Lemma~\ref{lem:borel-selection}).
+
+   \item \emph{Integrated action and weighted metric trace
+       (Agent~12).}
+       The same divergence and BV coarea tools, plus the absolute
+       continuity of $\rho\mapsto[\Frho]$ proved in the metric
+       framework section.
+\end{itemize}
+
+All boundary integrals in the manuscript are on De Giorgi reduced
+boundaries; all centre fields are Borel via
+Lemma~\ref{lem:borel-selection}; the truncation argument of
+Lemma~\ref{lem:truncation} is the rigorous form of the
+``$x/|x|$ argument'' invoked at several places in Plan~2.
+
+% End of Preliminaries -- Geometric Measure Theory (Agent 2).

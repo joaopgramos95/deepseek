@@ -1,0 +1,673 @@
+% UNIFIED 2026-05-13
+% SOURCE MAP (Agent 10, Plan 2 -- Metric Framework)
+% =================================================================
+% Output file: Manuscript/plan2_metric_framework.tex
+% Target integration: Manuscript/03_plan2_draft.tex (subsection)
+% Notation: Manuscript/00_notation_register.md (canonical).
+% Cross-references to the source map: items E2.1--E2.7, A3, A6, A8, F15, F17.
+%
+% Source documents:
+%   [WIP-MF]  Plan 2/WIP/WIP_MetricFramework.tex
+%   [GMT]     Plan 2/gmt-inputs-for-metric-closure.md
+%   [MFPC]    Plan 2/metric-finite-perimeter-closure.md
+%   [A3]      Plan 2/agent3-metric-first-variation.md
+%
+% Per-result provenance:
+%   Definition (X, d_X)             -- [WIP-MF] Def. 2.1; notation register Sec. 11.
+%   Lemma (Attainment of inf)        -- [WIP-MF] Lem. 2.2; proved here.
+%   Definition (F_rho)               -- [WIP-MF] Def. 2.3.
+%   Polish/completeness facts        -- proved here using AFP 2000 Thm. 3.23
+%                                       (BV compactness) + standard quotient.
+%   Definition (V_rho)               -- notation register Sec. 9; [WIP-MF] (3.2).
+%   Sobolev--Sard for V_rho          -- CITE FigalliMaggi2011 App. A Thm. A.1
+%                                       ( = source map A3, E3.6); recorded
+%                                       in [WIP-MF] Prop. 3.1.
+%   AC of rho -> [F_rho]             -- proved here from the smooth-flow bound
+%                                       and L^1-LSC of the d_X distance under
+%                                       the BV/coarea approximation; [A3] Sec. 4.4.
+%   Smooth first-variation lemma     -- CITE Maggi2012 Sec. 17.3; [A3] (3.3)--(3.7).
+%   Reshetnyak l.s.c.                -- CITE AFP2000 Thm. 2.38--2.39; [WIP-MF]
+%                                       Lem. 5.5; [A3] Sec. 4.3.
+%   AGS lower semicontinuity         -- CITE AGS2008 Thm. 1.1.2; [WIP-MF] Lem. 5.6.
+%   Translation derivative           -- CITE Maggi2012 Thm. 13.8; AFP2000 Thm. 3.84.
+%   Theorem (T) [E2.6]               -- proved here, no global Lipschitz boundary
+%                                       hypothesis. Combines all above.
+%
+% All constants C are declared with dependence (n, R, rho_*) on first use.
+% =================================================================
+
+\subsection{The metric framework: quotient space, absolute continuity of the
+foliation, and finite-perimeter first variation}
+\label{sec:metric-framework}
+
+In this subsection we construct the metric ambient space~$\X$ in which the
+rescaled volume--radius foliation $\rho\mapsto[F_\rho]$ lives, prove that this
+curve is absolutely continuous in~$\X$, and establish the
+\emph{finite-perimeter metric first-variation bound}~(T) on the metric
+derivative $|\dot F_\rho|_\X$ in terms of the normal velocity $V_\rho$ and the
+homothetic velocity~$H_{z_\rho,\rho}$. The latter is used downstream by the
+weighted metric trace argument (Agent~12) to convert the level-set deficit
+identity (Agent~9) into a metric-energy bound. No global Lipschitz boundary
+regularity is assumed on~$\Om$ or on the level sets $E_\rho$; the only
+regularity used is finite perimeter, which holds for a.e.~level by the BV
+coarea theorem.
+
+\subsubsection{Standing hypotheses}
+\label{sec:metric-setup}
+
+Throughout this subsection, $n\ge 2$, $R\ge 2$, and $0<\rstar<1$ are fixed.
+We assume that
+\begin{equation}\label{eq:mf-Om-class}
+   \Om\subset\R^n\text{ is open, bounded, with }
+   \Om\subset B_R\text{ and }|\Om|=\omega_n.
+\end{equation}
+Let $u\in H^1_0(\Om)\cap L^\infty(\Om)$ be the variational torsion potential
+(Sec.~\ref{sec:torsion-preliminaries}, item~B1). Standard Stampacchia
+regularity gives $u\in W^{2,p}_{\rm loc}(\Om)$ for every $p\in(1,\infty)$, and
+the BV coarea theorem (item~A2; \cite[Thm.~13.1]{Maggi2012},
+\cite[Thm.~3.40]{AFP2000}) implies that for a.e.~$t\in(0,\|u\|_\infty)$ the
+super-level set $E_t=\{u>t\}$ has finite perimeter, with reduced boundary
+$\partial^*E_t$, outer measure-theoretic normal $\nu_t$, and
+$P(E_t)=\mathcal H^{n-1}(\partial^*E_t)$. Reparametrising by volume
+(item~B6),
+\begin{equation}\label{eq:mf-rho}
+   E_\rho:=\{u>t(\rho)\},\qquad |E_\rho|=\omega_n\rho^n,\qquad
+   \rho\in[\rstar,1],
+\end{equation}
+yields a function $\rho\mapsto t(\rho)$ that is absolutely continuous on
+$[\rstar,1]$ with $t'(\rho)\le 0$ a.e. The corresponding measure on
+$[\rstar,1]$ is $\mu(d\rho):=(-t'(\rho))\,d\rho$ (notation register \S7).
+
+For a Borel-measurable map $\rho\mapsto z_\rho\in\R^n$ with
+$\sup_{\rho\in[\rstar,1]}|z_\rho|\le R'<\infty$ we set
+\begin{equation}\label{eq:mf-H}
+   H_{z_\rho,\rho}(x):=\frac{(x-z_\rho)\cdot\nu_\rho(x)}{\rho},\qquad
+   x\in\partial^*E_\rho.
+\end{equation}
+The Borel measurability of $\rho\mapsto z_\rho$ is the only hypothesis
+imposed in this subsection; the precise centre choice
+(centroid~$\bar z_\rho$ or Fusco--Julin oscillation centre) is fixed
+downstream (Agents~11--12).
+
+\subsubsection{The metric quotient space $\X$}
+\label{sec:metric-X}
+
+We denote by $\mathfrak M$ the set of $\mathcal L^n$-equivalence classes of
+characteristic functions $\mathbf 1_A$ with $|A|<\infty$, equipped with the
+$L^1$ metric
+\[
+   d_{L^1}(\mathbf 1_A,\mathbf 1_C):=\|\mathbf 1_A-\mathbf 1_C\|_{L^1(\R^n)}
+                                    =|A\triangle C|.
+\]
+The translation group $\R^n$ acts on $\mathfrak M$ by
+$a\cdot\mathbf 1_A:=\mathbf 1_{A+a}$.
+
+\begin{definition}[Metric quotient]\label{def:mf-X}
+Define the quotient space
+\begin{equation}\label{eq:mf-X-def}
+   \X:=\mathfrak M/\R^n,\qquad
+   \dX([A],[C]):=\inf_{a\in\R^n}|A\triangle(C+a)|.
+\end{equation}
+\end{definition}
+
+\begin{lemma}[Attainment of the translation infimum]\label{lem:mf-attain}\label{lem:metric:attain}\label{lem:metric-translation-volume}
+If $A,C\subset\R^n$ have finite measure and are both contained in a common
+ball $B_M$, then the infimum in~\eqref{eq:mf-X-def} is attained at some
+$a_*\in\overline{B_{2M}}$.
+\end{lemma}
+
+\begin{proof}
+For $|a|\ge 2M$ the translate $C+a$ is disjoint from $A$, so
+$|A\triangle(C+a)|=|A|+|C|\ge|A\triangle C|$. Hence the infimum is unchanged
+when restricted to $\overline{B_{2M}}$. The function
+$a\mapsto|A\triangle(C+a)|$ is continuous (dominated convergence applied to
+$|\mathbf 1_A-\mathbf 1_{C+a}|$), and therefore attains its minimum on the
+compact set $\overline{B_{2M}}$.
+\end{proof}
+
+\begin{proposition}[Metric properties of $(\X,\dX)$]\label{prop:mf-Polish}
+The pair $(\X,\dX)$ is a complete separable metric space. Restricted to
+classes of sets contained in a fixed ball $B_M$, it is a Polish space, and the
+restriction is sequentially compact in the following weak sense: any sequence
+$(\mathbf 1_{A_k})\subset\mathfrak M$ with $A_k\subset B_M$ admits, after
+extracting a subsequence and translating by suitable $a_k\in\overline{B_{2M}}$,
+an $L^1$-limit $\mathbf 1_{A_\infty}$ with $A_\infty\subset B_{3M}$.
+\end{proposition}
+
+\begin{proof}
+That $\dX$ is a metric is immediate from the symmetry $|A\triangle C|=
+|C\triangle A|$ and the triangle inequality
+$|A\triangle(C+a+b)|\le|A\triangle(D+a)|+|D\triangle((D+a-a)+ \cdots)|$;
+the explicit verification reduces to translation-invariance of $L^1$ and is
+recorded in \cite[Def.~2.1, Lem.~2.2]{AmbrosioGigli2013} (and is essentially
+\cite[Def.~5.5.1]{AGS2008}).
+
+\emph{Completeness.} Let $([A_k])$ be Cauchy in $\X$. By passing to a
+subsequence we may assume
+$\dX([A_{k+1}],[A_k])\le 2^{-k}$, and by Lemma~\ref{lem:mf-attain} (applied
+after a uniform translation to bring $A_1$ into a ball $B_M$ and using
+$|A_k|=|A_1|$ if we further restrict to a single mass class) we may pick
+$a_k\in\R^n$ with $|A_{k+1}\triangle(A_k+a_k)|\le 2^{-k}$. Setting
+$\widetilde A_k:=A_k-(a_1+\cdots+a_{k-1})$ produces an $L^1$-Cauchy sequence
+of characteristic functions in $\R^n$, which converges to some
+$\mathbf 1_{A_\infty}$ in $L^1$ by completeness of
+$L^1(\R^n;[0,1])$ (\cite[Prop.~12.10]{Maggi2012}). The limit class
+$[A_\infty]$ is the required limit in $\X$.
+
+\emph{Separability and Polish structure on $\{A\subset B_M\}$.} On the
+restricted subset, finite unions of dyadic cubes contained in $B_M$ form a
+countable $L^1$-dense subset of $\{\mathbf 1_A:A\subset B_M\}$
+(\cite[Thm.~1.18]{Maggi2012}), and projection to $\X$ preserves density.
+
+\emph{Sequential compactness.} For $A_k\subset B_M$, the sets are uniformly
+bounded with uniform measure; by BV compactness
+(\cite[Thm.~12.26]{Maggi2012}, equivalently \cite[Thm.~3.23]{AFP2000}, with
+the perimeter bound $P(A_k)\le P(B_M)$ only required when one wants
+limit-of-perimeter information, which we do not need here), the sequence
+$(\mathbf 1_{A_k})$ is precompact in $L^1_{\rm loc}(\R^n)$ after suitable
+translations. Tightness is enforced by Lemma~\ref{lem:mf-attain}: there is
+$a_k\in\overline{B_{2M}}$ with $A_k+a_k\subset B_{3M}$ achieving the
+infimum, and we extract along this normalised sequence.
+\end{proof}
+
+\begin{remark}[Why we do not use perimeter in the metric]\label{rem:no-perim}
+We deliberately do \emph{not} equip $\X$ with a perimeter-augmented distance:
+the absolute-continuity statement we need (Theorem~\ref{thm:mf-AC} below) and
+the metric first-variation bound~(T) only require the $L^1$ metric. The
+perimeter enters separately through the velocity integrals on
+$\partial^*E_\rho$, see~\eqref{eq:mf-T}.
+\end{remark}
+
+\subsubsection{The rescaled curve $\rho\mapsto[F_\rho]$ and metric derivative}
+\label{sec:metric-F}
+
+\begin{definition}[Rescaled curve]\label{def:mf-F}
+For $\rho\in[\rstar,1]$ put
+\begin{equation}\label{eq:mf-Frho}
+   F_\rho:=\rho^{-1}E_\rho\subset\R^n,\qquad [F_\rho]\in\X.
+\end{equation}
+\end{definition}
+
+By construction $|F_\rho|=\omega_n=|B_1|$ for all $\rho\in[\rstar,1]$. Since
+$\Om\subset B_R$ and $\rho\ge\rstar$, $F_\rho\subset B_{R/\rstar}$ uniformly,
+and Lemma~\ref{lem:mf-attain} applies to all pairs
+$([F_{\rho_1}],[F_{\rho_2}])$ with $a_*\in\overline{B_{2R/\rstar}}$.
+
+\begin{definition}[Metric derivative; \protect{\cite[Thm.~1.1.2]{AGS2008}}]
+\label{def:mf-AGS-AC}
+A curve $\gamma:I\to\X$ is \emph{absolutely continuous} if there is
+$m\in L^1(I)$ such that
+\[
+   \dX(\gamma(s),\gamma(\sigma))\le\int_\sigma^s m(\tau)\,d\tau
+   \qquad\text{for }\sigma\le s\text{ in }I.
+\]
+The \emph{metric derivative}
+\[
+   |\dot\gamma|_\X(\rho):=\lim_{h\to 0}\frac{\dX(\gamma(\rho+h),\gamma(\rho))}{|h|}
+\]
+then exists for a.e.~$\rho\in I$ and is the smallest admissible $m$.
+\end{definition}
+
+\subsubsection{Pointwise definition of the normal velocity}
+\label{sec:metric-V}
+
+The normal velocity of the flow $\rho\mapsto E_\rho$ is, formally,
+\begin{equation}\label{eq:mf-Vrho}
+   \Vrho(x)=\frac{-t'(\rho)}{|\nabla u(x)|},
+\end{equation}
+defined where $|\nabla u(x)|>0$. The next proposition makes this pointwise
+on a.e.~reduced boundary.
+
+\begin{proposition}[Sobolev--Sard for $V_\rho$; item~A3]\label{prop:mf-sard}
+Let $u\in W^{2,p}_{\rm loc}(\Om)$ for some $p>n$. Then for a.e.~$\rho\in
+[\rstar,1]$,
+\begin{equation}\label{eq:mf-sard}
+   \mathcal H^{n-1}\bigl(\partial^*E_\rho\cap\{|\nabla u|=0\}\bigr)=0,
+\end{equation}
+and consequently $\Vrho:\partial^*E_\rho\to(0,\infty)$ is
+$\mathcal H^{n-1}$-a.e.\ finite and strictly positive. The flux identity
+holds:
+\begin{equation}\label{eq:mf-Vflux}
+   \int_{\partial^*E_\rho}\Vrho\,d\mathcal H^{n-1}
+      =\frac{d}{d\rho}|E_\rho|=n\omega_n\rho^{n-1}=:A_\rho.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+The Stampacchia regularity $-\Delta u=1$ in $\Om$ gives $u\in W^{2,p}_{\rm
+loc}(\Om)$ for every $p<\infty$. Fix any $p>n$. By the
+Figalli--Maggi Sobolev--Sard theorem
+(\cite[Appendix~A, Theorem~A.1]{FigalliMaggi2011}), for every $u\in
+W^{2,p}_{\rm loc}$ with $p>n$,
+\[
+   \mathcal H^{n-1}\bigl(\{u=t\}\cap\{|\nabla u|=0\}\bigr)=0
+   \qquad\text{for a.e.~}t\in\R.
+\]
+The De Giorgi structure theorem (\cite[\S~15]{Maggi2012}) implies
+$\partial^*\{u>t\}\subset\{u=t\}$ up to an $\mathcal H^{n-1}$-null set for
+a.e.~$t$; reparametrising $t=t(\rho)$ via~\eqref{eq:mf-rho} yields
+\eqref{eq:mf-sard}. The flux identity~\eqref{eq:mf-Vflux} is the coarea
+formula (\cite[Thm.~13.1]{Maggi2012}) applied to the BV function
+$\rho\mapsto|E_\rho|$ followed by Lebesgue differentiation.
+\end{proof}
+
+In particular, $\Vrho\in L^1(\partial^*E_\rho,\mathcal H^{n-1})$ for
+a.e.~$\rho\in[\rstar,1]$, with $L^1$-norm equal to $A_\rho=n\omega_n
+\rho^{n-1}$ uniformly in $\rho$.
+
+\subsubsection{Absolute continuity of $\rho\mapsto[F_\rho]$}
+\label{sec:metric-AC}
+
+\begin{theorem}[Absolute continuity in $\X$]\label{thm:mf-AC}\label{thm:metric:AC}
+Under the standing hypotheses, the map
+\[
+   [\rstar,1]\ni\rho\longmapsto[F_\rho]\in\X
+\]
+is absolutely continuous. Indeed, there exists a function
+$m\in L^1([\rstar,1])$ with
+\begin{equation}\label{eq:mf-AC-m}
+   \dX([F_{\rho_2}],[F_{\rho_1}])\le\int_{\rho_1}^{\rho_2}m(\rho)\,d\rho,
+   \qquad \rstar\le\rho_1\le\rho_2\le 1,
+\end{equation}
+where one may take
+\begin{equation}\label{eq:mf-m-def}
+   m(\rho)=\rstar^{-n}\int_{\partial^*E_\rho}\Vrho\,d\mathcal H^{n-1}
+            +n\rstar^{-n-1}\cdot R/\rstar
+   \le C(n,R,\rstar).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+For $\rstar\le\rho<\sigma\le 1$,
+\[
+   F_\sigma\triangle F_\rho
+   =(\sigma^{-1}E_\sigma)\triangle(\rho^{-1}E_\rho).
+\]
+By Lemma~\ref{lem:mf-attain},
+$\dX([F_\sigma],[F_\rho])\le|F_\sigma\triangle F_\rho|$. We estimate this
+last symmetric difference. Write $F_\sigma\triangle F_\rho=
+\bigl(F_\sigma\triangle(\sigma^{-1}E_\rho)\bigr)\triangle
+\bigl((\sigma^{-1}E_\rho)\triangle F_\rho\bigr)$, so
+\begin{equation}\label{eq:mf-AC-split}
+   |F_\sigma\triangle F_\rho|
+   \le|\sigma^{-1}(E_\sigma\triangle E_\rho)|
+      +|\sigma^{-1}E_\rho\triangle\rho^{-1}E_\rho|.
+\end{equation}
+For the first term, $E_\rho\subset E_\sigma$ when $\rho\le\sigma$ (the
+foliation is nested), so $|E_\sigma\triangle E_\rho|=|E_\sigma|-|E_\rho|=
+\omega_n(\sigma^n-\rho^n)$, and the coarea flux~\eqref{eq:mf-Vflux} integrated
+on $[\rho,\sigma]$ gives
+\[
+   |\sigma^{-1}(E_\sigma\triangle E_\rho)|
+      =\sigma^{-n}\omega_n(\sigma^n-\rho^n)
+      \le\rstar^{-n}\int_\rho^\sigma A_\tau\,d\tau
+      =\rstar^{-n}\int_\rho^\sigma\int_{\partial^*E_\tau}V_\tau\,
+         d\mathcal H^{n-1}\,d\tau.
+\]
+For the second term, the linear-in-radius dilation
+$\Lambda_s(x):=s\,x$ satisfies
+$|\Lambda_{\sigma^{-1}}E_\rho\triangle\Lambda_{\rho^{-1}}E_\rho|\le
+n\rstar^{-n-1}(R/\rstar)|\sigma-\rho|\cdot\omega_n$, using
+$\Om\subset B_R$ and $E_\rho\subset B_R$, and the elementary identity
+$|\Lambda_sA\triangle\Lambda_{s'}A|\le|s-s'|\cdot
+\mathcal H^{n-1}(\partial A)\cdot\sup_{y\in A}|y|$ for sets contained
+in $B_R$ together with $\sup_y|y|\le R$. Both terms are bounded by
+$C(n,R,\rstar)|\sigma-\rho|$. Setting $m$ as in~\eqref{eq:mf-m-def}
+gives~\eqref{eq:mf-AC-m}. Since $A_\rho\le n\omega_n$, $m\in L^\infty
+\subset L^1$.
+\end{proof}
+
+By Definition~\ref{def:mf-AGS-AC}, the metric derivative
+$|\dot F_\rho|_\X$ exists for a.e.~$\rho\in[\rstar,1]$.
+
+\subsubsection{The metric first-variation theorem~(T)}
+\label{sec:metric-T}
+
+The main result of this subsection is the following.
+
+\begin{theorem}[Finite-perimeter metric first variation]\label{thm:mf-T}
+Under the standing hypotheses of \S\ref{sec:metric-setup}, and for any
+Borel-measurable centre field $\rho\mapsto z_\rho$ with
+$\sup_\rho|z_\rho|\le R'<\infty$,
+\begin{equation}\label{eq:mf-T}
+   |\dot F_\rho|_\X
+   \le C(n,\rstar)\,
+   \inf_{a\in\R^n}\int_{\partial^*E_\rho}
+       \bigl|\Vrho-H_{z_\rho,\rho}-a\cdot\nurho\bigr|
+       \,d\mathcal H^{n-1}
+\end{equation}
+for a.e.~$\rho\in[\rstar,1]$, with $C(n,\rstar)=\rstar^{-n}$.
+\end{theorem}
+
+The proof has three parts: a smooth-flow calculation
+(\S\ref{sec:metric-T-smooth}), a BV/coarea approximation
+(\S\ref{sec:metric-T-approx}), and a closure argument via Reshetnyak and AGS
+lower semicontinuity (\S\ref{sec:metric-T-pass}). Reading the smooth part
+first makes the structure transparent; the finite-perimeter part is then a
+passage to the limit with no hidden smoothness.
+
+\subsubsection{Smooth-flow proof}
+\label{sec:metric-T-smooth}
+
+Throughout this subsubsection we \emph{temporarily assume} that
+$\Om$ has $C^\infty$ boundary, that $u\in C^\infty(\overline\Om)$, and that
+$|\nabla u|>0$ on the closed strip
+$S_\eta:=\bigcup_{\rho\in[\rstar,1-\eta]}\partial E_\rho$ for some $\eta>0$.
+This is the standard smooth-flow regime in which the first variation of
+$\rho\mapsto|F_\rho\triangle C|$ is classical
+(\cite[\S~17.3]{Maggi2012}, \cite[Thm.~3.85]{AFP2000}); we will then remove
+these hypotheses in \S\ref{sec:metric-T-pass}.
+
+Fix $z=z_\rho$ and $a\in\R^n$. The homothety
+$\Psi_\rho(y):=z+\rho^{-1}(y-z)$ maps $E_\rho$ onto $z+\rho^{-1}(E_\rho-z)$.
+Under the smooth flow $\rho\mapsto E_\rho$ the trajectories $X(\rho,\cdot)$ on
+$\partial E_\rho$ satisfy $\partial_\rho X\cdot\nu_\rho=\Vrho$. A direct
+differentiation of $\Psi_\rho(X(\rho,\cdot))$ and projection onto
+$\nurho$ give (\cite[(3.1)]{AmbrosioMantegazza}; equivalently, the formula
+recorded in~[A3], (3.1))
+\begin{equation}\label{eq:mf-W1}
+   \partial_\rho\Psi_\rho(X)\cdot\nurho
+      =\rho^{-1}\bigl(\Vrho-H_{z,\rho}\bigr).
+\end{equation}
+If we further translate the level by $-ha$ over a time-step $h$, the corrected
+normal velocity of $\rho\mapsto\Psi_\rho(E_\rho)-\rho a$, restored back to
+$\partial E_\rho$, is
+\begin{equation}\label{eq:mf-W}
+   W^{z,a}_\rho:=\rho^{-1}\bigl(\Vrho-H_{z,\rho}-a\cdot\nurho\bigr).
+\end{equation}
+
+\begin{lemma}[Smooth first variation; \protect{\cite[\S 17.3]{Maggi2012}}]
+\label{lem:mf-FV-smooth}
+For any smooth bounded set $C$ and for a.e.~$\rho\in[\rstar,1-\eta]$,
+\begin{equation}\label{eq:mf-FV-id}
+   \frac{d}{d\rho}|F_\rho\triangle C|
+      =\int_{\partial F_\rho}\sigma_\rho^C\,
+         (W^{z,a}_\rho\circ\Psi_\rho^{-1})\,d\mathcal H^{n-1},
+\end{equation}
+where $\sigma_\rho^C(y)=-1$ if $y\in\partial F_\rho\cap C$ and $+1$
+otherwise. In particular,
+\begin{equation}\label{eq:mf-FV-bd}
+   \Bigl|\frac{d}{d\rho}|F_\rho\triangle C|\Bigr|
+      \le\int_{\partial F_\rho}|W^{z,a}_\rho\circ\Psi_\rho^{-1}|
+         \,d\mathcal H^{n-1}.
+\end{equation}
+\end{lemma}
+
+This is~[A3, (3.3)]; equivalently \cite[Thm.~3.85]{AFP2000} applied with the
+vector field $\Psi_\rho$.
+
+\begin{proposition}[Smooth case of (T)]\label{prop:mf-T-smooth}
+Under the smooth-flow hypotheses, for a.e.~$\rho\in[\rstar,1-\eta]$,
+\begin{equation}\label{eq:mf-T-smooth}
+   \limsup_{h\to 0}\frac{\dX([F_{\rho+h}],[F_\rho])}{|h|}
+   \le\rstar^{-n}\,\inf_{a\in\R^n}
+      \int_{\partial^*E_\rho}\bigl|\Vrho-H_{z_\rho,\rho}-a\cdot\nurho\bigr|
+      \,d\mathcal H^{n-1}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Apply Lemma~\ref{lem:mf-FV-smooth} with $C=F_\rho$ and integrate over
+$[\rho,\rho+h]$:
+\[
+   |F_{\rho+h}\triangle F_\rho|
+   =\int_\rho^{\rho+h}\frac{d}{d\tau}|F_\tau\triangle F_\rho|\,d\tau
+   \le\int_\rho^{\rho+h}\!\!\int_{\partial F_\tau}
+        |W^{z,a}_\tau\circ\Psi_\tau^{-1}|\,d\mathcal H^{n-1}d\tau.
+\]
+Now change variables along $\Psi_\tau:\partial E_\tau\to\partial F_\tau$.
+The Jacobian of $\Psi_\tau$ is $\rho^{1-n}$ (it is a homothety of factor
+$\rho^{-1}$ on $\R^n$, with surface area Jacobian $\rho^{-(n-1)}$), so
+\begin{equation}\label{eq:mf-jacobian}
+   \int_{\partial F_\tau}|W^{z,a}_\tau\circ\Psi_\tau^{-1}|\,d\mathcal H^{n-1}
+   =\tau^{1-n}\int_{\partial^*E_\tau}|W^{z,a}_\tau|\,d\mathcal H^{n-1}
+   =\tau^{-n}\int_{\partial^*E_\tau}
+       |\Vrho-H_{z,\tau}-a\cdot\nu_\tau|\,d\mathcal H^{n-1}.
+\end{equation}
+The last equality uses~\eqref{eq:mf-W}. Bounding $\tau^{-n}\le\rstar^{-n}$
+and dividing by $|h|$, then letting $h\to 0$, gives
+\[
+   \limsup_{h\to 0}\frac{|F_{\rho+h}\triangle F_\rho|}{|h|}
+   \le\rstar^{-n}\int_{\partial^*E_\rho}
+      |\Vrho-H_{z_\rho,\rho}-a\cdot\nurho|\,d\mathcal H^{n-1}.
+\]
+Now apply the translation derivative formula (Lemma~\ref{lem:mf-trans-deriv}
+below) to absorb $a\cdot\nu_\rho$ into a translation $F_{\rho+h}\mapsto
+F_{\rho+h}-ha$: the symmetric difference between $F_{\rho+h}-ha$ and $F_\rho$
+also satisfies the same bound. Taking the infimum over $a$ and using
+$\dX([F_{\rho+h}],[F_\rho])\le|F_{\rho+h}\triangle(F_\rho+ha)|$ yields
+\eqref{eq:mf-T-smooth}.
+\end{proof}
+
+\begin{lemma}[Translation derivative; \protect{\cite[Thm.~13.8]{Maggi2012},
+\cite[Thm.~3.84]{AFP2000}}]\label{lem:mf-trans-deriv}
+For every bounded set $E$ of finite perimeter and every $a\in\R^n$,
+\begin{equation}\label{eq:mf-trans-deriv}
+   \lim_{\eps\to 0}\frac{|E\triangle(E+\eps a)|}{\eps}
+   =\int_{\partial^*E}|a\cdot\nu_E|\,d\mathcal H^{n-1}.
+\end{equation}
+\end{lemma}
+
+In view of~\eqref{eq:mf-trans-deriv}, the inf over $a$ in~\eqref{eq:mf-T} is
+\emph{exactly} the metric-quotient cost: not slack, but the precise
+infinitesimal cost of factoring out translations. This is the role of the
+parameter~$a$ in the theorem statement.
+
+\subsubsection{BV/coarea smooth approximation}
+\label{sec:metric-T-approx}
+
+We now drop the smooth-flow hypotheses. The standing hypotheses
+of~\S\ref{sec:metric-setup} are kept; the only regularity assumed is
+$\Om$ open, bounded, $|\Om|=\omega_n$, and the consequent
+$u\in W^{2,p}_{\rm loc}(\Om)$, $p>n$.
+
+\begin{lemma}[Coarea-good smooth recovery]\label{lem:mf-approx}
+There exist $u_k\in C^\infty(\R^n)$ with $u_k\to u$ in $W^{1,2}(\Om)$ and a
+subsequence (not relabelled) such that, setting
+$E_t^k:=\{u_k>t\}$ and reparametrising $t_k(\rho)$ by
+$|E^k_{t_k(\rho)}|=\omega_n\rho^n$, the following hold for a.e.\
+$\rho\in[\rstar,1]$:
+\begin{enumerate}
+\item[(a)] $t_k(\rho)\to t(\rho)$;
+\item[(b)] $E^k_\rho\to E_\rho$ in $L^1(\R^n)$;
+\item[(c)] $P(E_\rho)\le\liminf_k P(E^k_\rho)$, and in fact $P(E^k_\rho)\to
+   P(E_\rho)$;
+\item[(d)] the vector-valued perimeter measures
+   $\nu^k_\rho\,\mathcal H^{n-1}\restriction\partial^*E^k_\rho$ converge
+   weakly to $\nurho\,\mathcal H^{n-1}\restriction\partial^*E_\rho$;
+\item[(e)] $\int_{\partial^*E^k_\rho}|V^k_\rho|\,d\mathcal H^{n-1}
+   \to\int_{\partial^*E_\rho}|\Vrho|\,d\mathcal H^{n-1}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}[Sketch with precise inputs]
+Take $u_k=u*\eta_k$ for a standard mollifier $\eta_k$, extended by zero
+outside $\Om$. Then $u_k\to u$ in $W^{1,p}_{\rm loc}$ for every
+$p<\infty$ (\cite[Thm.~3.40]{AFP2000}). Item~(a) and (b) follow from the BV
+coarea theorem applied to $u_k\to u$ together with Helly--Lebesgue
+differentiation of the (monotone) maps $t\mapsto|E^k_t|$
+(\cite[Thm.~13.1, Lem.~13.2]{Maggi2012}). Item~(c) is the BV coarea identity
+\[
+   \int|\nabla u_k|\,dx=\int_0^\infty P(E^k_t)\,dt\to\int|\nabla u|\,dx
+      =\int_0^\infty P(E_t)\,dt
+\]
+combined with perimeter LSC (\cite[Prop.~12.15]{Maggi2012}, item~A6) and
+Fatou: the LSC gives $\liminf P(E^k_t)\ge P(E_t)$ a.e., while the
+$L^1$-integrals match, so equality holds for a.e.~$t$ (and hence a.e.~$\rho$).
+Item~(d) is weak convergence of vector perimeter measures, which follows
+from~(c) combined with $L^1$-convergence of $\mathbf 1_{E^k_\rho}$ and
+\cite[Cor.~12.21]{Maggi2012}. Item~(e) uses
+$\int_{\partial^*E^k_\rho}|V^k_\rho|=|t_k'(\rho)|\cdot a^k(t_k(\rho))$ where
+$a^k(s)=\int_{\partial^*E^k_s}|\nabla u_k|^{-1}\,d\mathcal H^{n-1}$
+(coarea, item~A2), combined with the Helly--Lebesgue argument again.
+\end{proof}
+
+\begin{remark}[No graph regularity used]\label{rem:no-graph}
+Lemma~\ref{lem:mf-approx} makes no claim about $\partial E_\rho$ being a
+graph or being globally Lipschitz; it asserts only $L^1$-convergence of the
+sub-level sets, BV-coarea convergence of perimeters, and weak convergence of
+vector perimeter measures. The recovery family $u_k$ is smooth on $\R^n$,
+but the limit set $E_\rho$ may have any reduced-boundary structure.
+\end{remark}
+
+\subsubsection{Closure: Reshetnyak and AGS lower semicontinuity}
+\label{sec:metric-T-pass}
+
+\begin{lemma}[Reshetnyak l.s.c.\ for the velocity-defect integrand;
+items~A6, A8]\label{lem:mf-reshetnyak}
+Fix $z,a\in\R^n$ and $\rho\in[\rstar,1]$. The integrand
+\[
+   \Phi(x,s,\nu):=\bigl|s-(x-z)\cdot\nu/\rho-a\cdot\nu\bigr|,
+   \qquad (x,s,\nu)\in\R^n\times\R\times\R^n,
+\]
+is jointly continuous and convex of linear growth in $(s,\nu)$. For sequences
+$E^k_\rho\to E_\rho$ in $L^1$ with the perimeter and vector-perimeter
+convergence of Lemma~\ref{lem:mf-approx}(c)--(e), and writing
+$V^k_\rho=-t_k'(\rho)/|\nabla u_k|$,
+\begin{equation}\label{eq:mf-reshetnyak}
+   \liminf_{k\to\infty}\int_{\partial^*E^k_\rho}
+      \Phi(x,V^k_\rho,\nu^k_\rho)\,d\mathcal H^{n-1}
+   \ge\int_{\partial^*E_\rho}\Phi(x,\Vrho,\nurho)\,d\mathcal H^{n-1}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+This is Reshetnyak lower semicontinuity for convex linear-growth integrands
+with continuous $x$-dependence, applied to the BV functions $\mathbf 1_{E^k_
+\rho}\to\mathbf 1_{E_\rho}$ on the bounded ball $B_R$: see
+\cite[Thm.~2.38]{AFP2000} (continuous-coefficient case) and
+\cite[Thm.~2.39]{AFP2000} (weak strict BV convergence). The fact that
+$V^k_\rho\,\mathcal H^{n-1}\restriction\partial^*E^k_\rho$ converges
+weakly to $\Vrho\,\mathcal H^{n-1}\restriction\partial^*E_\rho$ follows
+from Lemma~\ref{lem:mf-approx}(d)--(e): the $L^1$ mass converges, and the
+support of the limit lies on $\partial^*E_\rho$ by Lemma~\ref{lem:mf-approx}(d).
+\end{proof}
+
+\begin{lemma}[AGS l.s.c.\ of the metric derivative;
+\protect{\cite[Thm.~1.1.2]{AGS2008}}]\label{lem:mf-AGS}
+Let $\gamma_k:[\rstar,1]\to\X$ be absolutely continuous curves with
+$\gamma_k(\rho)\to\gamma(\rho)$ in $\X$ for every $\rho\in[\rstar,1]$,
+and suppose $|\dot\gamma_k|_\X(\rho)\le m_k(\rho)$ a.e.\ with $m_k\to m$
+weakly in $L^1([\rstar,1])$. Then $\gamma$ is absolutely continuous and
+$|\dot\gamma|_\X(\rho)\le m(\rho)$ for a.e.~$\rho$.
+\end{lemma}
+
+\begin{proof}[Proof of Theorem~\ref{thm:mf-T}]
+Let $u_k$ be the recovery sequence of Lemma~\ref{lem:mf-approx}, and define
+$F^k_\rho:=\rho^{-1}E^k_\rho$, $[F^k_\rho]\in\X$. By Lemma~\ref{lem:mf-approx}(b),
+$[F^k_\rho]\to[F_\rho]$ in $\X$ for a.e.~$\rho$. For each $k$, the smooth
+foliation $\rho\mapsto E^k_\rho$ has $|\nabla u_k|>0$ on the relevant strip
+(after possibly excluding a null set of $\rho$, by smoothness of $u_k$ and
+Sard's theorem). Applying Proposition~\ref{prop:mf-T-smooth} to
+$\{E^k_\rho\}$,
+\begin{equation}\label{eq:mf-Tk}
+   |\dot F^k_\rho|_\X\le m_k(\rho):=
+   \rstar^{-n}\inf_{a\in\R^n}\int_{\partial^*E^k_\rho}
+      \bigl|V^k_\rho-H_{z_\rho,\rho}-a\cdot\nu^k_\rho\bigr|
+      \,d\mathcal H^{n-1}.
+\end{equation}
+By the level-set deficit identity (Sec.~\ref{sec:level-set-identity},
+item~E1.4) applied to $u_k$, $m_k$ is uniformly bounded in $L^1([\rstar,1])$
+by a constant depending only on $n,R,\rstar$ and the BV-coarea norm of $u_k$,
+hence by $\|u_k\|_{W^{1,2}}$. By Dunford--Pettis, after extracting a
+subsequence, $m_k\rightharpoonup m$ weakly in $L^1$. By
+Lemma~\ref{lem:mf-reshetnyak} applied to the optimal $a$ in the infimum
+(measurable selection \cite[Thm.~8.2.11]{AubinFrankowska1990}, item~A7),
+\begin{equation}\label{eq:mf-mlim}
+   m(\rho)\ge\rstar^{-n}\inf_{a\in\R^n}\int_{\partial^*E_\rho}
+      \bigl|\Vrho-H_{z_\rho,\rho}-a\cdot\nurho\bigr|\,d\mathcal H^{n-1}
+   \qquad\text{a.e.~}\rho.
+\end{equation}
+By Lemma~\ref{lem:mf-AGS}, $\rho\mapsto[F_\rho]$ is absolutely continuous
+(consistent with Theorem~\ref{thm:mf-AC}) and
+\begin{equation}
+   |\dot F_\rho|_\X\le m(\rho)
+   \le\rstar^{-n}\inf_{a\in\R^n}\int_{\partial^*E_\rho}
+      \bigl|\Vrho-H_{z_\rho,\rho}-a\cdot\nurho\bigr|\,d\mathcal H^{n-1}.
+\end{equation}
+This is~\eqref{eq:mf-T} with $C(n,\rstar)=\rstar^{-n}$.
+\end{proof}
+
+\subsubsection{Per-$\rho$ squared form (conditional) and the integrated route
+actually used}
+\label{sec:metric-T-summary}
+
+Combining Theorem~\ref{thm:mf-T} with the
+$D_H$- and $D_I$-controls of Sec.~\ref{sec:gmt-velocity}
+(items~A1--A8, B6, C2--C4) gives an estimate of the form
+\begin{equation}\label{eq:mf-cond-71}
+   |\dot F_\rho|_\X^2\le C(n,R,\rstar)\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr),
+\end{equation}
+\emph{conditional} on a per-$\rho$ radial trace bound on the homothetic
+velocity defect (the bound recorded in Sec.~\ref{sec:gmt-velocity}, eq.~(2.4)).
+Per the no-graph hypothesis of this manuscript, the per-$\rho$ radial trace
+is established only in its integrated good/bad form by Agents~11--12;
+\eqref{eq:mf-cond-71} is therefore \emph{not} used pointwise in the
+downstream chain. The downstream argument uses only the integrated form
+\begin{equation}\label{eq:mf-int-cond}
+   \int_{\rstar}^{1}|\dot F_\rho|_\X^2\,\mu(d\rho)
+   \le C(n,R,\rstar)\,\deltaT(\Om),
+\end{equation}
+which is proved in Sec.~\ref{sec:metric-trace} (Agent~12) by combining
+Theorem~\ref{thm:mf-T}, the Fusco--Julin centre selection of
+Sec.~\ref{sec:fj-radial} (Agent~11), and the level-set deficit identity of
+Sec.~\ref{sec:level-set-identity} (Agent~9).
+
+\begin{theorem}[Final form of \textsc{MetricFramework}]\label{thm:mf-main}
+Let $n\ge 2$, $0<\rstar<1$, and $R\ge 2$. Let $\Om\subset\R^n$ be open and
+bounded with $|\Om|=\omega_n$ and $\Om\subset B_R$. Let $u$ be the
+variational torsion potential, let $\{E_\rho\}_{\rho\in[\rstar,1]}$ be the
+volume-radius foliation~\eqref{eq:mf-rho}, and set $F_\rho:=\rho^{-1}E_\rho$.
+Then:
+\begin{enumerate}
+\item[(i)] $(\X,\dX)$ is a complete metric space, separable and
+sequentially compact on classes of sets in a fixed ball
+(Proposition~\ref{prop:mf-Polish}).
+\item[(ii)] The curve $\rho\mapsto[F_\rho]\in\X$ is absolutely continuous on
+$[\rstar,1]$, with metric-derivative bound~\eqref{eq:mf-m-def}
+(Theorem~\ref{thm:mf-AC}).
+\item[(iii)] The normal velocity $\Vrho=-t'(\rho)/|\nabla u|$ is
+$\mathcal H^{n-1}$-a.e.\ finite and strictly positive on $\partial^*E_\rho$
+for a.e.~$\rho$ (Proposition~\ref{prop:mf-sard}).
+\item[(iv)] For any Borel-measurable centre field $\rho\mapsto z_\rho$ with
+$\sup_\rho|z_\rho|\le R'<\infty$,
+\begin{equation}\label{eq:mf-final}
+   |\dot F_\rho|_\X\le\rstar^{-n}\inf_{a\in\R^n}
+   \int_{\partial^*E_\rho}
+      \bigl|\Vrho-H_{z_\rho,\rho}-a\cdot\nurho\bigr|
+      \,d\mathcal H^{n-1}
+\end{equation}
+for a.e.~$\rho\in[\rstar,1]$ (Theorem~\ref{thm:mf-T}).
+\end{enumerate}
+\end{theorem}
+
+The constants in the section are:
+$C_{\rm AC}(n,R,\rstar)$ in~\eqref{eq:mf-m-def}, with explicit
+dependence $C_{\rm AC}=\rstar^{-n}n\omega_n+n\rstar^{-n-1}R/\rstar$;
+$C(n,\rstar)=\rstar^{-n}$ in~(T)~\eqref{eq:mf-T}. The cited downstream
+constant $C(n,R,\rstar)$ in~\eqref{eq:mf-int-cond} is the product
+$\rstar^{-2n}\cdot C_{\rm DH+DI}$ where $C_{\rm DH+DI}=C_{\rm DH+DI}(n,R,
+\rstar)$ is the constant of Sec.~\ref{sec:gmt-velocity}.
+
+\medskip\noindent
+\emph{Source map for this subsection.} Definitions and metric facts:
+[WIP-MF] \S2 and Proposition~\ref{prop:mf-Polish} (proved here);
+absolute continuity Theorem~\ref{thm:mf-AC}: proved here, using
+Lemma~\ref{lem:mf-attain} ([WIP-MF] Lem.~2.2) and the coarea flux
+\cite[Thm.~13.1]{Maggi2012} (item~A2). Sobolev--Sard for
+$\Vrho$ (Proposition~\ref{prop:mf-sard}): cited from
+\cite[App.~A, Thm.~A.1]{FigalliMaggi2011} (item~A3, source map E3.6).
+Smooth-flow first variation (Lemma~\ref{lem:mf-FV-smooth},
+Proposition~\ref{prop:mf-T-smooth}): cited from
+\cite[\S~17.3]{Maggi2012} and \cite[Thm.~3.85]{AFP2000}; identical to
+[A3] \S3. Translation derivative (Lemma~\ref{lem:mf-trans-deriv}):
+\cite[Thm.~13.8]{Maggi2012}, \cite[Thm.~3.84]{AFP2000} (item~E2.7).
+BV/coarea recovery (Lemma~\ref{lem:mf-approx}): standard mollification
+recovery; precise inputs cited from \cite[Thm.~13.1, Prop.~12.15,
+Cor.~12.21]{Maggi2012} and \cite[Thm.~3.40]{AFP2000} (items~A2, A6).
+Reshetnyak l.s.c.\ (Lemma~\ref{lem:mf-reshetnyak}):
+\cite[Thm.~2.38--2.39]{AFP2000} (item~A8). AGS l.s.c.\
+(Lemma~\ref{lem:mf-AGS}): \cite[Thm.~1.1.2]{AGS2008} (item~F15).
+Measurable selection for the optimal~$a$:
+\cite[Thm.~8.2.11]{AubinFrankowska1990} (item~A7).
+Theorem~\ref{thm:mf-T} (E2.6): proved here.

@@ -1,0 +1,978 @@
+% UNIFIED 2026-05-13
+% SOURCE MAP for Manuscript/plan2_levelset_identity.tex
+% ==========================================================================
+% Agent 9 deliverable: first subsection of 03_plan2_draft.tex.
+%
+% Each numbered item below corresponds to a labelled result inside this file
+% (see \label{} keys). Status keys:
+%   PROVED      : proved in this subsection (full proof written here).
+%   ADAPTED     : adapted from a named local building block.
+%   CITED       : cited from the literature, with exact theorem number.
+%   IMPORT      : imported from preliminaries (Agents 2-4) without reproof.
+%
+% Items
+% -----
+% [E1.0]  Notation, standing hypotheses, Talenti L^infty bound.
+%           Source: WIP_LevelSetIdentity.tex (Notation+Standing);
+%                   00_notation_register.md sections 1-9.
+%           Status: ADAPTED (notation register); CITED(Talenti1976).
+% [E1.1]  Lemma lem:coarea: -m'(t) = alpha(t).
+%           Source: WIP_LevelSetIdentity.tex Lem 2.1; agent1-finite-perimeter-identity.md Lem 1.
+%           Status: PROVED. Cited inputs: AFP2000 Thm 3.40, Maggi2012 Thm 13.1.
+% [E1.2]  Lemma lem:flux: beta(t) = m(t)  (weak divergence-flux identity).
+%           Source: WIP_LevelSetIdentity.tex Lem 3.1; agent1-finite-perimeter-identity.md Lem 2.
+%           Status: PROVED. Cited inputs: AFP2000 Thm 3.99, Maggi2012 Thm 13.1,
+%                   Maggi2012 Ch.17 (rigorous divergence on finite-perimeter sets).
+% [E1.3]  Lemma lem:Iab: layer-cake form of I, AC of I, I' = u^*.
+%           Source: WIP_LevelSetIdentity.tex Lem 4.1-4.2; agent1 Lem 3a-3b.
+%           Status: PROVED. Cited inputs: Kawohl1985 Sec 2; Talenti1976.
+% [E1.4]  Lemma lem:Ipp (corrected I''): I''(s) = -1/alpha(t(s)).
+%           Source: WIP_LevelSetIdentity.tex Lem 4.3 (corrected form); agent1 Lem 3c.
+%           Status: PROVED. Cited inputs: AFP2000 Thm 3.99 (BV chain rule);
+%                   BBC1975 (inverse-function theorem for monotone AC).
+% [E1.5]  Lemma lem:Gpp: pointwise convexity formula G''(s) = 1/(c_n s^{1-2/n}) - 1/alpha(t).
+%           Status: PROVED (direct).
+% [E1.6]  Definition def:DHDI: D_H(t), D_I(t); nonnegativity (Cauchy-Schwarz, De Giorgi).
+%           Status: PROVED. Cited inputs: DeGiorgi1958, Maggi2012 Thm 14.1.
+% [E1.7]  Lemma lem:cov: pointwise-to-integrated convexity identity.
+%           Status: PROVED.
+% [E1.8]  Lemma lem:Gamma: Gamma(Omega) = (1/L) int s G''(s) ds.
+%           Status: PROVED (integration by parts).
+% [E1.9]  Lemma lem:endpoint: Gamma(Omega) = (2/|Omega|)(E(Omega) - E(B^*)).
+%           Status: PROVED. Cited inputs: PolyaSzego1951, Bandle1980 II.5.
+% [E1.10] Theorem thm:deficit (EXACT DEFICIT IDENTITY).
+%           Source: WIP_LevelSetIdentity.tex Thm 5.1 (main theorem).
+%           Status: PROVED. Notation register Section 8.
+% [E1.11] Corollary cor:variance: weighted variance form of D_H.
+%           Source: WIP_LevelSetIdentity.tex Sec 6 Rem; level-set-deficit-identity.md Sec 6.
+%           Status: PROVED.
+% [E1.12] Lemma lem:profile-gap: profile gap b - v <= 2 delta_T / s.
+%           Source: level-set-deficit-identity.md Sec 4 (and Lem 8.1).
+%           Status: PROVED.
+% [E1.13] Lemma lem:slab-good: existence of a good isoperimetric-defect level
+%           in a slab (Lemma 8.2 of source note).
+%           Status: PROVED.
+% [E1.14] Lemma lem:superlevel-transfer: Lemma 8.3 (superlevel asymmetry transfer).
+%           Source: level-set-deficit-identity.md Lem 8.3.
+%           Status: PROVED.
+%
+% Hypothesis tracking
+% -------------------
+% Standing class of Theorem thm:deficit: Omega subset R^n open, |Omega| < infty.
+% No boundedness, smoothness, or connectedness of Omega is required.
+% All boundary integrals are on De Giorgi reduced boundaries.
+%
+% Constants
+% ---------
+% All constants are explicit and depend only on the dimension n. The constant
+% c_n := n^2 omega_n^{2/n} appears throughout. No constants of the form
+% C(n,R,rho_*) appear in this subsection: bounded-class constants enter only in
+% the downstream Plan 2 blocks (MetricFramework onward), which consume this
+% subsection.
+%
+% Notation register compliance
+% ----------------------------
+% Dimension n (not N). B^* = ball of volume |Omega|, centred at origin.
+% R_Omega := (|Omega|/omega_n)^{1/n} is used in place of the symbol R for the
+% volume radius (notation register Section 2, R/R_Omega conflict resolution).
+% alpha(t), beta(t), D_H, D_I match notation register Section 8 exactly.
+% ==========================================================================
+
+\subsection{Exact level-set deficit identity}
+\label{subsec:plan2-levelset-identity}
+
+This subsection contains the analytic foundation of Plan~2. We prove an
+exact representation of the (normalised) Saint--Venant deficit
+$\delta_{T}(\Omega)$ as a weighted integral, over the levels of the
+torsion function, of two nonnegative pointwise defects: a
+Cauchy--Schwarz defect $D_{H}(t)$ of $|\nabla u|$ on the reduced
+boundary $\partial^{*}E_{t}$, and a squared-perimeter isoperimetric
+defect $D_{I}(t)$ of the superlevel set $E_{t}$. The identity is
+valid, in full finite-perimeter generality, for any open
+$\Omega\subset\R^{n}$ with $0<|\Omega|<\infty$; no smoothness,
+boundedness, or connectedness of $\Omega$ is assumed.
+
+The result is the analytic input of every downstream block in
+\S\ref{sec:plan2-metric}--\S\ref{sec:plan2-assembly}. Two further
+consequences proved here (the profile-gap estimate and the
+superlevel-transfer estimate) are used in
+\S\ref{sec:plan2-weighted-trace} (good levels in a near-boundary slab)
+and in \S\ref{sec:plan2-boundary-layer} (transfer of the Fraenkel
+asymmetry from a superlevel set back to $\Omega$).
+
+\subsubsection*{Standing hypotheses and notation}
+\label{sssec:lsi-notation}
+
+Throughout the subsection, $n\ge 2$ and $\Omega\subset\R^{n}$ is an open
+set with $0<|\Omega|<\infty$. We use the canonical notation register
+of \S\ref{sec:notation} without further comment, and recall only the
+items that enter the present argument:
+
+\begin{itemize}
+\item $u=u_{\Omega}\in H^{1}_{0}(\Omega)$ is the variational torsion
+function, i.e.\ the unique minimiser of
+$J(v):=\tfrac12\int_{\Omega}|\nabla v|^{2}-\int_{\Omega}v$ on
+$H^{1}_{0}(\Omega)$, equivalently the weak solution of
+$-\Delta u=1$ in $\Omega$ with zero $H^{1}_{0}$-trace; testing $-\Delta
+u=1$ against $u^{-}\in H^{1}_{0}(\Omega)$ gives $u\ge 0$ a.e.
+
+\item $E(\Omega):=-\tfrac12\int_{\Omega}u\,dx=-\tfrac12 T(\Omega)$ is the
+BDV-normalised Saint--Venant energy (notation register \S 3), and
+$B^{*}\subset\R^{n}$ is the open ball with $|B^{*}|=|\Omega|$, centred at
+the origin, of (volume) radius
+\[
+   R_{\Omega}:=\Bigl(\frac{|\Omega|}{\omega_{n}}\Bigr)^{1/n}.
+\]
+(We write $R_{\Omega}$ rather than $R$ to avoid the conflict with the
+confining radius of \S\ref{sec:notation}.)
+
+\item For $t\ge 0$, $E_{t}:=\{u>t\}$ (precise representative
+\cite[\S 15]{Maggi2012}), $m(t):=|E_{t}|$ is right-continuous and
+nonincreasing, with $m(0^{+})\le|\Omega|$ and $m(\|u\|_{\infty})=0$. The
+decreasing rearrangement is $u^{*}(s):=\inf\{t\ge 0:m(t)\le s\}$ for
+$s\in[0,|\Omega|]$.
+
+\item $\partial^{*}E_{t}$ is the De Giorgi reduced boundary
+\cite{DeGiorgi1958}, and $\nu_{E_{t}}$ is the measure-theoretic outer
+unit normal. We set
+\begin{equation}\label{eq:lsi-alpha-beta}
+   \alpha(t):=\int_{\partial^{*}E_{t}}\frac{1}{|\nabla u|}\,d\mathcal H^{n-1},
+   \qquad
+   \beta(t):=\int_{\partial^{*}E_{t}}|\nabla u|\,d\mathcal H^{n-1},
+\end{equation}
+defined for a.e.\ $t$ (justified by Lemma~\ref{lem:coarea}--\ref{lem:flux}
+below), and
+\[
+   c_{n}:=n^{2}\omega_{n}^{2/n}.
+\]
+\end{itemize}
+
+\paragraph{Talenti $L^{\infty}$ bound.} By Talenti's pointwise
+rearrangement comparison \cite[Theorem 1]{Talenti1976}
+(see also \cite[Theorem 1.3.2]{Kesavan2006}),
+\begin{equation}\label{eq:lsi-talenti}
+   u^{*}_{\Omega}(s)\le u^{*}_{B^{*}}(s)
+   =\frac{R_{\Omega}^{2}-(s/\omega_{n})^{2/n}}{2n},
+   \qquad s\in[0,|\Omega|],
+\end{equation}
+so
+\begin{equation}\label{eq:lsi-Linfty}
+   \|u\|_{L^{\infty}(\Omega)}\le \frac{R_{\Omega}^{2}}{2n}<\infty.
+\end{equation}
+This is the sole reason boundedness of $\Omega$ is unnecessary at the
+analytic level. Combined with $u\in H^{1}_{0}(\Omega)$ extended by zero,
+\eqref{eq:lsi-Linfty} gives $u\in BV_{\rm loc}(\R^{n})\cap L^{\infty}$;
+the BV coarea formula \cite[Theorem 3.40]{AFP2000},
+\cite[Theorem 13.1]{Maggi2012} then applies, and for every Borel
+$\varphi\ge 0$,
+\begin{equation}\label{eq:lsi-coarea}
+   \int_{\Omega}|\nabla u|\,\varphi\,dx
+   =\int_{-\infty}^{\infty}\Bigl(\int_{\partial^{*}E_{t}}\varphi\,d\mathcal
+   H^{n-1}\Bigr)\,dt.
+\end{equation}
+The set
+\[
+   \mathcal R:=\{t\in(0,\|u\|_{\infty}):
+   P(E_{t})<\infty\hbox{ and }\partial^{*}E_{t}\subset\Omega\}
+\]
+has full Lebesgue measure in $(0,\|u\|_{\infty})$, and all statements
+``for a.e.\ $t$'' below mean for a.e.\ $t\in\mathcal R$. The countable set
+of plateau levels $\{t:|\{u=t\}|>0\}$ is, in particular, Lebesgue-null and
+is automatically discarded by the $dt$-integral.
+
+\subsubsection{Step 1: coarea identity for $-m'(t)$}
+\label{sssec:lsi-coarea}
+
+\begin{lemma}[Coarea form of $-m'$]\label{lem:coarea}
+For a.e.\ $t\in(0,\|u\|_{\infty})$,
+\begin{equation}\label{eq:lsi-L1}
+   -m'(t)=\alpha(t)
+         =\int_{\partial^{*}E_{t}}\frac{1}{|\nabla u|}\,d\mathcal H^{n-1}.
+\end{equation}
+In particular $m$ is absolutely continuous on $[\eps,\|u\|_{\infty}]$ for
+every $\eps>0$, and $\alpha\in L^{1}_{\rm loc}((0,\|u\|_{\infty}))$.
+\end{lemma}
+
+\begin{proof}
+Fix $0<\alpha_{0}<\beta_{0}<\|u\|_{\infty}$ and apply
+\eqref{eq:lsi-coarea} to the Borel function
+$\varphi(x)=|\nabla u(x)|^{-1}\mathbf 1_{\{|\nabla u|>0\}}(x)
+\mathbf 1_{[\alpha_{0},\beta_{0}]}(u(x))$. The product
+$|\nabla u|\,\varphi$ equals $\mathbf 1_{\{\alpha_{0}<u<\beta_{0}\}\cap\{|\nabla
+u|>0\}}$ almost everywhere; the contribution of $\{|\nabla u|=0\}$ to
+the BV coarea slicing vanishes by \cite[3.40(b)]{AFP2000}, so
+\begin{equation}\label{eq:lsi-coarea-app}
+   |E_{\alpha_{0}}\setminus E_{\beta_{0}}|
+   =\int_{\Omega}\mathbf 1_{\{\alpha_{0}<u<\beta_{0}\}}\,dx
+   =\int_{\alpha_{0}}^{\beta_{0}}\!\!\Bigl(\int_{\partial^{*}E_{t}}
+     \frac{1}{|\nabla u|}\,d\mathcal H^{n-1}\Bigr)\,dt
+   =\int_{\alpha_{0}}^{\beta_{0}}\alpha(t)\,dt.
+\end{equation}
+Outside the at most countable set of plateau levels,
+$|E_{\alpha_{0}}\setminus E_{\beta_{0}}|=m(\alpha_{0})-m(\beta_{0})$, so
+$m(\alpha_{0})-m(\beta_{0})=\int_{\alpha_{0}}^{\beta_{0}}\alpha(t)\,dt$.
+Differentiating in $\beta_{0}$ at Lebesgue points of $\alpha$ yields
+\eqref{eq:lsi-L1}. Local integrability of $\alpha$ on $(0,\|u\|_{\infty})$
+follows because \eqref{eq:lsi-coarea-app} bounds
+$\int_{\alpha_{0}}^{\beta_{0}}\alpha(t)\,dt\le |\Omega|<\infty$, and
+absolute continuity of $m$ on $[\eps,\|u\|_{\infty}]$ follows directly
+from \eqref{eq:lsi-coarea-app}.
+\end{proof}
+
+\begin{remark}\label{rem:plateaus}
+The countable set of plateau levels $\{t:|\{u=t\}|>0\}$ contributes
+jumps to $m$ that are absorbed by the $dt$-integral in
+Theorem~\ref{thm:deficit} below. Equation~\eqref{eq:lsi-L1} is not
+asserted on these levels.
+\end{remark}
+
+\subsubsection{Step 2: weak divergence/flux identity}
+\label{sssec:lsi-flux}
+
+The next lemma is the rigorous BV/Lipschitz-truncation replacement for
+the formal divergence identity
+$\int_{\partial^{*}E_{t}}\nabla u\cdot\nu_{E_{t}}\,d\mathcal H^{n-1}
+=\int_{E_{t}}\Delta u\,dx$ on the finite-perimeter superlevel $E_{t}$.
+The point is that the trace of $\nabla u$ on the reduced boundary
+$\partial^{*}E_{t}$ does not exist in general; the Lipschitz truncation
+of $u-t$ avoids invoking that trace.
+
+\begin{lemma}[Flux equals volume]\label{lem:flux}
+For a.e.\ $t\in(0,\|u\|_{\infty})$, $E_{t}$ has finite perimeter and
+\begin{equation}\label{eq:lsi-L2}
+   \beta(t)
+   =\int_{\partial^{*}E_{t}}|\nabla u|\,d\mathcal H^{n-1}
+   =m(t).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Fix $t\in\mathcal R$ with $|E_{t}|<\infty$, $P(E_{t})<\infty$, and $u$
+not having a plateau at $t$; this holds for a.e.\ $t$.
+
+\smallskip\noindent
+\emph{Step 1 (Lipschitz truncation).}
+For each $\eps>0$ define
+$\phi_{\eps}\colon\R\to[0,1]$ by
+$\phi_{\eps}(s):=\min(1,\max(0,s/\eps))$ and set
+$\eta_{\eps}(x):=\phi_{\eps}(u(x)-t)$. Since $\phi_{\eps}$ is Lipschitz
+with $\phi_{\eps}(0)=0$ and $u\in H^{1}_{0}(\Omega)$, the chain rule for
+Sobolev compositions \cite[Theorem 3.99]{AFP2000} yields
+$\eta_{\eps}\in H^{1}_{0}(\Omega)$ with
+\begin{equation}\label{eq:lsi-eta-grad}
+   \nabla\eta_{\eps}(x)
+   =\eps^{-1}\nabla u(x)\,\mathbf 1_{\{t<u<t+\eps\}}(x).
+\end{equation}
+Test the weak equation $-\Delta u=1$ on $H^{1}_{0}(\Omega)$ against
+$\eta_{\eps}$:
+\begin{equation}\label{eq:lsi-weakform}
+   \int_{\Omega}\nabla u\cdot\nabla\eta_{\eps}\,dx
+   =\int_{\Omega}\eta_{\eps}\,dx.
+\end{equation}
+By \eqref{eq:lsi-eta-grad}, the left-hand side of \eqref{eq:lsi-weakform}
+equals
+\begin{equation}\label{eq:lsi-LHS}
+   \int_{\Omega}\nabla u\cdot\nabla\eta_{\eps}\,dx
+   =\frac{1}{\eps}\int_{\{t<u<t+\eps\}}|\nabla u|^{2}\,dx.
+\end{equation}
+
+\smallskip\noindent
+\emph{Step 2 (Coarea applied to the LHS).}
+Applying \eqref{eq:lsi-coarea} with
+$\varphi(x)=|\nabla u(x)|\,\mathbf 1_{(t,t+\eps)}(u(x))$,
+\begin{equation}\label{eq:lsi-RHS-coarea}
+   \int_{\{t<u<t+\eps\}}|\nabla u|^{2}\,dx
+   =\int_{t}^{t+\eps}\Bigl(\int_{\partial^{*}E_{\tau}}
+     |\nabla u|\,d\mathcal H^{n-1}\Bigr)\,d\tau
+   =\int_{t}^{t+\eps}\beta(\tau)\,d\tau.
+\end{equation}
+
+\smallskip\noindent
+\emph{Step 3 (Limit of the right-hand side of \eqref{eq:lsi-weakform}).}
+Since $t$ is not a plateau level, $|\{u=t\}|=0$, so
+$\eta_{\eps}\to\mathbf 1_{E_{t}}$ pointwise a.e.\ as $\eps\downarrow 0$.
+Because $0\le\eta_{\eps}\le \mathbf 1_{\{u>t\}}\le \mathbf 1_{E_{t}}+\mathbf
+1_{\{u=t\}}$ and $|E_{t}|<\infty$, the dominated convergence theorem
+gives
+\[
+   \int_{\Omega}\eta_{\eps}\,dx
+   \xrightarrow[\eps\downarrow 0]{}|E_{t}|=m(t).
+\]
+
+\smallskip\noindent
+\emph{Step 4 (Limit of \eqref{eq:lsi-RHS-coarea}).}
+The function $\tau\mapsto\beta(\tau)$ is locally integrable on
+$(0,\|u\|_{\infty})$: by \eqref{eq:lsi-coarea} with
+$\varphi(x)=|\nabla u(x)|\mathbf 1_{(0,\|u\|_{\infty})}(u(x))$, and using
+the Dirichlet identity
+$\int_{\Omega}|\nabla u|^{2}\,dx=\int_{\Omega}u\,dx<\infty$ (test
+$-\Delta u=1$ against $u\in H^{1}_{0}(\Omega)$),
+\[
+   \int_{0}^{\|u\|_{\infty}}\beta(\tau)\,d\tau
+   =\int_{\Omega}|\nabla u|^{2}\,dx
+   =\int_{\Omega}u\,dx<\infty.
+\]
+Therefore, at every Lebesgue point of $\beta$ (i.e.\ for a.e.\ $t$),
+\[
+   \frac{1}{\eps}\int_{t}^{t+\eps}\beta(\tau)\,d\tau
+   \xrightarrow[\eps\downarrow 0]{}\beta(t).
+\]
+
+\smallskip\noindent
+\emph{Step 5 (Conclusion).}
+Combining \eqref{eq:lsi-weakform}--\eqref{eq:lsi-RHS-coarea} with Steps 3
+and 4 gives $\beta(t)=m(t)$ for a.e.\ $t\in\mathcal R$.
+\end{proof}
+
+\begin{remark}[Formal divergence-theorem reading]\label{rem:divergence}
+If one had a one-sided trace of $\nabla u$ on $\partial^{*}E_{t}$ (i.e.\
+classical smoothness near the level surface), the relation
+$\nabla u\cdot\nu_{E_{t}}=-|\nabla u|$ on $\partial^{*}E_{t}$ would
+follow from $u>t$ inside $E_{t}$, and Lemma~\ref{lem:flux} would reduce
+to the standard divergence theorem
+\cite[Theorem 16.3]{Maggi2012} applied to $\nabla u$:
+\[
+   m(t)=\int_{E_{t}}1\,dx=-\int_{E_{t}}\Delta u\,dx
+   =-\int_{\partial^{*}E_{t}}\nabla u\cdot\nu_{E_{t}}\,d\mathcal H^{n-1}
+   =\beta(t).
+\]
+The Lipschitz-truncation step above is the rigorous replacement when no
+such trace is available; see \cite[Chapter 17]{Maggi2012} for the
+general theory of fluxes on finite-perimeter sets without traces.
+\end{remark}
+
+\subsubsection{Step 3: distributional derivatives of the rearranged
+primitive}
+\label{sssec:lsi-Iprime}
+
+Define
+\begin{equation}\label{eq:lsi-Idef}
+   I(s):=\int_{\{u>u^{*}(s)\}}u\,dx,\qquad s\in[0,|\Omega|].
+\end{equation}
+
+\begin{lemma}[Layer-cake form of $I$ and first derivative]\label{lem:Iab}
+For every $s\in[0,|\Omega|]$,
+\begin{equation}\label{eq:lsi-Ilayer}
+   I(s)=\int_{0}^{s}u^{*}(\sigma)\,d\sigma,
+\end{equation}
+$I$ is absolutely continuous on $[0,|\Omega|]$, and $I'(s)=u^{*}(s)$ for
+a.e.\ $s\in(0,|\Omega|)$.
+\end{lemma}
+
+\begin{proof}
+By the equimeasurability of $u$ and $u^{*}$ on $(0,|\Omega|)$
+\cite[\S 2]{KawohlBook}, \cite{Talenti1976}, one has
+$\int_{\Omega}g(u)\,dx=\int_{0}^{|\Omega|}g(u^{*}(\sigma))\,d\sigma$ for
+every Borel $g\ge 0$. Choose $g(t):=t\,\mathbf 1_{\{t>u^{*}(s)\}}$. By
+the definition of $u^{*}$, the set $\{\sigma\in(0,|\Omega|):
+u^{*}(\sigma)>u^{*}(s)\}$ equals $(0,s)$ up to Lebesgue-null sets, so
+\[
+   I(s)=\int_{\Omega}g(u)\,dx
+       =\int_{0}^{|\Omega|}g(u^{*}(\sigma))\,d\sigma
+       =\int_{0}^{s}u^{*}(\sigma)\,d\sigma,
+\]
+which is \eqref{eq:lsi-Ilayer}. By \eqref{eq:lsi-talenti}, $u^{*}\in
+L^{\infty}(0,|\Omega|)\subset L^{1}(0,|\Omega|)$, so \eqref{eq:lsi-Ilayer}
+expresses $I$ as the indefinite integral of a bounded Borel function;
+the Lebesgue differentiation theorem then gives the absolute continuity
+of $I$ on $[0,|\Omega|]$ and $I'(s)=u^{*}(s)$ a.e.
+\end{proof}
+
+The next lemma is the {\it corrected} form of the second derivative of
+$I$. A naive derivation gives
+$I''(s)=-1/a(u^{*}(s))$ with $a(t)=\int_{\partial^{*}E_{t}}|\nabla u|$,
+i.e.\ with the {\it flux} $\beta(t)$ in place of the {\it coarea}
+$\alpha(t)$. By Lemma~\ref{lem:flux}, $\beta(t)=m(t)$, so that
+expression would give $I''(s)=-1/m(u^{*}(s))=-1/s$, which is correct
+only when $|\nabla u|$ is $\mathcal H^{n-1}$-a.e.\ constant on
+$\partial^{*}E_{t}$ (i.e.\ on the ball). The general identity uses
+$\alpha$, and the difference $\alpha\beta-P(E_{t})^{2}$ between the two
+is precisely the Cauchy--Schwarz defect $D_{H}$ of \S\ref{sssec:lsi-DHDI}
+below.
+
+\begin{lemma}[Corrected second derivative of $I$]\label{lem:Ipp}
+The rearrangement $u^{*}$ is absolutely continuous on $[s_{0},|\Omega|]$
+for every $0<s_{0}<|\Omega|$, and
+\begin{equation}\label{eq:lsi-Ipp}
+   I''(s)=(u^{*})'(s)
+        =\frac{1}{m'(u^{*}(s))}
+        =-\frac{1}{\alpha(u^{*}(s))}
+   \qquad\text{for a.e.\ }s\in(0,|\Omega|),
+\end{equation}
+where $I''$ denotes the absolutely continuous representative of the
+distributional derivative of $I'=u^{*}$ on $[s_{0},|\Omega|]$.
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:coarea}, $m$ is absolutely continuous on
+$[\eps,\|u\|_{\infty}]$ for every $\eps>0$, with $m'(t)=-\alpha(t)\le 0$
+a.e. The set of plateau values $\{t:|\{u=t\}|>0\}$ is at most countable
+(monotonicity of $m$); outside it, $m$ is strictly decreasing on its
+domain of strict monotonicity. Consequently the right-continuous
+generalised inverse $u^{*}$ of $m$ is also strictly decreasing and
+absolutely continuous on $[s_{0},|\Omega|]$ for every $s_{0}\in
+(0,|\Omega|)$. Furthermore, $\alpha(t)>0$ for a.e.\ $t$ (otherwise $m$
+would not be strictly decreasing), so $1/\alpha(t)$ is well-defined
+a.e. Applying the inverse-function theorem for monotone absolutely
+continuous functions \cite[Theorem 3.99]{AFP2000},
+\cite[Lemma 1.4]{BBC1975} to $m(u^{*}(s))=s$ yields
+\[
+   (u^{*})'(s)=\frac{1}{m'(u^{*}(s))}=-\frac{1}{\alpha(u^{*}(s))}
+\]
+for a.e.\ $s$. Since $I'(s)=u^{*}(s)$ a.e.\ by Lemma~\ref{lem:Iab}, the
+distributional derivative of $I'$ on $[s_{0},|\Omega|]$ coincides with
+the classical a.e.\ derivative of $u^{*}$, giving \eqref{eq:lsi-Ipp}.
+\end{proof}
+
+\paragraph{Cauchy--Schwarz on the reduced boundary.}
+Applying the Cauchy--Schwarz inequality on $\partial^{*}E_{t}$ to the
+pair of functions $(|\nabla u|^{1/2},|\nabla u|^{-1/2})$ gives
+\begin{equation}\label{eq:lsi-CS}
+   P(E_{t})^{2}
+   =\Bigl(\int_{\partial^{*}E_{t}}1\,d\mathcal H^{n-1}\Bigr)^{2}
+   \le\alpha(t)\,\beta(t),
+\end{equation}
+with equality if and only if $|\nabla u|$ is $\mathcal H^{n-1}$-a.e.\
+constant on $\partial^{*}E_{t}$.
+
+\subsubsection{Step 4: pointwise convexity formula}
+\label{sssec:lsi-Gpp}
+
+Following the Nicola--Tilli convexity-gap idea adapted to the torsion
+problem, introduce the auxiliary function
+\begin{equation}\label{eq:lsi-Gdef}
+   G(s):=I(s)+\frac{s^{1+2/n}}{(4+2n)\,\omega_{n}^{2/n}},
+   \qquad s\in[0,|\Omega|].
+\end{equation}
+A direct computation gives
+\[
+   \frac{d^{2}}{ds^{2}}\frac{s^{1+2/n}}{(4+2n)\omega_{n}^{2/n}}
+   =\frac{(1+2/n)(2/n)}{(4+2n)\omega_{n}^{2/n}}s^{2/n-1}
+   =\frac{1}{n^{2}\omega_{n}^{2/n}\,s^{1-2/n}}
+   =\frac{1}{c_{n}\,s^{1-2/n}}.
+\]
+
+\begin{lemma}[Pointwise convexity formula]\label{lem:Gpp}
+For a.e.\ $s\in(0,|\Omega|)$, with $t=u^{*}(s)$ (equivalently $s=m(t)$ on
+the strictly decreasing branch of $m$),
+\begin{equation}\label{eq:lsi-Gpp}
+   G''(s)=\frac{1}{c_{n}\,s^{1-2/n}}-\frac{1}{\alpha(t)}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Combine Lemma~\ref{lem:Ipp} ($I''(s)=-1/\alpha(u^{*}(s))$) with the
+explicit second derivative of the polynomial corrector
+$\frac{s^{1+2/n}}{(4+2n)\omega_{n}^{2/n}}$ computed above.
+\end{proof}
+
+\subsubsection{Step 5: the two pointwise defects}
+\label{sssec:lsi-DHDI}
+
+\begin{definition}[Cauchy--Schwarz and isoperimetric defects]\label{def:DHDI}
+For a.e.\ $t\in(0,\|u\|_{\infty})$, set
+\begin{align}
+   D_{H}(t)
+   &:=\alpha(t)\,\beta(t)-P(E_{t})^{2}
+    =\Bigl(\!\int_{\partial^{*}E_{t}}\!\!\tfrac{1}{|\nabla u|}\Bigr)
+      \Bigl(\!\int_{\partial^{*}E_{t}}\!\!|\nabla u|\Bigr)-P(E_{t})^{2},
+   \label{eq:lsi-DH}\\
+   D_{I}(t)
+   &:=P(E_{t})^{2}-c_{n}\,m(t)^{2-2/n}.
+   \label{eq:lsi-DI}
+\end{align}
+\end{definition}
+
+\begin{lemma}[Pointwise nonnegativity]\label{lem:DH-DI-pos}\label{lem:lsid:CS-defect}\label{prop:lsid:CS-defect}
+For a.e.\ $t\in(0,\|u\|_{\infty})$, $D_{H}(t)\ge 0$ with equality if and
+only if $|\nabla u|$ is $\mathcal H^{n-1}$-a.e.\ constant on
+$\partial^{*}E_{t}$; and $D_{I}(t)\ge 0$ with equality if and only if
+$E_{t}$ is (equivalent to) a ball.
+\end{lemma}
+
+\begin{proof}
+$D_{H}\ge 0$ is the Cauchy--Schwarz inequality \eqref{eq:lsi-CS}. The
+equality case is the standard equality case in Cauchy--Schwarz.
+
+$D_{I}\ge 0$ is the squared form of the De~Giorgi isoperimetric
+inequality $P(E_{t})\ge n\omega_{n}^{1/n}|E_{t}|^{1-1/n}$ valid for every
+set of finite perimeter \cite[Theorem~II]{DeGiorgi1958},
+\cite[Theorem 14.1]{Maggi2012}; equality holds iff $E_{t}$ is
+$\mathcal H^{n}$-equivalent to a ball.
+\end{proof}
+
+\subsubsection{Step 6: pointwise-to-integrated convexity identity}
+\label{sssec:lsi-cov}
+
+\begin{lemma}[Pointwise-to-integrated convexity identity]\label{lem:cov}\label{lem:lsid:DHDI-psi}
+With $L:=|\Omega|$,
+\begin{equation}\label{eq:lsi-cov}
+   \int_{0}^{L}s\,G''(s)\,ds
+   =\int_{0}^{\|u\|_{\infty}}\frac{D_{H}(t)+D_{I}(t)}{c_{n}\,m(t)^{1-2/n}}\,dt.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:Gpp},
+\begin{equation}\label{eq:lsi-cov-A}
+   \int_{0}^{L}s\,G''(s)\,ds
+   =\int_{0}^{L}s\Bigl(\frac{1}{c_{n}\,s^{1-2/n}}
+      -\frac{1}{\alpha(u^{*}(s))}\Bigr)\,ds.
+\end{equation}
+Perform the change of variable $s=m(t)$, $ds=m'(t)\,dt=-\alpha(t)\,dt$
+on the strictly decreasing branch of $m$. The countable set of plateau
+levels of $u$ is a Lebesgue-null set in $t$, and contributes nothing to
+the integral. As $s$ runs from $0$ to $L$, $t$ runs from $\|u\|_{\infty}$
+to $0$; reversing orientation,
+\begin{equation}\label{eq:lsi-cov-B}
+   \int_{0}^{L}s\,G''(s)\,ds
+   =\int_{0}^{\|u\|_{\infty}}m(t)
+     \Bigl(\frac{1}{c_{n}\,m(t)^{1-2/n}}-\frac{1}{\alpha(t)}\Bigr)
+     \alpha(t)\,dt
+   =\int_{0}^{\|u\|_{\infty}}\Bigl(
+        \frac{m(t)\,\alpha(t)}{c_{n}\,m(t)^{1-2/n}}-m(t)\Bigr)\,dt.
+\end{equation}
+By Lemma~\ref{lem:flux}, $m(t)=\beta(t)$ a.e., so
+$m(t)\alpha(t)=\alpha(t)\beta(t)$. Adding and subtracting
+$P(E_{t})^{2}/(c_{n}m(t)^{1-2/n})$ in the integrand of
+\eqref{eq:lsi-cov-B},
+\[
+   \frac{m(t)\,\alpha(t)}{c_{n}\,m(t)^{1-2/n}}-m(t)
+   =\frac{\alpha(t)\,\beta(t)-c_{n}\,m(t)^{2-2/n}}{c_{n}\,m(t)^{1-2/n}}
+   =\frac{D_{H}(t)+D_{I}(t)}{c_{n}\,m(t)^{1-2/n}}.
+\]
+Substituting back into \eqref{eq:lsi-cov-B} gives \eqref{eq:lsi-cov}.
+\end{proof}
+
+\subsubsection{Step 7: endpoint convexity gap}
+\label{sssec:lsi-Gamma}
+
+With $L:=|\Omega|$, define
+\begin{equation}\label{eq:lsi-Gammadef}
+   \Gamma(\Omega):=G'(L)-\frac{G(L)}{L}.
+\end{equation}
+
+\begin{lemma}[Endpoint convexity-gap formula]\label{lem:Gamma}
+$\displaystyle\Gamma(\Omega)=\frac{1}{L}\int_{0}^{L}s\,G''(s)\,ds$.
+\end{lemma}
+
+\begin{proof}
+$I\in W^{1,\infty}(0,L)\subset W^{2,1}_{\rm loc}((0,L])$ by
+Lemmas~\ref{lem:Iab}--\ref{lem:Ipp}, and the polynomial corrector in
+\eqref{eq:lsi-Gdef} is smooth on $(0,L]$ and Lipschitz on $[0,L]$; so $G$
+is absolutely continuous on $[0,L]$ and in $W^{2,1}_{\rm loc}((0,L])$,
+with $G(0)=I(0)=0$. By Lemma~\ref{lem:Iab},
+\[
+   G'(s)=u^{*}(s)+\frac{(1+2/n)s^{2/n}}{(4+2n)\omega_{n}^{2/n}}
+        =u^{*}(s)+\frac{s^{2/n}}{2n\,\omega_{n}^{2/n}},
+\]
+using $\frac{1+2/n}{4+2n}=\frac{1}{2n}$; $G'$ is bounded on $[0,L]$ by
+\eqref{eq:lsi-Linfty}. Integration by parts on $(\eps,L)$ gives
+\[
+   \int_{\eps}^{L}s\,G''(s)\,ds
+   =L\,G'(L)-\eps\,G'(\eps)-G(L)+G(\eps).
+\]
+As $\eps\downarrow 0$, $\eps\,G'(\eps)\to 0$ and $G(\eps)\to G(0)=0$ by
+the boundedness of $G'$ and the absolute continuity of $G$. Therefore
+$\int_{0}^{L}s\,G''(s)\,ds=L\,G'(L)-G(L)$; dividing by $L$ yields the
+claim.
+\end{proof}
+
+\subsubsection{Step 8: endpoint identification with the Saint--Venant
+deficit}
+\label{sssec:lsi-endpoint}
+
+\begin{lemma}[Endpoint value]\label{lem:endpoint}
+\begin{equation}\label{eq:lsi-endpoint}
+   \Gamma(\Omega)=\frac{2}{|\Omega|}\bigl(E(\Omega)-E(B^{*})\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+At $s=L$, $u^{*}(L)=0$ by definition of $u^{*}$ (the lowest level is the
+zero level). By Lemma~\ref{lem:Iab},
+$I(L)=\int_{0}^{L}u^{*}(\sigma)\,d\sigma=\int_{\Omega}u\,dx$ (using
+equimeasurability), so
+\[
+   \frac{G(L)}{L}=\frac{1}{L}\int_{\Omega}u\,dx
+                  +\frac{L^{2/n}}{(4+2n)\,\omega_{n}^{2/n}}.
+\]
+Also $I'(L)=u^{*}(L)=0$, so
+\[
+   G'(L)=\frac{L^{2/n}}{2n\,\omega_{n}^{2/n}}.
+\]
+Combining,
+\begin{equation}\label{eq:lsi-Gamma-explicit}
+   \Gamma(\Omega)
+   =\frac{L^{2/n}}{2n\,\omega_{n}^{2/n}}
+    -\frac{L^{2/n}}{(4+2n)\,\omega_{n}^{2/n}}
+    -\frac{1}{L}\int_{\Omega}u\,dx
+   =\frac{L^{2/n}}{2n(n+2)\,\omega_{n}^{2/n}}
+    -\frac{1}{L}\int_{\Omega}u\,dx,
+\end{equation}
+where we used $4+2n=2(n+2)$ and
+$\frac{1}{2n}-\frac{1}{2(n+2)}=\frac{1}{2n(n+2)}$.
+
+For the ball $B^{*}$ of volume $L=\omega_{n}R_{\Omega}^{n}$, the torsion
+function is $u_{B^{*}}(x)=(R_{\Omega}^{2}-|x|^{2})/(2n)$ (the unique
+solution of $-\Delta u_{B^{*}}=1$ in $B^{*}$, $u_{B^{*}}=0$ on
+$\partial B^{*}$). Direct integration in spherical coordinates,
+\[
+   \int_{B^{*}}u_{B^{*}}\,dx
+   =\frac{1}{2n}\int_{B^{*}}(R_{\Omega}^{2}-|x|^{2})\,dx
+   =\frac{n\omega_{n}}{2n}\int_{0}^{R_{\Omega}}(R_{\Omega}^{2}-r^{2})r^{n-1}\,dr
+   =\frac{\omega_{n}\,R_{\Omega}^{n+2}}{2n(n+2)}.
+\]
+Since $L=\omega_{n}R_{\Omega}^{n}$, $L^{2/n}=\omega_{n}^{2/n}R_{\Omega}^{2}$,
+hence
+\[
+   \frac{L^{2/n}}{2n(n+2)\omega_{n}^{2/n}}
+   =\frac{R_{\Omega}^{2}}{2n(n+2)}
+   =\frac{1}{L}\cdot\frac{\omega_{n}R_{\Omega}^{n+2}}{2n(n+2)}
+   =\frac{1}{L}\int_{B^{*}}u_{B^{*}}\,dx.
+\]
+Inserting back in \eqref{eq:lsi-Gamma-explicit} and using
+$E(\Omega)=-\tfrac12\int_{\Omega}u$ (and the analogous identity for $B^{*}$),
+\[
+   \Gamma(\Omega)
+   =\frac{1}{L}\Bigl(\int_{B^{*}}u_{B^{*}}\,dx-\int_{\Omega}u\,dx\Bigr)
+   =\frac{2}{L}\bigl(E(\Omega)-E(B^{*})\bigr).
+\]
+This identification of $\Gamma(B^{*})$ via the explicit ball torsion
+function is the classical P\'olya--Szeg\H{o} content
+\cite{PolyaSzego1951}, \cite[\S II.5]{Bandle1980}.
+\end{proof}
+
+\subsubsection{The exact deficit identity}
+\label{sssec:lsi-main}
+
+\begin{theorem}[Exact level-set deficit identity]\label{thm:deficit}\label{thm:lsid:identity}\label{thm:plan2-levelset-id}
+Let $n\ge 2$ and let $\Omega\subset\R^{n}$ be open with $0<|\Omega|<\infty$.
+Let $u=u_{\Omega}\in H^{1}_{0}(\Omega)$ be the variational torsion
+function. Then for a.e.\ $t\in(0,\|u\|_{\infty})$, the superlevel set
+$E_{t}=\{u>t\}$ has finite perimeter, the coarea identity
+\eqref{eq:lsi-L1}, the flux identity \eqref{eq:lsi-L2}, and the corrected
+second-derivative identity \eqref{eq:lsi-Ipp} hold, and
+\begin{equation}\label{eq:lsi-deficit}
+   \boxed{\;
+   \frac{2}{|\Omega|}\bigl(E(\Omega)-E(B^{*})\bigr)
+   =\frac{1}{|\Omega|}\int_{0}^{\|u\|_{\infty}}
+     \frac{D_{H}(t)+D_{I}(t)}{n^{2}\omega_{n}^{2/n}\,m(t)^{1-2/n}}\,dt,\;}
+\end{equation}
+where $D_{H},D_{I}$ are the nonnegative pointwise defects of
+\eqref{eq:lsi-DH}--\eqref{eq:lsi-DI} and $B^{*}$ is the ball with
+$|B^{*}|=|\Omega|$.
+\end{theorem}
+
+\begin{proof}
+Lemmas~\ref{lem:cov}, \ref{lem:Gamma}, \ref{lem:endpoint} together give
+\[
+   \frac{2}{|\Omega|}\bigl(E(\Omega)-E(B^{*})\bigr)
+   =\Gamma(\Omega)
+   =\frac{1}{L}\int_{0}^{L}s\,G''(s)\,ds
+   =\frac{1}{L}\int_{0}^{\|u\|_{\infty}}\frac{D_{H}(t)+D_{I}(t)}
+     {c_{n}\,m(t)^{1-2/n}}\,dt.
+\]
+The pointwise statements \eqref{eq:lsi-L1}, \eqref{eq:lsi-L2},
+\eqref{eq:lsi-Ipp} are proved in Lemmas~\ref{lem:coarea},
+\ref{lem:flux}, \ref{lem:Ipp}.
+\end{proof}
+
+The deficit identity~\eqref{eq:lsi-deficit} thus expresses
+$\delta_{T}(\Omega)$ in the form
+\[
+   \delta_{T}(\Omega)
+   =E(\Omega)-E(B^{*})
+   =\frac{1}{2}\int_{0}^{\|u\|_{\infty}}\bigl(D_{H}(t)+D_{I}(t)\bigr)\,w(t)\,dt,
+\]
+with the {\it explicit weight}
+\begin{equation}\label{eq:lsi-weight}
+   w(t):=\frac{1}{c_{n}\,m(t)^{1-2/n}}
+        =\frac{1}{n^{2}\omega_{n}^{2/n}\,m(t)^{1-2/n}}.
+\end{equation}
+This is the form quoted in the master brief and in
+\S\ref{sec:notation}; the dimensional constant $c_{n}=n^{2}\omega_{n}^{2/n}$
+is the only constant appearing in the identity itself.
+
+\subsubsection*{Cauchy--Schwarz/Serrin variance form of $D_{H}$}
+
+The following corollary recasts $D_{H}$ as a level-set Serrin variance
+defect, in the form used in
+\S\ref{sec:plan2-weighted-trace}--\S\ref{sec:plan2-boundary-layer} when
+combining $D_{H}$ with normal-oscillation bounds.
+
+\begin{corollary}[Weighted variance form of $D_{H}$]\label{cor:variance}
+For a.e.\ $t\in(0,\|u\|_{\infty})$, with $f:=|\nabla u|$ on
+$\partial^{*}E_{t}$ and $\bar f:=m(t)/P(E_{t})$,
+\begin{equation}\label{eq:lsi-variance}
+   \int_{\partial^{*}E_{t}}\frac{(f-\bar f)^{2}}{f}\,d\mathcal H^{n-1}
+   =\frac{m(t)}{P(E_{t})^{2}}\,D_{H}(t).
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Direct computation, using Lemma~\ref{lem:flux} ($\int f\,d\mathcal H^{n-1}
+=\beta(t)=m(t)$) and $\int 1\,d\mathcal H^{n-1}=P(E_{t})$:
+\[
+   \int_{\partial^{*}E_{t}}\!\frac{(f-\bar f)^{2}}{f}\,d\mathcal H^{n-1}
+   =\int_{\partial^{*}E_{t}}\!\!f\,d\mathcal H^{n-1}
+    -2\bar f\,P(E_{t})
+    +\bar f^{2}\!\int_{\partial^{*}E_{t}}\!\!\tfrac{1}{f}\,d\mathcal H^{n-1}
+   =m(t)-\frac{2 m(t)}{1}+\frac{m(t)^{2}}{P(E_{t})^{2}}\,\alpha(t).
+\]
+The first two terms collapse to $-m(t)$, and using
+$\alpha(t)\beta(t)=\alpha(t)m(t)$,
+\[
+   \int_{\partial^{*}E_{t}}\!\frac{(f-\bar f)^{2}}{f}\,d\mathcal H^{n-1}
+   =\frac{m(t)^{2}}{P(E_{t})^{2}}\alpha(t)-m(t)
+   =\frac{m(t)\bigl(\alpha(t)\,m(t)-P(E_{t})^{2}\bigr)}{P(E_{t})^{2}}
+   =\frac{m(t)}{P(E_{t})^{2}}\,D_{H}(t),
+\]
+since $\alpha m=\alpha\beta$. This is \eqref{eq:lsi-variance}.
+\end{proof}
+
+\subsubsection{Profile-gap consequences (used in
+\S\ref{sec:plan2-weighted-trace}--\S\ref{sec:plan2-boundary-layer})}
+\label{sssec:lsi-consequences}
+
+The deficit identity~\eqref{eq:lsi-deficit} controls weighted averages
+of $D_{H}+D_{I}$ over levels; the two consequences below extract
+{\it pointwise} good levels in a controlled near-boundary slab, together
+with a transfer estimate from a superlevel set back to $\Omega$. These
+are the only consequences of the deficit identity used in the rest of
+Plan~2.
+
+\paragraph{Setup.} Write
+\[
+   L:=|\Omega|,\quad
+   R_{\Omega}:=(L/\omega_{n})^{1/n},\quad
+   \delta_{T}(\Omega):=E(\Omega)-E(B^{*}),\quad
+   v(s):=u_{\Omega}^{*}(s),\quad
+   b(s):=u_{B^{*}}^{*}(s).
+\]
+By Talenti~\eqref{eq:lsi-talenti}, $b(s)-v(s)\ge 0$ on $[0,L]$, and the
+explicit ball profile gives
+$b(s)=(R_{\Omega}^{2}-(s/\omega_{n})^{2/n})/(2n)$.
+
+\begin{lemma}[Profile-gap estimate]\label{lem:profile-gap}
+The function $h(s):=b(s)-v(s)$ is nonnegative and nonincreasing on
+$[0,L]$, $h(L)=0$, and
+\begin{equation}\label{eq:lsi-profile-int}
+   \int_{0}^{L}h(s)\,ds
+   =\int_{B^{*}}u_{B^{*}}\,dx-\int_{\Omega}u\,dx
+   =2\,\delta_{T}(\Omega).
+\end{equation}
+Consequently, for every $s\in(0,L]$,
+\begin{equation}\label{eq:lsi-profile-pt}
+   0\le b(s)-v(s)\le\frac{2\,\delta_{T}(\Omega)}{s}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By Talenti's level-set differential inequality
+$(u_{\Omega}^{*})'(s)\ge(u_{B^{*}}^{*})'(s)$ for a.e.\ $s\in(0,L)$
+\cite[Theorem 1, (3.6)]{Talenti1976}, $h=b-v$ has $h'(s)\le 0$ a.e.,
+i.e.\ $h$ is nonincreasing. Also $h(L)=b(L)-v(L)=0-0=0$. The
+identity~\eqref{eq:lsi-profile-int} follows from $\int_{0}^{L}b=
+\int_{B^{*}}u_{B^{*}}$ and $\int_{0}^{L}v=\int_{\Omega}u$
+(equimeasurability), combined with
+$E(\Omega)-E(B^{*})=\tfrac12(\int_{B^{*}}u_{B^{*}}-\int_{\Omega}u)$.
+Since $h$ is nonincreasing and nonnegative on $[0,L]$, for any
+$s\in(0,L]$,
+\[
+   s\,h(s)\le\int_{0}^{s}h(\sigma)\,d\sigma\le\int_{0}^{L}h(\sigma)\,d\sigma
+   =2\,\delta_{T}(\Omega),
+\]
+which is~\eqref{eq:lsi-profile-pt}.
+\end{proof}
+
+\paragraph{Good-level slab lemma.} Define the weighted level measure
+\begin{equation}\label{eq:lsi-nu}
+   d\nu(t):=\frac{dt}{c_{n}\,m(t)^{1-2/n}}.
+\end{equation}
+Theorem~\ref{thm:deficit} reads
+$\int_{0}^{\|u\|_{\infty}}(D_{H}(t)+D_{I}(t))\,d\nu(t)
+=2\,\delta_{T}(\Omega)$.
+
+\begin{lemma}[Good level in a near-boundary slab]\label{lem:slab-good}
+Let $0<\eta<L/4$, and set
+\[
+   S_{\eta}:=[L-2\eta,L-\eta],
+   \qquad
+   T_{\eta}:=v(S_{\eta})=[v(L-\eta),v(L-2\eta)].
+\]
+There exists a dimensional constant $c=c(n)>0$ such that the following
+holds. Assume the smallness condition
+\begin{equation}\label{eq:lsi-smallness}
+   \delta_{T}(\Omega)\le c\,R_{\Omega}^{2}\,\eta.
+\end{equation}
+Then for every $s\in S_{\eta}$ the level $t_{s}:=v(s)$ satisfies
+\begin{equation}\label{eq:lsi-tslab}
+   c\,\frac{R_{\Omega}^{2}}{L}\,\eta
+   \le t_{s}\le C\,\frac{R_{\Omega}^{2}}{L}\,\eta,
+\end{equation}
+for some dimensional $C=C(n)$, and
+\begin{equation}\label{eq:lsi-Tslen}
+   |T_{\eta}|\ge c\,\frac{R_{\Omega}^{2}}{L}\,\eta.
+\end{equation}
+Moreover there exists $t_{\eta}^{*}\in T_{\eta}$ with
+\begin{equation}\label{eq:lsi-good-level}
+   D_{H}(t_{\eta}^{*})+D_{I}(t_{\eta}^{*})
+   \le\frac{2\,\delta_{T}(\Omega)}{\nu(T_{\eta})}
+   \le C'\,\frac{L^{2-2/n}\,\delta_{T}(\Omega)}{\eta\,R_{\Omega}^{2}}
+\end{equation}
+for a dimensional constant $C'=C'(n)$, and $\eta\le |\Omega\setminus
+E_{t_{\eta}^{*}}|\le 2\eta$.
+\end{lemma}
+
+\begin{proof}
+{\it Profile-height estimates~\eqref{eq:lsi-tslab}.}
+By Lemma~\ref{lem:profile-gap}, on $S_{\eta}\subset[L/2,L]$,
+\[
+   0\le b(s)-v(s)\le \frac{2\,\delta_{T}(\Omega)}{s}\le \frac{4\,
+   \delta_{T}(\Omega)}{L}.
+\]
+For $s=L-\sigma$, $\sigma\in[\eta,2\eta]$, the explicit ball profile
+gives
+\[
+   b(s)
+   =\frac{R_{\Omega}^{2}}{2n}\Bigl(1-(1-\sigma/L)^{2/n}\Bigr).
+\]
+The elementary one-dimensional inequalities
+$\frac{2}{n}\frac{\sigma}{L}\bigl(1-\frac{\sigma}{L}\bigr)^{2/n-1}
+\le 1-(1-\sigma/L)^{2/n}\le\frac{2}{n}\frac{\sigma}{L}$ for $0<\sigma<L/4$
+give, with new dimensional constants $c_{1},C_{1}$,
+\[
+   c_{1}\frac{R_{\Omega}^{2}}{L}\sigma\le b(s)\le C_{1}\frac{R_{\Omega}^{2}}{L}\sigma.
+\]
+Combined with the profile gap and \eqref{eq:lsi-smallness} chosen so
+that $4\delta_{T}/L\le c_{1}R_{\Omega}^{2}\eta/(2L)$, this gives
+\eqref{eq:lsi-tslab} after relabelling $c$, $C$.
+
+{\it Lower bound~\eqref{eq:lsi-Tslen}.}
+$|T_{\eta}|=v(L-2\eta)-v(L-\eta)$. Using
+$v=b-h$ and the monotonicity of $h$,
+\[
+   v(L-2\eta)-v(L-\eta)
+   =[b(L-2\eta)-b(L-\eta)]-[h(L-2\eta)-h(L-\eta)]
+   \ge[b(L-2\eta)-b(L-\eta)]-\frac{4\delta_{T}(\Omega)}{L},
+\]
+since $0\le h(L-2\eta)-h(L-\eta)\le h(L-2\eta)\le 4\delta_{T}/L$ (using
+$h(L-2\eta)\le 2\delta_{T}/(L-2\eta)\le 4\delta_{T}/L$). On the other
+hand,
+$b(L-2\eta)-b(L-\eta)\ge c_{2}R_{\Omega}^{2}\eta/L$ for a dimensional
+$c_{2}$, by the same elementary one-dimensional estimate above. Under
+\eqref{eq:lsi-smallness} (with $c\le c_{2}/8$),
+$4\delta_{T}/L\le c_{2}R_{\Omega}^{2}\eta/(2L)$, giving
+\eqref{eq:lsi-Tslen}.
+
+{\it Good-level existence~\eqref{eq:lsi-good-level}.}
+By the area formula (equivalently the coarea identity~\eqref{eq:lsi-L1}
+integrated),
+\[
+   \nu(T_{\eta})=\int_{T_{\eta}}\frac{dt}{c_{n}m(t)^{1-2/n}}
+                \ge\frac{1}{c_{n}L^{1-2/n}}\,|T_{\eta}|
+                \ge\frac{c\,R_{\Omega}^{2}\,\eta}{c_{n}\,L^{2-2/n}}
+\]
+(using $m(t)\le L$ on $T_{\eta}$ and \eqref{eq:lsi-Tslen}). The
+deficit identity~\eqref{eq:lsi-deficit} integrated over $T_{\eta}$ and
+the mean-value inequality give the existence of $t_{\eta}^{*}\in T_{\eta}$
+with
+\[
+   D_{H}(t_{\eta}^{*})+D_{I}(t_{\eta}^{*})
+   \le\frac{1}{\nu(T_{\eta})}\int_{T_{\eta}}(D_{H}+D_{I})\,d\nu
+   \le\frac{2\,\delta_{T}(\Omega)}{\nu(T_{\eta})}.
+\]
+The second inequality in \eqref{eq:lsi-good-level} now follows from the
+lower bound on $\nu(T_{\eta})$. Finally, $t_{\eta}^{*}\in T_{\eta}$ means
+$m(t_{\eta}^{*})\in[L-2\eta,L-\eta]$, i.e.\ $\eta\le|\Omega\setminus
+E_{t_{\eta}^{*}}|\le 2\eta$.
+\end{proof}
+
+\paragraph{Superlevel transfer of Fraenkel asymmetry.}
+This is the elementary boundary-layer transfer used in
+\S\ref{sec:plan2-boundary-layer}. Let
+$\Fr(\Omega):=\inf_{x_{0}\in\R^{n}}|\Omega\Delta(B^{*}+x_{0})|/|B^{*}|$
+be the Fraenkel asymmetry (notation register \S 5).
+
+\begin{lemma}[Superlevel asymmetry transfer]\label{lem:superlevel-transfer}
+Let $E_{t}=\{u>t\}$ with $E_{t}\subset\Omega$, and let
+$s:=|E_{t}|=L-\eta$ with $0<\eta<L$. Let $B^{(s)}$ be a ball with
+$|B^{(s)}|=s$ realising the Fraenkel infimum for $E_{t}$, and let
+$B^{(L)}$ be the concentric ball of volume $L$. Then
+\begin{equation}\label{eq:lsi-transfer}
+   \Fr(\Omega)\le\Fr(E_{t})+\frac{4\eta}{L}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By the triangle inequality for symmetric differences,
+\[
+   |\Omega\Delta B^{(L)}|
+   \le|\Omega\setminus E_{t}|+|E_{t}\Delta B^{(s)}|+|B^{(s)}\Delta B^{(L)}|.
+\]
+Now $|\Omega\setminus E_{t}|=\eta$, $|E_{t}\Delta B^{(s)}|=s\,
+\Fr(E_{t})\le L\,\Fr(E_{t})$, and $B^{(s)}\subset B^{(L)}$
+so $|B^{(s)}\Delta B^{(L)}|=L-s=\eta$. Hence
+\[
+   \Fr(\Omega)\le\frac{|\Omega\Delta B^{(L)}|}{L}
+   \le \frac{|E_{t}\Delta B^{(s)}|}{L}+\frac{2\eta}{L}
+   \le\Fr(E_{t})+\frac{2\eta}{L}.
+\]
+Allowing for the asymmetry to be computed at a different centre than the
+optimal one (which can cost at most $|\Omega\setminus E_{t}|/L=\eta/L$)
+gives \eqref{eq:lsi-transfer} after enlarging the constant from $2$ to
+$4$ (any centre admissible for $\Fr(E_{t})$ is admissible for
+$\Fr(\Omega)$ up to the boundary-layer correction).
+\end{proof}
+
+\subsubsection{Failure modes and what is not assumed}
+\label{sssec:lsi-failure}
+
+We close this subsection by recording the regularity assumptions that
+are {\it not} used and the ones that are. Both lists are required
+inputs of Agent~16's Plan~2 audit (\S\ref{sec:audit-plan2}).
+
+\begin{enumerate}
+\item {\it $\Omega$ need not be bounded.} The only consequence of
+$|\Omega|<\infty$ is the Talenti $L^{\infty}$ bound \eqref{eq:lsi-Linfty}.
+Boundedness $\Omega\subset B_{R}$ enters only later in
+\S\ref{sec:plan2-metric}--\S\ref{sec:plan2-assembly}, where strong
+isoperimetric inequalities and radial-trace estimates are used.
+\item {\it $\Omega$ need not be smooth.} Lemmas~\ref{lem:coarea} and
+\ref{lem:flux} use only BV coarea \cite[Theorem 13.1]{Maggi2012} and the
+Lipschitz truncation of $u-t$; neither requires $\partial\Omega$ to be a
+manifold. There is no use of a one-sided trace of $\nabla u$ on
+$\partial^{*}E_{t}$ (cf.\ Remark~\ref{rem:divergence}).
+\item {\it $\Omega$ need not be connected.} The torsion function
+decouples across connected components and the identity is additive.
+\item {\it The identity is a.e., not pointwise.} Lemmas~\ref{lem:coarea},
+\ref{lem:flux}, \ref{lem:Ipp} hold for $t$ outside an $\mathcal L^{1}$-null
+set of bad levels: at most countably many plateau levels of $u$, the
+Sobolev--Sard exceptional set, and BV-coarea exceptional levels. Levels
+in this null set contribute zero to the $dt$-integral.
+\item {\it All integrals are on reduced boundaries.} For a.e.\ $t$,
+$\mathcal H^{n-1}(\partial E_{t}\setminus\partial^{*}E_{t})=0$
+\cite{DeGiorgi1958}, \cite[Theorem 16.2]{Maggi2012}, so cusps,
+self-tangencies, and the unreduced part of $\partial E_{t}$ contribute
+nothing. No graph parametrisation of $\partial^{*}E_{t}$ is used or
+available in general.
+\item {\it The corrected $I''$.} The use of $\alpha$ (and not $\beta$) in
+Lemma~\ref{lem:Ipp} is essential. The naive guess $I''=-1/\beta=-1/m$
+holds only on the ball, where $|\nabla u|$ is level-constant and
+Cauchy--Schwarz is sharp; in general it would silently delete $D_{H}$
+from \eqref{eq:lsi-deficit}.
+\end{enumerate}
+
+\paragraph{Where the identity is used downstream.}
+The metric framework (\S\ref{sec:plan2-metric}) extracts a
+first-variation/velocity defect from the integrated combination
+$D_{H}+D_{I}$ via the homothetic radial vector field. The weighted
+metric trace (\S\ref{sec:plan2-weighted-trace}) uses
+Lemma~\ref{lem:slab-good} to extract a good isoperimetric-defect level
+in a near-boundary slab, then upgrades the integrated action bound to a
+pointwise endpoint at $\widehat\rho$. The boundary-layer transfer
+(\S\ref{sec:plan2-boundary-layer}) uses
+Lemma~\ref{lem:superlevel-transfer} to transfer the asymmetry from
+$E_{\widehat\rho}$ back to $\Omega$, squaring the resulting
+$O(\sqrt{\delta_{T}})$ boundary layer to preserve the sharp exponent.

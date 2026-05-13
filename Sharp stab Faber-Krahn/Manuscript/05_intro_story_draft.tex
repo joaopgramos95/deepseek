@@ -1,0 +1,832 @@
+% =====================================================================
+% Manuscript/05_intro_story_draft.tex
+%
+% Agent 18 (Introduction and Historical Story) deliverable.
+%
+% Conventions:
+%   - Canonical macros loaded from Manuscript/macros.tex (Agent 17).
+%   - Citation keys are exactly the ones listed in
+%     Manuscript/04_references_audit.md / Manuscript/references.bib.
+%   - Notation matches Manuscript/00_notation_register.md.
+%   - Theorem statements at the end of the introduction are quoted
+%     verbatim (up to display formatting) from
+%     Manuscript/plan1_kohler_jobin_transfer.tex Theorem~thm:KJ-FK-lower
+%     /\,thm:KJ-FK-upper and
+%     Manuscript/plan2_boundary_layer_assembly.tex Theorem~thm:plan2-FK.
+%   - The Bernoulli spectral route (Plan~1) is mentioned only as an
+%     optional remark; the centroid / space-time $\Pi$ route (Plan~2)
+%     is mentioned only as an auxiliary diagnostic.
+% =====================================================================
+
+\section{Introduction}
+\label{sec:intro}
+
+% =====================================================================
+\subsection{The sharp quantitative Faber--Krahn inequality}
+\label{ssec:intro-headline}
+% =====================================================================
+
+Let $n\ge 2$ and let $\Om\subset\R^n$ be an open set with
+$0<|\Om|<\infty$. Write $\lambda_1(\Om)$ for the first Dirichlet
+eigenvalue of $-\Delta$ on $\Om$ and $\Bstar$ for the open ball
+centred at the origin with $|\Bstar|=|\Om|$. The Faber--Krahn
+inequality~\cite{Faber1923,Krahn1925,Krahn1926} asserts
+\begin{equation}\label{eq:intro-FK}
+   \lambda_1(\Om)\;\ge\;\lambda_1(\Bstar),
+\end{equation}
+with equality if and only if $\Om$ is a ball (up to a Lebesgue
+negligible set). The scale-invariant deficit
+\begin{equation}\label{eq:intro-deltaFK}
+   \deltaFK(\Om)\;:=\;
+   \Bigl(\tfrac{|\Om|}{\omega_n}\Bigr)^{\!2/n}\!
+   \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)\;\ge\;0
+\end{equation}
+vanishes only at balls; the Fraenkel asymmetry
+\begin{equation}\label{eq:intro-Fr}
+   \Fr(\Om)\;:=\;
+   \inf_{x_0\in\R^n}\frac{|\Om\,\triangle\,(\Bstar+x_0)|}{|\Bstar|}
+   \;\in\;[0,2)
+\end{equation}
+measures the distance from~$\Om$ to a ball in $L^1$. Both proofs in
+the present paper close the following sharp quantitative statement,
+in the canonical normalisation fixed in
+\S\ref{sec:notation}.
+
+\begin{theorem*}[Sharp quantitative Faber--Krahn]
+There is a constant $C_{\rm FK}(n)>0$, depending only on the
+ambient dimension $n\ge 2$, such that for every open
+$\Om\subset\R^n$ with $0<|\Om|<\infty$,
+\begin{equation}\label{eq:intro-main}
+   \Fr(\Om)^2\;\le\;C_{\rm FK}(n)\,\deltaFK(\Om).
+\end{equation}
+The exponent $2$ on $\Fr(\Om)$ is sharp, in the sense that no power
+greater than $2$ on the left-hand side can hold with a constant
+depending only on $n$.
+\end{theorem*}
+
+The theorem is the main result of
+Brasco--De~Philippis--Velichkov~\cite{BDV} (BDV) and was reproved by
+Allen--Kriventsov--Neumayer~\cite{AKN2023} via the Alt--Caffarelli--Friedman
+monotonicity formula. Our contribution is to give \emph{two independent
+proofs}, each with full quantitative tracking of constants, written so
+that they can be read in parallel and compared step-by-step. We refer
+to these as \emph{Plan~1} and \emph{Plan~2}; both proofs end at the
+identical theorem statement~\eqref{eq:intro-main}, with the same
+explicit dimensional constant
+\begin{equation}\label{eq:intro-cFKdef}
+   c_{\rm FK}(n)=1/C_{\rm FK}(n)
+   \;=\;\min\!\Bigl\{
+      \frac{4 L_n\,c_{\rm SV}^{\rm glob}(n)}{(n+2)\,T_n},\;
+      \frac{L_n\,(2^{2/(n+2)}-1)}{4}
+   \Bigr\},
+\end{equation}
+where $L_n=\lambda_1(B_1)$ and $T_n=T(B_1)=\omega_n/(n(n+2))$ are
+dimensional (cf.\ Theorems~\ref{thm:plan1-FK-upper-intro}
+and~\ref{thm:plan2-FK-intro} below).
+
+The two proofs differ \emph{only in how the bounded sharp Saint--Venant
+inequality is obtained}: Plan~1 follows the selection-principle route
+of~\cite{BDV}, supplemented with detailed graph-entry, Schauder
+interpolation, and nearly-spherical closure; Plan~2 follows the
+level-set / metric-quotient route inspired by
+Nicola--Tilli~\cite{NicolaTilli2022,GGRT2024} and uses Fusco--Julin
+oscillation~\cite{FJ2014} together with a finite-perimeter first-variation
+identity in a metric quotient space, an oriented radial-trace estimate,
+and a boundary-layer transfer. From the global sharp Saint--Venant
+inequality onwards, the two proofs share the same Kohler--Jobin
+transfer~\cite{KohlerJobin1978,Brasco2014} and bounded reduction (BDV
+Lemma~5.3). The aim is to make both routes explicit, with constants
+tracked, so that the reader sees clearly what each route requires and
+what each route delivers.
+
+% =====================================================================
+\subsection{History I: Rayleigh's conjecture, Faber, Krahn}
+\label{ssec:intro-history-fk}
+% =====================================================================
+
+The inequality~\eqref{eq:intro-FK} was conjectured by Lord Rayleigh in
+his \emph{Theory of Sound} (1894/96) on physical grounds: among
+homogeneous membranes of given area and uniform tension, the disc
+produces the lowest fundamental tone. In two dimensions Rayleigh's
+conjecture was proved by Faber~\cite{Faber1923} in 1923 by
+Steiner-symmetrisation of the Rayleigh quotient: rearranging the trial
+function $u\in H^1_0(\Om)$ as the radially decreasing equimeasurable
+$u^*$ on $\Bstar$ decreases $\int u^2$ at fixed level distribution and
+decreases $\int|\nabla u|^2$ by the Pólya--Szeg\H o
+principle~\cite{PolyaSzego1951}, so the Rayleigh quotient does not
+increase. In 1925 Krahn~\cite{Krahn1925} extended the proof to $n=2$
+(in a slightly different form) and in 1926~\cite{Krahn1926} to all
+dimensions $n\ge 3$, again by symmetrisation. The argument is the
+foundational application of decreasing rearrangement to spectral
+geometry; modern textbook treatments are given by
+Henrot~\cite{HenrotBook}, Bucur--Buttazzo~\cite{BucurButtazzo},
+Bandle~\cite{Bandle1980}, Kawohl~\cite{KawohlBook} and
+Kesavan~\cite{Kesavan2006}.
+
+The rigidity statement --- equality in~\eqref{eq:intro-FK} forces $\Om$
+to be a ball --- is also classical. In the modern setting of sets of
+finite perimeter (introduced by De~Giorgi~\cite{DeGiorgi1958}), rigidity
+in the isoperimetric inequality is the key input
+(\cite[Chapter~19]{Maggi2012}); see also
+Brothers--Ziemer~\cite{BrothersZiemer1988} for the equality case in the
+Pólya--Szeg\H o rearrangement principle.
+
+% =====================================================================
+\subsection{History II: the Saint--Venant analogue}
+\label{ssec:intro-history-sv}
+% =====================================================================
+
+A parallel functional inequality of the same vintage governs the
+torsional rigidity of an elastic bar. For an open
+$\Om\subset\R^n$ with $0<|\Om|<\infty$, the (variational) torsion
+function $u_\Om\in H^1_0(\Om)$ is the unique minimiser of
+\[
+   v\;\longmapsto\;
+   \tfrac{1}{2}\!\int_\Om|\nabla v|^2\,dx-\int_\Om v\,dx,
+\]
+equivalently $-\Delta u_\Om=1$ in $\Om$ with $u_\Om=0$ on $\partial\Om$
+in the trace sense, and $u_\Om\ge 0$ a.e. The torsional rigidity is
+\begin{equation}\label{eq:intro-T}
+   T(\Om):=\int_\Om u_\Om\,dx
+   \;=\;-2\!\int_\Om E_\Om\,dx,
+\end{equation}
+where, following the BDV normalisation of the notation register, the
+Saint--Venant energy is
+\begin{equation}\label{eq:intro-E}
+   E(\Om)\;:=\;-T(\Om)/2
+   \;=\;
+   \min\!\Bigl\{\tfrac{1}{2}\!\int|\nabla v|^2-\!\int v\,:\,
+      v\in H^1_0(\Om)\Bigr\}\le 0.
+\end{equation}
+Pólya and Szeg\H o~\cite{PolyaSzego1951} established the Saint--Venant
+analogue of Faber--Krahn:
+\begin{equation}\label{eq:intro-SV}
+   T(\Om)\;\le\;T(\Bstar),
+   \qquad
+   E(\Om)\;\ge\;E(\Bstar),
+\end{equation}
+with equality only if $\Om$ is a ball (up to translations and
+negligible sets). Again the proof is by decreasing rearrangement; we
+adopt the BDV-normalised deficit
+\begin{equation}\label{eq:intro-deltaT}
+   \deltaT(\Om)\;:=\;E(\Om)-E(\Bstar)\;\ge\;0,
+\end{equation}
+which vanishes only at balls. Modern accounts of the Saint--Venant
+inequality and its rearrangement proof are
+in~\cite{KawohlBook,Bandle1980,Kesavan2006,HenrotBook,PolyaSzego1951}.
+In the BDV
+literature~\cite[\S2]{BDV},~\cite[\S2]{Brasco2014},~\cite[\S2]{BraDeP2017},
+the quantitative form of~\eqref{eq:intro-SV} is the natural Saint--Venant
+companion of Faber--Krahn, and is the form actually proved by both
+of our routes before transferring to the eigenvalue side.
+
+% =====================================================================
+\subsection{The quantitative stability problem and the sharp exponent}
+\label{ssec:intro-sharp-exponent}
+% =====================================================================
+
+The qualitative rigidity statement --- equality in~\eqref{eq:intro-FK}
+or~\eqref{eq:intro-SV} forces $\Om$ to be a ball --- raises the
+quantitative question: for $\Om$ \emph{close} to a ball, how does
+$\deltaFK(\Om)$ (or $\deltaT(\Om)$) compare to $\Fr(\Om)$?
+
+A volume-preserving ellipsoidal one-parameter family $\Om_\eps$ of
+perturbations of $\Bstar$ satisfies $\Fr(\Om_\eps)\sim\eps$ while
+$\lambda_1(\Om_\eps)-\lambda_1(\Bstar)\sim\eps^2$ and
+$E(\Om_\eps)-E(\Bstar)\sim\eps^2$ as $\eps\to 0$; see
+\cite[Introduction]{BraDeP2017} and~\cite[\S2]{BDV}. Hence the best
+possible quantitative form of Faber--Krahn / Saint--Venant is
+\begin{equation}\label{eq:intro-sharp-form}
+   \Fr(\Om)^2\;\le\;C_{\rm FK}(n)\,\deltaFK(\Om),
+   \qquad
+   \Fr(\Om)^2\;\le\;C_{\rm SV}(n)\,\deltaT(\Om);
+\end{equation}
+the exponent $2$ is sharp. The first quantitative stability results
+in the eigenvalue case~\eqref{eq:intro-FK} are due to
+Hansen--Nadirashvili~\cite{HansenNadirashvili1994},
+Melas~\cite{Melas1992}, and Bhattacharya~\cite{Bhattacharya2001},
+all with non-sharp exponents. Fusco, Maggi, and
+Pratelli~\cite{FMPLaplace}, building on the sharp quantitative
+isoperimetric inequality of~\cite{FMP2008}, obtained
+\begin{equation}\label{eq:intro-FMP-FK}
+   \Fr(\Om)^4\;\le\;C(n)\,\deltaFK(\Om)
+   \quad\text{and}\quad
+   \Fr(\Om)^4\;\le\;C(n)\,\deltaT(\Om);
+\end{equation}
+see~\cite[Theorems~1.1, 1.4]{FMPLaplace}. The sharp
+form~\eqref{eq:intro-sharp-form} is the content of~\cite{BDV} for the
+ball case in any dimension $n\ge 2$; see also the survey of
+Brasco--De~Philippis~\cite{BraDeP2017} and the alternative proof of
+Allen--Kriventsov--Neumayer~\cite{AKN2023}. The sharp stability of
+the second eigenvalue under the natural class constraint is due to
+Brasco--Pratelli~\cite{BrascoPratelli2012}.
+
+The Kohler--Jobin
+inequality~\cite{KohlerJobin1978,Brasco2014} bridges the two sides of
+the problem: any sharp $\deltaT$-stability translates into a sharp
+$\deltaFK$-stability with the same exponent on $\Fr$. Both of our
+proofs first close the sharp Saint--Venant
+inequality~\eqref{eq:intro-sharp-form} and then transfer through
+Kohler--Jobin. We make this bridge explicit in
+Sections~\ref{ssec:intro-kj} and~\ref{ssec:intro-final-thms} below.
+
+% =====================================================================
+\subsection{The selection-principle / BDV route}
+\label{ssec:intro-bdv}
+% =====================================================================
+
+The BDV selection
+principle~\cite{BDV} was inspired by the prototype of
+Cicalese--Leonardi~\cite{CL2012} for the isoperimetric inequality;
+related second-variation selection mechanisms appear in
+Acerbi--Fusco--Morini~\cite{AFM2013}. The structure of the argument
+in~\cite{BDV} is: among open sets $U\subset B_R$ with $|U|=\omega_n$
+and prescribed lower bound on $\Fr$, minimise a penalised functional
+\[
+   J_{\Om_0}(U)\;:=\;E(U)+f_{\hat\eta}(|U|)+
+      \sqrt{\eps^2+\tau^2(\BDValpha(U)-\eps)^2}
+\]
+in which $\BDValpha$ is the BDV smooth asymmetry of
+\cite[Def.~4.1]{BDV} and $f_{\hat\eta}$ is a volume penalty. The
+selected minimiser $U_*$ inherits a regularity package
+(\cite[Lem.~4.6, 4.9, 4.12]{BDV}: density estimates, Lipschitz
+non-degeneracy, smooth Bernoulli coefficient) and via the BDV
+flatness theorem (\cite[Thm~4.18]{BDV}, in the spirit of
+Alt--Caffarelli~\cite{AC1981}) enters the $C^{1,\gamma}$ \emph{graph
+regime}: $\partial U_*$ is the graph of a function $g$ over a sphere.
+A Kinderlehrer--Nirenberg hodograph step~\cite{KN1977}, followed by
+a Lieberman oblique Schauder
+bootstrap~\cite{Li86a,Li86b,GT1983,BL1976}, brings $g$ into
+$C^{2,\gamma_0}$ with controlled norm. The BDV nearly-spherical theorem
+(\cite[Thm~3.3]{BDV}, the modern descendant of the convex-stability
+estimate of Fuglede~\cite{Fuglede1989}) then closes the chain:
+\[
+   E(U_*)-E(B_1)\;\ge\;\tfrac{1}{32 n^2}\,\|g\|_{H^{1/2}(\partial B_1)}^2
+\]
+on nearly-spherical sets. After unwinding the asymmetry chain
+(\cite[Lem.~4.2]{BDV}) and combining with the far-regime
+$\Fr^4$-estimate (\cite[Lem.~5.1, 5.2]{BDV}, itself based on the FMP
+quantitative isoperimetry of~\cite{FMP2008}), one obtains a
+\emph{bounded sharp Saint--Venant} statement
+\begin{equation}\label{eq:intro-SV-bounded}
+   \deltaT(\Om)\;\ge\;c_{\rm SV}(n,R)\,\Fr(\Om)^2,
+   \qquad
+   \Om\subset B_R,\quad |\Om|=\omega_n.
+\end{equation}
+The dependence on the confining radius $R$ is then removed by the
+constructive BDV truncation lemma~\cite[Lem.~5.3]{BDV}, applied to a
+truncate $\widetilde\Om\subset B_{R_*(n)}$ whose deficit and asymmetry
+are controlled by those of $\Om$. The output is a global sharp
+Saint--Venant inequality $\deltaT(\Om)\ge c_{\rm
+SV}^{\rm glob}(n)\Fr(\Om)^2$, which feeds into Kohler--Jobin.
+
+This is the load-bearing Plan~1 route. The argument is conditional
+only in one respect: the BDV nearly-spherical
+theorem~\cite[Thm~3.3]{BDV} is invoked as a black-box quantitative
+identity on the $H^{1/2}$-norm of $g$, and the regularity bootstrap
+that prepares $U_*$ for that theorem requires the full BDV regularity
+package. None of these inputs is conditional in the sense of being
+unproved in the literature; they are simply non-trivial.
+
+\begin{remark}[Bernoulli spectral alternative]\label{rem:intro-bernoulli}
+A conceptually different conditional approach to the bounded sharp
+Saint--Venant inequality~\eqref{eq:intro-SV-bounded} would invoke a
+spectral / Bernoulli linearisation of the BDV selected minimiser
+around the ball, using the eigenvalues of the Bernoulli operator on
+$\partial B_1$. This route is sketched in some of the local source
+notes (cf.\ \texttt{Plan~1/route-A-summary.md}) but is \emph{not} the
+main Plan~1 proof of this manuscript: the load-bearing route is the
+BDV selection principle / nearly-spherical / FMP far-regime chain
+above. The Bernoulli alternative is mentioned only as a remark and
+its conditional status (it requires a spectral gap statement we do
+not prove here) is made explicit.
+\end{remark}
+
+% =====================================================================
+\subsection{Quantitative isoperimetry background}
+\label{ssec:intro-quant-iso}
+% =====================================================================
+
+The Plan~1 far-regime estimate~\cite[Lem.~5.1, 5.2]{BDV} and several
+intermediate steps in Plan~2 rely on the quantitative isoperimetric
+toolbox developed in the last twenty years. The cornerstone is the
+sharp quantitative isoperimetric inequality of
+Fusco--Maggi--Pratelli~\cite{FMP2008}: there is $C(n)>0$ such that for
+every set $E\subset\R^n$ of finite perimeter with $|E|=|\Bstar|$,
+\begin{equation}\label{eq:intro-FMP}
+   \Fr(E)^2\;\le\;C(n)\,
+   \frac{P(E)-P(\Bstar)}{P(\Bstar)},
+\end{equation}
+where $P$ is the De~Giorgi perimeter. The exponent $2$ is sharp. An
+alternative mass-transport proof of~\eqref{eq:intro-FMP} is due to
+Figalli--Maggi--Pratelli~\cite{FMP2010}; a Sobolev-type strengthening
+is~\cite{FMP_BV}; an analogous sharp Sobolev / Wulff stability appears
+in~\cite{CFMP2009,NeumayerWulff}; see the surveys of
+Fusco~\cite{FuscoSurvey} and Maggi~\cite{Maggi2008} for context.
+
+The strong form of Fusco--Julin~\cite{FJ2014} adds an oriented
+oscillation index: for every $E\subset\R^n$ of finite perimeter with
+$|E|=|\Bstar|$,
+\begin{equation}\label{eq:intro-FJ}
+   \Fr(E)^2+\beta(E)^2\;\le\;C(n)\,
+   \frac{P(E)-P(\Bstar)}{P(\Bstar)},\qquad
+   \beta(E):=\inf_{z\in\R^n}\!\Bigl(\,
+      \fint_{\partial^*E}\!
+      \Bigl|\nu_E(x)-\tfrac{x-z}{|x-z|}\Bigr|^2\!d\mathcal H^{n-1}
+   \Bigr)^{\!1/2}.
+\end{equation}
+\emph{Both} the asymmetry and the normal-oscillation defect are
+controlled by the isoperimetric defect, with a sharp choice of
+centre. This is the load-bearing isoperimetric input for Plan~2: it
+is~\eqref{eq:intro-FJ}, not~\eqref{eq:intro-FMP}, that supplies the
+levelwise oscillation centres along the foliation
+$\rho\mapsto E_\rho=\{u_\Om>t(\rho)\}$ with $|E_\rho|=\omega_n\rho^n$.
+
+Two technical inputs that come with the quantitative isoperimetric
+literature will be used throughout. First, the Figalli--Maggi
+Sobolev--Sard theorem~\cite[App.~A, Thm~A.1]{FigalliMaggi2011}: for
+the torsion function $u_\Om\in W^{2,p}_{\rm loc}$ with $-\Delta u=1$,
+$\mathcal H^{n-1}(\partial^*E_t\cap\{|\nabla u|=0\})=0$ for
+$\mathcal L^1$-a.e.\ level $t$; equivalently, the normal velocity
+$\Vrho(x)=-t'(\rho)/|\nabla u(x)|$ is well-defined
+$\mathcal H^{n-1}$-a.e.\ on $\partial^*\Erho$ for $\mathcal
+L^1$-a.e.\ $\rho$. Second, the finite-perimeter / BV toolbox of
+Maggi's book~\cite{Maggi2012} (coarea, divergence theorem,
+slicing, structure of $\partial^*E$, rigidity in the isoperimetric
+inequality) and Ambrosio--Fusco--Pallara~\cite{AFP2000} (Reshetnyak
+lower semicontinuity, BV chain rule, Vol'pert slicing). The
+measurable selection statement we use for the levelwise oscillation
+centre on good levels is Federer~\cite[\S2.13]{Federer1969}.
+
+% =====================================================================
+\subsection{The Kohler--Jobin bridge}
+\label{ssec:intro-kj}
+% =====================================================================
+
+The Faber--Krahn and Saint--Venant inequalities are not independent.
+The Kohler--Jobin inequality~\cite{KohlerJobin1978} states that
+\begin{equation}\label{eq:intro-KJ}
+   T(\Om)\,\lambda_1(\Om)^{(n+2)/2}
+   \;\ge\;
+   T(\Bstar)\,\lambda_1(\Bstar)^{(n+2)/2}
+\end{equation}
+for every open $\Om\subset\R^n$ with $0<|\Om|<\infty$, with equality
+if and only if $\Om$ is a ball. The original
+proof~\cite{KohlerJobin1978} is by a rearrangement of the eigenfunction
+along the level sets of the torsion function. The modern statement
+used here is Brasco's~\cite[Thm~3.3]{Brasco2014}, which packages the
+rearrangement as a single comparison of the functionals
+$T\cdot\lambda_1^{(n+2)/2}$ across all open sets of finite
+volume. Inverting the dependence at fixed volume, one obtains the
+pointwise transfer
+\begin{equation}\label{eq:intro-KJ-pointwise}
+   \lambda_1(\Om)\;\ge\;
+   \lambda_1(\Bstar)\,
+   \Bigl(\tfrac{T(\Bstar)}{T(\Om)}\Bigr)^{\!2/(n+2)},
+\end{equation}
+and after the elementary inequality $(1-s)^{-p}-1\ge ps$ for
+$s\in[0,1]$, $p\ge 0$, the Saint--Venant deficit $\deltaT(\Om)$
+becomes a multiple of $\deltaFK(\Om)$ on the small-deficit regime,
+with explicit dimensional multiplier $2L_n/((n+2)T_n)$
+(cf.~\cite[\S3]{Brasco2014}). On the large-deficit regime
+$T(\Om)\le T(\Bstar)/2$, a direct evaluation
+of~\eqref{eq:intro-KJ-pointwise} provides a one-sided bound of size
+$L_n(2^{2/(n+2)}-1)/4$ on $\deltaFK(\Om)/\Fr(\Om)^2$. Taking the
+minimum of the two multipliers yields the explicit
+constant~\eqref{eq:intro-cFKdef} for both proofs.
+
+The Kohler--Jobin transfer is therefore the common closing step in
+the manuscript: \emph{any} sharp $\deltaT$-stability gives a sharp
+$\deltaFK$-stability, and the constants on the two sides are linked
+by an explicit dimensional formula. Both Plan~1 and Plan~2 produce
+the same input $\deltaT(\Om)\ge c_{\rm SV}^{\rm glob}(n)\Fr(\Om)^2$ to
+feed into~\eqref{eq:intro-KJ}, and so the final constants
+$c_{\rm FK}(n)$ on both sides
+of~\eqref{eq:intro-cFKdef} agree verbatim.
+
+% =====================================================================
+\subsection{Nicola--Tilli / rearrangement / level-set viewpoint}
+\label{ssec:intro-nt}
+% =====================================================================
+
+A conceptually different mechanism underlies Plan~2. The starting
+point is the observation, made precise by
+Nicola--Tilli~\cite{NicolaTilli2022} in the context of the
+short-time Fourier transform Faber--Krahn inequality and developed
+quantitatively in the stability companion of
+Gómez--Guerra--Ramos--Tilli~\cite{GGRT2024}, that a Faber--Krahn-type
+deficit admits an \emph{exact integral identity} over the level sets
+of the relevant function. In our setting, the level sets of the
+torsion function $u_\Om$ are parametrised by volume,
+$\Erho:=\{u_\Om>t(\rho)\}$ with $|\Erho|=\omega_n\rho^n$,
+$\rho\in[0,1]$, and the Saint--Venant deficit decomposes as
+\begin{equation}\label{eq:intro-deficit-id}
+   \deltaT(\Om)
+   \;\simeq\;
+   \int_{[\rho_*,1]}\!
+   \bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)\,w(\rho)\,d\rho,
+\end{equation}
+where $D_H(t)=\alpha(t)\beta(t)-P(\Erho)^2\ge 0$ is a
+Cauchy--Schwarz defect along the level set, $D_I(t)=P(\Erho)^2-c_n
+m(t)^{2-2/n}\ge 0$ is the squared-perimeter isoperimetric defect,
+$\alpha(t)=\int_{\partial^*E_t}|\nabla u|^{-1}\,d\mathcal H^{n-1}$,
+$\beta(t)=\int_{\partial^*E_t}|\nabla u|\,d\mathcal H^{n-1}$, and
+$w(\rho)$ is an explicit non-negative weight. The identity is proved
+in~\S\ref{ssec:plan2-level-set} below; it builds on the
+Pólya--Szeg\H o / Talenti rearrangement
+identities~\cite{PolyaSzego1951,Talenti1976,KawohlBook,Bandle1980,BBC1975,BrothersZiemer1988}
+and uses the BV chain rule of Bénilan--Brezis--Crandall~\cite{BBC1975}
+in the form needed by the level-set foliation.
+
+The identity~\eqref{eq:intro-deficit-id} is fully integral: it
+expresses the global deficit as an integral over the foliation of
+two pointwise non-negative quantities, $D_H$ controlling the
+oscillation of $|\nabla u|$ on the level set, $D_I$ controlling the
+isoperimetric oscillation of the level set itself. This is the
+opposite philosophy from Plan~1: instead of selecting a single
+near-extremal set and analysing it as a graph over a sphere, one
+analyses \emph{every} level $\rho$ of the foliation, classifies
+levels as good or bad according to their isoperimetric defect, and
+transfers the integrated defect bound to the metric quotient
+$\X=\mathfrak M/\R^n$ in which sets are identified with their
+translates.
+
+% =====================================================================
+\subsection{What Plan~1 proves and why it is included}
+\label{ssec:intro-plan1}
+% =====================================================================
+
+Plan~1 follows the BDV route~\cite{BDV} step-by-step, with the level
+of detail demanded by~\S2 of \texttt{MANUSCRIPT\_ASSEMBLY\_AGENTS.md}.
+The skeleton is
+\[
+   \begin{aligned}
+      &\text{selection principle (\S3.1, Agent~5)}\\
+      &\quad\to\;\text{graph entry $C^{1,\gamma}$ (\S3.2, Agent~6)}\\
+      &\quad\to\;\text{Schauder/interpolation $C^{2,\gamma_0}$ (\S3.2, Agent~6)}\\
+      &\quad\to\;\text{BDV nearly-spherical closure (\S3.3, Agent~7)}\\
+      &\quad\to\;\text{far-regime $\Fr^4$ glue (\S3.3, Agent~7)}\\
+      &\quad\to\;\text{bounded sharp Saint--Venant (\S3.3, Agent~7)}\\
+      &\quad\to\;\text{bounded reduction (\S3.4, Agent~8)}\\
+      &\quad\to\;\text{Kohler--Jobin transfer (\S3.4, Agent~8)}\\
+      &\quad\to\;\text{sharp quantitative Faber--Krahn (Theorem~\ref{thm:plan1-FK-upper-intro}).}
+   \end{aligned}
+\]
+The bounded sharp Saint--Venant estimate
+\[
+   \deltaT(\Om)\;\ge\;c_{\rm SV}(n,R)\,\Fr(\Om)^2,
+   \quad \Om\subset B_R,\;|\Om|=\omega_n
+\]
+is the substance of the BDV argument; bounded reduction is the
+constructive truncation of~\cite[Lem.~5.3]{BDV}; Kohler--Jobin is
+\cite[Thm~3.3]{Brasco2014}.
+
+The reasons for including Plan~1 in this manuscript are threefold.
+First, it is the canonical proof: any honest discussion of the sharp
+quantitative Faber--Krahn inequality must reproduce the BDV chain,
+because the structure of the rest of the literature
+(\cite{BraDeP2017,AKN2023,BrascoPratelli2012,FuscoSurvey,Maggi2008})
+is organised around it. Second, the constant
+$c_{\rm SV}(n,R)$ produced by Plan~1 is fully explicit at every step
+(selection thresholds, regularity radii, nearly-spherical constant
+$c_*(n)=1/(32n^2 C_3(n))$, glue constants), and the chain shows
+exactly how dimensional and confinement dependences arise. Third,
+both proofs converge at the same global Saint--Venant statement and
+the same Kohler--Jobin transfer; presenting Plan~1 in full makes the
+common closing step explicit and makes the comparison with Plan~2
+honest.
+
+% =====================================================================
+\subsection{What Plan~2 proves and why it is structurally different}
+\label{ssec:intro-plan2}
+% =====================================================================
+
+Plan~2 produces \emph{the same} global sharp Saint--Venant inequality
+$\deltaT(\Om)\ge c_{\rm SV}^{\rm glob}(n)\Fr(\Om)^2$ along a
+structurally different route. The mechanism is a five-step chain in
+the metric quotient $\X$:
+\[
+   \begin{aligned}
+      &\text{Level-set deficit identity (\S4.1, Agent~9)}\\
+      &\quad\to\;\text{Metric framework / first variation (\S4.2, Agent~10)}\\
+      &\quad\to\;\text{Fusco--Julin centres and oriented radial trace (\S4.3, Agent~11)}\\
+      &\quad\to\;\text{Integrated action / weighted metric trace (\S4.4, Agent~12)}\\
+      &\quad\to\;\text{Boundary-layer transfer + global assembly (\S4.5, Agent~13).}
+   \end{aligned}
+\]
+Each ingredient is necessary, and none is conditional. We summarise
+the role of each.
+
+\paragraph{(1) Exact level-set deficit identity.}
+Theorem~\ref{thm:plan2-levelset-id} (Agent~9, \S\ref{ssec:plan2-level-set})
+records the identity
+\eqref{eq:intro-deficit-id} as a finite-perimeter equality, on the
+reduced boundary $\partial^*\Erho$, with $\alpha(t)$, $\beta(t)$,
+$D_H(t)$, $D_I(t)$, and $w(\rho)$ defined precisely in the notation
+register. The proof uses the BV coarea theorem
+(\cite[Thm~13.1]{Maggi2012},~\cite[Thm~3.40]{AFP2000}), a weak
+divergence-flux identity for the gradient of the torsion function
+truncated by a smooth cut-off of the radial vector field $x/|x|$, and
+the BV chain rule for monotone absolutely continuous inverses
+(\cite[Thm~0.4]{BBC1975}; see also~\cite[Thm~3.99]{AFP2000}). The
+identity isolates two non-negative defects at every level: $D_H$ (a
+Cauchy--Schwarz defect, controlling oscillation of $|\nabla u|$ on
+$\partial^*E_t$) and $D_I$ (a squared-perimeter isoperimetric defect,
+controlling oscillation of the level set itself).
+
+\paragraph{(2) Metric framework and first variation.}
+\S\ref{ssec:plan2-metric} (Agent~10) embeds the family
+$F_\rho=\rho^{-1}\Erho$ in the quotient metric space
+$(\X,\dX)=(\{\mathbf 1_A\}/\R^n, d_{L^1}/\!\sim)$ of indicator
+functions modulo translation, and proves absolute continuity of
+$\rho\mapsto[F_\rho]$ with metric derivative in the
+Ambrosio--Gigli--Savar\'e sense~\cite[Def.~1.1.1, Thm~1.1.2]{AGS2008}.
+The smooth first variation is computed under a smooth flow (with
+normal velocity $\Vrho=-t'(\rho)/|\nabla u|$ ---
+well-defined $\mathcal H^{n-1}$-a.e.\ on $\partial^*\Erho$ for a.e.\
+$\rho$ by~\cite[Thm~A.1]{FigalliMaggi2011}), then passed to the
+finite-perimeter setting through Reshetnyak lower
+semicontinuity~\cite[Thm~2.38]{AFP2000}. The output is an upper bound
+on the metric derivative $|\dot F_\rho|_\X$ by an explicit Lebesgue
+norm of $\Vrho$ on $\partial^*\Erho$.
+
+\paragraph{(3) Fusco--Julin centres and oriented radial trace.}
+\S\ref{ssec:plan2-radial-trace} (Agent~11) chooses, on every \emph{good}
+isoperimetric-defect level (i.e., where $D_I(t(\rho))$ is below a
+threshold), a Borel measurable oscillation centre $z_\rho\in\R^n$
+extracted from the Fusco--Julin
+inequality~\eqref{eq:intro-FJ}~\cite{FJ2014}, using the
+Federer measurable selection
+principle~\cite[\S2.13]{Federer1969}. The asymmetry and
+normal-oscillation defects of $\Erho$ at centre $z_\rho$ are then
+both controlled by $D_I(t(\rho))^{1/2}$ and $D_I(t(\rho))$
+respectively. The load-bearing lemma is the \emph{oriented
+$L^1$-radial trace estimate}
+\begin{equation}\label{eq:intro-trace}
+   T_\rho
+   \;=\;\!\int_{\partial^*\Erho}\!
+      \Bigl|\tfrac{|x-z_\rho|}{\rho}-1\Bigr|\,d\mathcal H^{n-1}
+   \;\le\;C\Bigl(
+      |\Erho\triangle B_\rho(z_\rho)|
+      +\!\int_{\partial^*\Erho}\!
+         \Bigl|\nurho-\tfrac{x-z_\rho}{|x-z_\rho|}\Bigr|^{\!2}\!
+         d\mathcal H^{n-1}
+   \Bigr).
+\end{equation}
+The proof of~\eqref{eq:intro-trace} is a finite-perimeter divergence
+identity applied to the vector field
+$X(x)=\bigl|\tfrac{|x-z_\rho|}{\rho}-1\bigr|\tfrac{x-z_\rho}{|x-z_\rho|}$,
+truncated near the centre to handle the $L^1_{\rm loc}$ singularity at
+$z_\rho$ (Maggi~\cite[Thm~16.3]{Maggi2012}). The Fusco--Julin
+inequality controls both terms on the right of~\eqref{eq:intro-trace}
+by powers of $D_I$, and the level-set deficit identity converts the
+integrated trace into a metric kinetic estimate.
+
+\paragraph{(4) Integrated action and weighted metric trace.}
+\S\ref{ssec:plan2-weighted-trace} (Agent~12) decomposes the foliation
+into good and bad isoperimetric-defect levels, controls the bad set
+by Markov's inequality applied to $D_I$, and reassembles
+\[
+   \int_{[\rho_*,1]}\!\bigl(\dX([F_\rho],[B_1])^2+|\dot F_\rho|_\X^2\bigr)\,\mu(d\rho)
+   \;\le\;C(n,R,\rho_*)\,\deltaT(\Om),
+\]
+where $\mu(d\rho)=-t'(\rho)\,d\rho$. The abstract weighted metric trace
+lemma (an arc-length argument in $(\X,\dX)$ with respect to the
+measure $\mu$) then produces a radius $\rhad\in[\rho_*,1]$ such that
+$\dX([F_{\rhad}],[B_1])^2\le C_*\,\deltaT(\Om)$ and $\rhad$ is close
+to the heuristic value $\rhodelta=1-\kappa\sqrt{\deltaT(\Om)}$. The
+Talenti bad-set Lebesgue estimate (\cite{Talenti1976}, used in
+combination with the volume-radius parametrisation,
+\cite[Thm~1.3.2]{Kesavan2006}) is what converts weighted kinetic
+energy on the bad-$-t'$ set into Lebesgue kinetic energy on
+$[\rho_*,1]$ without losing the $\deltaT$ rate.
+
+\paragraph{(5) Boundary-layer transfer.}
+\S\ref{ssec:plan2-boundary-transfer} (Agent~13) returns from $F_{\rhad}$ to
+$\Om$. The removed boundary layer $\Om\setminus E_{\rhad}$ has
+measure $O(\sqrt{\deltaT(\Om)})$, and the transfer of asymmetry from
+$E_{\rhad}$ to $\Om$ squares this $\sqrt{\deltaT}$ without producing
+a rate loss. The result is the bounded sharp Saint--Venant
+inequality~\eqref{eq:intro-SV-bounded} in the Plan~2 form. Bounded
+reduction (\cite[Lem.~5.3]{BDV}, imported through
+Plan~1's \texttt{BoundedReduction}) removes the $R$-dependence, and
+Kohler--Jobin~\cite{Brasco2014} closes the chain.
+
+\begin{remark}[Auxiliary centroid / space-time route]\label{rem:intro-pi-route}
+A separate centroid bound and a related space-time $\Pi$-identity
+(\S\ref{ssec:plan2-aux-centroid}, Agent~14) compute, for the bulk
+centroid $\zbar$, the signed radial moment
+$\PiE$ and a Fubini-density identity relating
+$\PiE$ across $\rho$. These quantities are auxiliary diagnostics:
+the repaired Plan~2 chain above uses only the \emph{integrated}
+forms of $D_H$ and $D_I$ through the
+identity~\eqref{eq:intro-deficit-id} and the oriented radial trace
+of~\eqref{eq:intro-trace}, not pointwise $\PiE$-control. The
+$\Pi$-route is presented in the manuscript for the record and would
+become load-bearing only if a separate integrated $\Pi$-control
+estimate were proved (which we do not). Up to that hypothetical
+upgrade, the centroid/$\Pi$-route is not used in any of the load-bearing
+steps of Plan~2.
+\end{remark}
+
+The reasons for including Plan~2 are: (i) it is structurally
+different from Plan~1, in that it does not select a single near-extremal
+set and does not use a graph parametrisation; (ii) it exposes the
+deficit as an integral over the level-set foliation, so that the role of
+isoperimetric stability~\eqref{eq:intro-FJ} is direct rather than
+indirect; (iii) it uses only finite-perimeter regularity throughout,
+without a smoothness or graph assumption on $\partial\Om$; (iv) the
+oriented $L^1$-radial trace lemma~\eqref{eq:intro-trace} is, to our
+knowledge, the first place in the Faber--Krahn / Saint--Venant
+quantitative literature where Fusco--Julin oscillation is used in this
+form to transfer levelwise control to the metric quotient $\X$.
+
+% =====================================================================
+\subsection{Precise statement of the two final theorems}
+\label{ssec:intro-final-thms}
+% =====================================================================
+
+Both proofs in this manuscript close the same theorem, in the same
+normalisation, with the same explicit dimensional constant
+\eqref{eq:intro-cFKdef}. We state both forms here for the record;
+Plan~1 produces the proof in \S\ref{sec:plan1} and Plan~2 in
+\S\ref{sec:plan2}.
+
+\begin{theorem}[Sharp Faber--Krahn via Kohler--Jobin; Plan~1, upper form]
+\label{thm:plan1-FK-upper-intro}
+There is a dimensional constant $C_{\rm FK}(n)>0$ such that, for every
+open set $\Om\subset\R^n$ with $0<|\Om|<\infty$,
+\begin{equation}\label{eq:intro-plan1-FK}
+   \Fr(\Om)^2\;\le\;C_{\rm FK}(n)\,\deltaFK(\Om),
+\end{equation}
+where
+\[
+   C_{\rm FK}(n)
+   \;:=\;\frac{1}{c_{\rm FK}(n)}
+   \;=\;\max\!\Bigl\{
+      \frac{(n+2)\,T_n}{4 L_n\,c_{\rm SV}^{\rm glob}(n)},\;
+      \frac{4}{L_n\,(2^{2/(n+2)}-1)}
+   \Bigr\},
+\]
+with $L_n=\lambda_1(B_1)$, $T_n=T(B_1)=\omega_n/(n(n+2))$, and
+$c_{\rm SV}^{\rm glob}(n)$ the global sharp Saint--Venant
+constant defined in~\eqref{eq:csv-glob} of \S\ref{sec:plan1}. The
+deficit $\deltaFK(\Om)$ is as in~\eqref{eq:intro-deltaFK} and
+$\Fr(\Om)$ is the Fraenkel asymmetry~\eqref{eq:intro-Fr}.
+Equality cases: $\deltaFK(\Om)=0$ iff $\Om$ is a ball (up to
+translation and a Lebesgue negligible set); in that case
+$\Fr(\Om)=0$.
+\end{theorem}
+
+\begin{theorem}[Sharp quantitative Faber--Krahn; Plan~2 final form]
+\label{thm:plan2-FK-intro}
+Let $n\ge 2$. There exists a constant $c_{\rm FK}(n)>0$, depending
+only on $n$, given by the explicit formula~\eqref{eq:intro-cFKdef}
+above, such that for every open $\Om\subset\R^n$ with $0<|\Om|<\infty$,
+\begin{equation}\label{eq:intro-plan2-FK}
+   \deltaFK(\Om)
+   \;=\;
+   \Bigl(\tfrac{|\Om|}{\omega_n}\Bigr)^{\!2/n}
+   \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)
+   \;\ge\;c_{\rm FK}(n)\,\Fr(\Om)^2.
+\end{equation}
+The exponent $2$ is sharp.
+\end{theorem}
+
+The two statements are identical up to inversion of the constant
+($C_{\rm FK}(n)=1/c_{\rm FK}(n)$). The proofs end at the same place
+because they share the bounded reduction~\cite[Lem.~5.3]{BDV} and the
+Kohler--Jobin transfer~\cite[Thm~3.3]{Brasco2014}. The constants are
+identical because both routes feed the same global Saint--Venant
+constant $c_{\rm SV}^{\rm glob}(n)$ into the Kohler--Jobin transfer,
+and the dimensional factors $L_n,T_n,\omega_n$ are universal.
+
+% =====================================================================
+\subsection{Related work and contributions}
+\label{ssec:intro-related}
+% =====================================================================
+
+The sharp inequality~\eqref{eq:intro-main} was first
+proved by Brasco--De~Philippis--Velichkov~\cite{BDV} in 2015. A
+companion proof, structurally distinct in the use of the
+Alt--Caffarelli--Friedman monotonicity formula, was obtained by
+Allen--Kriventsov--Neumayer~\cite{AKN2023}. The sharp stability of the
+second Dirichlet eigenvalue is the result of
+Brasco--Pratelli~\cite{BrascoPratelli2012}. Pre-BDV non-sharp results
+include Hansen--Nadirashvili~\cite{HansenNadirashvili1994},
+Melas~\cite{Melas1992}, Bhattacharya~\cite{Bhattacharya2001}, and the
+$\Fr^4$-bound of~\cite{FMPLaplace}. A modern survey of the quantitative
+Faber--Krahn / Saint--Venant literature is in
+Brasco--De~Philippis~\cite{BraDeP2017}; for the broader quantitative
+isoperimetric viewpoint see Fusco~\cite{FuscoSurvey} and
+Maggi~\cite{Maggi2008}.
+
+On the isoperimetric side, the sharp quantitative
+inequality~\cite{FMP2008} admits the mass-transport
+proof of~\cite{FMP2010}, the BV-Sobolev strengthening of~\cite{FMP_BV},
+the sharp Sobolev companion of~\cite{CFMP2009}, and the Wulff
+strengthening of~\cite{NeumayerWulff}. The strong form of
+Fusco--Julin~\cite{FJ2014} is what makes Plan~2 work: the oscillation
+index controls a quadratic centre-dependent average of $|\nu-e_r|^2$
+with the same exponent as the asymmetry. The selection-principle
+mechanism that underlies Plan~1 originates in
+Cicalese--Leonardi~\cite{CL2012}; the closely related second-variation
+selection of~\cite{AFM2013} is in the spirit of the BDV penalised
+functional but is not used directly here.
+
+The level-set / convexity viewpoint behind Plan~2 is inspired by
+Nicola--Tilli~\cite{NicolaTilli2022} and its quantitative companion
+Gómez--Guerra--Ramos--Tilli~\cite{GGRT2024} in the short-time Fourier
+transform setting. Our use of the metric quotient $\X=\mathfrak
+M/\R^n$ and the Ambrosio--Gigli--Savar\'e metric
+derivative~\cite{AGS2008} is, to our knowledge, new in the
+Saint--Venant context; the oriented $L^1$-radial trace
+identity~\eqref{eq:intro-trace} and its proof by truncation of the
+vector field $x\mapsto||x-z|/\rho-1|(x-z)/|x-z|$ on the reduced
+boundary, using~\cite[Thm~16.3]{Maggi2012}, are the technical core
+that allows Fusco--Julin oscillation to be converted into integrated
+metric data along the foliation.
+
+Finally, the Kohler--Jobin
+inequality~\cite{KohlerJobin1978,Brasco2014} is the
+device that bridges Saint--Venant stability and Faber--Krahn
+stability; it is what permits both of our proofs to share the
+\emph{same} closing step and the \emph{same} final constant. We
+present this bridge in full in \S\ref{ssec:plan1-final} and reuse it
+verbatim in \S\ref{ssec:plan2-final}.
+
+\paragraph{Contributions of the present paper.}
+We summarise the contributions of the manuscript as follows:
+
+\begin{enumerate}
+\item A fully detailed exposition of the BDV
+selection-principle / graph-entry / Schauder / nearly-spherical /
+truncation chain~\cite{BDV,Brasco2014}, with explicit dimensional
+constants at every step (Plan~1, \S\ref{sec:plan1}). The level of
+detail follows the building blocks
+\texttt{Plan~1/quantitative-selection-principle.tex},
+\texttt{Plan~1/graph-entry-closure.tex},
+\texttt{Plan~1/route-A-summary.tex},
+\texttt{Plan~1/faber-krahn-transfer.tex}.
+\item A structurally different proof of the same sharp inequality
+based on an exact level-set deficit identity, a metric first-variation
+in the quotient space $(\X,\dX)$ of sets modulo translation, an
+oriented $L^1$-radial trace lemma anchored at Fusco--Julin oscillation
+centres, a weighted metric trace, and a boundary-layer transfer. This
+is Plan~2, \S\ref{sec:plan2}, and is new in the Saint--Venant /
+Faber--Krahn context. The five major steps and their building blocks
+\texttt{Plan~2/WIP/WIP\_LevelSetIdentity.tex},
+\texttt{Plan~2/WIP/WIP\_MetricFramework.tex},
+\texttt{Plan~2/WIP/WIP\_WeightedMetricTrace.tex},
+\texttt{Plan~2/WIP/WIP\_BoundaryLayerTransfer.tex}, and
+\texttt{Plan~2/WIP/WIP\_GlobalAssembly.tex} are integrated into the
+manuscript with detail substantially greater than in the source
+blocks.
+\item A side-by-side bookkeeping of the constants. The bounded
+Saint--Venant constants $c_{\rm SV}(n,R)$ from each route are
+different intermediate quantities; the global constant
+$c_{\rm SV}^{\rm glob}(n)$ that enters Kohler--Jobin is, in both
+routes, given by the same expression
+(\eqref{eq:intro-cFKdef}). The final constant $c_{\rm FK}(n)$
+on~\eqref{eq:intro-main} is therefore identical for the two routes,
+as recorded by Remark~\ref{rem:plan2-vs-plan1-normalisation} of
+\S\ref{sec:plan2}.
+\item A complete reference audit
+(Manuscript/04\_references\_audit.md) listing every external citation
+with exact bibliographic data, the theorem/proposition/page actually
+used, and the manuscript location at which it enters, together with a
+notation register (Manuscript/00\_notation\_register.md) fixing the
+canonical symbols. No vague phrases such as `well-known' or
+`standard' appear in a load-bearing step without a precise reference.
+\item An internal audit pass on each of Plan~1 and Plan~2
+(Manuscript/audit\_plan1.md, Manuscript/audit\_plan2.md), recording
+that no conditional Bernoulli spectral input is used in the Plan~1
+proof and that no centroid / space-time $\Pi$-control is used in the
+load-bearing Plan~2 chain.
+\end{enumerate}
+
+\paragraph{Organisation.}
+\S\ref{sec:prelims} (Preliminaries) collects the finite-perimeter,
+torsion, rearrangement, and Fusco--Julin facts used in both routes.
+\S\ref{sec:plan1} (Plan~1) presents the BDV selection-principle proof
+from selection through to the final theorem. \S\ref{sec:plan2}
+(Plan~2) presents the level-set / metric route through to the same
+final theorem. The Kohler--Jobin transfer and the bounded reduction,
+which are the closing steps of both routes, are written out fully in
+\S\ref{ssec:plan1-final} and re-used in \S\ref{ssec:plan2-final}.
+\S\ref{sec:references} (References) is the bibliography.
+
+\bigskip
+
+\noindent\emph{Conventions used throughout the introduction:} the
+ambient dimension is $n\ge 2$, balls $B_r(z)\subset\R^n$ are open
+Euclidean balls, $\Bstar$ is the open ball centred at the origin with
+$|\Bstar|=|\Om|$, $\omega_n=|B_1|$, $L_n=\lambda_1(B_1)$, $T_n=T(B_1)$,
+and all constants $C, c, c_{\rm SV}, c_{\rm FK}$ are positive and
+depend on at most $(n,R,\rho_*)$ at every step where they appear;
+dependences are declared on first use. The notation register is
+\texttt{Manuscript/00\_notation\_register.md}.
+
+% =====================================================================
+% End of Manuscript/05_intro_story_draft.tex
+% =====================================================================

@@ -1,0 +1,768 @@
+% UNIFIED 2026-05-13
+% SOURCE MAP:
+%   - Plan 1/route-A-summary.tex
+%       Sections 5 (closure by BDV nearly spherical), 6 (the
+%       non-contradictory quantitative argument), 7 (extension to all
+%       asymmetries) supply the assembly logic. We CONVERT the source
+%       dimension symbol N -> n per Manuscript/00_notation_register.md.
+%   - Final/NearlySphericalClosure.tex
+%       Theorem 2.2 (NS), Corollary 2.4 (vol/barycenter absorption),
+%       Lemmas 1.1, 1.2 (BDV Thm 3.3 and Lem 4.2(i),(iii)).
+%   - Final/SaintVenantAssembly.tex
+%       Theorems 2.1, 4.1 (small-alpha linear bound, sharp Saint-Venant),
+%       Lemmas 1.1, 1.2, 1.3 (BDV Lem 4.2(i),(ii), Lem 5.2), and
+%       Corollary 3.1 / Lemma 3.2 (conversion alpha <-> Fr).
+%   - Plan 1/1306.0392v1.pdf
+%       Brasco-De Philippis-Velichkov, "Faber-Krahn inequalities in sharp
+%       quantitative form", arXiv:1306.0392v1 (2013).
+%       Used as black boxes: Definition 4.1 (smooth asymmetry),
+%       Theorem 3.3 (sharp nearly spherical), Lemma 4.2 (i),(ii),(iii),
+%       Lemma 5.2 (suboptimal Fraenkel-quartic Saint-Venant),
+%       Lemmas 4.9, 4.12, 4.16, Theorem 4.18 (regularity package used
+%       upstream via Agents 5-6; not re-invoked here).
+%   - Manuscript/00_notation_register.md
+%       Sections 1-6, 14: canonical n, R, B^*, T(.), E(.), delta_T,
+%       Fraenkel \mathcal A, BDV smooth alpha (renamed \alpha_BDV in
+%       passages where coarea alpha(t) could collide), constants tracked
+%       with explicit (n,R) dependence.
+%   - Manuscript/source_map.md
+%       Entries D3.1-D3.8 (nearly spherical closure and bounded sharp
+%       Saint-Venant), with upstream dependencies D1.x (selection,
+%       Agent 5) and D2.x (graph entry / Schauder, Agent 6).
+%
+% UPSTREAM HYPOTHESES (Agents 5 and 6) USED VERBATIM:
+%   - (S) Quantitative selection theorem with constants
+%         C_sel(n,R), q_sel(n,R), eps_sel(n,R), tau_reg(n,R).
+%   - (G) Graph entry: alpha_graph(n,R), C_H''(n,R), gamma in (0,1).
+%   - (I) Schauder/interpolation entry into the C^{2,gamma_0} ball:
+%         alpha_sph(n,R,gamma_0), delta_sph(n,gamma_0).
+%
+% This subsection produces the output the next agent (Agent 8) needs:
+%         bounded sharp Saint-Venant inequality
+%            E(Omega)-E(B^*) >= c_SV(n,R) \mathcal A(Omega)^2
+%         for Omega open, Omega \subset B_R, |Omega| = |B_1| = omega_n,
+%         equivalently
+%            \mathcal A(Omega)^2 <= C(n,R) delta_T(Omega).
+
+% ---------- Subsection: Nearly-spherical closure and bounded sharp Saint--Venant ----------
+
+\subsection{Nearly-spherical closure and bounded sharp Saint--Venant}
+\label{sec:plan1-nearly-spherical}
+
+This subsection closes the chain
+\[
+\text{selection}\ \longrightarrow\ \text{graph entry}\ \longrightarrow\
+\text{Schauder/interpolation entry}\ \longrightarrow\
+\text{BDV nearly spherical}
+\]
+and converts the closing inequality into the bounded sharp
+Saint--Venant estimate
+\begin{equation}\label{eq:plan1-target}
+   \Fr(\Om)^{2}\ \le\ C(n,R)\,\deltaT(\Om),
+   \qquad \Om\subset B_{R},\ |\Om|=\omega_{n},
+\end{equation}
+which is the input to the bounded reduction and the Kohler--Jobin
+transfer of Agent~8. The argument is \emph{not} by contradiction: every
+quantitative step is a substitution of upstream constants into a chain
+of explicit BDV black boxes. The constants are tracked through the
+section.
+
+Throughout the subsection $n\ge 2$ and $R\ge 2$ are fixed, all sets are
+bounded open subsets of $\mathbb{R}^{n}$, and we keep the notation
+register conventions. (Domain-class reconciliation. The selection
+principle of Agent~5 produces a quasi-open minimiser
+$U_*\subset\overline{B_R}$ in the BDV sense
+\cite[\S2]{BDV}; after the BDV regularity package
+\cite[Lem.~4.9,~4.12,~4.16,~Thm.~4.18]{BDV} consumed by Agent~6,
+$U_*$ is open up to a set of zero capacity, and all load-bearing
+functionals $\deltaT,\Fr,\BDValpha,\lambda_1$ are insensitive to
+capacity-zero modifications. Consequently the quasi-open class of
+Agent~5 and the open class of the notation register \S2 coincide for
+every quantity used below; we treat $U_*$ as an open subset of
+$\overline{B_R}$ without further mention.)
+The notation register conventions are: $E(\Om)=-T(\Om)/2$ is the BDV-normalised
+Saint--Venant energy, $\deltaT(\Om)=E(\Om)-E(B^{*})$ is the Saint--Venant
+deficit at fixed volume, $\Fr(\Om)$ is the Fraenkel asymmetry, and the
+BDV smooth asymmetry is
+\[
+\BDValpha(\Om)\ :=\ \int_{\Om\,\triangle\, B_{1}(x_{\Om})}
+   \bigl|\,1-|x-x_{\Om}|\,\bigr|\,dx,
+   \qquad
+   x_{\Om}=\frac{1}{|\Om|}\int_{\Om} x\,dx
+\]
+(\cite[Definition~4.1]{BDV}, with $n$ in place of the source
+symbol $N$). The torsion quotient at the BDV smooth asymmetry is
+\[
+Q_{\BDValpha}(\Om)\ :=\ \frac{E(\Om)-E(B_{1})}{\BDValpha(\Om)},
+   \qquad |\Om|=\omega_{n},\ \BDValpha(\Om)>0.
+\]
+
+\subsubsection{The three BDV black boxes}
+\label{sec:plan1-bdv-blackboxes}
+
+The closure uses exactly three results from
+\cite{BDV}, all of which are proved there constructively (no
+compactness, no selection).
+
+\paragraph{(B1) Sharp nearly-spherical stability \textnormal{(\cite[Theorem~3.3]{BDV})}.}
+For every $0<\gamma_{0}\le 1$ there exists
+$\delta_{1}=\delta_{1}(n,\gamma_{0})>0$ such that the following holds.
+Let $U\subset\mathbb{R}^{n}$ be open and bounded, and suppose there
+exists $g\in C^{2,\gamma_{0}}(\partial B_{1})$ with
+\begin{equation}\label{eq:plan1-ns-hyp}
+   \partial U=\bigl\{(1+g(y))\,y:\,y\in\partial B_{1}\bigr\},
+   \quad
+   \|g\|_{C^{2,\gamma_{0}}(\partial B_{1})}\le\delta_{1},
+   \quad
+   |U|=|B_{1}|,
+   \quad
+   x_{U}=0.
+\end{equation}
+Then, with $E$ the Saint--Venant energy of
+Notation~Register~\S3 and $H(g)$ the harmonic extension of $g$ to
+$B_{1}$,
+\begin{equation}\label{eq:plan1-BDV33}
+   E(U)-E(B_{1})\ \ge\
+   c_{\rm sph}(n)\,\|g\|_{H^{1/2}(\partial B_{1})}^{2},
+   \qquad
+   c_{\rm sph}(n):=\frac{1}{32\,n^{2}},
+\end{equation}
+where $\|g\|_{H^{1/2}(\partial B_{1})}^{2}=\int_{\partial B_{1}}g^{2}\,d\mathcal{H}^{n-1}+\int_{B_{1}}|\nabla H(g)|^{2}\,dx$
+(\cite[Definition~3.2]{BDV}). The constant $1/(32n^{2})$ comes from
+the gap to the second Steklov eigenvalue of $B_{1}$ (equal to $2$ in
+every dimension), see \cite[(3.9)--(3.10)]{BDV}.
+
+\paragraph{(B2) Smooth-asymmetry comparisons \textnormal{(\cite[Lemma~4.2 (i),(ii),(iii)]{BDV})}.}
+There exist $C_{1}=C_{1}(n)>0$, $C_{2}=C_{2}(R)>0$,
+$\delta_{3}=\delta_{3}(n)>0$, $C_{3}=C_{3}(n)>0$ such that:
+\begin{enumerate}
+\item[\textup{(i)}]
+   for every bounded open $\Om\subset\mathbb{R}^{n}$ with
+   $|\Om|=|B_{1}|$,
+   \begin{equation}\label{eq:plan1-42i}
+      C_{1}(n)\,\BDValpha(\Om)\ \ge\ |\Om\triangle B_{1}(x_{\Om})|^{2}
+      \ \ge\ |B_{1}|^{2}\Fr(\Om)^{2};
+   \end{equation}
+\item[\textup{(ii)}]
+   for every $R\ge 2$ and every bounded open
+   $\Om_{1},\Om_{2}\subset B_{R}$,
+   \begin{equation}\label{eq:plan1-42ii}
+      \bigl|\BDValpha(\Om_{1})-\BDValpha(\Om_{2})\bigr|
+      \ \le\ C_{2}(R)\,|\Om_{1}\triangle\Om_{2}|;
+   \end{equation}
+   in particular, choosing $\Om_{2}$ to be the Fraenkel-optimal ball for
+   $\Om_{1}$ (so $\BDValpha(\Om_{2})=0$), one has, for
+   $|\Om|=\omega_{n}$ and $\Om\subset B_{R}$,
+   \begin{equation}\label{eq:plan1-42ii-Fr}
+      \BDValpha(\Om)\ \le\ C_{2}(R)\,\omega_{n}\,\Fr(\Om);
+   \end{equation}
+\item[\textup{(iii)}]
+   for every nearly-spherical set $U$ parametrised by $g$ with
+   $\|g\|_{L^{\infty}(\partial B_{1})}\le\delta_{3}$,
+   \begin{equation}\label{eq:plan1-42iii}
+      \BDValpha(U)\ \le\ C_{3}(n)\,\|g\|_{L^{2}(\partial B_{1})}^{2}.
+   \end{equation}
+\end{enumerate}
+All three estimates are proved in \cite[\S4]{BDV} by direct
+rearrangement / Taylor expansion of $\BDValpha$; they are constructive.
+
+\paragraph{(B3) Suboptimal Fraenkel-quartic Saint--Venant
+\textnormal{(\cite[Lemma~5.2]{BDV})}.}
+There exists $C_{8}=C_{8}(n)>0$ such that for every bounded open
+$\Om\subset\mathbb{R}^{n}$ with $0<|\Om|<\infty$,
+\begin{equation}\label{eq:plan1-52-raw}
+   E(\Om)\,|\Om|^{-(n+2)/n}-E(B_{1})\,|B_{1}|^{-(n+2)/n}
+   \ \ge\ \frac{1}{C_{8}(n)}\,\Fr(\Om)^{4}.
+\end{equation}
+The proof in \cite[\S5]{BDV} is by rearrangement and
+P\'olya--Szeg\H{o} (no contradiction, no selection). After absorbing the
+$\omega_{n}^{(n+2)/n}$ factor at fixed volume $|\Om|=\omega_{n}$,
+\begin{equation}\label{eq:plan1-52-fixed}
+   E(\Om)-E(B_{1})\ \ge\
+   C_{8}'(n)^{-1}\,\Fr(\Om)^{4},
+   \qquad C_{8}'(n):=C_{8}(n)/\omega_{n}^{(n+2)/n}.
+\end{equation}
+
+\medskip
+\textbf{Important note on hypotheses.} (B1) is stated for sets that are
+\emph{simultaneously} $C^{2,\gamma_{0}}$-parametrised, volume-normalised
+to $|B_{1}|$, and barycentred at the origin. The three normalisations
+are all load-bearing for~\eqref{eq:plan1-BDV33}: dropping any one of
+them changes the form of the second-variation calculation in
+\cite[\S3]{BDV}. Sections~\ref{sec:plan1-feed-graph}
+and~\ref{sec:plan1-vol-bary} show that the upstream chain enforces all
+three.
+
+\subsubsection{Trace--Poincar\'e step and the pointwise
+\texorpdfstring{$\alpha$}{alpha}-form}
+\label{sec:plan1-alpha-form}
+
+Combining (B1) and (B2)(iii) gives the pointwise
+$Q_{\BDValpha}$-floor on nearly-spherical sets. The intermediate
+$H^{1/2}\!\to L^{2}$ comparison is the trace--Poincar\'e inequality on
+$\partial B_{1}$:
+\begin{equation}\label{eq:plan1-poincare}
+   \|g\|_{L^{2}(\partial B_{1})}^{2}\ \le\
+   \|g\|_{H^{1/2}(\partial B_{1})}^{2},
+\end{equation}
+which is immediate from the definition of the $H^{1/2}$-norm (its $L^{2}$
+summand bounds $\|g\|_{L^{2}}^{2}$ above by itself).
+
+\begin{theorem}[Nearly-spherical closure, BDV smooth-asymmetry form]
+\label{thm:plan1-NS}
+Fix $0<\gamma_{0}\le 1$ and let
+\begin{equation}\label{eq:plan1-deltasph}
+   \delta_{\rm sph}(n,\gamma_{0})\ :=\ \min\bigl(\delta_{1}(n,\gamma_{0}),\,\delta_{3}(n)\bigr).
+\end{equation}
+Let $U\subset\mathbb{R}^{n}$ be open and bounded, with
+$\partial U=\{(1+g(y))y:y\in\partial B_{1}\}$,
+$g\in C^{2,\gamma_{0}}(\partial B_{1})$, and
+\begin{equation}\label{eq:plan1-NS-hyp}
+   \|g\|_{C^{2,\gamma_{0}}(\partial B_{1})}\le\delta_{\rm sph}(n,\gamma_{0}),
+   \qquad |U|=|B_{1}|,
+   \qquad x_{U}=0.
+\end{equation}
+Then
+\begin{equation}\label{eq:plan1-NS-alpha}
+   E(U)-E(B_{1})\ \ge\ c_{*}(n)\,\BDValpha(U),
+   \qquad
+   c_{*}(n)\ :=\ \frac{c_{\rm sph}(n)}{C_{3}(n)}\ =\
+   \frac{1}{32\,n^{2}\,C_{3}(n)},
+\end{equation}
+and consequently $Q_{\BDValpha}(U)\ge c_{*}(n)$.
+\end{theorem}
+
+\begin{proof}
+By~\eqref{eq:plan1-deltasph} both
+hypotheses~\eqref{eq:plan1-ns-hyp} (with $\delta_{1}$) and the smallness
+hypothesis of (B2)(iii) (with $\delta_{3}$) hold simultaneously, since
+$\|g\|_{L^{\infty}}\le\|g\|_{C^{2,\gamma_{0}}}\le\delta_{\rm sph}\le\delta_{3}$.
+Chain (B1), \eqref{eq:plan1-poincare} and (B2)(iii):
+\[
+   E(U)-E(B_{1})
+   \overset{\eqref{eq:plan1-BDV33}}{\ge}
+   c_{\rm sph}(n)\,\|g\|_{H^{1/2}}^{2}
+   \overset{\eqref{eq:plan1-poincare}}{\ge}
+   c_{\rm sph}(n)\,\|g\|_{L^{2}}^{2}
+   \overset{\eqref{eq:plan1-42iii}}{\ge}
+   \frac{c_{\rm sph}(n)}{C_{3}(n)}\,\BDValpha(U).
+\]
+Dividing by $\BDValpha(U)>0$ gives $Q_{\BDValpha}(U)\ge c_{*}(n)$.
+\end{proof}
+
+Theorem~\ref{thm:plan1-NS} is the pointwise (per-set) closure: no
+sequence, no limit, no smallness of $Q_{\BDValpha}$ is assumed. It is
+exactly the building block called $\NS$ in
+\texttt{Final/NearlySphericalClosure.tex}.
+
+\subsubsection{Feeding the upstream chain into the
+nearly-spherical hypothesis}
+\label{sec:plan1-feed-graph}
+
+We now show that the upstream blocks (S), (G), (I) of Agents~5 and~6
+produce, from \emph{any} $\Om_{0}\subset B_{R}$ with $|\Om_{0}|=\omega_{n}$
+and $\BDValpha(\Om_{0})$ small, a set $\Otilde$ that meets all three
+hypotheses of~\eqref{eq:plan1-NS-hyp}.
+
+\paragraph{Recap of the upstream output (Agents 5, 6).}
+We use the following from Agent~5 (selection) and Agent~6
+(graph entry / Schauder interpolation), each stated with the constants
+they fix:
+
+\begin{itemize}
+\item[(S)] (Quantitative selection, Agent~5, Theorem D1.2--D1.5 of
+   \texttt{Manuscript/source\_map.md}; \texttt{Plan 1/quantitative-selection-principle.tex},
+   \texttt{Final/SelectionPrinciple.tex}.)
+   There exist $C_{\rm sel}=C_{\rm sel}(n,R)>0$,
+   $q_{\rm sel}=q_{\rm sel}(n,R)>0$, $\eps_{\rm sel}=\eps_{\rm sel}(n,R)>0$
+   such that for every open $\Om_{0}\subset B_{R}$ with
+   $|\Om_{0}|=\omega_{n}$, $\BDValpha(\Om_{0})\le\eps_{\rm sel}$,
+   $Q_{\BDValpha}(\Om_{0})<q_{\rm sel}$, the single-set penalised
+   functional of Agent~5 has a minimiser $U_{*}\subset B_{R}$, whose
+   volume-normalised companion
+   \(
+      \Otilde\ :=\ r_{*}^{-1}\,U_{*},
+      \quad r_{*}=\bigl(|U_{*}|/|B_{1}|\bigr)^{1/n},
+   \)
+   satisfies $\Otilde\subset B_{R}$ (up to enlarging $R$ by a dimensional
+   amount), $|\Otilde|=\omega_{n}$,
+   \begin{equation}\label{eq:plan1-S-alpha}
+      \tfrac{1}{2}\,\BDValpha(\Om_{0})\ \le\ \BDValpha(\Otilde)\ \le\
+      \tfrac{3}{2}\,\BDValpha(\Om_{0}),
+   \end{equation}
+   \begin{equation}\label{eq:plan1-S-Q}
+      Q_{\BDValpha}(\Otilde)\ \le\ 2\,C_{\rm sel}(n,R)\,
+      Q_{\BDValpha}(\Om_{0}),
+   \end{equation}
+   and $\Otilde$ inherits the BDV regularity package: density estimates,
+   Lipschitz nondegeneracy, and a smooth Bernoulli coefficient
+   (\cite[Lemmas~4.9, 4.12, 4.16]{BDV}).
+
+\item[(G)] (Graph entry, Agent~6,
+   Theorem D2.3 of \texttt{Manuscript/source\_map.md};
+   \texttt{Final/GraphEntry.tex}, \texttt{Plan 1/graph-entry-closure.tex}.)
+   There exist $\alpha_{\rm graph}=\alpha_{\rm graph}(n,R)>0$ and
+   $C_{H}''=C_{H}''(n,R)>0$ and $\gamma=\gamma(n,R)\in(0,1)$ such that
+   every $\Otilde$ as in (S) with
+   $\BDValpha(\Otilde)\le\alpha_{\rm graph}$ is, after a single
+   translation $\Otilde\mapsto\Otilde-x_{\Otilde}$ by its
+   barycentre, a $C^{1,\gamma}$ normal graph over $\partial B_{1}$:
+   \begin{equation}\label{eq:plan1-G}
+      \partial\Otilde=\bigl\{(1+g(\theta))\,\theta:\theta\in\partial B_{1}\bigr\},
+      \qquad
+      \|g\|_{L^{\infty}(\partial B_{1})}\le C_{H}''(n,R)\,
+      \BDValpha(\Otilde)^{1/(2n)}.
+   \end{equation}
+
+\item[(I)] (Schauder interpolation, Agent~6,
+   Lemma D2.7 of \texttt{Manuscript/source\_map.md};
+   \texttt{Final/SchauderInterpolation.tex}.)
+   There exists $\alpha_{\rm sph}=\alpha_{\rm sph}(n,R,\gamma_{0})>0$
+   such that whenever (G) applies and
+   $\BDValpha(\Otilde)\le\alpha_{\rm sph}$, the parametrisation $g$ of
+   (G) satisfies
+   \begin{equation}\label{eq:plan1-I}
+      \|g\|_{C^{2,\gamma_{0}}(\partial B_{1})}\ \le\
+      \delta_{\rm sph}(n,\gamma_{0}),
+   \end{equation}
+   the smallness threshold of Theorem~\ref{thm:plan1-NS}.
+\end{itemize}
+
+The thresholds $\eps_{\rm sel}, \alpha_{\rm graph}, \alpha_{\rm sph}$
+appearing in (S), (G), (I) are independent of $\Om_{0}$ and are fixed
+once $(n,R,\gamma_{0})$ is chosen. Define the small-asymmetry threshold
+\begin{equation}\label{eq:plan1-asmall}
+   \alpha_{\rm small}(n,R)\ :=\
+   \tfrac{1}{2}\,\min\bigl\{
+      \eps_{\rm sel}(n,R),\ \alpha_{\rm graph}(n,R),\ \alpha_{\rm sph}(n,R,\gamma_{0})
+   \bigr\}\ >\ 0.
+\end{equation}
+
+\subsubsection{Volume and barycentre normalisation}
+\label{sec:plan1-vol-bary}
+
+The set $U_{*}$ produced by (S) is the minimiser of a penalised
+functional whose volume penalty does \emph{not} force $|U_{*}|=\omega_{n}$
+exactly; the energy gain forces
+\begin{equation}\label{eq:plan1-vol-defect}
+   \bigl||U_{*}|-\omega_{n}\bigr|\ \le\ C(n,R)\,\deltaT(U_{*}),
+\end{equation}
+see \cite[Lemma~4.5]{BDV} and Agent~5. We normalise both the
+volume and the barycentre as follows.
+
+\paragraph{Volume normalisation.}
+The companion
+\(
+   \Otilde=r_{*}^{-1}U_{*},
+   \quad
+   r_{*}=(|U_{*}|/\omega_{n})^{1/n},
+\)
+satisfies $|\Otilde|=\omega_{n}$ by construction, and the torsion
+equation rescales as $u_{\Otilde}(x)=r_{*}^{-2}u_{U_{*}}(r_{*}x)$, so
+that $E(\Otilde)=r_{*}^{-(n+2)}E(U_{*})$ (cf.\ the rescaling computation
+of \cite[\S2]{BDV}, with $N$ replaced by $n$). The Saint--Venant
+deficit transforms as
+\(
+   \deltaT(\Otilde)=r_{*}^{-(n+2)}\bigl(E(U_{*})-r_{*}^{n+2}E(B_{1})\bigr)
+\)
+and~\eqref{eq:plan1-vol-defect} gives $|r_{*}-1|\le C(n,R)\,\deltaT(U_{*})$;
+the energy errors are absorbed into a multiplicative
+$1+O(\deltaT(U_{*}))$ factor in (S), which the constants
+$C_{\rm sel}(n,R)$ already include (Agent~5).
+
+\paragraph{Barycentre normalisation.}
+After (G) provides the parametrisation $\partial\Otilde=\{(1+g)y\}$, the
+barycentre $x_{\Otilde}$ and the volume normalisation $|\Otilde|=\omega_{n}$
+give the two scalar identities (\cite[(3.6)--(3.7)]{BDV}, $N\to n$)
+\begin{equation}\label{eq:plan1-vol-eq}
+   |\Otilde|=\int_{\partial B_{1}}\frac{(1+g)^{n}}{n}\,d\mathcal{H}^{n-1}=\omega_{n},
+\end{equation}
+\begin{equation}\label{eq:plan1-bary-eq}
+   x_{\Otilde}=\int_{\partial B_{1}}y\,\frac{(1+g)^{n+1}}{n+1}\,d\mathcal{H}^{n-1}.
+\end{equation}
+Expanding in $g$ and using $\|g\|_{C^{2,\gamma_{0}}}\le\delta_{\rm sph}$
+yields the BDV moment bounds
+(\cite[(3.6)--(3.7)]{BDV}, with $N\to n$):
+\begin{equation}\label{eq:plan1-moment}
+   \Bigl|\int_{\partial B_{1}}g\,d\mathcal{H}^{n-1}\Bigr|
+   + \sum_{i=1}^{n}\Bigl|\int_{\partial B_{1}}y_{i}\,g\,d\mathcal{H}^{n-1}\Bigr|
+   \ \le\ C(n)\,\delta_{\rm sph}\,\|g\|_{H^{1/2}(\partial B_{1})}.
+\end{equation}
+The right-hand side of~\eqref{eq:plan1-moment} is a controlled fraction
+of $\|g\|_{H^{1/2}}^{2}$ once $\|g\|_{H^{1/2}}\ge c(n)\,\delta_{\rm sph}$;
+when $\|g\|_{H^{1/2}}$ is even smaller, both sides of
+\eqref{eq:plan1-BDV33} are subdominant and the small-deficit
+case~\eqref{eq:plan1-NS-alpha} holds trivially after a single homothety
+and translation. The detailed reduction, which is a one-step rescaling
+plus translation, is recorded in
+\texttt{Final/NearlySphericalClosure.tex} (Corollary~2.4) and shows
+that we may replace \eqref{eq:plan1-NS-hyp} by
+\begin{equation}\label{eq:plan1-NS-hyp-relaxed}
+   \bigl|\,|\Otilde|-\omega_{n}\,\bigr|+|x_{\Otilde}|\ \le\
+   \eta(n,\gamma_{0})\,\|g\|_{L^{2}(\partial B_{1})}
+\end{equation}
+at the cost of replacing $c_{*}(n)$ by
+$\widetilde{c}_{*}(n):=c_{*}(n)/4$. The post-volume normalisation
+$|\Otilde|=\omega_{n}$ and the barycentre translation
+$\Otilde\mapsto\Otilde-x_{\Otilde}$ make this condition trivially
+satisfied with $\eta=0$, so we may apply Theorem~\ref{thm:plan1-NS}
+\emph{verbatim} (with $c_{*}(n)$, not $\widetilde{c}_{*}(n)$).
+
+\medskip\noindent
+\textbf{Summary of normalisations enforced.}
+\begin{itemize}
+   \item Volume: $|\Otilde|=\omega_{n}$ exactly, by the homothety
+      $\Otilde=r_{*}^{-1}U_{*}$.
+   \item Barycentre: $x_{\Otilde}=0$, by the single translation
+      $\Otilde\mapsto\Otilde-x_{\Otilde}$, which preserves
+      $E,\BDValpha,\Fr$ and the $C^{2,\gamma_{0}}$-norm of $g$.
+   \item $C^{2,\gamma_{0}}$-smallness: $\|g\|_{C^{2,\gamma_{0}}}\le\delta_{\rm sph}$
+      by (I), provided $\BDValpha(\Otilde)\le\alpha_{\rm sph}$.
+\end{itemize}
+None of the three normalisations is silently dropped; each is enforced
+by a named operation (rescale, translate, threshold check).
+
+\subsubsection{Small-asymmetry linear bound}
+\label{sec:plan1-small-alpha}
+
+We now carry through the implication
+\((S)\to(G)\to(I)\to\text{Theorem~\ref{thm:plan1-NS}}\) explicitly, with
+no compactness step. The output is the small-$\BDValpha$ linear-in-$\BDValpha$
+torsion bound.
+
+\begin{theorem}[Small-$\BDValpha$ linear Saint--Venant bound]
+\label{thm:plan1-small-alpha}
+Fix $0<\gamma_{0}\le 1$. Set
+\begin{equation}\label{eq:plan1-qstar}
+   q_{*}(n,R)\ :=\
+   \frac{c_{*}(n)}{2\,C_{\rm sel}(n,R)}
+   \ =\ \frac{1}{64\,n^{2}\,C_{3}(n)\,C_{\rm sel}(n,R)}.
+\end{equation}
+For every open $\Om_{0}\subset B_{R}$ with $|\Om_{0}|=\omega_{n}$ and
+$\BDValpha(\Om_{0})\le\alpha_{\rm small}(n,R)$,
+\begin{equation}\label{eq:plan1-small-alpha}
+   E(\Om_{0})-E(B_{1})\ \ge\ q_{*}(n,R)\,\BDValpha(\Om_{0}).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\emph{Case A:} $Q_{\BDValpha}(\Om_{0})\ge q_{\rm sel}(n,R)$. Then directly
+$E(\Om_{0})-E(B_{1})\ge q_{\rm sel}\,\BDValpha(\Om_{0})\ge q_{*}\,\BDValpha(\Om_{0})$,
+after shrinking $q_{\rm sel}$ if necessary so that $q_{*}\le q_{\rm sel}$.
+
+\emph{Case B:} $Q_{\BDValpha}(\Om_{0})<q_{\rm sel}(n,R)$. Since
+$\BDValpha(\Om_{0})\le\alpha_{\rm small}\le\eps_{\rm sel}$, the
+selection (S) applies and yields $\Otilde$ satisfying
+\eqref{eq:plan1-S-alpha}--\eqref{eq:plan1-S-Q}. In particular
+\[
+   \BDValpha(\Otilde)\ \le\
+   \tfrac{3}{2}\,\BDValpha(\Om_{0})
+   \ \le\ \tfrac{3}{2}\,\alpha_{\rm small}(n,R)
+   \ \le\ \min\{\alpha_{\rm graph}(n,R),\,\alpha_{\rm sph}(n,R,\gamma_{0})\},
+\]
+where the last inequality holds by~\eqref{eq:plan1-asmall} (the factor
+$\tfrac{1}{2}$ in $\alpha_{\rm small}$ absorbs the factor $\tfrac{3}{2}$
+from (S2)). Thus (G) gives the $C^{1,\gamma}$-graph
+\eqref{eq:plan1-G}, and (I) gives the $C^{2,\gamma_{0}}$-smallness
+\eqref{eq:plan1-I}.
+
+After the single barycentre translation
+$\Otilde\mapsto\Otilde-x_{\Otilde}$ (which preserves all relevant
+quantities, see \S\ref{sec:plan1-vol-bary}), the
+hypotheses~\eqref{eq:plan1-NS-hyp} of Theorem~\ref{thm:plan1-NS} are
+satisfied. Therefore
+\[
+   Q_{\BDValpha}(\Otilde)\ \ge\ c_{*}(n).
+\]
+Combined with~\eqref{eq:plan1-S-Q},
+\[
+   c_{*}(n)\ \le\ Q_{\BDValpha}(\Otilde)\ \le\
+   2\,C_{\rm sel}(n,R)\,Q_{\BDValpha}(\Om_{0}),
+\]
+whence
+\(
+   Q_{\BDValpha}(\Om_{0})\ \ge\ c_{*}(n)/(2C_{\rm sel}(n,R))=q_{*}(n,R),
+\)
+which rearranges to~\eqref{eq:plan1-small-alpha}.
+\end{proof}
+
+\begin{remark}[Where the BDV contradiction step appears, and what
+replaces it]\label{rem:plan1-no-contradiction}
+At no point of the proof of Theorem~\ref{thm:plan1-small-alpha} did we
+assume $Q_{\BDValpha}(\Om_{0})$ is arbitrarily small. The two cases
+(``$Q_{\BDValpha}\ge q_{\rm sel}$'' and ``$Q_{\BDValpha}<q_{\rm sel}$'')
+are an explicit dichotomy with thresholds depending on $(n,R)$. In the
+second case the conclusion comes from a single application of (S), (G),
+(I), and Theorem~\ref{thm:plan1-NS}. The original BDV proof
+(\cite[Theorem~4.3]{BDV}) is by contradiction with a minimising
+sequence; here it is replaced by the single-set selection of Agent~5.
+The conversion of the contradiction step required no additional
+expansion beyond Agent~5's quotient-preservation bound
+\eqref{eq:plan1-S-Q}: the chain (S)+(G)+(I)+NS contracts the
+contradiction into one arithmetic comparison
+$Q_{\BDValpha}(\Otilde)\le 2C_{\rm sel}Q_{\BDValpha}(\Om_{0})$.
+\end{remark}
+
+\subsubsection{Conversion to the Fraenkel asymmetry}
+\label{sec:plan1-conversion}
+
+We now convert~\eqref{eq:plan1-small-alpha} into a Fraenkel-squared
+lower bound on $\deltaT$. This is the step that needs both directions
+of BDV Lemma~4.2 ((B2)(i) and (B2)(ii)): the linear comparison
+\eqref{eq:plan1-42i} produces the sharp exponent~$2$, and the Lipschitz
+comparison \eqref{eq:plan1-42ii-Fr} ensures that the small-$\BDValpha$
+hypothesis can be entered from a smallness assumption on $\Fr$ itself.
+
+\begin{corollary}[Small-$\Fr$ quadratic torsion bound]
+\label{cor:plan1-small-Fr}
+Define
+\begin{equation}\label{eq:plan1-anear}
+   a_{\rm near}(n,R)\ :=\
+   \frac{\alpha_{\rm small}(n,R)}{C_{2}(R)\,\omega_{n}}\ >\ 0,
+   \qquad
+   \kappa_{\rm near}(n,R)\ :=\
+   \frac{q_{*}(n,R)\,\omega_{n}^{2}}{C_{1}(n)}.
+\end{equation}
+For every open $\Om\subset B_{R}$ with $|\Om|=\omega_{n}$ and
+$\Fr(\Om)\le a_{\rm near}(n,R)$,
+\begin{equation}\label{eq:plan1-small-Fr}
+   E(\Om)-E(B_{1})\ \ge\ \kappa_{\rm near}(n,R)\,\Fr(\Om)^{2}.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+By~\eqref{eq:plan1-42ii-Fr},
+$\BDValpha(\Om)\le C_{2}(R)\,\omega_{n}\,\Fr(\Om)\le C_{2}\,\omega_{n}\,a_{\rm near}=\alpha_{\rm small}(n,R)$.
+Theorem~\ref{thm:plan1-small-alpha} therefore gives
+$E(\Om)-E(B_{1})\ge q_{*}(n,R)\,\BDValpha(\Om)$. By~\eqref{eq:plan1-42i},
+$\BDValpha(\Om)\ge|B_{1}|^{2}\Fr(\Om)^{2}/C_{1}(n)=\omega_{n}^{2}\Fr(\Om)^{2}/C_{1}(n)$.
+Combining,
+$E(\Om)-E(B_{1})\ge (q_{*}\omega_{n}^{2}/C_{1})\,\Fr(\Om)^{2}=\kappa_{\rm near}\,\Fr(\Om)^{2}$.
+\end{proof}
+
+\subsubsection{Far-asymmetry regime}
+\label{sec:plan1-far}
+
+The far regime $\Fr(\Om)\ge a_{\rm near}$ is handled by the suboptimal
+$\Fr^{4}$ bound (B3); no contradiction is needed in this regime either.
+
+\begin{lemma}[Far-$\Fr$ quadratic torsion bound]\label{lem:plan1-far}
+For every $a>0$ and every open $\Om\subset B_{R}$ with
+$|\Om|=\omega_{n}$ and $\Fr(\Om)\ge a$,
+\begin{equation}\label{eq:plan1-far}
+   E(\Om)-E(B_{1})\ \ge\ C_{8}'(n)^{-1}\,\Fr(\Om)^{4}
+   \ \ge\ \frac{a^{2}}{C_{8}'(n)}\,\Fr(\Om)^{2}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The first inequality is~\eqref{eq:plan1-52-fixed}; the second uses
+$\Fr(\Om)^{4}=\Fr(\Om)^{2}\,\Fr(\Om)^{2}\ge a^{2}\,\Fr(\Om)^{2}$ once
+$\Fr(\Om)\ge a$.
+\end{proof}
+
+\subsubsection{Bounded sharp Saint--Venant inequality}
+\label{sec:plan1-SV}
+
+\begin{theorem}[Bounded sharp Saint--Venant, Plan~1]
+\label{thm:plan1-SV}
+Let $n\ge 2$, $R\ge 2$, $0<\gamma_{0}\le 1$. Define
+\begin{equation}\label{eq:plan1-cSV}
+   c_{\rm SV}(n,R)\ :=\
+   \min\!\Bigl\{
+      \kappa_{\rm near}(n,R),\
+      \frac{a_{\rm near}(n,R)^{2}}{C_{8}'(n)}
+   \Bigr\}\ >\ 0,
+\end{equation}
+where $\kappa_{\rm near}, a_{\rm near}$ are given by
+\eqref{eq:plan1-anear}. For every open $\Om\subset B_{R}$ with
+$|\Om|=\omega_{n}=|B^{*}|$,
+\begin{equation}\label{eq:plan1-SV}
+   E(\Om)-E(B^{*})\ \ge\ c_{\rm SV}(n,R)\,\Fr(\Om)^{2},
+\end{equation}
+equivalently,
+\begin{equation}\label{eq:plan1-SV-deficit}
+   \Fr(\Om)^{2}\ \le\ \frac{1}{c_{\rm SV}(n,R)}\,\deltaT(\Om).
+\end{equation}
+The exponent $2$ on $\Fr$ is sharp: it is saturated asymptotically by
+small volume-preserving ellipsoidal perturbations of $B_{1}$
+(\cite[Introduction, p.~2]{BDV}).
+\end{theorem}
+
+\begin{proof}
+The Fraenkel asymmetry is contained in $[0,2)$; we split it at
+$a_{\rm near}(n,R)$.
+
+\emph{Case 1 (small Fraenkel):}
+$\Fr(\Om)\le a_{\rm near}(n,R)$. Corollary~\ref{cor:plan1-small-Fr}
+gives $E(\Om)-E(B_{1})\ge\kappa_{\rm near}(n,R)\,\Fr(\Om)^{2}\ge c_{\rm SV}(n,R)\,\Fr(\Om)^{2}$.
+
+\emph{Case 2 (large Fraenkel):}
+$\Fr(\Om)\ge a_{\rm near}(n,R)$. Lemma~\ref{lem:plan1-far} with
+$a=a_{\rm near}$ gives
+$E(\Om)-E(B_{1})\ge a_{\rm near}^{2}/C_{8}'\,\Fr(\Om)^{2}\ge c_{\rm SV}(n,R)\,\Fr(\Om)^{2}$.
+
+Since $\{\Fr(\Om)\le a_{\rm near}\}\cup\{\Fr(\Om)\ge a_{\rm near}\}=[0,2)$,
+the two cases cover all admissible $\Om$, and the bound is uniform with
+constant $c_{\rm SV}(n,R)$ as in~\eqref{eq:plan1-cSV}. The deficit form
+\eqref{eq:plan1-SV-deficit} follows since $E(B_{1})=E(B^{*})$ when
+$|\Om|=|B^{*}|=\omega_{n}$, and $\deltaT(\Om)=E(\Om)-E(B^{*})$ by the
+notation register.
+\end{proof}
+
+\subsubsection{Constant chain: explicit dependences}
+\label{sec:plan1-constants}
+
+The final constant $c_{\rm SV}(n,R)$ in
+Theorem~\ref{thm:plan1-SV} is the minimum of a chain of named
+quantities. We record their dependences explicitly.
+
+\renewcommand{\arraystretch}{1.15}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+Constant & Dependence & Source \\
+\hline
+$C_{1}(n)$ & $n$ & BDV Lem.\ 4.2(i), \eqref{eq:plan1-42i}\\
+$C_{2}(R)$ & $R$ & BDV Lem.\ 4.2(ii), \eqref{eq:plan1-42ii}\\
+$C_{3}(n)$ & $n$ & BDV Lem.\ 4.2(iii), \eqref{eq:plan1-42iii}\\
+$\delta_{1}(n,\gamma_{0})$ & $n,\gamma_{0}$ & BDV Thm.\ 3.3, \eqref{eq:plan1-BDV33}\\
+$\delta_{3}(n)$ & $n$ & BDV Lem.\ 4.2(iii)\\
+$C_{8}'(n)$ & $n$ & BDV Lem.\ 5.2, \eqref{eq:plan1-52-fixed}\\
+$c_{\rm sph}(n)=1/(32n^{2})$ & $n$ & \eqref{eq:plan1-BDV33}\\
+$\delta_{\rm sph}(n,\gamma_{0})=\min(\delta_{1},\delta_{3})$ & $n,\gamma_{0}$ & \eqref{eq:plan1-deltasph}\\
+$c_{*}(n)=c_{\rm sph}/C_{3}=1/(32n^{2}C_{3}(n))$ & $n$ & Thm.\ \ref{thm:plan1-NS}\\
+$C_{\rm sel}(n,R), q_{\rm sel}(n,R), \eps_{\rm sel}(n,R)$ & $n,R$ & Agent~5 (S)\\
+$\alpha_{\rm graph}(n,R), C_{H}''(n,R)$ & $n,R$ & Agent~6 (G)\\
+$\alpha_{\rm sph}(n,R,\gamma_{0})$ & $n,R,\gamma_{0}$ & Agent~6 (I)\\
+\hline
+$\alpha_{\rm small}(n,R)$ & $n,R$ & \eqref{eq:plan1-asmall}\\
+$q_{*}(n,R)=c_{*}/(2C_{\rm sel})$ & $n,R$ & \eqref{eq:plan1-qstar}\\
+$\kappa_{\rm near}(n,R)=q_{*}\omega_{n}^{2}/C_{1}$ & $n,R$ & \eqref{eq:plan1-anear}\\
+$a_{\rm near}(n,R)=\alpha_{\rm small}/(C_{2}\omega_{n})$ & $n,R$ & \eqref{eq:plan1-anear}\\
+$c_{\rm SV}(n,R)=\min\{\kappa_{\rm near},a_{\rm near}^{2}/C_{8}'\}$ & $n,R$ & \eqref{eq:plan1-cSV}\\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Pure $(n,R)$-dependence of $c_{\rm SV}$.}
+Every quantity in the chain depends only on $(n,R)$, possibly through
+the auxiliary parameter $\gamma_{0}\in(0,1]$ which is fixed once and for
+all (we may take $\gamma_{0}=1/2$). The dependence on $R$ enters at
+exactly three points:
+\begin{enumerate}
+\item Selection $C_{\rm sel}(n,R), q_{\rm sel}(n,R), \eps_{\rm sel}(n,R)$
+   (Agent~5).
+\item Graph entry $\alpha_{\rm graph}(n,R), C_{H}''(n,R)$,
+   Schauder interpolation $\alpha_{\rm sph}(n,R,\gamma_{0})$
+   (Agent~6).
+\item Lipschitz comparison $C_{2}(R)$ (BDV Lemma 4.2(ii)).
+\end{enumerate}
+The nearly-spherical floor $c_{*}(n)$, the BDV
+constants $C_{1}(n),C_{3}(n),C_{8}'(n)$, and the multipliers $\omega_{n}$
+are purely dimensional. The constant $c_{\rm sph}(n)=1/(32n^{2})$
+deteriorates polynomially in $n$.
+
+\subsubsection{Hypothesis boundaries and degeneration of the
+nearly-spherical hypothesis}
+\label{sec:plan1-boundaries}
+
+The hypotheses of the BDV nearly-spherical theorem (B1) fail in three
+regimes; we record how each is handled here, without silently dropping
+any hypothesis.
+
+\paragraph{(a) $\BDValpha(\Om_{0})>\alpha_{\rm small}(n,R)$.}
+The selection (S) is still applicable only down to
+$\BDValpha(\Om_{0})\le\eps_{\rm sel}(n,R)$. For
+$\BDValpha(\Om_{0})>\alpha_{\rm small}$ but $\Fr(\Om)$ remains in
+$[0,2)$, we use the far-Fraenkel regime
+(Lemma~\ref{lem:plan1-far}). Translating
+$\BDValpha\ge\alpha_{\rm small}$ to a Fraenkel lower bound by
+\eqref{eq:plan1-42ii-Fr} gives
+$\Fr(\Om)\ge\BDValpha/(C_{2}\omega_{n})\ge a_{\rm near}$, so Case~2 of
+Theorem~\ref{thm:plan1-SV} applies. Thus no $\BDValpha$-large regime is
+left uncovered.
+
+\paragraph{(b) Graph regime not reached because of (G) failure.}
+The graph-entry theorem (G) fails if $\BDValpha(\Otilde)>\alpha_{\rm graph}$.
+Since (S) preserves $\BDValpha$ up to a factor $\tfrac{3}{2}$ and we
+chose $\alpha_{\rm small}\le\alpha_{\rm graph}/2$ in
+\eqref{eq:plan1-asmall} (the factor $\tfrac{1}{2}$), Case~B of the proof
+of Theorem~\ref{thm:plan1-small-alpha} never enters the regime where
+(G) fails. If $\BDValpha(\Om_{0})>\alpha_{\rm small}$ we fall into the
+previous paragraph (a).
+
+\paragraph{(c) Schauder/interpolation regime not reached because of (I)
+failure.}
+Analogously, (I) fails only if $\BDValpha(\Otilde)>\alpha_{\rm sph}$. By
+the same choice of $\alpha_{\rm small}\le\alpha_{\rm sph}/2$ we never
+enter that regime in Case~B. If $\BDValpha(\Om_{0})>\alpha_{\rm small}$
+we again fall into (a). Equivalently: the small-asymmetry threshold
+\eqref{eq:plan1-asmall} is chosen as the smallest of the three upstream
+thresholds (divided by $2$ to absorb (S2)), so all three
+\emph{simultaneously} hold for Case~B.
+
+\paragraph{(d) Sharp boundary $\BDValpha\sim\alpha_{\rm small}$.}
+The proof of Theorem~\ref{thm:plan1-SV} glues the two regimes at
+$\Fr=a_{\rm near}$, which by \eqref{eq:plan1-anear} corresponds to
+$\BDValpha=\alpha_{\rm small}$ (via the linear inequality \eqref{eq:plan1-42ii-Fr}).
+At the glue point both
+$\kappa_{\rm near}(n,R)\Fr^{2}$ and $(a_{\rm near}^{2}/C_{8}')\Fr^{2}$
+are positive, so $c_{\rm SV}(n,R)>0$ is the minimum of two strictly
+positive quantities, with explicit lower bounds
+\[
+   c_{\rm SV}(n,R)\ \ge\
+   \min\!\Bigl\{
+      \frac{\omega_{n}^{2}}{C_{1}(n)}\cdot\frac{c_{*}(n)}{2C_{\rm sel}(n,R)},\
+      \frac{\alpha_{\rm small}(n,R)^{2}}{C_{2}(R)^{2}\,\omega_{n}^{2}\,C_{8}'(n)}
+   \Bigr\}.
+\]
+No additional smallness hypothesis is needed.
+
+\subsubsection{Summary: what this subsection delivers}
+\label{sec:plan1-summary}
+
+Combining the above with the notation $\deltaT(\Om)=E(\Om)-E(B^{*})\ge 0$
+of the register, we obtain the bounded sharp Saint--Venant inequality
+\begin{equation}\label{eq:plan1-final}
+   \boxed{\quad
+   \Fr(\Om)^{2}\ \le\ C(n,R)\,\deltaT(\Om),
+   \qquad
+   C(n,R)=\frac{1}{c_{\rm SV}(n,R)},
+   \quad}
+\end{equation}
+valid for every open $\Om\subset B_{R}$ with $|\Om|=\omega_{n}=|B^{*}|$.
+The constant $C(n,R)=1/c_{\rm SV}(n,R)$ has explicit dependence on
+$n,R$ traced through Theorem~\ref{thm:plan1-SV} and the constant chain
+of \S\ref{sec:plan1-constants}; no compactness or contradiction
+argument enters. The bounded reduction
+$c_{\rm SV}(n,R_{*}(n))\Rightarrow c_{\rm SV}^{\rm glob}(n)$ that removes
+the $R$-dependence is the subject of Agent~8.
+
+\paragraph{Status statement.}
+\begin{itemize}
+\item Theorem~\ref{thm:plan1-NS}: assembled in this subsection from
+   (B1) and (B2)(iii).
+\item Theorem~\ref{thm:plan1-small-alpha}: assembled in this subsection
+   from (S)+(G)+(I)+Theorem~\ref{thm:plan1-NS}.
+\item Corollary~\ref{cor:plan1-small-Fr},
+   Lemma~\ref{lem:plan1-far}, Theorem~\ref{thm:plan1-SV}: assembled in
+   this subsection from (S)+(G)+(I)+NS, (B2)(i)+(ii), and (B3).
+\item Upstream black boxes (B1)+(B2)+(B3): cited verbatim from
+   \cite{BDV} as \cite[Thm.\ 3.3, Lem.\ 4.2 (i),(ii),(iii),
+   Lem.\ 5.2]{BDV}.
+\item Inputs (S), (G), (I) from Agents~5, 6: cited by section number
+   inside \texttt{Manuscript/02\_plan1\_draft.tex} once Agent~19
+   integrates the three Plan 1 subsections.
+\end{itemize}
+
+\paragraph{Contradiction step.}
+The BDV proof of the small-$\BDValpha$ linear bound is by
+contradiction (\cite[Theorem 4.3]{BDV}); here it is replaced by the
+single-set selection of Agent~5, which compresses the
+sequence/compactness/limit argument into the explicit
+quotient-preservation bound (S3). No additional expansion of the source
+contradiction step was needed beyond Agent~5's selection theorem:
+Theorem~\ref{thm:plan1-small-alpha} is a direct combinatorial
+combination of (S), (G), (I), and the pointwise nearly-spherical
+inequality, performed in \S\ref{sec:plan1-small-alpha}.

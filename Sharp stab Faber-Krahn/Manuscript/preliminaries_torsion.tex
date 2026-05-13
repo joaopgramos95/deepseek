@@ -1,0 +1,899 @@
+% UNIFIED 2026-05-13
+% =====================================================================
+% Manuscript section draft -- Agent 3
+% Preliminaries: Torsion, rearrangement, and deficits
+%
+% This file is to be merged by Agent 17 into
+% Manuscript/01_preliminaries_draft.tex.
+%
+% Canonical notation: Manuscript/00_notation_register.md.
+% Standing convention here:
+%   - dimension is $n\ge 2$ (not $N$);
+%   - the BDV-normalised energy is $E(\Omega)=-T(\Omega)/2$;
+%   - the Saint--Venant deficit is $\delta_T(\Omega)=E(\Omega)-E(B^*)\ge 0$;
+%   - the Faber--Krahn deficit is
+%     $\delta_{\mathrm{FK}}(\Omega)=(|\Omega|/\omega_n)^{2/n}(\lambda_1(\Omega)-\lambda_1(B^*))$;
+%   - the Fraenkel asymmetry is $\Fr(\Omega)\in[0,2)$;
+%   - the foliation is $E_\rho=\{u>t(\rho)\}$ with $|E_\rho|=\omega_n\rho^n$.
+%
+% =====================================================================
+% SOURCE MAP
+% Item                                              Status     Pointer
+% ----------------------------------------------------------------------
+% B1: torsion energy E, rigidity T, E=-T/2          PROVED HERE
+%       (definitions and equivalence), with         CITE       Brasco--De Philippis--
+%       sign convention fixed.                                 Velichkov 2015 [BDV],
+%                                                              Final/SaintVenantAssembly.tex,
+%                                                              Final-BoundedReduction,
+%                                                              Final-KohlerJobinTransfer
+%                                                              for the two coexisting
+%                                                              conventions.
+%
+% B2: Saint--Venant deficit delta_T,                ADAPTED    Final-BoundedReduction
+%       scale-invariant form D,                                §1; WIP_master.tex §II.
+%       Saint--Venant inequality.                  CITE        Polya 1948; Talenti 1976.
+%
+% B3: Fraenkel asymmetry A(Omega), [0,2)            CITED      Maggi 2008 survey,
+%                                                              Final/SaintVenantAssembly.tex.
+%
+% B4: Faber--Krahn deficit delta_FK,                PROVED HERE (normalisation lemma);
+%       eigenvalue normalisation                    CITED      Henrot 2006; KJT.tex.
+%
+% B5: Talenti pointwise comparison                  CITED       Talenti 1976, Thm.1.
+%
+% B6: volume-radius foliation E_rho = {u>t(rho)},   PROVED HERE properties of t(rho)
+%       monotonicity of t                                       follow from coarea;
+%                                                  ADAPTED     WIP_LevelSetIdentity.tex
+%                                                              §1, WIP_master.tex §II.
+%
+% B7: profile-gap estimate (sup-norm Talenti bound)  CITED       Talenti 1976 Thm 1.
+%
+% Profile-gap estimate used by Plan 2 (h(s)=b(s)-v(s)
+%   bound and consequence on t(rho))                PROVED HERE Plan 2/level-set-deficit-identity.md §4, Lem 8.1
+%
+% Bad-set Lebesgue estimate (set where -t'(rho)<tau_0
+%   has measure <= K delta_T)                       PROVED HERE WIP_WeightedMetricTrace.tex
+%                                                              Lemma "Bad-set" §4
+%                                                              ("integrated Talenti gap").
+%
+% B9: Kohler--Jobin inequality
+%       T(Omega) lambda_1(Omega)^{(n+2)/2}
+%         >= T(B^*) lambda_1(B^*)^{(n+2)/2}        CITED       Brasco 2014, Thm 3.3;
+%                                                              orig. Kohler--Jobin 1978;
+%                                                              Final-KohlerJobinTransfer
+%                                                              Thm. 2.1.
+%
+% Elementary one-variable inequality              PROVED HERE  Final-KohlerJobinTransfer
+%   (1-s)^{-p}-1 >= ps                                          Lem. 4.1 (reproduced).
+% =====================================================================
+
+\subsection{Preliminaries II: Torsion, rearrangement, and deficits}
+\label{sec:prelim-torsion}
+
+This section fixes the torsion and Faber--Krahn functionals used
+throughout, the Saint--Venant and Faber--Krahn deficits, the Fraenkel
+asymmetry, the Talenti comparison, the volume--radius foliation
+$\Erho=\{u>t(\rho)\}$, the profile-gap and bad-set bounds used in the
+Plan~2 weighted metric trace, and the Kohler--Jobin inequality used in
+the final transfer.
+
+Conventions follow \texttt{00\_notation\_register.md}: we write the
+ambient dimension as~$n\ge 2$, the BDV-normalised Saint--Venant energy
+as $E(\Om)=-T(\Om)/2$, the Saint--Venant deficit as
+$\deltaT(\Om)=E(\Om)-E(\Bstar)\ge 0$, the Faber--Krahn deficit as
+$\deltaFK(\Om)=(|\Om|/\omega_n)^{2/n}(\lambda_1(\Om)-\lambda_1(\Bstar))$,
+and the Fraenkel asymmetry as $\Fr(\Om)\in[0,2)$.
+
+\subsubsection{Torsion potential, rigidity, and energy}
+\label{ssec:torsion}
+
+Throughout, $\Om\subset\R^n$ is open with $0<|\Om|<\infty$. No
+connectedness, smoothness, or boundedness is assumed unless stated.
+
+\begin{definition}[Torsion potential]\label{def:utorsion}
+The \emph{variational torsion function} of $\Om$ is the unique
+minimiser
+\[
+   u_\Om\in H^{1}_{0}(\Om),\qquad
+   u_\Om=\arg\min\Bigl\{
+   J(v)\,:\,v\in H^{1}_{0}(\Om)
+   \Bigr\},
+   \qquad
+   J(v):=\tfrac12\!\int_{\Om}\!|\nabla v|^{2}\,dx-\!\int_{\Om}\!v\,dx.
+\]
+Equivalently, $u_\Om$ is the weak solution of $-\Delta u_\Om=1$ in
+$\Om$ with $u_\Om=0$ on $\partial\Om$ in the $H^{1}_{0}$ trace sense.
+Testing the weak equation against $u_\Om^{-}$ yields $u_\Om\ge 0$
+a.e.\ in $\Om$.
+\end{definition}
+
+\begin{remark}[Existence]
+The functional $J$ is strictly convex, coercive on $H^{1}_{0}(\Om)$ by
+the Poincar\'e--Sobolev inequality
+$\|v\|_{L^{2^*}}\le C(n)\|\nabla v\|_{L^{2}}$ on sets of finite
+measure (valid since $|\Om|<\infty$, see \cite[Cor.~12.18]{Maggi2012}
+or \cite[Thm.~4.9]{HenrotBook}), and weakly lower semicontinuous; the
+direct method gives existence and uniqueness of $u_\Om$.
+\end{remark}
+
+\begin{definition}[Torsional rigidity and Saint--Venant energy]
+\label{def:Trigidity}
+The \emph{torsional rigidity} of $\Om$ is
+\begin{equation}\label{eq:Tdef}
+   T(\Om):=\int_{\Om}u_\Om\,dx.
+\end{equation}
+The \emph{BDV-normalised Saint--Venant energy} of $\Om$ is
+\begin{equation}\label{eq:Edef}
+   E(\Om):=\min_{v\in H^{1}_{0}(\Om)}J(v)
+   =\tfrac12\!\int_{\Om}\!|\nabla u_\Om|^{2}\,dx-\!\int_{\Om}\!u_\Om\,dx.
+\end{equation}
+\end{definition}
+
+\begin{lemma}[Energy--rigidity identity]\label{lem:E-T}
+For every open $\Om\subset\R^n$ with $0<|\Om|<\infty$,
+\begin{equation}\label{eq:E-T}
+   E(\Om)=-\tfrac12\,T(\Om).
+\end{equation}
+In particular $E(\Om)\le 0$ on every admissible set, and $T(\Om)>0$
+unless $|\Om|=0$.
+\end{lemma}
+
+\begin{proof}
+Test the weak equation $-\Delta u_\Om=1$ against $u_\Om\in H^{1}_{0}(\Om)$
+to get $\int_\Om|\nabla u_\Om|^2\,dx=\int_\Om u_\Om\,dx=T(\Om)$.
+Substituting into~\eqref{eq:Edef} gives
+$E(\Om)=\tfrac12 T(\Om)-T(\Om)=-\tfrac12 T(\Om)$.
+\end{proof}
+
+\begin{remark}[Two coexisting conventions]\label{rem:T-vs-E}
+Some sources (e.g.\ \cite[\S1]{Talenti1976}, classical analysis
+literature) call $T(\Om)$ the ``torsion energy''. The BDV chain
+(\cite{BDV}; \texttt{Final/SaintVenantAssembly.tex}; the global
+reduction in \texttt{Final-BoundedReduction}; the Kohler--Jobin
+transfer in \texttt{Final-KohlerJobinTransfer}) and the Plan~2
+WIP files (\texttt{WIP\_LevelSetIdentity.tex},
+\texttt{WIP\_master.tex}) reserve ``Saint--Venant energy'' for the
+BDV-normalised functional $E=-T/2$, which is the minimised value of
+the variational functional $J$. We adopt the second convention
+throughout: $T(\Om)$ is the torsional \emph{rigidity}; $E(\Om)$ is
+the BDV-normalised Saint--Venant \emph{energy}. The identity
+\eqref{eq:E-T} converts between the two.
+\end{remark}
+
+\begin{lemma}[Scaling and ball values]\label{lem:Tscaling}
+For every $t>0$,
+\begin{equation}\label{eq:Tscaling}
+   T(t\Om)=t^{n+2}T(\Om),\qquad E(t\Om)=t^{n+2}E(\Om).
+\end{equation}
+For the unit ball $B_1$, the explicit torsion function is
+$u_{B_1}(x)=(1-|x|^2)/(2n)$, hence
+\begin{equation}\label{eq:Tn}
+   T_n:=T(B_1)=\int_{B_1}\frac{1-|x|^2}{2n}\,dx=\frac{\omega_n}{n(n+2)},
+   \qquad E(B_1)=-\frac{\omega_n}{2n(n+2)}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Scaling: with $v_t(x):=t^2 u_\Om(x/t)\in H^1_0(t\Om)$, one verifies
+$-\Delta v_t=1$ in $t\Om$, so by uniqueness $u_{t\Om}=v_t$; then
+$T(t\Om)=\int_{t\Om}v_t=t^{n+2}\int_\Om u_\Om=t^{n+2}T(\Om)$, and
+\eqref{eq:E-T} extends to $E$. For the ball formula, a direct
+computation gives $\Delta((1-|x|^2)/(2n))=-1$ and the boundary
+value $0$. Integrating in radial coordinates,
+$\int_{B_1}(1-|x|^2)/(2n)\,dx
+=(1/(2n))[\omega_n-n\omega_n/(n+2)]=\omega_n/(n(n+2))$.
+\end{proof}
+
+\subsubsection{Saint--Venant inequality and Saint--Venant deficit}
+\label{ssec:SV-deficit}
+
+The classical Saint--Venant inequality
+\cite[Thm.~3.3]{PolyaSzego1951} states that the ball maximises torsional
+rigidity at fixed volume.
+
+\begin{theorem}[Saint--Venant inequality, classical]\label{thm:SVclass}
+For every open $\Om\subset\R^n$ with $0<|\Om|<\infty$, and with
+$\Bstar$ the open ball centred at the origin with $|\Bstar|=|\Om|$,
+\begin{equation}\label{eq:SVclass}
+   T(\Om)\le T(\Bstar),
+   \qquad\text{equivalently}\qquad
+   E(\Om)\ge E(\Bstar).
+\end{equation}
+Equality holds iff $\Om$ is (a.e.\ equal to) a ball.
+\end{theorem}
+
+\begin{proof}[Citation]
+\cite[Thm.~1.1]{PolyaSzego1951}, also obtained by Schwarz symmetrisation
+combined with the P\'olya--Szeg\H{o} principle, or as a corollary of
+Talenti's rearrangement comparison (Theorem~\ref{thm:talenti}
+below): on the unit-volume normalisation, the latter gives
+$u^*_\Om\le u^*_{\Bstar}$ pointwise on $[0,|\Om|]$, hence
+$T(\Om)=\int_0^{|\Om|}u^*_\Om(s)ds\le\int_0^{|\Om|}u^*_{\Bstar}(s)ds=T(\Bstar)$.
+\end{proof}
+
+\begin{definition}[Saint--Venant deficit $\deltaT$]\label{def:deltaT}
+For open $\Om\subset\R^n$ with $0<|\Om|<\infty$ and $\Bstar$ the
+ball with $|\Bstar|=|\Om|$, the (BDV-normalised) Saint--Venant
+deficit is
+\begin{equation}\label{eq:deltaT-def}
+   \deltaT(\Om):=E(\Om)-E(\Bstar)\ge 0,
+\end{equation}
+equivalently $\deltaT(\Om)=\tfrac12(T(\Bstar)-T(\Om))$.
+\end{definition}
+
+\begin{remark}[Scale-invariant form]\label{rem:Dform}
+The scale-invariant version is
+\begin{equation}\label{eq:Dform}
+   D(\Om):=E(\Om)\,|\Om|^{-(n+2)/n}-E(B_1)\,|B_1|^{-(n+2)/n}\ge 0,
+\end{equation}
+which for $|\Om|=\omega_n$ reduces to
+$D(\Om)=\omega_n^{-(n+2)/n}\deltaT(\Om)$.
+Both formulations are
+used: $\deltaT$ in the Plan~2 chain and the bounded Saint--Venant
+statements; $D$ in the bounded reduction (Plan~1, \S\,IV).
+\end{remark}
+
+\subsubsection{Fraenkel asymmetry}\label{ssec:Fraenkel}
+
+\begin{definition}[Fraenkel asymmetry]\label{def:Fraenkel}
+For open $\Om\subset\R^n$ with $0<|\Om|<\infty$, the
+\emph{Fraenkel asymmetry} is
+\begin{equation}\label{eq:Fraenkel-def}
+   \Fr(\Om):=\inf_{x_0\in\R^n}
+        \frac{|\Om\,\triangle\,(\Bstar+x_0)|}{|\Bstar|},
+\end{equation}
+where $\Bstar$ is the ball centred at the origin with $|\Bstar|=|\Om|$.
+\end{definition}
+
+\begin{lemma}[Range of $\Fr$]\label{lem:Fraenkel-range}
+$\Fr(\Om)\in[0,2)$, with $\Fr(\Om)=0$ iff $\Om$ is (a.e.\ equal to) a
+translate of $\Bstar$.
+\end{lemma}
+
+\begin{proof}
+Non-negativity is immediate. The strict bound $\Fr<2$ follows from
+$|\Om\,\triangle\,(\Bstar+x_0)|=|\Om|+|\Bstar|-2|\Om\cap(\Bstar+x_0)|$
+and the existence (by translation continuity of Lebesgue measure)
+of $x_0\in\R^n$ with $|\Om\cap(\Bstar+x_0)|>0$, so
+$|\Om\,\triangle\,(\Bstar+x_0)|<2|\Bstar|$. The infimum is attained
+because the map $x_0\mapsto|\Om\,\triangle\,(\Bstar+x_0)|$ is
+continuous and tends to $2|\Bstar|$ as $|x_0|\to\infty$
+(\cite[Lem.~3.2]{Maggi2008}).
+\end{proof}
+
+\begin{remark}[Translation invariance]\label{rem:trans}
+Both $\deltaT$, $\deltaFK$, and $\Fr$ are translation invariant; all
+estimates below are stated up to translation.
+\end{remark}
+
+\subsubsection{Faber--Krahn deficit and eigenvalue normalisation}
+\label{ssec:Faber-Krahn}
+
+\begin{definition}[First Dirichlet eigenvalue]\label{def:lambda1}
+For open $\Om\subset\R^n$ with $0<|\Om|<\infty$,
+\begin{equation}\label{eq:lambda1-def}
+   \lambda_1(\Om):=\min_{\substack{v\in H^{1}_{0}(\Om)\\v\not\equiv 0}}
+   \frac{\int_\Om|\nabla v|^2\,dx}{\int_\Om v^2\,dx}.
+\end{equation}
+The minimum is attained (by direct method on
+$\{v:\|v\|_{L^2}=1\}$, using the Poincar\'e--Sobolev inequality on
+finite-measure sets), and the eigenvalue scales as
+$\lambda_1(t\Om)=t^{-2}\lambda_1(\Om)$ for $t>0$. We write
+$L_n:=\lambda_1(B_1)$ for the unit-ball first eigenvalue. Numerically,
+$L_n=j_{n/2-1,1}^2$, the square of the first positive zero of the
+Bessel function $J_{n/2-1}$ \cite[\S1.3]{HenrotBook}.
+\end{definition}
+
+\begin{theorem}[Faber--Krahn inequality]\label{thm:FK}
+For every open $\Om\subset\R^n$ with $0<|\Om|<\infty$,
+\begin{equation}\label{eq:FK}
+   \lambda_1(\Om)\ge\lambda_1(\Bstar)
+   =L_n\,\bigl(|\Bstar|/\omega_n\bigr)^{-2/n},
+\end{equation}
+with equality iff $\Om$ is (a.e.\ equal to) a ball.
+\end{theorem}
+
+\begin{proof}[Citation]
+The classical Faber--Krahn theorem \cite{Faber1923,Krahn1925}, proved
+by Schwarz symmetrisation and the P\'olya--Szeg\H{o} inequality. See
+\cite[Thm.~3.2.1]{HenrotBook}.
+\end{proof}
+
+\begin{definition}[Faber--Krahn deficit $\deltaFK$]
+\label{def:deltaFK}
+For open $\Om\subset\R^n$ with $0<|\Om|<\infty$ and $\Bstar$ the ball
+with $|\Bstar|=|\Om|$, the scale-normalised Faber--Krahn deficit is
+\begin{equation}\label{eq:deltaFK-def}
+   \deltaFK(\Om)
+   :=\Bigl(\frac{|\Om|}{\omega_n}\Bigr)^{2/n}
+     \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)\ge 0.
+\end{equation}
+\end{definition}
+
+\begin{lemma}[Scaling invariance of $\deltaFK$]\label{lem:deltaFK-scale}
+$\deltaFK(t\Om)=\deltaFK(\Om)$ for every $t>0$.
+\end{lemma}
+
+\begin{proof}
+$\lambda_1(t\Om)=t^{-2}\lambda_1(\Om)$ and
+$|t\Om|^{2/n}=t^2|\Om|^{2/n}$ give
+$|t\Om|^{2/n}\lambda_1(t\Om)=|\Om|^{2/n}\lambda_1(\Om)$. Similarly for
+$\Bstar$.
+\end{proof}
+
+\begin{remark}[Why this normalisation]\label{rem:deltaFK-form}
+Both Plan~1 and Plan~2 produce, after Kohler--Jobin transfer, a sharp
+quantitative inequality of the form
+$\deltaFK(\Om)\ge c_{\mathrm{FK}}(n)\,\Fr(\Om)^2$. The factor
+$(|\Om|/\omega_n)^{2/n}$ in~\eqref{eq:deltaFK-def} makes both sides
+scale-invariant, mirroring~\eqref{eq:Dform}; see
+\texttt{Final-KohlerJobinTransfer}, eq.\,(eq:fkout).
+\end{remark}
+
+\subsubsection{Talenti pointwise comparison}\label{ssec:Talenti}
+
+The fundamental rearrangement comparison for the torsion function is
+the Talenti pointwise inequality \cite{Talenti1976}. We write
+$u^*\colon[0,|\Om|]\to[0,\|u\|_\infty]$ for the decreasing
+rearrangement of $u=u_\Om$, $u^*(s):=\inf\{t\ge 0\,:\,m(t)\le s\}$,
+where $m(t):=|\{u>t\}|$.
+
+\begin{theorem}[Talenti, 1976]\label{thm:talenti}
+Let $\Om\subset\R^n$ be open with $0<|\Om|<\infty$, and let
+$u_\Om\in H^{1}_{0}(\Om)$ be the torsion function of
+Definition~\ref{def:utorsion}. Let $u_{\Bstar}$ be the torsion
+function of the ball $\Bstar$ with $|\Bstar|=|\Om|$. Then
+\begin{equation}\label{eq:talenti}
+   u^*_\Om(s)\le u^*_{\Bstar}(s)
+   =\frac{R_\Om^2-(s/\omega_n)^{2/n}}{2n},
+   \qquad s\in[0,|\Om|],
+\end{equation}
+where $R_\Om:=(|\Om|/\omega_n)^{1/n}$ is the radius of $\Bstar$. In
+particular,
+\begin{equation}\label{eq:talenti-sup}
+   \|u_\Om\|_{L^\infty(\Om)}\le u^*_{\Bstar}(0)=\frac{R_\Om^2}{2n}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}[Citation]
+\cite[Thm.~1]{Talenti1976}. The argument uses isoperimetric
+rearrangement of super-level sets and the coarea formula; it is
+constructive and gives equality iff $u_\Om$ is (translate of) the
+ball torsion function, hence iff $\Om$ is a ball.
+\end{proof}
+
+\begin{remark}[Consequence: $L^\infty$ bound used in Plan~2]
+\label{rem:talenti-Linf}
+The sup-norm bound~\eqref{eq:talenti-sup} is the only reason that
+the level-set deficit identity
+(\texttt{WIP\_LevelSetIdentity.tex}, Thm.\,1) holds for arbitrary
+open sets of finite measure without an explicit boundedness
+hypothesis. Throughout Plan~2 we use the normalised volume
+$|\Om|=\omega_n$, so $R_\Om=1$ and
+$\|u_\Om\|_\infty\le 1/(2n)$.
+\end{remark}
+
+\subsubsection{Volume--radius foliation \texorpdfstring{$\Erho=\{u>t(\rho)\}$}{E\_rho=\{u>t(rho)\}}}
+\label{ssec:foliation}
+
+We now record the volume-radius parametrisation of the super-level
+sets of $u_\Om$, used throughout Plan~2.
+
+\begin{definition}[Distribution function and its inverse]
+\label{def:t-rho}
+For $\Om$ open with $|\Om|=\omega_n$ (the Plan~2 normalisation),
+$E_t:=\{u_\Om>t\}$ and $m(t):=|E_t|$. By the BV coarea formula and
+Lemma~\ref{lem:coarea-mprime} below, $m$ is right-continuous and
+non-increasing on $[0,\|u\|_\infty]$ with $m(0^+)\le\omega_n$ and
+$m(\|u\|_\infty)=0$. Define
+\begin{equation}\label{eq:trho}
+   t(\rho):=\inf\bigl\{t\ge 0\,:\,m(t)\le\omega_n\rho^n\bigr\},
+   \qquad\rho\in[0,1],
+\end{equation}
+and the volume-radius foliation
+\begin{equation}\label{eq:Erho}
+   \Erho:=\{u_\Om>t(\rho)\},\qquad
+   |\Erho|=\omega_n\rho^n,\quad
+   \mu(d\rho):=(-t'(\rho))\,d\rho.
+\end{equation}
+\end{definition}
+
+\begin{lemma}[Properties of $t(\rho)$]\label{lem:trho-props}
+Let $\Om$ open with $|\Om|=\omega_n$ and $u=u_\Om$. Then
+\begin{enumerate}
+\item[(i)] $\rho\mapsto t(\rho)$ is non-increasing on $[0,1]$, with
+$t(1)=0$ and $0\le t(\rho)\le\|u\|_\infty\le 1/(2n)$ by
+\eqref{eq:talenti-sup}.
+\item[(ii)] $t$ is absolutely continuous on every interval
+$[\rstar,1]\subset(0,1]$.
+\item[(iii)] On a co-null set in $[0,1]$,
+$t'(\rho)\le 0$, and
+\begin{equation}\label{eq:dt-bound}
+   0\le -t'(\rho)\le\frac{1}{n}
+   \qquad\text{for a.e.\ }\rho\in[0,1].
+\end{equation}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) and the boundary value $t(1)=0$ follow from $m(0^+)\le\omega_n$
+and $m(t(\rho))\le\omega_n\rho^n$; the sup-norm bound is
+Theorem~\ref{thm:talenti}.
+
+(ii) The map $m$ is, by Lemma~\ref{lem:coarea-mprime}, absolutely
+continuous on $[\eps,\|u\|_\infty]$ for every $\eps>0$ (its derivative
+$-\alpha(t)$ is in $L^1_{\mathrm{loc}}$). The inverse of a strictly
+decreasing absolutely continuous function with non-vanishing
+derivative on an open set is absolutely continuous; on plateau
+levels (where $m$ is constant) $t$ has a jump of measure zero and
+the equation $|E_\rho|=\omega_n\rho^n$ pins $t(\rho)$ on the
+right-continuous representative. On the foliation interval
+$[\rstar,1]$ this gives absolute continuity of $t$.
+
+(iii) Differentiating $m(t(\rho))=\omega_n\rho^n$ at a Lebesgue point
+of $\rho\mapsto t'(\rho)$ at which $m$ is differentiable at
+$t(\rho)$, by the chain rule for absolutely continuous functions and
+Lemma~\ref{lem:coarea-mprime},
+$m'(t(\rho))\,t'(\rho)=n\omega_n\rho^{n-1}$, i.e.\
+\begin{equation}\label{eq:tprime-formula}
+   -t'(\rho)=\frac{n\omega_n\rho^{n-1}}{\alpha(t(\rho))},
+   \qquad\alpha(t):=\!\int_{\partial^*E_t}\!|\nabla u|^{-1}\,d\mathcal H^{n-1}.
+\end{equation}
+By the Cauchy--Schwarz inequality on $\partial^*E_t$ and the
+isoperimetric inequality $P(E_t)\ge n\omega_n^{1/n}m(t)^{1-1/n}$,
+\begin{equation}\label{eq:alpha-LB}
+   \alpha(t)\cdot\beta(t)\ge P(E_t)^2\ge n^2\omega_n^{2/n}m(t)^{2-2/n},
+   \qquad
+   \beta(t):=\!\int_{\partial^*E_t}\!|\nabla u|\,d\mathcal H^{n-1}=m(t),
+\end{equation}
+the equality $\beta(t)=m(t)$ being the flux identity of
+Lemma~\ref{lem:flux-id} below. Combined with $m(t(\rho))=\omega_n\rho^n$,
+$\alpha(t(\rho))\ge n^2\omega_n^{2/n}(\omega_n\rho^n)^{2-2/n}/m(t(\rho))
+=n^2\omega_n\rho^{n-2}\cdot(\omega_n\rho^n)^{1-2/n}/(\omega_n\rho^n)
+=n\omega_n\rho^{n-1}\cdot n$, hence
+$-t'(\rho)\le n\omega_n\rho^{n-1}/(n^2\omega_n\rho^{n-1})=1/n$.
+\end{proof}
+
+\begin{remark}[Where $-t'\le 1/n$ is used]
+\label{rem:H3}
+The bound \eqref{eq:dt-bound} is the hypothesis (H3) of the abstract
+weighted metric trace lemma (\texttt{WIP\_WeightedMetricTrace.tex},
+Thm.\,5.1): it bounds the density of $\mu$ uniformly.
+\end{remark}
+
+The coarea and flux identities used in the proof of
+Lemma~\ref{lem:trho-props}(iii) are recorded for reference (proved in
+the geometric measure theory preliminaries,
+\S\ref{sec:prelim-gmt}):
+
+\begin{lemma}[Coarea form of $-m'$]\label{lem:coarea-mprime}
+For a.e.\ $t\in(0,\|u\|_\infty)$, $-m'(t)=\alpha(t)$ as defined in
+\eqref{eq:tprime-formula}. $m$ is absolutely continuous on
+$[\eps,\|u\|_\infty]$ for every $\eps>0$.
+\end{lemma}
+
+\begin{proof}[Citation]
+\cite[Thm.~13.1]{Maggi2012}, \cite[Thm.~3.40]{AFP2000}.
+\end{proof}
+
+\begin{lemma}[Flux--volume identity]\label{lem:flux-id}
+For a.e.\ $t\in(0,\|u\|_\infty)$, $E_t$ has finite perimeter and
+$\beta(t)=m(t)$.
+\end{lemma}
+
+\begin{proof}[Citation]
+By Lipschitz truncation of the weak equation $-\Delta u=1$ against the
+cutoff $\phi_\eps(u-t)\in H^{1}_{0}(\Om)$ and the finite-perimeter
+divergence theorem; cf.\ \cite[Thm.~16.3]{Maggi2012}.
+\end{proof}
+
+\subsubsection{Profile-gap estimate used by Plan~2}\label{ssec:profile-gap}
+
+We now record the profile-gap estimate that converts an
+$L^\infty$-control of $u^*_\Om-u^*_{\Bstar}$ on a near-boundary slab
+into a positive lower bound for $|T_\eta|=v(L-2\eta)-v(L-\eta)$, hence
+into the hypothesis~(H2) of the abstract weighted metric trace lemma.
+
+We work in the Plan~2 normalisation: $|\Om|=\omega_n=:L$,
+$R_\Om=R=1$, and we write $b(s):=u^*_{B_1}(s)$, $v(s):=u^*_\Om(s)$,
+$h(s):=b(s)-v(s)$.
+
+\begin{lemma}[Profile gap; integrated form]\label{lem:profile-gap-int}
+Let $\Om\subset\R^n$ be open with $|\Om|=\omega_n$. Then for every
+$s\in(0,\omega_n]$,
+\begin{equation}\label{eq:profile-gap-int}
+   0\le h(s)=b(s)-v(s)\le\frac{2\deltaT(\Om)}{s}.
+\end{equation}
+In particular, for every $\theta\in(0,1)$,
+\begin{equation}\label{eq:profile-gap-slab}
+   \|h\|_{L^\infty([\theta\omega_n,\omega_n])}
+   \le\frac{2\deltaT(\Om)}{\theta\omega_n}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By Talenti's pointwise comparison (Theorem~\ref{thm:talenti}),
+$v(s)\le b(s)$, so $h(s)\ge 0$ and $h$ is the difference of
+non-increasing absolutely continuous functions, hence absolutely
+continuous on $(0,\omega_n]$ with $h(0^+)\le b(0)<\infty$ and
+$h(\omega_n)=0$.
+
+For the upper bound, integrate Talenti's level-set differential
+inequality (cf.~\cite[\S4]{Talenti1976},
+\texttt{Plan 2/level-set-deficit-identity.md} §4):
+$v'(s)\ge b'(s)$ for a.e.\ $s$, equivalently $h'(s)\le 0$. Since
+$h\ge 0$ is non-increasing,
+$h(s)\cdot s\le\int_0^s h(\sigma)\,d\sigma\le\int_0^{\omega_n}h$. By
+equimeasurability,
+\[
+   \int_0^{\omega_n}h(\sigma)\,d\sigma
+   =\int_0^{\omega_n}b(\sigma)\,d\sigma-\int_0^{\omega_n}v(\sigma)\,d\sigma
+   =T(B_1)-T(\Om)=2\deltaT(\Om),
+\]
+using $|\Om|=\omega_n=|B_1|$ and Lemma~\ref{lem:E-T}. Hence
+$h(s)\le 2\deltaT(\Om)/s$.
+\end{proof}
+
+\begin{lemma}[Foliation length on a boundary slab]
+\label{lem:slab-length}
+Let $\Om\subset\R^n$ open with $|\Om|=\omega_n$. For
+$\eta\in(0,\omega_n/4)$ define the volume slab $S_\eta:=[\omega_n-2\eta,\omega_n-\eta]$
+and the level slab
+$T_\eta:=v(S_\eta)=[v(\omega_n-\eta),v(\omega_n-2\eta)]$. There exist
+constants $c_n,C_n>0$ depending only on $n$ such that
+\begin{equation}\label{eq:slab-b-bounds}
+   c_n\eta\le b(s)\le C_n\eta\qquad\text{for every }s\in S_\eta,
+\end{equation}
+and if $\deltaT(\Om)\le c_n\eta$ then
+\begin{equation}\label{eq:slab-T-eta}
+   |T_\eta|=v(\omega_n-2\eta)-v(\omega_n-\eta)\ge c_n\eta.
+\end{equation}
+The constants are explicit: $c_n=1/(C\cdot n)$, $C_n=C\cdot n^{-1}$,
+$C$ a universal dimensional constant.
+\end{lemma}
+
+\begin{proof}
+Set $R=1$, $L=\omega_n$. From the explicit ball profile
+$b(s)=(1-(s/\omega_n)^{2/n})/(2n)$, expanding
+$1-(1-\eta/\omega_n)^{2/n}$ to first order in $\eta$ for $\eta\le\omega_n/4$
+gives
+$c_n\eta/\omega_n\le 1-(1-\eta/\omega_n)^{2/n}\le C_n\eta/\omega_n$
+with $c_n=1/n$, $C_n=4/n$ (using
+$1-(1-x)^{2/n}\ge(2/n)x(1-x)\ge x/n$ for $x\in[0,1/2]$, and
+$1-(1-x)^{2/n}\le(2/n)x\cdot(1-x)^{2/n-1}\le 4x/n$ for $n\ge 2$).
+Multiplying by $1/(2n)$ gives \eqref{eq:slab-b-bounds}.
+
+For \eqref{eq:slab-T-eta}, write
+$v(\omega_n-2\eta)-v(\omega_n-\eta)
+=[b(\omega_n-2\eta)-b(\omega_n-\eta)]
+ -[h(\omega_n-2\eta)-h(\omega_n-\eta)]$.
+The first bracket is, by the explicit ball profile and
+$\omega_n-2\eta\ge\omega_n/2$, at least
+$c_n\eta$ for a dimensional $c_n$. The second bracket is bounded by
+$2\|h\|_{L^\infty([\omega_n/2,\omega_n])}\le 4\deltaT(\Om)/\omega_n$
+via \eqref{eq:profile-gap-slab}. The smallness hypothesis
+$\deltaT(\Om)\le c_n\eta$ (after halving $c_n$) ensures the first
+bracket dominates the second.
+\end{proof}
+
+\begin{remark}[Adaptation source]
+Lemma~\ref{lem:profile-gap-int} is the integrated form of the
+Talenti-comparison consequence
+$0\le b(s)-v(s)\le 2\deltaT/s$ derived from
+\cite[Thm.~1]{Talenti1976} and the Saint--Venant deficit identity
+$\Gamma(\Om)=2(E(\Om)-E(\Bstar))/|\Om|$. Lemma~\ref{lem:slab-length}
+provides the $|T_\eta|$-bound used to verify hypothesis~(H2) in the
+abstract trace lemma of \S\ref{subsec:weighted-metric-trace}.
+\end{remark}
+
+\subsubsection{Bad-set Lebesgue estimate used by Plan~2}\label{ssec:badset}
+
+The bad-set estimate converts the integrated Talenti gap into a
+Lebesgue control on the set where the foliation slows down. It is
+the input that the weighted metric trace lemma needs to convert the
+weighted kinetic bound
+$\int|\dot F_\rho|_\X^2\,d\mu\le C\deltaT$ into the unweighted kinetic
+bound $\int|\dot F_\rho|_\X^2\,d\rho\le C'\deltaT$
+(cf.\ \S\ref{subsec:weighted-metric-trace}).
+
+\begin{lemma}[Integrated Talenti gap on $-t'$]\label{lem:talenti-gap}
+Let $\Om\subset\R^n$ be open with $|\Om|=\omega_n$ and
+$\rstar\in(0,1)$. Let $t_B$ denote the inverse distribution
+function of $u_{B_1}$,
+$t_B(\rho)=u^*_{B_1}(\omega_n\rho^n)=(1-\rho^2)/(2n)$, so
+$-t_B'(\rho)=\rho/n$. There is $K_1=K_1(n,\rstar)>0$ such that
+\begin{equation}\label{eq:talenti-gap-int}
+   \int_{\rstar}^{1}\bigl|(-t_B'(\rho))-(-t'(\rho))\bigr|\,d\rho
+   \le K_1\,\deltaT(\Om).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Since both $t,t_B$ are non-increasing with $t(1)=t_B(1)=0$,
+$\psi(\rho):=(-t_B'(\rho))-(-t'(\rho))$ satisfies
+$\int_\rho^1\psi(r)\,dr=t(\rho)-t_B(\rho)=v(\omega_n\rho^n)-b(\omega_n\rho^n)
+=-h(\omega_n\rho^n)\le 0$ for every $\rho\in[\rstar,1]$
+(by Talenti, $v\le b$, hence $h\ge 0$). However $\psi$ need not
+have a sign; the proof of Lemma~\ref{lem:profile-gap-int} shows
+$h\ge 0$ globally, so the function $-h(\omega_n\rho^n)$ is
+$\le 0$ on $[\rstar,1]$.
+
+Substitute $s=\omega_n\rho^n$, $ds=n\omega_n\rho^{n-1}d\rho$:
+\[
+   \int_{\rstar}^1\psi(\rho)\,d\rho
+   =\bigl[\,t(\rho)-t_B(\rho)\,\bigr]_{\rstar}^1
+   =-\bigl(t(\rstar)-t_B(\rstar)\bigr)
+   =h(\omega_n\rstar^n)
+   \le \frac{2\deltaT(\Om)}{\omega_n\rstar^n}
+\]
+by Lemma~\ref{lem:profile-gap-int}. Since $\psi$ need not be signed,
+this controls only $\int\psi$ not $\int|\psi|$. We restore the
+absolute value by a second comparison. On any subinterval
+$[\rho_1,\rho_2]\subset[\rstar,1]$,
+\[
+   \Bigl|\!\int_{\rho_1}^{\rho_2}\!\psi(r)\,dr\Bigr|
+   =\bigl|(t(\rho_1)-t(\rho_2))-(t_B(\rho_1)-t_B(\rho_2))\bigr|
+   =|h(\omega_n\rho_1^n)-h(\omega_n\rho_2^n)|
+   \le h(\omega_n\rstar^n)
+\]
+because $h\ge 0$ is non-increasing. By the
+Hahn--Jordan decomposition of $\psi\,d\rho$ on $[\rstar,1]$ as
+$d\psi^+-d\psi^-$,
+\[
+   \int_{\rstar}^1|\psi|\,d\rho
+   =\psi^+([\rstar,1])+\psi^-([\rstar,1])
+   \le 2\,\sup_{[\rho_1,\rho_2]\subset[\rstar,1]}
+   \Bigl|\int_{\rho_1}^{\rho_2}\psi\Bigr|
+   \le 2\,h(\omega_n\rstar^n)
+   \le\frac{4\deltaT(\Om)}{\omega_n\rstar^n},
+\]
+which is \eqref{eq:talenti-gap-int} with
+$K_1=4/(\omega_n\rstar^n)$.
+\end{proof}
+
+\begin{lemma}[Bad-set Lebesgue estimate; (H3-bad)]
+\label{lem:badset}
+Let $\Om\subset\R^n$ open with $|\Om|=\omega_n$, $\rstar\in(0,1)$.
+Set
+\[
+   \tau_0:=\frac{\rstar}{2n},
+   \qquad
+   B_{\tau_0}:=\{\rho\in[\rstar,1]\,:\,-t'(\rho)<\tau_0\}.
+\]
+Then
+\begin{equation}\label{eq:badset}
+   |B_{\tau_0}|\le K_2(n,\rstar)\,\deltaT(\Om),
+   \qquad K_2(n,\rstar):=\frac{8n}{\omega_n\rstar^{n+1}}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+On $B_{\tau_0}$, $-t'(\rho)<\rstar/(2n)$ and $-t_B'(\rho)=\rho/n\ge\rstar/n$
+for $\rho\ge\rstar$. Hence
+$\psi(\rho)=(-t_B'(\rho))-(-t'(\rho))>\rstar/n-\rstar/(2n)=\rstar/(2n)$
+on $B_{\tau_0}$. Integrating and applying
+Lemma~\ref{lem:talenti-gap},
+\[
+   \frac{\rstar}{2n}\,|B_{\tau_0}|
+   \le\int_{B_{\tau_0}}\psi(\rho)\,d\rho
+   \le\int_{\rstar}^{1}|\psi(\rho)|\,d\rho
+   \le K_1\,\deltaT(\Om),
+\]
+so $|B_{\tau_0}|\le (2n/\rstar)K_1\deltaT(\Om)$. Substituting
+$K_1=4/(\omega_n\rstar^n)$ gives \eqref{eq:badset}.
+\end{proof}
+
+\begin{remark}[Adaptation source]
+Lemma~\ref{lem:badset} is the bad-set lemma used in
+\S\ref{subsec:weighted-metric-trace}. Lemma~\ref{lem:talenti-gap} is
+the ``integrated Talenti gap'' invoked there; the constants
+$K_1(n,\rstar),K_2(n,\rstar)$ are made explicit here. No published
+reference for this exact statement was located; the proof is
+self-contained from Talenti's comparison and the level-set deficit
+identity.
+\end{remark}
+
+\subsubsection{Kohler--Jobin inequality}\label{ssec:KJ}
+
+\begin{theorem}[Kohler--Jobin inequality; \protect\cite{KohlerJobin1978,Brasco2014}]
+\label{thm:KJ}
+For every open bounded $\Om\subset\R^n$ with $\lambda_1(\Om)<\infty$,
+\begin{equation}\label{eq:KJ}
+   T(\Om)\cdot\lambda_1(\Om)^{(n+2)/2}
+   \ge T(B_1)\cdot\lambda_1(B_1)^{(n+2)/2}
+   =T_n\,L_n^{(n+2)/2}.
+\end{equation}
+Equality holds iff $\Om$ is a ball (up to translation and a null set).
+\end{theorem}
+
+\begin{proof}[Citation]
+\cite[Thm.~3.3]{Brasco2014}, giving a modern proof by Schwarz
+symmetrisation; original \cite{KohlerJobin1978}. The functional
+$\Psi(\Om):=T(\Om)\lambda_1(\Om)^{(n+2)/2}$ is scale-invariant
+($T(t\Om)=t^{n+2}T(\Om)$ and $\lambda_1(t\Om)=t^{-2}\lambda_1(\Om)$,
+so $\Psi(t\Om)=\Psi(\Om)$), hence the right side is the universal
+constant $T_n L_n^{(n+2)/2}$ depending only on~$n$.
+\end{proof}
+
+\begin{remark}[Normalisation used in the final transfer]
+\label{rem:KJ-norm}
+The form~\eqref{eq:KJ} is the one used in the Kohler--Jobin transfer
+of the present manuscript
+(\S\ref{sec:plan1-kj-transfer}). At
+fixed volume $|\Om|=|\Bstar|$, rearranging~\eqref{eq:KJ} yields the
+pointwise transfer
+\begin{equation}\label{eq:KJ-ptwise}
+   \lambda_1(\Om)
+   \ge\lambda_1(\Bstar)
+   \Bigl(\frac{T(\Bstar)}{T(\Om)}\Bigr)^{2/(n+2)},
+\end{equation}
+equivalently
+\begin{equation}\label{eq:KJ-deficit}
+   \lambda_1(\Om)-\lambda_1(\Bstar)
+   \ge\lambda_1(\Bstar)\Bigl[(1-s)^{-1/\beta}-1\Bigr],
+   \qquad
+   s:=\frac{T(\Bstar)-T(\Om)}{T(\Bstar)}\in[0,1),
+   \quad\beta=\tfrac{n+2}{2}.
+\end{equation}
+\end{remark}
+
+\begin{lemma}[Elementary one-variable inequality]\label{lem:onevar}
+For $p\in(0,1]$ and $s\in[0,1)$,
+\begin{equation}\label{eq:onevar}
+   (1-s)^{-p}-1\ge ps.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+$f(s):=(1-s)^{-p}-1$ satisfies $f(0)=0$ and
+$f'(s)=p(1-s)^{-(p+1)}\ge p$ for $s\in[0,1)$. By the fundamental
+theorem of calculus, $f(s)=\int_0^s f'(\tau)\,d\tau\ge ps$.
+\end{proof}
+
+Combining~\eqref{eq:KJ-deficit} with Lemma~\ref{lem:onevar} for
+$p=1/\beta=2/(n+2)$ gives, in the small-deficit regime
+$s\le 1/2$, equivalently $T(\Bstar)-T(\Om)\le T(\Bstar)/2$,
+equivalently $\deltaT(\Om)\le T(\Bstar)/4$:
+\begin{equation}\label{eq:KJ-linear}
+   \lambda_1(\Om)-\lambda_1(\Bstar)
+   \ge\frac{2\lambda_1(\Bstar)}{(n+2)T(\Bstar)}
+       \bigl(T(\Bstar)-T(\Om)\bigr)
+   =\frac{4\lambda_1(\Bstar)}{(n+2)T(\Bstar)}\,\deltaT(\Om).
+\end{equation}
+
+\begin{remark}[Dimension dependence]\label{rem:KJ-dim}
+The Kohler--Jobin multiplier in~\eqref{eq:KJ-linear} depends only on
+$n$: by scale invariance,
+$2\lambda_1(\Bstar)/((n+2)T(\Bstar))=2L_n/((n+2)T_n)=2nL_n/\omega_n$,
+using \eqref{eq:Tn}. This is the universal dimension-only constant
+that converts $\deltaT$ to $\deltaFK$ in the final theorem.
+\end{remark}
+
+\subsubsection{Summary of constants and constants used downstream}
+\label{ssec:prelim-summary}
+
+We record the universal ball constants and the dimension-tracked
+constants introduced in this section, for use in the Plan~1 and
+Plan~2 chains.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|l|l|l|}\hline
+Symbol & Value / dependence & Reference\\\hline
+$\omega_n=|B_1|$ & dim.~only & --- \\
+$T_n=T(B_1)=\omega_n/(n(n+2))$ & dim.~only & Lemma~\ref{lem:Tscaling}\\
+$L_n=\lambda_1(B_1)=j_{n/2-1,1}^2$ & dim.~only & Def.~\ref{def:lambda1}\\
+$E(B_1)=-T_n/2=-\omega_n/(2n(n+2))$ & dim.~only & \eqref{eq:E-T}\\
+$2L_n/((n+2)T_n)=2nL_n/\omega_n$ & Kohler--Jobin multiplier ($n$ only) & Rmk.~\ref{rem:KJ-dim}\\\hline
+$K_1(n,\rstar)=4/(\omega_n\rstar^n)$ & integrated Talenti gap constant & Lem.~\ref{lem:talenti-gap}\\
+$K_2(n,\rstar)=8n/(\omega_n\rstar^{n+1})$ & bad-set Lebesgue constant & Lem.~\ref{lem:badset}\\
+$\tau_0=\rstar/(2n)$ & bad-set threshold & Lem.~\ref{lem:badset}\\\hline
+$c_n,C_n$ & ball-profile constants in slab estimates & Lem.~\ref{lem:slab-length}\\\hline
+\end{tabular}
+\end{center}
+
+% =====================================================================
+% Local bibliography for this section. Agent 17 will merge this into
+% the master bibliography (Manuscript/04_references_audit.md).
+% DISABLED by Agent 19 (Final Assembly): the master bibliography is in
+% Manuscript/references.bib, loaded from main.tex.
+% =====================================================================
+\iffalse
+\begin{thebibliography}{99}
+
+\bibitem{AFP2000}
+L.~Ambrosio, N.~Fusco, D.~Pallara,
+\emph{Functions of Bounded Variation and Free Discontinuity
+Problems}, Oxford University Press, 2000.
+
+\bibitem{BDV}
+L.~Brasco, G.~De~Philippis, B.~Velichkov,
+\emph{Faber--Krahn inequalities in sharp quantitative form},
+Duke Math.\ J.\ \textbf{164} (2015), 1777--1831.
+
+\bibitem{Brasco2014}
+L.~Brasco,
+\emph{On torsional rigidity and principal frequencies: an invitation
+to the Kohler--Jobin rearrangement technique}, ESAIM Control Optim.\
+Calc.\ Var.\ \textbf{20} (2014), 315--338.
+
+\bibitem{Faber1923}
+G.~Faber, \emph{Beweis, dass unter allen homogenen Membranen von
+gleicher Fl\"ache und gleicher Spannung die kreisf\"ormige den
+tiefsten Grundton gibt}, Sitzungsber.\ Bayer.\ Akad.\ Wiss.\
+M\"unchen, math.-phys.\ Kl.\ (1923), 169--172.
+
+\bibitem{HenrotBook}
+A.~Henrot, \emph{Extremum Problems for Eigenvalues of Elliptic
+Operators}, Birkh\"auser, 2006.
+
+\bibitem{KohlerJobin1978}
+M.-Th.~Kohler-Jobin,
+\emph{Une m\'ethode de comparaison isop\'erim\'etrique de fonctionnelles
+de domaines de la physique math\'ematique},
+J.\ Appl.\ Math.\ Phys.\ (ZAMP) \textbf{29} (1978), 757--766.
+
+\bibitem{Krahn1925}
+E.~Krahn, \emph{\"Uber eine von Rayleigh formulierte
+Minimaleigenschaft des Kreises}, Math.\ Ann.\ \textbf{94} (1925),
+97--100.
+
+\bibitem{Maggi2012}
+F.~Maggi, \emph{Sets of Finite Perimeter and Geometric Variational
+Problems: An Introduction to Geometric Measure Theory}, Cambridge
+University Press, 2012.
+
+\bibitem{Maggi2008}
+F.~Maggi, \emph{Some methods for studying stability in
+isoperimetric-type problems}, Bull.\ Amer.\ Math.\ Soc.\
+\textbf{45} (2008), 367--408.
+
+\bibitem{PolyaSzego1951}
+G.~P\'olya, G.~Szeg\H{o}, \emph{Isoperimetric Inequalities in
+Mathematical Physics}, Princeton University Press, 1951.
+
+\bibitem{Talenti1976}
+G.~Talenti, \emph{Elliptic equations and rearrangements}, Ann.\ Mat.\
+Pura Appl.\ (4) \textbf{110} (1976), 353--372.
+
+% Local block references (point to source documents shipped in this
+% project; will be replaced by internal cross-references at assembly
+% time by Agent~17 / 19).
+
+\bibitem{WIP_LevelSetIdentity}
+Building block \textsc{LevelSetIdentity},
+\texttt{Plan 2/WIP/WIP\_LevelSetIdentity.tex}.
+
+\bibitem{WIP_WeightedMetricTrace}
+Building block \textsc{WeightedMetricTrace},
+\texttt{Plan 2/WIP/WIP\_WeightedMetricTrace.tex}.
+
+\bibitem{Plan2-LevelSet}
+\emph{Level-set deficit identity for the Nicola--Tilli route},
+\texttt{Plan 2/level-set-deficit-identity.md}.
+
+\bibitem{Final-KohlerJobinTransfer}
+Building block \textsc{KohlerJobinTransfer},
+\texttt{Final-KohlerJobinTransfer}.
+
+\bibitem{Final-BoundedReduction}
+Building block \textsc{BoundedReduction},
+\texttt{Final-BoundedReduction}.
+
+\bibitem{FigalliMaggi2011}
+A.~Figalli, F.~Maggi,
+\emph{On the shape of liquid drops and crystals in the small mass
+regime}, Arch.\ Rational Mech.\ Anal.\ \textbf{201} (2011),
+143--207 (Appendix~A, Theorem~A.1, the Sobolev--Sard property).
+
+\bibitem{DeGiorgi1958}
+E.~De~Giorgi, \emph{Su una teoria generale della misura
+$(r-1)$-dimensionale in uno spazio ad $r$ dimensioni}, Ann.\ Mat.\
+Pura Appl.\ (4) \textbf{36} (1954), 191--213.
+
+\bibitem{Kawohl1985}
+B.~Kawohl, \emph{Rearrangements and Convexity of Level Sets in
+PDE}, Lecture Notes in Math.\ \textbf{1150}, Springer, 1985.
+
+\end{thebibliography}
+\fi

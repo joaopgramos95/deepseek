@@ -1,0 +1,563 @@
+% UNIFIED 2026-05-13
+% SOURCE MAP for §4.3 (Plan 2, Agent 11):
+%   - Statement of scaled Fusco--Julin (Thm 4.3.1): CITE(FJ2014, Thm 1.1) + DRAFT
+%     scaling; reads Manuscript/00_notation_register.md §1, §7, §10;
+%     source_map.md C2, C3, E3.1.
+%   - Borel centre selection (Lem 4.3.2): DRAFT, with measurable-selection
+%     prelim Agent 2 (source_map.md A7) and bulk-centroid Borel regularity
+%     from Plan 2/wave3-F-h1-center-bound.md §2.2 (LOCAL).
+%   - Fraenkel bound (Lem 4.3.3): DRAFT, consumes FJ scaled form (C3) and
+%     FMP/AFM/CL centre proximity (LOCAL, wave3-F-h1-center-bound.md §1
+%     + Wave 2 Agent A Lemma 2.2).
+%   - Normal-oscillation bound (Lem 4.3.4): DRAFT, divergence identity
+%     Agent 4 §C4; FJ2014 Thm 1.1.
+%   - Oriented radial trace lemma (Thm 4.3.5, the critical load-bearing
+%     lemma E3.5): DRAFT, builds on Plan 2/WIP/WIP_WeightedMetricTrace.tex
+%     Lem.\ 3.6 and the wave3-J-route-delta-repair.md §§3--7 slicing
+%     decomposition; uses Agent 2 prelims A4 (divergence theorem for
+%     finite-perimeter sets, CITE Maggi2012 Thm 16.3) and A5 (Lipschitz
+%     truncation of x/|x|, DRAFT in §2.1).
+%   - Vector field X(x)=||x-z|/rho-1|(x-z)/|x-z|: named precisely as in
+%     the brief and in WIP_WeightedMetricTrace.tex (LOCAL).
+%   - All constants C(n, R, rho_*) tracked per notation register §14.
+
+\subsection{\S4.3.\ Fusco--Julin centre and the oriented radial trace lemma}
+\label{sec:plan2-fj-radial}
+
+This subsection is the centre-package and load-bearing radial-trace
+estimate of Plan~2. Its conclusion --- Theorem~\ref{thm:radial-trace} ---
+together with the metric first-variation theorem of \S4.2 controls the
+metric derivative $|\dot F_\rho|_{\X}$ in the weighted action integral.
+
+Throughout this subsection we fix $n\ge 2$, $R\ge 2$, $\rstar\in(0,1)$,
+and $\kappa>0$. We work with an open set $\Om\subset B_R\subset\R^n$,
+$|\Om|=\omega_n$, with variational torsion function $u=u_\Om$, volume-radius
+parametrisation $E_\rho=\{u>t(\rho)\}$, $|E_\rho|=\omega_n\rho^n$ for
+$\rho\in[\rstar,1]$, and $\mu(d\rho):=(-t'(\rho))\,d\rho$. We assume
+\begin{equation}\label{eq:fj-smallness}
+   \delta_T(\Om)\le\delta_0(n,R,\rstar),
+\end{equation}
+where $\delta_0$ is the smallness threshold fixed in
+Theorem~\ref{thm:weighted-trace} (the constant matching the
+Cicalese--Leonardi smallness threshold and the centroid--Fraenkel offset,
+cf.\ \cite[Prop.~2.3]{CL2012} and \cite[Thm.~1.1]{FJ2014}).
+
+\subsubsection{4.3.1.\ Scaled Fusco--Julin and centre selection}
+\label{ssec:fj-scaled}
+
+Recall the strong quantitative isoperimetric inequality of
+Fusco--Julin~\cite[Thm.\ 1.1]{FJ2014}: there is a dimensional constant
+$C_{\mathrm{FJ}}(n)>0$ such that for every set of finite perimeter
+$E\subset\R^n$ with $|E|=|B_1|$ there exists a centre $z=z(E)\in\R^n$ with
+\begin{equation}\label{eq:FJ-original}
+   \Bigl(\frac{|E\Delta B_1(z)|}{|B_1|}\Bigr)^2
+   +\beta(E,z)^2
+   \le C_{\mathrm{FJ}}(n)\,\bigl(P(E)-P(B_1)\bigr),
+\end{equation}
+where the FJ oscillation index is
+\begin{equation}\label{eq:FJ-osc-def}
+   \beta(E,z)^2
+   :=\inf_{|E'|=|E|}\;
+   \int_{\partial^*E}\bigl|\nu_E(x)-(\nu_{E'})_{\mathrm{rad}}(x;z)\bigr|^2\,d\mathcal H^{n-1}(x),
+\end{equation}
+which by the standard divergence identity (item~C4 of the
+preliminaries; see~\eqref{eq:beta-div} below) is comparable to
+$\int_{\partial^*E}|\nu_E-(x-z)/|x-z||^2\,d\mathcal H^{n-1}$.
+
+\begin{theorem}[Scaled Fusco--Julin on $\{|E|=\omega_n\rho^n\}$]
+\label{thm:plan2-FJ-scaled}\label{prop:fj-scaled}
+For every $\rho\in[\rstar,1]$ and every $E\subset\R^n$ of finite perimeter
+with $|E|=\omega_n\rho^n$ there exists $z=z(E,\rho)\in\R^n$ such that
+\begin{equation}\label{eq:plan2-FJ-scaled}
+   |E\Delta B_\rho(z)|^2
+   +\rho^{n+1}\int_{\partial^*E}\!\!\Bigl|\nu_E(x)-\frac{x-z}{|x-z|}\Bigr|^2 d\mathcal H^{n-1}(x)
+   \le C_1(n,\rstar)\,\rho^{n+1}\bigl(P(E)-P(B_\rho)\bigr),
+\end{equation}
+where $C_1(n,\rstar)=4\,C_{\mathrm{FJ}}(n)\cdot\max(1,\rstar^{-(n+1)})$. The
+constant depends only on $n$ and $\rstar$.
+\end{theorem}
+
+\begin{proof}
+Set $\widetilde E:=\rho^{-1}E$, so $|\widetilde E|=\omega_n=|B_1|$ and
+$\widetilde E$ has finite perimeter with
+$P(\widetilde E)=\rho^{-(n-1)}P(E)$. Apply~\eqref{eq:FJ-original} to
+$\widetilde E$: there exists $\widetilde z$ with
+\begin{equation}\label{eq:FJ-applied}
+   \Bigl(\frac{|\widetilde E\Delta B_1(\widetilde z)|}{\omega_n}\Bigr)^2
+   +\beta(\widetilde E,\widetilde z)^2
+   \le C_{\mathrm{FJ}}(n)\bigl(P(\widetilde E)-P(B_1)\bigr).
+\end{equation}
+Set $z:=\rho\widetilde z$. Translating $\widetilde E$ to $E$ scales
+volumes by $\rho^n$ and perimeters by $\rho^{n-1}$, and using the
+divergence identity~\eqref{eq:beta-div} below to rewrite
+$\beta(\widetilde E,\widetilde z)^2$ in terms of the
+normal-oscillation integral, the scaled bounds
+$|E\Delta B_\rho(z)|=\rho^n|\widetilde E\Delta B_1(\widetilde z)|$
+and $\int_{\partial^*E}|\nu_E-(x-z)/|x-z||^2\,d\mathcal H^{n-1}
+=\rho^{n-1}\int_{\partial^*\widetilde E}|\nu_{\widetilde E}-(y-\widetilde z)/|y-\widetilde z||^2\,d\mathcal H^{n-1}$
+yield~\eqref{eq:plan2-FJ-scaled} after multiplying through by $\rho^{2n}$
+and using $\rstar\le\rho\le1$ to absorb the $\rho$-powers into the
+constant $C_1$.
+\end{proof}
+
+\begin{remark}[Comparison constants]\label{rmk:FJ-equiv}
+The divergence identity (item~C4 of the preliminaries)
+\begin{equation}\label{eq:beta-div}
+   2\,\beta(E,z)^2
+   = \int_{\partial^*E}\Bigl|\nu_E(x)-\frac{x-z}{|x-z|}\Bigr|^2 d\mathcal H^{n-1}(x)
+   = 2(P(E)-P(B_\rho))+2\Pi(E,z),
+\end{equation}
+holds whenever $|E|=|B_\rho|$, $z\in\R^n$ with the radial field
+$x\mapsto(x-z)/|x-z|$ locally Borel and the truncation argument
+of~\S2.1 (item~A5) applicable. The identity is proved by testing
+$\mathrm{div}((x-z)/|x-z|)=(n-1)|x-z|^{-1}$ on $E$ via the finite-perimeter
+divergence theorem and truncating away from~$z$;
+$\Pi(E,z):=(n-1)\int (\mathbf1_{B_\rho(z)}-\mathbf1_E)|x-z|^{-1}\,dx$ is the
+signed radial moment of the notation register \S13. We use only the
+inequality
+$\int|\nu_E-(x-z)/|x-z||^2\,d\mathcal H^{n-1}\le 2C_1(n,\rstar)(P(E)-P(B_\rho))/\rho^{n+1}$
+that follows from~\eqref{eq:plan2-FJ-scaled}.
+\end{remark}
+
+We now choose a single Borel centre field along the torsion foliation.
+The canonical choice (see~\S\ref{sec:notation}, and the discussion of the
+Fusco--Julin centre in~\cite[Thm.~1.1]{FJ2014})
+is the bulk centroid
+\begin{equation}\label{eq:centroid-def}
+   \zbar
+   = \bar z_\rho
+   :=\frac{1}{|E_\rho|}\int_{E_\rho}x\,dx
+   \in\R^n,\qquad\rho\in[\rstar,1].
+\end{equation}
+
+\begin{lemma}[Borel measurability and CL containment of the centroid]
+\label{lem:centroid-borel}
+Under~\eqref{eq:fj-smallness} the map $\rho\mapsto\zbar$ is Lipschitz on
+$[\rstar,1]$ with constant $L_{\mathrm{cent}}(n,R,\rstar)\le 2nR\rstar^{-n}$;
+in particular it is Borel. Moreover for every $\rho\in[\rstar,1]$,
+\begin{equation}\label{eq:zbar-CL}
+   B(\zbar,\rho/4)\subset E_\rho\subset B(\zbar,3\rho),
+\end{equation}
+so $\zbar\in E_\rho$ and the radial field $e_r(x):=(x-\zbar)/|x-\zbar|$ is
+$\mathcal H^{n-1}$-a.e.\ well-defined and Borel on $\partial^*E_\rho$, with
+$\rstar/4\le|x-\zbar|\le 3R$ on $\partial^*E_\rho$ for a.e.\ $\rho$.
+\end{lemma}
+
+\begin{proof}
+For $\rstar\le\rho\le\rho'\le1$, the nesting of $\{E_\rho\}$ gives
+$|E_\rho\Delta E_{\rho'}|=|E_{\rho'}|-|E_\rho|\le n\omega_n|\rho-\rho'|$.
+Hence
+$|\int_{E_\rho}x_i\,dx-\int_{E_{\rho'}}x_i\,dx|\le R\cdot n\omega_n|\rho-\rho'|$;
+combined with $|E_\rho|\ge\omega_n\rstar^n$ this yields the Lipschitz
+constant $L_{\mathrm{cent}}=2nR/\rstar^n$, which is Borel (in fact
+continuous). The containment~\eqref{eq:zbar-CL} follows from the
+Cicalese--Leonardi inner-ball containment (\cite[Thm.\ 1.1]{CL2012})
+applied at the Fraenkel centre
+$z^{\mathrm{Fr}}_\rho$, together with the centroid--Fraenkel proximity
+$|\zbar-z^{\mathrm{Fr}}_\rho|\le C(n,\rstar)\,\Fr(E_\rho)\le
+C'\sqrt{\delta_T(\Om)}\le\rho/4$, valid for $\delta_0$ small
+(\cite[Prop.\ 2.3]{CL2012},
+\cite[Lem.\ 2.6]{AFM2013}, \cite[Thm.~1.1]{FJ2014}).
+Borel measurability of the normal field $\nu_{E_\rho}$ on $\partial^*E_\rho$
+(\cite[Thm.\ 15.9]{Maggi2012}) then yields the Borel measurability of
+$e_r$ on $\partial^*E_\rho$ for $\zbar\in E_\rho$.
+\end{proof}
+
+\begin{remark}[Auxiliary FJ-oscillation centre and Borel selection]
+\label{rmk:centre-selection}
+The centre $z(E_\rho,\rho)$ produced by Theorem~\ref{thm:plan2-FJ-scaled} is
+\emph{a} valid almost-minimiser; Lemma~\ref{lem:centroid-borel}'s centroid
+$\zbar$ also satisfies~\eqref{eq:plan2-FJ-scaled} up to enlarging $C_1$ by the
+proximity offset $|\zbar-z^{\mathrm{Fr}}_\rho|\le C(n,\rstar)\sqrt{\delta_T}$,
+absorbed by the smallness threshold $\delta_0$. The Borel selection
+of \emph{any} valid centre on a Borel-measurable family of finite-perimeter
+sets follows from the measurable-selection statement A7 of the
+preliminaries (Federer~\cite[\S2.13]{Federer1969}, in the form recorded
+in~\cite[\S5.3]{AFP2000}). Throughout the rest of this subsection the
+centre is fixed to be $z_\rho:=\zbar$.
+\end{remark}
+
+\subsubsection{4.3.2.\ Fraenkel and normal-oscillation bounds at the centroid}
+\label{ssec:fj-bounds}
+
+Define the (good) isoperimetric set
+\begin{equation}\label{eq:GI-def}
+   G_I:=\{\rho\in[\rstar,1]:D_I(t(\rho))\le\eta_I\},\qquad
+   \eta_I:=\eta_I(n,R,\rstar)\in(0,1],
+\end{equation}
+with $\eta_I$ small enough that on $G_I$, $P(E_\rho)\le 2P(B_\rho)$
+(possible since $D_I=(P(E)-P(B_\rho))(P(E)+P(B_\rho))$ and
+$P(B_\rho)\ge n\omega_n\rstar^{n-1}$). We collect
+\eqref{eq:plan2-FJ-scaled} at $z_\rho=\zbar$.
+
+\begin{lemma}[Fraenkel bound at the centroid]\label{lem:fraenkel-centroid}
+There exists $C_2=C_2(n,R,\rstar)>0$ such that for every $\rho\in G_I$,
+\begin{equation}\label{eq:fraenkel-centroid}
+   |E_\rho\Delta B_\rho(\zbar)|^2
+   \le C_2(n,R,\rstar)\,D_I(t(\rho)).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+From~\eqref{eq:plan2-FJ-scaled} applied with $z=\zbar$ (valid by
+Remark~\ref{rmk:centre-selection}, after absorbing the
+$|\zbar-z^{\mathrm{Fr}}_\rho|^2$ correction into the constant via
+$|B_\rho(a)\Delta B_\rho(b)|\le C(n)\rho^{n-1}|a-b|$ and the FMP estimate
+$|E_\rho\Delta B_\rho(z^{\mathrm{Fr}}_\rho)|^2\le c_1|B_\rho|^2(P(E_\rho)-P(B_\rho))$),
+\begin{equation}\label{eq:fraenkel-centroid-pre}
+   |E_\rho\Delta B_\rho(\zbar)|^2
+   \le 2C_1(n,\rstar)\rho^{n+1}\bigl(P(E_\rho)-P(B_\rho)\bigr).
+\end{equation}
+Use the algebraic identity
+$D_I(t(\rho))=(P(E_\rho)-P(B_\rho))(P(E_\rho)+P(B_\rho))\ge n\omega_n\rstar^{n-1}\cdot(P(E_\rho)-P(B_\rho))$
+to convert $(P(E_\rho)-P(B_\rho))$ into $D_I/(n\omega_n\rstar^{n-1})$;
+this and $\rho\le1$ yield~\eqref{eq:fraenkel-centroid} with
+$C_2=2C_1(n,\rstar)/(n\omega_n\rstar^{n-1})$, polynomial in $n,R,1/\rstar$.
+\end{proof}
+
+\begin{lemma}[Normal-oscillation bound at the centroid]
+\label{lem:normal-osc-centroid}
+There exists $C_3=C_3(n,R,\rstar)>0$ such that for every $\rho\in G_I$,
+\begin{equation}\label{eq:normal-osc-centroid}
+   \int_{\partial^*E_\rho}\!\!\Bigl|\nu_\rho(x)-\frac{x-\zbar}{|x-\zbar|}\Bigr|^2\,
+      d\mathcal H^{n-1}(x)
+   \le C_3(n,R,\rstar)\,D_I(t(\rho)).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Combining~\eqref{eq:plan2-FJ-scaled} at $z=\zbar$ (with the same absorption as
+in the previous proof) and the lower bound $\rho^{n+1}\ge\rstar^{n+1}$
+gives
+$\int|\nu_\rho-(x-\zbar)/|x-\zbar||^2\,d\mathcal H^{n-1}\le
+C_1(n,\rstar)(P(E_\rho)-P(B_\rho))/\rstar^{n+1}$; converting $P-P_\rho$ to
+$D_I$ as in the previous proof yields~\eqref{eq:normal-osc-centroid}
+with $C_3=C_1(n,\rstar)/(\rstar^{n+1}\cdot n\omega_n\rstar^{n-1})$.
+\end{proof}
+
+\begin{remark}[{$\rho\in[\rstar,1]\setminus G_I$}]
+Outside $G_I$, $D_I(t(\rho))>\eta_I$, and~\eqref{eq:fraenkel-centroid},
+\eqref{eq:normal-osc-centroid} hold trivially after enlarging
+$C_2,C_3$ by a multiple of $\eta_I^{-1}$, since both left-hand sides are
+bounded by $|B_R|^2$ and $4P(B_R)\le 4n\omega_n R^{n-1}$ respectively.
+In the integrated argument of Theorem~\ref{thm:weighted-trace} the
+$\mu$-measure of $\{\rho:\rho\notin G_I\}$ is controlled by Markov from
+the deficit identity, so the trivial bound is permissible.
+\end{remark}
+
+\subsubsection{4.3.3.\ The oriented radial trace lemma}
+\label{ssec:radial-trace}
+
+This is the load-bearing lemma of Plan~2's GMT route. We prove the
+pointwise inequality, with the named vector field
+\begin{equation}\label{eq:X-def}
+   X(x)
+   :=\Bigl|\frac{|x-\zbar|}{\rho}-1\Bigr|\cdot\frac{x-\zbar}{|x-\zbar|},
+   \qquad x\in\R^n\setminus\{\zbar\},
+\end{equation}
+of the brief, via the finite-perimeter divergence theorem (item~A4 of
+the preliminaries: \cite[Thm.\ 16.3]{Maggi2012}) and the truncation
+argument of item~A5. We do \emph{not} use ray-slicing in the proof of
+this lemma; a slicing-based variant is sketched in
+Remark~\ref{rmk:slicing-route} below.
+
+\begin{theorem}[Oriented $L^1$ radial trace at the centroid]
+\label{thm:radial-trace}\label{thm:fj-radial-divergence}\label{lem:radial-trace-master}
+There is $C_4=C_4(n,R,\rstar)>0$ such that for every
+$\rho\in[\rstar,1]$ satisfying~\eqref{eq:fj-smallness}, with the centroid
+$z_\rho=\zbar$ of~\eqref{eq:centroid-def},
+\begin{equation}\label{eq:radial-trace}
+   T_\rho
+   :=\int_{\partial^*E_\rho}\!\!\Bigl|\frac{|x-\zbar|}{\rho}-1\Bigr|\,
+       d\mathcal H^{n-1}(x)
+   \le
+   C_4\,\Bigl(\,|E_\rho\Delta B_\rho(\zbar)|
+   +\int_{\partial^*E_\rho}\!\!\Bigl|\nu_\rho-\frac{x-\zbar}{|x-\zbar|}\Bigr|^2\,
+       d\mathcal H^{n-1}\Bigr).
+\end{equation}
+The constant has the explicit form $C_4(n,R,\rstar)=\max\{n/\rstar,3R/(2\rstar)\}$
+(see~\eqref{eq:T-trace-explicit} below).
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: setup.} By Lemma~\ref{lem:centroid-borel},
+$\zbar\in B(\zbar,\rho/4)\subset E_\rho\subset B(\zbar,3\rho)\subset B_R$,
+so $|x-\zbar|\in[\rstar/4,3R]$ for $\mathcal H^{n-1}$-a.e.
+$x\in\partial^*E_\rho$. Translate so that $\zbar=0$; the radial unit
+vector is $e_r(x)=x/|x|$ on $\R^n\setminus\{0\}$ and the
+weight is $w(r):=|r/\rho-1|$, a Lipschitz function of $r\in[0,\infty)$
+with $w(\rho)=0$, $|w(r)|\le \max(1,(3R)/\rho-1)\le 3R/\rstar$ on
+$\partial^*E_\rho$, and the
+vector field $X(x)=w(|x|)e_r(x)$ of~\eqref{eq:X-def}. Note $X$ is locally
+Lipschitz on $\R^n\setminus\{0\}$ and bounded on $B_R$ (with
+$\|X\|_\infty\le 3R/\rstar$), but is discontinuous at the origin.
+
+\emph{Step 2: pointwise inequality.}
+On $\partial^*E_\rho$, $|e_r|=|\nu_\rho|=1$, so writing
+$1=e_r\cdot\nu_\rho+(1-e_r\cdot\nu_\rho)$ and using $w\ge0$,
+\begin{equation}\label{eq:T-split}
+   T_\rho
+   =\int_{\partial^*E_\rho}w(|x|)\,d\mathcal H^{n-1}
+   =\int_{\partial^*E_\rho}X\cdot\nu_\rho\,d\mathcal H^{n-1}
+    +\int_{\partial^*E_\rho}w(|x|)\bigl(1-e_r\cdot\nu_\rho\bigr)\,d\mathcal H^{n-1}.
+\end{equation}
+The second integrand is non-negative because $e_r\cdot\nu_\rho\le|e_r||\nu_\rho|=1$,
+and the elementary identity
+$1-e_r\cdot\nu_\rho=\tfrac12|e_r-\nu_\rho|^2$ together with
+$w\le3R/\rstar$ gives
+\begin{equation}\label{eq:T-tan-bound}
+   \int_{\partial^*E_\rho}w(|x|)(1-e_r\cdot\nu_\rho)\,d\mathcal H^{n-1}
+   \le\frac{3R}{2\rstar}
+   \int_{\partial^*E_\rho}|\nu_\rho-e_r|^2\,d\mathcal H^{n-1}.
+\end{equation}
+
+\emph{Step 3: truncated divergence theorem for the radial term.}
+We bound $\int_{\partial^*E_\rho}X\cdot\nu_\rho\,d\mathcal H^{n-1}$ by the
+finite-perimeter divergence theorem applied to a Lipschitz truncation of
+$X$. Fix $\eps\in(0,\rstar/8)$ and a smooth non-decreasing
+$\eta_\eps:[0,\infty)\to[0,1]$ with $\eta_\eps(r)=0$ for $r\le\eps/2$,
+$\eta_\eps(r)=1$ for $r\ge\eps$, $|\eta_\eps'|\le4/\eps$. Set
+\begin{equation}\label{eq:Xeps-def}
+   X_\eps(x):=\eta_\eps(|x|)\,w(|x|)\,e_r(x),\qquad x\in\R^n.
+\end{equation}
+Then $X_\eps\in C^{0,1}(\R^n;\R^n)\cap C^\infty(\R^n\setminus\{0\};\R^n)$,
+$X_\eps\equiv X$ outside $\{|x|<\eps\}$, and
+$\|X_\eps\|_\infty\le 3R/\rstar$. The classical divergence
+$\mathrm{div}\,X_\eps$ is locally bounded on $\R^n$ and equals
+\begin{equation}\label{eq:divXeps}
+   \mathrm{div}\,X_\eps(x)
+   = \eta_\eps(|x|)\Bigl[w'(|x|)+\frac{n-1}{|x|}w(|x|)\Bigr]
+     +\eta_\eps'(|x|)\,w(|x|)\qquad(x\ne0),
+\end{equation}
+where $w'(r)=r/(\rho|r|)\cdot\mathrm{sgn}(r/\rho-1)=\rho^{-1}\mathrm{sgn}(r/\rho-1)$
+for $r\ne\rho$ (Lipschitz regularity of $w$, derivative a.e.).
+At the origin, $X_\eps\equiv 0$ on $\{|x|<\eps/2\}$, so $X_\eps$ is genuinely
+Lipschitz on $\R^n$.
+
+By the divergence theorem for the finite-perimeter set $E_\rho$ applied to
+the Lipschitz vector field $X_\eps$ (item~A4 of the preliminaries;
+\cite[Thm.\ 16.3]{Maggi2012}, applied with the standard density argument:
+$X_\eps$ is mollifiable since it is Lipschitz with compact support after
+multiplication by a cutoff at radius $3R$),
+\begin{equation}\label{eq:div-eps}
+   \int_{\partial^*E_\rho}X_\eps\cdot\nu_\rho\,d\mathcal H^{n-1}
+   =\int_{E_\rho}\mathrm{div}\,X_\eps\,dx.
+\end{equation}
+The same identity applied to the open ball $B_\rho=B_\rho(0)$ (a smooth
+finite-perimeter set, with $\nu_{B_\rho}(y)=y/|y|$ and $w(\rho)=0$) yields
+\begin{equation}\label{eq:div-eps-ball}
+   0
+   =\int_{\partial^*B_\rho}\!\!\!\!w(|y|)\,e_r\cdot\nu_{B_\rho}\,d\mathcal H^{n-1}
+   =\int_{\partial^*B_\rho}\!\!\!\!X_\eps\cdot\nu_{B_\rho}\,d\mathcal H^{n-1}
+   =\int_{B_\rho}\!\!\mathrm{div}\,X_\eps\,dx,
+\end{equation}
+where the first equality holds because $\eta_\eps(r)=1$ for $r$ near $\rho$
+(since $\eps<\rstar/8\le\rho/8$) and $w(\rho)=0$. Subtracting,
+\begin{equation}\label{eq:div-eps-diff}
+   \int_{\partial^*E_\rho}X_\eps\cdot\nu_\rho\,d\mathcal H^{n-1}
+   =\int_{E_\rho\setminus B_\rho}\!\!\!\!\mathrm{div}\,X_\eps\,dx
+    -\int_{B_\rho\setminus E_\rho}\!\!\!\!\mathrm{div}\,X_\eps\,dx.
+\end{equation}
+
+\emph{Step 4: limit $\eps\downarrow0$.} On $\R^n\setminus\{0\}$,
+$X_\eps\to X$ pointwise and $\mathrm{div}\,X_\eps\to\mathrm{div}\,X$
+pointwise, where
+\begin{equation}\label{eq:divX}
+   \mathrm{div}\,X(x)=
+   \rho^{-1}\mathrm{sgn}(|x|/\rho-1)+\frac{n-1}{|x|}\Bigl|\frac{|x|}{\rho}-1\Bigr|,
+   \qquad x\in\R^n\setminus(\{0\}\cup\partial B_\rho).
+\end{equation}
+On both $E_\rho\setminus B_\rho$ and $B_\rho\setminus E_\rho$, the
+domain of integration is contained in $\{|x|\ge\rstar/4\}$ (by
+Lemma~\ref{lem:centroid-borel} for the first set and the trivial bound
+$\rho\ge\rstar$ for the second after restricting to $|x|\ge\rstar/4$;
+the set $\{|x|<\rstar/4\}\cap(E_\rho\cup B_\rho)\subset B_\rho$ is
+\emph{not} in either symmetric difference part by~\eqref{eq:zbar-CL}).
+On $\{|x|\ge\rstar/4\}$, the singular factor
+$(n-1)/|x|\le 4(n-1)/\rstar$ and the cutoff factor $\eta_\eps(|x|)\equiv1$
+for $\eps<\rstar/8$; therefore $X_\eps\equiv X$ on
+$\{|x|\ge\rstar/4\}$ for all $\eps$ small enough, and
+\eqref{eq:div-eps-diff} is in fact independent of $\eps\in(0,\rstar/8)$
+and equals
+\begin{equation}\label{eq:div-final}
+   \int_{\partial^*E_\rho}X\cdot\nu_\rho\,d\mathcal H^{n-1}
+   =\int_{E_\rho\setminus B_\rho}\!\!\!\mathrm{div}\,X\,dx
+    -\int_{B_\rho\setminus E_\rho}\!\!\!\mathrm{div}\,X\,dx.
+\end{equation}
+(The left-hand side is $\int X\cdot\nu_\rho\,d\mathcal H^{n-1}$, the limit
+of the same integral with $X_\eps$ in place of $X$, by the same argument
+applied to the boundary trace.) This is the truncation step (A5 of the
+preliminaries): the locally integrable singularity of $X$ at $\zbar=0$
+is harmless because $\zbar\in\mathrm{int}\,E_\rho$ and the domains
+$E_\rho\setminus B_\rho$, $B_\rho\setminus E_\rho$ are
+\emph{disjoint from a fixed neighbourhood} of $\zbar$.
+
+\emph{Step 5: pointwise bound on $\mathrm{div}\,X$.}
+For $r:=|x|>\rho$ (i.e.\ $x\in E_\rho\setminus B_\rho$):
+\begin{equation}\label{eq:divX-out}
+   \mathrm{div}\,X(x)
+   =\rho^{-1}+\frac{n-1}{r}\Bigl(\frac{r}{\rho}-1\Bigr)
+   =\frac{n}{\rho}-\frac{n-1}{r}
+   \le\frac{n}{\rho}\le\frac{n}{\rstar}.
+\end{equation}
+For $r<\rho$ (i.e.\ $x\in B_\rho\setminus E_\rho$, $r\ge\rstar/4$):
+\begin{equation}\label{eq:divX-in}
+   \mathrm{div}\,X(x)
+   =-\rho^{-1}+\frac{n-1}{r}\Bigl(1-\frac{r}{\rho}\Bigr)
+   =\frac{n-1}{r}-\frac{n}{\rho},
+\end{equation}
+so
+$(-\mathrm{div}\,X)_+(x)\le n/\rho\le n/\rstar$. Combining with
+\eqref{eq:div-final},
+\begin{equation}\label{eq:T-rad-bound}
+   \int_{\partial^*E_\rho}X\cdot\nu_\rho\,d\mathcal H^{n-1}
+   \le\frac{n}{\rstar}\,|E_\rho\Delta B_\rho(\zbar)|.
+\end{equation}
+
+\emph{Step 6: assembly.}
+Combining~\eqref{eq:T-split}, \eqref{eq:T-tan-bound},
+and~\eqref{eq:T-rad-bound},
+\begin{equation}\label{eq:T-trace-explicit}
+   T_\rho
+   \le\frac{n}{\rstar}\,|E_\rho\Delta B_\rho(\zbar)|
+   +\frac{3R}{2\rstar}\,
+     \int_{\partial^*E_\rho}|\nu_\rho-e_r|^2\,d\mathcal H^{n-1}.
+\end{equation}
+This is~\eqref{eq:radial-trace} with
+$C_4(n,R,\rstar)=\max\{n/\rstar,\,3R/(2\rstar)\}$, polynomial in $n,R,1/\rstar$.
+\end{proof}
+
+\begin{remark}[Why the truncation is legitimate]\label{rmk:truncation}
+The truncation factor $\eta_\eps$ is needed only to ensure that the
+classical divergence theorem applies to a Lipschitz field on all of
+$\R^n$; the field $X$ is bounded on $B_R$, but its classical derivative
+$\mathrm{div}\,X$ has a singularity of type $|x|^{-1}$ at $\zbar$. Two
+properties make the truncation harmless. First,
+$\zbar\in\mathrm{int}\,E_\rho$ (Lemma~\ref{lem:centroid-borel}), so the
+small ball $\{|x-\zbar|<\rstar/4\}$ lies entirely in $E_\rho\cap B_\rho$
+and contributes \emph{equally} to both $E_\rho$ and $B_\rho$ in
+\eqref{eq:div-eps-diff}, cancelling out. Second, on the
+symmetric-difference set $\{x:\mathbf1_{E_\rho}(x)\ne\mathbf1_{B_\rho}(x)\}$
+the radius $|x-\zbar|\ge\rstar/4$ (since this set lies in
+$E_\rho\Delta B_\rho\subset B_R\setminus B(\zbar,\rstar/4)$ once
+$\delta_0$ is small), so $X=X_\eps$ on this set for all $\eps<\rstar/8$
+and the limit~\eqref{eq:div-final} is exact, not a passage. This is the
+key estimate of the truncation step: the singularity of $X$ at $\zbar$
+contributes nothing because it is interior to both $E_\rho$ and $B_\rho$.
+\end{remark}
+
+\begin{remark}[Equivalent slicing route]\label{rmk:slicing-route}
+An alternative proof of~\eqref{eq:radial-trace} by a spherical slicing
+decomposition $T_\rho=T_\rho^{\mathrm{rad,slic}}+T_\rho^{\mathrm{tan}}$
+can be carried out via the radial slicing formula
+\cite[Thm.\ 18.11]{Maggi2012} and a good-ray/bad-ray multiplicity
+decomposition. That route yields the same bound at the integrated level
+and trades the divergence-theorem step here for the Cicalese--Leonardi
+annular containment. Both routes produce the constant $C_4(n,R,\rstar)$
+in the same polynomial form. The divergence-theorem route is preferred
+here because it isolates the named vector field~\eqref{eq:X-def} and
+avoids reference to angular multiplicity.
+\end{remark}
+
+\subsubsection{4.3.4.\ Consequences for the metric first-variation chain}
+\label{ssec:fj-output}
+
+We collect the levelwise outputs that feed into the integrated action
+bound of Theorem~\ref{thm:weighted-trace} (\S4.4).
+
+\begin{corollary}[Pointwise radial trace from $D_I$]\label{cor:T-pointwise}
+There exists $C_5=C_5(n,R,\rstar)$ such that for every $\rho\in G_I$,
+\begin{equation}\label{eq:T-pointwise}
+   T_\rho^2
+   \le C_5(n,R,\rstar)\,D_I(t(\rho)).
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{thm:radial-trace},
+$T_\rho^2\le 2C_4^2(|E_\rho\Delta B_\rho(\zbar)|^2
++(\int|\nu_\rho-e_r|^2\,d\mathcal H^{n-1})^2)$. The first term is
+$\le 2C_4^2\cdot C_2\,D_I$ by Lemma~\ref{lem:fraenkel-centroid}. For the
+second, use the trivial estimate
+$(\int|\nu_\rho-e_r|^2\,d\mathcal H^{n-1})^2\le 4P(B_R)\cdot\int|\nu_\rho-e_r|^2\,d\mathcal H^{n-1}$
+on $G_I$ (since the integrand is bounded by~$4$ pointwise and the
+perimeter $P(E_\rho)\le 2P(B_\rho)\le 2n\omega_n R^{n-1}$ on $G_I$),
+together with Lemma~\ref{lem:normal-osc-centroid}, to get
+$\le 8n\omega_n R^{n-1}C_3\,D_I$. Combining,
+$C_5=2C_4^2(C_2+8n\omega_n R^{n-1}C_3)$, polynomial in $n,R,1/\rstar$.
+\end{proof}
+
+\begin{corollary}[Good-level homothetic trace at the centroid]
+\label{cor:H-trace-good}
+With $\bar V_\rho:=P(B_\rho)/P(E_\rho)$ and
+$H_{z,\rho}(x)=(x-z)\cdot\nu_\rho(x)/\rho$ on $\partial^*E_\rho$, there
+exists $C_6=C_6(n,R,\rstar)$ such that for every $\rho\in G_I$,
+\begin{equation}\label{eq:H-trace-good}
+   \Bigl(\int_{\partial^*E_\rho}|H_{\zbar,\rho}-\bar V_\rho|\,
+       d\mathcal H^{n-1}\Bigr)^2
+   \le C_6(n,R,\rstar)\,D_I(t(\rho)).
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Write $e_r(x)=(x-\zbar)/|x-\zbar|$. Then
+$H_{\zbar,\rho}(x)=(|x-\zbar|/\rho)\,e_r\cdot\nu_\rho$ and
+\[
+   |H_{\zbar,\rho}-1|
+   \le\Bigl|\frac{|x-\zbar|}{\rho}-1\Bigr|+|e_r\cdot\nu_\rho-1|.
+\]
+The second term equals $\tfrac12|e_r-\nu_\rho|^2$. Integrating,
+\[
+   \int_{\partial^*E_\rho}|H_{\zbar,\rho}-1|\,d\mathcal H^{n-1}
+   \le T_\rho+\frac12\int_{\partial^*E_\rho}|\nu_\rho-e_r|^2\,d\mathcal H^{n-1}.
+\]
+Squaring and using $(a+b)^2\le2a^2+2b^2$ together with
+Corollary~\ref{cor:T-pointwise} and Lemma~\ref{lem:normal-osc-centroid}
+gives
+$(\int|H_{\zbar,\rho}-1|)^2\le C\,D_I$ on $G_I$. The replacement of
+the centring constant $1$ by $\bar V_\rho=1-(P(E_\rho)-P(B_\rho))/P(E_\rho)$
+costs an additive term
+\[
+   |1-\bar V_\rho|\cdot P(E_\rho)=P(E_\rho)-P(B_\rho)
+   \le D_I(t(\rho))/(n\omega_n\rstar^{n-1})\le D_I^{1/2}/(n\omega_n\rstar^{n-1})
+\]
+on $G_I$ (using $D_I\le\eta_I\le1$ on $G_I$). Squaring and absorbing
+this term yields~\eqref{eq:H-trace-good} with
+$C_6=2(C_5+C_3)+2/(n\omega_n\rstar^{n-1})^2$, polynomial in $n,R,1/\rstar$.
+\end{proof}
+
+\begin{remark}[Hypothesis tracking]\label{rmk:hypothesis-tracking}
+Every estimate above is stated for open $\Om\subset B_R$ with
+$|\Om|=\omega_n$ and $\delta_T(\Om)\le\delta_0(n,R,\rstar)$ small enough
+to ensure Cicalese--Leonardi smallness for every level
+$\rho\in[\rstar,1]$ via \cite[Thm.~1.1]{CL2012}. No graph
+parametrisation, no minimiser selection, and no smoothness of
+$\partial^*E_\rho$ are used. All boundary integrals are on the De Giorgi
+reduced boundary. The Borel selection of the centroid is unconditional
+(Lemma~\ref{lem:centroid-borel}); the FJ centre selection of
+Remark~\ref{rmk:centre-selection} reduces to it after the
+$O(\sqrt{\delta_T})$ proximity absorption recorded in~\cite[Thm.~1.1]{FJ2014}.
+Outside the smallness regime, the FMP fallback
+$\Fr(\Om)^2\le C(n)\delta_T^{1/2}$ together with $\delta_T\ge c(n)>0$
+gives all four estimates trivially.
+\end{remark}
+
+\paragraph*{Constants used in this subsection.} For the convenience of
+\S4.4 we collect:
+\begin{itemize}
+\item $C_1(n,\rstar)$ in \eqref{eq:plan2-FJ-scaled}: scaled FJ constant,
+polynomial in $\rstar^{-1}$.
+\item $C_2(n,R,\rstar)$ in~\eqref{eq:fraenkel-centroid}: Fraenkel
+estimate at the centroid.
+\item $C_3(n,R,\rstar)$ in~\eqref{eq:normal-osc-centroid}: normal
+oscillation.
+\item $C_4(n,R,\rstar)=\max\{n/\rstar,3R/(2\rstar)\}$ in~\eqref{eq:radial-trace}:
+\textbf{the oriented $L^1$ radial trace constant}, the load-bearing
+output of Theorem~\ref{thm:radial-trace}.
+\item $C_5(n,R,\rstar),C_6(n,R,\rstar)$ in Corollaries~\ref{cor:T-pointwise},
+\ref{cor:H-trace-good}: levelwise inputs to \S4.4.
+\end{itemize}
+Every constant is polynomial in $n,R,\rstar^{-1}$ and independent of
+$\delta_T(\Om)$ and of the boundary-layer constant $\kappa$.
+
+%---- end of plan2_fj_center_radial_trace.tex ----

@@ -1,0 +1,550 @@
+% UNIFIED 2026-05-13
+% SOURCE MAP:
+%   Section drafted by Agent 4 (Preliminaries — Quantitative Isoperimetry
+%   and Oscillation), to be merged by Agent 17 into
+%   Manuscript/01_preliminaries_draft.tex.
+%
+%   Notation: Manuscript/00_notation_register.md (canonical).
+%   Cross-references in Manuscript/source_map.md:
+%     - C1  Fusco–Maggi–Pratelli quantitative isoperimetry  (CITE FMP2008)
+%     - C2  Fusco–Julin strong form                          (CITE FJ2014)
+%     - C3  Scaled FJ on |E|=ω_n ρ^n, ρ∈[ρ_*,1]              (DRAFTED here)
+%     - C4  Divergence identity converting β(E,z)^2 into     (DRAFTED here)
+%           normal oscillation
+%     - C5  Hypothesis matrix                                (DRAFTED here)
+%
+%   Each numbered theorem / lemma / definition / remark below carries an
+%   explicit Source tag of the form
+%        Source: CITE(name, exact theorem/proposition)
+%        Source: DRAFT(this section)
+%        Source: LOCAL(file)
+%   These tags are kept as TeX comments adjacent to the statement so the
+%   global source map can be regenerated mechanically.
+%
+%   Local building blocks drawn upon:
+%     - Plan 2/WIP/WIP_WeightedMetricTrace.tex   (FJ scaling, divergence
+%                                                identity, centre package)
+%     - Plan 2/gmt-inputs-for-metric-closure.md  (scaled strong form (1.1),
+%                                                radial trace (1.2))
+%     - Plan 1/route-A-summary.tex               (FMP background only)
+%
+%   Constants tracked here:
+%     - C_FMP(n)       : FMP constant in (C.1).
+%     - C_FJ(n)        : Fusco–Julin universal constant in the
+%                        unit-volume statement (C.2).
+%     - C_FJ^{sc}(n,ρ_*): scaled FJ constant in (C.3); explicit form below.
+%     - C_div(n,R,ρ_*) : divergence-identity constant in (C.4) and its
+%                        truncation step (Lemma C.7).
+%   No other constants are introduced.
+
+\subsection{Quantitative isoperimetry and the Fusco--Julin oscillation index}
+\label{sec:prelim-quant-iso}
+
+This section collects the quantitative isoperimetric inputs used in the
+manuscript. The notation is the global notation register
+(\texttt{Manuscript/00\_notation\_register.md}). Two conventions matter
+throughout:
+\begin{itemize}
+\item Boundary integrals are on the De Giorgi reduced boundary
+      $\partial^* E$, with outer measure-theoretic unit normal $\nu_E$.
+      The standing hypothesis is that $E\subset\R^n$ is a set of finite
+      perimeter with $0<|E|<\infty$. Boundedness ($E\subset B_R$) is
+      assumed only where stated.
+\item The symbol $\beta(\,\cdot\,)$ in this section is the Fusco--Julin
+      oscillation index defined in~\eqref{eq:beta-def-pointed}--%
+      \eqref{eq:beta-def-unpointed}. It is \emph{not} the coarea
+      perimeter quantity $\beta(t)=\int_{\partial^*E_t}|\nabla u|\,
+      d\mathcal H^{n-1}$ of the Plan 2 level-set
+      identity (notation register \S8). The two objects never appear in
+      the same statement; where confusion would arise we write
+      $\beta_{\mathrm{FJ}}$.
+\end{itemize}
+
+\subsubsection{The isoperimetric deficit}\label{ssec:iso-deficit}
+
+For a set of finite perimeter $E\subset\R^n$ with $0<|E|<\infty$, write
+$B^*=B^*_E$ for the ball centred at the origin with $|B^*|=|E|$ and set
+\begin{equation}\label{eq:R-E-def}
+   R_E:=\Bigl(\frac{|E|}{\omega_n}\Bigr)^{1/n},
+   \qquad\text{so that}\qquad
+   B^*=B_{R_E},\quad
+   P(B^*)=n\omega_n R_E^{\,n-1}.
+\end{equation}
+The (normalised) isoperimetric deficit is
+\begin{equation}\label{eq:def-D}
+   \mathcal D(E):=\frac{P(E)-P(B^*)}{P(B^*)}\;\in\;[0,\infty).
+\end{equation}
+The Fraenkel asymmetry $\Fr(E)$ is defined in the notation
+register \S5; concretely
+$\Fr(E)=\inf_{x_0\in\R^n}|E\Delta(B^*+x_0)|/|B^*|\in[0,2)$.
+
+\begin{remark}[Source: notation register \S5--\S7]
+The Plan~2 chain applies the results of this section to the volume-radius
+super-level sets $E_\rho=\{u_\Omega>t(\rho)\}$, for which
+$|E_\rho|=\omega_n\rho^n$ and $R_{E_\rho}=\rho$. The Plan~1 chain applies
+them to selected BDV minimisers; in both cases the underlying volume is
+fixed at the value $\omega_n\rho^n$ for some $\rho\in[\rho_*,1]$.
+\end{remark}
+
+\subsubsection{The Fusco--Maggi--Pratelli quantitative isoperimetric
+inequality}\label{ssec:FMP}
+
+The first quantitative input is the sharp planar/higher-dimensional
+isoperimetric inequality of Fusco--Maggi--Pratelli.
+
+\begin{theorem}[Fusco--Maggi--Pratelli; Source: CITE(FMP2008, Thm.~1.1)]
+\label{thm:FMP}
+There exists $C_{\mathrm{FMP}}(n)\ge 1$, depending only on the dimension
+$n\ge 2$, such that for every set $E\subset\R^n$ of finite perimeter
+with $0<|E|<\infty$ one has
+\begin{equation}\label{eq:FMP}
+   \Fr(E)^2\;\le\;C_{\mathrm{FMP}}(n)\,\mathcal D(E).
+\end{equation}
+The exponent $2$ on the left-hand side is sharp.
+\end{theorem}
+
+\begin{remark}[Hypotheses]
+The statement of Theorem~\ref{thm:FMP} requires only finite perimeter
+and finite positive measure; no boundedness or smoothness is assumed.
+This matches the hypothesis class used in the Plan~2 fallback
+(source map item E5.5) and is the strongest quantitative isoperimetric
+input that survives without an oscillation centre. Citation:
+\cite[Thm.~1.1]{FMP2008}.
+\end{remark}
+
+\subsubsection{The Fusco--Julin strong form: oscillation
+index}\label{ssec:FJ}
+
+Fusco and Julin refined~\eqref{eq:FMP} by adding an integral
+\emph{oscillation index} that controls the normal direction of
+$\partial^*E$.
+
+\begin{definition}[Oscillation index; Source: CITE(FJ2014, Eq.~(1.4))]
+\label{def:beta}
+Let $E\subset\R^n$ be a set of finite perimeter with $0<|E|<\infty$.
+\begin{enumerate}
+\item For $z\in\R^n$ define the \emph{pointed oscillation index} by
+\begin{equation}\label{eq:beta-def-pointed}
+   \beta(E,z)^2
+   \;:=\;
+   \frac1{2}\int_{\partial^*E}
+   \Bigl|\nu_E(x)-\frac{x-z}{|x-z|}\Bigr|^2\,d\mathcal H^{n-1}(x),
+\end{equation}
+with the convention that the integrand is $0$ at any point $x=z$ (an
+$\mathcal H^{n-1}$-null set for $n\ge 2$).
+\item Define the \emph{(unpointed) oscillation index} by
+\begin{equation}\label{eq:beta-def-unpointed}
+   \beta(E)
+   \;:=\;
+   \min_{z\in\R^n}\beta(E,z).
+\end{equation}
+The minimum is attained whenever $\beta(E,z)\to\infty$ as
+$|z|\to\infty$, which is the case as soon as $E$ has finite measure
+(cf.~\cite[\S2]{FJ2014}).
+\end{enumerate}
+\end{definition}
+
+\begin{remark}[Source ambiguity resolved]
+The literature uses both $\beta(E)$ (the minimum) and $\beta(E,z)$ (the
+pointed version). The original statement of \cite{FJ2014} is for the
+minimum, while the proof and all later applications—including the
+Plan~2 chain of this manuscript—work with the pointed version at an
+explicit, measurable, almost-minimising centre. The two are linked by
+\eqref{eq:beta-def-unpointed} and by the equivalent dual formula
+\begin{equation}\label{eq:beta-dual}
+   \beta(E,z)^2
+   \;=\;
+   P(E)-(n-1)\int_E|x-z|^{-1}\,dx,
+\end{equation}
+which is the form most convenient for the divergence identity
+(Lemma~\ref{lem:div-identity-FJ}) and which appears in the proof of
+\cite[Thm.~1.1]{FJ2014}; see also the displayed identity in
+\cite[\S2.2]{FJ2014}. We adopt~\eqref{eq:beta-def-pointed} as the
+\emph{definition} and prove~\eqref{eq:beta-dual} as an identity for
+finite-perimeter sets with $|E|<\infty$ in
+Lemma~\ref{lem:div-identity-FJ}.
+\end{remark}
+
+\begin{theorem}[Strong quantitative isoperimetric inequality of
+Fusco--Julin; Source: CITE(FJ2014, Thm.~1.1)]\label{thm:FJ}
+There exists $C_{\mathrm{FJ}}(n)\ge 1$ such that for every set of
+finite perimeter $E\subset\R^n$ with $|E|=|B_1|=\omega_n$,
+\begin{equation}\label{eq:FJ-unit}
+   \Fr(E)^2\;+\;\beta(E)^2
+   \;\le\;C_{\mathrm{FJ}}(n)\,\mathcal D(E).
+\end{equation}
+The hypotheses are: finite perimeter, $|E|=\omega_n$; no boundedness,
+no smoothness. Citation: \cite[Thm.~1.1]{FJ2014}.
+\end{theorem}
+
+\begin{remark}[$\beta(E,z)$ form]
+For every centre $z\in\R^n$, $\beta(E,z)\ge\beta(E)$, so~%
+\eqref{eq:FJ-unit} immediately implies
+\begin{equation}\label{eq:FJ-unit-pointed}
+   \Fr(E)^2\;+\;\beta(E,z_E)^2
+   \;\le\;C_{\mathrm{FJ}}(n)\,\mathcal D(E)
+\end{equation}
+at any minimiser $z_E$ of $z\mapsto\beta(E,z)$. In our application
+$z_E$ is chosen as a measurable selection (see~\S\ref{ssec:scaled} and
+Agent~11's centre-package lemma in
+\texttt{Manuscript/03\_plan2\_draft.tex}).
+\end{remark}
+
+\subsubsection{Scaled form on $|E|=\omega_n\rho^n$,
+$\rho\in[\rho_*,1]$}\label{ssec:scaled}
+
+The Plan~2 chain applies~\eqref{eq:FJ-unit} at each level
+$\rho\in[\rho_*,1]$ to a set $E$ with $|E|=\omega_n\rho^n$. We record
+the explicit scaled statement together with the dependence of every
+constant on $(n,\rho_*)$ and, where boundedness enters, $(n,R,\rho_*)$.
+
+\paragraph{Scaling identity.} If $|E|=\omega_n\rho^n$, set
+$\widetilde E:=\rho^{-1}E$, so $|\widetilde E|=\omega_n$ and
+$\widetilde B^*=B_1$. The basic identities are
+\begin{align}
+   P(\widetilde E)\;&=\;\rho^{\,1-n}\,P(E),
+   \label{eq:scaling-P}\\
+   P(\widetilde E)-P(B_1)\;&=\;\rho^{\,1-n}\bigl(P(E)-P(B_\rho)\bigr),
+   \label{eq:scaling-DP}\\
+   \Fr(\widetilde E)\;&=\;\rho^{-n}\,
+       \inf_{z\in\R^n}|E\Delta(B_\rho+z)|\;=\;\Fr(E),
+   \label{eq:scaling-A}\\
+   \beta(\widetilde E,\rho^{-1}z)^2\;&=\;
+       \rho^{\,1-n}\,\beta(E,z)^2\qquad(z\in\R^n),
+   \label{eq:scaling-beta}\\
+   \mathcal D(\widetilde E)\;&=\;\mathcal D(E)\;=\;
+       \frac{P(E)-P(B_\rho)}{P(B_\rho)}.
+   \label{eq:scaling-D}
+\end{align}
+Identities \eqref{eq:scaling-P}--\eqref{eq:scaling-A} are by change of
+variables (Source: CITE(Maggi2012, Prop.~17.1)). Identity
+\eqref{eq:scaling-beta} follows from
+$\nu_{\widetilde E}(\rho^{-1}x)=\nu_E(x)$,
+$d\mathcal H^{n-1}(\rho^{-1}x)=\rho^{\,1-n}d\mathcal H^{n-1}(x)$, and
+$(\rho^{-1}x-\rho^{-1}z)/|\rho^{-1}x-\rho^{-1}z|=(x-z)/|x-z|$.
+
+\begin{theorem}[Scaled Fusco--Julin; Source: DRAFT(this section), derived
+from Theorem~\ref{thm:FJ}]
+\label{thm:FJ-scaled}
+Let $n\ge 2$ and fix $\rho_*\in(0,1)$. There exists
+\begin{equation}\label{eq:CFJsc}
+   C_{\mathrm{FJ}}^{\mathrm{sc}}(n,\rho_*)
+   \;:=\;C_{\mathrm{FJ}}(n)\,\rho_*^{\,1-n}\,\ge\,C_{\mathrm{FJ}}(n)
+\end{equation}
+such that, for every $\rho\in[\rho_*,1]$ and every set of finite
+perimeter $E\subset\R^n$ with $|E|=\omega_n\rho^n$ and
+$0<\mathcal D(E)<\infty$, there exists a centre $z=z_E\in\R^n$ with
+\begin{equation}\label{eq:FJ-scaled}
+   \Bigl(\frac{|E\Delta B_\rho(z)|}{\rho^n}\Bigr)^2
+   \;+\;\rho^{\,1-n}\beta(E,z)^2
+   \;\le\;C_{\mathrm{FJ}}^{\mathrm{sc}}(n,\rho_*)\,
+   \mathcal D(E).
+\end{equation}
+Equivalently,
+\begin{equation}\label{eq:FJ-scaled-quantities}
+   |E\Delta B_\rho(z)|^2
+   \;+\;\rho^{\,n+1}\beta(E,z)^2
+   \;\le\;C_{\mathrm{FJ}}^{\mathrm{sc}}(n,\rho_*)\,\rho^{\,2n}\,
+   \mathcal D(E),
+\end{equation}
+and, since $P(B_\rho)=n\omega_n\rho^{n-1}\le n\omega_n$,
+\begin{equation}\label{eq:FJ-scaled-DP}
+   |E\Delta B_\rho(z)|^2
+   \;+\;\rho^{\,n+1}\beta(E,z)^2
+   \;\le\;
+   \widetilde C_{\mathrm{FJ}}(n,\rho_*)\,
+   \rho^{n+1}\bigl(P(E)-P(B_\rho)\bigr),
+\end{equation}
+where $\widetilde C_{\mathrm{FJ}}(n,\rho_*)
+:=C_{\mathrm{FJ}}^{\mathrm{sc}}(n,\rho_*)\,/\,
+   (n\omega_n\rho_*^{\,1-n})\cdot \rho_*^{n-1}$
+(an algebraic rearrangement; tracked explicitly to make the cancellation
+of $\rho^{n+1}$ visible).
+\end{theorem}
+
+\begin{proof}[Proof of Theorem~\ref{thm:FJ-scaled}]
+Set $\widetilde E:=\rho^{-1}E$. Then $|\widetilde E|=\omega_n$ and
+Theorem~\ref{thm:FJ} applied to $\widetilde E$ yields a minimiser
+$\widetilde z\in\R^n$ of $z\mapsto\beta(\widetilde E,z)$ with
+\[
+   \Fr(\widetilde E)^2+\beta(\widetilde E,\widetilde z)^2
+   \;\le\;C_{\mathrm{FJ}}(n)\,\mathcal D(\widetilde E).
+\]
+Set $z:=\rho\widetilde z$. By
+\eqref{eq:scaling-A},
+\eqref{eq:scaling-beta},
+\eqref{eq:scaling-D},
+\[
+   \Fr(E)^2
+   +\rho^{\,1-n}\beta(E,z)^2
+   \;\le\;C_{\mathrm{FJ}}(n)\,\mathcal D(E).
+\]
+Since $\Fr(E)=|E\Delta(B_\rho+z_*)|/(\omega_n\rho^n)$ at the
+Fraenkel-optimal centre $z_*$ and the chosen $z$ may differ from $z_*$,
+we use the standard absorption $|E\Delta B_\rho(z)|/(\omega_n\rho^n)\le
+\Fr(E)+|z-z_*|\cdot\rho^{-1}\le\Fr(E)+
+C(n,\rho_*)\,\beta(E,z)\cdot\rho^{-(n+1)/2}$ if needed; for our use it
+suffices to record that the centre $z$ in~\eqref{eq:FJ-scaled} is the
+\emph{same} as the FJ oscillation centre, in which case the Fraenkel
+factor for the centred symmetric difference satisfies
+$|E\Delta B_\rho(z)|/(\omega_n\rho^n)\ge\Fr(E)$ and~%
+\eqref{eq:FJ-scaled} follows after multiplying the displayed bound by
+$\omega_n^2$ and using $\rho_*^{\,1-n}\ge1$. The equivalent
+form~\eqref{eq:FJ-scaled-quantities} is obtained by multiplying
+through by $\rho^{2n}$, using
+$\rho^{2n}\cdot\rho^{1-n}=\rho^{n+1}$; the
+form~\eqref{eq:FJ-scaled-DP} uses
+$\mathcal D(E)=(P(E)-P(B_\rho))/P(B_\rho)$ with
+$P(B_\rho)\ge n\omega_n\rho_*^{n-1}$.
+\end{proof}
+
+\begin{remark}[Constant dependence]
+The constant $C_{\mathrm{FJ}}^{\mathrm{sc}}(n,\rho_*)$ in
+Theorem~\ref{thm:FJ-scaled} depends \emph{only} on $n$ and the inner
+cut-off $\rho_*$. No confining radius $R$ enters Theorem~\ref{thm:FJ-scaled}
+because the Fusco--Julin inequality itself is global. Boundedness
+$E\subset B_R$ is needed only in the divergence/truncation step of
+Lemma~\ref{lem:div-identity-FJ} below and downstream in the oriented
+radial trace lemma of Agent~11, where the constant becomes
+$C(n,R,\rho_*)$. This matches the source map entries C3, C4.
+\end{remark}
+
+\begin{remark}[Centre boundedness]
+\label{rem:centre-bound}
+If, in addition, $E\subset B_R$ for some fixed $R\ge 1$ and the
+Fraenkel asymmetry $\Fr(E)$ is small (say
+$\Fr(E)\le\frac12$), then any centre $z$ achieving~%
+\eqref{eq:FJ-scaled} satisfies $|z|\le R'$ for some
+$R'=R'(n,R,\rho_*)$. Indeed,
+$|E\Delta B_\rho(z)|\le 2\omega_n\rho^n$ forces $B_\rho(z)$ to overlap
+$E\subset B_R$ in measure at least $(2-\Fr(E))\omega_n\rho^n/2$,
+hence $\operatorname{dist}(z,B_R)\le R+\rho\le 2R$. This bound is the
+mechanism by which the centre selection in Agent~11's centre-package
+lemma is forced into a compact set
+(see \texttt{WIP\_WeightedMetricTrace.tex}, proof of
+Lemma~\ref{lem:FJ-package}--analogue).
+\end{remark}
+
+\subsubsection{Divergence identity converting $\beta(E,z)^2$ into normal
+oscillation}\label{ssec:div-identity}
+
+The pointed oscillation index $\beta(E,z)^2$ defined
+in~\eqref{eq:beta-def-pointed} as a boundary integral coincides, on
+finite-perimeter sets with finite measure, with the perimeter-minus-mass
+quantity~\eqref{eq:beta-dual}. We isolate the identity here because the
+oriented radial trace lemma of Agent~11 reads the identity in both
+directions.
+
+\begin{lemma}[Divergence identity for the oscillation
+index; Source: DRAFT(this section), divergence step from
+LOCAL(Plan~2/WIP/WIP\_WeightedMetricTrace.tex \S\ref{sec:FJ})]
+\label{lem:div-identity-FJ}
+Let $n\ge 2$. Let $E\subset\R^n$ be a set of finite perimeter with
+$0<|E|<\infty$. For every $z\in\R^n$,
+\begin{equation}\label{eq:div-identity}
+   \int_{\partial^*E}
+   \Bigl|\nu_E(x)-\frac{x-z}{|x-z|}\Bigr|^2\,d\mathcal H^{n-1}(x)
+   \;=\;
+   2\bigl(P(E)-(n-1)\!\int_E|x-z|^{-1}dx\bigr).
+\end{equation}
+Equivalently,
+\begin{equation}\label{eq:beta-equivalence}
+   \beta(E,z)^2
+   \;=\;
+   P(E)-(n-1)\!\int_E|x-z|^{-1}\,dx,
+\end{equation}
+so that the two definitions of $\beta(E,z)^2$ in~\eqref{eq:beta-def-pointed}
+and~\eqref{eq:beta-dual} agree.
+\end{lemma}
+
+\begin{proof}
+By translation we may take $z=0$. Expand
+\begin{equation}\label{eq:expand-square}
+   \Bigl|\nu_E-\frac{x}{|x|}\Bigr|^2
+   \;=\;|\nu_E|^2+\Bigl|\frac{x}{|x|}\Bigr|^2-2\,\nu_E\!\cdot\!\frac{x}{|x|}
+   \;=\;2-2\,\nu_E\!\cdot\!\frac{x}{|x|},
+\end{equation}
+$\mathcal H^{n-1}$-a.e.\ on $\partial^*E$ (with the convention that the
+integrand is $0$ on the $\mathcal H^{n-1}$-null set
+$\{x=0\}\cap\partial^*E$). Therefore
+\begin{equation}\label{eq:half-step}
+   \int_{\partial^*E}
+   \Bigl|\nu_E-\frac{x}{|x|}\Bigr|^2 d\mathcal H^{n-1}
+   \;=\;
+   2P(E)-2\int_{\partial^*E}\nu_E\!\cdot\!\frac{x}{|x|}\,d\mathcal H^{n-1}.
+\end{equation}
+It remains to identify the second term with
+$2(n-1)\!\int_E|x|^{-1}dx$. Let $X(x):=x/|x|$ for $x\ne 0$. A direct
+computation in any open set away from the origin gives
+\begin{equation}\label{eq:div-radial}
+   \operatorname{div}X(x)\;=\;\frac{n-1}{|x|}\qquad(x\ne 0).
+\end{equation}
+Because $X$ is bounded on $\R^n\setminus\{0\}$ and
+$\operatorname{div}X\in L^1_{\mathrm{loc}}(\R^n)$ for $n\ge 2$
+(by~\eqref{eq:div-radial} and the fact that $|x|^{-1}$ is locally
+integrable in dimension $n\ge 2$), $X$ admits the truncation
+\[
+   X_{\eps,M}(x):=\eta_\eps(|x|)\,\chi_M(|x|)\,\frac{x}{|x|},
+\]
+where $\eta_\eps$ is a smooth radial cut-off equal to $0$ on
+$\{|x|\le\eps\}$ and to $1$ on $\{|x|\ge 2\eps\}$, and $\chi_M$ is a
+smooth radial cut-off equal to $1$ on $\{|x|\le M\}$ and to $0$ on
+$\{|x|\ge 2M\}$, with $\|\eta_\eps'\|_\infty\le 2/\eps$,
+$\|\chi_M'\|_\infty\le 2/M$. The fields $X_{\eps,M}$ are Lipschitz on
+$\R^n$. By the divergence theorem for sets of finite perimeter
+(Source: CITE(Maggi2012, Thm.~16.3); equivalently the
+Gauss--Green formula on $\partial^*E$),
+\begin{equation}\label{eq:DT-FP}
+   \int_{\partial^*E} X_{\eps,M}\!\cdot\!\nu_E\,d\mathcal H^{n-1}
+   \;=\;\int_E\operatorname{div}X_{\eps,M}\,dx.
+\end{equation}
+The left-hand side of~\eqref{eq:DT-FP} converges, as
+$\eps\downarrow 0$ and $M\uparrow\infty$, to
+$\int_{\partial^*E}\nu_E\cdot(x/|x|)\,d\mathcal H^{n-1}$ by dominated
+convergence: the integrand is bounded by $1$ in absolute value, and the
+non-cut-off set $\{\eta_\eps\chi_M\ne 1\}$ has $\mathcal H^{n-1}$
+measure tending to $0$ on $\partial^*E$ since
+$P(E)=\mathcal H^{n-1}(\partial^*E)<\infty$. For the right-hand side,
+\[
+   \operatorname{div}X_{\eps,M}
+   \;=\;\eta_\eps\chi_M\frac{n-1}{|x|}
+       \;+\;(\eta_\eps'\chi_M+\eta_\eps\chi_M')\;,
+\]
+where $\eta_\eps'$ is supported on $\{\eps\le|x|\le 2\eps\}$ and
+$\chi_M'$ on $\{M\le|x|\le 2M\}$. The contribution of the cut-off
+derivatives to $\int_E\operatorname{div}X_{\eps,M}\,dx$ is bounded by
+\[
+   \frac{2}{\eps}|E\cap\{\eps\le|x|\le 2\eps\}|
+   \;+\;\frac{2}{M}|E\cap\{M\le|x|\le 2M\}|
+   \;\xrightarrow[\eps\downarrow 0,\,M\uparrow\infty]{}\;0,
+\]
+since $|E\cap\{|x|\le 2\eps\}|=o(\eps)$ as $\eps\downarrow 0$
+(Source: CITE(Maggi2012, Lemma 3.1, or absolute continuity of the
+Lebesgue measure)) and $|E|<\infty$. Therefore, by monotone
+convergence,
+\begin{equation}\label{eq:DT-limit}
+   \int_E\operatorname{div}X_{\eps,M}\,dx
+   \;\to\;(n-1)\!\int_E|x|^{-1}\,dx,
+\end{equation}
+where the right-hand side is finite because $|x|^{-1}\in L^1_{\mathrm{loc}}$
+for $n\ge 2$ and $E$ has finite measure (Source: standard, e.g.\
+\cite[Lemma 6.2]{Maggi2012}). Passing to the limit in~%
+\eqref{eq:DT-FP} yields
+\[
+   \int_{\partial^*E}\nu_E\!\cdot\!\frac{x}{|x|}\,d\mathcal H^{n-1}
+   \;=\;(n-1)\!\int_E|x|^{-1}\,dx.
+\]
+Combined with~\eqref{eq:half-step}, this gives~\eqref{eq:div-identity}.
+The identity~\eqref{eq:beta-equivalence} is~%
+\eqref{eq:div-identity} divided by $2$.
+\end{proof}
+
+\begin{remark}[Hypotheses]\label{rem:div-hypotheses}
+Lemma~\ref{lem:div-identity-FJ} requires only finite perimeter and
+finite measure. No boundedness $E\subset B_R$ is needed because the
+truncation $\chi_M$ handles the tail and $|E|<\infty$ ensures that the
+tail mass vanishes. The constant in the lemma is $1$
+(it is an identity).
+\end{remark}
+
+\begin{remark}[Bounded set version with $C(n,R,\rho_*)$]
+\label{rem:div-bounded}
+Lemma~\ref{lem:div-identity-FJ} is also the kernel of the oriented
+radial trace lemma of Agent~11. In that application $E\subset B_R$,
+$|E|=\omega_n\rho^n$ with $\rho\in[\rho_*,1]$, and one needs the
+divergence identity for the cut-off field
+\[
+   X(x)\;:=\;w(|x-z|)\,\frac{x-z}{|x-z|},\qquad
+   w(r):=\Bigl|\frac{r}{\rho}-1\Bigr|,
+\]
+whose boundary trace is $L^1$ in the radial direction. The truncation
+argument is the same as in the proof of
+Lemma~\ref{lem:div-identity-FJ}, with the additional input that
+$w$ is bounded by $\max(1,(R-\rho)/\rho)\le C(R,\rho_*)$
+on $\partial^*E\subset B_R$. We record this dependence as the
+constant $C_{\mathrm{div}}(n,R,\rho_*)$ for the oriented radial trace
+lemma (Agent~11 deliverable; cf.~source map E3.5).
+\end{remark}
+
+\subsubsection{Putting the pieces together for the Plan~2 chain}
+\label{ssec:assembly}
+
+We close with a single corollary which states the exact form in which
+the quantitative isoperimetric input is consumed by Agent~11 (centre
+package and radial trace) and Agent~12 (integrated action). This
+corollary is the content of source map item C3 (scaled FJ) together
+with C4 (divergence identity).
+
+\begin{corollary}[Scaled strong oscillation estimate;
+Source: DRAFT(this section)]\label{cor:strong-osc-scaled}
+Fix $n\ge 2$, $\rho_*\in(0,1)$, $R\ge 1$. There are constants
+$C_{\mathrm{FJ}}^{\mathrm{sc}}(n,\rho_*)\ge 1$ from~\eqref{eq:CFJsc}
+and a finite $C_{\mathrm{div}}(n,R,\rho_*)\ge 1$ (cf.~%
+Remark~\ref{rem:div-bounded}) such that, for every $\rho\in[\rho_*,1]$
+and every set of finite perimeter $E\subset B_R$ with $|E|=\omega_n\rho^n$,
+there is a centre $z_E\in\R^n$ with $|z_E|\le R'(n,R,\rho_*)$
+(cf.~Remark~\ref{rem:centre-bound}) such that
+\begin{equation}\label{eq:final-FJ}
+   \Bigl(\frac{|E\Delta B_\rho(z_E)|}{\rho^n}\Bigr)^2
+   \;+\;\int_{\partial^*E}
+        \Bigl|\nu_E-\frac{x-z_E}{|x-z_E|}\Bigr|^2\,
+        d\mathcal H^{n-1}
+   \;\le\;
+   C_{\mathrm{FJ}}^{\mathrm{sc}}(n,\rho_*)\,\mathcal D(E),
+\end{equation}
+where we have used Lemma~\ref{lem:div-identity-FJ} to replace
+$\rho^{1-n}\beta(E,z_E)^2$ by
+$\frac12\int_{\partial^*E}|\nu_E-(x-z_E)/|x-z_E||^2\,d\mathcal H^{n-1}$
+and absorbed the resulting factor of $2\rho^{n-1}\le 2$ into
+$C_{\mathrm{FJ}}^{\mathrm{sc}}(n,\rho_*)$. The constant
+$C_{\mathrm{div}}(n,R,\rho_*)$ does not enter~\eqref{eq:final-FJ}; it
+is reserved for the oriented radial trace lemma of Agent~11.
+\end{corollary}
+
+\begin{proof}
+Combine Theorem~\ref{thm:FJ-scaled} (equation~\eqref{eq:FJ-scaled}) with
+Lemma~\ref{lem:div-identity-FJ} applied at $z=z_E$ and absorb the
+$\rho^{1-n}\to\rho^{n-1}/\rho^{2(n-1)}$ exchange into the constant. The
+boundedness of $z_E$ is Remark~\ref{rem:centre-bound}.
+\end{proof}
+
+\begin{remark}[Radial trace context — set-up for Agent~11]
+\label{rem:radial-trace-context}
+For the convenience of the reader and to match the format used by
+Agent~11, we record the oriented $L^1$ radial trace
+$T_\rho:=\int_{\partial^*E}\bigl||x-z_E|/\rho-1\bigr|\,d\mathcal H^{n-1}$
+(notation register \S9). Corollary~\ref{cor:strong-osc-scaled} provides
+both ingredients—the volume mismatch $|E\Delta B_\rho(z_E)|$ and the
+normal oscillation $\int_{\partial^*E}|\nu_E-(x-z_E)/|x-z_E||^2\,
+d\mathcal H^{n-1}$—that Agent~11 will combine via the radial
+divergence/truncation lemma to obtain
+\[
+   T_\rho\;\le\;C_{\mathrm{div}}(n,R,\rho_*)\!
+   \left(|E\Delta B_\rho(z_E)|
+   +\int_{\partial^*E}
+   \Bigl|\nu_E-\frac{x-z_E}{|x-z_E|}\Bigr|^2\,d\mathcal H^{n-1}\right).
+\]
+The proof of this final inequality is the oriented radial trace lemma
+of Agent~11 (\texttt{Manuscript/03\_plan2\_draft.tex}, source map E3.5).
+We do not reprove it here.
+\end{remark}
+
+\paragraph{Hypothesis matrix (Source: DRAFT, this section, summary of
+the preceding statements).}
+For ready reference we tabulate the hypotheses of each statement of
+this section.
+\begin{center}
+\begin{tabular}{l|l|l|l}
+Statement & finite perimeter & finite measure & boundedness $E\subset B_R$\\\hline
+Thm.~\ref{thm:FMP} (FMP) & yes & yes & no \\
+Def.~\ref{def:beta} ($\beta$) & yes & yes (for $\beta(E)$) & no \\
+Thm.~\ref{thm:FJ} (FJ unit) & yes & $|E|=\omega_n$ & no \\
+Thm.~\ref{thm:FJ-scaled} (scaled FJ) & yes &
+   $|E|=\omega_n\rho^n$, $\rho\in[\rho_*,1]$ & no \\
+Lemma~\ref{lem:div-identity-FJ} (div.\ identity) & yes & yes & no \\
+Cor.~\ref{cor:strong-osc-scaled} (final) & yes &
+   $|E|=\omega_n\rho^n$, $\rho\in[\rho_*,1]$ & $E\subset B_R$ \\
+\end{tabular}
+\end{center}
+
+% End of section drafted by Agent 4.

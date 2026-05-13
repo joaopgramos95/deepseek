@@ -1,0 +1,655 @@
+% UNIFIED 2026-05-13
+% AUDIT B1/M1/M2 REPAIR — DATE 2026-05-13
+% -----------------------------------------------------------------------------
+% This file has been edited to consume the repaired Agent 12 output. The
+% window in Theorem `thm:metric-trace-input` now reads
+%   widehat-rho \in [rho_delta - c_0 sqrt(delta_T), rho_delta],
+% matching Agent 12 Theorem `thm:wmt:trace` (B1 fix). The proof of
+% Lemma `lem:plan2-layer-vol` is updated to use the new sqrt(delta_T)-window
+% directly: 1 - widehat-rho <= (kappa + c_0) sqrt(delta_T). Constants are
+% now C_*(n, R, rho_*) without kappa-dependence (M2). See
+% `Manuscript/audit_plan2_repair_report.md`.
+% -----------------------------------------------------------------------------
+% SOURCE MAP:
+%   Source files used:
+%     - Plan 2/WIP/WIP_BoundaryLayerTransfer.tex     (statements, layer estimate, squaring step)
+%     - Plan 2/WIP/WIP_GlobalAssembly.tex            (three-stage assembly, constants table)
+%     - Plan 2/agent5-final-assembly.md              (assembly narrative)
+%     - Plan 2/selected-boundary-layer-theorem.tex   (window/large-deficit dichotomy)
+%     - Plan 2/weighted-serrin-collar-reduction.tex  (collar reduction context; not load-bearing here)
+%     - Final/BoundedReduction.tex                   (Theorem BR, c_SV^glob(n) formula)
+%     - Final/KohlerJobinTransfer.tex                (Theorem KJ, c_FK(n) formula)
+%     - Final/master.tex                             (final theorem statement, c_FK definition (eq:cFKdef))
+%     - Manuscript/00_notation_register.md           (canonical notation, especially §3, §4, §12, §14)
+%     - Manuscript/source_map.md                     (items E5.1--E5.8, item D4.6 normalisation reference)
+%
+%   Status of every load-bearing item:
+%     L1 Boundary-layer volume |Om \ E_{rhad}| = O(sqrt(delta_T))
+%         ==> proved in this subsection (Lemma~\ref{lem:plan2-layer-vol});
+%             copied/adapted from WIP_BoundaryLayerTransfer.tex Lemma~3.1.
+%     L2 Superlevel asymmetry transfer  A(Om) <= A(E_{rhad}) + 2|Om \ E_{rhad}|/omega_n
+%         ==> proved in this subsection (Lemma~\ref{lem:plan2-superlevel});
+%             copied/adapted from WIP_BoundaryLayerTransfer.tex Lemma~4.1 and
+%             Plan 2/level-set-deficit-identity.md Lemma~8.3.
+%     L3 Squaring (a+b)^2 <= 2a^2 + 2b^2 preserving exponent 2
+%         ==> proved in this subsection (proof of Theorem~\ref{thm:plan2-bdd-SV}).
+%     L4 Bounded sharp Saint--Venant in Plan 2 form
+%         A(Om)^2 <= C(n, R, rho_*) delta_T(Om)
+%         ==> proved in this subsection (Theorem~\ref{thm:plan2-bdd-SV});
+%             input is Theorem~\ref{thm:metric-trace-input} (Agent~12 output:
+%             Plan 2/WIP/WIP_WeightedMetricTrace.tex Theorem on metric trace).
+%     L5 Bounded reduction
+%         c_{SV}(n, R_*(n)) ==> c_{SV}^{glob}(n)
+%         ==> cited from Final/BoundedReduction.tex Theorem~BR
+%             (Plan 1 Final/ library; shared with Agent 8).
+%     L6 Kohler--Jobin transfer
+%         c_{SV}^{glob}(n) ==> c_{FK}(n)
+%         ==> cited from Final/KohlerJobinTransfer.tex Theorem~KJ
+%             (Plan 1 Final/ library; shared with Agent 8).
+%     L7 Final Plan~2 theorem (Theorem~\ref{thm:plan2-FK}):
+%         (|Om|/|B_1|)^{2/n} ( lambda_1(Om) - lambda_1(B^*) )
+%             >= c_{FK}(n)  A(Om)^2
+%         ==> assembled here. Normalisation matches Plan~1 Agent~8 (D4.6),
+%             which copies Final/master.tex Theorem thm:final with the
+%             same definition (eq:cFKdef) of c_{FK}(n).
+%
+%   Normalisation check vs.\ Plan~1 Agent~8:
+%     Plan~1 Agent~8 final theorem (D4.6, from Final/master.tex Thm thm:final):
+%       (|Om|/|B_1|)^{2/n}(lambda_1(Om)-lambda_1(B^*)) >= c_FK(n) A(Om)^2
+%     Plan~2 final theorem (this subsection, Thm thm:plan2-FK):
+%       (|Om|/|B_1|)^{2/n}(lambda_1(Om)-lambda_1(B^*)) >= c_FK(n) A(Om)^2
+%     Constant c_FK(n): identical, given by (eq:cFKdef) below, which is the
+%     same as Final/master.tex (eq:cFKdef). NO mismatch detected.
+%
+%   Flag for Agent 17:
+%     - WIP_BoundaryLayerTransfer.tex states the bounded inequality on the
+%       class {Omega open, |Omega|=omega_n, Omega \subset B_R}. The notation
+%       register §3 fixes delta_T(Omega) = E(Omega) - E(B^*) with |B^*|=|Omega|,
+%       which agrees with the Plan~2 normalisation. No discrepancy.
+
+\subsection{Boundary-layer transfer and final Plan~2 theorem}
+\label{ssec:plan2-boundary-layer-assembly}
+
+Throughout this subsection we fix $n\ge 2$, $R\ge 2$, and
+$\rstar\in(0,1)$. Unless otherwise stated $\Om$ is an open set in $\R^n$
+with $|\Om|=\omega_n$ and $\Om\subset B_R$; the torsion function
+$u_\Om\in W^{1,2}_0(\Om)$ satisfies $-\Delta u_\Om=1$, and we work with
+the BDV-normalised energy $E(\Om)=-T(\Om)/2$ and the Saint--Venant
+deficit $\deltaT(\Om):=E(\Om)-E(\Bstar)\ge 0$ as fixed in the notation
+register (\S3). The volume-radius foliation
+$\Erho=\{u_\Om>t(\rho)\}$, $|\Erho|=\omega_n\rho^n$, the rescaled
+$\Frho=\rho^{-1}\Erho$, the metric quotient $(\X,\dX)$, and the
+profile-gap radius $\rhodelta=1-\kappa\sqrt{\deltaT(\Om)}$ are as in
+the previous subsections.
+
+\paragraph{Plan of the proof.}
+We input the weighted metric trace lemma at $\rhad$
+(Theorem~\ref{thm:metric-trace-input}, Agent~12 output), estimate the
+boundary-layer volume $|\Om\setminus E_{\rhad}|=O(\sqrt{\deltaT})$
+(Lemma~\ref{lem:plan2-layer-vol}), prove the elementary superlevel
+asymmetry transfer (Lemma~\ref{lem:plan2-superlevel}), apply the
+\emph{squaring identity} $(a+b)^2\le 2a^2+2b^2$ to convert a transfer
+error of size $\sqrt{\deltaT}$ into the sharp deficit
+$\deltaT$ without losing the exponent (Theorem~\ref{thm:plan2-bdd-SV}),
+and finally compose with the Plan~1 Final/ blocks
+\textsc{BoundedReduction} and \textsc{KohlerJobinTransfer} to assemble
+the global sharp quantitative Faber--Krahn theorem
+(Theorem~\ref{thm:plan2-FK}).
+
+\subsubsection{The upstream metric-trace input}
+\label{sssec:plan2-metric-trace-input}
+
+The output of the previous subsection (Agent~12;
+\textsc{WeightedMetricTrace}) takes the following form.
+
+\begin{theorem}[Metric trace at $\rhad$, upstream from
+\textsc{WeightedMetricTrace}]
+\label{thm:metric-trace-input}
+There exist
+$C_*=C_*(n,R,\rstar)>0$, $c_0=c_0(n,R,\rstar)>0$, and
+$\delta_1=\delta_1(n,R,\rstar)>0$ such that for every open
+$\Om\subset B_R$ with $|\Om|=\omega_n$ and $\deltaT(\Om)\le\delta_1$,
+there exists
+\begin{equation}\label{eq:plan2-rhad-window}
+   \rhad=\rhad(\Om)\in
+   \bigl[\rhodelta-c_0\sqrt{\deltaT(\Om)},\;\rhodelta\bigr],
+   \qquad \rhodelta=1-\kappa\sqrt{\deltaT(\Om)},
+\end{equation}
+such that
+\begin{equation}\label{eq:plan2-metric-trace}
+   \dX(F_{\rhad},B_1)^{2}\le C_*\,\deltaT(\Om).
+\end{equation}
+Here $\kappa=\kappa(n,R,\rstar)$ is the canonical dimensional choice
+fixed in \S4.4 (notation register \S12). The constants $C_*,c_0,\delta_1$
+are polynomial in $1/\rstar$, $R$, $n$ and the constants of the
+Fusco--Julin and oriented radial-trace inputs
+(see \S4.3--\S4.4); explicitly, $c_0=4n/(\omega_n\rstar^{n+1})$.
+\end{theorem}
+
+\begin{proof}
+This is item E4.6 of the manuscript source map. The proof is the
+content of \S4.4: it combines the integrated metric-derivative bound
+of \S4.4 with the profile-gap measure of \S4.1 (item B6 / E1.6) and
+the abstract weighted metric Sobolev trace lemma E4.5.
+\end{proof}
+
+\begin{lemma}[Distance--asymmetry conversion]
+\label{lem:plan2-dX-to-asym}
+Let $\rhad$ be as in Theorem~\ref{thm:metric-trace-input}. There
+exists $z=z(\rhad)\in\R^n$ such that
+\[
+   |E_{\rhad}\,\Delta\,(z+B_{\rhad})|
+   \le \rhad^{n}\,\dX(F_{\rhad},B_1).
+\]
+Consequently, $\Fr(E_{\rhad})$ relative to the ball of volume
+$\omega_n\rhad^{\,n}$ (the volume of $E_{\rhad}$) satisfies
+\begin{equation}\label{eq:plan2-asym-from-dx}
+   \Fr(E_{\rhad})\le \omega_n^{-1}\,\dX(F_{\rhad},B_1),
+   \qquad
+   \Fr(E_{\rhad})^{2}\le
+   \omega_n^{-2}\,C_*\,\deltaT(\Om).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By the definition of $\dX$ in the metric quotient
+$\X$, for every $\eps>0$ there exists $a\in\R^n$ such that
+$|F_{\rhad}\,\Delta\,(a+B_1)|\le \dX(F_{\rhad},B_1)+\eps$. Pulling
+back by the homothety $x\mapsto \rhad x$ gives, with $z:=\rhad a$,
+\[
+   |E_{\rhad}\,\Delta\,(z+B_{\rhad})|
+   =\rhad^{n}\,|F_{\rhad}\,\Delta\,(a+B_1)|
+   \le \rhad^{n}\bigl(\dX(F_{\rhad},B_1)+\eps\bigr).
+\]
+Sending $\eps\downarrow 0$ proves the first claim. Dividing by
+$|E_{\rhad}|=\omega_n\rhad^{\,n}$ gives the first estimate
+in~\eqref{eq:plan2-asym-from-dx}; the second follows from
+\eqref{eq:plan2-metric-trace}.
+\end{proof}
+
+\subsubsection{Volume of the removed boundary layer}
+\label{sssec:plan2-layer-volume}
+
+\begin{lemma}[Boundary-layer volume; $O(\sqrt{\deltaT})$ bound]
+\label{lem:plan2-layer-vol}
+Let $\rhad$ be as in Theorem~\ref{thm:metric-trace-input}. Set
+\begin{equation}\label{eq:plan2-Cprime-def}
+   C'_n:=n(\kappa+c_0),
+   \qquad C_n:=\omega_n\,C'_n
+   =\omega_n\,n\bigl(\kappa+c_0\bigr),
+\end{equation}
+where $\kappa=\kappa(n,R,\rstar)$ is the boundary-layer constant of
+\S4.4 (notation register \S12) and $c_0=c_0(n,R,\rstar)$ is the
+metric-trace window-scale constant of
+Theorem~\ref{thm:metric-trace-input}. Then, for every $\Om$ with
+$\deltaT(\Om)\le \delta_2:=\min\{1,\delta_1\}$,
+\begin{equation}\label{eq:plan2-layer-vol}
+   |\Om\setminus E_{\rhad}|
+   =\omega_n\bigl(1-\rhad^{\,n}\bigr)
+   \le C_n\sqrt{\deltaT(\Om)}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By the volume-radius parametrisation,
+$|\Om|=\omega_n$ and $|E_{\rhad}|=\omega_n\rhad^{\,n}$, whence
+$|\Om\setminus E_{\rhad}|=\omega_n(1-\rhad^{\,n})$.
+By~\eqref{eq:plan2-rhad-window} and the definition
+$\rhodelta=1-\kappa\sqrt{\deltaT(\Om)}$,
+\begin{equation}\label{eq:plan2-rhad-lower}
+   \rhad\ge \rhodelta-c_0\sqrt{\deltaT(\Om)}
+   =1-(\kappa+c_0)\sqrt{\deltaT(\Om)}.
+\end{equation}
+On $[\rhad,1]\subset[\rstar,1]$ the function $\rho\mapsto 1-\rho^n$
+is $C^1$ with $\frac{d}{d\rho}(1-\rho^n)=-n\rho^{n-1}\in[-n,0]$, so
+the mean-value theorem and \eqref{eq:plan2-rhad-lower} give
+\[
+   1-\rhad^{\,n}
+   \le n(1-\rhad)
+   \le n\,(\kappa+c_0)\sqrt{\deltaT(\Om)}
+   =C'_n\sqrt{\deltaT(\Om)}.
+\]
+Multiplying by $\omega_n$ gives~\eqref{eq:plan2-layer-vol} with
+$C_n=\omega_n C'_n$. (No appeal to $\deltaT(\Om)\le 1$ to absorb a
+$\deltaT$-term into $\sqrt{\deltaT}$ is needed any more: the
+window~\eqref{eq:plan2-rhad-window} is already of scale
+$\sqrt{\deltaT}$, by the B1 repair of Agent~12 dated 2026-05-13.)
+\end{proof}
+
+\begin{remark}[Why only $\sqrt{\deltaT}$, not $\deltaT$]
+\label{rem:plan2-why-sqrt}
+The square root is sharp at the level of the layer volume itself:
+$\rhodelta=1-\kappa\sqrt{\deltaT}$ is the largest radius on which the
+profile-gap lower bound for the measure $\mu(d\rho)=(-t'(\rho))d\rho$
+holds, and this profile gap is what produces the $\sqrt{\deltaT}$
+scale of the boundary layer in the first place. Squaring this
+$\sqrt{\deltaT}$ \emph{too early}, e.g. before the asymmetry transfer,
+would lose the sharp exponent in the final Saint--Venant inequality.
+The squaring must be done \emph{after} transfer; see
+\S\ref{sssec:plan2-squaring}.
+\end{remark}
+
+\subsubsection{Superlevel asymmetry transfer}
+\label{sssec:plan2-superlevel}
+
+We now prove that the Fraenkel asymmetry of $\Om$ at scale
+$|\Om|=\omega_n$ is dominated by the Fraenkel asymmetry of any nested
+superlevel $E\subset\Om$ at its own scale, plus a volume-defect
+correction of order $|\Om\setminus E|/\omega_n$.
+
+\begin{lemma}[Superlevel transfer of asymmetry]
+\label{lem:plan2-superlevel}
+Let $\Om\subset\R^n$ be open with $|\Om|=L>0$ and let $E\subset\Om$ be
+Borel with $0<|E|=s\le L$. Write $\eta:=L-s\in[0,L]$. Then
+\begin{equation}\label{eq:plan2-superlevel}
+   \Fr(\Om)\le \Fr(E)+\frac{2\eta}{L}
+   = \Fr(E)+\frac{2}{L}\,|\Om\setminus E|.
+\end{equation}
+Here both Fraenkel asymmetries are computed at the natural scale of
+the underlying set: $\Fr(\Om)$ uses balls of volume $L$ and $\Fr(E)$
+uses balls of volume $s$.
+\end{lemma}
+
+\begin{proof}
+Write $r_s:=(s/\omega_n)^{1/n}$ and $r_L:=(L/\omega_n)^{1/n}$, so the
+ball of volume $s$ is $B_{r_s}$ and the ball of volume $L$ is
+$B_{r_L}$. We will compare $\Om$ to a translate $z+B_{r_L}$ of the
+ball of volume $L$, where $z$ is chosen nearly optimally for the
+asymmetry of $E$.
+
+Fix $\eps\in(0,1)$ and choose $z\in\R^n$ such that
+\begin{equation}\label{eq:plan2-near-opt}
+   |E\,\Delta\,(z+B_{r_s})|\le s\,\bigl(\Fr(E)+\eps\bigr).
+\end{equation}
+By the triangle inequality for symmetric differences,
+\begin{equation}\label{eq:plan2-triangle}
+   |\Om\,\Delta\,(z+B_{r_L})|
+   \le |\Om\,\Delta\,E|
+      +|E\,\Delta\,(z+B_{r_s})|
+      +|(z+B_{r_s})\,\Delta\,(z+B_{r_L})|.
+\end{equation}
+We bound the three summands.
+
+\emph{Term 1.} Since $E\subset\Om$, $\Om\,\Delta\,E=\Om\setminus E$, so
+$|\Om\,\Delta\,E|=\eta$.
+
+\emph{Term 2.} By~\eqref{eq:plan2-near-opt},
+$|E\,\Delta\,(z+B_{r_s})|\le s(\Fr(E)+\eps)$.
+
+\emph{Term 3.} Since $r_s\le r_L$, $z+B_{r_s}\subset z+B_{r_L}$ and
+\[
+   |(z+B_{r_s})\,\Delta\,(z+B_{r_L})|
+   =\omega_n(r_L^n-r_s^n)=L-s=\eta.
+\]
+
+Combining and dividing by $L$,
+\begin{equation}\label{eq:plan2-combine}
+   \frac{|\Om\,\Delta\,(z+B_{r_L})|}{L}
+   \le \frac{2\eta}{L}+\frac{s}{L}\bigl(\Fr(E)+\eps\bigr)
+   \le \frac{2\eta}{L}+\Fr(E)+\eps,
+\end{equation}
+using $s\le L$. By the definition of the Fraenkel asymmetry,
+$\Fr(\Om)\le L^{-1}|\Om\,\Delta\,(z+B_{r_L})|$, and since
+$\eps\in(0,1)$ was arbitrary, \eqref{eq:plan2-superlevel} follows.
+\end{proof}
+
+\begin{remark}[Where the two boundary-layer summands come from]
+\label{rem:plan2-two-summands}
+Identity~\eqref{eq:plan2-triangle} contains two distinct
+volume-defect terms of magnitude $\eta=|\Om\setminus E|$: the layer of
+$\Om$ outside $E$, and the spherical-shell correction
+$|B_{r_L}\setminus B_{r_s}|$ between the two balls. They add to give
+$2\eta/L$ in~\eqref{eq:plan2-superlevel}. No $L/s$ rescaling enters,
+because $\Fr(E)$ is measured at the natural scale $s$. The same
+combinatorial identity appears in the $L^1$-rearrangement bookkeeping
+of Maggi~\cite{Maggi2012}.
+\end{remark}
+
+\begin{corollary}[Transfer at the metric-trace level $\rhad$]
+\label{cor:plan2-transfer-rhat}
+For every $\Om\subset B_R$ open with $|\Om|=\omega_n$ and
+$\deltaT(\Om)\le\delta_2$,
+\begin{equation}\label{eq:plan2-transfer-rhat}
+   \Fr(\Om)\le \Fr(E_{\rhad})+2\,C'_n\,\sqrt{\deltaT(\Om)},
+\end{equation}
+where $C'_n=n(\kappa+c_0)$ is the constant from
+Lemma~\ref{lem:plan2-layer-vol}.
+\end{corollary}
+
+\begin{proof}
+$E_{\rhad}\subset\Om$ holds by definition of the foliation. With
+$L=\omega_n$ and $\eta=|\Om\setminus E_{\rhad}|$,
+Lemma~\ref{lem:plan2-superlevel} gives
+\[
+   \Fr(\Om)\le \Fr(E_{\rhad})+\frac{2}{\omega_n}|\Om\setminus E_{\rhad}|.
+\]
+Inserting~\eqref{eq:plan2-layer-vol} and recalling
+$C_n/\omega_n=C'_n$ yields~\eqref{eq:plan2-transfer-rhat}.
+\end{proof}
+
+\subsubsection{Squaring the transfer error: the sharp-exponent step}
+\label{sssec:plan2-squaring}
+
+We now perform the critical squaring step. The transfer
+inequality~\eqref{eq:plan2-transfer-rhat} contains a transfer error
+of magnitude $\sqrt{\deltaT}$. Squaring \emph{after} transfer turns
+each $\sqrt{\deltaT}$ into a $\deltaT$ \emph{linearly}, while
+$\Fr(E_{\rhad})^2$ inherits the $\deltaT$-rate
+from~\eqref{eq:plan2-asym-from-dx}. The elementary inequality
+$(a+b)^2\le 2a^2+2b^2$ is what makes this lossless on the exponent;
+it only doubles the constant.
+
+\begin{theorem}[Bounded sharp Saint--Venant, Plan~2 form]
+\label{thm:plan2-bdd-SV}
+There exist $C(n,R,\rstar)>0$ and
+$\delta_0(n,R,\rstar)\in(0,\delta_2]$ such that for every open
+$\Om\subset B_R$ with $|\Om|=\omega_n$,
+\begin{equation}\label{eq:plan2-bdd-SV}
+   \Fr(\Om)^{2}\le C(n,R,\rstar)\,\deltaT(\Om).
+\end{equation}
+The exponent $2$ is sharp. The constant unwinds as
+\begin{equation}\label{eq:plan2-C-final}
+   C(n,R,\rstar)
+   =\max\!\left\{
+     \frac{2C_*}{\omega_n^{2}}+8\bigl(C'_n\bigr)^{2},\;
+     \frac{4}{\delta_0(n,R,\rstar)}
+   \right\},
+\end{equation}
+where $C'_n=n(\kappa+c_0)$ and $C_*,c_0,\kappa,\delta_0$ are the
+upstream constants of
+Theorem~\ref{thm:metric-trace-input} (Agent~12) and \S4.4;
+$\kappa=\kappa(n,R,\rstar)$ is canonical.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: small-deficit regime $\deltaT(\Om)\le\delta_2$.}
+Set
+\[
+   a:=\Fr(E_{\rhad}),
+   \qquad b:=2C'_n\sqrt{\deltaT(\Om)}.
+\]
+By Corollary~\ref{cor:plan2-transfer-rhat},
+$\Fr(\Om)\le a+b$. The squaring identity gives
+\begin{equation}\label{eq:plan2-square-id}
+   (a+b)^2=a^2+2ab+b^2\le 2a^2+2b^2,
+\end{equation}
+the inequality being the AM--GM bound $2ab\le a^2+b^2$. Hence
+\begin{equation}\label{eq:plan2-square}
+   \Fr(\Om)^{2}\le 2\,\Fr(E_{\rhad})^{2}+2\,(2C'_n)^{2}\,\deltaT(\Om)
+   =2\,\Fr(E_{\rhad})^{2}+8(C'_n)^{2}\,\deltaT(\Om).
+\end{equation}
+By Lemma~\ref{lem:plan2-dX-to-asym},
+$\Fr(E_{\rhad})^{2}\le \omega_n^{-2}C_*\deltaT(\Om)$. Substituting,
+\begin{equation}\label{eq:plan2-final-const}
+   \Fr(\Om)^{2}
+   \le\left(\frac{2C_*}{\omega_n^{2}}+8\bigl(C'_n\bigr)^{2}\right)\deltaT(\Om)
+   =:C_3(n,R,\rstar)\,\deltaT(\Om).
+\end{equation}
+This proves~\eqref{eq:plan2-bdd-SV} for $\deltaT(\Om)\le\delta_2$
+with constant $C_3$. The sharp exponent~$2$ is preserved because
+\eqref{eq:plan2-square-id} doubles the prefactor but does not raise
+$a$ or $b$ to a higher power.
+
+\emph{Step 2: large-deficit regime $\deltaT(\Om)\ge\delta_0$.}
+Set $\delta_0:=\delta_2(n,R,\rstar)$. Since
+$\Fr(\Om)<2$ for every $\Om$ of volume $\omega_n$ (an immediate
+consequence of $|\Om\,\Delta\,(z+B_1)|\le|\Om|+|B_1|=2\omega_n$ and the
+strict inequality coming from $|\Om\cap(z+B_1)|>0$ for some $z$ when
+$\Om$ has finite positive volume),
+$\Fr(\Om)^{2}\le 4$. On $\deltaT(\Om)\ge\delta_0$ this gives
+$\Fr(\Om)^{2}\le 4\le(4/\delta_0)\deltaT(\Om)$.
+
+\emph{Step 3: combine.}
+Taking $C:=\max\{C_3,4/\delta_0\}$ yields~\eqref{eq:plan2-bdd-SV} on
+the full admissible class with constant $C$
+as in~\eqref{eq:plan2-C-final}.
+
+\emph{Sharpness.}
+For the one-parameter family of volume-preserving ellipsoidal
+perturbations $\Om_\eps$ of $B_1$, one has
+$\Fr(\Om_\eps)\sim\eps$ and $\deltaT(\Om_\eps)\sim\eps^2$ as
+$\eps\to 0$ (see e.g.\ \cite[Introduction]{BraDeP2017}); hence any
+inequality $\Fr(\Om)^{p}\le C\deltaT(\Om)$ forces $p\ge 2$. This
+shows that exponent~$2$ is sharp in~\eqref{eq:plan2-bdd-SV}.
+\end{proof}
+
+\begin{remark}[The squaring step, written out explicitly]
+\label{rem:plan2-squaring-explicit}
+The complete inequality chain at the heart of this subsection is
+\begin{equation}\label{eq:plan2-chain}
+\begin{aligned}
+\Fr(\Om)
+&\stackrel{\text{Cor.\ \ref{cor:plan2-transfer-rhat}}}{\le}
+ \Fr(E_{\rhad})+2C'_n\sqrt{\deltaT(\Om)} \\[2pt]
+\Fr(\Om)^{2}
+&\stackrel{(a+b)^{2}\le 2a^{2}+2b^{2}}{\le}
+ 2\,\Fr(E_{\rhad})^{2}+8(C'_n)^{2}\deltaT(\Om) \\[2pt]
+&\stackrel{\eqref{eq:plan2-asym-from-dx}}{\le}
+ \frac{2C_*}{\omega_n^{2}}\deltaT(\Om)
+ +8(C'_n)^{2}\deltaT(\Om)
+ =C_3(n,R,\rstar)\deltaT(\Om).
+\end{aligned}
+\end{equation}
+The transfer error $b=2C'_n\sqrt{\deltaT}$ is squared to
+$b^{2}=4(C'_n)^{2}\deltaT$, and the factor of~$2$ from
+$(a+b)^{2}\le 2a^{2}+2b^{2}$ produces the final $8(C'_n)^{2}$. The
+$\Fr(E_{\rhad})^{2}$ term inherits a $\deltaT$-rate directly
+from~\eqref{eq:plan2-metric-trace}. \emph{At no point is the
+$\sqrt{\deltaT}$ from the boundary layer squared in isolation:} it is
+always squared as part of $(\Fr(E_{\rhad})+\sqrt{\deltaT})^{2}$ via
+the elementary squaring identity. This is what preserves the sharp
+exponent~$2$.
+\end{remark}
+
+\begin{remark}[Why squaring \emph{before} transfer would fail]
+\label{rem:plan2-square-before}
+If, instead of squaring $\Fr(\Om)\le\Fr(E_{\rhad})+C\sqrt{\deltaT}$
+\emph{after} transfer, one squared the boundary-layer estimate
+$|\Om\setminus E_{\rhad}|\le C_n\sqrt{\deltaT}$ first (yielding
+$|\Om\setminus E_{\rhad}|^{2}\le C_n^{2}\deltaT$), no rate would be
+lost on the layer term alone, but one would still have to combine the
+inequalities for $\Fr(E_{\rhad})$ and for the layer at the
+$\Fr(\Om)$-level. The minimal way to combine the two contributions
+into a bound for $\Fr(\Om)^{2}$ is the squaring
+identity~\eqref{eq:plan2-square-id}. The point is that
+~\eqref{eq:plan2-square-id} is an \emph{additive} bound on the
+square: it doubles the constant but never raises an exponent. This
+preservation, not the order of operations, is the load-bearing
+mechanism.
+\end{remark}
+
+\subsubsection{Bounded reduction and Kohler--Jobin transfer}
+\label{sssec:plan2-reduction-kj}
+
+Theorem~\ref{thm:plan2-bdd-SV} provides the bounded-class sharp
+Saint--Venant inequality at any confining radius $R\ge 2$. To pass to
+the unconditional sharp Faber--Krahn inequality we apply the two
+shared Plan~1 Final/ blocks \textsc{BoundedReduction} and
+\textsc{KohlerJobinTransfer} in succession, exactly as in
+\S\ref{ssec:plan1-final-assembly} (Agent~8).
+
+\paragraph{Bounded reduction.}
+Fix $\rstar=1/2$. Theorem~\ref{thm:plan2-bdd-SV} specialised at
+$R=R_*(n):=\max\{d(n),2\}$, with $d(n)$ the diameter constant of
+\cite[Lemma~5.3]{BDV}, becomes
+\begin{equation}\label{eq:plan2-stage1-at-Rstar}
+   \Fr(\Om)^{2}\le \frac{1}{c_{\rm SV}(n,R_*(n))}\,\deltaT(\Om)
+   =\frac{1}{c_{\rm SV}(n)}\,\deltaT(\Om),
+   \qquad \Om\subset B_{R_*(n)},\ |\Om|=\omega_n,
+\end{equation}
+where $c_{\rm SV}(n,R_*(n))=:c_{\rm SV}(n)$ depends only on $n$ by
+Remark~\ref{rem:plan2-rho-star-fix} below.
+
+\begin{theorem}[Global sharp Saint--Venant; cf.\
+\cite[Theorem~5.4 (BDV bounded reduction)]{BDV}]
+\label{thm:plan2-glob-SV}
+Suppose~\eqref{eq:plan2-stage1-at-Rstar} holds. Then there exists
+$c_{\rm SV}^{\rm glob}(n)>0$ such that for every open
+$\Om\subset\R^n$ with $|\Om|=\omega_n$,
+\begin{equation}\label{eq:plan2-glob-SV}
+   E(\Om)-E(B_1)\;\ge\;c_{\rm SV}^{\rm glob}(n)\,\Fr(\Om)^{2},
+\end{equation}
+with $c_{\rm SV}^{\rm glob}(n)$ given by the BDV near/far dichotomy:
+\begin{equation}\label{eq:plan2-cSVglob}
+   c_{\rm SV}^{\rm glob}(n)
+   =\min\!\left\{\,
+       c_{\rm near}^{\rm glob}(n),\;
+       \frac{\omega_n^{(n+2)/n}\,\delta(n)}{16}\right\},
+\end{equation}
+\[
+   c_{\rm near}^{\rm glob}(n)
+   =\frac{\omega_n^{(n+2)/n}}{4C_9(n)\bigl(1/\widetilde c_{\rm SV}(n)+C_9(n)\bigr)},
+   \qquad
+   \widetilde c_{\rm SV}(n)=\omega_n^{-(n+2)/n}\,c_{\rm SV}(n,R_*(n)),
+\]
+where $\delta(n),C_9(n)$ are the BDV~\cite[Lemmas 5.1--5.3]{BDV}
+constants.
+\end{theorem}
+
+\begin{proof}
+This is precisely the BDV bounded reduction
+(\cite[Lemmas~5.1--5.3 and the proof of Theorem~1.5]{BDV}), applied
+with the bounded input~\eqref{eq:plan2-stage1-at-Rstar}. The proof,
+which is independent of how the bounded input was obtained, uses
+the BDV constructive truncation~\cite[Lemma~5.3]{BDV}
+and the rearrangement-based suboptimal $\Fr^{4}$
+bound~\cite[Lemma~5.2]{BDV}. No compactness is
+introduced. The constant is the same as the one used by the Plan~1
+final-assembly subsection (Agent~8).
+\end{proof}
+
+By scale invariance ($\Fr$ is dimensionless, $E$ has scaling weight
+$(n+2)/n$, and $\lambda_1$ has weight~$-2$),
+\eqref{eq:plan2-glob-SV} extends to arbitrary $|\Om|<\infty$ in the
+scale-invariant form
+\begin{equation}\label{eq:plan2-glob-SV-scale}
+   E(\Om)-E(\Bstar)\;\ge\;c_{\rm SV}^{\rm glob}(n)
+   \Bigl(\frac{|\Bstar|}{|B_1|}\Bigr)^{(n+2)/n}\Fr(\Om)^{2}.
+\end{equation}
+
+\paragraph{Kohler--Jobin transfer.}
+
+\begin{theorem}[Sharp Faber--Krahn from sharp Saint--Venant; cf.\
+\cite[Thm.~3.3]{Brasco2014}]
+\label{thm:plan2-KJ-import}
+Suppose~\eqref{eq:plan2-glob-SV-scale} holds with constant
+$c_{\rm SV}^{\rm glob}(n)>0$. Then for every open $\Om\subset\R^n$ with
+$0<|\Om|<\infty$,
+\begin{equation}\label{eq:plan2-FK-pre}
+   \Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/n}
+   \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)
+   \;\ge\;c_{\rm FK}(n)\,\Fr(\Om)^{2},
+\end{equation}
+with the explicit dimensional constant
+\begin{equation}\label{eq:plan2-cFKdef}
+   c_{\rm FK}(n)
+   :=\min\!\left\{
+       \frac{4\,L_n\,c_{\rm SV}^{\rm glob}(n)}{(n+2)\,T_n},\;\;
+       \frac{L_n\bigl(2^{2/(n+2)}-1\bigr)}{4}
+     \right\},
+\end{equation}
+where $L_n=\lambda_1(B_1)$, $T_n=T(B_1)=\omega_n/(n(n+2))$.
+\end{theorem}
+
+\begin{proof}
+This is the Kohler--Jobin transfer of \cite[Theorem~3.3]{Brasco2014}.
+The proof uses the Kohler--Jobin inequality
+$T(\Om)\lambda_1(\Om)^{(n+2)/2}\ge T(\Bstar)\lambda_1(\Bstar)^{(n+2)/2}$
+(cited from \cite[Theorem~3.3]{Brasco2014}), the pointwise transfer
+$\lambda_1(\Om)\ge\lambda_1(\Bstar)(T(\Bstar)/T(\Om))^{2/(n+2)}$, the
+elementary inequality $(1-s)^{-p}-1\ge ps$ for $p\in(0,1]$,
+$s\in[0,1)$, and a two-case split on
+$T_n-T(\Om)$ vs.\ $T_n/2$. The factor~$4$ in the first branch
+absorbs the factor~$2$ between $\delta_{\rm SV}=T(\Bstar)-T(\Om)$ and
+$\deltaT=E(\Om)-E(\Bstar)$ (note $\delta_{\rm SV}=2\deltaT$). The
+proof is independent of how~\eqref{eq:plan2-glob-SV-scale} was
+obtained; in particular it is identical to the one used by the
+Plan~1 final-assembly subsection (Agent~8).
+\end{proof}
+
+\subsubsection{The final Plan~2 theorem}
+\label{sssec:plan2-final}
+
+\begin{theorem}[Sharp quantitative Faber--Krahn, Plan~2 final form]
+\label{thm:plan2-FK}
+Let $n\ge 2$. There exists a constant $c_{\rm FK}(n)>0$, depending
+only on $n$, given by the explicit formula~\eqref{eq:plan2-cFKdef}
+above, such that for every open $\Om\subset\R^n$ with
+$0<|\Om|<\infty$,
+\begin{equation}\label{eq:plan2-FK-main}
+   \deltaFK(\Om)
+   \;=\;
+   \Bigl(\frac{|\Om|}{\omega_n}\Bigr)^{2/n}
+   \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)
+   \;\ge\;c_{\rm FK}(n)\,\Fr(\Om)^{2}.
+\end{equation}
+The exponent~$2$ is sharp.
+\end{theorem}
+
+\begin{proof}
+Fix $\rstar=1/2$ and apply Theorem~\ref{thm:plan2-bdd-SV} at
+$R=R_*(n)$. This produces the bounded sharp Saint--Venant
+inequality~\eqref{eq:plan2-stage1-at-Rstar} with constant
+$c_{\rm SV}(n,R_*(n))=:c_{\rm SV}(n)$. Theorem~\ref{thm:plan2-glob-SV}
+removes the $R$-dependence and gives the global sharp Saint--Venant
+inequality~\eqref{eq:plan2-glob-SV-scale} with constant
+$c_{\rm SV}^{\rm glob}(n)$ as in~\eqref{eq:plan2-cSVglob}.
+Theorem~\ref{thm:plan2-KJ-import} converts the latter into the sharp
+Faber--Krahn inequality~\eqref{eq:plan2-FK-main} with constant
+$c_{\rm FK}(n)$ as in~\eqref{eq:plan2-cFKdef}.
+
+Sharpness of the exponent~$2$ follows from the volume-preserving
+ellipsoidal one-parameter family $\Om_\eps$ of perturbations of
+$\Bstar$, for which
+$\Fr(\Om_\eps)\sim\eps$ and
+$\lambda_1(\Om_\eps)-\lambda_1(\Bstar)\sim\eps^{2}$ as $\eps\to 0$
+(cf.\ \cite[Introduction]{BraDeP2017},
+\cite{AKN2023}).
+\end{proof}
+
+\begin{remark}[Identical normalisation to Plan~1]
+\label{rem:plan2-vs-plan1-normalisation}
+The statement and constant of Theorem~\ref{thm:plan2-FK} agree
+\emph{verbatim} with those of the Plan~1 final theorem
+(Theorem~\ref{thm:plan1-FK-upper-intro} of the Introduction). The shared expression for
+$c_{\rm FK}(n)$ is~\eqref{eq:plan2-cFKdef}; the shared constants
+$c_{\rm SV}^{\rm glob}(n)$, $L_n$, $T_n$, $\omega_n$ are dimensional.
+The two proofs differ \emph{only} in how the bounded sharp
+Saint--Venant input is obtained: Plan~1 uses selection
+principle + graph entry + Schauder interpolation + nearly-spherical
+closure; Plan~2 uses the level-set / metric route assembled in
+\S\ref{ssec:plan2-level-set}--\S\ref{ssec:plan2-weighted-trace} and
+the present subsection.
+\end{remark}
+
+\begin{remark}[Where the constants enter]
+\label{rem:plan2-rho-star-fix}
+The constant $C_3(n,R,\rstar)$ from~\eqref{eq:plan2-final-const}
+unwinds as
+\[
+   C_3(n,R,\rstar)
+   =\frac{2C_*(n,R,\rstar)}{\omega_n^{2}}
+    +8\,n^{2}\bigl(\kappa(n,R,\rstar)+c_0(n,R,\rstar)\bigr)^{2},
+\]
+polynomial in $1/\rstar$, $R$, $n$ and the upstream constants
+$C_*,c_0,\kappa$ of Theorem~\ref{thm:metric-trace-input} and \S4.4.
+At $\rstar=1/2$ and $R=R_*(n)$, $C_3$ becomes a dimensional constant
+$C_3(n)$, and Theorem~\ref{thm:plan2-bdd-SV} reads
+$\Fr(\Om)^{2}\le C_3(n)\deltaT(\Om)$ on
+$\Om\subset B_{R_*(n)}$, $|\Om|=\omega_n$. Equivalently
+$c_{\rm SV}(n)=1/C_3(n)$, and this is the input fed to
+Theorem~\ref{thm:plan2-glob-SV}.
+\end{remark}
+
+\begin{remark}[No load-bearing use of conditional routes]
+\label{rem:plan2-no-conditional}
+The proof of Theorem~\ref{thm:plan2-FK} does \emph{not} invoke
+the centroid $\Pi$-route or the space--time $\Pi$ identity in any
+load-bearing way; those appear only as auxiliary remarks
+(Agent~14). It also does \emph{not} use any Bernoulli spectral input
+or any $C^{1,\gamma}$ regularity of $\partial\Om$. The proof is
+purely finite-perimeter from \S\ref{ssec:plan2-level-set} through
+the present subsection. This is the structural difference between
+Plan~2 and Plan~1, recorded in
+Remark~\ref{rem:plan2-vs-plan1-normalisation}.
+\end{remark}

@@ -1,0 +1,122 @@
+% =====================================================================
+% Manuscript/main.tex
+%
+% Agent 19 (Final Assembly Agent) deliverable.
+% Single coherent TeX manuscript of "The sharp quantitative
+% Faber--Krahn inequality: two proofs".
+%
+% Compile with:
+%     pdflatex main
+%     bibtex   main
+%     pdflatex main
+%     pdflatex main
+% =====================================================================
+
+\documentclass[11pt,a4paper]{amsart}
+
+% --- Core packages -----------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+% \usepackage{microtype} % Disabled: pdftex auto-expansion requires scalable fonts
+\usepackage[protrusion=false,expansion=false]{microtype}
+\usepackage{enumitem}
+\usepackage[dvipsnames,svgnames,table]{xcolor}
+\usepackage{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  citecolor=blue!50!black,
+  urlcolor=blue!50!black
+}
+
+% --- Canonical macros (Agent 17) ---------------------------------------
+\input{macros.tex}
+
+% --- Theorem environments (numbered by section) ------------------------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+% Some drafts use the {theorem*} starred environment; provide it too.
+\newtheorem*{theorem*}{Theorem}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+
+% --- Cleveref customisation --------------------------------------------
+\crefname{equation}{}{}
+\Crefname{equation}{Equation}{Equations}
+
+% --- Title -------------------------------------------------------------
+\title{The sharp quantitative Faber--Krahn inequality:\\
+two proofs}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\begin{abstract}
+For every open set $\Om\subset\R^n$ with $0<|\Om|<\infty$ the
+sharp quantitative Faber--Krahn inequality
+$\Fr(\Om)^2\le C_{\rm FK}(n)\,\deltaFK(\Om)$ holds, with
+$C_{\rm FK}(n)$ depending only on the dimension. We give two
+independent proofs of this inequality, written with constants tracked
+through every step. The first proof follows the
+Brasco--De~Philippis--Velichkov selection-principle route, including
+the graph-entry / Schauder bootstrap, the BDV nearly-spherical
+closure, bounded reduction, and the Kohler--Jobin transfer. The
+second proof is structurally different: an exact level-set deficit
+identity expresses the Saint--Venant deficit as an integral over the
+volume-radius foliation of two pointwise non-negative defects; a
+finite-perimeter metric first-variation in the quotient space $\X$
+of sets modulo translation, an oriented $L^1$-radial trace lemma at
+Fusco--Julin oscillation centres, a good/bad level decomposition,
+and a boundary-layer transfer convert this integral identity into the
+same global sharp Saint--Venant inequality and, after Kohler--Jobin,
+into the same final Faber--Krahn estimate with identical dimensional
+constant. The two proofs are presented in parallel so that their
+common closing step and the precise place where they diverge are
+explicit.
+\end{abstract}
+
+\maketitle
+
+% =====================================================================
+% Introduction (Agent 18 deliverable)
+% =====================================================================
+\input{05_intro_story_draft.tex}
+
+% =====================================================================
+% Preliminaries (Agents 2, 3, 4)
+% =====================================================================
+\input{01_preliminaries_draft.tex}
+
+% =====================================================================
+% Plan 1 proof (Agents 5, 6, 7, 8)
+% =====================================================================
+\input{02_plan1_draft.tex}
+
+% =====================================================================
+% Plan 2 proof (Agents 9-13, +14 auxiliary)
+% =====================================================================
+\input{03_plan2_draft.tex}
+
+% =====================================================================
+% References
+% =====================================================================
+\bibliographystyle{plain}
+\bibliography{references}
+\label{sec:references}
+
+\end{document}

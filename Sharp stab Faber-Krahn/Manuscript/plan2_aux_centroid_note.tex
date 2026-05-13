@@ -1,0 +1,411 @@
+% UNIFIED 2026-05-13
+% SOURCE MAP:
+%   Source files:
+%     - Plan 2/WIP/WIP_CentroidBound.tex (centroid kinematic identity; Thm F)
+%     - Plan 2/WIP/WIP_SpaceTimeIdentity.tex (space-time Pi identity; G1, G3, T1^2-int)
+%     - Plan 2/wave3-F-h1-center-bound.md (proof-level details for the centroid H^1 bound)
+%   Status of each item:
+%     - Centroid kinematic identity (Lem. centroid-kin): LOCAL(WIP_CentroidBound.tex Lem. 3.1)
+%     - Lipschitz/Borel regularity of rho |-> z̄_ρ: LOCAL(WIP_CentroidBound.tex Lem. 2.2)
+%     - H^1-in-ρ centroid bound (F): LOCAL(WIP_CentroidBound.tex Thm. F)
+%       [Unconditional within Plan 2's small-deficit regime;
+%        the section is nevertheless presented as AUXILIARY because it feeds
+%        the conditional Pi-route.]
+%     - Space-time Pi identity (G1): LOCAL(WIP_SpaceTimeIdentity.tex Thm. G1)
+%     - Pi-control hypothesis (Pi-int): MISSING / CONDITIONAL
+%         (open problem; brief Sec. G2 of WIP_SpaceTimeIdentity)
+%     - (B^2-int) from (Pi-int): LOCAL(WIP_SpaceTimeIdentity.tex Thm. G3)
+%     - (T_1^2-int) from (Pi-int) + annular cap: LOCAL(WIP_SpaceTimeIdentity.tex Thm. T1sq)
+%   Notation: follows Manuscript/00_notation_register.md.
+%     - Centre field z̄_ρ (bulk centroid), macros \zbar, \Frho, \Erho, \deltaT.
+%     - Domain of the space-time identity renamed Ω_Π (= \OmPi), per
+%       00_notation_register.md §13 conflict resolution (Plan 1's \Otilde is reserved).
+%
+% STATUS: AUXILIARY — NOT LOAD-BEARING. CONDITIONAL ON INTEGRATED Π-CONTROL.
+%
+% Author note (for Agent 19): this draft is intended for inclusion as the
+% optional remark / final subsection of Manuscript/03_plan2_draft.tex. Agent 16
+% (Plan 2 audit) must verify that no later subsection of 03_plan2_draft.tex
+% imports any statement from this subsection. The repaired Plan 2 chain
+% (Agents 9–13) does NOT depend on anything below.
+%
+% ---------------------------------------------------------------------------
+
+\subsection{Auxiliary route: centroid kinematics and the space--time
+\texorpdfstring{$\Pi$}{Pi} identity}
+\label{subsec:plan2-aux-centroid}
+
+\begin{quote}\small
+\textbf{Status.}
+The contents of this subsection are auxiliary. They are recorded here
+because they isolate a structurally appealing alternative route to the
+sharp bounded Saint--Venant estimate
+$\Fr(\Om)^{2}\le C(n,R,\rstar)\,\deltaT(\Om)$,
+based on the centroid first moment of the level family. The route
+closes \emph{conditionally} on the integrated radial-moment estimate
+\eqref{eq:Piint} below, which is currently open. The load-bearing
+proof of Plan~2 in Sections \ref{subsec:level-set-identity}--%
+\ref{subsec:boundary-layer-transfer} does \emph{not} use any
+statement from this subsection.
+\end{quote}
+
+\paragraph{Standing hypotheses}
+
+Throughout this subsection we adopt the standing setup of Section
+\ref{sec:plan2-setup}: $n\ge 2$, $R\ge 2$, $\rstar\in(0,1)$, $\kappa>0$,
+$\Om\subset B_R\subset\R^n$ open with $|\Om|=\omega_n$,
+$u=u_\Om$ the variational torsion function,
+$t:[\rstar,1]\to(0,\|u\|_\infty)$ the volume-radius parametrisation
+($|\{u>t(\rho)\}|=\omega_n\rho^n$), $\Erho:=\{u>t(\rho)\}$,
+$\rhodelta:=1-\kappa\sqrt{\deltaT(\Om)}$,
+$\mu(d\rho):=(-t'(\rho))\,d\rho$, and
+$\Vrho(x):=-t'(\rho)/|\nabla u(x)|$ ($\mathcal H^{n-1}$-a.e.\ on
+$\partial^{*}\Erho$, for a.e.\ $\rho$, by Sobolev--Sard, cf.\ §A3).
+The constant $\delta_0=\delta_0(n,R,\rstar)>0$ is fixed once and for
+all small enough that all qualitative consequences quoted below (FMP
+smallness, Cicalese--Leonardi containment, centroid--Fraenkel-centre
+proximity) hold whenever $\deltaT(\Om)\le\delta_0$.
+
+The bulk centroid of $\Erho$ is
+\begin{equation}\label{eq:aux-centroid-def}
+   \zbar \;:=\; \frac{1}{|\Erho|}\int_{\Erho} x\,dx
+   \;\in\;\R^{n},
+\end{equation}
+in line with the canonical centre field of the notation register
+(§10). We work with $\zbar$ rather than with the Fraenkel-optimal
+centre $z^{\mathrm{Fr}}_{\rho}$ or with the Fusco--Julin oscillation
+centre.
+
+\paragraph{Centroid kinematic identity}
+
+\begin{lemma}[Centroid kinematic identity]\label{lem:centroid-kin}
+The map $\rho\mapsto\zbar$ is Lipschitz on $[\rstar,1]$ with
+\[
+   |\zbar-\bar z_{\rho'}|
+   \;\le\;
+   \frac{2nR}{\rstar^{n}}\,|\rho-\rho'|,
+   \qquad \rstar\le\rho,\rho'\le 1,
+\]
+hence absolutely continuous on $[\rstar,1]$, and for a.e.\
+$\rho\in[\rstar,1]$ one has the first-moment identity
+\begin{equation}\label{eq:centroid-kin}
+   \zbar^{\prime}
+   \;=\;
+   \frac{1}{|\Erho|}
+   \int_{\partial^{*}\Erho}
+   (x-\zbar)\,\Vrho(x)\,d\mathcal H^{n-1}(x).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+\emph{Lipschitz regularity.} The volume-radius parametrisation gives
+the nested inclusion $E_{\rho}\subset E_{\rho'}$ whenever
+$\rho\le\rho'$, hence
+\[
+   |E_{\rho}\Delta E_{\rho'}|
+   = |E_{\rho'}|-|E_{\rho}|
+   = \omega_{n}\bigl((\rho')^{n}-\rho^{n}\bigr)
+   \le n\omega_{n}\,|\rho-\rho'|.
+\]
+Since $\Erho\subset B_{R}$, $|\int_{E_{\rho}}x_{i}-\int_{E_{\rho'}}x_{i}|
+\le R\,|E_{\rho}\Delta E_{\rho'}|\le n\omega_{n}R\,|\rho-\rho'|$.
+Dividing by $|\Erho|\ge\omega_{n}\rstar^{n}$ yields the displayed
+Lipschitz constant $L_{\mathrm{cent}}=2nR/\rstar^{n}$.
+
+\emph{Kinematic identity.} By the coarea identity applied to the
+Sobolev function $u\in W^{1,2}_{0}(\Om)\cap L^{\infty}(\Om)$ (see
+§A2--A3 of the GMT preliminaries; the Sobolev--Sard step
+\cite{FigalliMaggi2011} ensures $|\nabla u|>0$
+$\mathcal H^{n-1}$-a.e.\ on $\partial^{*}\Erho$ for a.e.\ $\rho$),
+for every Lipschitz $f:\overline{B_{R}}\to\R$ and a.e.\
+$\rho\in[\rstar,1]$,
+\begin{equation}\label{eq:bulk-coarea}
+   \frac{d}{d\rho}\int_{\Erho}f(x)\,dx
+   \;=\;
+   \int_{\partial^{*}\Erho} f(x)\,\Vrho(x)\,d\mathcal H^{n-1}(x).
+\end{equation}
+Taking $f\equiv 1$ and using $|\Erho|=\omega_{n}\rho^{n}$ gives
+$\int_{\partial^{*}\Erho}\Vrho\,d\mathcal H^{n-1}=n\omega_{n}\rho^{n-1}
+=P(B_{\rho})$ for a.e.\ $\rho$. Taking $f(x)=x_{i}$ in
+\eqref{eq:bulk-coarea} and applying the quotient rule to
+$\bar z_{\rho,i}=|\Erho|^{-1}\int_{\Erho}x_{i}\,dx$:
+\begin{align*}
+   \bar z_{\rho,i}^{\prime}
+   &= \frac{1}{|\Erho|}\int_{\partial^{*}\Erho}x_{i}\,\Vrho\,d\mathcal H^{n-1}
+   -\frac{1}{|\Erho|^{2}}
+   \Bigl(\frac{d}{d\rho}|\Erho|\Bigr)\int_{\Erho}x_{i}\,dx \\
+   &= \frac{1}{|\Erho|}\int_{\partial^{*}\Erho}x_{i}\,\Vrho\,d\mathcal H^{n-1}
+   -\frac{\bar z_{\rho,i}}{|\Erho|}\int_{\partial^{*}\Erho}\Vrho\,d\mathcal H^{n-1}\\
+   &= \frac{1}{|\Erho|}\int_{\partial^{*}\Erho}(x_{i}-\bar z_{\rho,i})\,\Vrho\,d\mathcal H^{n-1},
+\end{align*}
+which is the $i$-th component of \eqref{eq:centroid-kin}.
+\end{proof}
+
+\begin{remark}[No homothety term]\label{rmk:no-homothety}
+The right-hand side of \eqref{eq:centroid-kin} is the first vector
+moment of $\Vrho$ relative to $\zbar$, with no comparison to a
+homothetic velocity. This is what makes the centroid kinematic
+identity unconditional: it does \emph{not} require a per-$\rho$
+control of $\Vrho-H_{\zbar,\rho}$, where
+$H_{\zbar,\rho}(x):=(x-\zbar)\cdot\nu_{\rho}(x)/\rho$, and therefore
+avoids the pointwise radial-trace inputs that the conditional
+$\Pi$-route below relies on. A centre defined by a Fraenkel
+first-order condition would instead produce a derivative formula
+involving $\Vrho-H_{\zbar,\rho}$ on the reduced boundary.
+\end{remark}
+
+\paragraph{The integrated centroid bound (unconditional within
+the small-deficit regime)}
+
+\begin{theorem}[Integrated centroid $H^{1}$ bound]\label{thm:centroid-H1}
+There exist $\delta_{0}=\delta_{0}(n,R,\rstar)>0$ and
+$C_{\mathrm{cent}}=C_{\mathrm{cent}}(n,R,\rstar)>0$ such that
+whenever $\Om\subset B_{R}$ is open with $|\Om|=\omega_{n}$ and
+$\deltaT(\Om)\le\delta_{0}$,
+\begin{equation}\label{eq:F}
+   \int_{\rstar}^{\rhodelta}|\zbar^{\prime}|^{2}\,(-t'(\rho))\,d\rho
+   \;\le\;
+   C_{\mathrm{cent}}\,\deltaT(\Om). \tag{F}
+\end{equation}
+\end{theorem}
+
+\noindent
+A sketch of the proof structure, conditional on
+Hypothesis~\ref{hyp:Piint}, is the following:
+\begin{enumerate}
+\item[(i)] decompose
+$\Vrho=\bar V_{\rho}+(\Vrho-\bar V_{\rho})$ with
+$\bar V_{\rho}=P(B_{\rho})/P(\Erho)$ in \eqref{eq:centroid-kin};
+\item[(ii)] bound the perimeter mean piece by FMP plus the
+Fusco--Julin $L^{1}$ oscillation, using the divergence theorem for
+finite-perimeter sets applied to the Lipschitz field
+$V^{(i)}(x):=|x-\zbar|\,e_{i}$;
+\item[(iii)] bound the variance piece by Cauchy--Schwarz, controlled
+by the algebraic deficit $D_{H}(t(\rho))$ of
+Subsection \ref{subsec:level-set-identity};
+\item[(iv)] integrate against $\mu(d\rho)=(-t')\,d\rho$ and use the
+integrated identity $\int_{\rstar}^{1}(D_{H}+D_{I})\,d\mu\le
+C(n,\rstar)\,\deltaT(\Om)$.
+\end{enumerate}
+The constant tracks as
+$C_{\mathrm{cent}}\le C(n,\rstar)\,R\,\rstar^{-(3n-1)}$ and is
+polynomial in $1/\rstar$, $R$, $n$. Outside the smallness regime FMP
+gives $\Fr(\Om)\ge c(n)>0$ and \eqref{eq:F} is trivial after
+enlarging $C_{\mathrm{cent}}$.
+
+\paragraph{Space--time \texorpdfstring{$\Pi$}{Pi} identity}
+
+For each $\rho\in[\rstar,\rhodelta]$, define, in agreement with the
+notation register (§13),
+\begin{equation}\label{eq:Pi-def}
+   \PiE
+   \;:=\;
+   (n-1)\int_{\R^{n}}
+   \bigl(\mathbf{1}_{B_{\rho}(\zbar)}(x)-\mathbf{1}_{\Erho}(x)\bigr)\,
+   |x-\zbar|^{-1}\,dx,
+\end{equation}
+the signed radial moment of the symmetric difference
+$\Erho\,\Delta\,B_{\rho}(\zbar)$ at the centroid. By the
+$L^{2}$ divergence identity of
+Subsection \ref{subsec:level-set-identity},
+\begin{equation}\label{eq:53prime}
+   \int_{\partial^{*}\Erho}|\nu_{\rho}-e_{r}|^{2}\,d\mathcal H^{n-1}
+   \;=\;
+   2\bigl(P(\Erho)-P(B_{\rho})\bigr)+2\,\PiE,
+   \qquad e_{r}(x)=\frac{x-\zbar}{|x-\zbar|},
+\end{equation}
+so $\PiE\ge 0$ a.e.\ in $\rho$.
+
+The natural cylinder for the space--time computation is
+$\OmPi:=B_{R+1}\subset\R^{n}$, which contains both $\Om$ and
+$\bigcup_{\rho\in[\rstar,\rhodelta]}B_{\rho}(\zbar)$ (recall
+$\zbar\in B_{R}$ by $\Erho\subset B_{R}$, and $\rho\le 1$). We use
+$\OmPi$ rather than $\Otilde$ to respect the manuscript-wide notation
+agreement (§13 of the notation register), where $\Otilde$ is reserved
+for Plan~1's volume-normalised companion.
+
+\begin{theorem}[Space--time $\Pi$ identity]\label{thm:G1}
+The signed Fubini density
+\begin{equation}\label{eq:sigma-def}
+   \sigma(x)
+   \;:=\;
+   \int_{\rstar}^{\rhodelta}
+   \bigl(\mathbf{1}_{B_{\rho}(\zbar)}(x)-\mathbf{1}_{\Erho}(x)\bigr)\,
+   |x-\zbar|^{-1}\,d\mu(\rho)
+\end{equation}
+is Borel-measurable, locally integrable on $\OmPi$, and satisfies
+\begin{equation}\label{eq:spacetime-Pi}
+   \int_{\rstar}^{\rhodelta}\PiE\,d\mu(\rho)
+   \;=\;
+   (n-1)\int_{\OmPi}\sigma(x)\,dx
+   \;=\;
+   (n-1)\int_{\OmPi}\int_{J_{x}}
+   \mathrm{sgn}\bigl(\mathbf{1}_{B_{\rho}(\zbar)}(x)-\mathbf{1}_{\Erho}(x)\bigr)
+   \,|x-\zbar|^{-1}\,d\mu(\rho)\,dx,
+\end{equation}
+where $J_{x}:=\{\rho\in[\rstar,\rhodelta]\colon
+x\in B_{\rho}(\zbar)\Delta\Erho\}$. In particular,
+\begin{equation}\label{eq:sigma-pointwise}
+   |\sigma(x)|
+   \;\le\;
+   \int_{J_{x}}|x-\zbar|^{-1}\,d\mu(\rho)
+   \qquad\text{for a.e.\ }x\in\OmPi.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+By \eqref{eq:Pi-def}, $\rho\mapsto\PiE$ is the integral over $\R^{n}$
+of the joint Borel-measurable function
+$(\rho,x)\mapsto(\mathbf{1}_{B_{\rho}(\zbar)}(x)-\mathbf{1}_{\Erho}(x))/|x-\zbar|$.
+The kernel $|x-\zbar|^{-1}$ is locally integrable on $\OmPi$ since
+$n\ge 2$. Truncating the kernel at level $M$, applying Tonelli to the
+positive and negative parts of the bounded integrand, and letting
+$M\to\infty$ by monotone convergence on each sign separately produces
+the first equality in \eqref{eq:spacetime-Pi}. The second equality is
+the change of order on the symmetric difference. The bound
+\eqref{eq:sigma-pointwise} follows by taking absolute values inside
+the $\rho$-integral.
+\end{proof}
+
+\paragraph{Where the centroid route would close: the conditional
+\texorpdfstring{$\Pi$}{Pi}-control hypothesis}
+
+The integrated identity \eqref{eq:spacetime-Pi} rewrites
+$\int\PiE\,d\mu$ as an integral, over the cylinder $\OmPi$, of the
+weighted space--time crossing length $\mu(J_{x})$ of the moving sphere
+$|x-\zbar|=\rho$ with the boundary of $\Erho$. Closing the centroid
+route at the sharp rate $\deltaT$ requires the following hypothesis.
+
+\begin{hypothesis}[Integrated $\Pi$-control; \emph{open}]\label{hyp:Piint}
+There exists $C_{\Pi}=C_{\Pi}(n,R,\rstar)>0$ such that for every
+bounded open $\Om\subset B_{R}$ with $|\Om|=\omega_{n}$ and
+$\deltaT(\Om)\le\delta_{0}(n,R,\rstar)$,
+\begin{equation}\label{eq:Piint}
+   \int_{\rstar}^{\rhodelta}\PiE\,d\mu(\rho)
+   \;\le\;
+   C_{\Pi}(n,R,\rstar)\,\deltaT(\Om).
+   \tag{$\Pi$-int}
+\end{equation}
+\end{hypothesis}
+
+\begin{quote}\small
+\textbf{Status of Hypothesis \ref{hyp:Piint}.}
+At the time of writing, \eqref{eq:Piint} is \emph{not} proved. The
+$H^{1}$-in-$\rho$ centroid bound \eqref{eq:F} controls the moving
+centre $\zbar$ but does not, by itself, convert the rearranged
+Talenti/Nicola--Tilli profile gap into a control on the physical
+crossing set $J_{x}$, because $J_{x}$ also depends on the spatial
+radius $|x-\zbar|$. A viable proof of \eqref{eq:Piint} would combine
+\eqref{eq:spacetime-Pi} with a genuine space--time coarea or
+transport estimate for the level crossings of
+$|x-\zbar|=\rho$. We do \emph{not} have such an estimate.
+
+\textbf{In particular, none of the consequences below
+(Theorems \ref{thm:G3} and \ref{thm:T1sq}) are used in the
+load-bearing Plan~2 chain.}
+\end{quote}
+
+\paragraph{Conditional consequences}
+
+For completeness we record the two conditional consequences. Both
+assume Hypothesis \ref{hyp:Piint}.
+
+\begin{theorem}[Integrated $L^{2}$ normal oscillation;
+conditional on \eqref{eq:Piint}]\label{thm:G3}
+Assume Hypothesis \ref{hyp:Piint}. Then there exists
+$C_{B^{2}}=C_{B^{2}}(n,R,\rstar)>0$ such that
+\begin{equation}\label{eq:B2int}
+   \int_{\rstar}^{\rhodelta}\!\!
+   \int_{\partial^{*}\Erho}|\nu_{\rho}-e_{r}|^{2}\,d\mathcal H^{n-1}\,d\mu(\rho)
+   \;\le\;
+   C_{B^{2}}\,\deltaT(\Om).
+   \tag{$B^{2}$-int}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Integrate \eqref{eq:53prime} against $d\mu$. The first piece is
+controlled by the deficit identity
+$\int(P(\Erho)-P(B_{\rho}))\,d\mu(\rho)\le C(n,\rstar)\,\deltaT(\Om)$
+of Subsection \ref{subsec:level-set-identity} (it bounds
+$\int D_{I}\,d\mu$, and $P-P_\rho$ is comparable to
+$D_{I}/P(B_{\rho})$ in the small-deficit regime, with
+$P(B_{\rho})\ge n\omega_{n}\rstar^{n-1}$). The second piece is
+exactly \eqref{eq:Piint}.
+\end{proof}
+
+\begin{theorem}[Integrated radial trace;
+conditional on \eqref{eq:Piint} plus an annular cap]\label{thm:T1sq}
+Assume Hypothesis \ref{hyp:Piint} and the auxiliary annular/perimeter
+cap
+\begin{equation}\label{eq:annular-cap}
+   \rstar/2 \,\le\,|x-\zbar|\,\le\, 2R
+   \quad\text{on the relevant boundary pieces},
+   \qquad
+   P(\Erho)-P(B_{\rho})+\PiE\,\le\, M_{A}(n,R,\rstar)
+\end{equation}
+for a.e.\ $\rho\in[\rstar,\rhodelta]$. Then there exists
+$C_{\mathrm{rad}}=C_{\mathrm{rad}}(n,R,\rstar)>0$ such that
+\begin{equation}\label{eq:T1sqint}
+   \int_{\rstar}^{\rhodelta}\Bigl(\int_{\partial^{*}\Erho}
+   |H_{\zbar,\rho}-1|\,d\mathcal H^{n-1}\Bigr)^{2}d\mu(\rho)
+   \;\le\;
+   C_{\mathrm{rad}}\,\deltaT(\Om).
+   \tag{$T_{1}^{2}$-int}
+\end{equation}
+\end{theorem}
+
+\noindent
+The proof of Theorem \ref{thm:T1sq} uses a slicing-then-squaring
+decomposition $T_{1}=T_{1}^{\mathrm{rad,slic}}+T_{1}^{\mathrm{tan}}$
+of the radial trace
+$T_{1}=\int_{\partial^{*}\Erho}||x-\zbar|/\rho-1|\,d\mathcal H^{n-1}$,
+followed by a slice-rearrangement inequality
+$|\Erho\Delta B_{\rho}(\zbar)|^{2}\le C(n,R,\rstar)\,\PiE$;
+the role of squaring before
+integrating is to avoid the FMP rate-loss to $\sqrt{\deltaT}$.
+The full argument is conditional on Hypothesis~\ref{hyp:Piint} and is
+not used by Subsections
+\ref{subsec:metric-framework}--\ref{subsec:boundary-layer-transfer}.
+
+\paragraph{Reading guide and warning}
+
+\begin{quote}\small
+\textbf{What this subsection establishes unconditionally.}
+The centroid kinematic identity \eqref{eq:centroid-kin}, its
+Lipschitz regularity, the integrated centroid bound \eqref{eq:F}, and
+the space--time identity \eqref{eq:spacetime-Pi}.
+
+\textbf{What this subsection does \emph{not} establish.}
+The hypothesis \eqref{eq:Piint}, and therefore neither
+\eqref{eq:B2int} nor \eqref{eq:T1sqint}.
+
+\textbf{What this subsection is \emph{not} used for.}
+Nothing in this subsection is invoked in the proofs of
+Subsections \ref{subsec:level-set-identity},
+\ref{subsec:metric-framework},
+\ref{subsec:fusco-julin-radial-trace},
+\ref{subsec:integrated-action-weighted-trace}, or
+\ref{subsec:boundary-layer-transfer}. The repaired Plan~2 chain runs
+through the weighted metric trace
+(Subsection \ref{subsec:integrated-action-weighted-trace})
+and uses the centroid $\zbar$ as the canonical centre field, but it
+does \emph{not} rely on the radial-moment identities
+\eqref{eq:53prime}--\eqref{eq:Piint}. The final Plan~2 theorem of
+Subsection \ref{subsec:boundary-layer-transfer} stands without
+Hypothesis \ref{hyp:Piint}.
+
+\textbf{Why the route is interesting nonetheless.}
+The structural mechanism explained in
+Remark \ref{rmk:no-homothety} --- a centre field whose
+derivative is a bulk first moment with no homothety term ---
+suggests that if a separate space--time crossing-length estimate
+for $|x-\zbar|=\rho$ can be proved at rate $\deltaT$, then the
+present subsection would furnish an independent path to the sharp
+bounded Saint--Venant estimate, bypassing the weighted metric trace
+of Subsection \ref{subsec:integrated-action-weighted-trace}. This is
+the only sense in which the centroid/$\Pi$ route remains an open
+alternative.
+\end{quote}
+
+% End of optional auxiliary subsection.
