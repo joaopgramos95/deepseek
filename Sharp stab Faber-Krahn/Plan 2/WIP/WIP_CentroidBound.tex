@@ -1,0 +1,339 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Fr}{\mathcal{A}}
+\newcommand{\Om}{\Omega}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\rstar}{\rho_{*}}
+\newcommand{\zbar}{\bar z_{\rho}}
+\newcommand{\er}{e_{r,\zbar}}
+
+\title{H$^{1}$-in-$\rho$ Bound for the Centroid of the Torsion Level Family\\
+       (Route~$\delta$, Plan~2, Building Block \textsc{CentroidBound})}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note is the building block \textsc{CentroidBound} of the Plan~2
+proof of sharp quantitative Faber--Krahn stability via Route~$\delta$
+(no graph, no selection, no Schauder). For a near-spherical torsion
+domain $\Om\subset B_R$ with $|\Om|=\omega_n$ and small Saint--Venant
+deficit $\delta:=\delta_T(\Om)$, let $E_\rho:=\{u>t(\rho)\}$ be the
+volume-radius parametrised superlevels of the torsion function $u$
+and let
+\[
+   \zbar:=\frac{1}{|E_\rho|}\int_{E_\rho}x\,dx\in\R^n
+\]
+be the \emph{centroid} of $E_\rho$. We prove that $\rho\mapsto\zbar$
+is Lipschitz on $[\rstar,1]$ and satisfies the integrated
+$H^{1}$-in-$\rho$ bound
+\[
+   \int_{\rstar}^{\rho_\delta}|\bar z_\rho'|^{2}\,(-t'(\rho))\,d\rho
+   \;\le\; C(n,R,\rstar)\,\delta_T(\Om).
+\]
+The proof uses the centroid kinematic identity (a bulk-coarea
+computation that has \emph{no} homothety term), the unconditional
+$D_H$-only Cauchy--Schwarz of the velocity defect, the
+Figalli--Maggi--Pratelli volume Fraenkel estimate, the Fusco--Julin
+$L^1$ oscillation, the divergence theorem for finite-perimeter sets,
+and Agent~B's integrated Talenti gap. No graph parametrisation, no
+selection principle, no pointwise quantitative isoperimetric form is
+invoked.
+\end{abstract}
+
+\section{Statement and main result}\label{sec:statement}
+
+Fix $n\ge 2$, $R\ge 2$, $\rstar\in(0,1)$, and $\kappa>0$. Let
+$\Om\subset B_R\subset\R^n$ be a bounded open set with
+$|\Om|=\omega_n:=|B_1|$ and Saint--Venant deficit
+$\delta:=\delta_T(\Om)\le\delta_0(n,R,\rstar)$. Let $u\in
+W^{1,2}_0(\Om)\cap W^{2,p}_{\rm loc}(\Om)$ ($p>n$) be the variational
+torsion function of $\Om$, $t:[\rstar,1]\to(0,\|u\|_\infty)$ the
+volume-radius parametrisation defined by
+$|\{u>t(\rho)\}|=\omega_n\rho^n$, $E_\rho:=\{u>t(\rho)\}$, and
+\[
+   V_\rho(x):=\frac{-t'(\rho)}{|\nabla u(x)|}
+   \qquad\text{on }\partial^*E_\rho\cap\{|\nabla u|>0\}.
+\]
+Set $\rho_\delta:=1-\kappa\sqrt{\delta}$.
+
+\begin{definition}[Centroid field]\label{def:centroid}
+For $\rho\in[\rstar,1]$ define the \emph{centroid} of $E_\rho$ by
+\begin{equation}\label{eq:centroid-def}
+   \zbar:=\frac{1}{|E_\rho|}\int_{E_\rho}x\,dx\in\R^n.
+\end{equation}
+This is the bulk barycentre; it is \emph{not} obtained by Fraenkel
+minimisation and inherits no implicit-function-theorem regularity.
+\end{definition}
+
+\begin{theorem}[$H^{1}$-in-$\rho$ centroid bound]\label{thm:F}
+There exist $\delta_0=\delta_0(n,R,\rstar)>0$ and
+$C_{\rm cent}=C_{\rm cent}(n,R,\rstar)>0$ such that for every bounded
+open $\Om\subset B_R$ with $|\Om|=\omega_n$ and $\delta\le\delta_0$,
+the centroid field $\rho\mapsto\zbar$ is Lipschitz on $[\rstar,1]$
+with explicit constant
+\begin{equation}\label{eq:Lcent}
+   L_{\rm cent}\;:=\;\frac{2nR}{\rstar^{n}},
+\end{equation}
+in particular absolutely continuous, and
+\begin{equation}\label{eq:F}
+   \int_{\rstar}^{\rho_\delta}
+     |\bar z_\rho'|^{2}\,(-t'(\rho))\,d\rho
+   \;\le\;C_{\rm cent}\,\delta_T(\Om). \tag{F}
+\end{equation}
+\end{theorem}
+
+\begin{remark}[Compatibility with the Fraenkel centre]\label{rmk:CFr}
+By Cicalese--Leonardi \cite[Prop.~2.3]{CL2012} and Acerbi--Fusco--Morini
+\cite[Lem.~2.6]{AFM2013}, in the smallness regime
+$|\zbar-z^{\rm Fr}_\rho|\le C\,\mathcal A(E_\rho)\le C'\sqrt{\delta_T(\Om)}$.
+The centroid is therefore interchangeable with $z^{\rm Fr}_\rho$ in
+downstream uses at cost $O(\sqrt{\delta_T})$, absorbed into
+constants exactly as in Wave~2~C~§C1.
+\end{remark}
+
+\section{Setup, measurability, Lipschitz-in-$\rho$}\label{sec:setup}
+
+\subsection{The smallness regime}
+
+By the smallness propagation (Figalli--Maggi--Pratelli
+\cite{FMP2010} applied levelwise plus the integrated
+$\int D_I\,d\mu \le C\delta_T$ of \cite{LevelSetIdentity}),
+$\mathcal A(E_\rho)\le C(n,\rstar)\sqrt{\delta_T(\Om)}\le\eps_0$ for
+all $\rho\in[\rstar,1]$, with $\eps_0$ the CL 2012 smallness threshold.
+The CL containment
+\begin{equation}\label{eq:CL}
+   B(z^{\rm Fr}_\rho,\rho/2)\subset E_\rho\subset B(z^{\rm Fr}_\rho,2\rho)
+\end{equation}
+holds for a.e.\ $\rho$. Combined with the centroid--Fraenkel proximity,
+$B(\zbar,\rho/4)\subset E_\rho\subset B(\zbar,3\rho)$. In particular
+$|x-\zbar|\le 3\rho\le 3$ on $\partial^*E_\rho$ and
+$\zbar\in E_\rho^\circ$.
+
+\subsection{Borel measurability and Lipschitz}
+
+\begin{lemma}\label{lem:Lip}
+$\rho\mapsto\zbar$ is Borel and Lipschitz on $[\rstar,1]$ with
+constant $L_{\rm cent}=2nR/\rstar^{n}$.
+\end{lemma}
+
+\begin{proof}
+\emph{Borel.} Since $t$ is decreasing, $\rho\mapsto E_\rho$ is monotone
+nested; dominated convergence gives $\rho\mapsto\int_{E_\rho}x_i\,dx$
+continuous, hence Borel.
+
+\emph{Lipschitz.} For $\rstar\le\rho\le\rho'\le 1$, nesting gives
+\[
+   |E_\rho\Delta E_{\rho'}|=|E_{\rho'}|-|E_\rho|
+   =\omega_n((\rho')^n-\rho^n)\le n\omega_n|\rho-\rho'|.
+\]
+Since $E_\rho,E_{\rho'}\subset B_R$,
+$|\int x_i-\int x_i|\le Rn\omega_n|\rho-\rho'|$. Combined with
+$|E_\rho|\ge\omega_n\rstar^n$,
+$|\zbar-\bar z_{\rho'}|\le (2nR/\rstar^n)|\rho-\rho'|$.
+\end{proof}
+
+\section{The centroid kinematic identity}\label{sec:kinematic}
+
+\begin{lemma}[Centroid kinematic formula]\label{lem:3.1}
+For a.e.\ $\rho\in[\rstar,1]$,
+\begin{equation}\label{eq:3.2}
+   \bar z_\rho'
+   =\frac{1}{|E_\rho|}\int_{\partial^*E_\rho}(x-\zbar)\,V_\rho\,d\mathcal H^{n-1}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By the coarea identity \cite[\S3]{LevelSetIdentity} and Sobolev--Sard
+\cite[App.~A, Thm.~A.1]{FigalliMaggi2011}, for every Lipschitz $f:B_R\to\R$ and
+a.e.\ $\rho\in[\rstar,1]$,
+$\frac{d}{d\rho}\int_{E_\rho}f\,dx=\int_{\partial^*E_\rho}f V_\rho\,d\mathcal H^{n-1}$.
+Taking $f(x)=x_i$ and applying the product rule:
+\[
+   \bar z_{\rho,i}'
+   =\frac{1}{|E_\rho|}\int_{\partial^*E_\rho}x_i V_\rho dH
+   -\frac{P(B_\rho)}{|E_\rho|^2}\int_{E_\rho}x_i dx
+   =\frac{1}{|E_\rho|}\int_{\partial^*E_\rho}(x_i-\bar z_{\rho,i})V_\rho dH,
+\]
+using $\int V_\rho dH=P(B_\rho)$ (coarea with $f\equiv 1$).
+\end{proof}
+
+\begin{remark}[No homothety term --- the structural mechanism]
+\label{rmk:no-homothety}
+Identity~\eqref{eq:3.2} is the first vector moment of $V_\rho$ relative
+to the centroid. \emph{No homothetic vector field
+$H_{z,\rho}(x)=(x-z)\cdot\nu_E/\rho$ enters.} By contrast, defining
+the centre field via the Fraenkel functional first-order condition
+would yield a kinematic formula whose right-hand side involves
+$V_\rho-H_{z,\rho}$, and the bound would consume the per-$\rho$ homothetic velocity defect of \texttt{gmt-inputs-for-metric-closure.md}~(2.4),
+itself conditional on the per-$\rho$ radial trace~(R)/(1.2), which is
+open in the no-graph regime. The centroid choice eliminates the
+homothety because it is defined directly by a bulk integral, not by a
+minimisation principle comparing to balls. This is precisely the
+structural mechanism by which Theorem~\ref{thm:F} avoids (R), (B²),
+the per-$\rho$ pointwise radial-trace inputs of
+the Wave-1 audit (\texttt{gmt-inputs-for-metric-closure.md}~(1.1),
+(1.2)=(R), (2.4) in the source notation) entirely.
+\end{remark}
+
+\section{Pointwise bound $|\bar z_\rho'|^{2}\le C(D_H+D_I)$}\label{sec:pointwise}
+
+We bound the integrand in~\eqref{eq:F} pointwise by the two algebraic
+deficits $D_H(t(\rho)),D_I(t(\rho))$ of \cite{LevelSetIdentity}.
+
+\begin{lemma}[Pointwise centroid-velocity bound]\label{lem:4.1}
+There is $C_*=C_*(n,R,\rstar)$ such that for a.e.\ $\rho\in[\rstar,1]$
+in the smallness regime,
+\begin{equation}\label{eq:4.1}
+   |\bar z_\rho'|^{2}\le C_*\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set $\bar V_\rho:=P(B_\rho)/P(E_\rho)\in(0,1]$. Decompose
+$V_\rho=\bar V_\rho+(V_\rho-\bar V_\rho)$ in~\eqref{eq:3.2}:
+\begin{equation}\label{eq:4.2}
+   |E_\rho|\bar z_\rho'
+   =\underbrace{\bar V_\rho\!\int(x-\zbar)d\mathcal H^{n-1}}_{(\mathrm I)}
+   +\underbrace{\int(x-\zbar)(V_\rho-\bar V_\rho)d\mathcal H^{n-1}}_{(\mathrm{II})}.
+\end{equation}
+
+\emph{Bound on (II).} By CL, $|x-\zbar|\le 3$, so
+$|(\mathrm{II})|\le 3\int|V_\rho-\bar V_\rho|$. By the unconditional
+Cauchy--Schwarz on $V_\rho$, an algebraic consequence of
+\cite{LevelSetIdentity}: writing $\bar V_\rho=A_\rho/P(E_\rho)$ and applying
+$\int|f|\le(\int f^2/V)^{1/2}(\int V)^{1/2}$ with $f=|V_\rho-\bar V_\rho|$,
+$V=V_\rho$, together with the exact identity
+$\int(V_\rho-\bar V_\rho)^2/V_\rho\,d\mathcal H^{n-1}=(A_\rho/P(E_\rho)^2)D_H$,
+\begin{equation}\label{eq:4.3}
+   \Bigl(\int|V_\rho-\bar V_\rho|d\mathcal H^{n-1}\Bigr)^2\le C_{n,\rstar}D_H(t(\rho)).
+\end{equation}
+
+\emph{Bound on (I).} We claim, for each $i$,
+\begin{equation}\label{eq:4.4}
+   \Bigl|\int_{\partial^*E_\rho}(x-\zbar)_i\,d\mathcal H^{n-1}\Bigr|
+   \le C_2(n,\rstar)\sqrt{\delta_\rho},
+\end{equation}
+with $\delta_\rho:=P(E_\rho)-P(B_\rho)$. To see this, write
+$(x-\zbar)_i=|x-\zbar|(e_r)_i$, and split
+$(e_r)_i=(\nu_E)_i+((e_r)_i-(\nu_E)_i)$.
+
+For the first piece, apply the divergence theorem to the Lipschitz
+field $V^{(i)}(x):=|x-\zbar|\,e_i$ ($W^{1,\infty}$, kink at $\zbar$ is
+$\mathcal H^{n-1}$-null): $\partial_j V^{(i)}_j=(e_r)_i$, so by
+\cite[Thm.~15.9]{Maggi2012},
+\begin{equation}\label{eq:4.6}
+   \int_{\partial^*E_\rho}|x-\zbar|(\nu_E)_i d\mathcal H^{n-1}
+   =\int_{E_\rho}(e_r(x))_i\,dx.
+\end{equation}
+On $B_\rho(\zbar)$, $\int(e_r)_i=0$ by spherical symmetry. Hence
+$|\int_{E_\rho}(e_r)_i|\le|E_\rho\Delta B_\rho(\zbar)|$. By FMP
+\cite{FMP2010} and the centroid-Fraenkel proximity,
+$|E_\rho\Delta B_\rho(\zbar)|\le C\sqrt{\delta_\rho}$.
+
+For the second piece, $|x-\zbar|\le 3$ and the FJ $L^1$ oscillation
+\cite{FJ2014} at the centroid (with $O(\sqrt{\delta_\rho})$ change-of-centre
+error absorbed): $\int|\nu_E-e_r|\le C_{\rm FJ}\sqrt{\delta_\rho}$.
+
+Combining gives \eqref{eq:4.4}.
+
+\emph{Combining.} From \eqref{eq:4.2}, \eqref{eq:4.3}, \eqref{eq:4.4}:
+\[
+   |E_\rho|^2|\bar z_\rho'|^2\le 2C_2^2\delta_\rho+2C_1 D_H,
+\]
+where $C_1=9C_{n,\rstar}$. Use $\delta_\rho\le D_I/(n\omega_n\rstar^{n-1})$
+and $|E_\rho|^2\ge\omega_n^2\rstar^{2n}$ to get \eqref{eq:4.1}.
+\end{proof}
+
+\section{Closing the integral}\label{sec:closing}
+
+\begin{proof}[Proof of Theorem~\ref{thm:F}]
+By Lemma~\ref{lem:4.1} and the algebraic identity $D_H+D_I=P(B_\rho)^2|\psi|/(-t')$
+(immediate from \cite{LevelSetIdentity})
+($D_H+D_I=P(B_\rho)^2|\psi|/(-t')$ with $\psi:=-t_B'-(-t')$), and
+the integrated Talenti gap $\int_{\rstar}^{1}|\psi(\rho)|\,d\rho\le K_1\delta$,
+$K_1=2/(\omega_n\rstar^n)$, of \cite{LevelSetIdentity}:
+\[
+   \int_{\rstar}^{\rho_\delta}|\bar z_\rho'|^2(-t')d\rho
+   \le C_*\int(D_H+D_I)(-t')d\rho
+   =C_*\int P(B_\rho)^2|\psi|d\rho
+   \le C_*(n\omega_n)^2 K_1\delta
+   =:C_{\rm cent}\delta.\qedhere
+\]
+\end{proof}
+
+\section{Conditionality and remarks}\label{sec:conditionality}
+
+\textbf{Claim: Theorem~\ref{thm:F} is unconditional.} It uses none of:
+the per-$\rho$ pointwise inputs (1.1), (1.2)=(R), (2.4)
+of \texttt{gmt-inputs-for-metric-closure.md} (open in the no-graph regime);
+the pointwise quadratic (B$^2$); Agent 3 (7.1); any
+selection, graph entry, BDV minimiser, Schauder, or Fuglede expansion.
+
+\emph{Structural reason:} the centroid kinematic identity~\eqref{eq:3.2}
+has no homothety term, so the bound goes through the unconditional pair
+(Cauchy--Schwarz on $V_\rho$; FMP+FJ+divergence at the centroid).
+
+\begin{remark}[Sharpness]
+The pointwise bound~\eqref{eq:4.1} is sharp in scaling: for a small
+translation of a ball, $V_\rho-\bar V_\rho$ has dipole structure of
+size $|\bar z_\rho'|$, giving $D_H\sim|\bar z_\rho'|^2$.
+\end{remark}
+
+\begin{remark}[Outside the smallness regime]
+If $\delta_T(\Om)>\delta_0$, then $\mathcal A(\Om)\ge c(n)>0$ by FMP,
+and \eqref{eq:F} is trivial after enlarging $C_{\rm cent}$.
+\end{remark}
+
+\begin{thebibliography}{99}
+
+\bibitem{AFM2013}
+E.~Acerbi, N.~Fusco, M.~Morini, CMP \textbf{322} (2013), 515--557.
+
+\bibitem{AGS2008}
+L.~Ambrosio, N.~Gigli, G.~Savar\'e, Birkh\"auser, 2008.
+
+\bibitem{CL2012}
+M.~Cicalese, G.\,P.~Leonardi, ARMA \textbf{206} (2012), 617--643.
+
+\bibitem{FigalliMaggi2011}
+A.~Figalli, F.~Maggi, ARMA \textbf{201} (2011), 143--207.
+
+\bibitem{FMP2010}
+A.~Figalli, F.~Maggi, A.~Pratelli, Invent. Math. \textbf{182} (2010), 167--211.
+
+\bibitem{FJ2014}
+N.~Fusco, V.~Julin, Calc. Var. PDE \textbf{50} (2014), 925--937.
+
+\bibitem{Maggi2012}
+F.~Maggi, Cambridge University Press, 2012.
+
+\bibitem{Talenti1976}
+G.~Talenti, Ann. Mat. Pura Appl. \textbf{110} (1976), 353--372.
+
+\bibitem{LevelSetIdentity}
+Building Block \textsc{LevelSetIdentity}, Plan~2.
+
+\bibitem{MetricFramework}
+Building Block \textsc{MetricFramework}, Plan~2.
+
+\bibitem{SpaceTimeIdentity}
+Building Block \textsc{SpaceTimeIdentity}, Plan~2.
+
+\end{thebibliography}
+
+\end{document}

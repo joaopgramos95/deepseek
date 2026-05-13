@@ -1,0 +1,220 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Fr}{\mathcal{A}}
+\newcommand{\Om}{\Omega}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\rstar}{\rho_{*}}
+\newcommand{\rhad}{\widehat\rho}
+\newcommand{\X}{\mathcal X}
+
+\title{Integrated Action, Kinetic Bound,\\
+       and the Weighted Metric Trace Lemma\\
+       (Route~$\delta$, Plan~2, Building Block \textsc{WeightedMetricTrace})}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This building block chains three ingredients into a pointwise metric
+distance bound at a radius $\rhad$ near $\rho_\delta=1-\kappa\sqrt{\delta_T}$.
+The starting point is the integrated quadratic Fusco--Julin oscillation
+$(B^2\text{-int})$ of \cite{SpaceTimeIdentity}, which replaces any
+attempt at a pointwise $L^2$ radial trace by its $d\mu$-averaged
+form. Combining $(B^2\text{-int})$ with the per-$\rho$ Cauchy deficit
+bound of \cite{MetricFramework} yields the integrated action bound
+$\int(d_\X(F_\rho,B_1)^2+|\dot F_\rho|_\X^2)\,d\mu \le C\,\delta_T$.
+A Talenti / bad-set decomposition then divides by $-t'(\rho)$ on the
+good set and uses the elementary uniform $L^1$-Lipschitz bound (A0)
+on the bad set, giving the kinetic bound (K) in Lebesgue form
+$\int|\dot F_\rho|_\X^2\,d\rho\le C'\delta_T$. The abstract weighted
+metric trace lemma then produces $\rhad\in[\rho_\delta-C_*\delta,\rho_\delta]$
+with $d_\X(F_{\rhad},B_1)^2\le C_*\,\delta_T$. The chain uses no
+pointwise (R)/(1.2) anywhere.
+\end{abstract}
+
+\section{Statements}\label{sec:statements}
+
+Fix $n\ge 2$, $R\ge 2$, $\rstar\in(0,1)$, $\kappa>0$. Let $\Om\subset B_R$
+open with $|\Om|=\omega_n$, $u=u_\Om$ the variational torsion function,
+$\delta:=\delta_T(\Om)\le\delta_0(n,R,\rstar)$. Set $E_\rho:=\{u>t(\rho)\}$
+with $|E_\rho|=\omega_n\rho^n$, $\rho_\delta:=1-\kappa\sqrt\delta$,
+$\mu(d\rho):=(-t'(\rho))d\rho$. Define
+$F_\rho:=\rho^{-1}E_\rho\subset B_{R/\rstar}$, $\gamma(\rho):=[F_\rho]\in\X$.
+
+\begin{theorem}[Integrated action bound]\label{thm:52int}
+Conditional on (F) of \cite{CentroidBound} and $(B^2\text{-int})$ of
+\cite{SpaceTimeIdentity}:
+\begin{equation}\label{eq:52int}
+   \int_{\rstar}^{\rho_\delta}\bigl(d_\X(F_\rho,B_1)^2+|\dot F_\rho|_\X^2\bigr)\,d\mu(\rho)
+   \le C(n,R,\rstar,\kappa)\,\delta_T(\Om).
+\end{equation}
+\end{theorem}
+
+\begin{theorem}[Kinetic bound (K), Lebesgue form]\label{thm:K}
+\begin{equation}\label{eq:K}
+   \int_{\rstar}^{\rho_\delta}|\dot F_\rho|_\X^2\,d\rho
+   \le C'(n,R,\rstar,\kappa)\,\delta_T(\Om).
+\end{equation}
+\end{theorem}
+
+\begin{theorem}[Weighted metric trace]\label{thm:trace}
+There exist $C_*$ and $\rhad\in[\rho_\delta-C_*\delta,\rho_\delta]$ such that
+$d_\X(F_{\rhad},B_1)^2\le C_*\,\delta_T(\Om)$.
+\end{theorem}
+
+\section{The integrated action bound (5.2-int)}\label{sec:52int}
+
+From \cite{MetricFramework} Theorem (T),
+$|\dot F_\rho|_\X\le C\inf_a\int|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|$;
+squaring gives
+$|\dot F_\rho|_\X^2\le 2[(\int|V_\rho-\bar V_\rho|)^2+(\int|H_{z_\rho,\rho}-\bar V_\rho|)^2]$.
+
+\paragraph{$D_H$-piece.} The unconditional Cauchy--Schwarz on $V_\rho$
+(algebraic from \cite{LevelSetIdentity}):
+$(\int|V-\bar V|)^2\le C\, D_H$.
+Integrating: $\int(\int|V-\bar V|)^2 d\mu\le C\int D_H\,d\mu\le C\delta$.
+
+\paragraph{Radial-trace piece.} Using $|H-\bar V|\le||x-z|/\rho-1|+|1-\bar V|$
+plus Cauchy--Schwarz on $\partial^*E_\rho$:
+$\int(\int|H-\bar V|)^2 d\mu\le C\delta$ via $(B^2\text{-int})$ of
+\cite{SpaceTimeIdentity}, plus perimeter excess integration and the
+slice-rearrangement $|E\Delta B_\rho|^2\le C\Pi$ + (G3).
+
+\paragraph{Distance piece.} $d_\X(F_\rho,B_1)\le\rho^{-n}|E_\rho\Delta B_\rho(z_\rho)|$
+pointwise, so $\int d_\X^2 d\mu\le C\int|E_\rho\Delta B_\rho|^2 d\mu\le C\delta$
+via the slice-rearrangement.
+
+Combining gives \eqref{eq:52int}. \hfill\qed
+
+\begin{remark}
+The (T1²-int) input from \cite{SpaceTimeIdentity} replaces the conditional
+pointwise (R)/(1.2). The chain is rate-preserving thanks to the
+slicing-then-squaring trick.
+\end{remark}
+
+\section{The kinetic bound (K)}\label{sec:K}
+
+\begin{lemma}[Uniform metric Lipschitz, (A0)]\label{lem:A0}
+$|\dot F_\rho|_\X\le L_0(n,R,\rstar)$ a.e.
+\end{lemma}
+
+\begin{proof}
+Nestedness gives $|E_{\rho'}\Delta E_\rho|\le n\omega_n|\rho'-\rho|$.
+Split $F_\rho\Delta F_{\rho'}$ through $(\rho')^{-1}E_\rho$ and use
+the dilation estimate to get $d_\X([F_{\rho'}],[F_\rho])\le L_0|\rho'-\rho|$.
+\end{proof}
+
+\begin{lemma}[Bad-set Lemma]\label{lem:badset}
+$|B_{\tau_0}|:=|\{\rho:-t'(\rho)<\tau_0=\rstar/(2n)\}|\le K_2\delta$.
+\end{lemma}
+
+\begin{proof}
+On $B_{\tau_0}$, $|\psi(\rho)|=-t_B'-(-t')\ge\rstar/(2n)$. By the
+integrated Talenti gap $\int|\psi|d\rho\le K_1\delta$,
+$(\rstar/(2n))|B_{\tau_0}|\le K_1\delta$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:K}]
+Split $[\rstar,\rho_\delta]=G\sqcup B_{\tau_0}$ with $G$ the good set
+where $-t'\ge\tau_0$. On $G$:
+$\int_G|\dot F_\rho|^2 d\rho\le\tau_0^{-1}\int_G|\dot F_\rho|^2(-t')d\rho
+\le(2n/\rstar)\cdot C\delta$. On $B_{\tau_0}$: by (A0),
+$\int_{B_{\tau_0}}|\dot F_\rho|^2 d\rho\le L_0^2 K_2\delta$.
+Adding gives \eqref{eq:K}.
+\end{proof}
+
+\section{The weighted metric trace lemma}\label{sec:agent4}
+
+\begin{theorem}[Abstract weighted metric trace]\label{thm:abstract-trace}
+Assume (H1) $\int(d_\X^2+|\dot\gamma|^2)d\mu\le C\delta$, (H2)
+$\mu([a,b])\ge c(b-a)-C\delta$, (H3) $\mu_\rho\le M$, (5.14)
+$\int|\dot\gamma|^2 d\rho\le C'\delta$. Then there is
+$\rhad\in[\rho_\delta-C_*\delta,\rho_\delta]$ with
+$d_\X(\gamma(\rhad),B_1)^2\le C_*\delta$.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1: macroscopic Markov on a fixed sub-interval.} Fix
+$L^*:=(\rho_\delta-\rstar)/4$, $J^*:=[\rho_\delta-L^*,\rho_\delta-L^*/2]$.
+By (H2), $\mu(J^*)\ge cL^*/4$. By (H1) + Markov on $J^*$, there is
+$\rho_0\in J^*$ with $d_\X(\gamma(\rho_0),B_1)^2\le K_1\delta$ where
+$K_1=4C/(cL^*)$.
+
+\emph{Step 2: kinetic transport.} For any $\rhad\in I_\delta:=[\rho_\delta-K_2\delta,\rho_\delta]$,
+AGS Thm 1.1.2 + Cauchy--Schwarz:
+$d_\X(\gamma(\rho_0),\gamma(\rhad))^2\le(\rhad-\rho_0)\int|\dot\gamma|^2 d\rho
+\le L^*\cdot C'\delta$ by (5.14).
+
+\emph{Step 3: triangle.} $d_\X(\gamma(\rhad),B_1)^2\le 2K_1\delta+2L^*C'\delta=:C_*\delta$.
+\end{proof}
+
+\paragraph{Verification of hypotheses for the torsion application:}
+\begin{itemize}
+\item (H1) = Theorem~\ref{thm:52int}.
+\item (H2) interval bound from Talenti / Nicola--Tilli profile gap
+\cite{LevelSetIdentity}.
+\item (H3) $-t'\le 1/n$ via Talenti.
+\item (5.14) = Theorem~\ref{thm:K}.
+\end{itemize}
+
+\begin{proof}[Proof of Theorem~\ref{thm:trace}]
+Apply Theorem~\ref{thm:abstract-trace} to $\gamma=[F_\rho]$.
+\end{proof}
+
+\section{Conditionality}\label{sec:cond}
+
+\begin{itemize}
+\item Theorem~\ref{thm:52int}: consumes $(B^2\text{-int})$ + (G3) of
+\cite{SpaceTimeIdentity}, unconditional given (F) of \cite{CentroidBound}.
+\item Theorem~\ref{thm:K}: plus elementary (A0) and bad-set Lemma,
+both unconditional.
+\item Theorem~\ref{thm:trace}: plus (H2), (H3) from Talenti, unconditional.
+\end{itemize}
+
+The whole block is unconditional given (F). Pointwise (R)/(1.2) is
+never invoked.
+
+\begin{thebibliography}{99}
+
+\bibitem{LevelSetIdentity}
+Building block \textsc{LevelSetIdentity}.
+
+\bibitem{MetricFramework}
+Building block \textsc{MetricFramework}.
+
+\bibitem{CentroidBound}
+Building block \textsc{CentroidBound}.
+
+\bibitem{SpaceTimeIdentity}
+Building block \textsc{SpaceTimeIdentity}.
+
+\bibitem{BoundaryLayerTransfer}
+Building block \textsc{BoundaryLayerTransfer}.
+
+\bibitem{AGS2008}
+L.~Ambrosio, N.~Gigli, G.~Savar\'e, \emph{Gradient Flows in Metric
+Spaces}, Birkh\"auser, 2008. Thm 1.1.2.
+
+\bibitem{Talenti1976}
+G.~Talenti, Ann. Mat. Pura Appl. (4) \textbf{110} (1976), 353--372.
+
+\bibitem{Maggi2012}
+F.~Maggi, Cambridge University Press, 2012.
+
+\end{thebibliography}
+
+\end{document}

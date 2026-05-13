@@ -1,0 +1,404 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Fr}{\mathcal{A}}
+\newcommand{\Om}{\Omega}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\rstar}{\rho_{*}}
+\newcommand{\X}{\mathcal X}
+\DeclareMathOperator{\dist}{dist}
+
+\title{Metric Framework and First Variation\\
+       of the Volume-Radius Foliation\\
+       (Route~$\delta$, Plan~2, Building Block \textsc{MetricFramework})}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We set up the metric ambient space $(\X,d_\X)$ of $L^1$-equivalence classes
+modulo translations, parametrize the torsion super-level sets by the volume
+radius, and prove the metric first-variation estimate~(T) for the rescaled
+curve $\rho\mapsto[F_\rho]\in\X$ in finite-perimeter generality, with no
+graph parametrization of $\partial^*E_\rho$. The proof has three ingredients:
+(i)~the Sobolev--Sard theorem of Figalli--Maggi 2011 (Appendix~A, Theorem~A.1),
+which makes the normal velocity $V_\rho=-t'(\rho)/|\nabla u|$ pointwise
+defined $\mathcal H^{n-1}$-a.e.\ on $\partial^*E_\rho$ for a.e.~$\rho$;
+(ii)~the moving-region first-variation calculus for smooth nested flows,
+extended to finite-perimeter levels by BV/coarea approximation, perimeter
+lower semicontinuity, Reshetnyak lower semicontinuity for linear-growth
+integrands, and the Ambrosio--Gigli--Savar\'e lower semicontinuity of the
+metric derivative; (iii)~the translation-volume identity for finite-perimeter
+sets, which shows that the translation infimum on the right-hand side of~(T)
+is precisely the metric-quotient cost. The centre field $z_\rho$ enters as
+an arbitrary Borel measurable map; in the downstream chain it is instantiated
+as the centroid $\bar z_\rho$ of $E_\rho$, supplied by Building Block
+\textsc{CentroidBound}. We state honestly that the pointwise-in-$\rho$
+squared form is conditional on a per-$\rho$ radial trace that is open in
+the no-graph setting; the paper downstream uses only the integrated form,
+proved unconditionally in Building Block \textsc{SpaceTimeIdentity}.
+\end{abstract}
+
+\section{Standing hypotheses}\label{sec:setup}
+
+Let $n\ge 2$ and let $\Om\subset\R^n$ be a bounded open set with
+$|\Om|=\omega_n=|B_1|$ and $\Om\subset B_R$. Let $u\in H^1_0(\Om)\cap
+C^{0,1}(\overline{\Om})$ be the torsion potential, the unique variational
+solution of
+\[
+   -\Delta u=1\quad\text{in }\Om,\qquad u=0\quad\text{on }\partial\Om.
+\]
+Standard elliptic regularity (Stampacchia, see e.g.\ \cite{Maggi2012} §26)
+gives $u\in W^{2,p}_{\rm loc}(\Om)$ for every $p<\infty$. Fix $\rstar\in(0,1)$.
+The volume-radius parametrization is
+\begin{equation}\label{eq:rho-param}
+   E_\rho:=\{u>t(\rho)\},\qquad |E_\rho|=\omega_n\rho^n,\qquad
+   \rho\in[\rstar,1],
+\end{equation}
+with $\rho\mapsto t(\rho)$ absolutely continuous on $[\rstar,1]$ and
+$t'(\rho)\le 0$ a.e. (Maggi's coarea formula, \cite{Maggi2012} Thm.~13.1
+and \cite{AFP2000} Thm.~3.40). For a.e.\ $\rho$, $E_\rho$ has finite
+perimeter, reduced boundary $\partial^*E_\rho$, outer unit normal $\nu_\rho$,
+and $P(E_\rho)=\mathcal H^{n-1}(\partial^*E_\rho)$. We write
+$P_\rho:=P(B_\rho)=n\omega_n\rho^{n-1}$.
+
+\section{The metric space $\X$ and the rescaled curve}\label{sec:X}
+
+\begin{definition}[$L^1$ modulo translations]\label{def:X}
+Let $\mathfrak M$ denote the set of $\mathcal L^n$-equivalence classes of
+characteristic functions $\mathbf 1_A$ with $|A|<\infty$, equipped with the
+$L^1$ distance $d_{L^1}(\mathbf 1_A,\mathbf 1_C)=|A\Delta C|$. The group
+$\R^n$ acts on $\mathfrak M$ by translation. The metric space
+$(\X,d_\X)$ is the quotient
+\begin{equation}\label{eq:X-def}
+   \X:=\mathfrak M/\R^n,\qquad
+   d_\X([A],[C]):=\inf_{a\in\R^n}|A\Delta(C+a)|.
+\end{equation}
+\end{definition}
+
+\begin{lemma}[Attainment of the translation infimum]\label{lem:attain}
+If $A,C\subset\R^n$ have finite measure and are both contained in some ball
+$B_M$, the infimum in~\eqref{eq:X-def} is attained at some
+$a_*\in\overline{B_{2M}}$.
+\end{lemma}
+
+\begin{proof}
+For $|a|\ge 2M$, $(C+a)\cap A=\emptyset$ and $|A\Delta(C+a)|=|A|+|C|$, which
+exceeds $|A|+|C|-|A\cap C|=|A\Delta C|+|A\cap C|\ge|A\Delta C|$, so the
+infimum is unchanged if we restrict to $a\in\overline{B_{2M}}$. The map
+$a\mapsto|A\Delta(C+a)|$ is continuous on $\R^n$ (by dominated convergence),
+hence attains its minimum on the compact set $\overline{B_{2M}}$.
+\end{proof}
+
+\begin{definition}[Rescaled curve]\label{def:F}
+For $\rho\in[\rstar,1]$, define the volume-rescaled level set and its class
+\[
+   F_\rho:=\rho^{-1}E_\rho\subset\R^n,\qquad [F_\rho]\in\X.
+\]
+\end{definition}
+
+By construction $|F_\rho|=\omega_n=|B_1|$ for all $\rho$. Since
+$E_\rho\subset B_R$, we have $F_\rho\subset B_{R/\rstar}$ uniformly in
+$\rho\in[\rstar,1]$, and Lemma~\ref{lem:attain} applies to all pairs
+$([F_{\rho_1}],[F_{\rho_2}])$.
+
+\begin{definition}[Metric derivative; Ambrosio--Gigli--Savar\'e
+{\cite[Thm.~1.1.2]{AGS2008}}]\label{def:AC}
+A curve $\gamma:I\to\X$ is absolutely continuous if there is $m\in L^1(I)$
+with $d_\X(\gamma(s),\gamma(\sigma))\le\int_\sigma^s m$ for
+$\sigma\le s$ in $I$. The metric derivative
+\[
+   |\dot\gamma|(\rho):=\lim_{h\to 0}\frac{d_\X(\gamma(\rho+h),\gamma(\rho))}{|h|}
+\]
+exists for a.e.\ $\rho\in I$ and is the smallest admissible $m$.
+\end{definition}
+
+\section{The normal velocity $V_\rho$ and the Sobolev--Sard step}\label{sec:V}
+
+For a.e.\ $\rho\in[\rstar,1]$, set
+\begin{equation}\label{eq:V-def}
+   V_\rho(x):=\frac{-t'(\rho)}{|\nabla u(x)|}\qquad
+   \text{for }x\in\partial^*E_\rho,\ |\nabla u|(x)>0.
+\end{equation}
+
+\begin{proposition}[Sobolev--Sard for $W^{2,p}_{\rm loc}$]\label{prop:sard}
+Let $p>n$. Then
+\begin{equation}\label{eq:sard}
+   \mathcal H^{n-1}\bigl(\partial^*E_\rho\cap\{|\nabla u|=0\}\bigr)=0
+   \qquad\text{for a.e.\ }\rho\in[\rstar,1].
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+By Stampacchia, $u\in W^{2,p}_{\rm loc}(\Om)$ for every $p<\infty$; fix any
+$p>n$. The Sobolev--Sard theorem of Figalli and Maggi
+\cite[Appendix~A, Thm.~A.1]{FigalliMaggi2011} states that for $u\in
+W^{2,p}_{\rm loc}$ with $p>n$, one has
+$\mathcal H^{n-1}(\{u=t\}\cap\{|\nabla u|=0\})=0$ for a.e.\
+$t\in(0,\|u\|_\infty)$. By the De Giorgi structure theorem,
+$\partial^*\{u>t\}\subset\{u=t\}$ up to an $\mathcal H^{n-1}$-null set for
+a.e.\ $t$ (\cite{Maggi2012} Thm.~15.9; \cite{AFP2000} Thm.~3.59).
+Reparametrizing by $\rho$ via~\eqref{eq:rho-param} yields~\eqref{eq:sard}.
+\end{proof}
+
+\begin{remark}[Backup citations]\label{rem:backup}
+The same statement is recorded in De Philippis--Marini--Mukoseeva 2021,
+Lemma~2.4, with a self-contained proof. The classical Brothers--Ziemer
+1988, Lemma~2.4, gives a $W^{2,p}$ Sard statement modulo a
+capacity-to-$\mathcal H^{n-1}$ conversion.
+\end{remark}
+
+\begin{corollary}[$V_\rho$ is pointwise defined and $L^1$]\label{cor:V-L1}
+For a.e.\ $\rho\in[\rstar,1]$, $V_\rho$ is an $\mathcal H^{n-1}$-a.e.\
+finite, strictly positive Borel function on $\partial^*E_\rho$, and
+\begin{equation}\label{eq:V-flux}
+   \int_{\partial^*E_\rho}V_\rho\,d\mathcal H^{n-1}
+   =\frac{d}{d\rho}|E_\rho|=n\omega_n\rho^{n-1}=:A_\rho.
+\end{equation}
+In particular $V_\rho\in L^1(\partial^*E_\rho,\mathcal H^{n-1})$.
+\end{corollary}
+
+\section{Centre fields}\label{sec:center}
+
+\begin{definition}[Borel centre field]\label{def:center}
+A \emph{centre field} for $\{E_\rho\}$ is a Borel-measurable map
+$z:[\rstar,1]\to\R^n$ with $\sup_\rho|z_\rho|\le R'$ for some
+$R'=R'(n,\rstar,R)$. For each $\rho\in[\rstar,1]$ and $x\in\partial^*E_\rho$,
+the associated \emph{homothetic velocity} is
+\begin{equation}\label{eq:H-def}
+   H_{z_\rho,\rho}(x):=\frac{(x-z_\rho)\cdot\nu_\rho(x)}{\rho}.
+\end{equation}
+\end{definition}
+
+\begin{remark}[Centre identification: present block uses the centroid]
+\label{rem:centroid}
+This building block treats $z_\rho$ as an abstract Borel centre field.
+Downstream the Plan~2 chain instantiates $z_\rho$ as the centroid
+$\bar z_\rho:=|E_\rho|^{-1}\int_{E_\rho}x\,dx$, supplied by Building Block
+\cite{CentroidBound}; that block establishes a quantitative $H^1$-type
+bound on $\rho\mapsto\bar z_\rho$.
+\end{remark}
+
+\section{The metric first-variation theorem (T)}\label{sec:T}
+
+\begin{theorem}[Metric first variation modulo translations]\label{thm:T}
+Under the standing hypotheses of Section~\ref{sec:setup} and for any Borel
+centre field $z=\{z_\rho\}$ with $\sup_\rho|z_\rho|\le R'<\infty$, the curve
+$\rho\mapsto[F_\rho]$ is absolutely continuous from $[\rstar,1]$ into
+$(\X,d_\X)$, and there is a constant $C_{n,\rstar,R}>0$ such that
+\begin{equation}\label{eq:T}
+   |\dot F_\rho|_\X
+   \le C_{n,\rstar,R}\inf_{a\in\R^n}
+       \int_{\partial^*E_\rho}\bigl|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho\bigr|
+       \,d\mathcal H^{n-1}
+\end{equation}
+for a.e.\ $\rho\in[\rstar,1]$.
+\end{theorem}
+
+\subsection{Smooth flows: the moving-region identity}\label{ss:T-smooth}
+
+Suppose temporarily that $\Om$ is smooth, $u\in C^\infty(\overline{\Om})$,
+and $|\nabla u|>0$ on the strip
+$\bigcup_{\rho\in[\rstar,1-\eta]}\partial E_\rho$ for some $\eta>0$. The
+homothety $\Psi_\rho(y):=z_\rho+\rho^{-1}(y-z_\rho)$ maps $E_\rho$ onto
+$z_\rho+\rho^{-1}(E_\rho-z_\rho)$.
+
+\begin{lemma}[Pulled-back normal velocity]\label{lem:W}
+In the smooth case, the normal velocity of the rescaled-and-translated flow
+$\rho\mapsto F_\rho-\rho a$, pulled back to $\partial E_\rho$ via
+$\Psi_\rho$, equals
+\begin{equation}\label{eq:W}
+   W_\rho^{z_\rho,a}:=\rho^{-1}\bigl(V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho\bigr)
+   \qquad\text{on }\partial E_\rho.
+\end{equation}
+\end{lemma}
+
+\begin{proposition}[Smooth case of (T)]\label{prop:T-smooth}
+In the smooth setting above,
+\begin{equation}\label{eq:T-smooth-X}
+   \limsup_{h\to 0}\frac{d_\X([F_{\rho+h}],[F_\rho])}{|h|}
+   \le \rstar^{-n}\inf_{a\in\R^n}\int_{\partial^*E_\rho}
+       \bigl|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho\bigr|\,d\mathcal H^{n-1}.
+\end{equation}
+\end{proposition}
+
+The proof is the first-variation identity \cite[\S17.3]{Maggi2012}
+applied to $\widetilde F_\rho:=F_\rho-\rho a$, followed by the homothety
+Jacobian (factor $\rho^{1-n}$) and the translation infimum.
+
+\subsection{BV/coarea approximation and finite-perimeter passage}\label{ss:T-bv}
+
+\begin{lemma}[Smooth approximation]\label{lem:approx}
+There exist $u_k\in C^\infty(\R^n)$ with $u_k\to u$ in $W^{1,p}(\R^n)$ for
+every $p\in(1,\infty)$ and $u_k\to u$ pointwise a.e. The associated
+super-level sets $E_t^k:=\{u_k>t\}$ and reparametrizations
+$|E_{\rho}^k|=\omega_n\rho^n$ via $t_k(\rho)$ satisfy, for a.e.\
+$\rho\in[\rstar,1]$,
+\[
+   E_\rho^k\to E_\rho\text{ in }L^1,\qquad
+   t_k(\rho)\to t(\rho),\qquad
+   P(E_\rho^k)\to P(E_\rho).
+\]
+\end{lemma}
+
+\begin{lemma}[Reshetnyak lower semicontinuity]\label{lem:resh}
+For every $z\in\R^n$ and $a\in\R^n$, the convex linear-growth integrand
+$\Phi(s,\nu):=|s-(x-z)\cdot\nu/\rho-a\cdot\nu|$ satisfies, for a.e.\
+$\rho\in[\rstar,1]$,
+\begin{equation}\label{eq:resh}
+   \liminf_{k\to\infty}\int_{\partial^*E_\rho^k}
+       \bigl|V_\rho^k-H_{z,\rho}-a\cdot\nu_\rho^k\bigr|\,d\mathcal H^{n-1}
+   \ge
+   \int_{\partial^*E_\rho}
+       \bigl|V_\rho-H_{z,\rho}-a\cdot\nu_\rho\bigr|\,d\mathcal H^{n-1}.
+\end{equation}
+\end{lemma}
+
+\begin{lemma}[AGS lower semicontinuity of the metric derivative]\label{lem:AGS}
+Let $\gamma_k:[\rstar,1]\to\X$ be AC curves with $\gamma_k(\rho)\to
+\gamma(\rho)$ in $\X$ for every $\rho$, and $|\dot\gamma_k|(\rho)\le m_k(\rho)$
+a.e.\ with $m_k\rightharpoonup m$ weakly in $L^1([\rstar,1])$. Then
+$\gamma$ is AC and $|\dot\gamma|(\rho)\le m(\rho)$ for a.e.\
+$\rho\in[\rstar,1]$. (\cite{AGS2008} Thm.~1.1.2)
+\end{lemma}
+
+\begin{proof}[Proof of Theorem~\ref{thm:T}]
+By Lemma~\ref{lem:approx}, after extracting a subsequence we may assume
+$E_\rho^k\to E_\rho$ in $L^1$ and $P(E_\rho^k)\to P(E_\rho)$ for a.e.\
+$\rho\in[\rstar,1]$. By Proposition~\ref{prop:T-smooth} applied to the
+smooth approximating flow $\{E_\rho^k\}$,
+\begin{equation}\label{eq:Tk}
+   |\dot F_\rho^k|_\X\le m_k(\rho):=\rstar^{-n}\inf_{a\in\R^n}
+   \int_{\partial^*E_\rho^k}\bigl|V_\rho^k-H_{z_\rho,\rho}-a\cdot\nu_\rho^k\bigr|
+   \,d\mathcal H^{n-1}.
+\end{equation}
+The sequence $\{m_k\}$ is uniformly bounded in $L^1$, so by Dunford--Pettis
+admits a weakly $L^1$-convergent subsequence $m_k\rightharpoonup m$. By
+Lemma~\ref{lem:resh}, $m(\rho)\ge\rstar^{-n}\inf_a\int_{\partial^*E_\rho}
+|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|$ for a.e.\ $\rho$. By
+Lemma~\ref{lem:AGS}, $\rho\mapsto[F_\rho]$ is AC and $|\dot F_\rho|_\X\le m(\rho)$
+a.e. This is~\eqref{eq:T} with $C_{n,\rstar,R}=\rstar^{-n}$.
+\end{proof}
+
+\section{Translations quotient kills the $a\cdot\nu_\rho$ mode}\label{sec:trans}
+
+\begin{lemma}[Translation derivative formula]\label{lem:trans-deriv}
+For every bounded set $E\subset\R^n$ of finite perimeter and every
+$a\in\R^n$,
+\begin{equation}\label{eq:trans-deriv}
+   \lim_{\eps\to 0}\frac{|E\Delta(E+\eps a)|}{\eps}
+   =\int_{\partial^*E}|a\cdot\nu_E|\,d\mathcal H^{n-1}.
+\end{equation}
+(\cite{Maggi2012} Thm.~13.8; \cite{AFP2000} Thm.~3.84.)
+\end{lemma}
+
+\section{Per-$\rho$ squared form: status and open issues}\label{sec:open}
+
+\subsection{Pointwise (per-$\rho$) version: conditional}
+
+If one assumes the per-$\rho$ radial trace bound (statement (R) of the
+Wave-1 audit, in the source notation \texttt{gmt-inputs-for-metric-closure.md}~(1.2))
+(statement (R)) and the homothetic velocity defect bound (2.4),
+\begin{equation}\label{eq:25}
+   \Bigl(\int_{\partial^*E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|
+   \,d\mathcal H^{n-1}\Bigr)^2\le C_{n,\rstar,R}D_I(t(\rho)),
+\end{equation}
+then Theorem~\ref{thm:T}, the triangle inequality, and Cauchy--Schwarz
+combine to give the pointwise per-$\rho$ squared bound
+\begin{equation}\label{eq:71}
+   |\dot F_\rho|_\X^2\le C_{n,\rstar,R}\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr).
+\end{equation}
+
+\begin{remark}[Honest status]\label{rem:status}
+The estimate \eqref{eq:25} is conditional on the pointwise (R), which is
+open in the no-graph setting. Consequently \eqref{eq:71} is \emph{conditional}
+and not used downstream.
+\end{remark}
+
+\subsection{Integrated version: unconditional}
+
+The Plan~2 paper closes the bound only in its $\mu$-integrated form:
+\begin{equation}\label{eq:int-form}
+   \int_{\rstar}^{1} |\dot F_\rho|_\X^2\,d\mu(\rho)
+   \le C_{n,\rstar,R}\,\delta_T(\Om),
+\end{equation}
+proved without per-$\rho$ (R) by the slicing-then-squaring of
+\cite{SpaceTimeIdentity}. The centre choice required is the centroid
+$\bar z_\rho$ of \cite{CentroidBound}.
+
+\section{Summary and use downstream}\label{sec:summary}
+
+\begin{theorem}[Statement of \textsc{MetricFramework}]\label{thm:main}
+Let $n\ge 2$, $0<\rstar<1$, and $R\ge 2$. Let $\Om\subset B_R$ be bounded
+open with $|\Om|=\omega_n$, let $u$ be its torsion potential, let $\{E_\rho\}$
+be the volume-radius foliation~\eqref{eq:rho-param}, and let
+$F_\rho:=\rho^{-1}E_\rho$ in $\X$. For every Borel centre field $z=\{z_\rho\}$
+with $\sup_\rho|z_\rho|\le R'$:
+\begin{itemize}
+\item the curve $\rho\mapsto[F_\rho]\in\X$ is absolutely continuous on
+$[\rstar,1]$;
+\item the normal velocity $V_\rho=-t'(\rho)/|\nabla u|$ is $\mathcal H^{n-1}$-a.e.\
+finite and positive on $\partial^*E_\rho$ for a.e.\ $\rho$;
+\item there is a constant $C_{n,\rstar,R}>0$ such that
+\[
+   |\dot F_\rho|_\X\le C_{n,\rstar,R}\inf_{a\in\R^n}
+   \int_{\partial^*E_\rho}\bigl|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho\bigr|
+   \,d\mathcal H^{n-1}\qquad\text{for a.e.\ }\rho\in[\rstar,1].
+\]
+\end{itemize}
+\end{theorem}
+
+\begin{thebibliography}{99}
+
+\bibitem{AGS2008}
+L.~Ambrosio, N.~Gigli, G.~Savar\'e,
+\emph{Gradient Flows in Metric Spaces and in the Space of Probability
+Measures}, 2nd ed., Birkh\"auser, 2008.
+
+\bibitem{AFP2000}
+L.~Ambrosio, N.~Fusco, D.~Pallara,
+\emph{Functions of Bounded Variation and Free Discontinuity Problems},
+Oxford, 2000.
+
+\bibitem{Maggi2012}
+F.~Maggi, \emph{Sets of Finite Perimeter and Geometric Variational
+Problems}, Cambridge, 2012.
+
+\bibitem{CL2012}
+M.~Cicalese, G.~P.~Leonardi, ARMA \textbf{206} (2012), 617--643.
+
+\bibitem{AFM2013}
+E.~Acerbi, N.~Fusco, M.~Morini, CMP \textbf{322} (2013), 515--557.
+
+\bibitem{FigalliMaggi2011}
+A.~Figalli, F.~Maggi, ARMA \textbf{201} (2011), 143--207. App.~A, Thm.~A.1.
+
+\bibitem{AubinFrankowska1990}
+J.-P.~Aubin, H.~Frankowska, \emph{Set-Valued Analysis}, Birkh\"auser, 1990.
+Theorem~8.2.11.
+
+\bibitem{LevelSetIdentity}
+\emph{Building Block} \textsc{LevelSetIdentity}, Plan~2.
+
+\bibitem{CentroidBound}
+\emph{Building Block} \textsc{CentroidBound}, Plan~2.
+
+\bibitem{SpaceTimeIdentity}
+\emph{Building Block} \textsc{SpaceTimeIdentity}, Plan~2.
+
+\end{thebibliography}
+
+\end{document}

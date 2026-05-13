@@ -16,6 +16,32 @@ Main files:
 - `nicola-tilli-stability-import.md/.tex/.pdf`: translation of STFT stability
   ideas into the torsion setting.
 - `analytic-native-route.md/.tex/.pdf`: harmonic/holomorphic native-space route.
+- `global-foliation-trace.md/.tex`: sharp Plan 2 branch using the whole outer
+  level-set foliation. It replaces the one-level boundary slab by a fixed
+  annular trace estimate in which \(D_H\) supplies radial kinetic energy and
+  \(D_I\) supplies angular coercivity.
+- `fvht-center-gluing-import.md`: import from Figalli--van Hintum--Tiba
+  `2501.04656v1.pdf`; records the overlap/gluing mechanism that prevents
+  level-wise centers from drifting and reformulates the outer foliation entry
+  lemma in a metric center-quotient form.
+- `outer-foliation-entry-proof-attempt.md`: current attempt at the full sharp
+  Plan 2 theorem. It introduces the sharp cutoff
+  \(\rho_\delta=1-\kappa\sqrt{\delta_T}\), proves the smooth coherent-foliation
+  theorem, imports FvHT center gluing, and isolates the remaining
+  finite-perimeter velocity-to-metric-derivative lemma.
+- `metric-finite-perimeter-closure.md`: no-graph version of the closure. It
+  works directly with the metric quotient of finite-perimeter level sets by
+  translations, derives the \(D_H\) velocity estimate intrinsically, uses a
+  strong isoperimetric oscillation-index input for the homothetic velocity
+  defect, and proves sharp Saint--Venant stability in the bounded class modulo
+  those standard GMT inputs.
+- `gmt-inputs-for-metric-closure.md`: expands the two GMT inputs in the metric
+  closure: homothetic velocity defect from strong isoperimetry and the
+  finite-perimeter \(L^1\)-metric first variation estimate.
+- `claude-agent-deployment.md`: task brief for deploying external agents on
+  the remaining Plan 2 checks, with separate assignments for the level-set
+  identity, strong isoperimetry input, metric first variation, weighted trace,
+  bounded assembly, and adversarial audit.
 - `concrete-next-steps.md/.tex/.pdf`: current action list.
 - `selected-boundary-layer-theorem.md/.tex/.pdf`: hybrid Plan 1/Plan 2
   implementation of the selected-minimizer boundary-layer strategy; proves the
@@ -30,15 +56,24 @@ Main files:
 
 Current focus:
 
-1. Prove a valid boundary-gradient/tame expansion for the conditional Bernoulli
-   spectral route, or use BDV's nearly spherical second variation for closure.
-   The earlier boundary-deficit propagation target
-   \(D_I(0)+D_H(0)\lesssim E(U)-E(B)\) is too strong on the full nearly
-   spherical class and is not currently proved on the selected class.
-2. Use the profile-gap lemma to choose near-boundary superlevel sets.
-3. Prove the finite-perimeter form of the level-set deficit identity.
-4. Test whether a GGRT-style second variation can be computed in a harmonic or
-   holomorphic native space after BDV selection.
+1. Prove the global foliation coercivity estimates in
+   `global-foliation-trace.md`: \(D_I\) controls the angular non-neutral modes,
+   \(D_H\) controls the radial derivative of those modes, and the fixed-annulus
+   trace recovers \(\mathcal A(\Omega)^2\) without the \(\eta\)-loss.
+2. Prove the outer foliation entry lemma using the FvHT center-gluing mechanism:
+   first glue block centers by overlap, then use the \(D_H\) velocity defect to
+   control the metric derivative of the level-set curve modulo translations.
+3. Prove the finite-perimeter velocity-to-metric-derivative lemma in
+   `outer-foliation-entry-proof-attempt.md`, using the strong
+   Fusco--Maggi--Pratelli/Fusco--Julin oscillation-index form of quantitative
+   isoperimetry for \(D_I\) and the Cauchy velocity identity for \(D_H\). This
+   is now the narrow replacement for the selection principle.
+4. Turn `gmt-inputs-for-metric-closure.md` into a citation-ready theorem by
+   pinning down the exact FMP/Fusco--Julin oscillation-index statement and the
+   BV/coarea approximation reference.
+5. Prove the finite-perimeter form of the level-set deficit identity.
+6. Keep the selected-minimizer boundary-layer and analytic/native-space routes
+   as backups or local models for the quadratic expansions.
 
 Cross-reference:
 

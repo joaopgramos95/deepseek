@@ -1,0 +1,709 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Fr}{\mathcal{A}}
+\newcommand{\Om}{\Omega}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dt}[1]{\frac{d#1}{d\rho}}
+\newcommand{\rstar}{\rho_{*}}
+
+\title{Exact Deficit Identity on Reduced-Boundary Level Sets\\
+       (Route~$\delta$, Plan~2, Building Block \textsc{LevelSetIdentity})}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We prove that for every open set $\Om\subset\R^{n}$ of finite measure, with
+$u=u_{\Om}\in H^{1}_{0}(\Om)$ the variational torsion function and
+$E_{t}:=\{u>t\}$, $m(t):=|E_{t}|$, the Saint--Venant deficit admits the
+exact representation
+\[
+   \frac{2}{|\Om|}\bigl(E(\Om)-E(B)\bigr)
+   =\frac{1}{|\Om|}\int_{0}^{\|u\|_{\infty}}
+     \frac{D_{H}(t)+D_{I}(t)}{n^{2}\omega_{n}^{2/n}\,m(t)^{1-2/n}}\,dt,
+\]
+where $B$ is the ball with $|B|=|\Om|$, $D_{H}(t)$ is the Cauchy--Schwarz
+defect of $|\nabla u|$ on the reduced boundary $\partial^{*}E_{t}$, and
+$D_{I}(t)$ is the squared-perimeter isoperimetric defect of $E_{t}$. The
+proof rests on four ingredients which all hold on reduced boundaries for
+a.e.\ level: (i) the BV coarea identity for $-m'(t)$, (ii) a weak
+divergence-flux identity proved by Lipschitz truncation, (iii) the
+distributional second derivative of the rearranged primitive $I(s)=\int_{0}^{s}
+u^{*}$, in the corrected form $I''=-1/\alpha$ with
+$\alpha=\int_{\partial^{*}E_{t}}|\nabla u|^{-1}$, and (iv) the endpoint
+convexity gap together with the P\'olya--Szeg\H{o} identification of the
+ball energy. No graph regularity, no BDV selection, no smoothness of
+$\partial\Om$, and no boundedness or connectedness of $\Om$ are used. The
+identity is the foundational input for the downstream Plan~2 blocks
+\cite{MetricFramework,SpaceTimeIdentity,WeightedMetricTrace,
+BoundaryLayerTransfer,GlobalAssembly}.
+\end{abstract}
+
+\section{Notation and standing hypotheses}\label{sec:notation}
+
+Throughout $n\ge 2$. We fix the following objects and use them without
+further comment.
+
+\begin{itemize}
+\item $\Om\subset\R^{n}$ open with $|\Om|<\infty$. No connectedness,
+smoothness, or boundedness is assumed.
+
+\item $u=u_{\Om}\in H^{1}_{0}(\Om)$ is the variational torsion function,
+i.e.\ the unique minimizer of $J(v)=\tfrac12\int|\nabla v|^{2}-\int v$
+over $H^{1}_{0}(\Om)$; equivalently the weak solution of
+$-\Delta u=1$ in $\Om$, $u=0$ on $\partial\Om$ (in the $H^{1}_{0}$ trace
+sense). Testing against $u^{-}$ yields $u\ge 0$ a.e.\ by the weak
+maximum principle.
+
+\item $E(\Om):=-\tfrac12\int_{\Om}u\,dx=-\tfrac12 T(\Om)$, where
+$T(\Om)$ is the torsional rigidity.
+
+\item $B\subset\R^{n}$ is the open ball with $|B|=|\Om|$, radius
+$R:=(|\Om|/\omega_{n})^{1/n}$, $\omega_{n}=|B_{1}|$. The function
+$u_{B}$ is the torsion function of $B$.
+
+\item For $t\ge 0$, $E_{t}:=\{u>t\}$ (the precise representative as in
+\cite[\S 15]{Maggi2012}), $m(t):=|E_{t}|$. The function $m$ is
+right-continuous, nonincreasing, with $m(0^{+})\le|\Om|$ and
+$m(\|u\|_{\infty})=0$.
+
+\item $u^{*}\colon[0,|\Om|]\to[0,\|u\|_{\infty}]$ is the decreasing
+rearrangement, $u^{*}(s):=\inf\{t\ge 0:m(t)\le s\}$, in the convention of
+\cite{Kawohl1985,Talenti1976}.
+
+\item $\partial^{*}E_{t}$ denotes the De~Giorgi reduced boundary, with
+$\mathcal H^{n-1}(\partial E_{t}\setminus\partial^{*}E_{t})=0$ for a.e.\
+$t$ \cite{DeGiorgi1958}.
+
+\item We set
+\[
+   \alpha(t):=\int_{\partial^{*}E_{t}}|\nabla u|^{-1}\,d\mathcal H^{n-1},
+   \qquad
+   \beta(t):=\int_{\partial^{*}E_{t}}|\nabla u|\,d\mathcal H^{n-1},
+\]
+defined for a.e.\ $t$ (see Lemma~\ref{lem:coarea}--\ref{lem:flux}), and
+$c_{n}:=n^{2}\omega_{n}^{2/n}$.
+\end{itemize}
+
+\paragraph{Talenti $L^{\infty}$ bound.} By the Talenti pointwise
+comparison \cite{Talenti1976},
+\begin{equation}\label{eq:talenti}
+   u^{*}_{\Om}(s)\le u^{*}_{B}(s)
+   =\frac{R^{2}-(s/\omega_{n})^{2/n}}{2n},
+   \qquad s\in[0,|\Om|],
+\end{equation}
+so $\|u\|_{L^{\infty}(\Om)}\le R^{2}/(2n)<\infty$. This is the only
+reason boundedness of $\Om$ is not needed at the analytic level.
+
+\paragraph{Coarea applicability.} Since $u\in H^{1}_{0}(\Om)\subset
+BV_{\rm loc}(\R^{n})$ (extended by $0$) and $u\in L^{\infty}$, the BV
+coarea formula \cite[Thm.~13.1]{Maggi2012}, \cite[Thm.~3.40]{AFP2000}
+gives, for every Borel $\varphi\ge 0$,
+\begin{equation}\label{eq:coarea}
+   \int_{\Om}|\nabla u|\,\varphi\,dx
+   =\int_{-\infty}^{\infty}\Bigl(\int_{\partial^{*}E_{t}}\varphi\,d\mathcal
+   H^{n-1}\Bigr)\,dt.
+\end{equation}
+The set
+\[
+   \mathcal R:=\bigl\{t\in(0,\|u\|_{\infty}):
+   P(E_{t})<\infty,\ \partial^{*}E_{t}\subset\Om\bigr\}
+\]
+has full Lebesgue measure in $(0,\|u\|_{\infty})$; Sobolev--Sard
+\cite[App.~A, Thm.~A.1]{FigalliMaggi2011} additionally gives
+$\mathcal H^{n-1}(\{u=t\}\cap\{|\nabla u|=0\})=0$ for a.e.\ $t$, but is
+not used below since all integrals are on reduced boundaries.
+Statements ``for a.e.\ $t$'' below refer to a.e.\ $t\in\mathcal R$.
+
+\section{Coarea identity for $-m'(t)$}\label{sec:coarea}
+
+\begin{lemma}[Coarea form of $-m'$]\label{lem:coarea}
+For a.e.\ $t\in(0,\|u\|_{\infty})$,
+\begin{equation}\label{eq:L1}
+   -m'(t)
+   =\int_{\partial^{*}E_{t}}\frac{1}{|\nabla u|}\,d\mathcal H^{n-1}
+   =\alpha(t).
+\end{equation}
+In particular $m$ is absolutely continuous on $[\eps,\|u\|_{\infty}]$ for
+every $\eps>0$, and $\alpha\in L^{1}_{\rm loc}((0,\|u\|_{\infty}))$.
+\end{lemma}
+
+\begin{proof}
+Fix $0<\alpha_{0}<\beta_{0}<\|u\|_{\infty}$ and apply~\eqref{eq:coarea}
+to the Borel function $\varphi=|\nabla u|^{-1}
+\mathbf 1_{\{|\nabla u|>0\}}\mathbf 1_{[\alpha_{0},\beta_{0}]}(u)$. By
+\cite[Thm.~13.1]{Maggi2012},
+\[
+   \int_{\Om}\mathbf 1_{\{\alpha_{0}<u<\beta_{0}\}}\,dx
+   =\int_{\alpha_{0}}^{\beta_{0}}
+     \Bigl(\int_{\partial^{*}E_{t}}|\nabla u|^{-1}\,d\mathcal H^{n-1}
+     \Bigr)dt,
+\]
+because the integrand on the left equals
+$|\nabla u|\cdot|\nabla u|^{-1}\mathbf 1_{\{|\nabla u|>0\}}
+\mathbf 1_{\{\alpha_{0}<u<\beta_{0}\}}$ and the contribution of
+$\{|\nabla u|=0\}$ to the BV coarea slicing vanishes \cite[3.40(b)]{AFP2000}.
+The left-hand side equals $m(\alpha_{0})-m(\beta_{0})$ outside the at
+most countably many plateau levels of $u$ (levels $t$ with $|\{u=t\}|>0$;
+each such plateau contributes a jump of $m$, and $m$ is monotone, so
+these are at most countably many). Differentiating in $\beta_{0}$ at
+a.e.\ $\beta_{0}$ yields~\eqref{eq:L1}.
+\end{proof}
+
+\begin{remark}\label{rem:plateaus}
+At the countable set of plateau levels~\eqref{eq:L1} is not asserted; the
+Lebesgue integral in the main theorem absorbs them trivially.
+\end{remark}
+
+\section{Weak divergence-flux identity}\label{sec:flux}
+
+\begin{lemma}[Flux $=$ volume]\label{lem:flux}
+For a.e.\ $t\in(0,\|u\|_{\infty})$, $E_{t}$ has finite perimeter and
+\begin{equation}\label{eq:L2}
+   \beta(t)=
+   \int_{\partial^{*}E_{t}}|\nabla u|\,d\mathcal H^{n-1}
+   =m(t).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Fix $t\in\mathcal R$ with $|E_{t}|<\infty$, $P(E_{t})<\infty$, and $u$
+not having a plateau at $t$ (all these hold for a.e.\ $t$).
+
+\smallskip\noindent
+\emph{Step 1 (Lipschitz truncation).}
+For each $\eps>0$ set
+\[
+   \phi_{\eps}(s):=\min\bigl(1,\max(0,s/\eps)\bigr),
+   \qquad
+   \eta_{\eps}(x):=\phi_{\eps}\bigl(u(x)-t\bigr).
+\]
+Since $\phi_{\eps}$ is Lipschitz with $\phi_{\eps}(0)=0$ and
+$u\in H^{1}_{0}(\Om)$, one has $\eta_{\eps}\in H^{1}_{0}(\Om)$. Testing
+the weak equation $-\Delta u=1$ in $H^{1}_{0}(\Om)$ against $\eta_{\eps}$
+gives
+\begin{equation}\label{eq:weakform}
+   \int_{\Om}\nabla u\cdot\nabla\eta_{\eps}\,dx
+   =\int_{\Om}\eta_{\eps}\,dx.
+\end{equation}
+The chain rule for Sobolev compositions \cite[Thm.~3.99]{AFP2000} gives
+$\nabla\eta_{\eps}=\eps^{-1}\nabla u\,\mathbf 1_{\{t<u<t+\eps\}}$, so
+\[
+   \int_{\Om}\nabla u\cdot\nabla\eta_{\eps}\,dx
+   =\frac{1}{\eps}\int_{\{t<u<t+\eps\}}|\nabla u|^{2}\,dx.
+\]
+
+\smallskip\noindent
+\emph{Step 2 (Coarea on the right of~\eqref{eq:weakform}).}
+Apply~\eqref{eq:coarea} with
+$\varphi=|\nabla u|\,\mathbf 1_{(t,t+\eps)}\circ u$:
+\[
+   \int_{\{t<u<t+\eps\}}|\nabla u|^{2}\,dx
+   =\int_{t}^{t+\eps}\Bigl(\int_{\partial^{*}E_{\tau}}
+      |\nabla u|\,d\mathcal H^{n-1}\Bigr)d\tau
+   =\int_{t}^{t+\eps}\beta(\tau)\,d\tau.
+\]
+
+\smallskip\noindent
+\emph{Step 3 (Limit on the left of~\eqref{eq:weakform}).}
+$\eta_{\eps}\to\mathbf 1_{E_{t}}$ pointwise as $\eps\downarrow 0$
+(away from the level set $\{u=t\}$, which has Lebesgue measure zero
+since $t$ is not a plateau) and $0\le\eta_{\eps}\le 1$, so by dominated
+convergence $\int_{\Om}\eta_{\eps}\to|E_{t}|=m(t)$.
+
+\smallskip\noindent
+\emph{Step 4 (Limit on the right).}
+The map $\tau\mapsto\beta(\tau)$ belongs to $L^{1}_{\rm loc}((0,\|u\|_{\infty}))$:
+by~\eqref{eq:coarea} with $\varphi=|\nabla u|\,\mathbf 1_{(0,\|u\|_{\infty})}\circ u$,
+\[
+   \int_{0}^{\|u\|_{\infty}}\beta(\tau)\,d\tau
+   =\int_{\Om}|\nabla u|^{2}\,dx
+   =\int_{\Om}u\,dx<\infty,
+\]
+the last identity being the Dirichlet identity obtained by testing
+$-\Delta u=1$ against $u\in H^{1}_{0}(\Om)$. At every Lebesgue point of
+$\beta$, hence for a.e.\ $t$,
+\[
+   \frac{1}{\eps}\int_{t}^{t+\eps}\beta(\tau)\,d\tau
+   \xrightarrow[\eps\downarrow 0]{}\beta(t).
+\]
+
+\smallskip\noindent
+\emph{Step 5.} Combining Steps 1--4 with~\eqref{eq:weakform} yields
+$\beta(t)=m(t)$ for a.e.\ $t$.
+\end{proof}
+
+\begin{remark}[Formal divergence-theorem reading]\label{rem:divergence}
+The argument of Lemma~\ref{lem:flux} is the rigorous BV/Lipschitz-truncation
+replacement for the formal divergence theorem on $E_{t}$:
+$\nabla u\cdot\nu_{E_{t}}=-|\nabla u|$ on $\partial^{*}E_{t}$ (since
+$u>t$ inside), so $-\Delta u=1$ would give
+\[
+   m(t)=\int_{E_{t}}1\,dx=-\int_{E_{t}}\Delta u\,dx
+   =-\int_{\partial^{*}E_{t}}\nabla u\cdot\nu_{E_{t}}\,d\mathcal H^{n-1}
+   =\beta(t).
+\]
+Without a boundary trace of $\nabla u$ on $\partial^{*}E_{t}$, the
+Lipschitz truncation above is what makes this rigorous on arbitrary
+finite-perimeter level sets \cite[Ch.~17]{Maggi2012}.
+\end{remark}
+
+\begin{remark}[Integrated Dirichlet identity]
+Integrating~\eqref{eq:L2} against $dt$ and using~\eqref{eq:coarea}
+recovers the Dirichlet identity
+$\int_{0}^{\|u\|_{\infty}}\beta(t)\,dt=\int_{\Om}|\nabla u|^{2}
+=\int_{\Om}u=2|E(\Om)|$ used above. Lemma~\ref{lem:flux} is its
+pointwise level-wise version.
+\end{remark}
+
+\section{Distributional derivatives of the rearranged primitive}
+\label{sec:Iprimitive}
+
+Define
+\begin{equation}\label{eq:Idef}
+   I(s):=\int_{\{u>u^{*}(s)\}}u\,dx,\qquad s\in[0,|\Om|].
+\end{equation}
+The following three lemmas identify $I$ with a one-dimensional primitive
+of $u^{*}$ and compute its second distributional derivative in the form
+used by the deficit identity.
+
+\begin{lemma}[Layer-cake form of $I$]\label{lem:I3a}
+For every $s\in[0,|\Om|]$,
+\begin{equation}\label{eq:L3a}
+   I(s)=\int_{0}^{s}u^{*}(\sigma)\,d\sigma.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By equimeasurability of $u$ and $u^{*}$ on $(0,|\Om|)$
+\cite[\S 2]{Kawohl1985}, \cite{Talenti1976},
+$\int_{\Om}g(u)\,dx=\int_{0}^{|\Om|}g(u^{*}(\sigma))\,d\sigma$ for every
+Borel $g\ge 0$. Choose $g(t)=t\,\mathbf 1_{\{t>u^{*}(s)\}}$; since
+$\{\sigma\in(0,|\Om|):u^{*}(\sigma)>u^{*}(s)\}=(0,s)$ up to null sets by
+the very definition of $u^{*}$, we obtain
+\[
+   I(s)=\int_{\Om}g(u)\,dx
+       =\int_{0}^{|\Om|}g(u^{*}(\sigma))\,d\sigma
+       =\int_{0}^{s}u^{*}(\sigma)\,d\sigma.
+\]
+\end{proof}
+
+\begin{lemma}[First derivative]\label{lem:I3b}
+$I$ is absolutely continuous on $[0,|\Om|]$ and $I'(s)=u^{*}(s)$ for
+a.e.\ $s\in(0,|\Om|)$.
+\end{lemma}
+
+\begin{proof}
+By~\eqref{eq:talenti} $u^{*}\in L^{\infty}(0,|\Om|)$; in particular
+$u^{*}$ is bounded and Borel, hence in $L^{1}(0,|\Om|)$. By
+Lemma~\ref{lem:I3a}, $I$ is the indefinite integral of $u^{*}$, so the
+Lebesgue differentiation theorem gives the claim.
+\end{proof}
+
+\begin{lemma}[Second derivative --- corrected form]\label{lem:I3c}
+The rearrangement $u^{*}$ is absolutely continuous on
+$[s_{0},|\Om|-\eps]$ for every $0<s_{0}<|\Om|-\eps<|\Om|$, and
+\begin{equation}\label{eq:L3c}
+   I''(s)=(u^{*})'(s)
+   =\frac{1}{m'(u^{*}(s))}
+   =-\frac{1}{\alpha(u^{*}(s))}
+   \qquad\text{for a.e.\ }s\in(0,|\Om|).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+$m$ is right-continuous, nonincreasing, and (Lemma~\ref{lem:coarea})
+absolutely continuous on $[\eps,\|u\|_{\infty}]$ for every $\eps>0$,
+with $m'(t)=-\alpha(t)$ a.e. The plateau levels of $u$ (countable, by
+monotonicity of $m$) are the levels where $m$ jumps; outside them, $m$
+is strictly decreasing on its domain of strict monotonicity, hence its
+right-continuous generalized inverse $u^{*}$ is also strictly
+decreasing and absolutely continuous on closed subintervals of
+$(0,|\Om|)$. Differentiating $m(u^{*}(s))=s$ at a.e.\ $s$ via the
+inverse-function theorem for monotone AC functions \cite[Thm.~3.99]{AFP2000},
+\cite{BBC1975} gives~\eqref{eq:L3c}.
+\end{proof}
+
+\begin{remark}[Notational fix vs.\ the source note]\label{rem:fix}
+The companion note `level-set-deficit-identity.md' wrote the second
+derivative as $I''(s)=-1/a(u^{*}(s))$ with $a(t):=\int_{\partial^{*}E_{t}}
+|\nabla u|$, i.e.\ with $\beta$ in place of $\alpha$. By
+Lemma~\ref{lem:flux} we have $\beta(t)=m(t)$, so this would give
+$I''=-1/m$ --- correct only when $|\nabla u|$ is constant on
+$\partial^{*}E_{t}$, i.e.\ on the ball, where Cauchy--Schwarz is sharp.
+The general identity is~\eqref{eq:L3c}; the discrepancy between
+$\alpha$ and $\beta$ is precisely the Cauchy--Schwarz defect $D_{H}$
+introduced below, and replacing $\alpha$ by $\beta$ in $I''$ would
+silently delete $D_{H}$ from the deficit identity. We use
+the $\alpha$ form throughout.
+\end{remark}
+
+\paragraph{Cauchy--Schwarz.} The two integrals
+$\alpha(t)=\int_{\partial^{*}E_{t}}|\nabla u|^{-1}\,d\mathcal H^{n-1}$
+and $\beta(t)=\int_{\partial^{*}E_{t}}|\nabla u|\,d\mathcal H^{n-1}$ are
+linked by Cauchy--Schwarz on $\partial^{*}E_{t}$ applied to the pair
+$(|\nabla u|^{1/2},|\nabla u|^{-1/2})$,
+\begin{equation}\label{eq:CS}
+   P(E_{t})^{2}=\Bigl(\int_{\partial^{*}E_{t}}1\,d\mathcal H^{n-1}\Bigr)^{2}
+   \le\alpha(t)\beta(t),
+\end{equation}
+with equality iff $|\nabla u|$ is $\mathcal H^{n-1}$-a.e.\ constant on
+$\partial^{*}E_{t}$.
+
+\section{Endpoint convexity gap and the deficit identity}
+\label{sec:main}
+
+Following the Nicola--Tilli convexity-gap idea adapted to torsion,
+introduce
+\begin{equation}\label{eq:Gdef}
+   G(s):=I(s)+\frac{s^{1+2/n}}{(4+2n)\,\omega_{n}^{2/n}},
+   \qquad s\in[0,|\Om|].
+\end{equation}
+The second derivative of the polynomial corrector is computed directly:
+$\frac{d^{2}}{ds^{2}}\frac{s^{1+2/n}}{(4+2n)\omega_{n}^{2/n}}
+=\frac{1}{c_{n}s^{1-2/n}}$, with $c_{n}=n^{2}\omega_{n}^{2/n}$.
+
+\begin{lemma}[Pointwise convexity formula]\label{lem:Gpp}
+For a.e.\ $s\in(0,|\Om|)$, with $t=u^{*}(s)$,
+\begin{equation}\label{eq:Gpp}
+   G''(s)
+   =\frac{1}{c_{n}\,s^{1-2/n}}-\frac{1}{\alpha(t)}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Lemmas~\ref{lem:I3b}, \ref{lem:I3c} give $G''=I''+\frac{1}{c_{n}s^{1-2/n}}
+=-1/\alpha(t)+\frac{1}{c_{n}s^{1-2/n}}$, which is~\eqref{eq:Gpp}.
+\end{proof}
+
+\begin{definition}[Two pointwise defects]\label{def:DHDI}
+For a.e.\ $t\in(0,\|u\|_{\infty})$ set
+\begin{align}
+   D_{H}(t)&:=\alpha(t)\,\beta(t)-P(E_{t})^{2}
+            =\Bigl(\!\int_{\partial^{*}E_{t}}\!\!\tfrac{1}{|\nabla u|}\Bigr)
+              \Bigl(\!\int_{\partial^{*}E_{t}}\!\!|\nabla u|\Bigr)-P(E_{t})^{2},
+              \label{eq:DH-def}\\[1mm]
+   D_{I}(t)&:=P(E_{t})^{2}-c_{n}\,m(t)^{2-2/n}.
+              \label{eq:DI-def}
+\end{align}
+By~\eqref{eq:CS}, $D_{H}(t)\ge 0$, with equality iff $|\nabla u|$ is
+constant on $\partial^{*}E_{t}$. By the De~Giorgi isoperimetric
+inequality \cite{DeGiorgi1958}, $P(E_{t})\ge n\omega_{n}^{1/n}|E_{t}|^{1-1/n}$
+with equality iff $E_{t}$ is (equivalent to) a ball, hence
+$D_{I}(t)\ge 0$ with equality iff $E_{t}$ is a ball.
+\end{definition}
+
+\begin{lemma}[Pointwise-to-integrated convexity identity]\label{lem:cov}
+With $L:=|\Om|$,
+\begin{equation}\label{eq:cov}
+   \int_{0}^{L}s\,G''(s)\,ds
+   =\int_{0}^{\|u\|_{\infty}}\frac{D_{H}(t)+D_{I}(t)}{c_{n}\,m(t)^{1-2/n}}\,dt.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+From~\eqref{eq:Gpp},
+\[
+   \int_{0}^{L}s\,G''(s)\,ds
+   =\int_{0}^{L}s\Bigl(\frac{1}{c_{n}s^{1-2/n}}-\frac{1}{\alpha(u^{*}(s))}\Bigr)ds.
+\]
+Change variable $s=m(t)$, $ds=m'(t)\,dt=-\alpha(t)\,dt$ on the
+strictly-decreasing branch of $m$ (the at most countable plateau levels
+of $u$ are an $\mathcal L^{1}$-null set in $t$, contributing zero):
+\[
+   \int_{0}^{L}s\,G''(s)\,ds
+   =\int_{0}^{\|u\|_{\infty}}\!m(t)\Bigl(\frac{1}{c_{n}m(t)^{1-2/n}}-
+      \frac{1}{\alpha(t)}\Bigr)\alpha(t)\,dt
+   =\int_{0}^{\|u\|_{\infty}}\Bigl(
+      \frac{m(t)\alpha(t)}{c_{n}m(t)^{1-2/n}}-m(t)\Bigr)dt.
+\]
+Use $m(t)=\beta(t)$ (Lemma~\ref{lem:flux}) and add and subtract
+$P(E_{t})^{2}/(c_{n}m(t)^{1-2/n})$ in the integrand:
+\[
+   \frac{m(t)\alpha(t)}{c_{n}m(t)^{1-2/n}}-m(t)
+   =\frac{\alpha(t)\beta(t)-c_{n}m(t)^{2-2/n}}{c_{n}m(t)^{1-2/n}}
+   =\frac{D_{H}(t)+D_{I}(t)}{c_{n}m(t)^{1-2/n}}.
+\]
+Substituting yields~\eqref{eq:cov}.
+\end{proof}
+
+\paragraph{Endpoint identification.} With $L:=|\Om|$ define
+\begin{equation}\label{eq:Gammadef}
+   \Gamma(\Om):=G'(L)-\frac{G(L)}{L}.
+\end{equation}
+
+\begin{lemma}[Endpoint convexity-gap formula]\label{lem:gap}
+$\Gamma(\Om)=\frac{1}{L}\int_{0}^{L}s\,G''(s)\,ds$.
+\end{lemma}
+
+\begin{proof}
+$G\in W^{2,1}_{\rm loc}((0,L])$ and $G(0)=I(0)=0$. Integration by parts
+on $(\eps,L)$:
+\[
+   \int_{\eps}^{L}s\,G''(s)\,ds
+   =\bigl[s\,G'(s)\bigr]_{\eps}^{L}-\int_{\eps}^{L}G'(s)\,ds
+   =L\,G'(L)-\eps\,G'(\eps)-G(L)+G(\eps).
+\]
+By Lemma~\ref{lem:I3b}, $G'(s)=u^{*}(s)+\frac{s^{2/n}}{2n\omega_{n}^{2/n}}$,
+which is bounded; hence $\eps G'(\eps)\to 0$ and $G(\eps)\to G(0)=0$ as
+$\eps\downarrow 0$. Dividing by $L$ gives the claim.
+\end{proof}
+
+\begin{lemma}[Endpoint value]\label{lem:endpoint}
+\begin{equation}\label{eq:endpoint}
+   \Gamma(\Om)=\frac{2}{|\Om|}\bigl(E(\Om)-E(B)\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+At $s=L$, $u^{*}(L)=0$. By Lemma~\ref{lem:I3a},
+$I(L)=\int_{0}^{L}u^{*}=\int_{\Om}u\,dx$, so
+\[
+   \frac{G(L)}{L}=\frac{1}{L}\int_{\Om}u\,dx
+                  +\frac{L^{2/n}}{(4+2n)\omega_{n}^{2/n}}.
+\]
+By Lemma~\ref{lem:I3b}, $I'(L)=u^{*}(L)=0$, so $G'(L)=
+\frac{L^{2/n}}{2n\omega_{n}^{2/n}}$. Hence
+\[
+   \Gamma(\Om)
+   =\frac{L^{2/n}}{2n\omega_{n}^{2/n}}
+    -\frac{L^{2/n}}{(4+2n)\omega_{n}^{2/n}}
+    -\frac{1}{L}\int_{\Om}u\,dx
+   =\frac{L^{2/n}}{2n(n+2)\omega_{n}^{2/n}}-\frac{1}{L}\int_{\Om}u\,dx.
+\]
+The same computation for $u_{B}$ on $\Om=B$ (where equality holds
+throughout because $D_{H},D_{I}\equiv 0$ on $B$) gives
+$\Gamma(B)=0$, i.e.\
+$\frac{L^{2/n}}{2n(n+2)\omega_{n}^{2/n}}=\frac{1}{L}\int_{B}u_{B}\,dx$.
+Subtracting,
+\[
+   \Gamma(\Om)
+   =\frac{1}{L}\Bigl(\int_{B}u_{B}\,dx-\int_{\Om}u\,dx\Bigr)
+   =\frac{2}{L}\bigl(E(\Om)-E(B)\bigr),
+\]
+using $E(\Om)=-\tfrac12\int_{\Om}u$. The identification of $\Gamma(B)$
+with the radial computation is the classical P\'olya--Szeg\H{o} content
+\cite{PolyaSzego1951}, \cite[\S II.5]{Bandle1980}.
+\end{proof}
+
+\begin{theorem}[Exact deficit identity on reduced-boundary level sets]
+\label{thm:main}
+Let $\Om\subset\R^{n}$ be open with $|\Om|<\infty$ and $u\in H^{1}_{0}(\Om)$
+the variational torsion function. Then for a.e.\ $t\in(0,\|u\|_{\infty})$,
+the set $E_{t}=\{u>t\}$ has finite perimeter, the identities
+\eqref{eq:L1}, \eqref{eq:L2}, \eqref{eq:L3c} hold, and
+\begin{equation}\label{eq:main}
+   \boxed{\;
+   \frac{2}{|\Om|}\bigl(E(\Om)-E(B)\bigr)
+   =\frac{1}{|\Om|}\int_{0}^{\|u\|_{\infty}}
+     \frac{D_{H}(t)+D_{I}(t)}{n^{2}\omega_{n}^{2/n}\,m(t)^{1-2/n}}\,dt,\;}
+\end{equation}
+where $D_{H},D_{I}$ are defined in~\eqref{eq:DH-def}--\eqref{eq:DI-def}.
+Both $D_{H}(t)\ge 0$ and $D_{I}(t)\ge 0$ a.e.
+\end{theorem}
+
+\begin{proof}
+Combine Lemmas~\ref{lem:cov}, \ref{lem:gap}, \ref{lem:endpoint}.
+\end{proof}
+
+\section{Cauchy--Schwarz / isoperimetric interpretation}
+\label{sec:CS}
+
+The two defects $D_{H}$ and $D_{I}$ are exactly the two convexity gaps
+combined by the P\'olya--Szeg\H{o} symmetrization of the spectral
+profile.
+
+\begin{itemize}
+\item By Cauchy--Schwarz on $\partial^{*}E_{t}$ applied to
+$(|\nabla u|^{1/2},|\nabla u|^{-1/2})$, $D_{H}(t)=\alpha(t)\beta(t)-P(E_{t})^{2}
+\ge 0$ with equality iff $|\nabla u|$ is $\mathcal H^{n-1}$-a.e.\ constant
+on $\partial^{*}E_{t}$. This is a level-set Serrin condition: it forces
+the gradient of the torsion function to be constant on each (a.e.)
+reduced-boundary level surface.
+
+\item By the De~Giorgi isoperimetric inequality
+$P(E_{t})\ge n\omega_{n}^{1/n}|E_{t}|^{1-1/n}$
+\cite{DeGiorgi1958,Maggi2012}, squaring gives
+$D_{I}(t)=P(E_{t})^{2}-c_{n}m(t)^{2-2/n}\ge 0$, with equality iff
+$E_{t}$ is (equivalent to) a ball.
+
+\item Their weighted sum, integrated against
+$dt/(c_{n}m(t)^{1-2/n})$, equals $\frac{2}{|\Om|}(E(\Om)-E(B))$.
+Rigidity in~\eqref{eq:main} therefore forces, simultaneously and for
+a.e.\ $t\in(0,\|u\|_{\infty})$, both an overdetermined Serrin-type
+condition ($|\nabla u|$ level-constant) and sphericality of
+$\partial^{*}E_{t}$, i.e.\ the Saint--Venant rigidity of the ball.
+\end{itemize}
+
+\begin{remark}[Weighted variance form of $D_{H}$]\label{rem:variance}
+Writing $f:=|\nabla u|$ on $\partial^{*}E_{t}$ and
+$\bar f:=m(t)/P(E_{t})$,
+\[
+   \int_{\partial^{*}E_{t}}\frac{(f-\bar f)^{2}}{f}\,d\mathcal H^{n-1}
+   =\frac{m(t)}{P(E_{t})^{2}}\,D_{H}(t),
+\]
+so small $D_{H}(t)$ says that $|\nabla u|$ is almost constant on
+$\partial^{*}E_{t}$ in the natural weighted $L^{2}(1/f)$ sense
+\cite{BrothersZiemer1988}. This is the precise bridge to the
+overdetermined Serrin variance defect used downstream
+\cite{SpaceTimeIdentity,WeightedMetricTrace}.
+\end{remark}
+
+\section{Discussion and failure modes}\label{sec:discussion}
+
+We collect the regularity assumptions that are \emph{not} used and the
+ones that are, since the latter is the precise input the downstream
+blocks rely on.
+
+\begin{enumerate}
+\item \emph{$\Om$ need not be bounded.} The only consequence of finite
+measure is the Talenti $L^{\infty}$ bound~\eqref{eq:talenti}, which is
+enough to make $u^{*}$ bounded and to make $\beta\in L^{1}$ on
+$(0,\|u\|_{\infty})$ via the Dirichlet identity. Boundedness
+$\Om\subset B_{R}$ enters only later in the metric closure
+\cite{MetricFramework,WeightedMetricTrace}, where strong isoperimetry
+with radial trace control is used.
+
+\item \emph{$\Om$ need not be smooth.} Lemmas~\ref{lem:coarea} and
+\ref{lem:flux} use BV coarea and Lipschitz truncation; neither requires
+$\partial\Om$ to be a manifold. There is no need for a one-sided trace
+of $\nabla u$ on $\partial^{*}E_{t}$ (cf.\ Remark~\ref{rem:divergence}).
+
+\item \emph{$\Om$ need not be connected.} The torsion function
+decouples across connected components and the identity is additive in
+the obvious sense (the $dt$ integral pools all components).
+
+\item \emph{The identity is a.e., not pointwise.} Lemmas~\ref{lem:coarea},
+\ref{lem:flux}, \ref{lem:I3c} hold for $t$ outside an $\mathcal L^{1}$-null
+set of bad levels: at most countably many plateau levels of $u$ (where
+$|\{u=t\}|>0$), the Sobolev--Sard exceptional set, and BV-coarea
+exceptional levels. Levels in this null set are absorbed by the $dt$
+integral.
+
+\item \emph{All integrals are on reduced boundaries.} The cusps,
+self-tangencies, and the unreduced part of $\partial E_{t}$ are
+$\mathcal H^{n-1}$-null on the complement of $\partial^{*}E_{t}$ at
+a.e.\ level \cite{DeGiorgi1958, Maggi2012}, hence contribute nothing.
+No graph parametrization of $\partial^{*}E_{t}$ is used or available
+in general.
+
+\item \emph{The corrected $I''$.} The use of $\alpha$ rather than
+$\beta$ in Lemma~\ref{lem:I3c} is essential. The naive guess
+$I''=-1/\beta=-1/m$ holds only on the ball, where $|\nabla u|$ is
+level-constant and Cauchy--Schwarz is sharp; in general it would erase
+$D_{H}$ from the identity~\eqref{eq:main}. See Remark~\ref{rem:fix}.
+\end{enumerate}
+
+\paragraph{Forward references.} Theorem~\ref{thm:main} is the input
+identity for the rest of the Plan~2 chain. The metric framework
+\cite{MetricFramework} extracts a first-variation/velocity defect from
+the integrated $D_{H}+D_{I}$. The centroid bound
+\cite{CentroidBound} pins the natural centre to the centroid of
+$u$. The space--time identity \cite{SpaceTimeIdentity} squares the
+slicing $T_{1}=T_{1}^{\rm rad,slic}+T_{1}^{\rm tan}$ to convert the
+integrated defect into the (B$^{2}$-int) bound. The weighted metric
+trace \cite{WeightedMetricTrace} promotes integrated action to a
+pointwise endpoint at $\widehat\rho$. The boundary-layer transfer
+\cite{BoundaryLayerTransfer} carries control on $E_{\widehat\rho}$ back
+to $\Om$ via Lemma~8.3 of the source note, and the global assembly
+\cite{GlobalAssembly} closes the chain with bounded reduction and the
+Kohler--Jobin transfer to the Faber--Krahn deficit.
+
+\paragraph{What is genuinely new vs.\ cited.} The BV coarea, the
+divergence theorem on sets of finite perimeter, the rearrangement
+framework, and the P\'olya--Szeg\H{o} identification of $\Gamma(B)=0$
+are all standard \cite{Maggi2012,AFP2000,Talenti1976,Kawohl1985,
+PolyaSzego1951,Bandle1980}. The novel contributions are: (a) the
+combined finite-perimeter statement of the deficit identity on reduced
+boundaries for a.e.\ level, written without any selection or graph-entry
+assumption; (b) the Lipschitz-truncation proof of Lemma~\ref{lem:flux},
+replacing the formal trace $\nabla u\cdot\nu_{E_{t}}=-|\nabla u|$;
+and (c) the corrected $I''=-1/\alpha$ in Lemma~\ref{lem:I3c}, required
+for the deficit identity to hold off the ball.
+
+\begin{thebibliography}{99}
+
+\bibitem{AFP2000} L.~Ambrosio, N.~Fusco, D.~Pallara,
+\emph{Functions of Bounded Variation and Free Discontinuity Problems},
+Oxford Math.\ Monogr., Oxford Univ.\ Press, 2000. Thm.~3.40 (coarea),
+Thm.~3.99 (chain rule).
+
+\bibitem{Bandle1980} C.~Bandle, \emph{Isoperimetric Inequalities and
+Applications}, Pitman, 1980. Ch.~II.
+
+\bibitem{BBC1975} P.~B\'enilan, H.~Brezis, M.~G.~Crandall,
+\emph{A semilinear equation in $L^{1}(\R^{N})$}, J.~Anal.\ Math.\
+\textbf{27} (1975) (BV chain rule for monotone AC inverses).
+
+\bibitem{BrothersZiemer1988} J.~E.~Brothers, W.~P.~Ziemer,
+\emph{Minimal rearrangements of Sobolev functions}, J.~Reine
+Angew.~Math.\ \textbf{384} (1988), 153--179.
+
+\bibitem{DeGiorgi1958} E.~De~Giorgi,
+\emph{Sulla propriet\`a isoperimetrica dell'ipersfera, nella classe degli
+insiemi aventi frontiera orientata di misura finita}, Atti Accad.~Naz.\
+Lincei \textbf{5} (1958), 33--44.
+
+\bibitem{FigalliMaggi2011} A.~Figalli, F.~Maggi,
+\emph{On the shape of liquid drops and crystals in the small mass
+regime}, Arch.~Ration.\ Mech.\ Anal.\ \textbf{201} (2011),
+143--207. App.~A, Thm.~A.1 (Sobolev--Sard).
+
+\bibitem{Kawohl1985} B.~Kawohl, \emph{Rearrangements and Convexity of
+Level Sets in PDE}, Lecture Notes in Math.\ \textbf{1150}, Springer,
+1985.
+
+\bibitem{Maggi2012} F.~Maggi, \emph{Sets of Finite Perimeter and
+Geometric Variational Problems: an Introduction to Geometric Measure
+Theory}, Cambridge Stud.\ Adv.\ Math.\ \textbf{135}, Cambridge Univ.\
+Press, 2012. Ch.~13 (coarea), Ch.~17 (divergence on finite-perimeter
+sets), Ch.~19 (rigidity).
+
+\bibitem{PolyaSzego1951} G.~P\'olya, G.~Szeg\H{o},
+\emph{Isoperimetric Inequalities in Mathematical Physics}, Princeton
+Univ.\ Press, 1951.
+
+\bibitem{Talenti1976} G.~Talenti,
+\emph{Elliptic equations and rearrangements}, Ann.\ Mat.\ Pura Appl.\
+\textbf{110} (1976), 353--372.
+
+\bibitem{MetricFramework} \emph{Metric Framework: $\mathcal X$,
+first variation, per-$\rho$ velocity defect}, Plan~2 building block
+\textsc{MetricFramework}.
+
+\bibitem{CentroidBound} \emph{$H^{1}$ centroid bound}, Plan~2 building
+block \textsc{CentroidBound}.
+
+\bibitem{SpaceTimeIdentity} \emph{Space--time $\Pi$ identity and
+(B$^{2}$-int) via slicing-then-squaring}, Plan~2 building block
+\textsc{SpaceTimeIdentity}.
+
+\bibitem{WeightedMetricTrace} \emph{Integrated action to pointwise
+endpoint at $\widehat\rho$}, Plan~2 building block
+\textsc{WeightedMetricTrace}.
+
+\bibitem{BoundaryLayerTransfer} \emph{Boundary-layer transfer:
+$E_{\widehat\rho}\to\Om$, bounded sharp Saint--Venant}, Plan~2 building
+block \textsc{BoundaryLayerTransfer}.
+
+\bibitem{GlobalAssembly} \emph{Bounded reduction and Kohler--Jobin
+transfer to sharp Faber--Krahn}, Plan~2 building block
+\textsc{GlobalAssembly}.
+
+\end{thebibliography}
+
+\end{document}

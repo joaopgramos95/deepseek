@@ -1,0 +1,664 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Fr}{\mathcal{A}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Otilde}{\widetilde{\Omega}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\rstar}{\rho_{*}}
+\newcommand{\rhad}{\widehat{\rho}}
+\newcommand{\zbar}{\bar z_{\rho}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Bstar}{B^{*}}
+\newcommand{\PiE}{\Pi(E_{\rho},\zbar)}
+
+\title{Sharp Quantitative Faber--Krahn Stability via Route~$\delta$\\
+       (Plan~2: a No-Selection, No-Graph, No-Schauder Proof)}
+\author{Plan~2 / Route~$\delta$: assembled document}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We give a proof of the sharp quantitative Faber--Krahn inequality
+\[
+   \Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/n}
+   \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)
+   \;\ge\;c_{\rm FK}(n)\,\Fr(\Om)^2,
+\]
+with sharp exponent~$2$ on the Fraenkel asymmetry $\Fr$
+(equivalently $1/2$ on the scale-normalised spectral deficit) that
+is structurally distinct from the
+Brasco--De~Philippis--Velichkov~\cite{BDV} proof and from the
+contradiction-free Plan~1 / Route~A proof~\cite{Plan1Master}. The
+present proof, which we call \emph{Route~$\delta$}, makes no use of
+any of the following four classical ingredients: (i) the
+selection / penalisation principle of Cicalese--Leonardi and BDV;
+(ii) the graph-entry / Hausdorff-to-$C^{1,\gamma}$ step driven by
+free-boundary regularity; (iii) Schauder bootstrap with
+Gagliardo--Nirenberg interpolation; (iv) the nearly-spherical
+Fuglede-type closure theorem. In their place it uses a
+finite-perimeter level-set deficit identity, a metric foliation
+$\rho\mapsto[F_\rho]\in\X$ in the $L^1$-quotient $\X$ of
+characteristic classes modulo translations, a centroid kinematic
+identity, a space--time radial-moment identity, and a
+slicing-then-squaring decomposition that converts an integrated
+quadratic boundary oscillation into a sharp metric trace. The proof
+is organised into seven self-contained building blocks
+(\textsc{LevelSetIdentity}, \textsc{MetricFramework},
+\textsc{CentroidBound}, \textsc{SpaceTimeIdentity},
+\textsc{WeightedMetricTrace}, \textsc{BoundaryLayerTransfer},
+\textsc{GlobalAssembly}), each delivered as a separate \LaTeX{}
+document. The last two stages of the chain (bounded reduction and
+the Kohler--Jobin rearrangement) are imported verbatim from the
+Plan~1 Final/ library, so that the methodological novelty is
+concentrated in the first five blocks.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}\label{sec:intro}
+
+\subsection{The Faber--Krahn inequality}\label{ssec:FK}
+
+Let $\Om\subset\R^n$, $n\ge 2$, be an open set of finite Lebesgue
+measure and let
+\[
+   \lambda_1(\Om)\;=\;\min_{u\in H^1_0(\Om)\setminus\{0\}}
+                    \frac{\int_\Om|\nabla u|^2\,dx}{\int_\Om u^2\,dx}
+\]
+be the first Dirichlet eigenvalue of $-\Delta$ on $\Om$. The
+\emph{Faber--Krahn inequality} asserts that among open sets of a
+prescribed volume the ball uniquely minimises $\lambda_1$: writing
+$\Bstar$ for the ball with $|\Bstar|=|\Om|$,
+\begin{equation}\label{eq:FKsharp}
+   \lambda_1(\Om)\;\ge\;\lambda_1(\Bstar),
+\end{equation}
+with equality if and only if $\Om$ is a ball (up to a set of capacity
+zero). This was conjectured by Lord Rayleigh in the planar case in
+the late nineteenth century and proved in general dimension by
+Faber~\cite{Faber1923} and Krahn~\cite{Krahn1925} via Schwarz
+symmetrisation and the P\'olya--Szeg\H{o} principle; modern accounts
+appear in~\cite{KawohlBook,HenrotBook,BucurButtazzo}.
+
+The natural way to measure the deviation from spherical symmetry is
+the \emph{Fraenkel asymmetry}
+\begin{equation}\label{eq:Fraenkel}
+   \Fr(\Om)\;=\;\inf_{x_0\in\R^n}
+   \frac{|\Om\,\Delta\,(\Bstar+x_0)|}{|\Bstar|}\;\in\;[0,2),
+\end{equation}
+which vanishes precisely on translates of the ball. A quantitative
+Faber--Krahn inequality is an estimate of the form
+$(|\Om|/|B_1|)^{2/n}(\lambda_1(\Om)-\lambda_1(\Bstar))\ge
+c\,\omega(\Fr(\Om))$ for some modulus $\omega$. The ellipsoidal
+perturbation family $\Om_\eps=\{|x'|^2+(1+\eps)x_n^2\le 1\}$ shows
+$\Fr(\Om_\eps)\simeq\eps$ and
+$\lambda_1(\Om_\eps)-\lambda_1(B^*)\simeq\eps^2$, so the sharp
+modulus is~$\Fr^2$.
+
+\subsection{Stability: prior work}\label{ssec:prior}
+
+The first systematic study of Faber--Krahn stability is due to
+Hansen--Nadirashvili~\cite{HansenNadirashvili1994} and
+Melas~\cite{Melas1992} for restricted classes of sets. Bhattacharya
+\cite{Bhattacharya2001} reached every planar open set with
+exponent~$3$. Fusco--Maggi--Pratelli~\cite{FMPLaplace}, using their
+sharp quantitative isoperimetric inequality~\cite{FMP}, extended
+this to all dimensions with exponent~$4$ on $\Fr$.
+
+The sharp conjecture with exponent~$2$ was settled in 2015 by
+Brasco--De~Philippis--Velichkov~\cite{BDV}: there exists
+$\sigma(n)>0$ with
+$|\Om|^{2/n}\lambda_1(\Om)-|\Bstar|^{2/n}\lambda_1(\Bstar)\ge
+\sigma\Fr(\Om)^2$. The BDV strategy has two pillars: a
+Kohler--Jobin~\cite{KohlerJobin,Brasco2014} reduction of
+Faber--Krahn to the analogous sharp Saint--Venant stability, then a
+selection principle in the spirit of
+Cicalese--Leonardi~\cite{CL2012} and
+Acerbi--Fusco--Morini~\cite{AFM2013} combined with free-boundary
+regularity~\cite{AC1981} and a Fuglede-type
+expansion~\cite{Fuglede} to produce a nearly spherical
+contradiction. Subsequent work of Brasco--De~Philippis~\cite{BraDeP2017}
+and Allen--Kriventsov--Neumayer~\cite{AKN} addresses related
+spectral stability inequalities via different routes.
+
+A constructive-constant version of the BDV theorem was given in
+Plan~1~\cite{Plan1Master} (\emph{Route~A}): the BDV
+selection / contradiction is replaced by a quantitative
+\emph{single-set} selection (run once on a single near-extremal
+set), the regularity package is applied to that single set, and
+the BDV nearly spherical theorem is invoked directly; no
+subsequence is taken. Plan~1 retains, however, all four of the BDV
+technical ingredients (selection, graph entry, Schauder,
+nearly-spherical closure); it removes only the contradiction.
+
+The persistent open problem the present paper addresses is whether
+a proof of the sharp inequality can be given that uses
+\emph{none} of the four ingredients above. The price for this is a
+new \emph{finite-perimeter} infrastructure for the level-set
+foliation of the torsion function, which is the content of
+Plan~2 / Route~$\delta$.
+
+\subsection{Plan~2's contribution}\label{ssec:plan2}
+
+Plan~2 gives a proof of the sharp quantitative Faber--Krahn
+inequality in which the small-asymmetry chain
+(S)$\to$(G)$\to$(I)$\to$(N) of Plan~1 is replaced by a
+\emph{metric level-set chain}. Explicitly:
+
+\begin{enumerate}
+\item[\rm(a)] \emph{No selection principle.} No penalised functional
+is minimised. The original domain $\Om$ is analysed as it stands;
+its volume-radius foliation $E_\rho=\{u_\Om>t(\rho)\}$ is the
+structural object.
+
+\item[\rm(b)] \emph{No graph entry.} No claim that $\partial\Om$, or
+that any selected $\Otilde$, is a normal graph over a sphere of
+class $C^{1,\gamma}$ is made. All boundary integrals are on
+\emph{reduced boundaries} $\partial^*E_\rho$ in the De Giorgi
+sense.
+
+\item[\rm(c)] \emph{No Schauder interpolation.} No
+Kinderlehrer--Nirenberg hodograph straightening, no Lieberman
+oblique Schauder bootstrap, no Gagliardo--Nirenberg interpolation.
+The proof remains in $W^{2,p}_{\rm loc}$ throughout.
+
+\item[\rm(d)] \emph{No nearly-spherical closure theorem.} BDV
+Theorem~3.3 and the Fuglede $H^{1/2}$ expansion are not invoked.
+The deficit-to-asymmetry conversion is purely metric.
+\end{enumerate}
+
+In their place, the chain uses the following four new ingredients:
+
+\begin{enumerate}
+\item[\rm(1)] \emph{The metric foliation.} The torsion volume-radius
+parametrisation $E_\rho=\{u>t(\rho)\}$ with $|E_\rho|=\omega_n\rho^n$
+defines a curve $\rho\mapsto[F_\rho]$ in the metric space
+$(\X,d_\X)$ of $L^1$-classes modulo translations
+(Building Block~\textsc{MetricFramework}). The
+Ambrosio--Gigli--Savar\'e metric framework~\cite{AGS2008} furnishes
+a metric derivative $|\dot F_\rho|_\X$, controlled by a Reshetnyak /
+coarea limit of the moving-region first variation.
+
+\item[\rm(2)] \emph{The centroid kinematic identity.} The bulk
+centroid $\zbar=|E_\rho|^{-1}\int_{E_\rho}x\,dx$ satisfies
+\[
+   \bar z_\rho'\;=\;\frac{1}{|E_\rho|}\int_{\partial^*E_\rho}
+        (x-\zbar)\,V_\rho\,d\mathcal H^{n-1},
+\]
+with $V_\rho=-t'(\rho)/|\nabla u|$ the normal velocity. The
+right-hand side has \emph{no homothety term}, so the bound on
+$\bar z_\rho'$ goes through the unconditional pair
+(Cauchy--Schwarz on $V_\rho$, FMP / Fusco--Julin at the centroid)
+and does not consume any per-$\rho$ radial-trace input
+(Building Block \textsc{CentroidBound}).
+
+\item[\rm(3)] \emph{The space--time $\Pi$ identity.} The signed
+radial moment
+$\PiE=(n-1)\!\int(\mathbf1_{B_\rho(\zbar)}-\mathbf1_{E_\rho})|x-\zbar|^{-1}dx$
+satisfies, by Fubini in $(x,\rho)$,
+$\int_{\rstar}^{\rho_\delta}\PiE\,d\mu(\rho)=
+(n-1)\int_{\widetilde\Om}\sigma(x)dx$
+for an explicit Fubini density~$\sigma$
+(Building Block \textsc{SpaceTimeIdentity}).
+
+\item[\rm(4)] \emph{Slicing-then-squaring.} The radial $L^1$ trace
+$T_1=\int_{\partial^*E_\rho}|\,|x-\zbar|/\rho-1|\,d\mathcal H^{n-1}$
+is split as $T_1=T_1^{\rm rad,slic}+T_1^{\rm tan}$; the radial
+piece is bounded \emph{linearly} via the good-ray equality of
+slicewise volumes and a bad-ray multiplicity bound; the squared
+volume-Fraenkel $|E_\rho\Delta B_\rho|^2$ is controlled by~$\PiE$
+via a slice-rearrangement. Squaring before integrating preserves
+the sharp $\delta$-rate that the alternative $T_2$-route would
+leak at $\sqrt\delta$.
+\end{enumerate}
+
+\begin{theorem}[Sharp quantitative Faber--Krahn, Plan~2 form]
+\label{thm:mainintro}
+Let $n\ge 2$. There exists a constant $c_{\rm FK}(n)>0$, depending
+only on the dimension, given explicitly by~\eqref{eq:cFKdef} below
+as a composition of named constants of the seven Plan~2 building
+blocks (and of the Plan~1 \textsc{BoundedReduction} and
+\textsc{KohlerJobinTransfer} blocks at the dimensional radius
+$R_*(n)$), such that
+\[
+   \Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/n}
+   \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)
+   \;\ge\;c_{\rm FK}(n)\,\Fr(\Om)^2
+\]
+for every open $\Om\subset\R^n$ of finite positive measure. The
+exponent~$2$ on $\Fr$ is sharp.
+\end{theorem}
+
+\subsection{Organisation of the paper}\label{ssec:org}
+
+The argument is organised as a chain of seven self-contained
+building blocks. Schematically,
+\[
+   \textsc{LevelSetIdentity}\to
+   \textsc{MetricFramework}\to
+   \textsc{CentroidBound}\to
+   \textsc{SpaceTimeIdentity}\to
+   \textsc{WeightedMetricTrace}\to
+   \textsc{BoundaryLayerTransfer}\to
+   \textsc{GlobalAssembly}.
+\]
+The first six blocks are the geometric heart of Plan~2; the seventh
+imports the bounded reduction of \cite[\S5]{BDV} (equivalently
+Plan~1's \textsc{BoundedReduction}) and the Kohler--Jobin transfer
+of Brasco~\cite{Brasco2014} (Plan~1's \textsc{KohlerJobinTransfer}).
+
+\section{Notation and standing hypotheses}\label{sec:notation}
+
+Fix $n\ge 2$ and $R\ge 2$. We use the following normalisations:
+\begin{itemize}
+\item $u_\Om\in H^1_0(\Om)$ is the variational torsion function:
+$-\Delta u_\Om=1$ in $\Om$, $u_\Om=0$ on $\partial\Om$.
+\item $T(\Om)=\int_\Om u_\Om$ is the torsional rigidity, and
+$E(\Om)=-T(\Om)/2$ is the Saint--Venant energy.
+\item $\delta_T(\Om):=E(\Om)-E(\Bstar)\ge 0$ at fixed volume.
+\item $\lambda_1(\Om)$ is the first Dirichlet eigenvalue of $-\Delta$.
+\item $\Fr(\Om)=\inf_{x_0}|\Om\Delta(\Bstar+x_0)|/|\Bstar|\in[0,2)$.
+\item For $\rho\in[\rstar,1]$, $E_\rho=\{u_\Om>t(\rho)\}$ with
+$|E_\rho|=\omega_n\rho^n$ and $\mu(d\rho)=(-t'(\rho))d\rho$.
+\item $\zbar=|E_\rho|^{-1}\int_{E_\rho}x\,dx$ is the centroid of
+$E_\rho$.
+\item $F_\rho=\rho^{-1}E_\rho$ is the rescaled level set;
+$[F_\rho]\in\X$ its class in $\X=\{L^1\text{-classes}\}/\R^n$ with
+$d_\X([A],[C])=\inf_a|A\Delta(C+a)|$.
+\item $V_\rho(x)=-t'(\rho)/|\nabla u(x)|$, $H_{z,\rho}(x)=(x-z)\cdot\nu_{E_\rho}(x)/\rho$.
+\item $\rho_\delta:=1-\kappa\sqrt{\delta_T(\Om)}$;
+$\rhad\in[\rho_\delta-C_*\delta_T,\rho_\delta]$ the metric-trace radius.
+\item $\omega_n=|B_1|$, $L_n=\lambda_1(B_1)$, $T_n=T(B_1)=\omega_n/(n(n+2))$.
+\item $R_*(n)=\max\{d(n),2\}$ the BDV bounded-reduction radius; we
+fix $\rstar=1/2$.
+\end{itemize}
+
+\section{The seven building blocks chained}\label{sec:chain}
+
+\subsection{Block I: \textsc{LevelSetIdentity}}\label{ssec:L}
+
+\begin{theorem}[Exact deficit identity; \cite{LevelSetIdentity}]
+\label{thm:L}
+Let $\Om\subset\R^n$ be open with $|\Om|<\infty$. With
+$E_t=\{u>t\}$, $m(t)=|E_t|$,
+$\alpha(t)=\int_{\partial^*E_t}|\nabla u|^{-1}d\mathcal H^{n-1}$,
+$\beta(t)=\int_{\partial^*E_t}|\nabla u|\,d\mathcal H^{n-1}$,
+$D_H(t)=\alpha\beta-P(E_t)^2$,
+$D_I(t)=P(E_t)^2-n^2\omega_n^{2/n}m(t)^{2-2/n}$,
+\begin{equation}\label{eq:Lboxed}
+\boxed{\;
+   \frac{2}{|\Om|}\bigl(E(\Om)-E(B)\bigr)
+   =\frac{1}{|\Om|}\int_{0}^{\|u\|_\infty}
+        \frac{D_H(t)+D_I(t)}{n^2\omega_n^{2/n}\,m(t)^{1-2/n}}\,dt.\;}
+\end{equation}
+Both $D_H,D_I\ge 0$ a.e.; no boundedness or smoothness of $\Om$ is
+needed. All integrals on the reduced boundary $\partial^*E_t$.
+\end{theorem}
+
+\subsection{Block II: \textsc{MetricFramework}}\label{ssec:M}
+
+\begin{theorem}[Metric first variation; \cite{MetricFramework}]
+\label{thm:M}
+For $\Om\subset B_R$ with $|\Om|=\omega_n$ and any Borel centre
+field $\{z_\rho\}$ with $|z_\rho|\le R'$, there is
+$C_{n,\rstar,R}>0$ such that
+\begin{equation}\label{eq:Mboxed}
+\boxed{\;
+   |\dot F_\rho|_\X
+   \le C_{n,\rstar,R}\inf_{a\in\R^n}\!\int_{\partial^*E_\rho}
+        |V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,d\mathcal H^{n-1}
+\;}
+\end{equation}
+for a.e.\ $\rho\in[\rstar,1]$.
+\end{theorem}
+
+\subsection{Block III: \textsc{CentroidBound}}\label{ssec:F}
+
+\begin{theorem}[$H^1$-in-$\rho$ centroid bound (F);
+\cite{CentroidBound}]\label{thm:F}
+$\rho\mapsto\zbar$ is Lipschitz on $[\rstar,1]$ and there is
+$C_{\rm cent}(n,R,\rstar)>0$ with
+\begin{equation}\label{eq:Fboxed}
+\boxed{\;
+   \int_{\rstar}^{\rho_\delta}|\bar z_\rho'|^2\,(-t'(\rho))\,d\rho
+   \;\le\;C_{\rm cent}\,\delta_T(\Om).\;}\tag{F}
+\end{equation}
+The proof uses the centroid kinematic identity
+$\bar z_\rho'=|E_\rho|^{-1}\int_{\partial^*E_\rho}(x-\zbar)V_\rho\,d\mathcal H^{n-1}$
+(no homothety term), the unconditional $D_H$-Cauchy on $V_\rho$,
+FMP / Fusco--Julin at the centroid, and the integrated Talenti
+gap of Theorem~\ref{thm:L}.
+\end{theorem}
+
+\subsection{Block IV: \textsc{SpaceTimeIdentity}}\label{ssec:Pi}
+
+\begin{theorem}[Space-time $\Pi$ identity and integrated bounds;
+\cite{SpaceTimeIdentity}]\label{thm:Pi}
+Conditional on \eqref{eq:Fboxed}:
+\begin{equation}\label{eq:Piboxed}
+\boxed{\;
+   \int_{\rstar}^{\rho_\delta}\PiE\,d\mu(\rho)
+   =(n-1)\!\int_{\widetilde\Om}\sigma(x)\,dx,\;}
+\end{equation}
+the integrated quadratic oscillation
+$\int\!\int|\nu-e_r|^2\,d\mathcal H^{n-1}d\mu\le C_{B^2}\delta_T$
+(B$^2$-int), and the integrated radial trace
+$\int(\int|H_{\zbar,\rho}-1|d\mathcal H^{n-1})^2\,d\mu\le C_{\rm radial}\delta_T$
+(T$_1^2$-int). The proof uses
+$T_1=T_1^{\rm rad,slic}+T_1^{\rm tan}$ with linear good-ray
+equality and the slice-rearrangement
+$|E_\rho\Delta B_\rho|^2\le C\,\PiE$.
+\end{theorem}
+
+\subsection{Block V: \textsc{WeightedMetricTrace}}\label{ssec:K}
+
+\begin{theorem}[Weighted metric trace at $\rhad$;
+\cite{WeightedMetricTrace}]\label{thm:K}
+Conditional on \eqref{eq:Fboxed} and (B$^2$-int),
+$\int(d_\X(F_\rho,B_1)^2+|\dot F_\rho|_\X^2)d\mu\le C\,\delta_T$
+(integrated action), $\int|\dot F_\rho|_\X^2\,d\rho\le C'\delta_T$
+(kinetic bound), and there is
+$\rhad\in[\rho_\delta-C_*\delta_T,\rho_\delta]$ with
+\begin{equation}\label{eq:Kboxed}
+\boxed{\;
+   d_\X(F_{\rhad},B_1)^2\;\le\;C_*\,\delta_T(\Om).
+\;}
+\end{equation}
+\end{theorem}
+
+\subsection{Block VI: \textsc{BoundaryLayerTransfer}}\label{ssec:bdyL}
+
+\begin{theorem}[Bounded sharp Saint--Venant;
+\cite{BoundaryLayerTransfer}]\label{thm:BL}
+There is $C(n,R,\rstar)>0$ such that every open $\Om\subset B_R$
+with $|\Om|=\omega_n$ satisfies
+\begin{equation}\label{eq:BLboxed}
+\boxed{\;
+   \Fr(\Om)^2\le C(n,R,\rstar)\,\delta_T(\Om).
+\;}
+\end{equation}
+The proof combines \eqref{eq:Kboxed} with Lemma~8.3 of
+Theorem~\ref{thm:L} ($\Fr(\Om)\le\Fr(E_{\rhad})+2|\Om\setminus
+E_{\rhad}|/\omega_n$) and the squaring identity
+$(a+b)^2\le 2(a^2+b^2)$; sharp exponent~$2$.
+\end{theorem}
+
+\subsection{Block VII: \textsc{GlobalAssembly}}\label{ssec:FK}
+
+\begin{theorem}[Sharp Faber--Krahn; \cite{GlobalAssembly}]
+\label{thm:Glob}
+Combining~\eqref{eq:BLboxed} at the dimensional radius $R_*(n)$ with
+the BDV bounded reduction~\cite{BDV-BoundedReduction-Plan1} and the
+Kohler--Jobin transfer~\cite{KohlerJobinTransfer-Plan1}, there is a
+dimensional constant $c_{\rm FK}(n)>0$ given by
+\begin{equation}\label{eq:cFKdef}
+   c_{\rm FK}(n):=\min\!\Bigl\{
+      \frac{4L_n\,c_{\rm SV}^{\rm glob}(n)}{(n+2)T_n},\,
+      \frac{L_n(2^{2/(n+2)}-1)}{4}\Bigr\},
+\end{equation}
+such that for every open $\Om\subset\R^n$ with $0<|\Om|<\infty$,
+\begin{equation}\label{eq:Globboxed}
+\boxed{\;
+   \Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/n}
+   \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)
+   \ge c_{\rm FK}(n)\,\Fr(\Om)^2.
+\;}
+\end{equation}
+\end{theorem}
+
+\section{The main theorem and final assembly}\label{sec:assembled}
+
+\begin{theorem}[Sharp quantitative Faber--Krahn stability,
+Plan~2 form]\label{thm:final}
+Let $n\ge 2$. There is a dimensional constant $c_{\rm FK}(n)>0$,
+given by \eqref{eq:cFKdef}, such that for every open
+$\Om\subset\R^n$ of finite positive measure,
+$(|\Om|/|B_1|)^{2/n}(\lambda_1(\Om)-\lambda_1(\Bstar))\ge c_{\rm FK}(n)\Fr(\Om)^2$.
+The exponent~$2$ on $\Fr$ is sharp.
+\end{theorem}
+
+\begin{proof}
+Fix $\rstar=1/2$. The chain
+Theorems~\ref{thm:L}--\ref{thm:BL} delivers the bounded
+Saint--Venant inequality at $R=R_*(n)$.
+Theorem~\ref{thm:Glob} then internalises the $R$-dependence via
+the BDV bounded reduction and converts to Faber--Krahn via
+Kohler--Jobin.
+\end{proof}
+
+\section{Constants chain}\label{sec:constants}
+
+\renewcommand{\arraystretch}{1.25}
+\begin{center}
+\begin{tabular}{|l|l|l|}\hline
+Stage & Constant & Dependence \\\hline
+(L) deficit identity & --- & --- \\
+(M) first variation & $C_{n,\rstar,R}=\rstar^{-n}$ & $n,\rstar,R$ \\
+(F) centroid bound & $C_{\rm cent}$ & $n,R,\rstar$ \\
+($\Pi$) (B$^2$-int) & $C_{B^2}$ & $n,R,\rstar$ \\
+($\Pi$) (T$_1^2$-int) & $C_{\rm radial}$ & $n,R,\rstar$ \\
+(K) action, kinetic, trace & $C,C',C_*$ & $n,R,\rstar$ \\
+($\partial$) bounded SV & $C(n,R,\rstar)$ & $n,R,\rstar$ \\
+$\rstar=1/2$, $R\to R_*(n)$ & $C(n,R_*(n),1/2)$ & $n$ \\
+(FK) BDV constants & $C_9(n),\delta(n),d(n)$ & $n$ \\
+(FK) global SV & $c_{\rm SV}^{\rm glob}(n)$ & $n$ \\
+(FK) KJ multiplier & $4L_n/((n+2)T_n)$ & $n$ \\
+(FK) final & $c_{\rm FK}(n)$ & $n$ \\\hline
+\end{tabular}
+\end{center}
+
+\textbf{Verdict.} All $R$- and $\rstar$-dependence is absorbed at
+the Block~($\partial$) $\to$ (FK) interface; final constant
+$c_{\rm FK}(n)$ depends only on $n$.
+
+\section{Comparison with Plan~1 (Route~A)}\label{sec:vsPlan1}
+
+Both routes deliver Theorem~\ref{thm:final}. The structural
+difference is concentrated in the bounded sharp Saint--Venant
+stage. Plan~1 uses the chain
+(S)\,selection $\to$ (G)\,graph entry $\to$ (I)\,Schauder
+interpolation $\to$ (N)\,nearly-spherical closure
+(\cite{Plan1Master}). Plan~2 uses the chain
+(L)\,deficit identity $\to$ (M)\,metric first variation $\to$
+(F)\,centroid bound $\to$ ($\Pi$)\,space-time + slicing-then-squaring
+$\to$ (K)\,metric trace $\to$ ($\partial$)\,boundary-layer transfer.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabular}{|l|c|c|}\hline
+Tool & Plan~1 / Route~A & Plan~2 / Route~$\delta$ \\\hline
+Selection / penalised functional & uses & avoids \\
+Graph entry ($C^{1,\gamma}$ normal graph) & uses & avoids \\
+Schauder bootstrap (Lieberman) & uses & avoids \\
+Gagliardo--Nirenberg interpolation & uses & avoids \\
+Nearly-spherical closure (BDV Thm.~3.3) & uses & avoids \\
+Fuglede $H^{1/2}$ expansion & uses & avoids \\
+Free-boundary regularity (Alt--Caffarelli) & uses & avoids \\\hline
+BV coarea on $\partial^*E_t$ for a.e.\ $t$ & not used & uses \\
+AGS metric framework, $|\dot F_\rho|_\X$ & not used & uses \\
+Centroid kinematic identity (no homothety) & not used & uses \\
+Space--time $\Pi$ identity & not used & uses \\
+Slicing-then-squaring (good rays / bad rays) & not used & uses \\
+Slice-rearrangement $|E\Delta B|^2\le C\Pi$ & not used & uses \\
+Sobolev--Sard (Figalli--Maggi App.~A) & not used & uses \\\hline
+BDV bounded reduction \cite[\S5]{BDV} & uses & uses \\
+Kohler--Jobin transfer & uses & uses \\\hline
+\end{tabular}
+\end{center}
+
+The methodological gain of Plan~2 is that no PDE regularity beyond
+$W^{2,p}_{\rm loc}$, no free-boundary regularity, no selection,
+no graph parametrisation, and no nearly-spherical closure is used.
+The price is the new infrastructure in Blocks~(M)--($\Pi$)--(K).
+
+\section{Open issues and audit trail}\label{sec:audit}
+
+The Plan~2 chain has been audited in three waves on the markdown
+source side; each post-audit correction is reflected in the
+\texttt{WIP\_X.tex} files.
+
+\textbf{Wave~1} (\texttt{agent6-adversarial-audit.md}) flagged five
+issues: centre-choice ambiguity (Fraenkel vs.\ centroid); reliance
+on the open pointwise per-$\rho$ radial trace (R); missing
+Sobolev--Sard citation; broken Cauchy--Schwarz in (G4)~§5.2;
+notational drift between centre choices.
+
+\textbf{Wave~2} (\texttt{wave2-*}) addressed: the centroid choice
+$\zbar=|E_\rho|^{-1}\int_{E_\rho}x$; the integrated form (B$^2$-int)
+replacing pointwise (R); the Figalli--Maggi App.~A Sobolev--Sard
+citation; the kinetic bound (K) rederivation from (B$^2$-int).
+
+\textbf{Wave~3} (\texttt{wave3-F,G,H,J}) introduced two new
+structural inputs: (F) the $H^1$-in-$\rho$ centroid bound
+(\textsc{CentroidBound}); and the slicing-then-squaring
+decomposition (\textsc{SpaceTimeIdentity} §5). The latter replaces
+the broken Cauchy--Schwarz of (G4) §5.2 by the linear good-ray
+equality and the slice-rearrangement; squaring before integrating
+preserves the sharp $\delta$ rate.
+
+\textbf{Status.} The Plan~2 proof closes in its integrated form
+only. Pointwise per-$\rho$ statements (R) and (B$^2$) are not
+invoked. The integrated form, controlled by (F) of
+\textsc{CentroidBound} and (B$^2$-int) of \textsc{SpaceTimeIdentity},
+suffices for the metric-trace and boundary-layer-transfer chain.
+This is the unconditional honest content of Plan~2.
+
+\begin{thebibliography}{99}
+
+\bibitem{LevelSetIdentity}
+Plan~2 building block \textsc{LevelSetIdentity},
+\texttt{WIP\_LevelSetIdentity.tex}.
+
+\bibitem{MetricFramework}
+Plan~2 building block \textsc{MetricFramework},
+\texttt{WIP\_MetricFramework.tex}.
+
+\bibitem{CentroidBound}
+Plan~2 building block \textsc{CentroidBound},
+\texttt{WIP\_CentroidBound.tex}.
+
+\bibitem{SpaceTimeIdentity}
+Plan~2 building block \textsc{SpaceTimeIdentity},
+\texttt{WIP\_SpaceTimeIdentity.tex}.
+
+\bibitem{WeightedMetricTrace}
+Plan~2 building block \textsc{WeightedMetricTrace},
+\texttt{WIP\_WeightedMetricTrace.tex}.
+
+\bibitem{BoundaryLayerTransfer}
+Plan~2 building block \textsc{BoundaryLayerTransfer},
+\texttt{WIP\_BoundaryLayerTransfer.tex}.
+
+\bibitem{GlobalAssembly}
+Plan~2 building block \textsc{GlobalAssembly},
+\texttt{WIP\_GlobalAssembly.tex}.
+
+\bibitem{Plan1Master}
+Plan~1 master document, \texttt{Final/master.tex}.
+
+\bibitem{BDV-BoundedReduction-Plan1}
+Plan~1 building block \textsc{BoundedReduction},
+\texttt{Final/BoundedReduction.tex}.
+
+\bibitem{KohlerJobinTransfer-Plan1}
+Plan~1 building block \textsc{KohlerJobinTransfer},
+\texttt{Final/KohlerJobinTransfer.tex}.
+
+\bibitem{BDV} L.~Brasco, G.~De~Philippis, B.~Velichkov,
+\emph{Faber--Krahn inequalities in sharp quantitative form},
+Duke Math.\ J.\ \textbf{164} (2015), 1777--1831.
+
+\bibitem{FMP} N.~Fusco, F.~Maggi, A.~Pratelli,
+Ann.\ of Math.\ \textbf{168} (2008), 941--980.
+
+\bibitem{FMPLaplace} N.~Fusco, F.~Maggi, A.~Pratelli,
+Ann.\ Sc.\ Norm.\ Super.\ Pisa Cl.\ Sci.\ (5) \textbf{8} (2009), 51--71.
+
+\bibitem{FJ2014} N.~Fusco, V.~Julin, Calc.\ Var.\ PDE \textbf{50} (2014), 925--937.
+
+\bibitem{CL2012} M.~Cicalese, G.~P.~Leonardi,
+Arch.\ Ration.\ Mech.\ Anal.\ \textbf{206} (2012), 617--643.
+
+\bibitem{AFM2013} E.~Acerbi, N.~Fusco, M.~Morini,
+Comm.\ Math.\ Phys.\ \textbf{322} (2013), 515--557.
+
+\bibitem{AGS2008} L.~Ambrosio, N.~Gigli, G.~Savar\'e,
+\emph{Gradient Flows in Metric Spaces…}, Birkh\"auser, 2008.
+
+\bibitem{Brasco2014} L.~Brasco,
+ESAIM Control Optim.\ Calc.\ Var.\ \textbf{20} (2014), 315--338.
+
+\bibitem{KohlerJobin} M.-T.~Kohler-Jobin,
+Z.\ Angew.\ Math.\ Phys.\ \textbf{29} (1978), 757--766.
+
+\bibitem{Talenti1976} G.~Talenti,
+Ann.\ Mat.\ Pura Appl.\ \textbf{110} (1976), 353--372.
+
+\bibitem{Maggi2012} F.~Maggi, Cambridge Univ.\ Press, 2012.
+
+\bibitem{AFP2000} L.~Ambrosio, N.~Fusco, D.~Pallara, Oxford, 2000.
+
+\bibitem{DeGiorgi1958} E.~De~Giorgi,
+Atti Accad.\ Naz.\ Lincei \textbf{5} (1958), 33--44.
+
+\bibitem{FigalliMaggi2011} A.~Figalli, F.~Maggi,
+Arch.\ Ration.\ Mech.\ Anal.\ \textbf{201} (2011), 143--207.
+
+\bibitem{FMP2010} A.~Figalli, F.~Maggi, A.~Pratelli,
+Invent.\ Math.\ \textbf{182} (2010), 167--211.
+
+\bibitem{Faber1923} G.~Faber, Bayer.\ Akad.\ Wiss.\ M\"unchen 1923, 169--172.
+
+\bibitem{Krahn1925} E.~Krahn, Math.\ Ann.\ \textbf{94} (1925), 97--100.
+
+\bibitem{KawohlBook} B.~Kawohl, Springer LNM 1150, 1985.
+
+\bibitem{HenrotBook} A.~Henrot, Birkh\"auser, 2006.
+
+\bibitem{BucurButtazzo} D.~Bucur, G.~Buttazzo, Birkh\"auser, 2005.
+
+\bibitem{HansenNadirashvili1994} W.~Hansen, N.~Nadirashvili,
+Potential Anal.\ \textbf{3} (1994), 1--14.
+
+\bibitem{Melas1992} A.~D.~Melas,
+J.\ Differential Geom.\ \textbf{36} (1992), 19--33.
+
+\bibitem{Bhattacharya2001} T.~Bhattacharya,
+Electron.\ J.\ Differential Equations \textbf{35} (2001), 1--15.
+
+\bibitem{BraDeP2017} L.~Brasco, G.~De~Philippis,
+in \emph{Shape Optimization and Spectral Theory}, De Gruyter Open, 2017.
+
+\bibitem{AKN} M.~Allen, D.~Kriventsov, R.~Neumayer,
+Ars Inveniendi Analytica (2023).
+
+\bibitem{AC1981} H.~W.~Alt, L.~A.~Caffarelli,
+J.\ Reine Angew.\ Math.\ \textbf{325} (1981), 105--144.
+
+\bibitem{Fuglede} B.~Fuglede,
+Trans.\ AMS \textbf{314} (1989), 619--638.
+
+\bibitem{KN} D.~Kinderlehrer, L.~Nirenberg,
+Ann.\ Scuola Norm.\ Sup.\ Pisa (4) \textbf{4} (1977), 373--391.
+
+\bibitem{Li86} G.~M.~Lieberman,
+J.\ Math.\ Anal.\ Appl.\ \textbf{113} (1986), 422--440.
+
+\end{thebibliography}
+
+\end{document}

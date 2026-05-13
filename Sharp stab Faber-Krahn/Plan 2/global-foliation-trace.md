@@ -1,0 +1,320 @@
+# Global foliation trace route
+
+This note records the sharp version of Plan 2: do not select one good
+near-boundary level. Use the whole outer family of level sets. The point is
+that the Holder/Serrin loss \(D_H\) is not just extra pointwise information; in
+level-set coordinates it is the radial kinetic energy of the foliation. Together
+with the isoperimetric loss \(D_I\), it gives a trace estimate for the boundary
+asymmetry.
+
+The argument below is written first in the coherent near-spherical foliation
+regime. This is the part that should replace the final selected-minimizer
+compactness step. The remaining task is an entry theorem saying that a small
+global level-set deficit puts the actual torsion levels into this weak
+foliation gauge on a fixed outer annulus.
+
+Throughout this note normalize
+\[
+|\Omega|=\omega_n,\qquad B=B_1,
+\]
+and write
+\[
+\delta_T(\Omega)=E(\Omega)-E(B).
+\]
+Let \(u=u_\Omega\) be the torsion function,
+\[
+E_t=\{u>t\},\qquad m(t)=|E_t|,
+\]
+and introduce the volume radius
+\[
+\rho=\left(\frac{m(t)}{\omega_n}\right)^{1/n}.
+\]
+Equivalently, write \(t=t(\rho)\) and \(E_\rho=E_{t(\rho)}\). The exact
+level-set identity is
+\[
+2\delta_T(\Omega)
+=
+\int_0^{\|u\|_\infty}
+\frac{D_H(t)+D_I(t)}
+{n^2\omega_n^{2/n}m(t)^{1-2/n}}\,dt.
+\]
+
+## 1. Coherent outer foliation gauge
+
+Fix \(0<\rho_*<1\), for instance \(\rho_*=1/2\). Assume that for a.e.
+\(\rho\in[\rho_*,1]\) the regular level surface \(\partial E_\rho\) can be
+written in the modulated graph gauge
+\[
+\partial E_\rho
+=
+\left\{
+z(\rho)+(\rho+h(\rho,\theta))\theta:
+\theta\in\partial B
+\right\},
+\]
+with
+\[
+\int_{\partial B} h(\rho,\theta)\,d\theta=0,
+\qquad
+\int_{\partial B} h(\rho,\theta)\theta_i\,d\theta=0
+\quad(i=1,\ldots,n).
+\]
+The zero mode is removed by using the volume radius \(\rho\). The first modes
+are removed by the moving center \(z(\rho)\). This is important: translation is
+a neutral mode for Fraenkel asymmetry, so the center is allowed to move with
+\(\rho\).
+
+Define the non-neutral quadratic form
+\[
+Q(h)
+:=
+\int_{\partial B}
+\left(|\nabla_\theta h|^2-(n-1)h^2\right)\,d\theta.
+\]
+On the subspace orthogonal to constants and first spherical harmonics,
+\[
+Q(h)\ge c_n\|h\|_{H^1(\partial B)}^2.
+\]
+
+The coherent-foliation estimate needed from the geometry is
+\[
+\boxed{
+\int_{\rho_*}^1
+\left(
+\rho^{n+1}\|\partial_\rho h(\rho)\|_{L^2(\partial B)}^2
++\rho^{n-1}Q(h(\rho))
+\right)\,d\rho
+\le
+C_n\delta_T(\Omega).
+}
+\tag{F}
+\]
+Once (F) is known, sharp stability follows immediately.
+
+## 2. Trace estimate: no boundary-slab loss
+
+Since \(\rho\in[\rho_*,1]\), the weights \(\rho^{n+1}\) and \(\rho^{n-1}\) are
+bounded above and below by dimensional constants. For every non-neutral mode,
+the one-dimensional trace theorem gives
+\[
+\|h(1)\|_{L^2(\partial B)}^2
+\le
+C_{\rho_*}
+\int_{\rho_*}^1
+\left(
+\|\partial_\rho h(\rho)\|_{L^2(\partial B)}^2
++\|h(\rho)\|_{L^2(\partial B)}^2
+\right)\,d\rho.
+\]
+Using the coercivity of \(Q\) on the chosen gauge,
+\[
+\boxed{
+\|h(1)\|_{L^2(\partial B)}^2
+\le
+C_n
+\int_{\rho_*}^1
+\left(
+\rho^{n+1}\|\partial_\rho h(\rho)\|_2^2
++\rho^{n-1}Q(h(\rho))
+\right)\,d\rho.
+}
+\tag{T}
+\]
+Combining (T) with (F) gives
+\[
+\|h(1)\|_{L^2(\partial B)}^2\le C_n\delta_T(\Omega).
+\]
+For a near-spherical set in the same volume and translation gauge,
+\[
+\mathcal A(\Omega)^2\le C_n\|h(1)\|_{L^2(\partial B)}^2.
+\]
+Hence
+\[
+\boxed{
+\mathcal A(\Omega)^2\le C_n\delta_T(\Omega).
+}
+\]
+
+This is the sharp Saint--Venant exponent. No parameter \(\eta\) is introduced:
+the trace is taken from a fixed annulus, and the radial derivative term supplied
+by \(D_H\) prevents the boundary deformation from being hidden in an arbitrarily
+thin layer.
+
+## 3. Why \(D_I\) gives the angular part
+
+In the graph gauge,
+\[
+P(E_\rho)^2-P(B_\rho)^2
+\ge
+c_n\rho^{2n-4}Q(h(\rho))
+-{\rm higher\ order}.
+\]
+This is the Fuglede expansion of the perimeter deficit on the level
+\(\partial E_\rho\), after removing the volume and translation modes.
+
+Since \(m(t(\rho))=\omega_n\rho^n\), the denominator in the exact identity
+satisfies
+\[
+n^2\omega_n^{2/n}m(t(\rho))^{1-2/n}\simeq_n \rho^{n-2}.
+\]
+In a near-spherical foliation,
+\[
+-t_\rho(\rho)\simeq_n \rho.
+\]
+Therefore
+\[
+\int_{\rho_*}^1
+\frac{D_I(t(\rho))}
+{n^2\omega_n^{2/n}m(t(\rho))^{1-2/n}}
+(-t_\rho(\rho))\,d\rho
+\ge
+c_n
+\int_{\rho_*}^1
+\rho^{n-1}Q(h(\rho))\,d\rho
+-{\rm errors}.
+\]
+For a sufficiently small graph radius, the errors are absorbed by the left-hand
+side or by the \(D_H\) contribution.
+
+## 4. Why \(D_H\) gives the radial kinetic part
+
+Let
+\[
+X(\rho,\theta)=z(\rho)+(\rho+h(\rho,\theta))\theta
+\]
+parametrize \(\partial E_\rho\), and let \(\nu_\rho\) be the outer unit normal
+to \(E_\rho\). Define the normal velocity of the level foliation with respect
+to the volume radius:
+\[
+V(\rho,\theta):=\partial_\rho X(\rho,\theta)\cdot\nu_\rho(\theta).
+\]
+Since \(u(X(\rho,\theta))=t(\rho)\) and the outward normal is
+\(\nu_\rho=-\nabla u/|\nabla u|\),
+\[
+|\nabla u|(X(\rho,\theta))
+=
+\frac{-t_\rho(\rho)}{V(\rho,\theta)}.
+\]
+Thus the scalar factor \(-t_\rho\) cancels out of the Holder deficit:
+\[
+D_H(t(\rho))
+=
+\left(\int_{\partial E_\rho}V\,d\mathcal H^{n-1}\right)
+\left(\int_{\partial E_\rho}\frac1V\,d\mathcal H^{n-1}\right)
+-P(E_\rho)^2.
+\]
+Moreover, because \(\rho\) is the volume radius,
+\[
+\int_{\partial E_\rho}V\,d\mathcal H^{n-1}
+=
+\frac{d}{d\rho}|E_\rho|
+=
+n\omega_n\rho^{n-1}
+=P(B_\rho).
+\]
+So \(D_H\) is exactly the Cauchy deficit for the normal velocity \(V\). In the
+graph gauge,
+\[
+V=1+z'(\rho)\cdot\theta+\partial_\rho h+{\rm quadratic\ terms}.
+\]
+The moving center absorbs the first spherical harmonics, and the Cauchy deficit
+controls the variance of \(V\). Projecting to the non-neutral modes gives
+\[
+D_H(t(\rho))
+\ge
+c_n\rho^{2n-2}
+\|\partial_\rho h(\rho)\|_{L^2(\partial B)}^2
+-{\rm lower\ order\ errors}.
+\]
+After multiplying by the exact identity weight,
+\[
+\int_{\rho_*}^1
+\frac{D_H(t(\rho))}
+{n^2\omega_n^{2/n}m(t(\rho))^{1-2/n}}
+(-t_\rho(\rho))\,d\rho
+\ge
+c_n
+\int_{\rho_*}^1
+\rho^{n+1}\|\partial_\rho h(\rho)\|_2^2\,d\rho
+-{\rm errors}.
+\]
+This is the term missing from the one-level replacement argument.
+
+## 5. The sharp conditional theorem
+
+**Theorem.** Fix \(\rho_*\in(0,1)\). There are constants
+\(\varepsilon_0,c,C>0\), depending only on \(n\) and \(\rho_*\), with the
+following property. Suppose the outer level sets of \(\Omega\) admit the
+coherent foliation gauge above on \([\rho_*,1]\), with graph size at most
+\(\varepsilon_0\), and suppose the quadratic lower bounds in Sections 3 and 4
+hold with absorbable errors. Then
+\[
+\mathcal A(\Omega)^2\le C\delta_T(\Omega).
+\]
+
+**Proof.** Add the lower bounds from Sections 3 and 4 and use the exact
+level-set identity restricted to the interval \(\rho\in[\rho_*,1]\). This gives
+(F). The trace estimate (T) gives
+\[
+\|h(1)\|_2^2\le C\delta_T(\Omega).
+\]
+Finally, the standard near-spherical comparison between the Fraenkel asymmetry
+and the \(L^2\) boundary graph, after volume and translation normalization,
+gives
+\[
+\mathcal A(\Omega)^2\le C\|h(1)\|_2^2.
+\]
+
+## 6. What must replace the selection principle
+
+The selection principle should be replaced by the following level-set entry
+statement, not by a stronger one-level Serrin theorem.
+
+**Outer foliation entry lemma.** If \(\delta_T(\Omega)\) is sufficiently small,
+then the actual torsion levels \(E_\rho\), \(\rho\in[\rho_*,1]\), admit a
+modulated weak graph representation
+\[
+\partial E_\rho
+=
+z(\rho)+(\rho+h(\rho,\theta))\theta
+\]
+with
+\[
+h\in H^1_\rho L^2_\theta\cap L^2_\rho H^1_\theta
+\]
+on the non-neutral modes, and the action estimate (F) holds.
+
+This is a quantitative theorem about the original level sets. It does not
+construct a penalized minimizer. The proposed proof is:
+
+1. Use the exact identity to control the total \(D_I+D_H\) action on the fixed
+   outer annulus \(\rho\in[\rho_*,1]\).
+2. Use quantitative isoperimetry level by level to modulate each \(E_\rho\) by
+   a center \(z(\rho)\) and remove the zero and first modes.
+3. Use the exact velocity formula for \(D_H\) to control the \(L^2_\rho\)
+   derivative of the non-neutral part of this modulation.
+4. Apply the Hilbert-space trace theorem to recover the boundary graph.
+
+This is the precise sense in which the global level-set data can act as the
+surrogate for the selection principle. The one-level route loses \(1/\eta\);
+the foliation route replaces that average by radial kinetic energy.
+
+## 7. Immediate next proof obligation
+
+The next concrete task is to prove the two quadratic lower bounds with all
+remainders:
+\[
+D_I(t(\rho))
+\gtrsim
+\rho^{2n-4}Q(h(\rho)),
+\]
+and
+\[
+D_H(t(\rho))
+\gtrsim
+\rho^{2n-2}
+\|\partial_\rho h_{\ge2}(\rho)\|_2^2
+-C\rho^{2n-4}Q(h(\rho))\,\|h\|_{C^1}.
+\]
+These estimates are local computations in the moving graph gauge. Once written
+carefully, the only genuinely global issue is the outer foliation entry lemma.
