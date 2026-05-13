@@ -1,0 +1,195 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage[colorlinks=true,linkcolor=blue!50!black]{hyperref}
+\usepackage{parskip}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Erho}{E_\rho}
+\newcommand{\Frho}{F_\rho}
+\newcommand{\rhad}{\widehat{\rho}}
+\newcommand{\rhodelta}{\rho_\delta}
+\newcommand{\Bstar}{B^{*}}
+\newcommand{\Fr}{\mathcal{A}}
+\newcommand{\deltaT}{\delta_T}
+\newcommand{\deltaFK}{\delta_{FK}}
+\newcommand{\dX}{d_{\X}}
+
+\title{\textbf{Plan 2, the core}\\[3pt]
+\large What each piece controls, and how they assemble}
+\author{}\date{}
+
+\begin{document}\maketitle\vspace{-2em}
+
+\section*{Setup}
+
+We want to prove $\Fr(\Omega)^2 \le C\,\deltaT(\Omega)$ (the Saint--Venant version of stability). Kohler--Jobin and bounded reduction will then upgrade this to the Faber--Krahn inequality with the right rate.
+
+Tools we use:
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+\item the \textbf{torsion function} $u_\Omega$: $-\Delta u = 1$ in $\Omega$, $u = 0$ on $\partial\Omega$;
+\item the \textbf{superlevel sets} $\Erho = \{u_\Omega > t(\rho)\}$, parametrised so that $|\Erho| = \omega_n \rho^n$, $\rho \in [0,1]$;
+\item the \textbf{rescaled sets} $\Frho = \rho^{-1}\Erho$, all of volume $|B_1| = \omega_n$;
+\item the metric space $(\X, \dX)$ of finite-perimeter sets modulo translation, with $\dX([A],[B]) = \inf_v |A \triangle (B+v)|$.
+\end{itemize}
+
+As $\rho$ runs from $\rho_*$ (small) up to $1$, the family $[\Frho]$ is a path in $\X$. Our target ball $B_1$ also lives in $\X$. We will show that this path passes within distance $\sqrt{\deltaT}$ of $[B_1]$ at a specific $\rhad$ near $1$, and then transfer the closeness back to $\Omega$.
+
+\section*{1.\ The deficit identity: two defects per level}
+
+The starting fact is an identity (not just an inequality) that breaks the global deficit into a $\rho$-integral of two non-negative pointwise quantities:
+\[
+\boxed{\deltaT(\Omega) \;=\; \int_{\rho_*}^{1} \bigl(D_H(\rho) + D_I(\rho)\bigr)\, w(\rho)\, d\rho,}
+\]
+with explicit weight $w(\rho) > 0$ and
+\[
+D_H(\rho) \;:=\; \alpha(\rho)\beta(\rho) - P(\Erho)^2,\qquad
+D_I(\rho) \;:=\; P(\Erho)^2 - c_n |\Erho|^{2-2/n},
+\]
+where $\alpha = \int_{\partial^*\Erho}|\nabla u|^{-1}$ and $\beta = \int_{\partial^*\Erho}|\nabla u|$. Both are $\ge 0$ (Cauchy--Schwarz / isoperimetric). The identity comes from refusing to discard either defect inside Talenti's symmetrisation proof of $T(\Omega) \le T(\Bstar)$.
+
+\textbf{Consequence.} Both
+\[
+\int D_H\, w\, d\rho \;\le\; \deltaT, \qquad \int D_I\, w\, d\rho \;\le\; \deltaT.
+\]
+
+What each defect \emph{is}, at one level:
+\begin{itemize}[leftmargin=*,itemsep=1pt]
+\item $D_I(\rho)$ measures how \textbf{non-ball} the level set $\Erho$ itself is. $D_I = 0$ iff $\Erho$ is a ball.
+\item $D_H(\rho)$ measures how \textbf{non-uniformly $|\nabla u|$} distributes on $\partial^* \Erho$. $D_H = 0$ iff $|\nabla u|$ is constant on the level set.
+\end{itemize}
+
+These are the only two ingredients we extract from $\deltaT$. Plan~2 uses each for one specific job. \textbf{We cannot do either job without the other.} The next two sections explain what each controls and the section after that explains why both are needed simultaneously.
+
+\section*{2.\ $D_I$ controls how far each level is from a ball (\emph{potential})}
+
+For each $\rho$ where $D_I(\rho)$ is below a fixed threshold (these are the \textbf{good levels}; the bad ones have small total $\mu$-measure by Markov, so we ignore them), Fusco--Julin's quantitative isoperimetric inequality says: there is a centre $z_\rho \in \R^n$ such that
+\[
+|\Erho \triangle B_\rho(z_\rho)|^2 \;\le\; \rho^{2n}\cdot C\, D_I(\rho).
+\]
+Rescaling by $\rho^{-1}$:
+\[
+\boxed{\dX([\Frho],[B_1])^2 \;\le\; C\, D_I(\rho).}
+\]
+
+In words: \textbf{$D_I(\rho)$ is the pointwise distance$^2$ from $[\Frho]$ to $[B_1]$ in $\X$}, up to constants.
+
+Think of $\dX([\Frho],[B_1])^2$ as a \textbf{potential energy} for the path $[\Frho]$ in $\X$: it tells us, at each $\rho$, how far the path currently is from the target $B_1$. Integrating against $w\, d\rho$:
+\[
+\int \dX([\Frho],[B_1])^2 \, w\, d\rho \;\le\; C \int D_I \, w\, d\rho \;\le\; C\,\deltaT.
+\]
+
+\textbf{Could we just use this?} No. ``$\int (\text{potential}) \le \deltaT$'' means the path is on average near $B_1$ --- but we need a \emph{specific} $\rho$ where the path is provably near $B_1$, and that specific $\rho$ has to be close to $1$ (so the level set is close to $\Omega$). A pure measure statement does not let us locate a specific good $\rho$. For that we need to know the path can't dart in and out of a neighbourhood of $B_1$ --- i.e., a control on its \emph{speed}.
+
+\section*{3.\ $D_H$ controls how fast each level moves (\emph{kinetic})}
+
+The path $\rho \mapsto [\Frho]$ in $\X$ has a well-defined metric derivative $|\dot \Frho|_\X$ (absolutely continuous in $\rho$). Its size is determined by the normal velocity of the boundary $\partial^* \Erho$ under $\rho$. The normal velocity is
+\[
+V_\rho(x) \;=\; \frac{-t'(\rho)}{|\nabla u(x)|}, \qquad x \in \partial^* \Erho.
+\]
+After accounting for the rescaling $\Frho = \rho^{-1}\Erho$, the speed in $\X$ comes out to
+\[
+\boxed{|\dot \Frho|_\X^2 \;\le\; C\, D_H(\rho) \cdot (\text{explicit weight}).}
+\]
+
+Why $D_H$? Because $|\dot \Frho|_\X$ is sensitive only to the \emph{non-uniform} part of the motion of the boundary: a level set that moves uniformly outward (constant $V_\rho$) just rescales, and is invisible in $\X$ (where we mod out by translation and the volume is fixed by the parametrisation). The non-uniformity of $V_\rho$ is exactly the non-uniformity of $|\nabla u|$ on $\partial^*\Erho$, which is what $D_H$ measures.
+
+Integrating:
+\[
+\int |\dot \Frho|_\X^2 \, w\, d\rho \;\le\; C \int D_H\, w\, d\rho \;\le\; C\,\deltaT.
+\]
+
+In words: \textbf{the kinetic energy of the path $[\Frho]$ in $\X$ is bounded by $\deltaT$.} If $\deltaT$ is small, the path moves slowly.
+
+\section*{4.\ Why we need both: the abstract metric trace}
+
+Now combine. From Sections~2 and 3:
+\[
+\boxed{
+\int_{\rho_*}^{1}
+\Bigl(
+\underbrace{\dX([\Frho],[B_1])^2}_{\text{potential}}
+\;+\;
+\underbrace{|\dot \Frho|_\X^2}_{\text{kinetic}}
+\Bigr)\, w\, d\rho
+\;\le\;
+C\,\deltaT(\Omega).
+}
+\]
+This is the integrated ``action'' of the path $[\Frho]$.
+
+\textbf{The abstract weighted metric trace lemma.} In any metric space, if an absolutely continuous path $\gamma: [a,b] \to \X$ satisfies
+\[
+\int_a^b \bigl(d(\gamma(\rho), p)^2 + |\dot\gamma(\rho)|^2\bigr)\, w(\rho)\, d\rho \;\le\; \varepsilon,
+\]
+then on any sub-window $[c,c+L]$ with weighted length $L$ there exists a specific point $\rhad \in [c, c+L]$ with
+\[
+d(\gamma(\rhad), p)^2 \;\le\; \frac{C \varepsilon}{L}.
+\]
+The proof is averaging plus the triangle inequality with the kinetic bound: \emph{Markov} on the potential gives some good level inside the window; the \emph{kinetic} term lets us transport that good level to any chosen target inside the window without spoiling the bound.
+
+\textbf{We need both bounds.} Without the kinetic bound (only the potential bound), Markov alone gives ``most levels are near $B_1$'' but does not let us point to a specific $\rhad$ close to a chosen $\rho$. Without the potential bound (only the kinetic bound), we know the path is slow but have no anchor saying it ever comes close to $B_1$.
+
+\textbf{Choosing the window.} We pick $L \asymp \sqrt{\deltaT}$ around the target value $\rhodelta := 1 - \kappa\sqrt{\deltaT}$. This window is short enough that $\rhad$ lands within $O(\sqrt{\deltaT})$ of $1$ --- needed for the transfer step --- and long enough that the abstract lemma still delivers $d^2 \le C \cdot \deltaT$:
+\[
+\boxed{
+\exists\, \rhad \in [\rhodelta - c_0\sqrt{\deltaT},\, \rhodelta] \quad \text{with} \quad
+\dX([F_{\rhad}], [B_1])^2 \;\le\; C\,\deltaT(\Omega).
+}
+\]
+
+\textbf{Where does the radial trace lemma fit?} The FJ inequality directly delivers symmetric-difference control, but the kinetic estimate in Section 3 is written in terms of a radial quantity on $\partial^* \Erho$ (how far each boundary point is from the sphere of radius $\rho$ around $z_\rho$). The radial trace lemma is the geometric identity that converts the two FJ-controlled quantities (symmetric difference + normal oscillation, both $D_I$-controlled) into the radial form that the kinetic estimate consumes. It's a bridge, not a standalone idea: it makes Sections 2 and 3 compatible, so they can be added.
+
+\section*{5.\ Transfer to $\Omega$, square at the end}
+
+We now have $\dX([F_{\rhad}], [B_1])^2 \le C \deltaT$ and $\rhad \in [1 - O(\sqrt{\deltaT}), 1]$. Two consequences:
+
+(a) Unrescale: $\Fr(E_{\rhad}) \le \dX([F_{\rhad}], [B_1]) \le \sqrt{C\deltaT}$.
+
+(b) Boundary layer is thin: $|\Omega \setminus E_{\rhad}| = \omega_n(1 - \rhad^n) \le C\sqrt{\deltaT}$.
+
+Triangle inequality on Fraenkel asymmetry:
+\[
+\Fr(\Omega) \;\le\; \Fr(E_{\rhad}) + \frac{2|\Omega \setminus E_{\rhad}|}{|\Omega|}
+\;\le\; C\sqrt{\deltaT(\Omega)}.
+\]
+
+\textbf{Squaring at the very end} preserves the sharp exponent:
+\[
+\boxed{\Fr(\Omega)^2 \;\le\; C(n, R)\, \deltaT(\Omega).}
+\]
+
+\textbf{Closing.} Bounded reduction (BDV Lemma 5.3) removes the $R$ dependence, giving $\Fr(\Omega)^2 \le C(n)\,\deltaT(\Omega)$ for all $\Omega$. Kohler--Jobin's inequality converts this to
+\[
+\boxed{\deltaFK(\Omega) \;\ge\; c_{FK}(n)\,\Fr(\Omega)^2 \qquad \text{for every open $\Omega \subset \R^n$ of finite measure.}}
+\]
+
+\section*{6.\ One-page recap}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{rcl}
+\textbf{Identity} & : & $\deltaT(\Omega) = \int (D_H + D_I)\, w\, d\rho$.\\[2pt]
+\textbf{What is $D_I$?} & : & non-ballness of $\Erho$.\\
+\textbf{What is $D_H$?} & : & non-uniformity of $|\nabla u|$ on $\partial^*\Erho$.\\[6pt]
+\textbf{$D_I$ controls} & : & potential $\dX([\Frho], [B_1])^2$ (via Fusco--Julin).\\
+\textbf{$D_H$ controls} & : & kinetic $|\dot \Frho|_\X^2$ (via metric first variation).\\[6pt]
+\textbf{Bridge} & : & radial trace lemma makes potential and kinetic compatible.\\[6pt]
+\textbf{Sum} & : & $\int (d^2 + |\dot F|^2)\, w\, d\rho \le C\,\deltaT$.\\[2pt]
+\textbf{Metric trace} & : & $\exists\, \rhad \in [\rhodelta - c_0\sqrt{\deltaT},\, \rhodelta]$ with $d^2 \le C\,\deltaT$.\\[2pt]
+\textbf{Transfer} & : & $\Fr(\Omega) \le \Fr(E_{\rhad}) + |\Omega \setminus E_{\rhad}|/|\Omega| \le C\sqrt{\deltaT}$.\\[2pt]
+\textbf{Square} & : & $\Fr(\Omega)^2 \le C\,\deltaT(\Omega)$.\\[2pt]
+\textbf{KJ} & : & $\deltaFK(\Omega) \ge c_{FK}(n)\,\Fr(\Omega)^2$.\\
+\end{tabular}
+\end{center}
+
+\bigskip
+
+\textbf{The proof in one sentence.} The torsion deficit $\deltaT$ decomposes exactly into a kinetic+potential integral along the level-set foliation, both terms small force the foliation, viewed as a path in the shape space $\X$, to pass close to the unit ball at a specific level $\rhad \approx 1 - O(\sqrt{\deltaT})$; transferring back to $\Omega$ and squaring gives the sharp $\Fr(\Omega)^2 \lesssim \deltaT$.
+
+\end{document}
