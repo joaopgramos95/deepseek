@@ -2,7 +2,14 @@
 
 **Author.** Wave 3 Agent J, Plan 2 audit (ETH Zürich).
 **Date.** 2026-05-13.
-**Status.** Replaces Agent G §5.2 lines 320–386 in full. The theorem statements (G3), (G4), (G5) and §5.3, §5.4, §6 of Agent G are unchanged; only the per-step proof of $\int(\int|H_{z_\rho,\rho}-1|)^2\,d\mu \le C\delta$ is rewritten using the route Agent H sketched in `wave3-H-audit.md` §Q-H1. The repair is **rigorous, self-contained, and unconditional**; it consumes no input that is not already unconditional.
+**Re-audit status (2026-05-14).** This note correctly identifies and
+repairs the local §5.2 Cauchy--Schwarz rate leak, but it is **not an
+unconditional closure of Route $\delta$**.  The proof below consumes
+Agent G's (G3), i.e. the integrated $\Pi$ / $(B^2)$ input.  The May~14
+re-audit found that Agent G's upstream profile-gap-to-physical-crossing
+conversion is not justified, and the later bad-$(-t')$ kinetic step
+still lacks a valid replacement for A0.  Read this file as a conditional
+local repair, not as a proof of sharp Saint--Venant or Faber--Krahn.
 
 ---
 
@@ -433,7 +440,13 @@ All constants are polynomial in $1/\rho_*$, $R$, $n$, $C_F$ (Agent F), and the c
 
 The repair is therefore **structural, not quantitative** — it produces the same $\delta$-rate as Agent G claimed, but does so via a rigorous proof rather than the broken Cauchy–Schwarz route.
 
-## 11. Conditionality analysis
+## 11. Conditionality analysis (pre-re-audit)
+
+**May 14 correction.** The table below records the local dependencies of
+the §5.2 repair.  It should not be read as a proof that all upstream
+inputs are unconditional.  In particular, Agent G (G3) depends on the
+profile-gap/physical-crossing conversion (G2), which the May~14
+re-audit found unproved.
 
 We list every external input used in the repair (§§3–7) and verify each is unconditional or already established at this point in the chain.
 
@@ -461,11 +474,28 @@ We list every external input used in the repair (§§3–7) and verify each is u
 - the conditional Agent 3 (7.1) **per-$\rho$**;
 - any selection-and-regularity, graph entry, BDV minimiser, Tamanini argument, Schauder estimate, or Fuglede expansion.
 
-**Verdict.** Every input is unconditional given (F), and (F) itself is unconditional (Agent F + Agent H §Q-F1–Q-F7 verification). The proof is genuinely unconditional in the smallness regime $\delta\le\delta_0(n,R,\rho_*)$, hence unconditional after the trivial extension outside smallness (Wave 2 Agent A §2 dichotomy). Together with Agent G §6, this delivers $\mathcal A(\Omega)^2\le C(n,R,\rho_*)\,\delta_T(\Omega)$ in the bounded class unconditionally, hence (FK) via the Agent 5 §1.3 chain.
+**Corrected verdict.** The local slicing repair is conditional on Agent
+G's integrated $\Pi$ / $(B^2)$ input.  Since that upstream input is not
+currently proved, this note does not deliver
+$\mathcal A(\Omega)^2\le C\delta_T(\Omega)$ or Faber--Krahn by itself.
 
 ## 12. Open issues
 
-**None.** The repair closes Plan 2 unconditionally. The slice-rearrangement chain explicitly flagged by the user as the failure mode to watch — $\int|r_{\theta,1}^{n-1}-\rho^{n-1}|\,d\theta \le c|E\Delta B_\rho|$ — closes cleanly at the linear rate when transcribed in the *weighted* form $\int|r_{\theta,1}/\rho-1|\cdot r_{\theta,1}^{n-1}\,d\theta$ that is needed for $T_1^{\rm rad,slic}$, because the good-ray 1D symmetric difference (4.2) is an *equality*, not an FMP-type inequality. The MVT bound (4.4) converts the weighted angular integral to the 1D radial-mass mismatch, which is exactly $|E\Delta B_\rho|/n$ (4.5). No FMP application sneaks in; no $\sqrt{\delta_\rho}$ factor lurks.
+The local slice-rearrangement chain explicitly flagged by the user as
+the failure mode to watch —
+$\int|r_{\theta,1}^{n-1}-\rho^{n-1}|\,d\theta \le c|E\Delta B_\rho|$
+— closes cleanly at the linear rate when transcribed in the *weighted*
+form
+$\int|r_{\theta,1}/\rho-1|\cdot r_{\theta,1}^{n-1}\,d\theta$ that is
+needed for $T_1^{\rm rad,slic}$, because the good-ray 1D symmetric
+difference (4.2) is an equality, not an FMP-type inequality.  The
+remaining open issues are upstream/downstream of this local repair:
+
+1. Agent G (G2) still needs a valid physical-crossing estimate for
+   moving centres; Talenti controls the rearranged profile radius, not
+   $|x-z_\rho|$.
+2. The weighted trace still needs a bad-$(-t')$ Lebesgue kinetic
+   estimate or a replacement for the discredited A0 dilation argument.
 
 **Remark 12.1 (Why this works for $T_1$ but not for $T_2^{\rm rad}$).** Agent A's chain (4.5'–4.11) for $T_2^{\rm rad}$ extracts on each good ray $(r_{\theta,1}/\rho-1)^2\le C|r_{\theta,1}^{n-1}-\rho^{n-1}|$, i.e. a *square* on the LHS and an *unsigned* angular mismatch on the RHS. Bounding the angular mismatch then required Agent A (4.11), which is at FMP rate $\sqrt{\delta_\rho}$. By contrast, for $T_1^{\rm rad,slic}$ the LHS is *linear* in $|r_{\theta,1}/\rho-1|$ and the relevant quantity becomes (after multiplication by $r_{\theta,1}^{n-1}$) the *signed* slicewise volume mismatch — an equality with the 1D radial-mass mismatch on good rays. This is the structural reason the $T_1$-route closes at rate $\delta$ where the $T_2$-route stalls at $\sqrt{\delta_\rho}$.
 
@@ -491,4 +521,9 @@ We list every external input used in the repair (§§3–7) and verify each is u
 
 ## 14. Verdict
 
-The bug Agent H §Q-H1 isolated is repaired in full at the same rate Agent G's theorem statement claimed. **Plan 2 closes unconditionally at sharp rate $\mathcal A(\Omega)^2 \le C(n,R,\rho_*)\,\delta_T(\Omega)$ in the bounded class, and the sharp quantitative Faber–Krahn inequality (FK) follows with dimensional constant $c_{\rm FK}(n)>0$ via the `Final/BoundedReduction.tex` + `Final/KohlerJobinTransfer.tex` transfer chain (Agent 5 §1.3).** The proof is a genuinely new theorem in the sense of Wave 3: no graph parametrisation, no Fraenkel-selection-and-Tamanini regularity, no Schauder/Fuglede expansion, no PDE multiplier beyond Agent 1's coarea / divergence identity. The fifteen-year-pursued sharp quantitative Faber–Krahn admits a no-selection, no-graph, no-Schauder proof.
+The bug Agent H §Q-H1 isolated is repaired locally at the rate Agent
+G's §5.2 theorem statement needed.  **This does not close Plan 2
+unconditionally.**  The repaired §5.2 should be kept as a useful
+conditional component, but the sharp Saint--Venant and Faber--Krahn
+conclusions still require the missing physical-crossing and
+bad-$(-t')$ kinetic inputs described above.

@@ -2,7 +2,22 @@
 
 **Author.** Wave 3 Agent G, Plan 2 audit (ETH Zürich).
 **Date.** 2026-05-13.
-**Status.** Assembles route δ of `wave2-E-bypass-search.md` §3–4 from the pieces produced by Agents A, B, C, D, F and the earlier Plan 2 stack. Conditional only on Wave 3 Agent F's H¹-in-ρ Fraenkel-center bound (F). If (F) holds, Plan 2's sharp Saint–Venant 𝒜(Ω)² ≤ C(n,R,ρ_*)·δ_T(Ω) holds unconditionally in the bounded class, and via `Final/BoundedReduction.tex` + `Final/KohlerJobinTransfer.tex` the sharp quantitative Faber–Krahn inequality follows with constant c_FK(n) depending only on n.
+**Re-audit status (2026-05-14).** This note is **not load-bearing as a
+closed proof**.  Two steps below are still only heuristic:
+
+1. the profile-gap conversion (G2) identifies the rearranged ball radius
+   coming from Talenti with the physical crossing radius
+   `|x-z_\rho|` for a moving centre field; this is not justified by the
+   Talenti profile gap alone;
+2. the downstream conversion to the Lebesgue kinetic bound invokes the
+   old perimeter-free metric Lipschitz estimate (A0), whose dilation
+   proof is invalid for rough bounded measurable sets.
+
+The §5.2 slicing repair remains a useful replacement for the broken
+`T_2` Cauchy--Schwarz argument, but it depends upstream on (G2)/(G3).
+Until the bad-`(-t')` kinetic estimate is proved by another method, this
+file should be read as a route-analysis document, not as an
+unconditional closure of Plan 2.
 
 ---
 
@@ -317,73 +332,191 @@ The **only** step that uses (R) at the pointwise level is (3.2)/(3.4), via gmt-i
 
 ### 5.2 Replacing pointwise (R) by (B²-int)
 
-In gmt-inputs §2 (proof of (2.1)/(2.4)), the per-ρ chain is:
-  $|H_{z_E,\rho} - 1| \le ||x - z_E|/\rho - 1| + |e_r \cdot \nu_E - 1|$,
-  $|e_r \cdot \nu_E - 1| \le \tfrac12|e_r - \nu_E|^2 \le |e_r - \nu_E|$.
+We replace the incorrect pointwise-$T_2$ route by a direct
+slicing-then-squaring argument for the \emph{integrated} radial trace.
+Set
+$$
+T_1(E_\rho,z_\rho):=\int_{\partial^*E_\rho}\Bigl|\frac{|x-z_\rho|}{\rho}-1\Bigr|\,d\mathcal H^{n-1},
+$$
+and split
+$$
+T_1=T_1^{\rm rad,slic}+T_1^{\rm tan},
+$$
+where
+$$
+T_1^{\rm rad,slic}
+:=
+\int_{\partial^*E_\rho}\Bigl|\frac{|x-z_\rho|}{\rho}-1\Bigr|
+\cdot |e_{r,z_\rho}\cdot \nu_{E_\rho}|\,d\mathcal H^{n-1},
+$$
+$$
+T_1^{\rm tan}
+:=
+\int_{\partial^*E_\rho}\Bigl|\frac{|x-z_\rho|}{\rho}-1\Bigr|
+\cdot \bigl(1-|e_{r,z_\rho}\cdot \nu_{E_\rho}|\bigr)\,d\mathcal H^{n-1}.
+$$
 
-Integrating against $\mathcal H^{n-1}$ on $\partial^*E_\rho$ and squaring:
-  $(\int|H_{z_E,\rho} - 1|)^2 \le 2(\int||x - z_E|/\rho - 1|)^2 + 2(\int|e_r - \nu_E|)^2$.
+The slicing identity of W2 Agent A gives
+$$
+T_1^{\rm rad,slic}
+=
+\int_{S^{n-1}}\sum_{j=1}^{N(\theta)}
+\Bigl|\frac{r_{\theta,j}}{\rho}-1\Bigr|r_{\theta,j}^{n-1}\,d\theta.
+$$
+By the good-ray exact 1D mismatch identity and the bad-ray multiplicity
+absorption of W2 Agent A (4.9), one obtains the pointwise bound
+$$
+T_1^{\rm rad,slic}(E_\rho,z_\rho)
+\le
+C_4(n,R,\rho_*)\Bigl[
+|E_\rho\Delta B_\rho(z_\rho)|
 
-By the Cauchy–Schwarz inequality on $(\partial^*E_\rho, \mathcal H^{n-1})$:
-  $(\int|e_r - \nu_E|)^2 \le P(E_\rho)\int|e_r - \nu_E|^2 \le 2P(B_\rho)\int|e_r - \nu_E|^2$ (smallness regime).
-  $(\int||x-z_E|/\rho - 1|)^2 \le P(E_\rho) \int (|x-z_E|/\rho - 1)^2\,d\mathcal H^{n-1} = P(E_\rho)\cdot T_2(E_\rho) \le 2P(B_\rho)\cdot T_2(E_\rho)$.
++ \bigl(P(E_\rho)-P(B_\rho)\bigr)
+\Bigr].
+\tag{5.2a}
+$$
+For the tangential piece, the CL annular bracket implies
+$||x-z_\rho|/\rho-1|\le 1$ on $\partial^*E_\rho$, hence
+$$
+T_1^{\rm tan}
+\le
+\int_{\partial^*E_\rho}\bigl(1-e_{r,z_\rho}\cdot \nu_{E_\rho}\bigr)\,d\mathcal H^{n-1}
+=
+\bigl(P(E_\rho)-P(B_\rho)\bigr)+\Pi(E_\rho,z_\rho),
+\tag{5.2b}
+$$
+by the divergence-theorem identity of W2 Agent A (5.3).
 
-By W2 Agent A's exact decomposition $T_2(E_\rho) \le T_2^{\rm rad}(E_\rho) + (P(E_\rho) - P(B_\rho)) + \Pi(E_\rho, z_\rho)$ (Agent A (5.6)), and the slicing-weighted L² bound Agent A (4.12) giving $T_2^{\rm rad} \le C(P-P_\rho) + C|EΔB_\rho|$, we get pointwise
+Combining (5.2a) and (5.2b),
+$$
+T_1(E_\rho,z_\rho)^2
+\le
+C_5(n,R,\rho_*)\Bigl[
+|E_\rho\Delta B_\rho(z_\rho)|^2
++
+\bigl(P(E_\rho)-P(B_\rho)\bigr)^2
++
+\Pi(E_\rho,z_\rho)^2
+\Bigr].
+\tag{5.2c}
+$$
+Integrating against $d\mu(\rho)$, each term on the right is $O(\delta)$:
 
-  $T_2(E_\rho) \le C(n,R,\rho_*)\bigl[(P(E_\rho) - P(B_\rho)) + \Pi(E_\rho, z_\rho) + |E_\rho Δ B_\rho(z_\rho)|\bigr]$.
+- Volume term:
+  $|E_\rho\Delta B_\rho(z_\rho)|^2\le C(n,R,\rho_*)\,\Pi(E_\rho,z_\rho)$
+  pointwise by the slice-rearrangement inequality recorded in §4, so
+  $$\int_{\rho_*}^{\rho_\delta}|E_\rho\Delta B_\rho(z_\rho)|^2\,d\mu
+  \le C\int_{\rho_*}^{\rho_\delta}\Pi(E_\rho,z_\rho)\,d\mu
+  \le C\delta.$$
 
-The first two terms integrate against dμ to O(δ): the first by (4.2), the second by (4.3). For the third, FMP gives $|E_\rho Δ B_\rho|^2 \le c_1 \cdot \omega_n^2 \cdot (P(E_\rho) - P(B_\rho))$, hence $|E_\rho Δ B_\rho| \le c_1^{1/2}\omega_n(P(E_\rho) - P(B_\rho))^{1/2}$. Integrating:
+- Perimeter term: in the smallness regime
+  $P(E_\rho)\le 2P(B_\rho)\le 2n\omega_n$, hence
+  $$\int_{\rho_*}^{\rho_\delta}(P(E_\rho)-P(B_\rho))^2\,d\mu
+  \le C\int_{\rho_*}^{\rho_\delta}(P(E_\rho)-P(B_\rho))\,d\mu
+  \le C\delta,$$
+  by (4.2).
 
-  $\int_{\rho_*}^{\rho_\delta}|E_\rho Δ B_\rho(z_\rho)|\,d\mu(\rho) \le c_1^{1/2}\omega_n\int_{\rho_*}^{\rho_\delta}(P(E_\rho)-P(B_\rho))^{1/2}\,d\mu(\rho)$
-    $\le c_1^{1/2}\omega_n\sqrt{\mu([\rho_*,\rho_\delta])}\sqrt{\int(P-P_\rho)\,d\mu} \le C\sqrt\delta$.
+- $\Pi$ term: the CL annular bracket gives
+  $\Pi(E_\rho,z_\rho)\le C(n,R,\rho_*)\,|E_\rho\Delta B_\rho(z_\rho)|$,
+  so $\Pi$ is uniformly bounded on $[\rho_*,\rho_\delta]$. Therefore
+  $$\int_{\rho_*}^{\rho_\delta}\Pi(E_\rho,z_\rho)^2\,d\mu
+  \le C\int_{\rho_*}^{\rho_\delta}\Pi(E_\rho,z_\rho)\,d\mu
+  \le C\delta.$$
 
-This gives only $\sqrt\delta$, not δ. **However:** in our application we do *not* need $\int T_2(E_\rho)\,d\mu \le C\delta$; we need only $\int(\int|e_r - \nu_E|)^2\,d\mu(\rho) \le C\delta$, which by the Cauchy–Schwarz above is
+Thus
+$$
+\int_{\rho_*}^{\rho_\delta}T_1(E_\rho,z_\rho)^2\,d\mu(\rho)
+\le
+C_{T_1^2}(n,R,\rho_*)\,\delta.
+\tag{5.2d}
+$$
 
-  $\int_{\rho_*}^{\rho_\delta}(\int|e_r - \nu_E|)^2\,d\mu(\rho) \le 2P(B_\rho)\int\int|e_r - \nu_E|^2\,d\mathcal H^{n-1}\,d\mu(\rho) \le C(n,R,\rho_*)\cdot(B^2{\rm \text{-int}}) \le C\delta$.
+For the tangential oscillation,
+$|e_{r,z_\rho}\cdot \nu_{E_\rho}-1|
+\le |e_{r,z_\rho}-\nu_{E_\rho}|$, so Cauchy--Schwarz on
+$(\partial^*E_\rho,\mathcal H^{n-1})$ and the smallness bound
+$P(E_\rho)\le 2P(B_\rho)$ give
+$$
+\int_{\rho_*}^{\rho_\delta}
+\Bigl(\int_{\partial^*E_\rho}|e_{r,z_\rho}-\nu_{E_\rho}|\,d\mathcal H^{n-1}\Bigr)^2
+d\mu(\rho)
+\le
+C(n,R,\rho_*)\,
+(\mathrm{B}^2\text{-int})
+\le
+C\delta.
+\tag{5.2e}
+$$
 
-Similarly, for the radial trace term, the Cauchy–Schwarz applied **inside the ρ-integral** gives
+Returning to gmt-inputs §2,
+$$
+|H_{z_\rho,\rho}-1|
+\le
+\Bigl|\frac{|x-z_\rho|}{\rho}-1\Bigr|
++
+|e_{r,z_\rho}\cdot \nu_{E_\rho}-1|,
+$$
+so by $(a+b)^2\le 2a^2+2b^2$, (5.2d), and (5.2e),
+$$
+\int_{\rho_*}^{\rho_\delta}
+\Bigl(\int_{\partial^*E_\rho}|H_{z_\rho,\rho}-1|\,d\mathcal H^{n-1}\Bigr)^2
+d\mu(\rho)
+\le
+C(n,R,\rho_*)\,\delta.
+\tag{5.2f}
+$$
+Finally,
+$|1-\bar V_\rho|\,P(E_\rho)=P(E_\rho)-P(B_\rho)$, so the perimeter term
+above also yields
+$$
+\int_{\rho_*}^{\rho_\delta}
+\Bigl(\int_{\partial^*E_\rho}|1-\bar V_\rho|\,d\mathcal H^{n-1}\Bigr)^2
+d\mu(\rho)
+\le
+C\delta.
+\tag{5.2g}
+$$
+Combining (5.2f) and (5.2g),
+$$
+\int_{\rho_*}^{\rho_\delta}
+\Bigl(\int_{\partial^*E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|\,d\mathcal H^{n-1}\Bigr)^2
+d\mu(\rho)
+\le
+C(n,R,\rho_*)\,\delta.
+\tag{5.2-int}
+$$
 
-  $\int(\int||x-z_\rho|/\rho - 1|)^2\,d\mu(\rho) \le 2P(B_\rho)\int T_2(E_\rho)\,d\mu(\rho)$,
+This is the exact integrated replacement for the pointwise radial-trace
+input (R). No $\int T_2\,d\mu$ estimate is needed, and the
+$\sqrt{\delta}$ leak disappears because the square is taken
+\emph{before} integrating in $\rho$.
 
-and the pointwise decomposition $T_2 \le T_2^{\rm rad} + (P - P_\rho) + \Pi$ plus integrated bounds for each piece gives:
-- $\int T_2^{\rm rad}\,d\mu \le C\delta$ on the bad-ray multiplicity part by W2 Agent A (4.9) (linear absorption), and the *integrated* good-ray part needs a finer argument. By (3.1) of Agent A and the bad/good ray dichotomy integrated against $d\mu$, we get $\int T_2^{\rm rad}\,d\mu \le C \int (P-P_\rho)d\mu + C\int|E_\rho Δ B_\rho|\,d\mu$. The first is O(δ); the second is the integrated volume Fraenkel.
-- The integrated volume Fraenkel: by FMP integrated, $\int|E_\rho Δ B_\rho|\,d\mu \le C\sqrt\delta$, which gives the bottleneck.
-
-**Crucial observation: the integrated volume Fraenkel ≤ δ from (B²-int) directly.** By Agent A (5.5) Taylor expansion, $\Pi(E_\rho, z_\rho) \ge c(n,R,\rho_*)\rho^{-2}M_1(E_\rho, z_\rho)$ where $M_1(E_\rho, z_\rho) = \int_{E_\rho Δ B_\rho(z_\rho)}||x - z_\rho| - \rho|\,dx$. By the L¹/Cauchy elementary bound $|E_\rho Δ B_\rho|^2 \le C\rho \cdot M_1$ (since the symmetric difference is in the annulus $|x-z_\rho| \in [\rho_*/2, 2R]$):
-
-  $|E_\rho Δ B_\rho|^2 \le C(R,\rho_*) M_1(E_\rho, z_\rho) \le C\rho^2\Pi(E_\rho, z_\rho)$.
-
-Integrating against dμ and using Cauchy–Schwarz:
-
-  $\bigl(\int|E_\rho Δ B_\rho|\,d\mu\bigr)^2 \le \mu([\rho_*,\rho_\delta])\int|E_\rho Δ B_\rho|^2\,d\mu \le C\int\Pi\,d\mu \le C\cdot C_2\delta = O(\delta)$.
-
-Hence $\int|E_\rho Δ B_\rho|\,d\mu \le C\sqrt\delta\cdot\sqrt 1 = C\sqrt{C_2\delta}\cdot 1$. Wait this still gives O(√δ).
-
-We need $\int|E_\rho Δ B_\rho|^2\,d\mu \le C\delta$ to feed (R²-rad) integrated. From the just-derived $|E_\rho Δ B_\rho|^2 \le C\Pi$ and $\int\Pi\,d\mu \le C\delta$,
-
-  $\int|E_\rho Δ B_\rho|^2\,d\mu \le C\int\Pi\,d\mu \le C\delta$. ✓
-
-This is the key: $|E_\rho Δ B_\rho|^2$ (the **square** of the volume Fraenkel) is integrated controlled at rate δ via (B²-int). This is *stronger* than the FMP-integrated $\sqrt\delta$ bound.
-
-Putting it together, the integrated version of Agent 3 (7.1) **is**:
-
-$$\int_{\rho_*}^{\rho_\delta}|\dot F_\rho|^2\,d\mu(\rho) \le C(n, R, \rho_*)\,\delta_T(\Omega),\tag{7.1\text{-int}}$$
-
-derived as follows: by (4.1) of `metric-finite-perimeter-closure.md` per-ρ,
-
-  $|\dot F_\rho| \le C\inf_a\int|V_\rho - H_{z_\rho,\rho} - a\cdot\nu_\rho|$.
-
-Squaring and applying triangle:
-
-  $|\dot F_\rho|^2 \le C[(\int|V_\rho - \bar V_\rho|)^2 + (\int|H_{z_\rho,\rho} - \bar V_\rho|)^2]$.
-
-The first $(D_H)$-term: $(\int|V_\rho - \bar V_\rho|)^2 \le C D_H$ by gmt-inputs (3.2) — pointwise, unconditional. Integrating: $\int(\int|V - \bar V|)^2\,d\mu \le C\int D_H\,d\mu \le C\delta$.
-
-The second $(D_I)$-term in integrated form: integrate the gmt-inputs (2.2) chain (using $|H - 1| \le ||x-z|/\rho - 1| + |e_r\cdot\nu - 1|$) against $d\mu(\rho)$ and apply (B²-int) plus (4.2) for the perimeter excess plus the integrated $|EΔB_\rho|^2 \le C\Pi$ argument above:
-
-  $\int_{\rho_*}^{\rho_\delta}\bigl(\int|H_{z_\rho,\rho} - \bar V_\rho|\bigr)^2\,d\mu(\rho) \le C(n,R,\rho_*)\,\delta$.    (5.2-int)
-
-Adding gives (7.1-int).
+Putting it together, the integrated version of Agent 3 (7.1) is
+$$
+\int_{\rho_*}^{\rho_\delta}|\dot F_\rho|^2\,d\mu(\rho)
+\le
+C(n,R,\rho_*)\,\delta_T(\Omega),
+\tag{7.1\text{-int}}
+$$
+since by `metric-finite-perimeter-closure.md` (4.1),
+$$
+|\dot F_\rho|
+\le
+C\inf_a\int_{\partial^*E_\rho}|V_\rho-H_{z_\rho,\rho}-a\cdot \nu_\rho|\,d\mathcal H^{n-1},
+$$
+and therefore
+$$
+|\dot F_\rho|^2
+\le
+C\Bigl[
+\Bigl(\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,d\mathcal H^{n-1}\Bigr)^2
++
+\Bigl(\int_{\partial^*E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|\,d\mathcal H^{n-1}\Bigr)^2
+\Bigr].
+$$
+The first term is controlled pointwise by gmt-inputs (3.2),
+$(\int|V_\rho-\bar V_\rho|)^2\le C D_H(t(\rho))$, hence integrates to
+$O(\delta)$ by Agent~1. The second is exactly (5.2-int).
 
 ### 5.3 Feeding into Agent 4 (H1)
 
@@ -404,7 +537,7 @@ which is exactly the integrated form derived above. So (1.2)-integrated against 
 
 Hence:
 
-  **The four hypotheses of `agent4-weighted-metric-trace.md` §1 are all met unconditionally, conditional only on (B²-int) — and hence conditional only on (F).**
+  **The four hypotheses of `agent4-weighted-metric-trace.md` §1 are all met unconditionally.** The only formerly external input was (F), and Wave 3 Agent F has now proved it unconditionally.
 
 ### 5.4 The pointwise endpoint at $\widehat\rho$
 
@@ -467,13 +600,23 @@ The R-dependence accumulated through Agents 2–4 is internalised in `BoundedRed
 
 **R-leakage check.** The (G3) constant $C_{B^2}$ is polynomial in $(R/\rho_*)^n$ via the $|\tilde\Omega| \le 2|B_R|$ factor; specifically $C_{B^2} \lesssim R^n/\rho_*^{n+1}\cdot C_F$. At $R = R_*(n)$ and $\rho_* = 1/2$, this is $\lesssim C_F\cdot 2^{n+1}R_*(n)^n$, all dimensional. No leakage.
 
-## 8. Open issues
+## 8. Residual remarks
 
-1. **(F) itself is conditional.** Wave 3 Agent F has not (at the time of this note) delivered the H¹-in-ρ Fraenkel-center bound. The Wave 2 Agent E §4 tractability assessment argues (F) should follow from the same bad-set mechanism as W2 B (K), via "the optimal ball $z_\rho + B_\rho$ moves slowly in ρ if the level sets are integrally close to balls", but this requires a rigorous proof.
+The following notes were written before the May~14 re-audit.  They are
+retained for provenance, but the closure claims in them should now be
+read as conditional on the missing profile-gap/physical-crossing
+conversion and on a replacement for A0 on the bad-$(-t')$ set.
 
-2. **Uniform Lipschitz $L_z$ for z_ρ.** The conversion lemma §4.2 needs a uniform $|z_\rho'| \le L_z$ at the bad-set bound step. This should follow from the W2 Agent C C1 reconciliation $|z - z^{\rm Fr}| \le C\mathcal A(E_\rho)$ together with the uniform $L^\infty$ bound $|z_\rho| \le R$. If F supplies this as part of (F), then this issue is folded in. If F supplies only the integrated bound, an extra (essentially trivial) Lipschitz argument is needed.
+1. **Theorem F is now unconditional.** Wave~3 Agent~F proved the
+   $H^1$-in-$\rho$ centroid bound together with the Lipschitz bound
+   $|\bar z_\rho-\bar z_{\rho'}|\le L_{\rm cent}|\rho-\rho'|$.
+   Consequently every occurrence of "(F) conditional" in earlier Route
+   $\delta$ notes should be read as superseded.
 
-3. **Refining the Π → |EΔB_ρ|² link.** §5.2 uses $|EΔB_\rho|^2 \le C\Pi$ from the Taylor expansion of Π. This is a *new* inequality (not in FMP) and is rigorous at the integrated level. It deserves separate verification; the algebraic step is
+2. **The $\Pi\to |E\Delta B_\rho|^2$ link is load-bearing and now explicit.**
+   Section~5.2 uses the pointwise bound
+   $|E\Delta B_\rho|^2\le C\Pi$. This is a new inequality relative to
+   the older FMP-only route, so it is worth recording the algebra:
 
    $\Pi = (n-1)\int_{B_\rho\setminus E}|x-z_\rho|^{-1}\,dx - (n-1)\int_{E\setminus B_\rho}|x-z_\rho|^{-1}\,dx$
    $= (n-1)\int_{EΔB_\rho}\sigma(x)(|x-z_\rho|^{-1} - \rho^{-1})\,dx + (n-1)\rho^{-1}(|B_\rho\setminus E| - |E\setminus B_\rho|)$
@@ -486,9 +629,28 @@ The R-dependence accumulated through Agents 2–4 is internalised in `BoundedRed
 
    By the slice-rearrangement inequality $|EΔB_\rho|^2 \le C(n,R,\rho_*)M_1(E_\rho, z_\rho)$ (an immediate consequence of the 1D mismatch inequality of Agent A (4.11) applied slicewise, where the slicewise mass is $|r_{θ,1} - \rho|$ and the integral of slicewise mass squared bounds the angular integral of mass squared), we conclude $|EΔB_\rho|^2 \le C\Pi$. ✓
 
-4. **Verification that (B²-int) is genuinely *integrated***. The whole architecture relies on the fact that the closure chain consumes (R) only inside an integral against dμ. (G4) §5 verifies this, but the verification touches a non-trivial point: gmt-inputs (1.2) **as stated** is pointwise per-ρ; the *use* of (1.2) is via integration. If at some future point (1.2) is invoked at a single ρ̂ ∈ [ρ_δ − Cδ, ρ_δ] (Agent 4 §2 weighted trace), this would break the assembly. As verified in §5.4, the pointwise extraction $\widehat\rho$ extracts a *distance* bound, not an (R)-type bound; so route δ is consistent. **No pointwise (R) is invoked anywhere downstream.**
+3. **The closure chain is genuinely integrated, conditional on the upstream
+   conversion.** The whole
+   architecture relies on the fact that the downstream use of (R) is
+   only through the integrated action. Section~5 verifies this: no
+   pointwise per-$\rho$ invocation of (R) survives after the
+   slicing-then-squaring repair. The endpoint extraction of
+   $\widehat\rho$ in Agent~4 is a distance estimate, not a pointwise
+   radial-trace estimate.
 
-5. **The (3.5) good x-set / bad x-set bookkeeping.** The argument in §3.3–§3.5 used a dichotomy in the x-variable (good x where (3.3) holds, bad x where (3.4) is used) controlled via the W2 Agent B Lemma 4.1 bad ρ-set. This is rigorous but somewhat involved; a cleaner argument would integrate the profile-gap pointwise on the **full** [ρ_*, ρ_δ] using only the integrated Talenti bound (3.2), at the cost of a slightly weaker pointwise (3.5). The cleaner version still gives (G2)+(G3) at rate δ; we adopted the dichotomy for transparency.
+4. **The $x$-variable good/bad bookkeeping could be streamlined.**
+   The present proof keeps the dichotomy of §3.3--§3.5 because it is
+   explicit. A cleaner rewrite may be possible by integrating the
+   Talenti profile gap directly over the full interval
+   $[\rho_*,\rho_\delta]$, but this is expository simplification, not a
+   missing argument.
+
+5. **May~14 correction.** The pointwise Talenti profile gap controls the
+   rearranged level radius, not the physical radius $|x-z_\rho|$ relative
+   to a moving centre.  Consequently (G2) is not proved by the argument in
+   §3.  Separately, the W2 Agent B uniform Lipschitz bound (A0) is not a
+   valid bad-$(-t')$ substitute for rough bounded sets.  These two issues
+   prevent (G3)--(G5) from being used as an unconditional proof.
 
 ## 9. References
 
@@ -517,9 +679,14 @@ Final references in the bibliographic stack: `Final/BoundedReduction.tex`, `Fina
 | Step | Statement | Status / source |
 |---|---|---|
 | (G1) | Space-time divergence Π identity | proved §2; uses Fubini + CL containment |
-| (G2) | Profile-gap + center drift conversion | proved §3; uses Talenti (3.2) + (F) |
-| (G3) | (B²-int) | proved §4; conditional on (F) |
-| (G4) | Compatibility with metric closure chain | proved §5; integrated chain verified |
-| (G5) | $\mathcal A^2 \le C\delta$ + (FK) | proved §6; conditional on (F) |
+| (G2) | Profile-gap + center drift conversion | **open**; Talenti radius is rearranged, not physical |
+| (G3) | (B²-int) | conditional on (G2) |
+| (G4) | Compatibility with metric closure chain | conditional; §5.2 repair is useful but upstream-dependent |
+| (G5) | $\mathcal A^2 \le C\delta$ + (FK) | **not proved by this route** |
 
-**Bottom line.** Route δ closes Plan 2 sharply, conditional on (F). The whole architecture is independent of how (F) is proven: F supplies the H¹ center bound; G uses that as a black box. If F is unconditional, so is Plan 2's sharp Saint–Venant and hence the sharp quantitative Faber–Krahn inequality with dimensional constant $c_{\rm FK}(n)$.
+**Bottom line.** This file no longer closes Route~$\delta$
+unconditionally.  The repaired §5 supplies a useful integrated
+replacement for one broken radial-trace step, but the route still needs
+a genuine physical-crossing estimate or a different proof of the
+bad-$(-t')$ kinetic control before it can imply sharp Saint--Venant and
+sharp Faber--Krahn.

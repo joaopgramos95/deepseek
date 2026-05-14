@@ -1,0 +1,352 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\rstar}{\rho_*}
+\newcommand{\Hn}{\mathcal H^{n-1}}
+\newcommand{\X}{\mathcal X}
+
+\title{Self-Truncated Velocity Defect\\
+       Replacing the Pointwise Lower Gradient Hypothesis}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The original Plan 2 metric trace used a pointwise lower bound
+$|\nabla u|\ge m_0$ on every reduced-boundary level surface.  That
+former global lower-gradient hypothesis is too strong: tiny components
+can carry arbitrarily small gradients.  This note records the
+replacement.  On a.e. level whose perimeter is already in the
+Fusco--Julin good class, the low-gradient part of the level surface is
+discarded relative to the intrinsic average
+$\bar f=\int f/P$, with $f=|\nabla u|$.  The discarded part is charged
+by the Cauchy--Schwarz defect $D_H$ itself.  Consequently the velocity
+defect estimate required by the metric first variation holds without any
+pointwise lower-gradient hypothesis.  The resulting swept low-gradient
+control is only asserted on the isoperimetric-good set $G_I$ used in
+\textsc{WeightedMetricTrace}; no unrestricted sweep estimate is claimed.
+\end{abstract}
+
+\section{Algebraic truncation on one level}
+
+Let $(S,\Hn)$ be a finite measure space, let $f:S\to(0,\infty)$ be
+measurable, and set
+\[
+   P:=\Hn(S),\qquad
+   \alpha:=\int_S \frac{1}{f}\,d\Hn,\qquad
+   \beta:=\int_S f\,d\Hn,\qquad
+   D:=\alpha\beta-P^2.
+\]
+Write
+\[
+   \bar f:=\frac{\beta}{P},\qquad
+   \phi:=\frac1f,\qquad
+   \bar\phi:=\frac{\alpha}{P}.
+\]
+By Cauchy--Schwarz, $D\ge0$.
+
+\begin{lemma}[Low-gradient mass is charged by $D$]\label{lem:bad-alpha}
+Let
+\[
+   B:=\{x\in S:f(x)<\bar f/2\},\qquad G:=S\setminus B,
+\]
+and put $\alpha_B:=\int_B f^{-1}\,d\Hn$.  Then
+\begin{equation}\label{eq:alphaB}
+   \alpha_B\le \frac{4}{\beta}\,D,
+   \qquad
+   \Hn(B)\le\frac{\bar f}{2}\,\alpha_B.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The weighted variance identity is
+\begin{equation}\label{eq:weighted-var}
+   \int_S \frac{(f-\bar f)^2}{f}\,d\Hn
+   =\beta-2\bar f P+\bar f^2\alpha
+   =\frac{\beta}{P^2}D.
+\end{equation}
+On $B$ one has $\bar f-f>\bar f/2$, hence
+\[
+   \frac1f\le \frac{4}{\bar f^2}\frac{(f-\bar f)^2}{f}.
+\]
+Integrating and using $\bar f=\beta/P$ in \eqref{eq:weighted-var} gives
+$\alpha_B\le4D/\beta$.  The perimeter estimate follows from
+$1\le(\bar f/2)f^{-1}$ on $B$.
+\end{proof}
+
+\begin{lemma}[Unit-weight reciprocal variance after truncation]
+\label{lem:trimmed-phi}
+With $B,G$ as above,
+\begin{equation}\label{eq:phi-trimmed}
+   \int_S |\phi-\bar\phi|\,d\Hn
+   \le \frac{2P}{\beta}\,D^{1/2}
+       +\frac{20}{\beta}\,D .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let $\phi_G:=\Hn(G)^{-1}\int_G\phi\,d\Hn$ if $\Hn(G)>0$; if
+$\Hn(G)=0$, the estimate below is immediate from Lemma~\ref{lem:bad-alpha}.
+On $G$ we have $f\ge\bar f/2$, so
+\[
+   \bigl(\phi(x)-\phi(y)\bigr)^2
+   =\frac{(f(x)-f(y))^2}{f(x)^2f(y)^2}
+   \le\frac{4P^2}{\beta^2}
+        \frac{(f(x)-f(y))^2}{f(x)f(y)} .
+\]
+Therefore, by the double-integral variance identity on $G$,
+\[
+   \left(\int_G|\phi-\phi_G|\,d\Hn\right)^2
+   \le \Hn(G)\int_G(\phi-\phi_G)^2\,d\Hn
+   \le \frac{4P^2}{\beta^2}D .
+\]
+It remains to replace the good mean $\phi_G$ by the global mean
+$\bar\phi$.  Since $\phi\le2P/\beta$ on $G$ and
+$\Hn(B)\le(\bar f/2)\alpha_B$, we have
+\[
+   \Hn(G)|\phi_G-\bar\phi|
+   \le \frac{\Hn(B)}{P}\int_G\phi\,d\Hn
+       +\frac{\Hn(G)}{P}\int_B\phi\,d\Hn
+   \le 2\alpha_B .
+\]
+Also,
+\[
+   \int_B|\phi-\bar\phi|\,d\Hn
+   \le \alpha_B+\bar\phi\,\Hn(B)
+   \le 3\alpha_B,
+\]
+because
+\[
+   \bar\phi\,\Hn(B)
+   =\frac{\alpha_G+\alpha_B}{P}\Hn(B)
+   \le \frac{\Hn(B)}{P}\frac{2P^2}{\beta}+\alpha_B
+   =\frac{\Hn(B)}{\bar f/2}+\alpha_B
+   \le 2\alpha_B .
+\]
+Combining these estimates gives
+\[
+   \int_S|\phi-\bar\phi|\,d\Hn
+   \le \frac{2P}{\beta}D^{1/2}+5\alpha_B,
+\]
+and Lemma~\ref{lem:bad-alpha} gives \eqref{eq:phi-trimmed}.
+\end{proof}
+
+\section{Application to torsion level surfaces}
+
+Let $\Om\subset B_R$ have $|\Om|=\omega_n$, let $u=u_\Om$, and write
+$E_\rho=\{u>t(\rho)\}$ with $|E_\rho|=\omega_n\rho^n$.
+We use the term \emph{admissible regular radius} for a radius
+$\rho\in(0,1)$ satisfying all of the following standard a.e. properties:
+$t$ is differentiable at $\rho$; $E_\rho$ has finite perimeter;
+$S_\rho:=\partial^*E_\rho$ is a reduced-boundary representative for the
+coarea level; the trace of $|\nabla u|$ on $S_\rho$ is finite and
+strictly positive $\Hn$-a.e.; and the coarea derivative and flux
+identities below hold.  The set of such radii has full Lebesgue measure
+in $(0,1)$, after the usual exclusion of exceptional torsion levels.
+At an admissible regular radius we set
+\[
+   S_\rho:=\partial^*E_\rho,\qquad
+   f:=|\nabla u|,\qquad
+   P:=P(E_\rho),\qquad
+   \beta:=\int_{S_\rho}f\,d\Hn=|E_\rho|=\omega_n\rho^n.
+\]
+Let
+\[
+   D_H(t(\rho))
+   =\left(\int_{S_\rho}\frac1f\,d\Hn\right)
+      \left(\int_{S_\rho}f\,d\Hn\right)-P(E_\rho)^2.
+\]
+The normal velocity is
+\[
+   V_\rho=\frac{-t'(\rho)}{f},
+   \qquad
+   \bar V_\rho=\frac{1}{P(E_\rho)}\int_{S_\rho}V_\rho\,d\Hn
+              =\frac{P(B_\rho)}{P(E_\rho)}.
+\]
+The identity
+\begin{equation}\label{eq:lambda-alpha}
+   (-t'(\rho))\int_{S_\rho}\frac1f\,d\Hn=P(B_\rho)
+\end{equation}
+is the volume-radius derivative of $|E_\rho|=\omega_n\rho^n$ and is used
+only at admissible regular radii.
+
+\begin{proposition}[Velocity defect without Hyp-G]\label{prop:no-hypg}
+Fix $\rho_c\in(0,1)$ and $P_1<\infty$.  There is
+$C=C(n,\rho_c,P_1)$ such that, for every admissible regular
+$\rho\in[\rho_c,1]$ satisfying $P(E_\rho)\le P_1$,
+\begin{equation}\label{eq:no-hypg}
+   \left(\int_{\partial^*E_\rho}
+      |V_\rho-\bar V_\rho|\,d\Hn\right)^2
+   \le C(n,\rho_c,P_1)\,D_H(t(\rho)).
+\end{equation}
+No pointwise lower bound on $|\nabla u|$ is assumed.  The only lower
+nondegeneracy input is the volume lower bound
+$\beta=|E_\rho|\ge\omega_n\rho_c^n$, and the only upper geometric input
+is the perimeter bound $P(E_\rho)\le P_1$.
+\end{proposition}
+
+\begin{proof}
+Apply Lemma~\ref{lem:trimmed-phi} on $S_\rho$ with
+$D=D_H(t(\rho))$.  Since $\rho\ge\rho_c$ and $P(E_\rho)\le P_1$,
+\[
+   \beta=\omega_n\rho^n\ge\omega_n\rho_c^n=:\beta_0,
+   \qquad P/\beta\le P_1/\beta_0 .
+\]
+Let $\lambda:=-t'(\rho)\ge0$.  Then
+\[
+   \int_{S_\rho}|V_\rho-\bar V_\rho|\,d\Hn
+   =\lambda\int_{S_\rho}|\phi-\bar\phi|\,d\Hn
+   \le C_1\lambda D_H^{1/2}+C_2\lambda D_H .
+\]
+Talenti's comparison gives $\lambda\le1/n$.  For the quadratic term,
+use $D_H\le\alpha\beta$ and \eqref{eq:lambda-alpha}:
+\[
+   \lambda^2D_H
+   \le \lambda^2\alpha\beta
+   =\lambda\,P(B_\rho)\,\beta
+   \le C(n).
+\]
+Therefore
+\[
+   \left(C_1\lambda D_H^{1/2}+C_2\lambda D_H\right)^2
+   \le C\,D_H,
+\]
+which proves \eqref{eq:no-hypg}.
+\end{proof}
+
+\begin{corollary}[Fusco--Julin good levels provide $P_1$]
+\label{cor:FJ-good}
+Let
+\[
+   G_I:=\{\rho: D_I(t(\rho))\le\eta_I\}.
+\]
+If $\eta_I=\eta_I(n,\rho_c)$ is chosen fixed and small, then
+$P(E_\rho)\le P_1(n,\rho_c)$ on $G_I\cap[\rho_c,1]$.  Hence
+\eqref{eq:no-hypg} holds for a.e. admissible Fusco--Julin good level in
+the collar $[\rho_c,\rho_\delta]$.
+\end{corollary}
+
+\begin{proof}
+Since
+\[
+   D_I(t(\rho))=P(E_\rho)^2-P(B_\rho)^2,
+\]
+the condition $D_I(t(\rho))\le\eta_I$ gives
+$P(E_\rho)^2\le P(B_\rho)^2+\eta_I\le n^2\omega_n^2+\eta_I$ for
+$\rho\le1$.  This gives a uniform $P_1$.
+\end{proof}
+
+\section{Discarded low-gradient sweep on $G_I$}
+
+The same algebra makes precise the idea of discarding tiny regions where
+the gradient is anomalously small, but only after restricting to the
+isoperimetric-good set.  The estimate below is not a global sweep
+estimate over all levels.
+
+\begin{corollary}[The good-level discarded sweep is deficit-controlled]
+\label{cor:sweep}
+On an admissible good level $\rho\in G_I\cap[\rho_c,\rho_\delta]$ let
+\[
+   \bar f_\rho:=\frac{|E_\rho|}{P(E_\rho)},\qquad
+   B_\rho^{\rm low}:=\{x\in\partial^*E_\rho:
+      |\nabla u(x)|<\bar f_\rho/2\}.
+\]
+Then
+\begin{equation}\label{eq:low-velocity}
+   \int_{B_\rho^{\rm low}}V_\rho\,d\Hn
+   \le C(n,\rho_c)\,(-t'(\rho))\,D_H(t(\rho)).
+\end{equation}
+Consequently,
+\begin{equation}\label{eq:swept-volume}
+   \int_{G_I\cap[\rho_c,\rho_\delta]}
+      \int_{B_\rho^{\rm low}}V_\rho\,d\Hn\,d\rho
+   \le C(n,\rho_c)\,\delta_T(\Om).
+\end{equation}
+The outer integral is understood after intersecting $G_I$ with the
+full-measure set of admissible regular radii.
+\end{corollary}
+
+\begin{proof}
+Equation \eqref{eq:low-velocity} is Lemma~\ref{lem:bad-alpha} multiplied
+by $\lambda=-t'(\rho)$, using
+$\beta=|E_\rho|\ge\omega_n\rho_c^n$.  Integrating in $\rho$ gives
+\[
+   \int_{G_I\cap[\rho_c,\rho_\delta]}
+      (-t'(\rho))D_H(t(\rho))\,d\rho
+   =\int_{G_I\cap[\rho_c,\rho_\delta]}D_H(t(\rho))\,d\mu(\rho),
+\]
+which is bounded by $C(n,\rho_c)\delta_T(\Om)$ by the exact level-set
+deficit identity on the collar.
+\end{proof}
+
+\section{Replacement in the metric trace block}
+
+In \textsc{WeightedMetricTrace}, the metric derivative is estimated on
+the isoperimetric-good set $G_I$ and at a.e. admissible regular radius by
+\[
+   |\dot F_\rho|_\X
+   \le C_{n,\rho_c}\int_{\partial^*E_\rho}
+      |V_\rho-H_{z_\rho,\rho}|\,d\Hn .
+\]
+The homothetic trace term is already bounded by the Fusco--Julin
+radial trace:
+\[
+   \left(\int_{\partial^*E_\rho}
+      |H_{z_\rho,\rho}-\bar V_\rho|\,d\Hn\right)^2
+   \le C\,D_I(t(\rho)).
+\]
+Proposition~\ref{prop:no-hypg} replaces the old Hyp-G estimate for the
+velocity term:
+\[
+   \left(\int_{\partial^*E_\rho}
+      |V_\rho-\bar V_\rho|\,d\Hn\right)^2
+   \le C\,D_H(t(\rho)).
+\]
+This import uses exactly the two hypotheses verified above on $G_I$:
+the volume lower bound $|E_\rho|\ge\omega_n\rho_c^n$ and the
+perimeter good-level bound $P(E_\rho)\le P_1(n,\rho_c)$.  It does not
+use, assume, or prove any pointwise lower bound for $|\nabla u|$.
+Therefore, for a.e. $\rho\in G_I\cap[\rho_c,\rho_\delta]$,
+\[
+   |\dot F_\rho|_\X^2
+   \le C(n,R,\rho_c)\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr).
+\]
+On the complementary isoperimetric-bad set $B_I$, the existing proof uses
+the uniform metric Lipschitz bound (A0) and
+$\mu(B_I)\le C\delta_T(\Om)$; this part is unchanged.  Thus the
+integrated action estimate of \textsc{WeightedMetricTrace} is recovered
+without Hyp-G(lower).
+
+\begin{remark}[Collar choice]
+The proof only requires a fixed lower radius $\rho_c>0$ to keep
+$|E_\rho|$ bounded below and to give an order-one trace window.  Since
+the final boundary-layer transfer uses the endpoint
+$\rho_\delta=1-\kappa\sqrt{\delta_T}$, one may choose, for instance,
+$\rho_c=3/4$ once $\delta_T$ is small.  This makes the repair genuinely
+collar-local near the outer boundary while preserving an order-one
+window for the Markov plus kinetic transport argument.
+\end{remark}
+
+\begin{remark}[Status]
+This note does not prove a pointwise lower gradient bound.  It shows that
+such a bound is unnecessary for the Plan 2 metric trace: the portion of a
+good admissible level where $|\nabla u|$ is too small is self-truncated
+and paid for by $D_H$.  Tiny remote components are therefore harmless at
+this good-level step, because their $G_I$-restricted low-gradient sweep
+contributes to the defect budget rather than to a uniform lower-gradient
+constant.
+\end{remark}
+
+\end{document}

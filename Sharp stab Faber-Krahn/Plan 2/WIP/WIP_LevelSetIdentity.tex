@@ -130,6 +130,46 @@ $\mathcal H^{n-1}(\{u=t\}\cap\{|\nabla u|=0\})=0$ for a.e.\ $t$, but is
 not used below since all integrals are on reduced boundaries.
 Statements ``for a.e.\ $t$'' below refer to a.e.\ $t\in\mathcal R$.
 
+\begin{lemma}[No positive-level atoms and no critical bulk]\label{lem:noatoms}
+Let $M:=\|u\|_{\infty}$. Then
+\[
+   |\{u=0\}\cap\Om|=0,\qquad
+   |\{0<u<M,\ |\nabla u|=0\}|=0,
+   \qquad
+   |\{u=t\}|=0\quad\text{for every }t\in(0,M).
+\]
+Consequently $m$ has no jumps in $(0,M)$.
+Moreover $m$ is strictly decreasing on $(0,M)$.
+\end{lemma}
+
+\begin{proof}
+The weak strong maximum principle applied on each connected component of
+$\Om$ gives $u>0$ a.e.\ in $\Om$; equivalently
+$|\{u=0\}\cap\Om|=0$.
+
+Interior elliptic regularity gives $u\in W^{2,p}_{\rm loc}(\Om)$ for every
+$1<p<\infty$, since $-\Delta u=1$ in $\Om$.  By Stampacchia's theorem for
+Sobolev maps \cite{Stampacchia1965}, $D^{2}u=0$ a.e.\ on the set
+$\{\nabla u=0\}$ (apply the first-order statement to the weak derivatives
+$\partial_i u$).  On the other hand $\Delta u=-1$ a.e.\ in $\Om$.  Therefore
+$|\{\nabla u=0\}\cap\Om|=0$.
+
+For fixed $t\in(0,M)$ the Sobolev chain rule applied to $(u-t)^{+}$ and
+$(t-u)^{+}$ gives $\nabla u=0$ a.e.\ on $\{u=t\}$.  Since $\{u=t\}\subset
+\{u>0\}\subset\Om$ up to a null set, the first part implies
+$|\{u=t\}|=0$.  A jump of the distribution function $m(t)=|\{u>t\}|$
+would have size $|\{u=t\}|$, so no such jump occurs for $t\in(0,M)$.
+
+Finally fix $0<a<b<M$.  Since $b<M$, some connected component of $\Om$
+has $\sup u>b$ in its continuous interior representative.  On that
+component the $H^1_0$ trace condition gives $\inf u=0$ in the usual
+quasi-boundary sense, and the weak strong maximum principle gives
+$u>0$ inside.  By connectedness and continuity, the set
+$\{a<u<b\}$ is a nonempty relatively open subset of that component,
+hence has positive Lebesgue measure.  Therefore
+$m(a)-m(b)=|\{a<u\le b\}|>0$.
+\end{proof}
+
 \section{Coarea identity for $-m'(t)$}\label{sec:coarea}
 
 \begin{lemma}[Coarea form of $-m'$]\label{lem:coarea}
@@ -144,30 +184,34 @@ every $\eps>0$, and $\alpha\in L^{1}_{\rm loc}((0,\|u\|_{\infty}))$.
 \end{lemma}
 
 \begin{proof}
-Fix $0<\alpha_{0}<\beta_{0}<\|u\|_{\infty}$ and apply~\eqref{eq:coarea}
+Fix $0<a<b<\|u\|_{\infty}$ and apply~\eqref{eq:coarea}
 to the Borel function $\varphi=|\nabla u|^{-1}
-\mathbf 1_{\{|\nabla u|>0\}}\mathbf 1_{[\alpha_{0},\beta_{0}]}(u)$. By
+\mathbf 1_{\{|\nabla u|>0\}}\mathbf 1_{(a,b)}(u)$. By
 \cite[Thm.~13.1]{Maggi2012},
 \[
-   \int_{\Om}\mathbf 1_{\{\alpha_{0}<u<\beta_{0}\}}\,dx
-   =\int_{\alpha_{0}}^{\beta_{0}}
+   \int_{\Om}\mathbf 1_{\{a<u<b\}}\,dx
+   =\int_{a}^{b}
      \Bigl(\int_{\partial^{*}E_{t}}|\nabla u|^{-1}\,d\mathcal H^{n-1}
      \Bigr)dt,
 \]
 because the integrand on the left equals
 $|\nabla u|\cdot|\nabla u|^{-1}\mathbf 1_{\{|\nabla u|>0\}}
-\mathbf 1_{\{\alpha_{0}<u<\beta_{0}\}}$ and the contribution of
-$\{|\nabla u|=0\}$ to the BV coarea slicing vanishes \cite[3.40(b)]{AFP2000}.
-The left-hand side equals $m(\alpha_{0})-m(\beta_{0})$ outside the at
-most countably many plateau levels of $u$ (levels $t$ with $|\{u=t\}|>0$;
-each such plateau contributes a jump of $m$, and $m$ is monotone, so
-these are at most countably many). Differentiating in $\beta_{0}$ at
-a.e.\ $\beta_{0}$ yields~\eqref{eq:L1}.
+\mathbf 1_{\{a<u<b\}}$ up to a null set by Lemma~\ref{lem:noatoms}.  The
+left-hand side equals $m(a)-m(b)$, again by Lemma~\ref{lem:noatoms}.  Hence
+\[
+   m(a)-m(b)=\int_a^b\alpha(t)\,dt
+   \qquad(0<a<b<\|u\|_{\infty}).
+\]
+This proves local absolute continuity of $m$ and, by the fundamental
+theorem for absolutely continuous functions, $-m'(t)=\alpha(t)$ for a.e.\
+$t$.
 \end{proof}
 
 \begin{remark}\label{rem:plateaus}
-At the countable set of plateau levels~\eqref{eq:L1} is not asserted; the
-Lebesgue integral in the main theorem absorbs them trivially.
+Lemma~\ref{lem:noatoms} removes the only atom that would obstruct the
+distribution-function calculation at positive levels.  The endpoint
+$t=0$ is treated separately by one-sided limits and is never inserted
+into the $dt$ integral.
 \end{remark}
 
 \section{Weak divergence-flux identity}\label{sec:flux}
@@ -276,32 +320,44 @@ pointwise level-wise version.
 
 Define
 \begin{equation}\label{eq:Idef}
-   I(s):=\int_{\{u>u^{*}(s)\}}u\,dx,\qquad s\in[0,|\Om|].
+   I(s):=\int_{0}^{s}u^{*}(\sigma)\,d\sigma,\qquad s\in[0,|\Om|].
 \end{equation}
-The following three lemmas identify $I$ with a one-dimensional primitive
-of $u^{*}$ and compute its second distributional derivative in the form
-used by the deficit identity.
+The following lemmas record the atom-aware layer-cake interpretation of
+this primitive and compute its second distributional derivative in the
+form used by the deficit identity.
 
-\begin{lemma}[Layer-cake form of $I$]\label{lem:I3a}
-For every $s\in[0,|\Om|]$,
+\begin{lemma}[Atom-aware layer-cake form of $I$]\label{lem:I3a}
+Let $\tau=u^{*}(s)$ and $m(\tau)=|\{u>\tau\}|$.  Then
 \begin{equation}\label{eq:L3a}
-   I(s)=\int_{0}^{s}u^{*}(\sigma)\,d\sigma.
+   I(s)=\int_{\{u>\tau\}}u\,dx+\bigl(s-m(\tau)\bigr)\tau .
 \end{equation}
+In particular, whenever $s=m(\tau)$, and hence for the positive torsion
+levels used below, $I(s)=\int_{\{u>\tau\}}u\,dx$.
 \end{lemma}
 
 \begin{proof}
-By equimeasurability of $u$ and $u^{*}$ on $(0,|\Om|)$
-\cite[\S 2]{Kawohl1985}, \cite{Talenti1976},
-$\int_{\Om}g(u)\,dx=\int_{0}^{|\Om|}g(u^{*}(\sigma))\,d\sigma$ for every
-Borel $g\ge 0$. Choose $g(t)=t\,\mathbf 1_{\{t>u^{*}(s)\}}$; since
-$\{\sigma\in(0,|\Om|):u^{*}(\sigma)>u^{*}(s)\}=(0,s)$ up to null sets by
-the very definition of $u^{*}$, we obtain
+Equimeasurability gives the usual quantile identity
 \[
-   I(s)=\int_{\Om}g(u)\,dx
-       =\int_{0}^{|\Om|}g(u^{*}(\sigma))\,d\sigma
-       =\int_{0}^{s}u^{*}(\sigma)\,d\sigma.
+   \int_0^s u^*(\sigma)\,d\sigma
+   =\int_{\{u>\tau\}}u\,dx+\theta\,\tau,
+   \qquad
+   0\le \theta\le |\{u=\tau\}|,
 \]
+with $\theta=s-|\{u>\tau\}|$; this is the standard layer-cake formula with
+the mass at the threshold split only as much as needed to reach measure
+$s$ \cite[\S 2]{Kawohl1985}.  Since $m(\tau)=|\{u>\tau\}|$, this is
+\eqref{eq:L3a}.  For $\tau\in(0,\|u\|_\infty)$ Lemma~\ref{lem:noatoms}
+gives $|\{u=\tau\}|=0$, so the correction term vanishes exactly when
+$s=m(\tau)$.
 \end{proof}
+
+\begin{remark}[Why the atom term is recorded]\label{rem:atom-aware}
+The older formula $I(s)=\int_{\{u>u^*(s)\}}u$ is correct only away from
+atoms of the distribution function.  Lemma~\ref{lem:noatoms} rules out
+positive-level atoms for the torsion function, but \eqref{eq:L3a} is the
+right general statement and prevents hidden endpoint or plateau
+contributions.
+\end{remark}
 
 \begin{lemma}[First derivative]\label{lem:I3b}
 $I$ is absolutely continuous on $[0,|\Om|]$ and $I'(s)=u^{*}(s)$ for
@@ -310,24 +366,18 @@ a.e.\ $s\in(0,|\Om|)$.
 
 \begin{proof}
 By~\eqref{eq:talenti} $u^{*}\in L^{\infty}(0,|\Om|)$; in particular
-$u^{*}$ is bounded and Borel, hence in $L^{1}(0,|\Om|)$ (since
-$|\Om|<\infty$). By
-Lemma~\ref{lem:I3a}, $I$ is the indefinite integral of $u^{*}$, so the
-Lebesgue differentiation theorem gives the claim.
+$u^{*}$ is bounded and Borel, hence in $L^{1}(0,|\Om|)$.  Since
+$I$ is defined in~\eqref{eq:Idef} as the indefinite integral of $u^{*}$,
+the Lebesgue differentiation theorem gives the claim.
 \end{proof}
 
-\begin{lemma}[Second derivative --- corrected form]\label{lem:I3c}
-The rearrangement $u^{*}$ is absolutely continuous on
-$[s_{0},|\Om|-\eps]$ for every $0<s_{0}<|\Om|-\eps<|\Om|$, and
-
-Two intermediate steps justify the displayed chain below: (a) the
-identity $I''=(u^{*})'$ follows from Lemma~\ref{lem:I3b}
-($I'=u^{*}$) combined with the absolute continuity of $u^{*}$ on
-closed subintervals of $(0,|\Om|)$ (so that the distributional
-derivative of $I'$ coincides with the a.e.\ classical derivative of
-$u^{*}$); and (b) $\alpha(t)>0$ for a.e.\ $t$, since $\alpha=-m'$
-by Lemma~\ref{lem:coarea} and $m$ is strictly decreasing a.e.\ on
-its non-plateau range, so the reciprocal is well defined a.e.
+\begin{lemma}[Second derivative --- inverse/rearrangement form]\label{lem:I3c}
+For every compact interval $J\Subset(0,|\Om|)$ the rearrangement $u^{*}$
+is absolutely continuous on $J$.  Moreover
+\[
+   I''=(u^{*})'\quad\text{in }\mathcal D'(0,|\Om|)
+\]
+and, for a.e.\ $s\in(0,|\Om|)$, with $t=u^{*}(s)$,
 \begin{equation}\label{eq:L3c}
    I''(s)=(u^{*})'(s)
    =\frac{1}{m'(u^{*}(s))}
@@ -337,16 +387,29 @@ its non-plateau range, so the reciprocal is well defined a.e.
 \end{lemma}
 
 \begin{proof}
-$m$ is right-continuous, nonincreasing, and (Lemma~\ref{lem:coarea})
-absolutely continuous on $[\eps,\|u\|_{\infty}]$ for every $\eps>0$,
-with $m'(t)=-\alpha(t)$ a.e. The plateau levels of $u$ (countable, by
-monotonicity of $m$) are the levels where $m$ jumps; outside them, $m$
-is strictly decreasing on its domain of strict monotonicity, hence its
-right-continuous generalized inverse $u^{*}$ is also strictly
-decreasing and absolutely continuous on closed subintervals of
-$(0,|\Om|)$. Differentiating $m(u^{*}(s))=s$ at a.e.\ $s$ via the
-inverse-function theorem for monotone AC functions \cite[Thm.~3.99]{AFP2000},
-\cite{BBC1975} gives~\eqref{eq:L3c}.
+Lemma~\ref{lem:coarea} gives
+\[
+   m(b)-m(a)=-\int_a^b\alpha(t)\,dt
+   \qquad(0<a<b<\|u\|_\infty),
+\]
+so $m$ is locally absolutely continuous and $m'=-\alpha$ a.e.  The
+function $m$ is continuous by Lemma~\ref{lem:noatoms}; hence
+$m(u^{*}(s))=s$ for every $s\in(0,|\Om|)$ after the harmless endpoint
+convention.
+
+The absolutely continuous inverse theorem for monotone functions applied
+on compact subintervals of $(0,\|u\|_\infty)$ gives that $u^{*}$ is
+absolutely continuous on compact subintervals of $(0,|\Om|)$ and that
+\[
+   (u^*)'(s)=\frac{1}{m'(u^*(s))}
+\]
+for a.e.\ $s$ for which $m'(u^*(s))$ exists and is nonzero
+\cite[Thm.~0.4 and \S1]{BBC1975}.  The exceptional set where
+$m'=0$ has zero image measure because $m$ is absolutely continuous.
+Since $m'=-\alpha$, this gives~\eqref{eq:L3c}.  Finally
+Lemma~\ref{lem:I3b} gives $I'=u^*$ a.e.; on compact subintervals
+$u^*$ is absolutely continuous, so the distributional derivative of
+$I'$ is the a.e.\ derivative $(u^*)'$.
 \end{proof}
 
 \begin{remark}[Notational fix vs.\ the source note]\label{rem:fix}
@@ -433,9 +496,10 @@ From~\eqref{eq:Gpp},
    \int_{0}^{L}s\,G''(s)\,ds
    =\int_{0}^{L}s\Bigl(\frac{1}{c_{n}s^{1-2/n}}-\frac{1}{\alpha(u^{*}(s))}\Bigr)ds.
 \]
-Change variable $s=m(t)$, $ds=m'(t)\,dt=-\alpha(t)\,dt$ on the
-strictly-decreasing branch of $m$ (the at most countable plateau levels
-of $u$ are an $\mathcal L^{1}$-null set in $t$, contributing zero):
+Use the monotone absolutely continuous substitution $s=m(t)$,
+$ds=m'(t)\,dt=-\alpha(t)\,dt$.  Lemma~\ref{lem:noatoms} removes jump
+terms, while the set where $\alpha=0$ has zero image measure and
+contributes neither side of the substitution formula:
 \[
    \int_{0}^{L}s\,G''(s)\,ds
    =\int_{0}^{\|u\|_{\infty}}\!m(t)\Bigl(\frac{1}{c_{n}m(t)^{1-2/n}}-
@@ -455,8 +519,9 @@ Substituting yields~\eqref{eq:cov}.
 
 \paragraph{Endpoint identification.} With $L:=|\Om|$ define
 \begin{equation}\label{eq:Gammadef}
-   \Gamma(\Om):=G'(L)-\frac{G(L)}{L}.
+   \Gamma(\Om):=G'_{-}(L)-\frac{G(L)}{L},
 \end{equation}
+where $G'_{-}(L)$ denotes the left derivative.
 
 \begin{lemma}[Endpoint convexity-gap formula]\label{lem:gap}
 $\Gamma(\Om)=\frac{1}{L}\int_{0}^{L}s\,G''(s)\,ds$.
@@ -468,7 +533,7 @@ on $(\eps,L)$:
 \[
    \int_{\eps}^{L}s\,G''(s)\,ds
    =\bigl[s\,G'(s)\bigr]_{\eps}^{L}-\int_{\eps}^{L}G'(s)\,ds
-   =L\,G'(L)-\eps\,G'(\eps)-G(L)+G(\eps).
+   =L\,G'_{-}(L)-\eps\,G'(\eps)-G(L)+G(\eps).
 \]
 By Lemma~\ref{lem:I3b}, $G'(s)=u^{*}(s)+\frac{s^{2/n}}{2n\omega_{n}^{2/n}}$
 (using $\frac{1+2/n}{4+2n}=\frac{1}{2n}$),
@@ -483,13 +548,17 @@ $\eps\downarrow 0$. Dividing by $L$ gives the claim.
 \end{lemma}
 
 \begin{proof}
-At $s=L$, $u^{*}(L)=0$. By Lemma~\ref{lem:I3a},
+At $s=L$, $u^{*}(L)=0$ and $u^*(s)\to0$ as $s\uparrow L$, since
+Lemma~\ref{lem:noatoms} gives $|\{u=0\}\cap\Om|=0$ and
+$m(t)\uparrow L$ as $t\downarrow0$. By the definition of $I$,
 $I(L)=\int_{0}^{L}u^{*}=\int_{\Om}u\,dx$, so
 \[
    \frac{G(L)}{L}=\frac{1}{L}\int_{\Om}u\,dx
                   +\frac{L^{2/n}}{(4+2n)\omega_{n}^{2/n}}.
 \]
-By Lemma~\ref{lem:I3b}, $I'(L)=u^{*}(L)=0$, so $G'(L)=
+The one-sided derivative of the primitive satisfies
+$I'_{-}(L)=\lim_{s\uparrow L}u^*(s)=0$, so
+$G'_{-}(L)=
 \frac{L^{2/n}}{2n\omega_{n}^{2/n}}$. Hence
 \[
    \Gamma(\Om)
@@ -546,6 +615,119 @@ Both $D_{H}(t)\ge 0$ and $D_{I}(t)\ge 0$ a.e.
 
 \begin{proof}
 Combine Lemmas~\ref{lem:cov}, \ref{lem:gap}, \ref{lem:endpoint}.
+\end{proof}
+
+\section{Radius parametrisation and the profile-gap bad set}
+\label{sec:profile-gap}
+
+This section records the exact profile consequence needed by
+\cite{WeightedMetricTrace}.  We state it in the normalisation
+$|\Om|=\omega_n$, which is the one used in the bounded Plan~2 chain.
+Set
+\[
+   t(\rho):=u^*(\omega_n\rho^n),\qquad
+   E_\rho:=\{u>t(\rho)\},\qquad
+   |E_\rho|=\omega_n\rho^n,
+   \qquad 0<\rho<1,
+\]
+and let
+\[
+   a(\rho):=-t'(\rho),\qquad a_B(\rho):=\frac{\rho}{n}.
+\]
+All identities below hold for a.e.\ $\rho$.
+
+\begin{lemma}[Profile derivative gap identity]\label{lem:profile-gap}
+Assume $|\Om|=\omega_n$ and write
+$\delta_T(\Om):=E(\Om)-E(B_1)$.  Then
+\begin{equation}\label{eq:profile-gap-identity}
+   0\le a(\rho)\le a_B(\rho)=\frac{\rho}{n}
+   \quad\text{for a.e. }\rho\in(0,1),
+\end{equation}
+and
+\begin{equation}\label{eq:profile-gap-int}
+   \int_0^1 \rho^n\bigl(a_B(\rho)-a(\rho)\bigr)\,d\rho
+   =\frac{2}{\omega_n}\,\delta_T(\Om).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let $s=\omega_n\rho^n$ and $t=t(\rho)$.  By Lemma~\ref{lem:I3c},
+\[
+   a(\rho)
+   =-t'(\rho)
+   =\frac{n\omega_n\rho^{n-1}}{\alpha(t)}.
+\]
+For the ball profile the corresponding coarea coefficient is
+\[
+   \alpha_B(\rho)
+   =c_n\,m(t)^{1-2/n}
+   =n^2\omega_n\rho^{n-2},
+\]
+and hence $n\omega_n\rho^{n-1}/\alpha_B(\rho)=\rho/n=a_B(\rho)$.
+Since $\beta(t)=m(t)$ and $D_H+D_I=\alpha(t)m(t)-\alpha_B(\rho)m(t)$,
+nonnegativity of the two defects gives $\alpha(t)\ge\alpha_B(\rho)$,
+which proves $0\le a\le a_B$.
+
+Using the exact identity of Theorem~\ref{thm:main} and the substitution
+$dt=a(\rho)\,d\rho$ in decreasing-radius orientation,
+\[
+   \frac{2}{\omega_n}\delta_T(\Om)
+   =\frac1{\omega_n}\int_0^{\|u\|_\infty}
+     \frac{D_H(t)+D_I(t)}{c_n m(t)^{1-2/n}}\,dt
+   =\int_0^1 \rho^n\bigl(a_B(\rho)-a(\rho)\bigr)\,d\rho.
+\]
+Indeed the last integrand follows from
+\[
+   \frac{D_H+D_I}{c_n m^{1-2/n}}\,dt
+   =m(t)\frac{\alpha(t)-\alpha_B(\rho)}{\alpha_B(\rho)}
+      a(\rho)\,d\rho
+   =m(t)\bigl(a_B(\rho)-a(\rho)\bigr)\,d\rho .
+\]
+\end{proof}
+
+\begin{corollary}[Talenti/profile-gap bad-set estimate]\label{cor:badset}
+Fix $\rstar\in(0,1)$ and set
+\[
+   B_{\rm slow}:=\left\{\rho\in[\rstar,1]:
+      -t'(\rho)<\frac{\rstar}{2n}\right\}.
+\]
+Then
+\begin{equation}\label{eq:badset}
+   |B_{\rm slow}|
+   \le \frac{4n}{\omega_n\,\rstar^{\,n+1}}\,\delta_T(\Om).
+\end{equation}
+Consequently, for every interval $J\subset[\rstar,1]$,
+\begin{equation}\label{eq:mu-lower}
+   \mu(J):=\int_J -t'(\rho)\,d\rho
+   \ge \frac{\rstar}{2n}|J|
+      -\frac{2}{\omega_n\,\rstar^{\,n}}\,\delta_T(\Om),
+\end{equation}
+while $\mu(d\rho)\le n^{-1}\,d\rho$.
+\end{corollary}
+
+\begin{proof}
+On $B_{\rm slow}$ one has
+\[
+   a_B(\rho)-a(\rho)\ge \frac{\rho}{n}-\frac{\rstar}{2n}
+   \ge \frac{\rstar}{2n}.
+\]
+Since $\rho^n\ge\rstar^n$ on $[\rstar,1]$, Lemma~\ref{lem:profile-gap}
+gives
+\[
+   \frac{\rstar^{n+1}}{2n}|B_{\rm slow}|
+   \le \int_{B_{\rm slow}}\rho^n(a_B-a)\,d\rho
+   \le \frac{2}{\omega_n}\delta_T(\Om),
+\]
+which is~\eqref{eq:badset}.  On
+$G_{\rm speed}:=[\rstar,1]\setminus B_{\rm slow}$ we have
+$-t'\ge\rstar/(2n)$, and on all of $[\rstar,1]$ we have
+$-t'\le a_B\le1/n$ by~\eqref{eq:profile-gap-identity}.  Therefore
+\[
+   \mu(J)\ge \frac{\rstar}{2n}|J\cap G_{\rm speed}|
+   \ge \frac{\rstar}{2n}|J|
+       -\frac{\rstar}{2n}|B_{\rm slow}|,
+\]
+and~\eqref{eq:mu-lower} follows from~\eqref{eq:badset}.
 \end{proof}
 
 \section{Cauchy--Schwarz / isoperimetric interpretation}
@@ -606,7 +788,7 @@ defect is the $L^{1}$-norm of $\phi-\bar\phi$ where $\phi:=1/f$.
 Converting between these requires a uniform two-sided bound on
 $f=|\nabla u|$ on the level surface.
 
-\subsection{The standing gradient hypothesis (Hyp-G)}\label{ssec:hypG}
+\subsection{The former gradient hypothesis (Hyp-G)}\label{ssec:hypG}
 
 \begin{hypothesis}[Two-sided gradient bound on level surfaces]
 \label{hyp:G}
@@ -620,12 +802,19 @@ $\rho\in[\rstar,\rho_{\delta}]$,
 \]
 \end{hypothesis}
 
-\begin{remark}[Validity of Hyp-G in the bounded reduction class]
+\begin{remark}[Status of Hyp-G in the repaired chain]
 \label{rem:hypG-validity}
-Hypothesis~\ref{hyp:G} is a working assumption of the metric
-closure of \cite{WeightedMetricTrace}, valid in the bounded reduction
-class $\Om\subset B_{R_{*}(n)}$ produced by
-\cite[Lemma~5.3]{GlobalAssembly}.  The justification has two parts.
+Hypothesis~\ref{hyp:G} is retained here only as a conditional algebraic
+variant of the velocity-defect estimate.  It is no longer a working
+assumption of the downstream metric closure.  The repaired
+\cite{WeightedMetricTrace} uses the self-truncated velocity estimate of
+\cite{TrimmedVelocityRepair}: on Fusco--Julin good levels, the part of
+$\partial^*E_\rho$ where $|\nabla u|$ is small is discarded relative to
+the intrinsic mean $\bar f=|E_\rho|/P(E_\rho)$ and charged by $D_H$
+itself.
+
+For reference, if one nevertheless wants to verify the older pointwise
+Hyp-G, the justification would have two parts.
 
 \emph{Upper bound $M_{0}=M_{0}(n,R)$ --- unconditional in the bounded
 reduction class.}
@@ -652,7 +841,7 @@ $\Om\subset B_{R}$).
 Thus the upper bound $M_{0}:=K_{n}R$ is unconditional in the bounded
 reduction class.
 
-\emph{Lower bound $m_{0}=m_{0}(n,\rstar)$ --- the residual conditionality.}
+\emph{Lower bound $m_{0}=m_{0}(n,\rstar)$ --- not used in the repaired chain.}
 Brothers--Ziemer non-degeneracy~\cite[Thm.~1]{BrothersZiemer1988}
 establishes $|\nabla u|>0$ $\mathcal H^{n-1}$-a.e.\ on
 $\partial^{*}E_{\rho}$ for a.e.\ $\rho$, ruling out plateau levels.
@@ -673,13 +862,11 @@ non-degeneracy estimate on annular shells inside $E_{\rho}\setminus E_{\rho+\eps
 \cite[\S 7]{CafCab1995}, exploiting the explicit non-zero
 driving term $-\Delta u=1$.
 
-We adopt the lower bound part of Hyp-G as a \emph{standing hypothesis}
-throughout the metric closure.  Verifying this hypothesis is the
-residual conditionality of the unconditional sharp Faber--Krahn
-inequality; the rest of the chain is rigorous given the hypothesis.
-The constants $m_{0},M_{0}$ enter the downstream chain only as
-$(M_{0}/m_{0})^{2}$ in the constant $C_{\rm vel}$ of
-Proposition~\ref{prop:V-bar-V}.
+Thus the pointwise lower bound part of Hyp-G should not be treated as a
+residual conditionality of the repaired Plan~2 chain.  Proposition
+\ref{prop:V-bar-V} below remains a useful conditional comparison, but
+the load-bearing bound used downstream is the unconditional trimmed
+comparison of \cite{TrimmedVelocityRepair}.
 \end{remark}
 
 \subsection{The unit-weight variance bound}\label{ssec:unitvar}
@@ -852,10 +1039,11 @@ the obvious sense (the $dt$ integral pools all components).
 
 \item \emph{The identity is a.e., not pointwise.} Lemmas~\ref{lem:coarea},
 \ref{lem:flux}, \ref{lem:I3c} hold for $t$ outside an $\mathcal L^{1}$-null
-set of bad levels: at most countably many plateau levels of $u$ (where
-$|\{u=t\}|>0$), the Sobolev--Sard exceptional set, and BV-coarea
-exceptional levels. Levels in this null set are absorbed by the $dt$
-integral.
+set of bad levels: the Sobolev--Sard exceptional set, BV-coarea
+exceptional levels, and the null set where the monotone inverse
+derivative is not defined.  Lemma~\ref{lem:noatoms} rules out
+positive-measure level atoms, so no plateau jump term is missing from
+the $dt$ integral.
 
 \item \emph{All integrals are on reduced boundaries.} The cusps,
 self-tangencies, and the unreduced part of $\partial E_{t}$ are
@@ -875,7 +1063,8 @@ $D_{H}$ from the identity~\eqref{eq:main}. See Remark~\ref{rem:fix}.
 identity for the rest of the Plan~2 chain. The metric framework
 \cite{MetricFramework} extracts a first-variation/velocity defect from
 the integrated $D_{H}+D_{I}$. The weighted metric trace
-\cite{WeightedMetricTrace} uses the levelwise Fusco--Julin centre and
+\cite{WeightedMetricTrace} uses the self-truncated velocity estimate
+of \cite{TrimmedVelocityRepair}, the levelwise Fusco--Julin centre, and
 a good/bad isoperimetric split to promote integrated action to a
 pointwise endpoint at $\widehat\rho$. The boundary-layer transfer
 \cite{BoundaryLayerTransfer} carries control on $E_{\widehat\rho}$ back
@@ -953,6 +1142,11 @@ sets), Ch.~19 (rigidity).
 \emph{Isoperimetric Inequalities in Mathematical Physics}, Princeton
 Univ.\ Press, 1951.
 
+\bibitem{Stampacchia1965} G.~Stampacchia,
+\emph{Le probl\`eme de Dirichlet pour les \'equations elliptiques du
+second ordre \`a coefficients discontinus}, Ann.\ Inst.\ Fourier
+\textbf{15} (1965), 189--258.
+
 \bibitem{Talenti1976} G.~Talenti,
 \emph{Elliptic equations and rearrangements}, Ann.\ Mat.\ Pura Appl.\
 \textbf{110} (1976), 353--372.
@@ -975,6 +1169,10 @@ block \textsc{CentroidBound} (Plan~2 internal).
 \bibitem{WeightedMetricTrace} \emph{Integrated action to pointwise
 endpoint at $\widehat\rho$}, Plan~2 building block
 \textsc{WeightedMetricTrace} (Plan~2 internal).
+
+\bibitem{TrimmedVelocityRepair} \emph{Self-truncated velocity defect
+replacing the pointwise lower-gradient hypothesis}, Plan~2 building
+block \textsc{TrimmedVelocityRepair} (Plan~2 internal).
 
 \bibitem{BoundaryLayerTransfer} \emph{Boundary-layer transfer:
 $E_{\widehat\rho}\to\Om$, bounded sharp Saint--Venant}, Plan~2 building

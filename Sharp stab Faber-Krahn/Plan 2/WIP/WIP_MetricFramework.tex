@@ -30,28 +30,19 @@
 
 \begin{abstract}
 We set up the metric ambient space $(\X,d_\X)$ of $L^1$-equivalence classes
-modulo translations, parametrize the torsion super-level sets by the volume
-radius, and prove the metric first-variation estimate~(T) for the rescaled
-curve $\rho\mapsto[F_\rho]\in\X$ in finite-perimeter generality, with no
-graph parametrization of $\partial^*E_\rho$. The proof has three ingredients:
-(i)~the Sobolev--Sard theorem of Figalli--Maggi 2011 (Appendix~A, Theorem~A.1),
-which makes the normal velocity $V_\rho=-t'(\rho)/|\nabla u|$ pointwise
-defined $\mathcal H^{n-1}$-a.e.\ on $\partial^*E_\rho$ for a.e.~$\rho$;
-(ii)~the moving-region first-variation calculus for smooth nested flows,
-extended to finite-perimeter levels by BV/coarea approximation, perimeter
-lower semicontinuity, Reshetnyak lower semicontinuity for linear-growth
-integrands, and the Ambrosio--Gigli--Savar\'e lower semicontinuity of the
-metric derivative; (iii)~the translation-volume identity for finite-perimeter
-sets, which shows that the translation infimum on the right-hand side of~(T)
-is precisely the metric-quotient cost. The centre field $z_\rho$ enters as
-an arbitrary Borel measurable map; in the repaired downstream chain it is
-instantiated in Building Block \textsc{WeightedMetricTrace} as a levelwise
-Fusco--Julin oscillation centre on small-isoperimetric-defect levels and as
-an arbitrary bounded centre on the complementary bad set. We state honestly
-that the pointwise-in-$\rho$ squared form is conditional on a per-$\rho$
-radial trace that is open in the no-graph setting; the paper downstream uses
-only the integrated good/bad form proved in Building Block
-\textsc{WeightedMetricTrace}.
+modulo translations and parametrize the torsion super-level sets by the
+volume radius.  The smooth moving-boundary calculation is unconditional and
+includes the translation mode in the quotient metric.  The finite-perimeter
+metric first-variation estimate is stated in the only form currently justified
+by the audit: it is conditional on an upper-gradient recovery theorem giving a
+\emph{limsup} approximation of the boundary action.  Standard perimeter lower
+semicontinuity and Reshetnyak lower semicontinuity go in the opposite direction
+and therefore do not prove the required upper bound for the metric derivative.
+The missing recovery theorem must approximate the velocity/action measures of
+the level surfaces in the local $L^1$ upper-gradient sense specified below, or
+else be replaced by a direct finite-perimeter deformation estimate.  This block
+also records that no perimeter-free uniform Lipschitz estimate on bad levels is
+proved here; boundedness and nestedness alone are not enough for that claim.
 \end{abstract}
 
 \section{Standing hypotheses}\label{sec:setup}
@@ -194,22 +185,22 @@ the associated \emph{homothetic velocity} is
 \label{rem:centroid}
 This building block treats $z_\rho$ as an abstract Borel centre field.
 The repaired metric trace block instantiates $z_\rho$ as a Fusco--Julin
-oscillation centre on good levels and sets it to a fixed bounded centre on
-bad levels.  The centroid field of \cite{CentroidBound} remains useful for
-the auxiliary space--time $\Pi$ identity, but it is not needed for the
-metric closure.
+oscillation centre on good levels.  The centroid field of
+\cite{CentroidBound} remains useful for the auxiliary space--time $\Pi$
+identity, but it is not needed for the metric closure.
 \end{remark}
 
 \section{The metric first-variation theorem (T)}\label{sec:T}
 
-\begin{theorem}[Metric first variation modulo translations]\label{thm:T}
+\begin{theorem}[Conditional metric first variation modulo translations]\label{thm:T}
 Under the standing hypotheses of Section~\ref{sec:setup} and for any Borel
-centre field $z=\{z_\rho\}$ with $\sup_\rho|z_\rho|\le R'<\infty$, the curve
+centre field $z=\{z_\rho\}$ with $\sup_\rho|z_\rho|\le R'<\infty$, assume the
+upper-gradient recovery theorem in Definition~\ref{def:UGR}.  Then the curve
 $\rho\mapsto[F_\rho]$ is absolutely continuous from $[\rstar,1]$ into
-$(\X,d_\X)$, and there is a constant $C_{n,\rstar}>0$ such that
+$(\X,d_\X)$, and
 \begin{equation}\label{eq:T}
    |\dot F_\rho|_\X
-   \le C_{n,\rstar}\inf_{a\in\R^n}
+   \le \rho^{-n}\inf_{a\in\R^n}
        \int_{\partial^*E_\rho}\bigl|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho\bigr|
        \,d\mathcal H^{n-1}
 \end{equation}
@@ -220,16 +211,27 @@ for a.e.\ $\rho\in[\rstar,1]$.
 
 Suppose temporarily that $\Om$ is smooth, $u\in C^\infty(\overline{\Om})$,
 and $|\nabla u|>0$ on the strip
-$\bigcup_{\rho\in[\rstar,1-\eta]}\partial E_\rho$ for some $\eta>0$. The
-homothety $\Psi_\rho(y):=z_\rho+\rho^{-1}(y-z_\rho)$ maps $E_\rho$ onto
-$z_\rho+\rho^{-1}(E_\rho-z_\rho)$.
+$\bigcup_{\rho\in[\rstar,1-\eta]}\partial E_\rho$ for some $\eta>0$.  In the
+pointwise calculation below $z\in\R^n$ is frozen at the base value
+$z=z_\rho$; no derivative of the centre field is used.  The homothety
+\[
+   \Psi_s^z(y):=z+s^{-1}(y-z)
+\]
+maps $E_s$ onto $z+s^{-1}(E_s-z)$, which represents the same point of $\X$ as
+$F_s=s^{-1}E_s$.
 
 \begin{lemma}[Pulled-back normal velocity]\label{lem:W}
-In the smooth case, the normal velocity of the rescaled-and-translated flow
-$\rho\mapsto F_\rho-\rho a$, pulled back to $\partial E_\rho$ via
-$\Psi_\rho$, equals
+In the smooth case, fix $z=z_\rho$ and a translation velocity
+$b\in\R^n$ in the rescaled variables.  The normal velocity of
+\[
+   s\longmapsto \Psi_s^z(E_s)-(s-\rho)b
+\]
+at $s=\rho$, pulled back to $\partial E_\rho$ through $\Psi_\rho^z$, equals
 \begin{equation}\label{eq:W}
-   W_\rho^{z_\rho,a}:=\rho^{-1}\bigl(V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho\bigr)
+   \rho^{-1}\bigl(V_\rho-H_{z,\rho}\bigr)-b\cdot\nu_\rho
+   =
+   \rho^{-1}\bigl(V_\rho-H_{z,\rho}-a\cdot\nu_\rho\bigr),
+   \qquad a:=\rho b,
    \qquad\text{on }\partial E_\rho.
 \end{equation}
 \end{lemma}
@@ -238,90 +240,89 @@ $\Psi_\rho$, equals
 In the smooth setting above,
 \begin{equation}\label{eq:T-smooth-X}
    \limsup_{h\to 0}\frac{d_\X([F_{\rho+h}],[F_\rho])}{|h|}
-   \le \rstar^{-n}\inf_{a\in\R^n}\int_{\partial^*E_\rho}
+   \le \rho^{-n}\inf_{a\in\R^n}\int_{\partial^*E_\rho}
        \bigl|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho\bigr|\,d\mathcal H^{n-1}.
 \end{equation}
 \end{proposition}
 
 The proof is the first-variation identity \cite[\S17.3]{Maggi2012}
-applied to $\widetilde F_\rho:=F_\rho-\rho a$, followed by the homothety
-Jacobian (factor $\rho^{1-n}$) and the translation infimum.
+applied to the translated rescaled flow in Lemma~\ref{lem:W}.  The boundary
+Jacobian of $\Psi_\rho^z$ contributes $\rho^{1-n}$ and the normal velocity
+has the extra factor $\rho^{-1}$, giving $\rho^{-n}$.  Taking the infimum over
+the rescaled translation velocity $b$, equivalently over $a=\rho b$, gives
+\eqref{eq:T-smooth-X}.
 
-\subsection{BV/coarea approximation and finite-perimeter passage}\label{ss:T-bv}
+\subsection{Finite-perimeter passage: required upper-gradient recovery}
+\label{ss:T-bv}
 
-\begin{lemma}[Coarea-good smooth recovery]\label{lem:approx}
-There is a smooth nested recovery family $\{E_\rho^k\}_{\rho\in[\rstar,1]}$
-obtained by local regularisation of the torsion subgraph and monotone
-volume reparametrisation such that, after passing to a subsequence, for
-a.e.\ $\rho\in[\rstar,1]$,
+The previous draft tried to pass from Proposition~\ref{prop:T-smooth} to
+finite-perimeter level sets by perimeter lower semicontinuity, Reshetnyak
+lower semicontinuity, and lower semicontinuity of metric derivatives.  That
+argument proves the wrong inequality for this purpose.  If $G_k$ denotes the
+smooth boundary action and $G$ the target action, Reshetnyak gives
+$G\le\liminf_k G_k$, while Theorem~\ref{thm:T} needs an upper gradient bounded
+by $G$.  A valid finite-perimeter closure must therefore be a genuine
+\emph{limsup} recovery theorem, or a direct deformation theorem for
+finite-perimeter sets.
+
+\begin{definition}[Upper-gradient recovery needed for Theorem~T]\label{def:UGR}
+Fix a bounded Borel centre field $z=\{z_\rho\}$ and set
+\begin{equation}\label{eq:G-target}
+   G_z(\rho):=\rho^{-n}\inf_{a\in\R^n}
+       \int_{\partial^*E_\rho}
+       |V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,d\mathcal H^{n-1}.
+\end{equation}
+The \emph{upper-gradient recovery theorem} is the following statement.
+There exist smooth nested families $\{E_\rho^k\}_{\rho\in[\rstar,1]}$ with
+volume-radius parametrisations and curves
+$\gamma_k(\rho):=[(E_\rho^k)/\rho]\in\X$ such that:
+\begin{enumerate}
+\item $\gamma_k(\rho)\to\gamma(\rho):=[F_\rho]$ in $\X$ for every
+      $\rho\in[\rstar,1]$, after changing the representative of the original
+      level curve on a null set if necessary;
+\item the smooth boundary actions
 \[
-   E_\rho^k\to E_\rho\text{ in }L^1,\qquad
-   t_k(\rho)\to t(\rho),\qquad
-   P(E_\rho)\le\liminf_{k\to\infty}P(E_\rho^k).
+   G_{z,k}(\rho):=\rho^{-n}\inf_{a\in\R^n}
+       \int_{\partial^*E_\rho^k}
+       |V_\rho^k-H^k_{z_\rho,\rho}-a\cdot\nu_\rho^k|\,
+       d\mathcal H^{n-1}
 \]
-Moreover the corresponding normal-velocity measures converge in the weak
-strict BV sense needed for Reshetnyak lower semicontinuity in
-Lemma~\ref{lem:resh}.
-\end{lemma}
+      are upper gradients for $\gamma_k$;
+\item for every interval $I\subset[\rstar,1]$,
+\begin{equation}\label{eq:UGR}
+   \limsup_{k\to\infty}\int_I G_{z,k}(\rho)\,d\rho
+   \le
+   \int_I G_z(\rho)\,d\rho .
+\end{equation}
+\end{enumerate}
+\end{definition}
 
-\begin{proof}[Proof (sketch)]
-Mollification of $u$ followed by coarea-good level selection produces the
-nested smooth family; the BV/coarea machinery (\cite[\S 13]{Maggi2012}) gives
-$L^1$ convergence of a.e.\ regular level together with perimeter lower
-semicontinuity, and the Reshetnyak setup of \cite[\S 17]{Maggi2012}
-(see also \cite[Thm.~2.39]{AFP2000}) supplies the weak strict BV convergence
-of the normal-velocity measures required in Lemma~\ref{lem:resh}.
-\end{proof}
-
-\begin{remark}[Why this formulation is weaker and correct]
-The recovery statement is not an arbitrary mollification claim, and it does
-not assert pointwise perimeter convergence for every level.  It is the
-standard coarea-good relaxation used for finite-perimeter first variations:
-choose regular levels outside a null set, regularise locally away from the
-critical set supplied by Figalli--Maggi, and keep only the lower
-semicontinuity needed to pass the smooth estimate to the reduced boundary.
+\begin{remark}[What must be proved elsewhere]
+Condition~\eqref{eq:UGR} is the missing velocity-measure convergence in the
+correct direction.  It is not a consequence of strict $BV$ convergence plus
+Reshetnyak lower semicontinuity.  A proof would need a recovery construction
+for the full boundary action, including the scalar normal velocity
+$V_\rho=-t'(\rho)/|\nabla u|$, the homothetic term
+$H_{z_\rho,\rho}$, the normals, and the translation infimum.  Equivalently,
+one may bypass recovery by proving directly that for a.e.\ $\rho$ and every
+$a\in\R^n$ the finite-perimeter deformation generated by the normal speed
+$V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho$ gives the one-sided quotient-metric
+upper bound in \eqref{eq:T}.
 \end{remark}
 
-\begin{lemma}[Reshetnyak lower semicontinuity]\label{lem:resh}
-For every $z\in\R^n$ and $a\in\R^n$, the convex linear-growth integrand
-$\Phi(x,s,\nu):=|s-(x-z)\cdot\nu/\rho-a\cdot\nu|$ satisfies, for a.e.\
-$\rho\in[\rstar,1]$,
-\begin{equation}\label{eq:resh}
-   \liminf_{k\to\infty}\int_{\partial^*E_\rho^k}
-       \bigl|V_\rho^k-H_{z,\rho}-a\cdot\nu_\rho^k\bigr|\,d\mathcal H^{n-1}
-   \ge
-   \int_{\partial^*E_\rho}
-       \bigl|V_\rho-H_{z,\rho}-a\cdot\nu_\rho\bigr|\,d\mathcal H^{n-1}.
-\end{equation}
-Since $\Phi$ is continuous in $x$ on the support, the $x$-dependent
-Reshetnyak lower semicontinuity of \cite[Thm.~2.39]{AFP2000} applies.
-\end{lemma}
-
-\begin{lemma}[AGS lower semicontinuity of the metric derivative]\label{lem:AGS}
-Let $\gamma_k:[\rstar,1]\to\X$ be AC curves with $\gamma_k(\rho)\to
-\gamma(\rho)$ in $\X$ for every $\rho$, and $|\dot\gamma_k|(\rho)\le m_k(\rho)$
-a.e.\ with $m_k\rightharpoonup m$ weakly in $L^1([\rstar,1])$. Then
-$\gamma$ is AC and $|\dot\gamma|(\rho)\le m(\rho)$ for a.e.\
-$\rho\in[\rstar,1]$. (\cite{AGS2008} Thm.~1.1.2)
-\end{lemma}
-
 \begin{proof}[Proof of Theorem~\ref{thm:T}]
-By Lemma~\ref{lem:approx}, after extracting a subsequence we may assume
-$E_\rho^k\to E_\rho$ in $L^1$ for a.e.\
-$\rho\in[\rstar,1]$. By Proposition~\ref{prop:T-smooth} applied to the
-smooth approximating flow $\{E_\rho^k\}$,
-\begin{equation}\label{eq:Tk}
-   |\dot F_\rho^k|_\X\le m_k(\rho):=\rstar^{-n}\inf_{a\in\R^n}
-   \int_{\partial^*E_\rho^k}\bigl|V_\rho^k-H_{z_\rho,\rho}-a\cdot\nu_\rho^k\bigr|
-   \,d\mathcal H^{n-1}.
-\end{equation}
-The coarea-good recovery gives uniform integrability of $\{m_k\}$ on
-$[\rstar,1]$, so by Dunford--Pettis it admits a weakly $L^1$-convergent
-subsequence $m_k\rightharpoonup m$. By
-Lemma~\ref{lem:resh}, $m(\rho)\ge\rstar^{-n}\inf_a\int_{\partial^*E_\rho}
-|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|$ for a.e.\ $\rho$. By
-Lemma~\ref{lem:AGS}, $\rho\mapsto[F_\rho]$ is AC and $|\dot F_\rho|_\X\le m(\rho)$
-a.e. This is~\eqref{eq:T} with $C_{n,\rstar}=\rstar^{-n}$.
+Assume Definition~\ref{def:UGR}.  For $s<t$, pointwise convergence in $\X$
+and the smooth upper-gradient estimate give
+\[
+   d_\X(\gamma(s),\gamma(t))
+   =\lim_{k\to\infty}d_\X(\gamma_k(s),\gamma_k(t))
+   \le \limsup_{k\to\infty}\int_s^t G_{z,k}(\rho)\,d\rho
+   \le \int_s^t G_z(\rho)\,d\rho .
+\]
+Thus $G_z\in L^1_{\rm loc}$ is an upper gradient for $\gamma$, so $\gamma$ is
+absolutely continuous and the metric derivative satisfies
+$|\dot\gamma|(\rho)\le G_z(\rho)$ for a.e.\ $\rho$ by
+Definition~\ref{def:AC}.  This is exactly~\eqref{eq:T}.
 \end{proof}
 
 \section{Translations quotient kills the $a\cdot\nu_\rho$ mode}\label{sec:trans}
@@ -361,14 +362,17 @@ and not used downstream.
 
 \subsection{Integrated version: repaired route}
 
-The Plan~2 paper closes the bound only in its $\mu$-integrated good/bad
-form.  This integrated form is established downstream using
-Theorem~\ref{thm:T} as input; see \cite{WeightedMetricTrace}, where
-Theorem~\ref{thm:T} is combined with the levelwise Fusco--Julin centre on
-small-isoperimetric-defect levels, the oriented radial trace estimate, and
-the uniform Lipschitz bound on the large-defect levels, yielding the
-$\mu$-integrated metric-energy bound without per-$\rho$~(R) and without the
-centroid integrated $\Pi$ input.
+The Plan~2 paper aims to close the bound in a $\mu$-integrated good-level
+form.  With Definition~\ref{def:UGR} or a direct finite-perimeter deformation
+theorem in place, Theorem~\ref{thm:T} can be combined on the
+small-isoperimetric-defect levels with the levelwise Fusco--Julin centre, the
+oriented radial trace estimate, and the self-truncated velocity estimate.
+This metric block does \emph{not} provide a perimeter-free uniform Lipschitz
+bound on the complementary bad levels.  Such a bound cannot be inferred merely
+from boundedness of $E_\rho\subset B_R$ and nestedness of the level sets,
+because the dilation part may carry uncontrolled perimeter.  Bad levels must
+therefore be handled either by a separate proved estimate from the level-set
+structure or by an argument that avoids pointwise bad-level Lipschitz control.
 
 \section{Summary and use downstream}\label{sec:summary}
 
@@ -377,15 +381,18 @@ Let $n\ge 2$, $0<\rstar<1$, and $R\ge 2$. Let $\Om\subset B_R$ be bounded
 open with $|\Om|=\omega_n$, let $u$ be its torsion potential, let $\{E_\rho\}$
 be the volume-radius foliation~\eqref{eq:rho-param}, and let
 $F_\rho:=\rho^{-1}E_\rho$ in $\X$. For every Borel centre field $z=\{z_\rho\}$
-with $\sup_\rho|z_\rho|\le R'$:
+with $\sup_\rho|z_\rho|\le R'$, the following statements hold.
 \begin{itemize}
-\item the curve $\rho\mapsto[F_\rho]\in\X$ is absolutely continuous on
-$[\rstar,1]$;
 \item the normal velocity $V_\rho=-t'(\rho)/|\nabla u|$ is $\mathcal H^{n-1}$-a.e.\
 finite and positive on $\partial^*E_\rho$ for a.e.\ $\rho$;
-\item there is a constant $C_{n,\rstar}>0$ such that
+\item in the smooth noncritical setting, the quotient first-variation bound
+holds with the sharp scaling factor $\rho^{-n}$ as in
+Proposition~\ref{prop:T-smooth};
+\item in finite-perimeter generality, if the upper-gradient recovery theorem
+of Definition~\ref{def:UGR} is proved for this centre field, then
+$\rho\mapsto[F_\rho]\in\X$ is absolutely continuous and
 \[
-   |\dot F_\rho|_\X\le C_{n,\rstar}\inf_{a\in\R^n}
+   |\dot F_\rho|_\X\le \rho^{-n}\inf_{a\in\R^n}
    \int_{\partial^*E_\rho}\bigl|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho\bigr|
    \,d\mathcal H^{n-1}\qquad\text{for a.e.\ }\rho\in[\rstar,1].
 \]

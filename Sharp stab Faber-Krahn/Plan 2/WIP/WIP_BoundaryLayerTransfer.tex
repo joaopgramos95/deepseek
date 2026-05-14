@@ -41,17 +41,20 @@ The boundary-layer volume
 $|\Om\setminus E_{\rho_\delta}|=\omega_n(1-\rho_\delta^{\,n})$ is exactly
 $O(\sqrt{\delta_T})$ by the definition of $\rho_\delta$; the elementary
 superlevel-transfer estimate of \cite{LevelSetIdentity} (Lemma~8.3)
-gives $\Fr(\Om)\le \Fr(E_{\rho_\delta})+C_n\sqrt{\delta_T}$. Squaring
+gives $\Fr(\Om)\le \Fr(E_{\rho_\delta})+C_{\rm lay}\sqrt{\delta_T}$.
+Squaring
 with $(a+b)^2\le 2a^2+2b^2$ doubles the constant on $\delta_T$ but
 preserves the sharp exponent~$2$. We obtain the bounded sharp
 Saint--Venant inequality
 $\Fr(\Om)^2\le C(n,R,\rstar)\,\delta_T(\Om)$ for all open
 $\Om\subset B_R$ with $|\Om|=\omega_n$ inside an explicit smallness
 window $\delta_T(\Om)\le \delta_0(n,R,\rstar)$. Outside that window
-the inequality is trivial after enlarging $C$ via the FMP
-quantitative isoperimetric inequality applied to $\Om$. Every
-constant is polynomial in $1/\rstar$, $R$, $n$ and the constants of
-the upstream building blocks.
+the inequality is trivial after enlarging $C$ by the factor
+$4/\delta_0$. The small-deficit constant is polynomial in
+$1/\rstar$, $R$, $n$ and the constants of the upstream building
+blocks. The full bounded constant has this same polynomial dependence
+provided the inverse upstream smallness threshold $\delta_0^{-1}$ is
+polynomially controlled.
 \end{abstract}
 
 \section{Statement of the theorem}\label{sec:statement}
@@ -81,8 +84,12 @@ every open $\Om\subset B_R$ with $|\Om|=\omega_n$ satisfies
 \begin{equation}\label{eq:main}
 \Fr(\Om)^{2}\le C(n,R,\rstar)\,\delta_T(\Om).
 \end{equation}
-The constant $C(n,R,\rstar)$ is polynomial in $1/\rstar$, $R$, $n$
-and the constants of \cite{WeightedMetricTrace}. The exponent $2$ is sharp.
+The small-deficit constant is polynomial in $1/\rstar$, $R$, $n$
+and the constants of \cite{WeightedMetricTrace}; the final all-deficit
+constant also contains $4/\delta_0(n,R,\rstar)$. Thus the advertised
+polynomial dependence for $C(n,R,\rstar)$ is conditional on polynomial
+control of $\delta_0^{-1}$ from the upstream metric-trace package.
+The exponent $2$ is sharp.
 We further assume $\Om$ is open of full measure $|\Om|=\omega_n$
 contained in $B_R$, sufficient that the torsion function
 $u_\Om\in W^{1,2}_0(\Om)$ exists with level sets $E_\rho$ of finite
@@ -109,21 +116,21 @@ $\rho_\delta$ is the largest radius for which the profile-gap lower
 bound on the measure $d\mu(\rho)=(-t'(\rho))\,d\rho$ holds (cf.\
 \cite[(5.1)]{LevelSetIdentity}).
 
-\begin{remark}[Conditionality through Hyp-G]\label{rem:hypG}
+\begin{remark}[No pointwise lower-gradient input]\label{rem:hypG}
 The constant $C_*=C_*(n,R,\rstar)$ inherited from
-\cite[Thm.~1.3]{WeightedMetricTrace} depends polynomially
-on the ratio $(M_0/m_0)^2$ of the standing gradient hypothesis
-Hyp-G of \cite[\S 7]{LevelSetIdentity}.  This dependence is purely
-through the metric-derivative bound; the boundary-layer transfer
-arguments of the present block do not require Hyp-G directly.  In
-particular, the residual conditionality of the sharp Faber--Krahn
-chain is concentrated at Hyp-G in \cite{LevelSetIdentity} and does
-not enlarge in this block.
+\cite[Thm.~1.3]{WeightedMetricTrace} no longer depends on a pointwise
+lower bound for $|\nabla u|$ on level surfaces.  The former Hyp-G input
+has been replaced upstream by the self-truncated velocity estimate of
+\cite{TrimmedVelocityRepair}: on Fusco--Julin good levels, the
+low-gradient part of $\partial^*E_\rho$ is charged by the
+Cauchy--Schwarz defect $D_H$ itself.  The boundary-layer transfer
+arguments of the present block do not use any gradient lower bound
+directly.
 \end{remark}
 
-The admissible class of $\Om$ here is the output of the bounded
-reduction \cite{BDV-BoundedReduction-Plan1}, which produces
-$\Om\subset B_{R_*(n)}$ with $|\Om|=\omega_n$.
+Downstream, \textsc{GlobalAssembly} will specialize this bounded
+statement to the dimensional radius $R_*(n)$ produced by the bounded
+reduction \cite{BDV-BoundedReduction-Plan1}.
 
 \begin{theorem}[Metric trace at $\rho_\delta$; upstream input from \cite{WeightedMetricTrace}]
 \label{thm:metric-trace}
@@ -141,6 +148,21 @@ d_{\X}(F_{\rhad},B_1)^{2}\le C_*\,\delta_T(\Om).
 In fact the bound holds uniformly for $\rho\in J^*=[\rho_\delta-L^*,\rho_\delta]$
 with $L^*=(\rho_\delta-\rstar)/4$.
 \end{theorem}
+
+In the sequel we always impose the additional admissibility threshold
+\begin{equation}\label{eq:delta-adm}
+  \delta_{\rm adm}(n,\rstar)
+  :=\left(\frac{1-\rstar}{2\kappa(n,\rstar)}\right)^2 .
+\end{equation}
+If $\delta_T(\Om)\le\delta_{\rm adm}$, then
+\begin{equation}\label{eq:rho-adm}
+  \rho_\delta\ge\frac{1+\rstar}{2}>\rstar,
+  \qquad
+  L^*=\frac{\rho_\delta-\rstar}{4}\ge\frac{1-\rstar}{8}.
+\end{equation}
+Thus the endpoint $\rho_\delta$ is admissible and the trace window
+$J^*$ is nonempty with length bounded below by an order-one collar
+constant depending only on $(n,\rstar)$.
 
 \paragraph{Reference.}
 This is the conclusion of \cite[Thm.~5.6, Cor.~5.7]{WeightedMetricTrace},
@@ -175,11 +197,11 @@ not of $\omega_n$.
 
 \begin{lemma}[Boundary-layer volume]\label{lem:layer-vol}
 Let $\rhad=\rho_\delta$ as in Theorem~\ref{thm:metric-trace}. There is
-$C_n>0$ depending only on $n$ such that, for
-$\delta_T(\Om)\le\delta_2(n,\rstar)$ small,
+$C_{\rm lay}=C_{\rm lay}(n,\rstar)>0$ such that, for
+$\delta_T(\Om)\le\delta_2(n,R,\rstar)$ small,
 \begin{equation}\label{eq:layer-vol}
 |\Om\setminus E_{\rhad}|\;=\;\omega_n\bigl(1-\rhad^{\,n}\bigr)
-\;\le\; C_n\sqrt{\delta_T(\Om)}.
+\;\le\; C_{\rm lay}\sqrt{\delta_T(\Om)}.
 \end{equation}
 \end{lemma}
 
@@ -191,11 +213,14 @@ on $[\rhad,1]\subset[\rstar,1]$ gives
 \[
    1-\rhad^{\,n}\;\le\;n(1-\rhad)\;=\;n\kappa\sqrt{\delta_T(\Om)}.
 \]
-This proves \eqref{eq:layer-vol} with $C_n:=\omega_n n\kappa$.
-Equivalently, $C'_n:=n\kappa$ so that $C_n=\omega_n C'_n$ and the
+This proves \eqref{eq:layer-vol} with
+$C_{\rm lay}:=\omega_n n\kappa$. Equivalently, $C'_n:=n\kappa$ so that
+$C_{\rm lay}=\omega_n C'_n$ and the
 prefactor in \eqref{eq:transfer-rhat} simplifies to $2C'_n$ without
-double-cancellation of $\omega_n$.  Choosing $\delta_2:=\delta_1$
-ensures \eqref{eq:rhad-window} applies.
+double-cancellation of $\omega_n$.  Choosing
+$\delta_2:=\min\{\delta_1,\delta_{\rm adm}\}$ ensures both
+\eqref{eq:rhad-window} and the admissibility bounds
+\eqref{eq:rho-adm} apply.
 \end{proof}
 
 \begin{remark}[Why $\rhad=\rho_\delta$ is the natural choice]
@@ -302,13 +327,14 @@ Theorem~\ref{thm:metric-trace}. Then
 \begin{equation}\label{eq:transfer-rhat}
 \Fr(\Om)\le \Fr(E_{\rhad})+2C'_n\sqrt{\delta_T(\Om)},
 \end{equation}
-where $C'_n=n(\kappa+C_*)$ (equivalently $C_n=\omega_n C'_n$) is the
-constant of Lemma~\ref{lem:layer-vol}.
+where $C'_n=n\kappa$ (equivalently
+$C_{\rm lay}=\omega_n C'_n$) is the boundary-layer constant of
+Lemma~\ref{lem:layer-vol}.
 \end{corollary}
 
 \begin{proof}
 $E_{\rho_\delta}\subset\Om$ by definition, and
-$|\Om\setminus E_{\rho_\delta}|\le C_n\sqrt{\delta_T(\Om)}$ by
+$|\Om\setminus E_{\rho_\delta}|\le C_{\rm lay}\sqrt{\delta_T(\Om)}$ by
 Lemma~\ref{lem:layer-vol}. Apply \eqref{eq:8.3-omega} with
 $E_t=E_{\rho_\delta}$.
 \end{proof}
@@ -344,7 +370,8 @@ $\Fr(E_{\rhad})^2\le \omega_n^{-2}C_*\delta_T(\Om)$. Substituting,
 \Fr(\Om)^2\le \left(\frac{2C_*}{\omega_n^{2}}+8(C'_n)^{2}\right)\delta_T(\Om)
 =:C_3\,\delta_T(\Om).
 \end{equation}
-This proves \eqref{eq:small-delta} with $\delta_0:=\delta_2$. The
+This proves \eqref{eq:small-delta} with
+$\delta_0:=\delta_2=\min\{\delta_1,\delta_{\rm adm}\}$. The
 exponent~$2$ is preserved because $(a+b)^2\le 2a^2+2b^2$
 \emph{doubles the constant} but does not raise either summand to a
 higher power.
@@ -380,7 +407,7 @@ repaired metric-trace block, $C_*$ is polynomial in
 $(1/\rstar, R, n)$ and in the constants of the Fusco--Julin and
 oriented radial-trace inputs.
 
-\item $C_n=\omega_n n\kappa$ from Lemma~\ref{lem:layer-vol},
+\item $C_{\rm lay}=\omega_n n\kappa$ from Lemma~\ref{lem:layer-vol},
 where $\kappa=\kappa(n,\rstar)$ is the profile-gap constant of
 \cite{LevelSetIdentity}.  The simpler form (no $C_*$ contribution)
 reflects the endpoint choice $\rhad=\rho_\delta$, see
@@ -390,9 +417,18 @@ Remark~\ref{rem:why-rho-delta}.
 \end{itemize}
 
 In particular, $C_3$ is polynomial in $(1/\rstar, R, n)$ and in the
-explicit constants of the repaired metric trace. Specialising to
-$R=R_*(n)$ (the bounded reduction radius) and $\rstar=1/2$ as in
-\cite{WeightedMetricTrace}, $C_3$ depends only on $n$.
+explicit constants of the repaired metric trace. The full constant in
+Theorem~\ref{thm:main} additionally contains
+$4/\delta_0$, with
+\[
+  \delta_0=\min\left\{\delta_1(n,R,\rstar),
+  \left(\frac{1-\rstar}{2\kappa(n,\rstar)}\right)^2\right\}.
+\]
+Consequently the final polynomial-dependence claim is valid once the
+upstream metric trace supplies polynomial control of
+$\delta_1^{-1}$. Specialising to $R=R_*(n)$ (the bounded reduction
+radius) and $\rstar=1/2$ as in \cite{WeightedMetricTrace}, the
+constant is dimensional.
 
 \begin{remark}[Sharpness of the dependence]
 The polynomial dependence on $1/\rstar$ enters through (i) the
@@ -427,13 +463,12 @@ $1\le \delta_T(\Om)/\delta_0$, hence
 $\Fr(\Om)^2\le 4\le 4\delta_T(\Om)/\delta_0$.
 \end{proof}
 
-\begin{remark}[Alternative via FMP]\label{rem:FMP}
-A second proof of \eqref{eq:large-delta} uses the FMP quantitative
-isoperimetric/Saint--Venant inequality \cite{FMP2008,Maggi2012} applied
-to $\Om$ itself: $\Fr(\Om)^4\le C_{\rm FMP}\delta_T(\Om)$, which on
-$\delta_T(\Om)\ge\delta_0$ implies a quadratic bound with constant
-$C'_{\rm FMP}/\delta_0^{1/2}$. The bound via $\Fr<2$ is sharper for
-our purposes.
+\begin{remark}[No FMP input in the large branch]\label{rem:FMP}
+The large-$\delta_T$ branch above uses only the normalization
+$\Fr(\Om)<2$. No FMP quantitative isoperimetric or suboptimal
+Saint--Venant estimate is needed in this block. This avoids importing
+an endpoint citation whose hypotheses and constants play no role in
+the route-$\delta$ transfer.
 \end{remark}
 
 \begin{proof}[Proof of Theorem~\ref{thm:main}]
@@ -504,9 +539,15 @@ Space-time $\Pi$ identity and auxiliary centroid-route diagnostics.
 
 \bibitem{WeightedMetricTrace}
 Plan~2 building block \textsc{WeightedMetricTrace}.
-Integrated action $\to$ pointwise endpoint at $\rhad$; metric trace
-estimate $d_{\X}(F_{\rhad},B_1)^2\le C_*\delta_T$ with
-$\rhad\in[\rho_\delta-C_*\delta_T,\rho_\delta]$.
+Integrated action $\to$ pointwise endpoint at
+$\rhad=\rho_\delta$; metric trace estimate
+$d_{\X}(F_{\rhad},B_1)^2\le C_*\delta_T$, uniformly on the window
+$J^*=[\rho_\delta-L^*,\rho_\delta]$.
+
+\bibitem{TrimmedVelocityRepair}
+Plan~2 building block \textsc{TrimmedVelocityRepair}.
+Self-truncated velocity defect replacing the pointwise lower-gradient
+hypothesis.
 
 \bibitem{GlobalAssembly}
 Plan~2 building block \textsc{GlobalAssembly}.
@@ -521,11 +562,6 @@ Bounded reduction theorem at $R=R_*(n)$.
 \texttt{Final/KohlerJobinTransfer.tex} (Plan~1 import).
 Kohler--Jobin transfer from sharp Saint--Venant to sharp
 Faber--Krahn.
-
-\bibitem{FMP2008}
-N.~Fusco, F.~Maggi, A.~Pratelli,
-\emph{The sharp quantitative isoperimetric inequality},
-Ann.\ of Math.\ \textbf{168} (2008), 941--980.
 
 \bibitem{Maggi2012}
 F.~Maggi,

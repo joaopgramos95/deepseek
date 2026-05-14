@@ -10,6 +10,7 @@
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{remark}[theorem]{Remark}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\Fr}{\mathcal{A}}
@@ -29,23 +30,25 @@
 \maketitle
 
 \begin{abstract}
-This building block chains three ingredients into a pointwise metric
+This building block chains conditional, explicitly named ingredients into a pointwise metric
 distance bound at the deficit endpoint $\rhad:=\rho_\delta=1-\kappa\sqrt{\delta}$,
 where throughout this note we write $\delta:=\delta_T(\Om)$.
 The repaired version does not use the unresolved centroid
 space--time $\Pi$ estimate.  Instead, on the levels where the
-isoperimetric defect is small it chooses a levelwise Fusco--Julin
-oscillation centre and uses the strong quantitative isoperimetric
-inequality to control both the Fraenkel distance and the normal
-oscillation.  An oriented radial divergence lemma converts these into the
-homothetic $L^1$ trace required by \cite{MetricFramework}.  The
-large-isoperimetric-defect levels are handled by Markov from the
-integrated deficit identity and the elementary uniform $L^1$-Lipschitz
-bound (A0).  This yields the integrated action bound
+isoperimetric defect is small it assumes a same-centre Fusco--Julin
+trace package: one bounded Borel centre controls both the Fraenkel
+distance and the homothetic trace.  On the same good levels, the low-gradient part of
+$\partial^*E_\rho$ is self-truncated and charged by the
+Cauchy--Schwarz defect $D_H$ via \cite{TrimmedVelocityRepair}, replacing
+the former pointwise lower-gradient hypothesis.  The metric
+first-variation and all bad-level kinetic estimates are kept as
+conditional inputs, because the current upstream metric-framework
+finite-perimeter closure and the old uniform Lipschitz bound (A0) are
+not available as proved results.  Under these inputs this yields the integrated action bound
 $\int(d_\X(F_\rho,B_1)^2+|\dot F_\rho|_\X^2)\,d\mu \le C\,\delta_T$,
 which encodes the integrated isoperimetric defect $D_I$ (via
 Fusco--Julin) in its distance term and the integrated Cauchy--Schwarz
-defect $D_H$ (via the metric first variation of \cite{MetricFramework})
+defect $D_H$ (via the conditional metric first variation of \cite{MetricFramework})
 in its kinetic term.  A Talenti bad-set decomposition then gives the
 kinetic bound (K) in Lebesgue form.  The abstract weighted metric trace
 lemma combines these two inputs --- Markov on the distance term
@@ -65,21 +68,32 @@ The chain uses no pointwise (R)/(1.2) and no centroid $\Pi$-closure input.
 
 Fix $n\ge 2$, $R\ge 2$, $\rstar\in(0,1)$, $\kappa>0$. Let $\Om\subset B_R$
 open with $|\Om|=\omega_n$, $u=u_\Om$ the variational torsion function,
-$\delta:=\delta_T(\Om)\le\delta_0(n,R,\rstar)$. Set $E_\rho:=\{u>t(\rho)\}$
+$\delta:=\delta_T(\Om)\le\delta_0(n,R,\rstar,\kappa)$.  We always take
+\begin{equation}\label{eq:delta-smallness}
+   \delta_0\le \left(\frac{1-\rstar}{2\kappa}\right)^2,
+\end{equation}
+so that
+\[
+   \rho_\delta:=1-\kappa\sqrt\delta\ge\frac{1+\rstar}{2},
+   \qquad
+   L^*:=\frac{\rho_\delta-\rstar}{4}\ge\frac{1-\rstar}{8}.
+\]
+Thus the trace window used below is non-empty and has order-one length.
+Set $E_\rho:=\{u>t(\rho)\}$
 with $|E_\rho|=\omega_n\rho^n$, $\rho_\delta:=1-\kappa\sqrt\delta$,
-$\mu(d\rho):=(-t'(\rho))d\rho$. Define
+$w(\rho):=-t'(\rho)\ge0$, and $\mu(d\rho):=w(\rho)d\rho$. Define
 $F_\rho:=\rho^{-1}E_\rho\subset B_{R/\rstar}$, $\gamma(\rho):=[F_\rho]\in\X$.
 For a.e.\ $\rho$, $E_\rho$ has finite perimeter: this follows from the
 coarea formula applied to $u\in W^{1,2}_0(\Om)$.
 
-\begin{theorem}[Integrated action bound]\label{thm:52int}
+\begin{theorem}[Conditional integrated action bound]\label{thm:52int}
 \begin{equation}\label{eq:52int}
    \int_{\rstar}^{\rho_\delta}\bigl(d_\X(F_\rho,B_1)^2+|\dot F_\rho|_\X^2\bigr)\,d\mu(\rho)
    \le C(n,R,\rstar,\kappa)\,\delta_T(\Om).
 \end{equation}
 \end{theorem}
 
-\begin{theorem}[Kinetic bound (K), Lebesgue form]\label{thm:K}
+\begin{theorem}[Conditional kinetic bound (K), Lebesgue form]\label{thm:K}
 \begin{equation}\label{eq:K}
    \int_{\rstar}^{\rho_\delta}|\dot F_\rho|_\X^2\,d\rho
    \le C'(n,R,\rstar,\kappa)\,\delta_T(\Om).
@@ -101,30 +115,42 @@ i.e.\ the metric distance to the ball is sharply controlled at the
 upper endpoint of the deficit window.
 \end{theorem}
 
-\subsection{Standing hypothesis on level-surface gradient}\label{ssec:hypG}
+\subsection{Self-truncated velocity input}\label{ssec:trimmed-velocity}
 
-The metric-derivative bound used in the proof of
-Theorem~\ref{thm:52int} relies on a two-sided uniform bound on
-$|\nabla u|$ on the level surfaces in the deficit window:
-
-\begin{quote}
-\emph{(Hyp-G)} There exist $0<m_0\le M_0<\infty$ depending only on
-$n,R,\rstar$ such that, for a.e.\ $\rho\in[\rstar,\rho_\delta]$,
-$m_0\le|\nabla u(x)|\le M_0$ for $\mathcal H^{n-1}$-a.e.\
-$x\in\partial^*E_\rho$.
-\end{quote}
-
-This is precisely Hypothesis~7.1 of \cite{LevelSetIdentity}.  Its
-validity in the bounded reduction class $\Om\subset B_{R_*(n)}$
-produced by \cite[Lemma~5.3]{GlobalAssembly} is discussed in
-\cite[Remark~7.2]{LevelSetIdentity}: the upper bound $M_0(n,R)$ is
-unconditional via the global gradient $L^{\infty}$ estimate of
-\cite{CianchiMaz'ya2011}; the lower bound $m_0(n,\rstar)$ is the
-\emph{residual conditionality} of the chain, expected to hold in the
-small-deficit regime by a Caffarelli-type non-degeneracy argument.
-The constants $m_0,M_0$ enter the downstream chain only via the
-ratio $(M_0/m_0)^2$ in the constant $C_{\rm vel}$ of
-\cite[Cor.~7.4]{LevelSetIdentity}.
+The metric-derivative bound used below does \emph{not} require a
+pointwise lower bound on $|\nabla u|$.  Instead we use the following
+levelwise consequence of \cite{TrimmedVelocityRepair}.  On every
+Fusco--Julin good level, i.e. on levels where
+$D_I(t(\rho))\le\eta_I$, the perimeter is uniformly bounded.  Writing
+$f=|\nabla u|$ on $\partial^*E_\rho$ and
+$\bar f_\rho=|E_\rho|/P(E_\rho)$, split
+\[
+   \partial^*E_\rho
+   =\{f\ge \bar f_\rho/2\}\cup\{f<\bar f_\rho/2\}.
+\]
+The low-gradient part satisfies
+\[
+   \int_{\{f<\bar f_\rho/2\}}\frac1f\,d\mathcal H^{n-1}
+   \le C(n,\rstar)\,D_H(t(\rho)),
+\]
+by the weighted variance identity for $D_H$.  On the complementary part,
+$f\ge\bar f_\rho/2$ gives the reciprocal-variance comparison needed in
+the old Hyp-G proof.  Combining the two pieces yields
+\begin{equation}\label{eq:self-truncated-V}
+   \biggl(\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,
+     d\mathcal H^{n-1}\biggr)^2
+   \le C_{\rm tr}(n,\rstar)\,D_H(t(\rho))
+   \qquad(\rho\in G_I).
+\end{equation}
+Here
+\[
+   \bar V_\rho:=\frac{1}{P(E_\rho)}
+       \int_{\partial^*E_\rho}V_\rho\,d\mathcal H^{n-1}
+       =\frac{P(B_\rho)}{P(E_\rho)}.
+\]
+Thus tiny components or other anomalous low-gradient pieces are not
+controlled by a uniform pointwise constant; they are discarded at the
+level surface and paid for by $D_H$ itself.
 
 \section{Levelwise quantitative input}\label{sec:FJ}
 
@@ -140,9 +166,8 @@ $D_I(t(\rho))=(P(E_\rho)-P(B_\rho))(P(E_\rho)+P(B_\rho))$,
    0\le \Delta P_\rho\le C_{n,\rstar}\mathcal I(\rho).
 \end{equation}
 The exact level-set deficit identity of
-\cite[Eq.~(eq:main), Thm.~5.1]{LevelSetIdentity}, with the change of
-variable $dt=-t'(\rho)d\rho=d\mu(\rho)$ (since
-$\mu(d\rho):=(-t'(\rho))d\rho$) and the normalisation $|\Om|=\omega_n$,
+\cite[Eq.~(eq:main), Thm.~5.1]{LevelSetIdentity}, together with the
+normalisation $|\Om|=\omega_n$,
 $\delta_T(\Om):=E(\Om)-E(B^*)\ge 0$, reads
 \[
    \frac{2\delta_T(\Om)}{\omega_n}
@@ -158,6 +183,96 @@ $c_{n,\rstar}>0$ since $m(t)\le \omega_n$.  Therefore
 \end{equation}
 where $C(n,\rstar):=2/c_{n,\rstar}=2n^2\omega_n^{2/n+1}\rstar^{n-2}$ for
 $n\ge 2$.
+
+\begin{remark}[Sign in the $\rho$ change of variables]\label{rem:sign}
+Because the volume radius increases as the threshold decreases,
+$t'(\rho)\le0$ and
+\[
+   dt=t'(\rho)\,d\rho,\qquad d\mu(\rho)=(-t'(\rho))\,d\rho=-dt.
+\]
+Consequently, for a non-negative level integrand $q$,
+\[
+   \int_{\rstar}^{\rho_\delta}q(t(\rho))\,d\mu(\rho)
+   =\int_{t(\rho_\delta)}^{t(\rstar)}q(t)\,dt.
+\]
+This is the orientation used in \eqref{eq:DH-DI-int}; the older shorthand
+$dt=d\mu$ had the wrong sign.
+\end{remark}
+
+\begin{hypothesis}[Same-centre FJ trace package]\label{hyp:FJ-trace}
+There are constants $\eta_I>0$, $C=C(n,R,\rstar)$ and a bounded Borel centre
+field $\rho\mapsto z_\rho$ such that, on the good set
+\[
+   G_I:=\{\rho\in[\rstar,\rho_\delta]:\mathcal I(\rho)\le\eta_I\},
+\]
+the same centre $z_\rho$ satisfies
+\begin{align}
+   |E_\rho\Delta B_\rho(z_\rho)|^2
+      &\le C\,\mathcal I(\rho),\label{eq:FJ-asym}\\
+   \left(\int_{\partial^*E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|\,
+       d\mathcal H^{n-1}\right)^2
+      &\le C\,\mathcal I(\rho),\label{eq:htrace-good}
+\end{align}
+where
+\[
+   \bar V_\rho:=\frac{1}{P(E_\rho)}
+       \int_{\partial^*E_\rho}V_\rho\,d\mathcal H^{n-1}
+       =\frac{P(B_\rho)}{P(E_\rho)}.
+\]
+This is not imported here from the present FJ bridge: it is the exact
+same-centre package still needed upstream.  In particular, a centre that
+only minimizes Fraenkel asymmetry, or only minimizes normal oscillation,
+is not sufficient for this block.
+\end{hypothesis}
+
+\begin{hypothesis}[Good-level metric upper gradient]\label{hyp:metric-good}
+For the centres in Hypothesis~\ref{hyp:FJ-trace}, the rescaled curve is
+absolutely continuous on $[\rstar,\rho_\delta]$ and, for a.e.\
+$\rho\in G_I$,
+\[
+   |\dot F_\rho|_\X\le C_{n,\rstar}\inf_{a\in\R^n}
+   \int_{\partial^*E_\rho}|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,
+     d\mathcal H^{n-1}.
+\]
+This is the finite-perimeter upper-gradient input requested from
+\cite{MetricFramework}; the unresolved lower-semicontinuity issue is not
+hidden in the proof below.
+\end{hypothesis}
+
+\begin{hypothesis}[Bad-level kinetic inputs]\label{hyp:bad-kinetic}
+With $B_I:=[\rstar,\rho_\delta]\setminus G_I$ and
+\[
+   B_{\tau_0}:=\{\rho\in[\rstar,\rho_\delta]:w(\rho)<\tau_0\},
+   \qquad \tau_0:=\frac{\rstar}{2n},
+\]
+assume the two bad-level action bounds
+\begin{align}
+   \int_{B_I}|\dot F_\rho|_\X^2\,d\mu(\rho)
+      &\le C(n,R,\rstar)\,\delta,\label{eq:bad-I-action}\\
+   \int_{B_{\tau_0}}|\dot F_\rho|_\X^2\,d\rho
+      &\le C(n,R,\rstar)\,\delta.\label{eq:bad-tau-action}
+\end{align}
+These are the only bad-level kinetic estimates used below.  They replace
+the old unsupported uniform Lipschitz assertion (A0).
+\end{hypothesis}
+
+\begin{hypothesis}[Profile-gap and Talenti density inputs]\label{hyp:profile-gap}
+The density $w=-t'$ satisfies the Talenti upper bound
+\[
+   0\le w(\rho)\le \frac1n\qquad\text{for a.e. }\rho\in[\rstar,\rho_\delta],
+\]
+and the profile-gap bad-set estimate
+\begin{equation}\label{eq:profile-gap}
+   \mathcal L^1(B_{\tau_0})\le C(n,\rstar)\,\delta.
+\end{equation}
+The estimate \eqref{eq:profile-gap} is the missing integrated
+Talenti/profile-gap input from \cite{LevelSetIdentity}.
+\end{hypothesis}
+
+\iffalse
+Legacy derivation disabled: the audit found that this same-centre FJ
+selection/radial-trace proof is not currently justified.  The active
+argument above uses Hypothesis~\ref{hyp:FJ-trace} instead.
 
 \begin{lemma}[Fusco--Julin centre package]\label{lem:FJ-package}
 There are constants $\eta_I>0$, $C=C(n,R,\rstar)$ and a bounded Borel centre
@@ -347,6 +462,8 @@ since $\mathcal I(\rho)\le\eta_I\le 1$ on $G_I$.  The triangle
 inequality gives \eqref{eq:htrace-good}.
 \end{proof}
 
+\fi
+
 \section{The integrated action bound (5.2-int)}\label{sec:52int}
 
 \begin{proof}[Proof of Theorem~\ref{thm:52int}]
@@ -373,9 +490,7 @@ volume $\omega_n$.  Therefore, by \eqref{eq:DH-DI-int} and
 \end{equation}
 
 \paragraph{Metric-derivative term.}
-On $G_I$, \cite[Thm.~T]{MetricFramework} (the configurable form
-exposing a translation parameter $a\in\R^n$ on the right-hand side)
-gives the per-$\rho$ velocity bound
+On $G_I$, Hypothesis~\ref{hyp:metric-good} gives the per-$\rho$ velocity bound
 \[
    |\dot F_\rho|_\X\;\le\;C_{n,\rstar}\inf_{a\in\R^n}\!
    \int_{\partial^*E_\rho}|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,
@@ -393,25 +508,23 @@ under the integral, followed by $(a+b)^2\le 2a^2+2b^2$, to obtain
       \biggl(\int_{\partial^*E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|\biggr)^{\!2}
    \right].
 \end{equation}
-The first square is controlled by
-\cite[Prop.~7.3]{LevelSetIdentity} (Velocity defect from $D_H$ under
-Hyp-G):
+The first square is controlled by the self-truncated velocity estimate
+\eqref{eq:self-truncated-V} from \cite{TrimmedVelocityRepair}:
 \begin{equation}\label{eq:V-bar-V}
    \biggl(\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,
      d\mathcal H^{n-1}\biggr)^{\!2}
-   \;\le\;C_{\rm vel}(n,R,\rstar)\,\mathcal H(\rho),
+   \;\le\;C_{\rm tr}(n,\rstar)\,\mathcal H(\rho),
 \end{equation}
-with $C_{\rm vel}=(M_0/m_0)^2/n^2$ from Hyp-G; the second square is
-\eqref{eq:htrace-good}.  Thus
+and the second square is \eqref{eq:htrace-good}.  Thus
 \[
    |\dot F_\rho|_\X^2\le C(n,R,\rstar)\bigl(\mathcal H(\rho)+\mathcal I(\rho)\bigr)
    \qquad\text{for a.e. }\rho\in G_I,
 \]
-where $C(n,R,\rstar)$ is polynomial in $C_{\rm vel}$, hence in
-$(M_0/m_0)^2$.
-On $B_I$ we use the uniform metric Lipschitz bound (A0),
-$|\dot F_\rho|_\X\le L_0(n,R,\rstar)$.  Combining this with
-\eqref{eq:DH-DI-int} and \eqref{eq:BI-measure} gives
+where $C(n,R,\rstar)$ is polynomial in the constants of the
+self-truncated velocity estimate and of the Fusco--Julin package.
+On $B_I$ we use only the conditional bad-isoperimetric-level action
+input \eqref{eq:bad-I-action}.  Combining this with
+\eqref{eq:DH-DI-int} gives
 \begin{equation}\label{eq:kinetic-action}
    \int_{\rstar}^{\rho_\delta}|\dot F_\rho|_\X^2\,d\mu(\rho)
    \le C\,\delta_T(\Om).
@@ -422,65 +535,73 @@ Equations \eqref{eq:dist-action} and \eqref{eq:kinetic-action} prove
 
 \begin{remark}
 The good-level estimate is genuinely quantitative: the only square-root
-loss is the Fraenkel term from Fusco--Julin, and it is squared before
-integration.  The large-defect levels are not estimated pointwise; their
-$d\mu$-measure is paid for by the integrated isoperimetric defect.
+loss is the Fraenkel term from the same-centre FJ input, and it is squared
+before integration.  The large-isoperimetric-defect levels are not
+estimated pointwise in this file; their distance contribution is paid for
+by $\mu(B_I)\le C\delta$, while their kinetic contribution is exactly the
+conditional input \eqref{eq:bad-I-action}.
 \end{remark}
 
 \section{The kinetic bound (K)}\label{sec:K}
 
-\begin{lemma}[Uniform metric Lipschitz, (A0)]\label{lem:A0}
-$|\dot F_\rho|_\X\le L_0(n,R,\rstar)$ a.e.
-\end{lemma}
-
-\begin{proof}
-Nestedness gives $|E_{\rho'}\Delta E_\rho|\le n\omega_n|\rho'-\rho|$.
-Split $F_\rho\Delta F_{\rho'}$ through $(\rho')^{-1}E_\rho$ and use
-the dilation estimate to get $d_\X([F_{\rho'}],[F_\rho])\le L_0|\rho'-\rho|$.
-\end{proof}
-
-\begin{lemma}[Bad-set Lemma]\label{lem:badset}
-$|B_{\tau_0}|:=|\{\rho:-t'(\rho)<\tau_0=\rstar/(2n)\}|\le K_2\delta$.
-\end{lemma}
-
-\begin{proof}
-On $B_{\tau_0}$, with
-\(\psi(\rho)=(-t_B'(\rho))-(-t'(\rho))\ge0\), one has
-$|\psi(\rho)|\ge\rstar/(2n)$. By the
-integrated Talenti gap $\int|\psi|d\rho\le K_1\delta$
-(see \cite{Talenti1976} and the corollary in
-\cite{LevelSetIdentity}),
-$(\rstar/(2n))|B_{\tau_0}|\le K_1\delta$.
-\end{proof}
+\begin{remark}[No use of the old A0]\label{rem:no-A0}
+The previous draft asserted a perimeter-free uniform metric Lipschitz
+bound (A0) from nestedness and bounded support.  The audit found this
+unsupported.  The Lebesgue kinetic estimate below therefore uses only
+the weighted action already proved and the explicit bad-density kinetic
+input \eqref{eq:bad-tau-action}.
+\end{remark}
 
 \begin{proof}[Proof of Theorem~\ref{thm:K}]
-Split $[\rstar,\rho_\delta]=G\sqcup B_{\tau_0}$ with $G$ the good set
-where $-t'\ge\tau_0$. On $G$:
-$\int_G|\dot F_\rho|^2 d\rho\le\tau_0^{-1}\int_G|\dot F_\rho|^2(-t')d\rho
-\le(2n/\rstar)\cdot C\delta$. On $B_{\tau_0}$: by (A0),
-$\int_{B_{\tau_0}}|\dot F_\rho|^2 d\rho\le L_0^2 K_2\delta$.
+Split $[\rstar,\rho_\delta]=G_{\tau_0}\sqcup B_{\tau_0}$ with
+$G_{\tau_0}:=\{\rho:w(\rho)\ge\tau_0\}$ and
+$\tau_0=\rstar/(2n)$.  On $G_{\tau_0}$,
+\[
+   \int_{G_{\tau_0}}|\dot F_\rho|_\X^2\,d\rho
+   \le\tau_0^{-1}\int_{G_{\tau_0}}|\dot F_\rho|_\X^2\,d\mu(\rho)
+   \le C(n,\rstar)\delta
+\]
+by Theorem~\ref{thm:52int}.  On $B_{\tau_0}$ use the conditional
+bad-density action input \eqref{eq:bad-tau-action}.
 Adding gives \eqref{eq:K}.
 \end{proof}
 
 \section{The weighted metric trace lemma}\label{sec:agent4}
 
 \begin{theorem}[Abstract weighted metric trace]\label{thm:abstract-trace}
-Assume (H1) $\int(d_\X^2+|\dot\gamma|^2)d\mu\le C\delta$, (H2)
-$\mu([a,b])\ge c(b-a)-C\delta$, (H3) $\mu_\rho\le M$, (5.14)
-$\int|\dot\gamma|^2 d\rho\le C'\delta$. Set
+Let $\mu=w(\rho)d\rho$ on $[\rstar,\rho_\delta]$.  Assume:
+\[
+\begin{array}{ll}
+\mathrm{(H1)}&
+   \displaystyle \int_{\rstar}^{\rho_\delta}
+      \bigl(d_\X(\gamma(\rho),B_1)^2+|\dot\gamma|^2\bigr)\,d\mu
+      \le C\delta,\\[2mm]
+\mathrm{(H2)}&
+   \displaystyle \mu([a,b])\ge c(b-a)-C_{\rm low}\delta
+      \quad\text{for every }[a,b]\subset[\rstar,\rho_\delta],\\[2mm]
+\mathrm{(H3)}&
+   \displaystyle 0\le w(\rho)\le M
+      \quad\text{for a.e. }\rho,\\[2mm]
+\mathrm{(H4)}&
+   \displaystyle \int_{\rstar}^{\rho_\delta}|\dot\gamma|^2\,d\rho
+      \le C'\delta .
+\end{array}
+\]
+Set
 $L^*:=(\rho_\delta-\rstar)/4$ and $J^*:=[\rho_\delta-L^*,\rho_\delta]$.
 Then
 \[
    \sup_{\rho\in J^*}\,d_\X(\gamma(\rho),B_1)^2\;\le\;C_*\,\delta,
 \]
-where $C_*:=2K_1+2L^*C'$ with $K_1:=4C/(cL^*)$. In particular at the
+provided $\delta\le cL^*/(2C_{\rm low})$.  Here
+$C_*:=2K_1+2L^*C'$ with $K_1:=4C/(cL^*)$. In particular at the
 endpoint, $d_\X(\gamma(\rho_\delta),B_1)^2\le C_*\delta$.
 \end{theorem}
 
 \begin{proof}
 \emph{Step 1: macroscopic Markov on the order-one window
 $J^*=[\rho_\delta-L^*,\rho_\delta]$.}
-By (H2), $\mu(J^*)\ge cL^*-C\delta\ge cL^*/2$ for $\delta$ small. By
+By (H2), $\mu(J^*)\ge cL^*-C_{\rm low}\delta\ge cL^*/2$. By
 (H1) and Chebyshev (Markov on the square),
 \[
    \mu\bigl(\{\rho\in J^*:d_\X(\gamma(\rho),B_1)^2>K_1\delta\}\bigr)
@@ -494,7 +615,7 @@ $d_\X(\gamma(\rho_0),B_1)^2\le K_1\delta$.
 $|\rho-\rho_0|\le L^*$ (the diameter of $J^*$). AGS Thm 1.1.2
 \cite[Thm.~1.1.2]{AGS2008} gives
 $d_\X(\gamma(\rho_0),\gamma(\rho))\le\int_{\rho_0}^{\rho}|\dot\gamma(s)|\,ds$;
-Cauchy--Schwarz and (5.14) then yield
+Cauchy--Schwarz and (H4) then yield
 \[
    d_\X(\gamma(\rho_0),\gamma(\rho))^2
    \;\le\;|\rho-\rho_0|\!\!\int_{\rho_0}^{\rho}|\dot\gamma|^2\,ds
@@ -520,7 +641,7 @@ $\rho\mapsto d_\X(\gamma(\rho),B_1)$, decomposed into its two ingredients:
 isoperimetric defect $D_I$ via the Fusco--Julin estimate
 \eqref{eq:FJ-asym}: many levels are close to balls;
 
-(ii)~the \emph{kinetic term} (5.14, $L^2(d\rho)$) encodes the
+(ii)~the \emph{kinetic term} (H4, $L^2(d\rho)$) encodes the
 integrated Cauchy--Schwarz defect $D_H$ via the metric first variation
 of \cite{MetricFramework}: the family $\rho\mapsto F_\rho$ does not
 ``curve away'' from its trajectory faster than $\sqrt\delta$ in
@@ -553,21 +674,25 @@ location where the boundary-layer transfer of
 
 \paragraph{Verification of hypotheses for the torsion application:}
 \begin{itemize}
-\item (H1) = Theorem~\ref{thm:52int}.
-\item (H2) holds with $c=\rstar/(2n)$, $C=K_1$: on the good set
-$G:=\{\rho:-t'(\rho)\ge\rstar/(2n)\}$ we have $\mu(d\rho)\ge cd\rho$,
-and by Lemma~\ref{lem:badset} (bad-set) the complement has
-$\mathcal L^1$-measure $\le K_1\delta/(\rstar/(2n))$.  For any
-$[a,b]\subset[\rstar,\rho_\delta]$,
-$\mu([a,b])\ge c\cdot\mathcal L^1([a,b]\cap G)\ge c(b-a)-c\,K_1\delta/(\rstar/(2n))
-=:c(b-a)-C\delta$.
-\item (H3) $-t'\le 1/n$ via Talenti's gradient comparison
-\cite[Prop.~7.3, Step~5]{LevelSetIdentity}.
-\item (5.14) = Theorem~\ref{thm:K}.
+\item (H1) is Theorem~\ref{thm:52int}.
+\item (H2) follows from Hypothesis~\ref{hyp:profile-gap}: on
+$G_{\tau_0}:=\{\rho:w(\rho)\ge\tau_0\}$, with
+$\tau_0=\rstar/(2n)$, we have $\mu(d\rho)\ge\tau_0\,d\rho$, while
+$\mathcal L^1(B_{\tau_0})\le C\delta$.  Hence
+\[
+   \mu([a,b])\ge \tau_0(b-a)-\tau_0\,\mathcal L^1(B_{\tau_0})
+   \ge \tau_0(b-a)-C_{\rm low}\delta.
+\]
+\item (H3) is the Talenti upper-density part of
+Hypothesis~\ref{hyp:profile-gap}, with $M=1/n$.
+\item (H4) is Theorem~\ref{thm:K}.
 \end{itemize}
 
 \begin{proof}[Proof of Theorem~\ref{thm:trace}]
-Apply Theorem~\ref{thm:abstract-trace} to $\gamma=[F_\rho]$.
+After fixing the constants in (H2), shrink $\delta_0$ if necessary so
+that the smallness condition in Theorem~\ref{thm:abstract-trace} holds
+on the order-one window guaranteed by \eqref{eq:delta-smallness}.  Apply
+Theorem~\ref{thm:abstract-trace} to $\gamma=[F_\rho]$.
 \end{proof}
 
 \begin{corollary}[Pointwise asymmetry at $\rho_\delta$]\label{cor:pointwise-asymmetry}
@@ -581,8 +706,12 @@ Setting $\rhad:=\rho_\delta$,
 By the rescaling $F_\rho=\rho^{-1}E_\rho$ recorded at
 \eqref{eq:dist-trivial}, the endpoint bound \eqref{eq:trace-endpoint}
 yields
-$|E_{\rho_\delta}\Delta B_{\rho_\delta}|^2\le C(n,\rstar,R)\,\rho_\delta^{\,2n}\,
-d_\X(F_{\rho_\delta},B_1)^2\le C(n,\rstar,R)\,\delta_T(\Om)$.
+\[
+   |E_{\rho_\delta}\Delta B_{\rho_\delta}|^2
+   \le C(n,\rstar,R)\,\rho_\delta^{\,2n}
+      d_\X(F_{\rho_\delta},B_1)^2
+   \le C(n,\rstar,R)\,\delta_T(\Om).
+\]
 The translation realising the infimum in $d_\X$ provides the centring
 required by the Fraenkel asymmetry on the right-hand side.
 \end{proof}
@@ -591,17 +720,27 @@ required by the Fraenkel asymmetry on the right-hand side.
 
 \begin{itemize}
 \item Theorem~\ref{thm:52int}: consumes the exact level-set deficit
-identity of \cite{LevelSetIdentity}, the metric first-variation theorem
-of \cite{MetricFramework}, the strong quantitative isoperimetric theorem
-of \cite{FJ2014}, and the oriented radial trace Lemma~\ref{lem:radial-slicing}.
-\item Theorem~\ref{thm:K}: plus elementary (A0) and bad-set Lemma,
-both unconditional.
-\item Theorem~\ref{thm:trace}: plus (H2), (H3) from Talenti.
+budget \eqref{eq:DH-DI-int} from \cite{LevelSetIdentity}, the
+same-centre FJ trace package Hypothesis~\ref{hyp:FJ-trace}, the
+good-level metric upper gradient Hypothesis~\ref{hyp:metric-good}, the
+self-truncated velocity estimate of \cite{TrimmedVelocityRepair} on
+$G_I$ only, and the bad-isoperimetric-level kinetic input
+\eqref{eq:bad-I-action}.
+\item Theorem~\ref{thm:K}: consumes Theorem~\ref{thm:52int} on
+$G_{\tau_0}$ and the bad-density kinetic input
+\eqref{eq:bad-tau-action}.  It does not use the old A0 assertion.
+\item Theorem~\ref{thm:trace}: consumes the cleaned hypotheses
+(H1)--(H4).  In the torsion application, (H2) and (H3) are supplied by
+Hypothesis~\ref{hyp:profile-gap}.
 \end{itemize}
 
 Thus this block no longer depends on the centroid integrated
-\(\Pi\)-control input isolated in \cite{SpaceTimeIdentity}.  Pointwise
-(R)/(1.2) is never invoked.
+\(\Pi\)-control input isolated in \cite{SpaceTimeIdentity}, and it no
+longer depends on the pointwise lower-gradient hypothesis Hyp-G.  The
+low-gradient part of an isoperimetric-good level surface is handled by
+truncation and paid for by \(D_H\).  Pointwise (R)/(1.2) is never
+invoked as a proved input; the unresolved same-centre FJ/homothetic trace
+bridge is isolated in Hypothesis~\ref{hyp:FJ-trace}.
 
 \begin{thebibliography}{99}
 
@@ -616,6 +755,10 @@ Building block \textsc{SpaceTimeIdentity}.
 
 \bibitem{BoundaryLayerTransfer}
 Building block \textsc{BoundaryLayerTransfer}.
+
+\bibitem{TrimmedVelocityRepair}
+Building block \textsc{TrimmedVelocityRepair}.
+Self-truncated velocity defect replacing Hyp-G(lower).
 
 \bibitem{AGS2008}
 L.~Ambrosio, N.~Gigli, G.~Savar\'e, \emph{Gradient Flows in Metric

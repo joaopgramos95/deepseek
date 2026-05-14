@@ -69,21 +69,17 @@ every open $\Om\subset\R^n$ with $0<|\Om|<\infty$,
 The exponent $2$ is sharp.
 \end{theorem}
 
-\begin{remark}[Residual conditionality of the chain]\label{rem:hypG}
-The unconditional Stage~1 statement of \cite{BoundaryLayerTransfer}
-depends on the standing gradient hypothesis Hyp-G of
-\cite[\S 7]{LevelSetIdentity}: there exist
-$0<m_0\le M_0<\infty$ depending only on $n,R,\rstar$ such that
-$m_0\le|\nabla u_\Om|\le M_0$ on $\partial^*E_\rho$ for a.e.\
-$\rho\in[\rstar,\rho_\delta]$.  The upper bound is unconditional via
-\cite{CianchiMaz'ya2011}; the lower bound is the residual
-conditionality of the chain.  The bounded reduction class produced by
-\cite{BDV-BoundedReduction-Plan1} provides the regularity setting in
-which Hyp-G is expected to hold by a Caffarelli-type non-degeneracy
-argument; verifying this is the remaining quantitative step in
-converting the present chain into an unconditional proof of sharp
-Faber--Krahn.  The constants of Theorems~\ref{thm:stage1}--\ref{thm:stage3}
-depend on $(M_0/m_0)^2$ polynomially.
+\begin{remark}[Removal of the former Hyp-G conditionality]\label{rem:hypG}
+Earlier drafts of the Plan~2 metric route imposed a pointwise lower
+bound $|\nabla u_\Om|\ge m_0$ on level surfaces.  That hypothesis is no
+longer used.  The metric derivative step in \cite{WeightedMetricTrace}
+now invokes the self-truncated velocity estimate of
+\cite{TrimmedVelocityRepair}: on Fusco--Julin good levels, the part of
+$\partial^*E_\rho$ where $|\nabla u|$ is small is charged by the
+Cauchy--Schwarz defect $D_H$ itself.  The isoperimetric-bad levels are
+still handled by the existing Markov plus uniform Lipschitz argument.
+Thus Theorems~\ref{thm:stage1}--\ref{thm:stage3} no longer carry a
+constant depending on $(M_0/m_0)^2$.
 \end{remark}
 
 \section{Stage 1: bounded sharp Saint--Venant}\label{sec:stage1}
@@ -125,10 +121,18 @@ those tools.
 
 \section{Stage 2: bounded reduction}\label{sec:stage2}
 
-By \cite[Lemma~5.3]{BDV-BoundedReduction-Plan1}, every open $\Om$ with
-$|\Om|=\omega_n$ can be replaced (without increasing the Faber--Krahn
-deficit) by an open $\Om'\subset B_{R_*(n)}$ with $|\Om'|=\omega_n$;
-Stage~1 then applies to $\Om'$.
+The bounded reduction is a Saint--Venant reduction, not a spectral
+reduction.  In the small Saint--Venant deficit regime,
+\cite[Lemma~5.3]{BDV-BoundedReduction-Plan1} produces a bounded
+surrogate $\widetilde\Om$ with $|\widetilde\Om|=\omega_n$,
+$\widetilde\Om\subset B_{R_*(n)}$ after translation,
+$D(\widetilde\Om)\le C_9D(\Om)$, and
+$\Fr(\Om)\le \Fr(\widetilde\Om)+C_9D(\Om)$. Stage~1 is applied to
+$\widetilde\Om$, giving the near-deficit Saint--Venant bound for
+$\Om$. The far-deficit branch is closed separately by the BDV
+suboptimal $\Fr^4$ estimate and the trivial bound $\Fr<2$. No
+comparison of Faber--Krahn deficits is used before the
+Kohler--Jobin stage.
 
 \begin{theorem}[{\cite[Thm.~5.1]{BDV-BoundedReduction-Plan1}}]\label{thm:stage2}
 Suppose \eqref{eq:stage1} holds with constant $c_{\rm SV}(n,R_*(n))$
@@ -151,8 +155,8 @@ and
 \end{theorem}
 
 By scale invariance of $\Fr$ (dimensionless) and the homogeneity
-$\lambda_1(t\Om)=t^{-2}\lambda_1(\Om)$, the factor $(|\Om|/|B_1|)^{2/n}$
-on the left and $\Fr^2$ on the right are both scale-invariant.
+$E(t\Om)=t^{n+2}E(\Om)$, the Saint--Venant estimate has the scaling
+shown below.
 Replacing $\Om$ by $r\Om$ with $r:=(\omega_n/|\Om|)^{1/n}$ reduces to
 $|r\Om|=\omega_n$, where \eqref{eq:stage2} applies. This gives
 \eqref{eq:stage2-gen} for arbitrary $|\Om|<\infty$:
@@ -162,7 +166,25 @@ $|r\Om|=\omega_n$, where \eqref{eq:stage2} applies. This gives
 
 \section{Stage 3: Kohler--Jobin transfer}\label{sec:stage3}
 
-\begin{theorem}[{\cite[Thm.~6.1]{KohlerJobinTransfer-Plan1}}]\label{thm:stage3}
+\begin{remark}[Finite-measure Kohler--Jobin input]\label{rem:finite-kj}
+The Plan~1 transfer file states the Kohler--Jobin inequality for
+bounded open sets. In the present assembly we use its finite-measure
+extension. This follows by exhaustion: for an open
+$\Om\subset\R^n$ with $0<|\Om|<\infty$, set
+$\Om_j:=\Om\cap B_j$. The bounded Kohler--Jobin inequality gives
+\[
+  T(\Om_j)\lambda_1(\Om_j)^{(n+2)/2}\ge T(B_1)\lambda_1(B_1)^{(n+2)/2}.
+\]
+As $j\to\infty$, domain monotonicity and the standard variational
+exhaustion of $H^1_0(\Om)$ give
+$\lambda_1(\Om_j)\downarrow\lambda_1(\Om)$, while monotone convergence
+for torsion energies gives $T(\Om_j)\uparrow T(\Om)$ (finite by
+Saint--Venant at fixed volume). Passing to the limit yields
+Kohler--Jobin for $\Om$. Hence the pointwise transfer used below is
+valid for every finite-measure open set.
+\end{remark}
+
+\begin{theorem}[{\cite[Thm.~6.1]{KohlerJobinTransfer-Plan1}, with Remark~\ref{rem:finite-kj}}]\label{thm:stage3}
 Suppose \eqref{eq:stage2-gen} holds. Then
 \begin{equation}\label{eq:stage3}
    \Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/n}
@@ -288,6 +310,11 @@ Plan~2 building block \textsc{SpaceTimeIdentity}.
 
 \bibitem{WeightedMetricTrace}
 Plan~2 building block \textsc{WeightedMetricTrace}.
+
+\bibitem{TrimmedVelocityRepair}
+Plan~2 building block \textsc{TrimmedVelocityRepair}.
+Self-truncated velocity defect replacing the pointwise lower-gradient
+hypothesis.
 
 \bibitem{BoundaryLayerTransfer}
 Plan~2 building block \textsc{BoundaryLayerTransfer}.

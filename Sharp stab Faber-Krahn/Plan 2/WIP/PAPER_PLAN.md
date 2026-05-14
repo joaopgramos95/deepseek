@@ -2,9 +2,10 @@
 
 This directory contains the LaTeX building blocks of the Plan 2 paper
 (no-selection, no-graph, no-Schauder proof of sharp quantitative
-Faber–Krahn stability). Following the Plan 1 / Final/ pattern, the
-proof is split into 7 self-contained building blocks plus a master
-document, each as a separate `.tex` file.
+Faber–Krahn stability). The current shortest proof is recorded in
+`WIP_master.tex`: it uses seven WIP blocks plus the Plan 1
+bounded-reduction / Kohler–Jobin imports. `WIP_CentroidBound.tex` and
+`WIP_SpaceTimeIdentity.tex` remain auxiliary diagnostics.
 
 ## Pass 1: initial drafts (parallel)
 
@@ -17,18 +18,25 @@ section, shared macros, cross-references via `\cite` to siblings).
 |------|-------|---------|
 | `WIP_LevelSetIdentity.tex` | Exact deficit identity on reduced-boundary levels | `agent1-finite-perimeter-identity.md` |
 | `WIP_MetricFramework.tex` | $\mathcal X$, metric first variation, per-$\rho$ velocity defect | `agent3-metric-first-variation.md` (+ Wave 2 C §C2 Sobolev–Sard citation patch) |
-| `WIP_CentroidBound.tex` | H¹ centroid bound — the new structural input | `wave3-F-h1-center-bound.md` |
-| `WIP_SpaceTimeIdentity.tex` | Space-time $\Pi$ identity + (B²-int) via slicing-then-squaring | `wave3-G-route-delta-assembly.md` §1–§4 + `wave3-J-route-delta-repair.md` |
-| `WIP_WeightedMetricTrace.tex` | Integrated action → pointwise endpoint at $\widehat\rho$ | `agent4-weighted-metric-trace.md` + `wave2-B-kinetic-bound.md` + `wave3-G-route-delta-assembly.md` §5.3 |
+| `WIP_FJCenterBridge.tex` | Same-centre Fusco--Julin package + radial/homothetic trace bridge | May 14 bridge pass |
+| `WIP_TrimmedVelocityRepair.tex` | Self-truncated velocity defect replacing Hyp-G(lower) | May 14 repair pass |
+| `WIP_WeightedMetricTrace.tex` | Conditional integrated action / kinetic / endpoint trace | `agent4-weighted-metric-trace.md` + `wave2-B-kinetic-bound.md` + trimmed velocity repair |
 | `WIP_BoundaryLayerTransfer.tex` | Transfer $E_{\widehat\rho}\to\Omega$; bounded sharp Saint–Venant | `metric-finite-perimeter-closure.md` §6 + `level-set-deficit-identity.md` Lemma 8.3 |
 | `WIP_GlobalAssembly.tex` | Bounded reduction + Kohler–Jobin transfer → sharp Faber–Krahn | `agent5-final-assembly.md` (citing existing `Final/BoundedReduction.tex` and `Final/KohlerJobinTransfer.tex`) |
 
+Auxiliary, not load-bearing in the current shortest route:
+
+| File | Topic |
+|------|-------|
+| `WIP_CentroidBound.tex` | H¹ centroid bound |
+| `WIP_SpaceTimeIdentity.tex` | Space-time $\Pi$ identity + slicing-then-squaring diagnostics |
+
 ## Pass 2: master and audit
 
-A master agent writes `WIP_master.tex` (intro, abstract, theorem
-statement, chained statements, bibliography). It also performs a
-light audit of the seven part files for notational consistency,
-missing cross-references, and statement compatibility.
+A master pass writes `WIP_master.tex` as the compact proof program
+(target theorem, normalisation, chained estimates, and audit
+checklist). It also records which WIP files are load-bearing and which
+are auxiliary.
 
 ## Pass 3 (if needed): targeted fixes
 
@@ -42,7 +50,7 @@ launched on the affected `WIP_X.tex` files.
 - Theorem environments numbered by section.
 - Citations to siblings: `\cite{LevelSetIdentity}`, etc.
 - Bibliography entries keyed: `LevelSetIdentity`, `MetricFramework`,
-  `CentroidBound`, `SpaceTimeIdentity`, `WeightedMetricTrace`,
+  `FJCenterBridge`, `TrimmedVelocityRepair`, `WeightedMetricTrace`,
   `BoundaryLayerTransfer`, `GlobalAssembly`.
 - External references shared with Plan 1 Final/master.tex.
 
@@ -50,10 +58,9 @@ launched on the affected `WIP_X.tex` files.
 
 The LaTeX writeup reflects all corrections from the Plan 2 audit chain:
 
-1. **Centroid choice (Wave 3 F).** All centre-fields are the centroid
-   $\bar z_\rho$, not the FvHT block centre or Fraenkel centre.
-   Centroid–Fraenkel offset $O(\sqrt{\delta_T})$ absorbed into
-   constants (Wave 2 C §C1).
+1. **Centroid route demoted.** The centroid field is auxiliary only.
+   The load-bearing route now isolates a same-centre
+   Fusco--Julin/radial-trace bridge in `WIP_FJCenterBridge.tex`.
 
 2. **Sobolev–Sard citation (Wave 2 C §C2).** Cite Figalli–Maggi 2011
    App. A Thm. A.1.
@@ -71,3 +78,18 @@ The LaTeX writeup reflects all corrections from the Plan 2 audit chain:
    gmt-inputs (1.2)/(2.4) are explicitly NOT used; the paper closes
    only their integrated form, which is what Plan 2's chain actually
    needs.
+
+6. **Hyp-G(lower) removed from the load-bearing route.** The current
+   metric trace uses `WIP_TrimmedVelocityRepair.tex`: on
+   Fusco–Julin good levels, the low-gradient part of the level surface
+   is charged directly by `D_H`, so no pointwise lower gradient bound is
+   assumed.
+
+7. **Current truthful conditionality.**
+   `WIP_LevelSetIdentity.tex` is repaired and load-bearing.
+   `WIP_MetricFramework.tex` now states the finite-perimeter
+   first-variation theorem conditionally on an upper-gradient recovery
+   theorem.
+   `WIP_WeightedMetricTrace.tex` no longer hides unsupported `A0`
+   claims; it states explicit bad-level kinetic hypotheses and a
+   same-centre FJ trace hypothesis.

@@ -34,17 +34,27 @@
 \maketitle
 
 \begin{abstract}
-This digest summarises the current state of Plan~2 / Route $\delta$,
-which proves the sharp quantitative Faber--Krahn inequality
+This digest records the current state of Plan~2 / Route $\delta$ toward
+the sharp quantitative Faber--Krahn inequality
 $\delta_{\rm FK}(\Om)\ge c(n)\Fr(\Om)^{2}$ via Saint--Venant stability
 and a Kohler--Jobin transfer.  Each step of the proof chain is
 condensed to its essential idea, its input, and its output, with
-\CLOSED{} or \OPEN{} tags.  The remaining genuinely open question
-collapses to a single integrated homothetic-trace estimate on
-isoperimetrically bad levels.  We list six candidate routes for
-closing it, with explicit critique of why each does or does not
-appear to work.
+\CLOSED{} or \OPEN{} tags.  The May~14 re-audit found that the route is
+\emph{not} closed as previously stated.  The endpoint-window issue can
+be repaired by the good-endpoint variant, and the bad-$I$ weighted
+action can be paid for by a crude perimeter-square estimate.  The
+remaining load-bearing obstruction is the bad-$(-t')$ Lebesgue kinetic
+bound: small Lebesgue measure of the bad set is not enough without a
+valid substitute for the old perimeter-free metric Lipschitz claim.
 \end{abstract}
+
+\paragraph{Update (2026-05-14 re-audit).}
+The table below should be read as the current status.  The earlier
+``closed'' marking of Steps~5--6 used two invalid shortcuts: (i) a
+small-window Markov argument that produced only an $O(\sqrt{\delta_T})$
+metric trace, and (ii) the old dilation-based uniform metric Lipschitz
+bound (A0).  The first has a clean conditional repair; the second is
+the remaining obstruction.
 
 \section{The target and the reduction}\label{sec:target}
 
@@ -101,15 +111,18 @@ $\rdel:=1-\kappa\sqrt{\delta_{T}}$.
 4$'$. Unconditional velocity (all levels) & \texttt{UnconditionalVelocity} (new) & \CLOSED \\
 5. Integrated action $D_{H}+D_{I}\Rightarrow d_{\X}^{2}+|\dot F|^{2}$ & \texttt{WeightedMetricTrace} & \OPEN $^{\dagger}$ \\
 6. Uniform window trace & \texttt{WeightedMetricTrace} & \OPEN $^{\dagger}$ \\
-6$'$. Good Borel endpoint $\rhad$ near $\rdel$ & \texttt{GoodEndpointTrace} (new) & \OPEN $^{\dagger}$ \\
+6$'$. Good Borel endpoint $\rhad$ near $\rdel$ & \texttt{GoodEndpointTrace} (new) & conditional $^{\dagger}$ \\
 7. Boundary-layer transfer from $E_{\rhad}$ to $\Om$ & \texttt{BoundaryLayerTransfer} & \CLOSED \\
 8. Bounded $\Rightarrow$ global $\Rightarrow$ FK & \texttt{GlobalAssembly} & \CLOSED \\
 \hline
 \end{tabular}
 \end{center}
 
-$\dagger$~Steps 5--6 are open only modulo a \emph{single} integrated
-bound on bad levels; see Section~\ref{sec:gap}.
+$\dagger$~The order-one trace plus good-endpoint selection fixes the
+endpoint placement, and the bad-$I$ weighted action is removable by the
+perimeter-square estimate in Section~\ref{sec:bad-tau}.  What remains
+open is the bad-$(-t')$ Lebesgue kinetic estimate needed to transport
+metric closeness across the low-density set.
 
 \section{Step-by-step summary}\label{sec:step-by-step}
 
@@ -187,14 +200,16 @@ $(\int|g|)^{2}\le(\int g^{2}/V)(\int V)$.\\
    \text{(5b)}&\;\;\int_{\rstar}^{\rdel}|\dot F_{\rho}|_{\X}^{2}\,d\rho
       \;\le\; C\,\delta_{T}\quad\text{(Lebesgue form)}.
 \end{align*}
-\textbf{Status.}  On $G_{I}=\{D_{I}\le\eta_{I}\}$, the chain
+\textbf{Status.}  \OPEN{} in the current no-graph finite-perimeter
+route.  On $G_{I}=\{D_{I}\le\eta_{I}\}$, the chain
 [Step~2]+[Step~3]+[Step~4] gives the pointwise
-$|\dot F_{\rho}|^{2}\le C(D_{H}+D_{I})$, hence \CLOSED{} on
-$G_{I}$.  Integrated against $d\mu$, the level-set identity closes
-the $G_{I}$ piece unconditionally.\\
-The \emph{bad-isoperimetric} piece, $\int_{B_{I}}|\dot F|^{2}d\mu$,
-is currently an explicit hypothesis ((eq:bad-I-action) of
-\texttt{WeightedMetricTrace}).  \OPEN.
+$|\dot F_{\rho}|^{2}\le C(D_{H}+D_{I})$.  The weighted bad-$I$ part can
+also be paid for without A0; see Section~\ref{sec:bad-tau}.  The
+unresolved part is the Lebesgue-form kinetic bound on
+$B_{\tau}=\{-t'(\rho)<\rho_{*}/(2n)\}$.  The old proof used a
+perimeter-free metric Lipschitz estimate under dilations; bounded
+support and nestedness do not imply such a bound for rough measurable
+sets.
 
 \subsection*{Step 6.\ Trace at the deficit endpoint}\label{step:6}
 \textbf{Statement.}  $\sup_{\rho\in J^{*}}d_{\X}(F_{\rho},B_{1})^{2}\le C\delta_{T}$
@@ -202,15 +217,17 @@ on the order-one window $J^{*}=[\rdel-L^{*},\rdel]$.\\
 \textbf{Proof idea.}  Markov on (5a) inside $J^{*}$ gives a single
 $\rho_{0}\in J^{*}$ with $d^{2}\le K_{1}\delta_{T}$.  Kinetic
 Cauchy--Schwarz with (5b) transports this to all of $J^{*}$.\\
-\textbf{Status.}  \CLOSED{} conditional on (5b), which in turn
-depends on Step~5's bad-level hypotheses.\\
-\textbf{Variant (Deliverable~D).}  Replace ``trace at $\rdel$'' by
-``trace at a Borel good level $\rhad\in[\rdel-C_{1}\delta_{T},\rdel]\cap
-G_{I}\cap G_{\tau}$'' via the bad-set Lebesgue bounds
-$\mathcal L^{1}(B_{\tau})\le C\delta_{T}$,
-$\mathcal L^{1}(B_{I}\cap G_{\tau})\le C\delta_{T}$.  This cleans the
-downstream interface but does \emph{not} eliminate the conditional
-hypotheses of Step~5.
+\textbf{Status.}  Conditional on the missing bad-$\tau$ kinetic
+estimate.  The correct endpoint mechanism is not Markov on an
+$O(\sqrt{\delta_T})$ window (that gives only $O(\sqrt{\delta_T})$ for
+$d_{\X}^{2}$).  Instead, run the trace argument on an order-one window
+to obtain a uniform bound, then choose a Borel good level
+$\rhad\in[\rdel-C_{1}\delta_{T},\rdel]\cap G_{I}\cap G_{\tau}$ using
+the bad-set Lebesgue bounds
+$\mathcal L^{1}(B_{\tau})\le C\delta_{T}$ and
+$\mathcal L^{1}(B_{I}\cap G_{\tau})\le C\delta_{T}$.  This fixes the
+boundary-layer interface but does not remove the bad-$\tau$ kinetic
+input needed for the uniform trace.
 
 \subsection*{Step 7.\ Boundary-layer transfer}\label{step:7}
 \textbf{Statement.}
@@ -225,9 +242,54 @@ exponent preserved. \CLOSED.
 Cicalese--Leonardi selection imported from Plan~1) and Kohler--Jobin
 to obtain the global FK at the sharp exponent~2. \CLOSED.
 
-\section{The single remaining obstruction}\label{sec:gap}
+\section{The current obstruction: bad-$(-t')$ kinetic control}
+\label{sec:bad-tau}
 
-\textbf{The genuinely open question.}  The whole chain reduces to:
+The useful simplification from the re-audit is that the
+\emph{bad-isoperimetric} weighted action is not the essential problem.
+Indeed, on $B_I=\{\mathcal I(\rho)>\eta_I\}$ choose the harmless centre
+$z=0$ and $a=0$ in the metric first-variation estimate.  Since
+$\Om\subset B_R$,
+\[
+   |\dot F_\rho|_{\X}
+   \le \rho_*^{-n}\int_{\partial^*E_\rho}|V_\rho-H_{0,\rho}|\,d\Hn
+   \le C(n,R,\rho_*)\bigl(P(B_\rho)+P(E_\rho)\bigr),
+\]
+using $\int_{\partial^*E_\rho}V_\rho\,d\Hn=P(B_\rho)$ and
+$|H_{0,\rho}|\le R/\rho_*$.  Therefore
+\[
+   \int_{B_I}|\dot F_\rho|_{\X}^{2}\,d\mu
+   \le C\int_{B_I}\bigl(1+P(E_\rho)^2\bigr)\,d\mu
+   \le C\int_{B_I}\bigl(1+\mathcal I(\rho)\bigr)\,d\mu
+   \le C\delta_T,
+\]
+because $P(E_\rho)^2=P(B_\rho)^2+\mathcal I(\rho)$ and
+$\mu(B_I)\le\eta_I^{-1}\int\mathcal I\,d\mu\le C\delta_T$.
+
+The remaining estimate is different:
+\[
+   \int_{B_{\tau}}|\dot F_\rho|_{\X}^{2}\,d\rho\le C\delta_T,
+   \qquad
+   B_\tau:=\{-t'(\rho)<\rho_*/(2n)\}.
+\]
+Talenti gives only $|B_\tau|\le C\delta_T$.  To exploit this measure
+bound one would need either a valid pointwise metric-Lipschitz bound
+for $\rho\mapsto F_\rho$ or another estimate controlling the metric
+variation on $B_\tau$.  The old dilation argument for such a bound is
+not valid: for a rough bounded measurable set $A$, bounded support and
+volume do not imply
+$|\lambda A\Delta A|\le C|\lambda-1|$.  A perimeter or BV-type bound is
+needed, and precisely this can fail on the low-density bad set.
+
+Thus the bad set \emph{does} matter.  The endpoint can be placed
+correctly by \texttt{GoodEndpointTrace}, but the no-graph Route
+$\delta$ still needs a genuine substitute for the discredited A0
+estimate on $B_\tau$.
+
+\section{The historical homothetic-trace obstruction}\label{sec:gap}
+
+\textbf{Historical open question.}  In the pre-closure version of the
+chain, everything reduced to:
 \emph{produce a bounded Borel centre field $\rho\mapsto z_{\rho}\in\R^{n}$ such that}
 \begin{equation}\label{eq:hom-target}
    \int_{\rstar}^{\rdel}\Bigl(\int_{\partial^{*}E_{\rho}}|H_{z_{\rho},\rho}-\bar V_{\rho}|\,d\Hn\Bigr)^{\!2}d\mu(\rho)
@@ -239,8 +301,9 @@ to obtain the global FK at the sharp exponent~2. \CLOSED.
 $|V-H_{z}|\le|V-\bar V|+|H_{z}-\bar V|$ and squaring gives the full
 integrated kinetic bound
 $\int|\dot F_{\rho}|^{2}d\mu\le C\delta_{T}$ on \emph{all} levels.
-In particular both bad-level kinetic hypotheses of \texttt{WeightedMetricTrace}
-(\textsc{bad-I-action}, \textsc{bad-tau-action}) are discharged.
+This is a weighted-$\mu$ statement.  It does not by itself discharge
+the bad-$\tau$ Lebesgue kinetic estimate needed for endpoint
+transport.
 
 \textbf{Why this is hard.}  On the Fusco--Julin good set $G_{I}$, the
 same-centre theorem (Step~3) yields
@@ -554,9 +617,10 @@ the level-set identity should be \emph{evaluated} at this $z_{\rho}$
 in a way that mirrors how $D_{H}$ already controls the velocity
 defect.
 
-\section{Other consequences if the gap is closed}\label{sec:if-closed}
+\section{Consequences of closing the historical gap}\label{sec:if-closed}
 
-Closing \eqref{eq:hom-target} would:
+In the older architecture, closing \eqref{eq:hom-target} together with
+the bad-level kinetic bookkeeping would yield:
 \begin{enumerate}[label=(\arabic*)]
 \item Discharge the conditional Hypothesis~3.6 of \texttt{WeightedMetricTrace};
 \item Make the entire chain Steps~1--8 \emph{unconditional} except
@@ -571,7 +635,15 @@ or smallness assumption beyond those already in the imports;
 \texttt{GlobalAssembly}).
 \end{enumerate}
 
-\section{Concrete suggestions for next attempts}\label{sec:suggestions}
+\paragraph{Current status.}
+The homothetic-trace bottleneck is no longer the cleanest formulation
+of the gap.  After the good-endpoint repair and the bad-$I$ estimate of
+Section~\ref{sec:bad-tau}, the remaining missing input is the
+bad-$\tau$ Lebesgue kinetic bound.  Until that is proved, the bounded
+Saint--Venant estimate and the Plan~2 proof of sharp Faber--Krahn do
+not follow from this route alone.
+
+\section{Historical suggestions for next attempts}\label{sec:suggestions}
 
 \begin{enumerate}[label=(S\arabic*)]
 \item Push Route~I by proving the integrated squared-oscillation
@@ -607,11 +679,11 @@ $\partial^{*}E_{\rho}$, and computing the bulk integrand pointwise.
 \text{Step 4$'$: \texttt{UnconditionalVelocity}}
    & \longrightarrow & \text{all-level }(\int|V-\bar V|)^{2}\le D_{H} & & \CLOSED \\
 \fbox{\eqref{eq:hom-target}: integrated homothetic-trace}
-   & \longrightarrow & \int(\int|H_{z}-\bar V|)^{2}d\mu\le C\delta_{T} & & \OPEN \\
+   & \longrightarrow & \int(\int|H_{z}-\bar V|)^{2}d\mu\le C\delta_{T} & & conditional \\
 \text{Step 5: \texttt{WeightedMetricTrace}}
-   & \Longleftarrow & \text{Steps 1, 2, 4$'$, and \eqref{eq:hom-target}} & & \\
+   & \Longleftarrow & \text{Steps 1, 2, 4$'$, \eqref{eq:hom-target}, and bad-$\tau$ kinetic} & & \OPEN \\
 \text{Step 6: trace at endpoint}
-   & \Longleftarrow & \text{Step 5} & & \\
+   & \Longleftarrow & \text{Step 5 plus good-endpoint selection} & & \OPEN \\
 \text{Step 7: \texttt{BoundaryLayerTransfer}}
    & \longrightarrow & \Fr(\Om)\le \Fr(E_{\rhad})+(2/\omega_{n})|\Om\setminus E_{\rhad}| & & \CLOSED \\
 \text{Step 8: \texttt{GlobalAssembly}}
@@ -620,12 +692,11 @@ $\partial^{*}E_{\rho}$, and computing the bulk integrand pointwise.
 \]
 
 \medskip
-The single \OPEN{} input \eqref{eq:hom-target} propagates downward to
-Steps~5 and~6.  Everything else in the chain is unconditional in the
-current state of the proof.  All inputs to \eqref{eq:hom-target} are
-local-to-a-single-level and depend only on the geometry of
-$E_{\rho}\subset B_{R}$ (a finite-perimeter set), not on the deficit
-$\delta_{T}(\Om)$.
+Historically, the single \OPEN{} input \eqref{eq:hom-target}
+propagated downward to Steps~5 and~6.  The re-audit separates that
+old bottleneck from the present one: the endpoint selection can be
+made near $\rdel$, but the bad-$\tau$ transport estimate is still
+missing.
 
 \section{Cost analysis: what each candidate route requires}\label{sec:cost}
 
@@ -669,7 +740,7 @@ $\delta_{T}$ in $\Fr(\Om)^{2}\le ?$ at the end of the route if the
 listed input is granted.  Sharp~$\delta_{T}$ corresponds to the
 sharp exponent~$2$ for $\Fr$.
 
-\section{Why this gap, and why now}\label{sec:why}
+\section{Why the historical gap was difficult}\label{sec:why}
 
 The proof chain prior to the current pass had \emph{four} conditional
 inputs:
@@ -681,36 +752,31 @@ inputs:
 \end{enumerate}
 Three of these are now structural theorems with proofs (algebraic,
 quantitative-FJ, and measurable-selection respectively).  The fourth
-is a \emph{quantitative geometric} statement about how rough a
+was a \emph{quantitative geometric} statement about how rough a
 torsion super-level set can be when its perimeter is large.
 
-The reason the fourth is more obdurate is that the first three are
+The reason the fourth was more obdurate is that the first three are
 \emph{universal} (they apply to general finite-perimeter sets and
 torsion functions, without reference to deficit), whereas the fourth
 asks for a $\delta_{T}$-vanishing bound on a quantity that, at any
 single bad level, can be arbitrarily large.  The required smallness
-must come from a \emph{global} balance: bad levels are rare in
+had to come from a \emph{global} balance: bad levels are rare in
 $\mu$-measure, and a refined Cauchy--Schwarz must exploit this
-rareness.  Existing inequalities are not yet sharp enough to do so
-at the $\delta_{T}$ rate after squaring.
+rareness.  The current route achieves part of this at the weighted
+level, but it still lacks the unweighted bad-$\tau$ control needed for
+metric transport.
 
 \section{Summary}\label{sec:summary}
 
-The Plan 2 / Route $\delta$ proof is closed except for a single
-integrated homothetic-trace estimate, \eqref{eq:hom-target}.  Six
-candidate routes are visible; none currently closes it at the sharp
-$\delta_{T}$ rate.  Routes I and~VI are the most parallel to the
-existing closed steps (algebraic identities + level-set deficit);
-Route IV is the most general but requires new selection theory.  The
-mathematical question is sharp and decoupled from Fusco--Julin; it
-is the unique residual gap in an otherwise complete chain.
-
-The way forward is to combine: (a) a deficit-aware refinement of the
-Cauchy--Schwarz step in Route~I, (b) a quantitative ``centres-close''
-theorem outside the nearly-spherical regime for Route~II, or (c) a
-closed-form algebraic identity for the homothetic integrand
-analogous to the velocity identity for Route~VI.  Each represents a
-self-contained mathematical problem that does not depend on the rest
-of the chain.
+The Plan~2 / Route~$\delta$ proof is not closed by the current
+finite-perimeter argument.  The re-audit identifies the remaining
+obstruction precisely: prove
+$\int_{B_\tau}|\dot F_\rho|_{\X}^{2}d\rho\le C\delta_T$, or replace
+the Cauchy--Schwarz transport step by an argument that avoids crossing
+$B_\tau$.  The six candidate routes recorded above remain useful as
+diagnostics: they explain why the bottleneck is subtle, which
+approaches lose a square root, and why any successful repair must
+square at the slicing level rather than after a naive
+Cauchy--Schwarz step.
 
 \end{document}
