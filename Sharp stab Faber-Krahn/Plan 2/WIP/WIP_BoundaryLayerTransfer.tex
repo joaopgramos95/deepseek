@@ -29,17 +29,20 @@
 
 \begin{abstract}
 We close the route-$\delta$ chain \emph{relative to the upstream metric
-trace input} by transferring the metric-trace estimate at the inner
-level $\rhad$ back to the original set $\Om$.
-The upstream weighted metric trace (\cite{WeightedMetricTrace}) supplies a radius
-$\rhad\in[\rho_\delta-C_*\delta_T,\rho_\delta]$, with
-$\rho_\delta=1-\kappa\sqrt{\delta_T}$, such that
-$d_{\X}(F_{\rhad},B_1)^2\le C_*\,\delta_T(\Om)$. The boundary-layer
-volume $|\Om\setminus E_{\rhad}|=\omega_n(1-\rhad^{\,n})$ is
-$O(\sqrt{\delta_T})$; the elementary superlevel-transfer estimate
-of \cite{LevelSetIdentity} (Lemma~8.3) gives
-$\Fr(\Om)\le \Fr(E_{\rhad})+C_n\sqrt{\delta_T}$. Squaring with
-$(a+b)^2\le 2a^2+2b^2$ doubles the constant on $\delta_T$ but
+trace input} by transferring the metric-trace estimate at the deficit
+endpoint $\rhad:=\rho_\delta=1-\kappa\sqrt{\delta_T}$ back to the
+original set $\Om$.
+The upstream weighted metric trace (\cite{WeightedMetricTrace}) supplies
+the uniform pointwise bound
+$\sup_{\rho\in J^*}d_{\X}(F_\rho,B_1)^2\le C_*\,\delta_T(\Om)$ on the
+order-one window $J^*=[\rho_\delta-L^*,\rho_\delta]$; specialising to
+the upper endpoint gives $d_{\X}(F_{\rho_\delta},B_1)^2\le C_*\,\delta_T(\Om)$.
+The boundary-layer volume
+$|\Om\setminus E_{\rho_\delta}|=\omega_n(1-\rho_\delta^{\,n})$ is exactly
+$O(\sqrt{\delta_T})$ by the definition of $\rho_\delta$; the elementary
+superlevel-transfer estimate of \cite{LevelSetIdentity} (Lemma~8.3)
+gives $\Fr(\Om)\le \Fr(E_{\rho_\delta})+C_n\sqrt{\delta_T}$. Squaring
+with $(a+b)^2\le 2a^2+2b^2$ doubles the constant on $\delta_T$ but
 preserves the sharp exponent~$2$. We obtain the bounded sharp
 Saint--Venant inequality
 $\Fr(\Om)^2\le C(n,R,\rstar)\,\delta_T(\Om)$ for all open
@@ -106,31 +109,50 @@ $\rho_\delta$ is the largest radius for which the profile-gap lower
 bound on the measure $d\mu(\rho)=(-t'(\rho))\,d\rho$ holds (cf.\
 \cite[(5.1)]{LevelSetIdentity}).
 
+\begin{remark}[Conditionality through Hyp-G]\label{rem:hypG}
+The constant $C_*=C_*(n,R,\rstar)$ inherited from
+\cite[Thm.~1.3]{WeightedMetricTrace} depends polynomially
+on the ratio $(M_0/m_0)^2$ of the standing gradient hypothesis
+Hyp-G of \cite[\S 7]{LevelSetIdentity}.  This dependence is purely
+through the metric-derivative bound; the boundary-layer transfer
+arguments of the present block do not require Hyp-G directly.  In
+particular, the residual conditionality of the sharp Faber--Krahn
+chain is concentrated at Hyp-G in \cite{LevelSetIdentity} and does
+not enlarge in this block.
+\end{remark}
+
 The admissible class of $\Om$ here is the output of the bounded
 reduction \cite{BDV-BoundedReduction-Plan1}, which produces
 $\Om\subset B_{R_*(n)}$ with $|\Om|=\omega_n$.
 
-\begin{theorem}[Metric trace at $\rhad$; upstream input from \cite{WeightedMetricTrace}]
+\begin{theorem}[Metric trace at $\rho_\delta$; upstream input from \cite{WeightedMetricTrace}]
 \label{thm:metric-trace}
 There exist $C_*=C_*(n,R,\rstar)>0$ and
 $\delta_1=\delta_1(n,R,\rstar)>0$ such that for every open
 $\Om\subset B_R$ with $|\Om|=\omega_n$ and
-$\delta_T(\Om)\le\delta_1$, there exists
+$\delta_T(\Om)\le\delta_1$, setting
 \begin{equation}\label{eq:rhad-window}
-\rhad=\rhad(\Om)\in[\rho_\delta-C_*\delta_T(\Om),\;\rho_\delta]
+\rhad\;:=\;\rho_\delta\;=\;1-\kappa\sqrt{\delta_T(\Om)},
 \end{equation}
-such that
+we have
 \begin{equation}\label{eq:metric-trace}
 d_{\X}(F_{\rhad},B_1)^{2}\le C_*\,\delta_T(\Om).
 \end{equation}
+In fact the bound holds uniformly for $\rho\in J^*=[\rho_\delta-L^*,\rho_\delta]$
+with $L^*=(\rho_\delta-\rstar)/4$.
 \end{theorem}
 
 \paragraph{Reference.}
-This is the conclusion of \cite[Thm.~5.6]{WeightedMetricTrace},
+This is the conclusion of \cite[Thm.~5.6, Cor.~5.7]{WeightedMetricTrace},
 combining the integrated metric-derivative bound
-\cite[(4.2)]{WeightedMetricTrace} with the profile-gap measure
-\cite[(5.1)]{LevelSetIdentity} and the
-metric Sobolev trace lemma \cite[Lemma~3.1]{WeightedMetricTrace}.
+\cite[(4.2)]{WeightedMetricTrace} (which encodes the integrated
+Cauchy--Schwarz defect $D_H$) with the profile-gap measure
+\cite[(5.1)]{LevelSetIdentity} and the Fusco--Julin
+isoperimetric input \cite[Lemma~3.1]{WeightedMetricTrace}
+(which encodes the integrated isoperimetric defect $D_I$).  The bound
+at the endpoint $\rho_\delta$ follows from Markov on the distance term
+plus kinetic Cauchy--Schwarz transport across $J^*$; see
+\cite[Rem.~5.7]{WeightedMetricTrace} for the structural exposition.
 No additional input is needed here.
 
 \begin{remark}\label{rem:asym-as-distance}
@@ -152,34 +174,43 @@ not of $\omega_n$.
 \section{Volume of the removed boundary layer}\label{sec:layer-volume}
 
 \begin{lemma}[Boundary-layer volume]\label{lem:layer-vol}
-Let $\rhad$ be as in Theorem~\ref{thm:metric-trace}. There is
+Let $\rhad=\rho_\delta$ as in Theorem~\ref{thm:metric-trace}. There is
 $C_n>0$ depending only on $n$ such that, for
 $\delta_T(\Om)\le\delta_2(n,\rstar)$ small,
 \begin{equation}\label{eq:layer-vol}
-|\Om\setminus E_{\rhad}|=\omega_n\bigl(1-\rhad^{\,n}\bigr)
-\le C_n\sqrt{\delta_T(\Om)}.
+|\Om\setminus E_{\rhad}|\;=\;\omega_n\bigl(1-\rhad^{\,n}\bigr)
+\;\le\; C_n\sqrt{\delta_T(\Om)}.
 \end{equation}
 \end{lemma}
 
 \begin{proof}
-From \eqref{eq:rho-delta}--\eqref{eq:rhad-window},
-\begin{equation}\label{eq:rhad-lower}
-\rhad\ge \rho_\delta-C_*\delta_T(\Om)=1-\kappa\sqrt{\delta_T(\Om)}-C_*\delta_T(\Om).
-\end{equation}
-The map $\rho\mapsto 1-\rho^n$ is $C^1$ with
-$\frac{d}{d\rho}(1-\rho^n)=-n\rho^{n-1}$, so by the mean-value theorem
-applied on $[\rhad,1]\subset[\rstar,1]$,
+By \eqref{eq:rho-delta} and \eqref{eq:rhad-window},
+$\rhad=1-\kappa\sqrt{\delta_T(\Om)}$.  The map $\rho\mapsto 1-\rho^n$ is
+$C^1$ with derivative $-n\rho^{n-1}$, so the mean-value theorem applied
+on $[\rhad,1]\subset[\rstar,1]$ gives
 \[
-1-\rhad^{\,n}\le n(1-\rhad)\le n\bigl(\kappa\sqrt{\delta_T(\Om)}+C_*\delta_T(\Om)\bigr).
+   1-\rhad^{\,n}\;\le\;n(1-\rhad)\;=\;n\kappa\sqrt{\delta_T(\Om)}.
 \]
-For $\delta_T(\Om)\le 1$, the second summand is bounded by
-$C_*\sqrt{\delta_T(\Om)}$, giving \eqref{eq:layer-vol} with
-$C_n:=\omega_n n(\kappa+C_*)$. Equivalently, write $C'_n:=n(\kappa+C_*)$
-so that $C_n=\omega_n C'_n$ and the prefactor in
-\eqref{eq:transfer-rhat} simplifies to $2C'_n$ without
-double-cancellation of $\omega_n$. Choosing $\delta_2:=\min\{1,\delta_1\}$
-ensures both \eqref{eq:rhad-window} and $\delta_T(\Om)\le 1$.
+This proves \eqref{eq:layer-vol} with $C_n:=\omega_n n\kappa$.
+Equivalently, $C'_n:=n\kappa$ so that $C_n=\omega_n C'_n$ and the
+prefactor in \eqref{eq:transfer-rhat} simplifies to $2C'_n$ without
+double-cancellation of $\omega_n$.  Choosing $\delta_2:=\delta_1$
+ensures \eqref{eq:rhad-window} applies.
 \end{proof}
+
+\begin{remark}[Why $\rhad=\rho_\delta$ is the natural choice]
+\label{rem:why-rho-delta}
+The upstream weighted metric trace
+\cite[Thm.~5.6, Rem.~5.7]{WeightedMetricTrace} delivers a uniform
+pointwise bound $d_\X(F_\rho,B_1)^2\le C_*\delta_T$ valid for
+\emph{every} $\rho$ in the order-one window $J^*=[\rho_\delta-L^*,\rho_\delta]$.
+The boundary-layer transfer cost is monotone in $\rhad$: smaller
+$\rhad$ leaves a larger boundary layer
+$|\Om\setminus E_{\rhad}|\asymp 1-\rhad$.  Since both costs --- the
+metric-trace bound and the layer-volume bound --- balance optimally at
+$\rhad=\rho_\delta$, where $1-\rhad=\kappa\sqrt{\delta_T}$ is the
+smallest layer in $J^*$, the endpoint choice is the unique sharp one.
+\end{remark}
 
 \section{The asymmetry transfer lemma}\label{sec:transfer}
 
@@ -276,10 +307,10 @@ constant of Lemma~\ref{lem:layer-vol}.
 \end{corollary}
 
 \begin{proof}
-$E_{\rhad}\subset\Om$ by definition, and
-$|\Om\setminus E_{\rhad}|\le C_n\sqrt{\delta_T(\Om)}$ by
+$E_{\rho_\delta}\subset\Om$ by definition, and
+$|\Om\setminus E_{\rho_\delta}|\le C_n\sqrt{\delta_T(\Om)}$ by
 Lemma~\ref{lem:layer-vol}. Apply \eqref{eq:8.3-omega} with
-$E_t=E_{\rhad}$.
+$E_t=E_{\rho_\delta}$.
 \end{proof}
 
 \section{Squaring preserves the exponent~$2$}\label{sec:squaring}
@@ -337,7 +368,7 @@ The constant $C_3=C_3(n,R,\rstar)$ produced by
 Theorem~\ref{thm:small-delta} unwinds as
 \begin{equation}\label{eq:C3-chain}
 C_3=\frac{2C_*}{\omega_n^{2}}+8(C'_n)^{2},
-\qquad C'_n=n(\kappa+C_*),
+\qquad C'_n=n\kappa,
 \end{equation}
 where the inputs are:
 
@@ -349,9 +380,11 @@ repaired metric-trace block, $C_*$ is polynomial in
 $(1/\rstar, R, n)$ and in the constants of the Fusco--Julin and
 oriented radial-trace inputs.
 
-\item $C_n=\omega_n n(\kappa+C_*)$ from Lemma~\ref{lem:layer-vol},
+\item $C_n=\omega_n n\kappa$ from Lemma~\ref{lem:layer-vol},
 where $\kappa=\kappa(n,\rstar)$ is the profile-gap constant of
-\cite{LevelSetIdentity}.
+\cite{LevelSetIdentity}.  The simpler form (no $C_*$ contribution)
+reflects the endpoint choice $\rhad=\rho_\delta$, see
+Remark~\ref{rem:why-rho-delta}.
 
 \item $\omega_n=|B_1|$ is purely dimensional.
 \end{itemize}

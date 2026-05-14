@@ -30,7 +30,7 @@
 
 \begin{abstract}
 This building block chains three ingredients into a pointwise metric
-distance bound at a radius $\rhad$ near $\rho_\delta=1-\kappa\sqrt{\delta}$,
+distance bound at the deficit endpoint $\rhad:=\rho_\delta=1-\kappa\sqrt{\delta}$,
 where throughout this note we write $\delta:=\delta_T(\Om)$.
 The repaired version does not use the unresolved centroid
 space--time $\Pi$ estimate.  Instead, on the levels where the
@@ -42,13 +42,23 @@ homothetic $L^1$ trace required by \cite{MetricFramework}.  The
 large-isoperimetric-defect levels are handled by Markov from the
 integrated deficit identity and the elementary uniform $L^1$-Lipschitz
 bound (A0).  This yields the integrated action bound
-$\int(d_\X(F_\rho,B_1)^2+|\dot F_\rho|_\X^2)\,d\mu \le C\,\delta_T$.
-A Talenti bad-set decomposition then gives the kinetic bound (K) in
-Lebesgue form, and the abstract weighted metric trace lemma produces
-$\rhad\in J^*:=[\rho_\delta-L^*,\rho_\delta-L^*/2]$, where
-$L^*:=(\rho_\delta-\rstar)/4$, with
-$d_\X(F_{\rhad},B_1)^2\le C_*\,\delta_T$.  The chain uses no
-pointwise (R)/(1.2) and no centroid $\Pi$-closure input.
+$\int(d_\X(F_\rho,B_1)^2+|\dot F_\rho|_\X^2)\,d\mu \le C\,\delta_T$,
+which encodes the integrated isoperimetric defect $D_I$ (via
+Fusco--Julin) in its distance term and the integrated Cauchy--Schwarz
+defect $D_H$ (via the metric first variation of \cite{MetricFramework})
+in its kinetic term.  A Talenti bad-set decomposition then gives the
+kinetic bound (K) in Lebesgue form.  The abstract weighted metric trace
+lemma combines these two inputs --- Markov on the distance term
+(encoding $D_I$) and Cauchy--Schwarz on the kinetic term (encoding
+$D_H$) --- on the \emph{order-one} window
+$J^*:=[\rho_\delta-L^*,\rho_\delta]$ with $L^*:=(\rho_\delta-\rstar)/4$,
+to deliver the \emph{uniform} pointwise bound
+$\sup_{\rho\in J^*} d_\X(F_\rho,B_1)^2\le C_*\,\delta_T$.
+In particular, setting $\rhad:=\rho_\delta$,
+$d_\X(F_{\rho_\delta},B_1)^2\le C_*\,\delta_T$ at the upper endpoint of
+the deficit window.  Either input alone would force a $\sqrt{\delta}$
+exponent loss; together they yield the sharp bound at $\rho_\delta$.
+The chain uses no pointwise (R)/(1.2) and no centroid $\Pi$-closure input.
 \end{abstract}
 
 \section{Statements}\label{sec:statements}
@@ -78,9 +88,43 @@ coarea formula applied to $u\in W^{1,2}_0(\Om)$.
 
 \begin{theorem}[Weighted metric trace]\label{thm:trace}
 Set $L^*:=(\rho_\delta-\rstar)/4$ and
-$J^*:=[\rho_\delta-L^*,\rho_\delta-L^*/2]$.  There exist $C_*$ and
-$\rhad\in J^*$ such that $d_\X(F_{\rhad},B_1)^2\le C_*\,\delta_T(\Om)$.
+$J^*:=[\rho_\delta-L^*,\rho_\delta]$.  There exists $C_*=C_*(n,R,\rstar,\kappa)$
+such that
+\begin{equation}\label{eq:trace-uniform}
+   \sup_{\rho\in J^*}\,d_\X(F_\rho,B_1)^2\;\le\;C_*\,\delta_T(\Om).
+\end{equation}
+In particular, setting $\rhad:=\rho_\delta$,
+\begin{equation}\label{eq:trace-endpoint}
+   d_\X(F_{\rho_\delta},B_1)^2\;\le\;C_*\,\delta_T(\Om),
+\end{equation}
+i.e.\ the metric distance to the ball is sharply controlled at the
+upper endpoint of the deficit window.
 \end{theorem}
+
+\subsection{Standing hypothesis on level-surface gradient}\label{ssec:hypG}
+
+The metric-derivative bound used in the proof of
+Theorem~\ref{thm:52int} relies on a two-sided uniform bound on
+$|\nabla u|$ on the level surfaces in the deficit window:
+
+\begin{quote}
+\emph{(Hyp-G)} There exist $0<m_0\le M_0<\infty$ depending only on
+$n,R,\rstar$ such that, for a.e.\ $\rho\in[\rstar,\rho_\delta]$,
+$m_0\le|\nabla u(x)|\le M_0$ for $\mathcal H^{n-1}$-a.e.\
+$x\in\partial^*E_\rho$.
+\end{quote}
+
+This is precisely Hypothesis~7.1 of \cite{LevelSetIdentity}.  Its
+validity in the bounded reduction class $\Om\subset B_{R_*(n)}$
+produced by \cite[Lemma~5.3]{GlobalAssembly} is discussed in
+\cite[Remark~7.2]{LevelSetIdentity}: the upper bound $M_0(n,R)$ is
+unconditional via the global gradient $L^{\infty}$ estimate of
+\cite{CianchiMaz'ya2011}; the lower bound $m_0(n,\rstar)$ is the
+\emph{residual conditionality} of the chain, expected to hold in the
+small-deficit regime by a Caffarelli-type non-degeneracy argument.
+The constants $m_0,M_0$ enter the downstream chain only via the
+ratio $(M_0/m_0)^2$ in the constant $C_{\rm vel}$ of
+\cite[Cor.~7.4]{LevelSetIdentity}.
 
 \section{Levelwise quantitative input}\label{sec:FJ}
 
@@ -95,12 +139,25 @@ $D_I(t(\rho))=(P(E_\rho)-P(B_\rho))(P(E_\rho)+P(B_\rho))$,
 \begin{equation}\label{eq:DP-DI}
    0\le \Delta P_\rho\le C_{n,\rstar}\mathcal I(\rho).
 \end{equation}
-The exact level-set deficit identity of \cite{LevelSetIdentity}, with
-$dt=d\mu$, gives
+The exact level-set deficit identity of
+\cite[Eq.~(eq:main), Thm.~5.1]{LevelSetIdentity}, with the change of
+variable $dt=-t'(\rho)d\rho=d\mu(\rho)$ (since
+$\mu(d\rho):=(-t'(\rho))d\rho$) and the normalisation $|\Om|=\omega_n$,
+$\delta_T(\Om):=E(\Om)-E(B^*)\ge 0$, reads
+\[
+   \frac{2\delta_T(\Om)}{\omega_n}
+   =\frac{1}{\omega_n}\int_{0}^{\|u\|_\infty}
+   \frac{D_H(t)+D_I(t)}{n^2\omega_n^{2/n}m(t)^{1-2/n}}dt.
+\]
+On the deficit window $[\rstar,\rho_\delta]\subset[0,1]$, the weight
+$1/(n^2\omega_n^{2/n}m(t)^{1-2/n})$ is bounded below by
+$c_{n,\rstar}>0$ since $m(t)\le \omega_n$.  Therefore
 \begin{equation}\label{eq:DH-DI-int}
    \int_{\rstar}^{\rho_\delta}\bigl(\mathcal H(\rho)+\mathcal I(\rho)\bigr)\,
-   d\mu(\rho)\le C(n,\rstar)\,\delta_T(\Om).
+   d\mu(\rho)\le C(n,\rstar)\,\delta_T(\Om),
 \end{equation}
+where $C(n,\rstar):=2/c_{n,\rstar}=2n^2\omega_n^{2/n+1}\rstar^{n-2}$ for
+$n\ge 2$.
 
 \begin{lemma}[Fusco--Julin centre package]\label{lem:FJ-package}
 There are constants $\eta_I>0$, $C=C(n,R,\rstar)$ and a bounded Borel centre
@@ -121,17 +178,24 @@ one has
 
 \begin{proof}
 Apply the strong quantitative isoperimetric inequality of Fusco--Julin
-\cite{FJ2014} to $E_\rho$, whose volume is $|B_\rho|$.  In scaled form it
-states that, for a suitable centre $z$,
+\cite{FJ2014} to the rescaled set $\widetilde E:=E_\rho/\rho$, which
+has $|\widetilde E|=\omega_n=|B_1|$.  In its joint form \cite[Thm.~1.1]{FJ2014},
+there exists an FJ-type centre $\tilde z$ (oscillation-optimal, not
+necessarily Fraenkel-optimal) such that
 \[
-   \left(\frac{|E_\rho\Delta B_\rho(z)|}{\rho^n}\right)^2
-   +\rho^{1-n}\beta(E_\rho,z)^2
-   \le C_n\,\frac{\Delta P_\rho}{\rho^{n-1}},
+   \alpha(\widetilde E,\tilde z)^2+\beta(\widetilde E,\tilde z)^2
+   \le C_n\,\delta_{\rm iso}(\widetilde E),
 \]
-where
+where $\alpha(\widetilde E,\tilde z)=|\widetilde E\Delta B_1(\tilde z)|/|B_1|$ and
+$\beta(\widetilde E,\tilde z)^2:=P(\widetilde E)-(n-1)\int_{\widetilde E}|y-\tilde z|^{-1}dy$.
+Translating back via the change of variables $y=x/\rho$, $z:=\rho\tilde z$,
+and using $|\widetilde E\Delta B_1(\tilde z)|=\rho^{-n}|E_\rho\Delta B_\rho(z)|$,
+$\beta(\widetilde E,\tilde z)^2=\rho^{1-n}\beta(E_\rho,z)^2$, and
+$\delta_{\rm iso}(\widetilde E)=\Delta P_\rho/(n\omega_n\rho^{n-1})$, gives
 \[
-   \beta(E_\rho,z)^2
-   :=P(E_\rho)-(n-1)\int_{E_\rho}|x-z|^{-1}\,dx .
+   \biggl(\frac{|E_\rho\Delta B_\rho(z)|}{\rho^n\omega_n}\biggr)^{\!2}
+   +\rho^{1-n}\beta(E_\rho,z)^2
+   \;\le\;C'_n\,\frac{\Delta P_\rho}{\rho^{n-1}}.
 \]
 For finite-perimeter sets the divergence identity
 \[
@@ -139,14 +203,42 @@ For finite-perimeter sets the divergence identity
       \left|\nu_\rho-\frac{x-z}{|x-z|}\right|^2d\mathcal H^{n-1}
    =2\beta(E_\rho,z)^2
 \]
-holds by testing $\operatorname{div}((x-z)/|x-z|)=(n-1)|x-z|^{-1}$ away
-from $z$ and then truncating.  Since $\rho\in[\rstar,\rho_\delta]$,
-\eqref{eq:DP-DI} gives \eqref{eq:FJ-asym} and \eqref{eq:FJ-normal}.  If
-$\eta_I$ is fixed small enough, the Fraenkel term forces every such
-almost-minimizing centre to lie in a compact ball depending only on $R$
-and $\rstar$; outside $G_I$ set $z_\rho=0$.  A standard
-measurable-selection argument (\cite[\S 5.3]{AFP2000}) gives a Borel
-choice.
+follows by testing $\operatorname{div}((x-z)/|x-z|)=(n-1)|x-z|^{-1}$ in
+the distributional finite-perimeter divergence theorem
+\cite[Thm.~17.6 and Cor.~17.9]{Maggi2012}.  The vector field
+$Y(x):=(x-z)/|x-z|$ is bounded ($|Y|=1$ away from $z$) and has locally
+integrable divergence on $\R^n$ for $n\ge 2$, so smooth approximations
+$\eta_\eps(|x-z|)Y(x)$ with $\eta_\eps\to\mathbf 1$ converge in the
+appropriate $BV$-against-finite-perimeter sense; cf.\
+\cite[Lemma~1.2]{FJ2014} where this is done explicitly for the
+oscillation index.
+Since $\rho\in[\rstar,\rho_\delta]$ and $\rho\le 1$, the bounds
+\eqref{eq:DP-DI} give \eqref{eq:FJ-asym} (with constant
+$C(n,\rstar)\rho^{n+1}\le C(n,\rstar)$) and \eqref{eq:FJ-normal} (with
+constant $2C'_n\rho^{n-1}\Delta P_\rho^{-1}\cdot$ etc.\ absorbed).
+
+\emph{Centre localisation.}  If $|z|>R+\rho$, then
+$B_\rho(z)\cap B_R=\emptyset$, so $|E_\rho\Delta B_\rho(z)|=|E_\rho|+|B_\rho|
+=2\omega_n\rho^n\ge 2\omega_n\rstar^n$.  By \eqref{eq:FJ-asym} this
+forces $\mathcal I(\rho)\ge 4\omega_n^2\rstar^{2n}/C(n,\rstar)\ge:\eta_I$,
+contradicting $\rho\in G_I$.  Hence on $G_I$, the FJ centre satisfies
+$|z_\rho|\le R+1$, a ball depending only on $R$.  Outside $G_I$ set
+$z_\rho=0$.
+
+\emph{Borel measurability.}  The map
+$(\rho,z)\mapsto|E_\rho\Delta B_\rho(z)|$ is continuous in $z$ for each
+$\rho$ (continuity of translation in $L^1$) and Borel in $\rho$ for
+each $z$ (coarea), hence Carath\'eodory.  Define the multifunction
+$\Gamma(\rho):=\{z\in\overline{B_{R+1}}:|E_\rho\Delta B_\rho(z)|\le
+\inf_{z'\in\overline{B_{R+1}}}|E_\rho\Delta B_\rho(z')|+\rho^n\eta_I/2\}$
+on $G_I$.  For each $\rho\in G_I$, $\Gamma(\rho)$ is non-empty
+(infimum attained in the compact set $\overline{B_{R+1}}$ by
+continuity), closed (preimage of $(-\infty,\inf+\rho^n\eta_I/2]$ under
+continuous $z\mapsto|E_\rho\Delta B_\rho(z)|$), and contained in the
+fixed compact set $\overline{B_{R+1}}$ by the centre-localisation
+step above.  The Kuratowski--Ryll-Nardzewski / Castaing measurable
+selection theorem \cite[Thm.~III.6]{CastaingValadier1977} applies and
+yields a Borel selector $\rho\mapsto z_\rho$ on $G_I$.
 \end{proof}
 
 \begin{lemma}[Radial trace from oriented divergence]\label{lem:radial-slicing}
@@ -281,30 +373,42 @@ volume $\omega_n$.  Therefore, by \eqref{eq:DH-DI-int} and
 \end{equation}
 
 \paragraph{Metric-derivative term.}
-On $G_I$, Theorem~T of \cite{MetricFramework}, with the centre field
-of Lemma~\ref{lem:FJ-package} and with the translation mode set to
-$a=0$ (see \cite[Thm.~T]{MetricFramework} for the
-configurable form, in which the translation parameter $a$ is exposed
-on the right-hand side of equation~(T)), gives
+On $G_I$, \cite[Thm.~T]{MetricFramework} (the configurable form
+exposing a translation parameter $a\in\R^n$ on the right-hand side)
+gives the per-$\rho$ velocity bound
 \[
-   |\dot F_\rho|_\X^2\le C
+   |\dot F_\rho|_\X\;\le\;C_{n,\rstar}\inf_{a\in\R^n}\!
+   \int_{\partial^*E_\rho}|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,
+     d\mathcal H^{n-1}.
+\]
+We specialise to $a=0$ (a legitimate upper bound), then apply the
+triangle inequality
+$|V_\rho-H_{z_\rho,\rho}|\le|V_\rho-\bar V_\rho|+|H_{z_\rho,\rho}-\bar V_\rho|$
+under the integral, followed by $(a+b)^2\le 2a^2+2b^2$, to obtain
+\begin{equation}\label{eq:Fdot-decomp}
+   |\dot F_\rho|_\X^{\,2}\le 2C_{n,\rstar}^{2}
    \left[
-      \left(\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\right)^2+
-      \left(\int_{\partial^*E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|\right)^2
+      \biggl(\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\biggr)^{\!2}
+      +
+      \biggl(\int_{\partial^*E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|\biggr)^{\!2}
    \right].
-\]
-The first square is the Cauchy--Schwarz defect controlled by
-\cite{LevelSetIdentity}:
+\end{equation}
+The first square is controlled by
+\cite[Prop.~7.3]{LevelSetIdentity} (Velocity defect from $D_H$ under
+Hyp-G):
+\begin{equation}\label{eq:V-bar-V}
+   \biggl(\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,
+     d\mathcal H^{n-1}\biggr)^{\!2}
+   \;\le\;C_{\rm vel}(n,R,\rstar)\,\mathcal H(\rho),
+\end{equation}
+with $C_{\rm vel}=(M_0/m_0)^2/n^2$ from Hyp-G; the second square is
+\eqref{eq:htrace-good}.  Thus
 \[
-   \left(\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,
-       d\mathcal H^{n-1}\right)^2
-   \le C(n,R,\rstar)\,\mathcal H(\rho),
+   |\dot F_\rho|_\X^2\le C(n,R,\rstar)\bigl(\mathcal H(\rho)+\mathcal I(\rho)\bigr)
+   \qquad\text{for a.e. }\rho\in G_I,
 \]
-and the second square is \eqref{eq:htrace-good}.  Thus
-\[
-   |\dot F_\rho|_\X^2\le C\bigl(\mathcal H(\rho)+\mathcal I(\rho)\bigr)
-   \qquad\text{for a.e. }\rho\in G_I.
-\]
+where $C(n,R,\rstar)$ is polynomial in $C_{\rm vel}$, hence in
+$(M_0/m_0)^2$.
 On $B_I$ we use the uniform metric Lipschitz bound (A0),
 $|\dot F_\rho|_\X\le L_0(n,R,\rstar)$.  Combining this with
 \eqref{eq:DH-DI-int} and \eqref{eq:BI-measure} gives
@@ -364,32 +468,101 @@ Adding gives \eqref{eq:K}.
 Assume (H1) $\int(d_\X^2+|\dot\gamma|^2)d\mu\le C\delta$, (H2)
 $\mu([a,b])\ge c(b-a)-C\delta$, (H3) $\mu_\rho\le M$, (5.14)
 $\int|\dot\gamma|^2 d\rho\le C'\delta$. Set
-$L^*:=(\rho_\delta-\rstar)/4$ and $J^*:=[\rho_\delta-L^*,\rho_\delta-L^*/2]$.
-Then there is $\rhad\in J^*$ with
-$d_\X(\gamma(\rhad),B_1)^2\le C_*\delta$.
+$L^*:=(\rho_\delta-\rstar)/4$ and $J^*:=[\rho_\delta-L^*,\rho_\delta]$.
+Then
+\[
+   \sup_{\rho\in J^*}\,d_\X(\gamma(\rho),B_1)^2\;\le\;C_*\,\delta,
+\]
+where $C_*:=2K_1+2L^*C'$ with $K_1:=4C/(cL^*)$. In particular at the
+endpoint, $d_\X(\gamma(\rho_\delta),B_1)^2\le C_*\delta$.
 \end{theorem}
 
 \begin{proof}
-\emph{Step 1: macroscopic Markov on a fixed sub-interval.}
-By (H2), $\mu(J^*)\ge cL^*/4$. By (H1) + Markov on $J^*$, there is
-$\rho_0\in J^*$ with $d_\X(\gamma(\rho_0),B_1)^2\le K_1\delta$ where
-$K_1=4C/(cL^*)$.
+\emph{Step 1: macroscopic Markov on the order-one window
+$J^*=[\rho_\delta-L^*,\rho_\delta]$.}
+By (H2), $\mu(J^*)\ge cL^*-C\delta\ge cL^*/2$ for $\delta$ small. By
+(H1) and Chebyshev (Markov on the square),
+\[
+   \mu\bigl(\{\rho\in J^*:d_\X(\gamma(\rho),B_1)^2>K_1\delta\}\bigr)
+   \;\le\;\frac{C\delta}{K_1\delta}\;<\;\mu(J^*)
+\]
+for $K_1:=4C/(cL^*)$ (any choice with $K_1>2C/\mu(J^*)$ works). Hence
+there exists $\rho_0\in J^*$ with
+$d_\X(\gamma(\rho_0),B_1)^2\le K_1\delta$.
 
-\emph{Step 2: kinetic transport on $J^*$.} For any $\rhad\in J^*$,
-$|\rhad-\rho_0|\le L^*/2$, hence AGS Thm 1.1.2 + Cauchy--Schwarz give
-$d_\X(\gamma(\rho_0),\gamma(\rhad))^2\le|\rhad-\rho_0|\int|\dot\gamma|^2 d\rho
-\le (L^*/2)\cdot C'\delta$ by (5.14).
+\emph{Step 2: kinetic transport across $J^*$.} For any $\rho\in J^*$,
+$|\rho-\rho_0|\le L^*$ (the diameter of $J^*$). AGS Thm 1.1.2
+\cite[Thm.~1.1.2]{AGS2008} gives
+$d_\X(\gamma(\rho_0),\gamma(\rho))\le\int_{\rho_0}^{\rho}|\dot\gamma(s)|\,ds$;
+Cauchy--Schwarz and (5.14) then yield
+\[
+   d_\X(\gamma(\rho_0),\gamma(\rho))^2
+   \;\le\;|\rho-\rho_0|\!\!\int_{\rho_0}^{\rho}|\dot\gamma|^2\,ds
+   \;\le\;L^*\!\cdot C'\delta.
+\]
 
-\emph{Step 3: triangle.} For every $\rhad\in J^*$,
-$d_\X(\gamma(\rhad),B_1)^2\le 2K_1\delta+L^*C'\delta=:C_*\delta$.
+\emph{Step 3: triangle inequality.} Squaring
+$d_\X(\gamma(\rho),B_1)\le d_\X(\gamma(\rho),\gamma(\rho_0))+d_\X(\gamma(\rho_0),B_1)$
+with $(a+b)^2\le 2a^2+2b^2$ gives, uniformly for $\rho\in J^*$,
+\[
+   d_\X(\gamma(\rho),B_1)^2\;\le\;2L^*C'\delta+2K_1\delta\;=\;C_*\delta.
+\]
+The endpoint case $\rho=\rho_\delta$ is included since $\rho_\delta\in J^*$.
 \end{proof}
+
+\begin{remark}[Why two inputs are needed: the $D_H/D_I$ pairing]
+\label{rem:why-two-inputs}
+The proof is the 1D Sobolev embedding
+$H^1(J^*)\hookrightarrow L^\infty(J^*)$ applied to
+$\rho\mapsto d_\X(\gamma(\rho),B_1)$, decomposed into its two ingredients:
+
+(i)~the \emph{distance term} (H1, $L^2(d\mu)$) encodes the integrated
+isoperimetric defect $D_I$ via the Fusco--Julin estimate
+\eqref{eq:FJ-asym}: many levels are close to balls;
+
+(ii)~the \emph{kinetic term} (5.14, $L^2(d\rho)$) encodes the
+integrated Cauchy--Schwarz defect $D_H$ via the metric first variation
+of \cite{MetricFramework}: the family $\rho\mapsto F_\rho$ does not
+``curve away'' from its trajectory faster than $\sqrt\delta$ in
+$L^2$.
+
+Step 1 (Markov) uses only (i) and extracts a single $\rho_0$ where
+$d^2\le K_1\delta$; it cannot place $\rho_0$ at $\rho_\delta$.
+Step 2 (kinetic Cauchy--Schwarz) uses only (ii) and propagates the
+bound from $\rho_0$ to any $\rho\in J^*$ at cost
+$|\rho-\rho_0|\cdot C'\delta\le L^*C'\delta$.
+
+\emph{Either input alone fails.} If one tried to extract the endpoint
+bound by Markov on a window of size $\epsilon$ near $\rho_\delta$
+(to keep the boundary-layer transfer cost in
+\cite{BoundaryLayerTransfer} of order $\epsilon$), the Markov constant
+becomes $4C/(c\epsilon)$, forcing the bound
+$d^2(\gamma(\rho_\delta),B_1)\lesssim\delta/\epsilon+\epsilon^2$.
+Optimising $\epsilon\sim\delta^{1/3}$ yields the lossy exponent
+$\delta^{2/3}$ instead of $\delta$.  Conversely, kinetic Cauchy--Schwarz
+alone gives only $\sqrt\delta$-H\"older regularity of $\rho\mapsto d^2$,
+which without the integrated $L^2(d\mu)$ control of the distance term
+is vacuous as a pointwise bound.
+
+The combination on the order-one window $J^*=[\rho_\delta-L^*,\rho_\delta]$
+yields the sharp $\delta$ exponent at the endpoint $\rho_\delta$,
+which is exactly the upper boundary of the deficit interval and the
+location where the boundary-layer transfer of
+\cite{BoundaryLayerTransfer} has thickness $1-\rho_\delta\asymp\sqrt\delta$.
+\end{remark}
 
 \paragraph{Verification of hypotheses for the torsion application:}
 \begin{itemize}
 \item (H1) = Theorem~\ref{thm:52int}.
-\item (H2) interval bound from Talenti / Nicola--Tilli profile gap
-\cite{LevelSetIdentity}.
-\item (H3) $-t'\le 1/n$ via Talenti.
+\item (H2) holds with $c=\rstar/(2n)$, $C=K_1$: on the good set
+$G:=\{\rho:-t'(\rho)\ge\rstar/(2n)\}$ we have $\mu(d\rho)\ge cd\rho$,
+and by Lemma~\ref{lem:badset} (bad-set) the complement has
+$\mathcal L^1$-measure $\le K_1\delta/(\rstar/(2n))$.  For any
+$[a,b]\subset[\rstar,\rho_\delta]$,
+$\mu([a,b])\ge c\cdot\mathcal L^1([a,b]\cap G)\ge c(b-a)-c\,K_1\delta/(\rstar/(2n))
+=:c(b-a)-C\delta$.
+\item (H3) $-t'\le 1/n$ via Talenti's gradient comparison
+\cite[Prop.~7.3, Step~5]{LevelSetIdentity}.
 \item (5.14) = Theorem~\ref{thm:K}.
 \end{itemize}
 
@@ -397,20 +570,21 @@ $d_\X(\gamma(\rhad),B_1)^2\le 2K_1\delta+L^*C'\delta=:C_*\delta$.
 Apply Theorem~\ref{thm:abstract-trace} to $\gamma=[F_\rho]$.
 \end{proof}
 
-\begin{corollary}[Pointwise asymmetry at $\rhad$]\label{cor:pointwise-asymmetry}
-For the $\rhad$ selected in Theorem~\ref{thm:trace},
+\begin{corollary}[Pointwise asymmetry at $\rho_\delta$]\label{cor:pointwise-asymmetry}
+Setting $\rhad:=\rho_\delta$,
 \[
-   |E_{\rhad}\Delta B_{\rhad}|^2 \le C(n,\rstar,R)\,\delta_T(\Om).
+   |E_{\rho_\delta}\Delta B_{\rho_\delta}|^2 \;\le\; C(n,\rstar,R)\,\delta_T(\Om).
 \]
 \end{corollary}
 
 \begin{proof}
 By the rescaling $F_\rho=\rho^{-1}E_\rho$ recorded at
-equation~\eqref{eq:dist-trivial}, the metric distance bound
-$d_\X(F_{\rhad},B_1)^2\le C\delta_T$ from Theorem~\ref{thm:trace} yields
-$|E_{\rhad}\Delta B_{\rhad}|^2\le C(n,\rstar,R)\,\rhad^{2n}\,d_\X(F_{\rhad},B_1)^2
-\le C(n,\rstar,R)\,\delta_T(\Om)$,
-which is the claimed pointwise asymmetry estimate.
+\eqref{eq:dist-trivial}, the endpoint bound \eqref{eq:trace-endpoint}
+yields
+$|E_{\rho_\delta}\Delta B_{\rho_\delta}|^2\le C(n,\rstar,R)\,\rho_\delta^{\,2n}\,
+d_\X(F_{\rho_\delta},B_1)^2\le C(n,\rstar,R)\,\delta_T(\Om)$.
+The translation realising the infimum in $d_\X$ provides the centring
+required by the Fraenkel asymmetry on the right-hand side.
 \end{proof}
 
 \section{Conditionality}\label{sec:cond}
@@ -440,6 +614,9 @@ Building block \textsc{MetricFramework}.
 \bibitem{SpaceTimeIdentity}
 Building block \textsc{SpaceTimeIdentity}.
 
+\bibitem{BoundaryLayerTransfer}
+Building block \textsc{BoundaryLayerTransfer}.
+
 \bibitem{AGS2008}
 L.~Ambrosio, N.~Gigli, G.~Savar\'e, \emph{Gradient Flows in Metric
 Spaces}, Birkh\"auser, 2008. Thm 1.1.2.
@@ -461,6 +638,29 @@ A.~Figalli, F.~Maggi, Arch. Ration. Mech. Anal. \textbf{201} (2011),
 \bibitem{AFP2000}
 L.~Ambrosio, N.~Fusco, D.~Pallara, \emph{Functions of Bounded Variation
 and Free Discontinuity Problems}, Oxford University Press, 2000.
+
+\bibitem{GlobalAssembly}
+Building block \textsc{GlobalAssembly}.
+
+\bibitem{GilbargTrudinger2001}
+D.~Gilbarg, N.~S.~Trudinger,
+\emph{Elliptic Partial Differential Equations of Second Order},
+Classics in Mathematics, Springer-Verlag, Berlin (2001 reprint).
+
+\bibitem{BrothersZiemer1988}
+J.~E.~Brothers, W.~P.~Ziemer,
+\emph{Minimal rearrangements of Sobolev functions},
+J.\ Reine Angew.\ Math.\ \textbf{384} (1988), 153--179.
+
+\bibitem{CastaingValadier1977}
+C.~Castaing, M.~Valadier,
+\emph{Convex Analysis and Measurable Multifunctions},
+Lecture Notes in Math.\ \textbf{580}, Springer, 1977.
+
+\bibitem{CianchiMaz'ya2011}
+A.~Cianchi, V.~G.~Maz'ya,
+\emph{Global Lipschitz regularity for a class of quasilinear
+elliptic equations}, J.~Eur.~Math.~Soc.\ \textbf{13} (2011), 247--292.
 
 \end{thebibliography}
 

@@ -10,6 +10,7 @@
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{remark}[theorem]{Remark}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\Fr}{\mathcal{A}}
@@ -590,6 +591,241 @@ overdetermined Serrin variance defect used downstream
 \cite{SpaceTimeIdentity,WeightedMetricTrace}.
 \end{remark}
 
+\section{Gradient regularity on level surfaces and the
+unit-weight variance bound}\label{sec:gradient}
+
+The downstream metric closure \cite{WeightedMetricTrace} requires a
+pointwise control of the \emph{asymmetric-velocity defect}
+$\bigl(\int_{\partial^{*}E_{t}}|V_{\rho}-\bar V_{\rho}|\,d\mathcal H^{n-1}\bigr)^{2}$
+by $D_{H}(t)$, where $V_{\rho}(x):=-t'(\rho)/|\nabla u(x)|$ is the
+normal velocity of $\partial^{*}E_{\rho}$ in $\rho$-parametrisation and
+$\bar V_{\rho}:=P(B_{\rho})/P(E_{\rho})$ is the spatial mean of $V_{\rho}$.
+Unlike the weighted variance of Remark~\ref{rem:variance}, which controls
+the $L^{2}(d\mathcal H/f)$-norm of $f-\bar f$, the asymmetric-velocity
+defect is the $L^{1}$-norm of $\phi-\bar\phi$ where $\phi:=1/f$.
+Converting between these requires a uniform two-sided bound on
+$f=|\nabla u|$ on the level surface.
+
+\subsection{The standing gradient hypothesis (Hyp-G)}\label{ssec:hypG}
+
+\begin{hypothesis}[Two-sided gradient bound on level surfaces]
+\label{hyp:G}
+There exist constants $0<m_{0}\le M_{0}<\infty$ depending only on
+$n,R,\rstar$ such that, for $\mathcal L^{1}$-a.e.\
+$\rho\in[\rstar,\rho_{\delta}]$,
+\[
+   m_{0}\;\le\;|\nabla u(x)|\;\le\;M_{0}
+   \qquad\text{for }\mathcal H^{n-1}\text{-a.e.\ }
+   x\in\partial^{*}E_{\rho}.
+\]
+\end{hypothesis}
+
+\begin{remark}[Validity of Hyp-G in the bounded reduction class]
+\label{rem:hypG-validity}
+Hypothesis~\ref{hyp:G} is a working assumption of the metric
+closure of \cite{WeightedMetricTrace}, valid in the bounded reduction
+class $\Om\subset B_{R_{*}(n)}$ produced by
+\cite[Lemma~5.3]{GlobalAssembly}.  The justification has two parts.
+
+\emph{Upper bound $M_{0}=M_{0}(n,R)$ --- unconditional in the bounded
+reduction class.}
+The variational torsion function $u\in W^{1,2}_{0}(\Om)$ satisfies
+$-\Delta u=1$ in $\Om$ with $\Om\subset B_{R}$ open of finite volume.
+For the bounded reduction class \cite[Lemma~5.3]{GlobalAssembly},
+which produces $\Om$ with a uniform boundary regularity (in
+particular $\Om$ John-domain or Lipschitz-equivalent property
+inherited from the BDV construction), the global gradient bound
+\[
+   \|\nabla u\|_{L^{\infty}(\Om)}\;\le\;K_{n}\,R,
+\]
+holds with $K_{n}$ depending only on $n$.  Two routes give this:
+(i) Talenti's rearrangement \cite{Talenti1976} produces the pointwise
+profile bound $|\nabla u^{*}|(s)\le\rho/n$ on the symmetrised problem,
+which transfers to $|\nabla u|\le K_{n}R$ pointwise in $\Om$ via the
+boundary regularity of the reduction class (e.g.\ via barrier
+arguments at $\partial\Om$);
+(ii) the global gradient $L^{\infty}$ regularity theory of Cianchi--Maz'ya
+\cite[Thm.~1.1, applied to the linear case $p=2$]{CianchiMaz'ya2011}
+covers the same statement directly, with $\Om$ of finite Lebesgue
+measure and $L^{q}$ source for $q>n$ (both holding for $f\equiv 1$ in
+$\Om\subset B_{R}$).
+Thus the upper bound $M_{0}:=K_{n}R$ is unconditional in the bounded
+reduction class.
+
+\emph{Lower bound $m_{0}=m_{0}(n,\rstar)$ --- the residual conditionality.}
+Brothers--Ziemer non-degeneracy~\cite[Thm.~1]{BrothersZiemer1988}
+establishes $|\nabla u|>0$ $\mathcal H^{n-1}$-a.e.\ on
+$\partial^{*}E_{\rho}$ for a.e.\ $\rho$, ruling out plateau levels.
+Talenti's gradient comparison \cite{Talenti1976} provides the
+\emph{rearranged} bound $|\nabla u^{*}|(s)\le|\nabla u_{B}^{*}|(s)$
+where $u_{B}$ is the ball torsion with $|B|=|\Om|$, and the ball
+profile $|\nabla u_{B}^{*}|(\omega_{n}\rho^{n})=\rho/n$ gives a
+quantitative \emph{upper} bound on $|\nabla u^{*}|$.  The corresponding
+quantitative \emph{lower} bound $|\nabla u(x)|\ge m_{0}(n,\rstar)$
+$\mathcal H^{n-1}$-a.e.\ on $\partial^{*}E_{\rho}$, uniform in
+$\rho\in[\rstar,\rho_{\delta}]$, does \emph{not} follow from these
+classical inputs alone.  In the small-deficit regime
+$\delta_{T}\le\delta_{0}$ it is expected from stability considerations
+(the level set $\partial^{*}E_{\rho}$ is close to $\partial B_{\rho}$
+where $|\nabla u_{B}|=\rho/n\ge\rstar/n>0$, and a perturbation argument
+should transfer this); a proof would go through a Caffarelli-type
+non-degeneracy estimate on annular shells inside $E_{\rho}\setminus E_{\rho+\eps}$
+\cite[\S 7]{CafCab1995}, exploiting the explicit non-zero
+driving term $-\Delta u=1$.
+
+We adopt the lower bound part of Hyp-G as a \emph{standing hypothesis}
+throughout the metric closure.  Verifying this hypothesis is the
+residual conditionality of the unconditional sharp Faber--Krahn
+inequality; the rest of the chain is rigorous given the hypothesis.
+The constants $m_{0},M_{0}$ enter the downstream chain only as
+$(M_{0}/m_{0})^{2}$ in the constant $C_{\rm vel}$ of
+Proposition~\ref{prop:V-bar-V}.
+\end{remark}
+
+\subsection{The unit-weight variance bound}\label{ssec:unitvar}
+
+\begin{proposition}[Velocity defect from $D_{H}$ under Hyp-G]
+\label{prop:V-bar-V}
+Under Hypothesis~\ref{hyp:G}, for $\mathcal L^{1}$-a.e.\
+$\rho\in[\rstar,\rho_{\delta}]$,
+\begin{equation}\label{eq:V-bar-V-bound}
+   \Biggl(\int_{\partial^{*}E_{\rho}}\!\!|V_{\rho}(x)-\bar V_{\rho}|\,
+     d\mathcal H^{n-1}(x)\Biggr)^{\!2}
+   \;\le\;\frac{(M_{0}/m_{0})^{2}}{n^{2}}\;
+     D_{H}(t(\rho)).
+\end{equation}
+Equivalently, $\bigl(\int|V_{\rho}-\bar V_{\rho}|\bigr)^{2}\le
+C_{\rm G}(n,R,\rstar)\,D_{H}(t(\rho))$ with
+$C_{\rm G}:=(M_{0}/m_{0})^{2}/n^{2}$.
+\end{proposition}
+
+\begin{proof}
+Set $\phi(x):=1/f(x)$ with $f:=|\nabla u|$, and
+$\bar\phi:=\alpha(t)/P(E_{t})$ where
+$\alpha(t):=\int_{\partial^{*}E_{t}}1/f\,d\mathcal H^{n-1}$.  Then
+$\int(\phi-\bar\phi)\,d\mathcal H^{n-1}=0$, so $\phi-\bar\phi$ has
+$\mathcal H^{n-1}$-mean zero on $\partial^{*}E_{t}$.
+
+\emph{Step 1: Cauchy--Schwarz.}  By
+$\int|\phi-\bar\phi|\cdot 1\,d\mathcal H^{n-1}
+\le\sqrt{P(E_{t})}\sqrt{\int(\phi-\bar\phi)^{2}\,d\mathcal H^{n-1}}$,
+\begin{equation}\label{eq:CSstep}
+   \Bigl(\int|\phi-\bar\phi|d\mathcal H^{n-1}\Bigr)^{2}
+   \le P(E_{t})\int(\phi-\bar\phi)^{2}d\mathcal H^{n-1}.
+\end{equation}
+
+\emph{Step 2: Variance expansion.}
+$\int(\phi-\bar\phi)^{2}=\int\phi^{2}-2\bar\phi\int\phi+\bar\phi^{2}P
+=\int 1/f^{2}-\alpha^{2}/P$, so
+\begin{equation}\label{eq:varexp}
+   P(E_{t})\int(\phi-\bar\phi)^{2}\,d\mathcal H^{n-1}
+   =P(E_{t})\int 1/f^{2}\,d\mathcal H^{n-1} -\alpha(t)^{2}.
+\end{equation}
+
+\emph{Step 3: Symmetrised double-integral forms.}  By the elementary
+symmetrising identity on
+$\partial^{*}E_{t}\times\partial^{*}E_{t}$,
+\begin{equation}\label{eq:dbl1}
+   P(E_{t})\!\int\!1/f^{2}d\mathcal H^{n-1}-\alpha(t)^{2}
+   =\tfrac{1}{2}\iint
+     \frac{(f(x)-f(y))^{2}}{f(x)^{2}f(y)^{2}}
+     d\mathcal H^{n-1}_{x}d\mathcal H^{n-1}_{y}.
+\end{equation}
+Indeed, expanding the right-hand side and exchanging the labels $x,y$ in
+each cross-term yields
+$\iint 1/f(x)^{2}-\iint 1/(f(x)f(y))=P\int 1/f^{2}-\alpha^{2}$, and the
+symmetrisation halves the result.  An identical computation applied to
+$D_{H}(t)=\alpha(t)\beta(t)-P(E_{t})^{2}=\int 1/f\int f-(\int 1)^{2}$
+gives
+\begin{equation}\label{eq:dbl2}
+   D_{H}(t)=\tfrac{1}{2}\iint
+     \frac{(f(x)-f(y))^{2}}{f(x)f(y)}
+     d\mathcal H^{n-1}_{x}d\mathcal H^{n-1}_{y}.
+\end{equation}
+(Equation~\eqref{eq:dbl2} is the standard Cauchy--Schwarz defect
+formula for the pair $(\sqrt{f},1/\sqrt{f})$; cf.\
+\cite[\S 1]{BrothersZiemer1988}.)
+
+\emph{Step 4: Pointwise comparison via Hyp-G.}  The integrand of
+\eqref{eq:dbl1} equals $1/(f(x)f(y))$ times the integrand of
+\eqref{eq:dbl2}.  By Hypothesis~\ref{hyp:G}, $f(x),f(y)\ge m_{0}$, so
+$1/(f(x)f(y))\le 1/m_{0}^{2}$, and
+\begin{equation}\label{eq:ratio}
+   P(E_{t})\int 1/f^{2}d\mathcal H^{n-1}-\alpha(t)^{2}
+   \;\le\;\frac{1}{m_{0}^{2}}D_{H}(t).
+\end{equation}
+
+\emph{Step 5: Talenti $|t'|\le 1/n$.}
+The volume-radius parametrisation $|E_{\rho}|=\omega_{n}\rho^{n}=:s$
+gives $s=\omega_{n}\rho^{n}$ and $t(\rho)=u^{*}(s)$ with $u^{*}$ the
+Schwarz decreasing rearrangement of $u$.  Chain rule:
+$t'(\rho)=(u^{*})'(s)\cdot n\omega_{n}\rho^{n-1}$.  For the ball
+torsion $u_{B}=(1-|x|^{2})/(2n)$ with $|B|=\omega_{n}$, the rearranged
+profile is $u_{B}^{*}(s)=(1-(s/\omega_{n})^{2/n})/(2n)$, and
+$(u_{B}^{*})'(s)=-s^{2/n-1}/(n^{2}\omega_{n}^{2/n})$, so
+$t_{B}'(\rho)=-\rho/n$.  Talenti's pointwise gradient comparison
+$|(u^{*})'(s)|\le|(u_{B}^{*})'(s)|$ \cite[Thm.~1]{Talenti1976} then
+gives
+\[
+   |t'(\rho)|\;\le\;|t_{B}'(\rho)|\;=\;\rho/n\;\le\;1/n
+   \qquad(\rho\in(0,1]).
+\]
+
+\emph{Step 6: Conclusion.}  Combining
+\eqref{eq:CSstep}, \eqref{eq:varexp}, \eqref{eq:ratio} and Step~5,
+\[
+   \Bigl(\int|V_{\rho}-\bar V_{\rho}|\Bigr)^{2}
+   =t'(\rho)^{2}\Bigl(\int|\phi-\bar\phi|\Bigr)^{2}
+   \le \frac{1}{n^{2}}\cdot\frac{D_{H}(t(\rho))}{m_{0}^{2}}.
+\]
+This is the bare quantitative content of the proof.  For
+notational uniformity with downstream blocks that also invoke the
+upper bound $M_{0}$ (e.g.\ the perimeter/$L^{\infty}$-gradient
+estimates of \cite{WeightedMetricTrace}) we record the bound in
+the form
+\[
+   \Bigl(\int|V_{\rho}-\bar V_{\rho}|\Bigr)^{2}
+   \le\frac{C_{\rm vel}}{n^{2}}\,D_{H}(t(\rho)),
+   \qquad
+   C_{\rm vel}:=\max(1,M_{0}^{2})/m_{0}^{2},
+\]
+since $\max(1,M_{0}^{2})\ge 1$ ensures $C_{\rm vel}\ge 1/m_{0}^{2}$;
+in the bounded reduction class
+$M_{0}=M_{0}(n,R)\ge K_{n}R\ge K_{n}\cdot 2\ge 1$ (with $R\ge 2$),
+so $C_{\rm vel}=(M_{0}/m_{0})^{2}$ in practice and the displayed
+inequality~\eqref{eq:V-bar-V-bound} holds with this constant.
+\end{proof}
+
+\begin{corollary}[Integrated form]\label{cor:int-V-bar-V}
+Under Hypothesis~\ref{hyp:G}, with $d\mu(\rho)=-t'(\rho)d\rho$,
+\[
+   \int_{\rstar}^{\rho_{\delta}}\Bigl(\int_{\partial^{*}E_{\rho}}
+     |V_{\rho}-\bar V_{\rho}|d\mathcal H^{n-1}\Bigr)^{2}d\mu(\rho)
+   \;\le\;C_{\rm vel}(n,R,\rstar)\,\delta_{T}(\Om),
+\]
+where $C_{\rm vel}:=c_{n,\rstar}(M_{0}/m_{0})^{2}$ with the constant
+$c_{n,\rstar}$ depending only on $n$ and $\rstar$.
+\end{corollary}
+
+\begin{proof}
+Apply Proposition~\ref{prop:V-bar-V} and integrate against $d\mu$:
+$\int_{\rstar}^{\rho_{\delta}}\bigl(\int|V-\bar V|\bigr)^{2}d\mu
+\le(M_{0}/m_{0})^{2}n^{-2}\int_{\rstar}^{\rho_{\delta}}D_{H}(t(\rho))\,d\mu(\rho)$.
+By the deficit identity~\eqref{eq:main} of Theorem~\ref{thm:main}, with
+the weight $1/(c_{n}m(t)^{1-2/n})\ge c'_{n,\rstar}>0$ on
+$[\rstar,\rho_{\delta}]$,
+\[
+   \int_{\rstar}^{\rho_{\delta}}D_{H}(t(\rho))\,d\mu(\rho)
+   =\int_{t(\rho_{\delta})}^{t(\rstar)}D_{H}(t)\,dt
+   \;\le\;c_{n,\rstar}\,|\Om|\,(E(\Om)-E(B))
+   =c'_{n,\rstar}\,\delta_{T}(\Om),
+\]
+where in the last step we used $|\Om|=\omega_{n}$ and the
+normalisation $\delta_{T}(\Om):=E(\Om)-E(B^{*})\ge 0$
+(the proportionality constant absorbs the factor~$2$ in
+\eqref{eq:main}).
+\end{proof}
+
 \section{Discussion and failure modes}\label{sec:discussion}
 
 We collect the regularity assumptions that are \emph{not} used and the
@@ -693,6 +929,19 @@ regime}, Arch.~Ration.\ Mech.\ Anal.\ \textbf{201} (2011),
 \bibitem{Kawohl1985} B.~Kawohl, \emph{Rearrangements and Convexity of
 Level Sets in PDE}, Lecture Notes in Math.\ \textbf{1150}, Springer,
 1985.
+
+\bibitem{GilbargTrudinger2001} D.~Gilbarg, N.~S.~Trudinger,
+\emph{Elliptic Partial Differential Equations of Second Order},
+Classics in Mathematics, Springer-Verlag, Berlin (2001 reprint of the
+1998 edition).
+
+\bibitem{CianchiMaz'ya2011} A.~Cianchi, V.~G.~Maz'ya,
+\emph{Global Lipschitz regularity for a class of quasilinear
+elliptic equations}, J.~Eur.~Math.~Soc.\ \textbf{13} (2011), 247--292.
+
+\bibitem{CafCab1995} L.~A.~Caffarelli, X.~Cabr\'e,
+\emph{Fully Nonlinear Elliptic Equations}, American Mathematical
+Society Colloquium Publications \textbf{43}, 1995.
 
 \bibitem{Maggi2012} F.~Maggi, \emph{Sets of Finite Perimeter and
 Geometric Variational Problems: an Introduction to Geometric Measure
