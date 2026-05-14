@@ -1,0 +1,716 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Fr}{\mathcal{A}}
+\newcommand{\X}{\mathcal X}
+\newcommand{\rstar}{\rho_{*}}
+\newcommand{\rdel}{\rho_\delta}
+\newcommand{\rhad}{\widehat\rho}
+\newcommand{\Hn}{\mathcal H^{n-1}}
+\newcommand{\dD}{\mathcal D}
+\newcommand{\OPEN}{\textcolor{red}{\bf OPEN}}
+\newcommand{\CLOSED}{\textcolor{teal}{\bf closed}}
+
+\title{Route $\delta$ to the Sharp Quantitative Faber--Krahn Inequality:\\
+       Step-by-Step Status, Remaining Obstructions, and Candidate Fixes}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This digest summarises the current state of Plan~2 / Route $\delta$,
+which proves the sharp quantitative Faber--Krahn inequality
+$\delta_{\rm FK}(\Om)\ge c(n)\Fr(\Om)^{2}$ via Saint--Venant stability
+and a Kohler--Jobin transfer.  Each step of the proof chain is
+condensed to its essential idea, its input, and its output, with
+\CLOSED{} or \OPEN{} tags.  The remaining genuinely open question
+collapses to a single integrated homothetic-trace estimate on
+isoperimetrically bad levels.  We list six candidate routes for
+closing it, with explicit critique of why each does or does not
+appear to work.
+\end{abstract}
+
+\section{The target and the reduction}\label{sec:target}
+
+\paragraph{Target (Faber--Krahn).}  For every open $\Om\subset\R^{n}$
+of finite measure,
+\[
+   \Bigl(\tfrac{|\Om|}{|B_{1}|}\Bigr)^{2/n}
+   \bigl(\lambda_{1}(\Om)-\lambda_{1}(B^{*})\bigr)
+   \;\ge\; c_{\rm FK}(n)\,\Fr(\Om)^{2},
+   \qquad\text{$B^{*}$ ball with }|B^{*}|=|\Om|.
+\]
+The exponent~$2$ is sharp; equality is approached by smooth
+volume-preserving perturbations of the ball.
+
+\paragraph{Reduction to Saint--Venant.}  Kohler--Jobin transfers
+sharp Saint--Venant deficit stability to sharp Faber--Krahn:
+if $\delta_{T}(\Om):=E(\Om)-E(B^{*})$ controls $\Fr(\Om)^{2}$
+at rate~$\delta_{T}$, then $\delta_{\rm FK}$ also controls
+$\Fr(\Om)^{2}$ at rate~$\delta_{\rm FK}$.  \CLOSED.  Reference:
+\texttt{Final/KohlerJobinTransfer.tex} (Plan~1, imported).
+
+\paragraph{Bounded reduction.}  The bounded sharp Saint--Venant
+inequality on $\Om\subset B_{R}$ with $|\Om|=\omega_{n}$ implies the
+global one via a Cicalese--Leonardi / BDV selection. \CLOSED.
+Reference: \texttt{Final/BoundedReduction.tex}.
+
+\paragraph{The bounded target.}
+\[
+   \Fr(\Om)^{2}\;\le\;C(n,R)\,\delta_{T}(\Om).
+\]
+This is what Route $\delta$ aims to prove.  Throughout the rest of
+this digest, $|\Om|=\omega_{n}$, $\Om\subset B_{R}$, and $u=u_{\Om}$
+denotes the variational torsion function.  Write
+\[
+   E_{\rho}:=\{u>t(\rho)\},\quad |E_{\rho}|=\omega_{n}\rho^{n},\quad
+   F_{\rho}:=\rho^{-1}E_{\rho}\in\X,
+\]
+where $\X$ is the $L^{1}$-modulo-translations metric space.  Set
+$w(\rho):=-t'(\rho)$, $d\mu:=w\,d\rho$, and
+$\rdel:=1-\kappa\sqrt{\delta_{T}}$.
+
+\section{The eight-step chain}\label{sec:chain}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Step} & \textbf{Block} & \textbf{Status} \\
+\hline
+1. Exact level-set deficit identity & \texttt{LevelSetIdentity} & \CLOSED \\
+2. Metric first variation in $\X$ & \texttt{LimsupDeformation} (new) & \CLOSED \\
+3. Same-centre Fusco--Julin package & \texttt{SameCentreFJ} (new) & \CLOSED \\
+4. Trimmed velocity / good levels & \texttt{TrimmedVelocityRepair} & \CLOSED \\
+4$'$. Unconditional velocity (all levels) & \texttt{UnconditionalVelocity} (new) & \CLOSED \\
+5. Integrated action $D_{H}+D_{I}\Rightarrow d_{\X}^{2}+|\dot F|^{2}$ & \texttt{WeightedMetricTrace} & \OPEN $^{\dagger}$ \\
+6. Uniform window trace & \texttt{WeightedMetricTrace} & \OPEN $^{\dagger}$ \\
+6$'$. Good Borel endpoint $\rhad$ near $\rdel$ & \texttt{GoodEndpointTrace} (new) & \OPEN $^{\dagger}$ \\
+7. Boundary-layer transfer from $E_{\rhad}$ to $\Om$ & \texttt{BoundaryLayerTransfer} & \CLOSED \\
+8. Bounded $\Rightarrow$ global $\Rightarrow$ FK & \texttt{GlobalAssembly} & \CLOSED \\
+\hline
+\end{tabular}
+\end{center}
+
+$\dagger$~Steps 5--6 are open only modulo a \emph{single} integrated
+bound on bad levels; see Section~\ref{sec:gap}.
+
+\section{Step-by-step summary}\label{sec:step-by-step}
+
+\subsection*{Step 1.\ Level-set deficit identity}\label{step:1}
+\textbf{Statement.}
+\[
+   \frac{2\delta_{T}(\Om)}{|\Om|}
+   =\frac{1}{|\Om|}\int_{0}^{\|u\|_{\infty}}
+   \frac{D_{H}(t)+D_{I}(t)}{n^{2}\omega_{n}^{2/n}m(t)^{1-2/n}}\,dt,
+\]
+where $D_{H}(t)=\alpha(t)\beta(t)-P(E_{t})^{2}$ is the Cauchy--Schwarz
+defect of $|\nabla u|$ on $\partial^{*}E_{t}$, and
+$D_{I}(t)=P(E_{t})^{2}-P(B(E_{t}))^{2}$ is the squared
+isoperimetric defect.\\
+\textbf{Output.}  $\int_{\rstar}^{\rdel}(D_{H}+D_{I})\,d\mu\le C(n,\rstar)\delta_{T}$.\\
+\textbf{Proof tools.}  BV coarea on reduced boundaries, Lipschitz
+truncation for the flux identity
+$\int_{\partial^{*}E_{t}}|\nabla u|\,d\Hn=|E_{t}|$, corrected
+$I''=-1/\alpha$ for the rearranged primitive, P\'olya--Szeg\H{o}
+endpoint convexity.
+
+\subsection*{Step 2.\ Metric first variation (Deliverable~A)}\label{step:2}
+\textbf{Statement.}  For a.e.\ $\rho$ and every bounded Borel centre
+field $z_{\rho}$,
+\[
+   |\dot F_{\rho}|_{\X}
+   \;\le\; \rho^{-n}\inf_{a\in\R^{n}}
+   \int_{\partial^{*}E_{\rho}}|V_{\rho}-H_{z_{\rho},\rho}-a\cdot\nu_{\rho}|\,d\Hn,
+\]
+with $V_{\rho}=w/|\nabla u|$, $H_{z,\rho}(x)=(x-z)\cdot\nu_{\rho}(x)/\rho$.\\
+\textbf{Proof idea.}  Direct coarea on the symmetric difference
+$E_{\rho+h}\Delta T_{h}(E_{\rho})$, where $T_{h}$ is the affine
+pull-back combining homothety $y\mapsto z+s^{-1}(y-z)$ and a chosen
+translation $hb$.  No Reshetnyak or BV lower-semicontinuity.\\
+\textbf{Status.}  \CLOSED.  Replaces the conditional upper-gradient
+recovery hypothesis of the older \texttt{MetricFramework}.
+
+\subsection*{Step 3.\ Same-centre Fusco--Julin (Deliverables~B+C)}\label{step:3}
+\textbf{Statement.}  For every $E\subset K\subset\R^{n}$ of finite
+perimeter with $|E|=\omega_{n}$ and $\dD(E)\le\eta_{0}(n,K)$, there
+exists a single centre $z_{E}\in K$ with
+\[
+   \alpha_{FJ}(E,z_{E})^{2}+b_{FJ}(E,z_{E})^{2}\le C_{\rm scFJ}(n)\,\dD(E).
+\]
+Moreover the centre can be chosen \emph{Borel measurable} in $\rho$
+along the torsion family.\\
+\textbf{Proof idea.}  Joint functional
+$\Phi_{E}(z):=\alpha_{FJ}^{2}+b_{FJ}^{2}$ on the compact admissible
+$K$; LSC + compactness give attainment; the centres-close estimate
+$|z_{F}-z_{FJ}|\le C\dD^{1/2}$ (via Fuglede / Cicalese--Leonardi
+nearly-spherical) gives the bound; Castaing--Valadier provides Borel
+selection.\\
+\textbf{Status.}  \CLOSED.  Replaces the conditional theorems of
+\texttt{FJCenterBridge}.
+
+\subsection*{Step 4.\ Velocity defect}\label{step:4}
+\textbf{Statement (unconditional, Theorem 2.2 of \texttt{UnconditionalVelocity}).}
+For every a.e.\ finite-perimeter level,
+\[
+   \Bigl(\int_{\partial^{*}E_{\rho}}|V_{\rho}-\bar V_{\rho}|\,d\Hn\Bigr)^{\!2}
+   \;\le\; \Bigl(\frac{P(B_{\rho})}{P(E_{\rho})}\Bigr)^{\!2} D_{H}(t(\rho))
+   \;\le\; D_{H}(t(\rho)).
+\]
+\textbf{Proof idea.}  The weighted variance identity
+$\int(V-\bar V)^{2}/V\,d\Hn=P^{*}D_{H}/P^{2}$ (closed form from
+$w\alpha=P^{*}$ and $\beta=|E_{\rho}|$); Cauchy--Schwarz
+$(\int|g|)^{2}\le(\int g^{2}/V)(\int V)$.\\
+\textbf{Status.}  \CLOSED.
+
+\subsection*{Step 5.\ Integrated action and kinetic energy}\label{step:5}
+\textbf{Targets.}
+\begin{align*}
+   \text{(5a)}&\;\;\int_{\rstar}^{\rdel}\bigl(d_{\X}(F_{\rho},B_{1})^{2}+|\dot F_{\rho}|_{\X}^{2}\bigr)\,d\mu
+      \;\le\; C\,\delta_{T},\\
+   \text{(5b)}&\;\;\int_{\rstar}^{\rdel}|\dot F_{\rho}|_{\X}^{2}\,d\rho
+      \;\le\; C\,\delta_{T}\quad\text{(Lebesgue form)}.
+\end{align*}
+\textbf{Status.}  On $G_{I}=\{D_{I}\le\eta_{I}\}$, the chain
+[Step~2]+[Step~3]+[Step~4] gives the pointwise
+$|\dot F_{\rho}|^{2}\le C(D_{H}+D_{I})$, hence \CLOSED{} on
+$G_{I}$.  Integrated against $d\mu$, the level-set identity closes
+the $G_{I}$ piece unconditionally.\\
+The \emph{bad-isoperimetric} piece, $\int_{B_{I}}|\dot F|^{2}d\mu$,
+is currently an explicit hypothesis ((eq:bad-I-action) of
+\texttt{WeightedMetricTrace}).  \OPEN.
+
+\subsection*{Step 6.\ Trace at the deficit endpoint}\label{step:6}
+\textbf{Statement.}  $\sup_{\rho\in J^{*}}d_{\X}(F_{\rho},B_{1})^{2}\le C\delta_{T}$
+on the order-one window $J^{*}=[\rdel-L^{*},\rdel]$.\\
+\textbf{Proof idea.}  Markov on (5a) inside $J^{*}$ gives a single
+$\rho_{0}\in J^{*}$ with $d^{2}\le K_{1}\delta_{T}$.  Kinetic
+Cauchy--Schwarz with (5b) transports this to all of $J^{*}$.\\
+\textbf{Status.}  \CLOSED{} conditional on (5b), which in turn
+depends on Step~5's bad-level hypotheses.\\
+\textbf{Variant (Deliverable~D).}  Replace ``trace at $\rdel$'' by
+``trace at a Borel good level $\rhad\in[\rdel-C_{1}\delta_{T},\rdel]\cap
+G_{I}\cap G_{\tau}$'' via the bad-set Lebesgue bounds
+$\mathcal L^{1}(B_{\tau})\le C\delta_{T}$,
+$\mathcal L^{1}(B_{I}\cap G_{\tau})\le C\delta_{T}$.  This cleans the
+downstream interface but does \emph{not} eliminate the conditional
+hypotheses of Step~5.
+
+\subsection*{Step 7.\ Boundary-layer transfer}\label{step:7}
+\textbf{Statement.}
+$\Fr(\Om)\le\Fr(E_{\rhad})+\frac{2}{\omega_{n}}|\Om\setminus E_{\rhad}|$,
+and $|\Om\setminus E_{\rhad}|\le\omega_{n}n(\kappa\sqrt{\delta_{T}}+C_{1}\delta_{T})
+=O(\sqrt{\delta_{T}})$.\\
+Squaring: $\Fr(\Om)^{2}\le C\delta_{T}+O(\delta_{T}^{3/2})$; sharp
+exponent preserved. \CLOSED.
+
+\subsection*{Step 8.\ Bounded $\Rightarrow$ FK}\label{step:8}
+\textbf{Statement.}  Combine Step~7 with the bounded reduction (BDV /
+Cicalese--Leonardi selection imported from Plan~1) and Kohler--Jobin
+to obtain the global FK at the sharp exponent~2. \CLOSED.
+
+\section{The single remaining obstruction}\label{sec:gap}
+
+\textbf{The genuinely open question.}  The whole chain reduces to:
+\emph{produce a bounded Borel centre field $\rho\mapsto z_{\rho}\in\R^{n}$ such that}
+\begin{equation}\label{eq:hom-target}
+   \int_{\rstar}^{\rdel}\Bigl(\int_{\partial^{*}E_{\rho}}|H_{z_{\rho},\rho}-\bar V_{\rho}|\,d\Hn\Bigr)^{\!2}d\mu(\rho)
+   \;\le\;C(n,R,\rstar)\,\delta_{T}(\Om).
+\end{equation}
+
+\textbf{Why this is enough.}  Combining Steps~2, 4 (unconditional), and
+\eqref{eq:hom-target} via the triangle inequality
+$|V-H_{z}|\le|V-\bar V|+|H_{z}-\bar V|$ and squaring gives the full
+integrated kinetic bound
+$\int|\dot F_{\rho}|^{2}d\mu\le C\delta_{T}$ on \emph{all} levels.
+In particular both bad-level kinetic hypotheses of \texttt{WeightedMetricTrace}
+(\textsc{bad-I-action}, \textsc{bad-tau-action}) are discharged.
+
+\textbf{Why this is hard.}  On the Fusco--Julin good set $G_{I}$, the
+same-centre theorem (Step~3) yields
+$\bigl(\int|H_{z_{\rho},\rho}-\bar V_{\rho}|\bigr)^{2}\le C\,\dD(E_{\rho})\le C'\mathcal I(\rho)$
+pointwise, so \eqref{eq:hom-target} restricted to $G_{I}$ follows from
+the level-set identity.  On the bad set
+$B_{I}=\{\mathcal I>\eta_{I}\}$ the FJ inequality still holds
+globally as $b_{FJ}(E,z_{FJ})^{2}\le C\dD(E)$, but \emph{the
+Fraenkel and FJ centres no longer coincide}: a centre $z$ minimising
+the joint $\alpha^{2}+b^{2}$ may not exist, and the radial-trace
+identity
+\[
+   \int|H_{z}-\bar V|\le C[\,|E\Delta B(z)|+\int|\nu-e_{z}|^{2}\,]
+\]
+loses on one side or the other at any single $z$.
+
+\textbf{Quantitative obstruction.}  Pointwise the perimeter
+$P(E_{\rho})$ can be unboundedly larger than $P(B_{\rho})$ on bad
+levels (a torsion superlevel set may be very rough), and the
+homothetic integrand $|H_{z}-\bar V|$ has uncontrolled $L^{2}$ norm
+on $\partial^{*}E_{\rho}$.  The $L^{1}$ norm is controlled by the
+asymmetry and the normal oscillation but not in a form that integrates
+to $C\delta_{T}$ after squaring.
+
+\section{Candidate routes for closing \eqref{eq:hom-target}}\label{sec:fixes}
+
+\subsection{Route I: centroid $+$ space--time $\Pi$-identity}
+\label{ssec:routeI}
+
+\textbf{Idea.}  Set $z_{\rho}:=\bar z_{\rho}=$ centroid of $E_{\rho}$.
+The divergence identity
+\[
+   \int_{\partial^{*}E_{\rho}}|\nu_{E_{\rho}}-e_{\bar z_{\rho}}|^{2}d\Hn
+   =2\bigl(P(E_{\rho})-P(B_{\rho})\bigr)+2\,\Pi(E_{\rho},\bar z_{\rho})
+\]
+of \texttt{SpaceTimeIdentity} converts the normal oscillation into
+a quadratic form $\Pi$, and the pointwise slice-rearrangement
+inequality $|E_{\rho}\Delta B_{\rho}(\bar z_{\rho})|^{2}\le C\,\Pi$
+controls the Fraenkel term by $\Pi$ too.\\
+\textbf{Why it might work.}  \emph{If} the conditional integrated
+estimate $\int\Pi\,d\mu\le C\delta_{T}$ (``$\Pi$-int'') can be proved,
+then $\int\int|\nu-e_{\bar z}|^{2}d\Hn d\mu\le C\delta_{T}$ globally
+(good and bad levels both), and Cauchy--Schwarz then bounds
+\eqref{eq:hom-target} at the centroid centre.\\
+\textbf{Why it might not.}  $\Pi$-int is currently an unproved
+structural conjecture (the abstract Talenti shortcut was invalidated
+in the May 14 audit).  More seriously, even granted $\Pi$-int, the
+\emph{squared} integral $\int(\int|\nu-e|^{2}d\Hn)^{2}d\mu$ is not
+bounded by $\delta_{T}$ via naive Cauchy--Schwarz: one only obtains
+$\sqrt{\delta_{T}}$, since
+$(\int|\nu-e|^{2})^{2}\le 4P\int|\nu-e|^{2}$ and
+$\int P(E_{\rho})^{2}d\mu\le\omega_{n}^{2}$ is constant.  A second
+deficit-aware inequality on $P$ is needed.
+
+\textbf{Critique.}  The bottleneck is not really $\Pi$ but the
+$L^{2}\to L^{2}$ stability of $\Hn|\partial^{*}E_{\rho}$ across $\mu$;
+$\Pi$ controls the $L^{1}$ mass, and the squared form is genuinely
+new information.  Route~I would close the bound \emph{up to a
+$\sqrt{\delta_{T}}$ exponent loss}, not at the sharp~$\delta_{T}$ rate.
+
+\subsection{Route II: Fraenkel centre $+$ direct radial trace}
+\label{ssec:routeII}
+
+\textbf{Idea.}  Use the Fraenkel centre $z_{F}(E_{\rho})$, at which
+$|E_{\rho}\Delta B_{\rho}(z_{F})|^{2}\le C_{F}\mathcal I(\rho)$
+holds \emph{globally} (Figalli--Maggi--Pratelli, no smallness).
+Combine with the radial trace from \texttt{FJCenterBridge}.\\
+\textbf{Why it might work.}  Avoids any FJ centre, so works on bad
+levels.  The Fraenkel asymmetry is the only quantity needed for the
+$\alpha$-piece.\\
+\textbf{Why it might not.}  The normal oscillation $\int|\nu-e_{z_{F}}|^{2}$
+at the \emph{Fraenkel} centre is uncontrolled on bad levels: FJ
+controls the oscillation at $z_{FJ}$, not at $z_{F}$, and the
+``centres-close'' bound $|z_{F}-z_{FJ}|\le C\dD^{1/2}$ holds
+\emph{only on good levels} (via nearly-spherical).  At a bad level
+with comparable Fraenkel and FJ values but distinct centres, the
+oscillation at $z_{F}$ can be of order $P(E_{\rho})$, which is the
+$L^{\infty}$-trivial bound.
+
+\textbf{Critique.}  This route would require a non-trivial new
+``centres are close'' theorem in the absence of nearly-spherical
+structure; this seems not to be in the literature and probably
+demands its own large argument.
+
+\subsection{Route III: Schwarz/Steiner symmetrisation}\label{ssec:routeIII}
+
+\textbf{Idea.}  Replace $E_{\rho}$ by its Schwarz symmetrisation
+$E_{\rho}^{\#}$ (a ball).  Then by P\'olya--Szeg\H{o}, the torsion
+energy decreases under symmetrisation; the deficit
+$\delta_{T}(\Om^{\#})=0$, so all level-set defects vanish for
+$\Om^{\#}$.  The difference between $E_{\rho}$ and $E_{\rho}^{\#}$ is
+controlled by the Saint--Venant deficit.\\
+\textbf{Why it might work.}  Symmetrisation is the standard tool for
+\emph{relating} $E_{\rho}$ to a ball; in principle the deficit
+$\delta_{T}$ itself is the price of asymmetry, so a quantitative
+P\'olya--Szeg\H{o} would give a level-by-level bound.\\
+\textbf{Why it might not.}  Quantitative P\'olya--Szeg\H{o} stability
+(Cianchi--Esposito--Fusco--Trombetti~2011, Brock~2000) gives a bound
+like $\|\nabla u\|_{2}^{2}-\|\nabla u^{\#}\|_{2}^{2}\ge c\cdot$~asymmetry,
+which involves $\|\nabla u\|$, not the level-set defect.  To
+translate into the $\X$-metric on individual levels one would still
+need a slice-by-slice argument, and at the slice level we are back
+to the same homothetic-trace question.
+
+\textbf{Critique.}  Symmetrisation reproves Saint--Venant deficit
+bounds but does not produce a centre field with control on bad
+levels.  Useful as a sanity check but not, by itself, a closure.
+
+\subsection{Route IV: Cicalese--Leonardi / BDV selection at the level}
+\label{ssec:routeIV}
+
+\textbf{Idea.}  On a bad level $E_{\rho}$, replace it by a ``selection
+representative'' $\widetilde E_{\rho}$ with small deficit, then run
+FJ on $\widetilde E$ and transfer back to $E_{\rho}$ with a bounded
+error.\\
+\textbf{Why it might work.}  This is exactly the philosophy of the
+Cicalese--Leonardi quantitative isoperimetric theorem, which gave the
+sharp FMP exponent~2 from a selection step.  Adapting it to torsion
+levels would automatically handle bad levels at sharp rate.\\
+\textbf{Why it might not.}  The Cicalese--Leonardi selection is a
+\emph{compactness} argument: for sequences with $\dD\to 0$, after
+translation one extracts a convergent subsequence to the ball.  It
+does \emph{not} provide a quantitative pointwise replacement
+$E_{\rho}\rightsquigarrow\widetilde E_{\rho}$ at a single level
+without small deficit.  Adapting the argument to bounded but not
+small deficit would amount to extending the regularity theory of
+quasi-minimal surfaces, which is a major undertaking beyond Route
+$\delta$'s scope.
+
+\textbf{Critique.}  Route~IV is the cleanest in principle but
+hardest in practice: it would require new selection theorems for
+torsion superlevel sets, not direct application of existing FMP/FJ
+machinery.
+
+\subsection{Route V: optimal transport $W_{1}$-control}\label{ssec:routeV}
+
+\textbf{Idea.}  Replace $|E\Delta B(z)|$ and $\int|\nu-e_{z}|^{2}$ by
+$W_{1}(\mathbf 1_{E},\mathbf 1_{B(z)})$, the Kantorovich--Wasserstein
+distance.  For convex sets there are quantitative Bonnesen-type
+inequalities relating $W_{1}$ to the isoperimetric deficit.\\
+\textbf{Why it might work.}  Optimal transport gives a single
+unified quantity controlling both ``shape'' and ``boundary
+orientation'' simultaneously; in principle $W_{1}\le C\sqrt{\dD}$
+covers both Fraenkel and oscillation in one inequality.\\
+\textbf{Why it might not.}  No quantitative
+$W_{1}(\mathbf 1_{E},\mathbf 1_{B})\le C\dD^{1/2}$ inequality is
+known for non-convex sets at the sharp rate.  Existing Wasserstein
+isoperimetric stability (Figalli--Indrei) gives weaker rates, and the
+relationship $W_{1}\Leftrightarrow$~radial-trace integrand is not
+direct: the radial trace measures normal alignment, whereas $W_{1}$
+measures bulk transport.
+
+\textbf{Critique.}  Aesthetically attractive but the dictionary
+between $W_{1}$ and the radial trace is not established at the
+required sharp rate.
+
+\subsection{Route VI: pointwise everywhere via algebraic identity}
+\label{ssec:routeVI}
+
+\textbf{Idea.}  Look for a single closed-form identity of the type
+$\int(H_{z}-\bar V)^{2}/V\,d\Hn\;\le\;C(n,R)\,(D_{H}+D_{I})$
+holding pointwise on every level, parallel to the velocity identity
+$\int(V-\bar V)^{2}/V=P^{*}D_{H}/P^{2}$.  This would give the
+homothetic analogue of Theorem~2.2 of \texttt{UnconditionalVelocity}.\\
+\textbf{Why it might work.}  The velocity identity is genuinely
+algebraic, requiring only the flux $w\alpha=P^{*}$ and
+$\beta=|E_{\rho}|$.  A parallel identity for $H_{z}$ would use the
+divergence identity $\int(x-z)\cdot\nu=n|E_{\rho}|$ and the Reilly
+or Bochner formulas for torsion.  Plausible in principle.\\
+\textbf{Why it might not.}  Concrete attempts produce closed forms
+involving $\int|x-z|^{2}d\Hn$ or $\int((x-z)\cdot\nu)^{2}$, which
+have no clean divergence representation (the corresponding vector
+field is not exact).  $D_{I}$ itself does not appear naturally in
+these computations; $D_{I}$ is intrinsically a global
+``perimeter-squared minus ball-perimeter-squared'' quantity, while
+the homothetic integrand is local.  No identity is currently
+visible.
+
+\textbf{Critique.}  This is the route most analogous to the proved
+velocity bound (Step~4$'$).  The reason it does not directly
+generalise is that $V_{\rho}$ comes from the gradient (a vector
+field with a specific divergence), while $H_{z}$ comes from the
+\emph{position}~$x$ (also a vector field, but its second moments
+are not local on the boundary).  This is a real geometric obstruction.
+
+\section{Worked attempts that fail — and what they show}\label{sec:failed-attempts}
+
+We record concretely what happens when each natural Cauchy--Schwarz is
+applied to the homothetic integrand, so the geometric obstruction is
+visible.
+
+\subsection{Attempt~A: weighted Cauchy--Schwarz in $V_\rho$}
+
+Mirror the proof of Theorem~4.1 of \texttt{UnconditionalVelocity}.
+\[
+   \Bigl(\int|H_{z}-\bar V|\,d\Hn\Bigr)^{2}
+   \;\le\;\Bigl(\int\frac{(H_{z}-\bar V)^{2}}{V_{\rho}}\,d\Hn\Bigr)\Bigl(\int V_{\rho}\,d\Hn\Bigr).
+\]
+The second factor is $P(B_\rho)=P^{*}$. The first factor expands to
+\[
+   \int(H_{z}-\bar V)^{2}\frac{|\nabla u|}{w}\,d\Hn
+   =\frac{1}{w}\int(H_{z}-\bar V)^{2}\,|\nabla u|\,d\Hn,
+\]
+a $|\nabla u|$-weighted $L^{2}$-norm of $H_{z}-\bar V$.  This is
+finite (since $H_{z}$ is bounded on $\partial^{*}E_{\rho}\subset B_{R}$)
+but not bounded by any deficit quantity: a level surface with constant
+$|\nabla u|=\bar f$ has $D_{H}=0$ but generic $H_{z}-\bar V\ne 0$, so
+the LHS is not even nonzero where $D_{H}$ is.
+
+\emph{What this shows.}  $V_{\rho}$-weighting is too gradient-specific.
+The homothetic integrand is geometric, not gradient-geometric.
+
+\subsection{Attempt~B: unweighted Cauchy--Schwarz}
+
+\[
+   \Bigl(\int|H_{z}-\bar V|\,d\Hn\Bigr)^{2}
+   \;\le\; P(E_{\rho})\,\int(H_{z}-\bar V)^{2}\,d\Hn.
+\]
+For $z=\bar z_{\rho}$ the centroid, expand
+$(H_{z}-\bar V)^{2}=H_{z}^{2}-2\bar V H_{z}+\bar V^{2}$ and integrate:
+$\int H_{z}=P^{*}$, $\bar V P=P^{*}$, so
+\[
+   \int(H_{z}-\bar V)^{2}\,d\Hn
+   =\int H_{z}^{2}\,d\Hn-\frac{P^{*\,2}}{P}.
+\]
+The integral $\int H_{z}^{2}=\rho^{-2}\int((x-z)\cdot\nu)^{2}\,d\Hn$
+has no clean divergence representation: the candidate vector field
+$X(x):=((x-z)\cdot\nu)(x-z)$ requires the normal $\nu$ off
+$\partial^{*}E_{\rho}$.  Bound:
+$((x-z)\cdot\nu)^{2}\le|x-z|^{2}$, so
+$\int H_{z}^{2}\le ((R+|z|)/\rstar)^{2}\,P(E_{\rho})/\rho^{2}$.  Hence
+\[
+   \Bigl(\int|H_{z}-\bar V|\Bigr)^{2}
+   \;\le\;C(R,\rstar)\,P(E_{\rho})^{2}.
+\]
+The square of the perimeter is unbounded on bad levels; integrated,
+$\int P(E_{\rho})^{2}d\mu\le\omega_{n}^{2}$ is a \emph{constant}, not a
+$\delta_{T}$-vanishing quantity.
+
+\emph{What this shows.}  Without an additional deficit-aware bound on
+$\int H_{z}^{2}$, naive Cauchy--Schwarz only reaches a constant, not
+$O(\delta_{T})$.
+
+\subsection{Attempt~C: split into radial and angular contributions}
+
+Decompose $H_{z}-1=(|x-z|/\rho)(\nu\cdot e_{z}-1)+(|x-z|/\rho-1)$.  The
+first piece has magnitude $\le (R/\rstar)|\nu-e_{z}|^{2}/2$, the
+second has magnitude $w_{z}:=||x-z|/\rho-1|\le W(R,\rstar)$.  Then
+\[
+   \int|H_{z}-1|\,d\Hn
+   \;\le\;\frac{R+|z|}{2\rho}\int|\nu-e_{z}|^{2}\,d\Hn
+   \;+\;\int w_{z}\,d\Hn.
+\]
+The first piece, at $z=z_{FJ}$, is $\le C\mathcal I/P^{*}$ globally
+(unconditional Fusco--Julin) — but, squared and integrated, only
+yields $\int(\mathcal I/P^{*})^{2}d\mu\le\eta_{I}\int\mathcal I\,d\mu/P^{*\,2}\le C\delta_{T}$
+\emph{on the good set}, and is unbounded on the bad set since
+$\mathcal I$ is not pointwise bounded above.
+
+The second piece is bounded by the radial trace
+$\int w_{z}\le(n/\rstar)|E\Delta B_{\rho}(z)|+(W/2)\int|\nu-e_{z}|^{2}$,
+so its squared integrated form inherits the same obstruction.
+
+\emph{What this shows.}  Splitting helps separate the two
+contributions but reduces to the same difficulty: on bad levels,
+$\mathcal I$-pointwise control is missing.
+
+\subsection{Attempt~D: choose $z$ optimal at each level}
+
+Define $z_{\rho}^{*}:=\arg\min_{z\in K}\bigl(\int|H_{z,\rho}-\bar V_{\rho}|\,d\Hn\bigr)^{2}$.
+By Castaing--Valadier this is a Borel selection (the functional is
+continuous in $z$ and Borel in $\rho$).  Then
+\[
+   \int_{\rstar}^{\rdel}\Bigl(\int|H_{z_{\rho}^{*},\rho}-\bar V_{\rho}|\Bigr)^{2}d\mu(\rho)
+   \;=\;\int_{\rstar}^{\rdel}\inf_{z}\Bigl(\int|H_{z}-\bar V|\Bigr)^{2}d\mu(\rho).
+\]
+\emph{What this shows.}  The Borel-selection issue is not the
+obstruction; the obstruction is the pointwise question
+\[
+   \inf_{z\in K}\Bigl(\int|H_{z,\rho}-\bar V_{\rho}|\,d\Hn\Bigr)^{2}
+   \;\le\;?
+\]
+for which no proved upper bound by $D_{H}+D_{I}$ is known.  This is
+exactly $(\star)$ in the next section.
+
+\section{What kind of input \emph{would} close \eqref{eq:hom-target}?}
+\label{sec:wanted}
+
+The cleanest sufficient input is a global pointwise inequality on
+every a.e.\ finite-perimeter level:
+\[
+   (\star)\qquad\inf_{z\in K}\Bigl(\int|H_{z,\rho}-\bar V_{\rho}|\,d\Hn\Bigr)^{\!2}
+   \;\le\;C(n,R,\rstar)\bigl(D_{H}(t(\rho))+D_{I}(t(\rho))\bigr).
+\]
+By the level-set identity, $(\star)$ implies \eqref{eq:hom-target}
+and closes the entire route at the sharp exponent.
+
+Equivalently, a weaker but still sufficient input is the
+integrated form:
+\[
+   (\star\star)\qquad
+   \int_{\rstar}^{\rdel}\inf_{z}\Bigl(\int|H_{z,\rho}-\bar V_{\rho}|\,d\Hn\Bigr)^{\!2}d\mu(\rho)
+   \;\le\;C\,\delta_{T}(\Om).
+\]
+
+Routes I--VI each address $(\star\star)$ with a different choice of
+$z_{\rho}$ and a different identification of the integrand.  The
+crucial structural fact is that the optimum $z_{\rho}$ in
+$(\star\star)$ should depend on the geometry of $E_{\rho}$, and
+the level-set identity should be \emph{evaluated} at this $z_{\rho}$
+in a way that mirrors how $D_{H}$ already controls the velocity
+defect.
+
+\section{Other consequences if the gap is closed}\label{sec:if-closed}
+
+Closing \eqref{eq:hom-target} would:
+\begin{enumerate}[label=(\arabic*)]
+\item Discharge the conditional Hypothesis~3.6 of \texttt{WeightedMetricTrace};
+\item Make the entire chain Steps~1--8 \emph{unconditional} except
+for the imported BDV reduction and Kohler--Jobin (both already
+unconditional in Plan~1);
+\item Yield the sharp Faber--Krahn inequality
+$\delta_{\rm FK}(\Om)\ge c(n)\Fr(\Om)^{2}$ for every open
+$\Om\subset\R^{n}$ of finite measure, with no smoothness, convexity,
+or smallness assumption beyond those already in the imports;
+\item Provide an explicit polynomial bound on $c(n)$ in dimension
+(via the polynomial constants tracked in
+\texttt{GlobalAssembly}).
+\end{enumerate}
+
+\section{Concrete suggestions for next attempts}\label{sec:suggestions}
+
+\begin{enumerate}[label=(S\arabic*)]
+\item Push Route~I by proving the integrated squared-oscillation
+bound
+$\int(\int|\nu-e_{\bar z}|^{2})^{2}d\mu\le C\delta_{T}$ directly,
+exploiting that on bad levels both factors of $\int|\nu-e_{\bar z}|^{2}$
+already carry $\Pi$.
+\item Push Route~II by proving a quantitative ``centres-close'' on bad
+levels: under what \emph{geometric} hypothesis is
+$|z_{F}-z_{FJ}|\le C\dD^{1/2}$ valid outside the nearly-spherical
+regime?
+\item Push Route~IV by adapting the Cicalese--Leonardi selection to
+\emph{a single level} at finite (not small) deficit; this would
+require a localised version of the selection principle.
+\item Investigate Route~VI by writing the divergence identity for the
+candidate vector field
+$X(x):=(H_{z}(x)-\bar V_{\rho})((x-z)/|x-z|)$ on
+$\partial^{*}E_{\rho}$, and computing the bulk integrand pointwise.
+\end{enumerate}
+
+\section{Dependency map of the route}\label{sec:dep-map}
+
+\[
+\begin{array}{rclcl}
+\text{Step 1: \texttt{LevelSetIdentity}}
+   & \longrightarrow & \int(D_{H}+D_{I})d\mu\le C\delta_{T} & & \CLOSED \\
+\text{Step 2: \texttt{LimsupDeformation}}
+   & \longrightarrow & |\dot F_{\rho}|\le \rho^{-n}\inf_{a}\int|V-H_{z}-a\nu|d\Hn & & \CLOSED \\
+\text{Step 3: \texttt{SameCentreFJ}}
+   & \longrightarrow & \alpha_{FJ}(E,z_{E})^{2}+b_{FJ}(E,z_{E})^{2}\le C\dD(E) & & \CLOSED \\
+\text{Step 4: \texttt{TrimmedVelocityRepair}}
+   & \longrightarrow & \text{good-level }(\int|V-\bar V|)^{2}\le C D_{H} & & \CLOSED \\
+\text{Step 4$'$: \texttt{UnconditionalVelocity}}
+   & \longrightarrow & \text{all-level }(\int|V-\bar V|)^{2}\le D_{H} & & \CLOSED \\
+\fbox{\eqref{eq:hom-target}: integrated homothetic-trace}
+   & \longrightarrow & \int(\int|H_{z}-\bar V|)^{2}d\mu\le C\delta_{T} & & \OPEN \\
+\text{Step 5: \texttt{WeightedMetricTrace}}
+   & \Longleftarrow & \text{Steps 1, 2, 4$'$, and \eqref{eq:hom-target}} & & \\
+\text{Step 6: trace at endpoint}
+   & \Longleftarrow & \text{Step 5} & & \\
+\text{Step 7: \texttt{BoundaryLayerTransfer}}
+   & \longrightarrow & \Fr(\Om)\le \Fr(E_{\rhad})+(2/\omega_{n})|\Om\setminus E_{\rhad}| & & \CLOSED \\
+\text{Step 8: \texttt{GlobalAssembly}}
+   & \longrightarrow & \text{Bounded SV}\Rightarrow\text{FK} & & \CLOSED \\
+\end{array}
+\]
+
+\medskip
+The single \OPEN{} input \eqref{eq:hom-target} propagates downward to
+Steps~5 and~6.  Everything else in the chain is unconditional in the
+current state of the proof.  All inputs to \eqref{eq:hom-target} are
+local-to-a-single-level and depend only on the geometry of
+$E_{\rho}\subset B_{R}$ (a finite-perimeter set), not on the deficit
+$\delta_{T}(\Om)$.
+
+\section{Cost analysis: what each candidate route requires}\label{sec:cost}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|p{5.5cm}|c|c|}
+\hline
+\textbf{Route} & \textbf{New input needed} & \textbf{Rate at goal} & \textbf{Difficulty} \\
+\hline
+I (centroid + $\Pi$)
+   & Prove $\int\Pi d\mu\le C\delta_{T}$ AND $\int(\int|\nu-e|^{2})^{2}d\mu\le C\delta_{T}$
+   & sharp $\delta_{T}$ if both
+   & medium-hard \\
+II (Fraenkel centre)
+   & Prove $|z_{F}-z_{FJ}|\le C\dD^{1/2}$ outside the nearly-spherical regime
+   & sharp $\delta_{T}$ if input proved
+   & hard \\
+III (symmetrisation)
+   & Quantitative slice-wise P\'olya--Szeg\H{o}
+   & weaker than $\delta_{T}$
+   & medium \\
+IV (selection)
+   & Adapt Cicalese--Leonardi to a single bounded-deficit level
+   & sharp $\delta_{T}$
+   & very hard \\
+V (optimal transport)
+   & Sharp $W_{1}\le C\dD^{1/2}$ for non-convex sets
+   & sharp $\delta_{T}$ if input proved
+   & very hard \\
+VI (algebraic identity)
+   & A closed form
+     $\int(H_{z}-\bar V)^{2}/V d\Hn\le C(D_{H}+D_{I})$
+   & sharp $\delta_{T}$
+   & hard \\
+\hline
+\end{tabular}
+\end{center}
+
+The "Rate at goal" column records the best achievable exponent of
+$\delta_{T}$ in $\Fr(\Om)^{2}\le ?$ at the end of the route if the
+listed input is granted.  Sharp~$\delta_{T}$ corresponds to the
+sharp exponent~$2$ for $\Fr$.
+
+\section{Why this gap, and why now}\label{sec:why}
+
+The proof chain prior to the current pass had \emph{four} conditional
+inputs:
+\begin{enumerate}[label=(\arabic*)]
+\item the upper-gradient recovery hypothesis (closed in Deliverable~A);
+\item the same-centre Fusco--Julin theorem (closed in B);
+\item the Borel measurable centre selection (closed in C);
+\item the bad-level kinetic action bounds.
+\end{enumerate}
+Three of these are now structural theorems with proofs (algebraic,
+quantitative-FJ, and measurable-selection respectively).  The fourth
+is a \emph{quantitative geometric} statement about how rough a
+torsion super-level set can be when its perimeter is large.
+
+The reason the fourth is more obdurate is that the first three are
+\emph{universal} (they apply to general finite-perimeter sets and
+torsion functions, without reference to deficit), whereas the fourth
+asks for a $\delta_{T}$-vanishing bound on a quantity that, at any
+single bad level, can be arbitrarily large.  The required smallness
+must come from a \emph{global} balance: bad levels are rare in
+$\mu$-measure, and a refined Cauchy--Schwarz must exploit this
+rareness.  Existing inequalities are not yet sharp enough to do so
+at the $\delta_{T}$ rate after squaring.
+
+\section{Summary}\label{sec:summary}
+
+The Plan 2 / Route $\delta$ proof is closed except for a single
+integrated homothetic-trace estimate, \eqref{eq:hom-target}.  Six
+candidate routes are visible; none currently closes it at the sharp
+$\delta_{T}$ rate.  Routes I and~VI are the most parallel to the
+existing closed steps (algebraic identities + level-set deficit);
+Route IV is the most general but requires new selection theory.  The
+mathematical question is sharp and decoupled from Fusco--Julin; it
+is the unique residual gap in an otherwise complete chain.
+
+The way forward is to combine: (a) a deficit-aware refinement of the
+Cauchy--Schwarz step in Route~I, (b) a quantitative ``centres-close''
+theorem outside the nearly-spherical regime for Route~II, or (c) a
+closed-form algebraic identity for the homothetic integrand
+analogous to the velocity identity for Route~VI.  Each represents a
+self-contained mathematical problem that does not depend on the rest
+of the chain.
+
+\end{document}
