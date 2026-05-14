@@ -14,676 +14,490 @@
 \newtheorem{remark}[theorem]{Remark}
 
 \newcommand{\R}{\mathbb{R}}
-\newcommand{\Fr}{\mathcal{A}}
 \newcommand{\Om}{\Omega}
-\newcommand{\Otilde}{\widetilde{\Omega}}
-\newcommand{\eps}{\varepsilon}
-\newcommand{\rstar}{\rho_{*}}
-\newcommand{\rhad}{\widehat{\rho}}
-\newcommand{\zbar}{\bar z_{\rho}}
-\newcommand{\X}{\mathcal{X}}
-\newcommand{\Bstar}{B^{*}}
-\newcommand{\PiE}{\Pi(E_{\rho},\zbar)}
+\newcommand{\Fr}{\mathcal A}
+\newcommand{\X}{\mathcal X}
+\newcommand{\rstar}{\rho_*}
+\newcommand{\rdel}{\rho_\delta}
+\newcommand{\rhad}{\widehat\rho}
+\newcommand{\Bstar}{B^*}
 
-\title{Sharp Quantitative Faber--Krahn Stability via Route~$\delta$\\
-       (Plan~2: a No-Selection, No-Graph, No-Schauder Proof)}
-\author{Plan~2 / Route~$\delta$: assembled document}
+\title{Plan 2 / Route $\delta$: Concrete Proof Program\\
+for Sharp Quantitative Faber--Krahn Stability}
+\author{}
 \date{}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-We give a proof of the sharp quantitative Faber--Krahn inequality
+This note records the current concrete route from the Plan 2
+level-set machinery to the sharp quantitative Faber--Krahn inequality.
+It is meant to be a compact map of the proof, not a replacement for the
+individual building blocks.  The load-bearing chain is now:
 \[
-   \Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/n}
-   \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)
-   \;\ge\;c_{\rm FK}(n)\,\Fr(\Om)^2,
+\begin{gathered}
+\textsc{LevelSetIdentity}\to
+\textsc{LimsupDeformation}\to
+\textsc{SameCentreFJ}\to
+\textsc{TrimmedVelocityRepair}\\
+\to\textsc{WeightedMetricTrace}\to
+\textsc{GoodEndpointTrace}\to
+\textsc{BoundaryLayerTransfer}\to
+\textsc{GlobalAssembly}.
+\end{gathered}
 \]
-with sharp exponent~$2$ on the Fraenkel asymmetry $\Fr$
-(equivalently $1/2$ on the scale-normalised spectral deficit) that
-is structurally distinct from the
-Brasco--De~Philippis--Velichkov~\cite{BraDeP2017} proof and from the
-contradiction-free Plan~1 / Route~A proof~\cite{Plan1Master}. The
-present proof, which we call \emph{Route~$\delta$}, makes no use of
-any of the following four classical ingredients: (i) the
-selection / penalisation principle of Cicalese--Leonardi and BDV;
-(ii) the graph-entry / Hausdorff-to-$C^{1,\gamma}$ step driven by
-free-boundary regularity; (iii) Schauder bootstrap with
-Gagliardo--Nirenberg interpolation; (iv) the nearly-spherical
-Fuglede-type closure theorem. In their place it uses a
-finite-perimeter level-set deficit identity, a metric foliation
-$\rho\mapsto[F_\rho]\in\X$ in the $L^1$-quotient $\X$ of
-characteristic classes modulo translations, a centroid kinematic
-identity, a space--time radial-moment identity, and a
-slicing-then-squaring decomposition that converts an integrated
-quadratic boundary oscillation into a sharp metric trace. The proof
-is organised into seven self-contained building blocks
-(\textsc{LevelSetIdentity}, \textsc{MetricFramework},
-\textsc{CentroidBound}, \textsc{SpaceTimeIdentity},
-\textsc{WeightedMetricTrace}, \textsc{BoundaryLayerTransfer},
-\textsc{GlobalAssembly}), each delivered as a separate \LaTeX{}
-document. The last two stages of the chain (bounded reduction and
-the Kohler--Jobin rearrangement) are imported verbatim from the
-Plan~1 Final/ library, so that the methodological novelty is
-concentrated in the first five blocks. The route avoids the
-pointwise quadratic Fusco--Julin oscillation~$(B^2)$ entirely; only
-its integrated form is consumed.
+Three previously conditional links are now closed.  The conditional
+\textsc{MetricFramework} hypothesis (upper-gradient recovery) is
+discharged by an unconditional limsup deformation estimate
+(\textsc{LimsupDeformation}); the conditional same-centre Fusco--Julin
+hypothesis is discharged by a joint-functional theorem
+(\textsc{SameCentreFJ}); and the exact endpoint $\rho_\delta$ at which
+the metric trace is anchored can be replaced by any Borel good level
+within $O(\delta_T)$ of $\rho_\delta$ (\textsc{GoodEndpointTrace}),
+which preserves the sharp exponent and decouples the trace from the
+exact endpoint.  The centroid and space-time notes remain useful
+diagnostics, but they are not part of the shortest current proof.  The
+former pointwise lower gradient hypothesis Hyp-G is also no longer a
+standing assumption: on Fusco--Julin good levels, the low-gradient
+part of the level surface is self-truncated and paid for by the
+Cauchy--Schwarz defect $D_H$.  The remaining \emph{honest} dependencies
+are the two bad-level kinetic action bounds in
+\cite[Hyp.~3.6]{WeightedMetricTrace}; these were stated in
+\cite{WeightedMetricTrace} as conditional inputs and remain so.
 \end{abstract}
 
-\tableofcontents
+\section{Target and normalisation}
 
-\section{Introduction}\label{sec:intro}
-
-\subsection{The Faber--Krahn inequality}\label{ssec:FK}
-
-Let $\Om\subset\R^n$, $n\ge 2$, be an open set of finite Lebesgue
-measure and let
+The final theorem is the sharp quantitative Faber--Krahn inequality:
+there is $c_{\rm FK}(n)>0$ such that every open
+$\Om\subset\R^n$, $0<|\Om|<\infty$, satisfies
+\begin{equation}\label{eq:FK}
+  \left(\frac{|\Om|}{|B_1|}\right)^{2/n}
+  \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)
+  \ge c_{\rm FK}(n)\,\Fr(\Om)^2 ,
+\end{equation}
+where $|\Bstar|=|\Om|$ and
 \[
-   \lambda_1(\Om)\;=\;\min_{u\in H^1_0(\Om)\setminus\{0\}}
-                    \frac{\int_\Om|\nabla u|^2\,dx}{\int_\Om u^2\,dx}
+  \Fr(\Om):=\inf_{x_0\in\R^n}
+  \frac{|\Om\Delta(x_0+\Bstar)|}{|\Bstar|}.
 \]
-be the first Dirichlet eigenvalue of $-\Delta$ on $\Om$. The
-\emph{Faber--Krahn inequality} asserts that among open sets of a
-prescribed volume the ball uniquely minimises $\lambda_1$: writing
-$\Bstar$ for the ball with $|\Bstar|=|\Om|$,
-\begin{equation}\label{eq:FKsharp}
-   \lambda_1(\Om)\;\ge\;\lambda_1(\Bstar),
+The exponent $2$ is sharp, as shown by smooth volume-preserving
+ellipsoidal perturbations of the ball.
+
+The Plan 2 core proves first the bounded Saint--Venant stability
+\begin{equation}\label{eq:SVbounded}
+  \Fr(\Om)^2\le C(n,R)\,\delta_T(\Om),
+  \qquad
+  \delta_T(\Om):=E(\Om)-E(B_1),
 \end{equation}
-with equality if and only if $\Om$ is a ball (up to a set of capacity
-zero). This was conjectured by Lord Rayleigh in the planar case in
-the late nineteenth century and proved in general dimension by
-Faber~\cite{Faber1923} and Krahn~\cite{Krahn1925} via Schwarz
-symmetrisation and the P\'olya--Szeg\H{o} principle; modern accounts
-appear in~\cite{KawohlBook,HenrotBook,BucurButtazzo}.
+for $|\Om|=\omega_n$ and $\Om\subset B_R$, where
+$E(\Om)=-T(\Om)/2$ and $T(\Om)$ is torsional rigidity.  The global
+Faber--Krahn statement then follows from the BDV bounded reduction and
+the Kohler--Jobin transfer, exactly as in the Plan 1 final library.
 
-The natural way to measure the deviation from spherical symmetry is
-the \emph{Fraenkel asymmetry}
-\begin{equation}\label{eq:Fraenkel}
-   \Fr(\Om)\;=\;\inf_{x_0\in\R^n}
-   \frac{|\Om\,\Delta\,(\Bstar+x_0)|}{|\Bstar|}\;\in\;[0,2),
-\end{equation}
-which vanishes precisely on translates of the ball. A quantitative
-Faber--Krahn inequality is an estimate of the form
-$(|\Om|/|B_1|)^{2/n}(\lambda_1(\Om)-\lambda_1(\Bstar))\ge
-c\,\omega(\Fr(\Om))$ for some modulus $\omega$. The ellipsoidal
-perturbation family $\Om_\eps=\{|x'|^2+(1+\eps)x_n^2\le 1\}$ shows
-$\Fr(\Om_\eps)\simeq\eps$ and
-$\lambda_1(\Om_\eps)-\lambda_1(B^*)\simeq\eps^2$, so the sharp
-modulus is~$\Fr^2$.
-
-\subsection{Stability: prior work}\label{ssec:prior}
-
-The first systematic study of Faber--Krahn stability is due to
-Hansen--Nadirashvili~\cite{HansenNadirashvili1994} and
-Melas~\cite{Melas1992} for restricted classes of sets. Bhattacharya
-\cite{Bhattacharya2001} reached every planar open set with
-exponent~$3$. Fusco--Maggi--Pratelli~\cite{FMPLaplace}, using their
-sharp quantitative isoperimetric inequality~\cite{FMP2008} (see also
-the mass-transport approach of Figalli--Maggi--Pratelli
-\cite{FMP2010}), extended this to all dimensions with exponent~$4$
-on $\Fr$.
-
-The sharp conjecture with exponent~$2$ was settled in 2015 by
-Brasco--De~Philippis--Velichkov~\cite{BraDeP2017}: there exists
-$\sigma(n)>0$ with
-$|\Om|^{2/n}\lambda_1(\Om)-|\Bstar|^{2/n}\lambda_1(\Bstar)\ge
-\sigma\Fr(\Om)^2$. The BDV strategy has two pillars: a
-Kohler--Jobin~\cite{KohlerJobin,Brasco2014} reduction of
-Faber--Krahn to the analogous sharp Saint--Venant stability, then a
-selection principle in the spirit of
-Cicalese--Leonardi~\cite{CL2012} and
-Acerbi--Fusco--Morini~\cite{AFM2013} combined with free-boundary
-regularity~\cite{AC1981} and a nearly-spherical expansion
-(classical for the isoperimetric deficit \cite{Fuglede}, extended
-to first-eigenvalue deficit in \cite[Thm.~3.3]{BraDeP2017}) to produce
-a nearly spherical contradiction. Subsequent work of
-Allen--Kriventsov--Neumayer~\cite{AKN} addresses related
-spectral stability inequalities via different routes.
-
-A constructive-constant version of the BDV theorem was given in
-Plan~1~\cite{Plan1Master} (\emph{Route~A}): the BDV
-selection / contradiction is replaced by a quantitative
-\emph{single-set} selection (run once on a single near-extremal
-set), the regularity package is applied to that single set, and
-the BDV nearly spherical theorem is invoked directly; no
-subsequence is taken. Plan~1 retains, however, all four of the BDV
-technical ingredients (selection, graph entry, Schauder,
-nearly-spherical closure); it removes only the contradiction.
-
-The persistent open problem the present paper addresses is whether
-a proof of the sharp inequality can be given that uses
-\emph{none} of the four ingredients above. The price for this is a
-new \emph{finite-perimeter} infrastructure for the level-set
-foliation of the torsion function, which is the content of
-Plan~2 / Route~$\delta$.
-
-\subsection{Plan~2's contribution}\label{ssec:plan2}
-
-Plan~2 gives a proof of the sharp quantitative Faber--Krahn
-inequality in which the small-asymmetry chain
-(S)$\to$(G)$\to$(I)$\to$(N) of Plan~1 is replaced by a
-\emph{metric level-set chain}. Explicitly:
-
-\begin{enumerate}
-\item[\rm(a)] \emph{No selection principle.} No penalised functional
-is minimised. The original domain $\Om$ is analysed as it stands;
-its volume-radius foliation $E_\rho=\{u_\Om>t(\rho)\}$ is the
-structural object.
-
-\item[\rm(b)] \emph{No graph entry.} No claim that $\partial\Om$, or
-that any selected $\Otilde$, is a normal graph over a sphere of
-class $C^{1,\gamma}$ is made. All boundary integrals are on
-\emph{reduced boundaries} $\partial^*E_\rho$ in the De Giorgi
-sense.
-
-\item[\rm(c)] \emph{No Schauder interpolation.} No
-Kinderlehrer--Nirenberg hodograph straightening, no Lieberman
-oblique Schauder bootstrap, no Gagliardo--Nirenberg interpolation.
-The proof remains in $W^{2,p}_{\rm loc}$ throughout.
-
-\item[\rm(d)] \emph{No nearly-spherical closure theorem.} BDV
-Theorem~3.3 and the Fuglede $H^{1/2}$ expansion are not invoked.
-The deficit-to-asymmetry conversion is purely metric.
-\end{enumerate}
-
-In their place, the chain uses the following four new ingredients:
-
-\begin{enumerate}
-\item[\rm(1)] \emph{The metric foliation.} The torsion volume-radius
-parametrisation $E_\rho=\{u>t(\rho)\}$ with $|E_\rho|=\omega_n\rho^n$
-defines a curve $\rho\mapsto[F_\rho]$ in the metric space
-$(\X,d_\X)$ of $L^1$-classes modulo translations
-(Building Block~\textsc{MetricFramework}). The
-Ambrosio--Gigli--Savar\'e metric framework~\cite{AGS2008} furnishes
-a metric derivative $|\dot F_\rho|_\X$, controlled by a Reshetnyak /
-coarea limit of the moving-region first variation.
-
-\item[\rm(2)] \emph{The centroid kinematic identity.} The bulk
-centroid $\zbar=|E_\rho|^{-1}\int_{E_\rho}x\,dx$ satisfies
+Throughout the bounded part we fix $|\Om|=\omega_n$ and write
+$u=u_\Om$ for the torsion function, $-\Delta u=1$ in $\Om$,
+$u\in H^1_0(\Om)$.  For almost every level,
 \[
-   \bar z_\rho'\;=\;\frac{1}{|E_\rho|}\int_{\partial^*E_\rho}
-        (x-\zbar)\,V_\rho\,d\mathcal H^{n-1},
+  E_\rho:=\{u>t(\rho)\},\qquad |E_\rho|=\omega_n\rho^n,\qquad
+  d\mu(\rho):=(-t'(\rho))\,d\rho .
 \]
-with $V_\rho=-t'(\rho)/|\nabla u|$ the normal velocity. The
-right-hand side has \emph{no homothety term}, so the bound on
-$\bar z_\rho'$ goes through the unconditional pair
-(Cauchy--Schwarz on $V_\rho$, FMP / Fusco--Julin at the centroid)
-and does not consume any per-$\rho$ radial-trace input
-(Building Block \textsc{CentroidBound}).
+The endpoint used in the final transfer is
+\begin{equation}\label{eq:rho-delta}
+  \rdel:=1-\kappa\sqrt{\delta_T(\Om)} .
+\end{equation}
+For small deficit, $\rdel$ lies in a fixed outer collar
+$[\rho_c,1]$, for instance with $\rho_c=3/4$.  This collar localisation
+is enough for the argument.
 
-\item[\rm(3)] \emph{The space--time $\Pi$ identity.} The signed
-radial moment
-$\PiE=(n-1)\!\int(\mathbf1_{B_\rho(\zbar)}-\mathbf1_{E_\rho})|x-\zbar|^{-1}dx$
-satisfies, by Fubini in $(x,\rho)$,
-$\int_{\rstar}^{\rho_\delta}\PiE\,d\mu(\rho)=
-(n-1)\int_{\widetilde\Om}\sigma(x)dx$
-for an explicit Fubini density~$\sigma$
-(Building Block \textsc{SpaceTimeIdentity}).
+\section{Step 1: exact level-set deficit identity}
 
-\item[\rm(4)] \emph{Slicing-then-squaring.} The radial $L^1$ trace
-$T_1=\int_{\partial^*E_\rho}|\,|x-\zbar|/\rho-1|\,d\mathcal H^{n-1}$
-is split as $T_1=T_1^{\rm rad,slic}+T_1^{\rm tan}$; the radial
-piece is bounded \emph{linearly} via the good-ray equality of
-slicewise volumes and a bad-ray multiplicity bound; the squared
-volume-Fraenkel $|E_\rho\Delta B_\rho|^2$ is controlled by~$\PiE$
-via a slice-rearrangement. Squaring before integrating preserves
-the sharp $\delta$-rate that the alternative $T_2$-route would
-leak at $\sqrt\delta$.
-\end{enumerate}
-
-\begin{theorem}[Sharp quantitative Faber--Krahn, Plan~2 form]
-\label{thm:mainintro}
-Let $n\ge 2$. There exists a constant $c_{\rm FK}(n)>0$, depending
-only on the dimension, given explicitly by~\eqref{eq:cFKdef} below
-as a composition of named constants of the seven Plan~2 building
-blocks (and of the Plan~1 \textsc{BoundedReduction} and
-\textsc{KohlerJobinTransfer} blocks at the dimensional radius
-$R_*(n)$), such that
+The first input is the finite-perimeter identity in
+\textsc{LevelSetIdentity}.  For $E_t=\{u>t\}$, $m(t)=|E_t|$, define
 \[
-   \Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/n}
-   \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)
-   \;\ge\;c_{\rm FK}(n)\,\Fr(\Om)^2
+  \alpha(t):=\int_{\partial^*E_t}\frac{1}{|\nabla u|}\,d\mathcal H^{n-1},
+  \qquad
+  \beta(t):=\int_{\partial^*E_t}|\nabla u|\,d\mathcal H^{n-1},
 \]
-for every open $\Om\subset\R^n$ of finite positive measure. The
-exponent~$2$ on $\Fr$ is sharp.
-\end{theorem}
-
-\subsection{Organisation of the paper}\label{ssec:org}
-
-The argument is organised as a chain of seven self-contained
-building blocks. Schematically,
 \[
-   \textsc{LevelSetIdentity}\to
-   \textsc{MetricFramework}\to
-   \textsc{CentroidBound}\to
-   \textsc{SpaceTimeIdentity}\to
-   \textsc{WeightedMetricTrace}\to
-   \textsc{BoundaryLayerTransfer}\to
-   \textsc{GlobalAssembly}.
+  D_H(t):=\alpha(t)\beta(t)-P(E_t)^2,\qquad
+  D_I(t):=P(E_t)^2-n^2\omega_n^{2/n}m(t)^{2-2/n}.
 \]
-The first six blocks are the geometric heart of Plan~2; the seventh
-imports the bounded reduction of \cite[\S5]{BraDeP2017} (equivalently
-Plan~1's \textsc{BoundedReduction}~\cite{BDV-BoundedReduction-Plan1})
-and the Kohler--Jobin transfer of Brasco~\cite{Brasco2014} (Plan~1's
-\textsc{KohlerJobinTransfer}~\cite{KohlerJobinTransfer-Plan1}).
-
-\section{Notation and standing hypotheses}\label{sec:notation}
-
-Fix $n\ge 2$ and $R\ge 2$. We use the following normalisations:
-\begin{itemize}
-\item $u_\Om\in H^1_0(\Om)$ is the variational torsion function:
-$-\Delta u_\Om=1$ in $\Om$, $u_\Om=0$ on $\partial\Om$.
-\item $T(\Om)=\int_\Om u_\Om$ is the torsional rigidity, and
-$E(\Om)=-T(\Om)/2$ is the Saint--Venant energy.
-\item $\delta_T(\Om):=E(\Om)-E(\Bstar)\ge 0$ at fixed volume.
-\item $\lambda_1(\Om)$ is the first Dirichlet eigenvalue of $-\Delta$.
-\item $\Fr(\Om)=\inf_{x_0}|\Om\Delta(\Bstar+x_0)|/|\Bstar|\in[0,2)$.
-\item For $\rho\in[\rstar,1]$, $E_\rho=\{u_\Om>t(\rho)\}$ with
-$|E_\rho|=\omega_n\rho^n$ and $\mu(d\rho)=(-t'(\rho))d\rho$.
-\item $\zbar=|E_\rho|^{-1}\int_{E_\rho}x\,dx$ is the centroid of
-$E_\rho$.
-\item $F_\rho=\rho^{-1}E_\rho$ is the rescaled level set;
-$[F_\rho]\in\X$ its class in $\X=\{L^1\text{-classes}\}/\R^n$ with
-$d_\X([A],[C])=\inf_a|A\Delta(C+a)|$.
-\item $V_\rho(x)=-t'(\rho)/|\nabla u(x)|$, $H_{z,\rho}(x)=(x-z)\cdot\nu_{E_\rho}(x)/\rho$.
-\item $\rho_\delta:=1-\kappa\sqrt{\delta_T(\Om)}$ the deficit endpoint;
-$\rhad:=\rho_\delta$ the metric-trace radius (upper endpoint of the
-order-one window $J^*=[\rho_\delta-L^*,\rho_\delta]$ where the
-uniform pointwise bound $d_\X(F_\rho,B_1)^2\le C_*\delta_T$ holds).
-\item $\omega_n=|B_1|$, $L_n=\lambda_1(B_1)$, $T_n=T(B_1)=\omega_n/(n(n+2))$.
-\item $R_*(n)=\max\{d(n),2\}$ the BDV bounded-reduction radius; we
-fix $\rstar=1/2$.
-\end{itemize}
-
-\noindent\textbf{Notation convention (two parametrisations).} We use
-both notations: $E_t=\{u>t\}$ (level-set parametrisation, Block~I)
-and $E_\rho=\{u>t(\rho)\}$ with $|E_\rho|=\omega_n\rho^n$
-(volume-radius parametrisation, Blocks~II--VII). The map
-$t\leftrightarrow\rho$ is the inverse distribution function.
-
-\section{The seven building blocks chained}\label{sec:chain}
-
-\subsection{Block I: \textsc{LevelSetIdentity}}\label{ssec:L}
-
-\begin{theorem}[Exact deficit identity; \cite{LevelSetIdentity}]
-\label{thm:L}
-Let $\Om\subset\R^n$ be open with $|\Om|<\infty$. With
-$E_t=\{u>t\}$, $m(t)=|E_t|$,
-$\alpha(t)=\int_{\partial^*E_t}|\nabla u|^{-1}d\mathcal H^{n-1}$,
-$\beta(t)=\int_{\partial^*E_t}|\nabla u|\,d\mathcal H^{n-1}$,
-$D_H(t)=\alpha\beta-P(E_t)^2$,
-$D_I(t)=P(E_t)^2-n^2\omega_n^{2/n}m(t)^{2-2/n}$,
-\begin{equation}\label{eq:Lboxed}
-\boxed{\;
-   \frac{2}{|\Om|}\bigl(E(\Om)-E(B)\bigr)
-   =\frac{1}{|\Om|}\int_{0}^{\|u\|_\infty}
-        \frac{D_H(t)+D_I(t)}{n^2\omega_n^{2/n}\,m(t)^{1-2/n}}\,dt.\;}
+Then for every open set of finite measure,
+\begin{equation}\label{eq:deficit-id}
+  \frac{2}{|\Om|}\bigl(E(\Om)-E(B)\bigr)
+  =
+  \frac{1}{|\Om|}\int_0^{\|u\|_\infty}
+  \frac{D_H(t)+D_I(t)}
+  {n^2\omega_n^{2/n}m(t)^{1-2/n}}\,dt .
 \end{equation}
-Both $D_H,D_I\ge 0$ a.e.; no boundedness or smoothness of $\Om$ is
-needed. All integrals on the reduced boundary $\partial^*E_t$.
-\end{theorem}
+Both defects are nonnegative.  The proof uses only BV coarea on
+reduced boundaries, Lipschitz truncation for the flux identity
+$\int_{\partial^*E_t}|\nabla u|=|E_t|$, and the corrected rearranged
+second derivative $I''=-1/\alpha$.
 
-\subsection{Block II: \textsc{MetricFramework}}\label{ssec:M}
-
-\begin{theorem}[Metric first variation; \cite{MetricFramework}]
-\label{thm:M}
-For $\Om\subset B_R$ with $|\Om|=\omega_n$ and any Borel centre
-field $\{z_\rho\}$ with $|z_\rho|\le R'$, there is
-$C_{n,\rstar,R}>0$ such that
-\begin{equation}\label{eq:Mboxed}
-\boxed{\;
-   |\dot F_\rho|_\X
-   \le C_{n,\rstar,R}\inf_{a\in\R^n}\!\int_{\partial^*E_\rho}
-        |V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,d\mathcal H^{n-1}
-\;}
+On every fixed collar $\rho\in[\rho_c,\rdel]$, \eqref{eq:deficit-id}
+gives
+\begin{equation}\label{eq:DH-DI}
+  \int_{\rho_c}^{\rdel}
+  \bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)\,d\mu(\rho)
+  \le C(n,\rho_c)\,\delta_T(\Om).
 \end{equation}
-for a.e.\ $\rho\in[\rstar,1]$.
-\end{theorem}
+We also use the Talenti comparison in two elementary forms:
+$-t'(\rho)\le 1/n$, and a bad-set estimate
+\[
+  \bigl|\{\rho\in[\rho_c,\rdel]:-t'(\rho)<\rho_c/(2n)\}\bigr|
+  \le C(n,\rho_c)\,\delta_T(\Om).
+\]
+The second estimate is the profile-gap input needed to pass from
+$d\mu$-weighted kinetic energy to Lebesgue kinetic energy.
 
-\subsection{Block III: \textsc{CentroidBound}}\label{ssec:F}
+\section{Step 2: metric first variation}
 
-\begin{theorem}[$H^1$-in-$\rho$ centroid bound (F);
-\cite{CentroidBound}]\label{thm:F}
-$\rho\mapsto\zbar$ is Lipschitz on $[\rstar,1]$ and there is
-$C_{\rm cent}(n,R,\rstar)>0$ with
-\begin{equation}\label{eq:Fboxed}
-\boxed{\;
-   \int_{\rstar}^{\rho_\delta}|\bar z_\rho'|^2\,(-t'(\rho))\,d\rho
-   \;\le\;C_{\rm cent}\,\delta_T(\Om).\;}\tag{F}
+Let $\X$ be the space of finite-measure $L^1$ classes modulo
+translations:
+\[
+  d_\X([A],[C])=\inf_{a\in\R^n}|A\Delta(C+a)|.
+\]
+Set $F_\rho:=\rho^{-1}E_\rho$ so $|F_\rho|=\omega_n$.
+For a Borel centre field $z_\rho$, define
+\[
+  V_\rho(x):=\frac{-t'(\rho)}{|\nabla u(x)|},
+  \qquad
+  H_{z_\rho,\rho}(x):=\frac{(x-z_\rho)\cdot\nu_\rho(x)}{\rho}
+  \quad (x\in\partial^*E_\rho).
+\]
+The new building block \textsc{LimsupDeformation} (Theorem~1.1, Plan 2
+Deliverable~A) proves the finite-perimeter metric first-variation
+estimate unconditionally:
+\begin{equation}\label{eq:metric-first}
+  |\dot F_\rho|_\X
+  \le \rho^{-n}\inf_{a\in\R^n}
+  \int_{\partial^*E_\rho}
+  |V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,d\mathcal H^{n-1}
 \end{equation}
-The proof uses the centroid kinematic identity
-$\bar z_\rho'=|E_\rho|^{-1}\int_{\partial^*E_\rho}(x-\zbar)V_\rho\,d\mathcal H^{n-1}$
-(no homothety term), the unconditional $D_H$-Cauchy on $V_\rho$,
-FMP / Fusco--Julin at the centroid, and the integrated Talenti
-gap of Theorem~\ref{thm:L}.
-\end{theorem}
+for almost every $\rho\in[\rho_c,1]$.  The proof is a direct coarea
+computation on the symmetric difference $E_{\rho+h}\Delta T_h(E_\rho)$
+with $T_h$ the affine pull-back combining homothety and a chosen
+translation; no Reshetnyak or $BV$ lower semicontinuity is used.  The
+previous \textsc{MetricFramework} formulation, which left
+\eqref{eq:metric-first} conditional on an upper-gradient recovery
+hypothesis, is therefore discharged.
 
-\subsection{Block IV: \textsc{SpaceTimeIdentity}}\label{ssec:Pi}
+\section{Step 3: isoperimetric good levels}
 
-\begin{theorem}[Space-time $\Pi$ identity and integrated bounds;
-\cite{SpaceTimeIdentity}]\label{thm:Pi}
-Conditional on \eqref{eq:Fboxed}:
-\begin{equation}\label{eq:Piboxed}
-\boxed{\;
-   \int_{\rstar}^{\rho_\delta}\PiE\,d\mu(\rho)
-   =(n-1)\!\int_{\widetilde\Om}\sigma(x)\,dx,\;}
+Fix a small dimensional threshold $\eta_I>0$ and set
+\[
+  G_I:=\{\rho\in[\rho_c,\rdel]:D_I(t(\rho))\le\eta_I\},
+  \qquad B_I:=[\rho_c,\rdel]\setminus G_I .
+\]
+By \eqref{eq:DH-DI},
+\begin{equation}\label{eq:BI}
+  \mu(B_I)\le C\,\delta_T(\Om).
 \end{equation}
-the integrated quadratic oscillation
-$\int\!\int|\nu-e_r|^2\,d\mathcal H^{n-1}d\mu\le C_{B^2}\delta_T$
-(B$^2$-int), and the integrated radial trace
-$\int(\int|H_{\zbar,\rho}-1|d\mathcal H^{n-1})^2\,d\mu\le C_{\rm radial}\delta_T$
-(T$_1^2$-int). The proof uses
-$T_1=T_1^{\rm rad,slic}+T_1^{\rm tan}$ with linear good-ray
-equality and the slice-rearrangement
-$|E_\rho\Delta B_\rho|^2\le C\,\PiE$.
-\end{theorem}
-
-\subsection{Block V: \textsc{WeightedMetricTrace}}\label{ssec:K}
-
-\begin{theorem}[Weighted metric trace at $\rho_\delta$;
-\cite{WeightedMetricTrace}]\label{thm:K}
-Conditional on \eqref{eq:Fboxed},
-$\int(d_\X(F_\rho,B_1)^2+|\dot F_\rho|_\X^2)d\mu\le C\,\delta_T$
-(integrated action, encoding $\int D_I\,d\mu$ via Fusco--Julin and
-$\int D_H\,d\mu$ via the metric first variation),
-$\int|\dot F_\rho|_\X^2\,d\rho\le C'\delta_T$ (kinetic bound).
-Combining the two on the order-one window
-$J^*=[\rho_\delta-L^*,\rho_\delta]$ with $L^*=(\rho_\delta-\rstar)/4$
-via Markov on the distance term plus kinetic Cauchy--Schwarz
-transport gives the uniform pointwise bound
-\begin{equation}\label{eq:Kboxed}
-\boxed{\;
-   \sup_{\rho\in J^*}\,d_\X(F_\rho,B_1)^2\;\le\;C_*\,\delta_T(\Om).
-\;}
+On $G_I$, the building block \textsc{SameCentreFJ} (Plan 2
+Deliverables~B and~C) proves the joint same-centre Fusco--Julin
+package unconditionally: there is one Borel centre field
+$\rho\mapsto z_\rho\in\overline{B_{R+1}}$ such that
+\begin{equation}\label{eq:FJ-distance}
+  d_\X(F_\rho,B_1)^2\le C(n,R,\rho_c)\,D_I(t(\rho)).
 \end{equation}
-In particular, setting $\rhad:=\rho_\delta$,
-$d_\X(F_{\rho_\delta},B_1)^2\le C_*\,\delta_T(\Om)$ at the upper
-endpoint of the deficit window. Either input alone forces a
-$\sqrt{\delta_T}$ exponent loss; the $D_H/D_I$ pairing yields the
-sharp bound at $\rho_\delta$.
-\end{theorem}
-
-\subsection{Block VI: \textsc{BoundaryLayerTransfer}}\label{ssec:bdyL}
-
-\begin{theorem}[Bounded sharp Saint--Venant;
-\cite{BoundaryLayerTransfer}]\label{thm:BL}
-There is $C(n,R,\rstar)>0$ such that every open $\Om\subset B_R$
-with $|\Om|=\omega_n$ satisfies
-\begin{equation}\label{eq:BLboxed}
-\boxed{\;
-   \Fr(\Om)^2\le C(n,R,\rstar)\,\delta_T(\Om).
-\;}
+The same-centre package, together with the finite-perimeter oriented
+radial divergence estimate proved in
+\textsc{SameCentreFJ}/\textsc{FJCenterBridge}, gives the homothetic
+trace bound
+\begin{equation}\label{eq:H-trace}
+  \left(
+    \int_{\partial^*E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|\,
+    d\mathcal H^{n-1}
+  \right)^2
+  \le C(n,R,\rho_c)\,D_I(t(\rho)),
 \end{equation}
-The proof combines the endpoint case $\rhad=\rho_\delta$ of
-\eqref{eq:Kboxed} with Lemma~8.3 of \cite{BoundaryLayerTransfer}
-($\Fr(\Om)\le\Fr(E_{\rho_\delta})+2|\Om\setminus E_{\rho_\delta}|/\omega_n$,
-where $|\Om\setminus E_{\rho_\delta}|\le \omega_n n\kappa\sqrt{\delta_T}$
-since $\rho_\delta=1-\kappa\sqrt{\delta_T}$) and the squaring identity
-$(a+b)^2\le 2(a^2+b^2)$; sharp exponent~$2$.
-\end{theorem}
+where
+\[
+  \bar V_\rho:=\frac1{P(E_\rho)}
+  \int_{\partial^*E_\rho}V_\rho\,d\mathcal H^{n-1}
+  =\frac{P(B_\rho)}{P(E_\rho)} .
+\]
+At this stage the same-centre theorem and its measurable-selection
+input are unconditional: \cite[Thm.~3.6 + Prop.~4.2]{SameCentreFJ}.
+They are no longer hidden inside \textsc{WeightedMetricTrace} and no
+longer conditional on an external citation.
 
-\subsection{Block VII: \textsc{GlobalAssembly}}\label{ssec:GA}
+\section{Step 4: self-truncated velocity repair}
 
-\begin{theorem}[Sharp Faber--Krahn; \cite{GlobalAssembly}]
-\label{thm:Glob}
-Combining~\eqref{eq:BLboxed} at the dimensional radius $R_*(n)$ with
-the BDV bounded reduction~\cite{BDV-BoundedReduction-Plan1} and the
-Kohler--Jobin transfer~\cite{KohlerJobinTransfer-Plan1}, there is a
-dimensional constant $c_{\rm FK}(n)>0$ given by
-\begin{equation}\label{eq:cFKdef}
-   c_{\rm FK}(n):=\min\!\Bigl\{
-      \frac{4L_n\,c_{\rm SV}^{\rm glob}(n)}{(n+2)T_n},\,
-      \frac{L_n(2^{2/(n+2)}-1)}{4}\Bigr\},
+This is the repair replacing the former lower-gradient hypothesis.
+On a good level write $S_\rho:=\partial^*E_\rho$,
+$f:=|\nabla u|$, $P:=P(E_\rho)$, and
+\[
+  \beta:=\int_{S_\rho} f\,d\mathcal H^{n-1}=|E_\rho|,
+  \qquad \bar f:=\beta/P.
+\]
+Split
+\[
+  S_\rho=G_\rho\cup L_\rho,\qquad
+  G_\rho:=\{f\ge\bar f/2\},\quad L_\rho:=\{f<\bar f/2\}.
+\]
+The weighted variance identity for $D_H$ gives
+\begin{equation}\label{eq:low-charge}
+  \int_{L_\rho}\frac1f\,d\mathcal H^{n-1}
+  \le \frac{4}{\beta}\,D_H(t(\rho)).
 \end{equation}
-such that for every open $\Om\subset\R^n$ with $0<|\Om|<\infty$,
-\begin{equation}\label{eq:Globboxed}
-\boxed{\;
-   \Bigl(\frac{|\Om|}{|B_1|}\Bigr)^{2/n}
-   \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)
-   \ge c_{\rm FK}(n)\,\Fr(\Om)^2.
-\;}
+Thus the low-gradient part is small in the only measure relevant to
+normal velocity.  On $G_\rho$, $f\ge\bar f/2$ gives the reciprocal
+variance comparison formerly supplied by a pointwise lower bound.
+The resulting estimate is
+\begin{equation}\label{eq:trimmed-V}
+  \left(
+    \int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,d\mathcal H^{n-1}
+  \right)^2
+  \le C(n,\rho_c)\,D_H(t(\rho)),
+  \qquad \rho\in G_I.
 \end{equation}
-\end{theorem}
+This is the key point: tiny components, cusps, or other low-gradient
+pieces do not need uniform non-degeneracy.  They are discarded at the
+level surface and charged to $D_H$ itself.  The discarded swept volume
+also satisfies
+\[
+  \int_{G_I}\int_{L_\rho}V_\rho\,d\mathcal H^{n-1}\,d\rho
+  \le C(n,\rho_c)\,\delta_T(\Om).
+\]
 
-\section{The main theorem and final assembly}\label{sec:assembled}
+\section{Step 5: integrated action and kinetic energy}
 
-\begin{theorem}[Sharp quantitative Faber--Krahn stability,
-Plan~2 form]\label{thm:final}
-Let $n\ge 2$. There is a dimensional constant $c_{\rm FK}(n)>0$,
-given by \eqref{eq:cFKdef}, such that for every open
-$\Om\subset\R^n$ of finite positive measure,
-$(|\Om|/|B_1|)^{2/n}(\lambda_1(\Om)-\lambda_1(\Bstar))\ge c_{\rm FK}(n)\Fr(\Om)^2$.
-The exponent~$2$ on $\Fr$ is sharp.
-\end{theorem}
+On $G_I$, choose the same-centre field $z_\rho$ in
+\eqref{eq:metric-first}, set $a=0$, and use the triangle inequality:
+\[
+  |V_\rho-H_{z_\rho,\rho}|
+  \le |V_\rho-\bar V_\rho|+|H_{z_\rho,\rho}-\bar V_\rho|.
+\]
+Together with \eqref{eq:H-trace} and \eqref{eq:trimmed-V}, this gives
+\begin{equation}\label{eq:metric-derivative-good}
+  |\dot F_\rho|_\X^2
+  \le C(n,R,\rho_c)\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)
+  \qquad(\rho\in G_I).
+\end{equation}
+On $B_I$, the repaired \textsc{WeightedMetricTrace} no longer invokes
+the unsupported perimeter-free Lipschitz bound (A0); instead it makes
+its bad-level kinetic requirements explicit as conditional hypotheses.
+Combining those hypotheses with \eqref{eq:DH-DI} and
+\eqref{eq:FJ-distance} yields the integrated action estimate
+\begin{equation}\label{eq:action}
+  \int_{\rho_c}^{\rdel}
+  \left(d_\X(F_\rho,B_1)^2+|\dot F_\rho|_\X^2\right)\,d\mu(\rho)
+  \le C(n,R,\rho_c)\,\delta_T(\Om).
+\end{equation}
+Using the Talenti bad-set estimate for
+$\{-t'(\rho)<\rho_c/(2n)\}$, the same bound implies the Lebesgue
+kinetic estimate
+\begin{equation}\label{eq:kinetic}
+  \int_{\rho_c}^{\rdel}|\dot F_\rho|_\X^2\,d\rho
+  \le C(n,R,\rho_c)\,\delta_T(\Om).
+\end{equation}
 
-\begin{proof}
-By scale invariance of both sides --- $(|\Om|/|B_1|)^{2/n}(\lambda_1(\Om)-\lambda_1(B^*))$
-is dimensionless, as is $\Fr(\Om)$ --- WLOG $|\Om|=\omega_n$ after
-rescaling $\Om\mapsto(\omega_n/|\Om|)^{1/n}\Om$. Fix $\rstar=1/2$.
-The chain Theorems~\ref{thm:L}--\ref{thm:BL} delivers the bounded
-Saint--Venant inequality at $R=R_*(n)$.
-Theorem~\ref{thm:Glob} then internalises the $R$-dependence via
-the BDV bounded reduction and converts to Faber--Krahn via
-Kohler--Jobin.
-\end{proof}
+\section{Step 6: weighted metric trace at a good endpoint}
 
-\section{Constants chain}\label{sec:constants}
+Let $L^*:=(\rdel-\rho_c)/4$ and
+$J^*:=[\rdel-L^*,\rdel]$.  From \eqref{eq:action} and the measure
+lower bound $\mu(J^*)\ge c(n,\rho_c)L^*-C\delta_T$, Markov gives a
+point $\rho_0\in J^*$ with
+\[
+  d_\X(F_{\rho_0},B_1)^2\le C\,\delta_T(\Om).
+\]
+For any $\rho\in J^*$, the metric absolute-continuity inequality and
+\eqref{eq:kinetic} give
+\[
+  d_\X(F_\rho,F_{\rho_0})^2
+  \le |\rho-\rho_0|\int_{J^*}|\dot F_s|_\X^2\,ds
+  \le C\,\delta_T(\Om).
+\]
+The triangle inequality yields the uniform window trace
+\[
+  \sup_{\rho\in J^*}d_\X(F_\rho,B_1)^2\le C(n,R,\rho_c)\,\delta_T(\Om).
+\]
+The new building block \textsc{GoodEndpointTrace} (Plan 2
+Deliverable~D) then promotes this to a Borel endpoint
+\[
+  \rhad\in[\rdel-C_1\delta_T,\rdel]\cap G_I\cap G_\tau,
+  \qquad
+  d_\X(F_{\rhad},B_1)^2\le C(n,R,\rho_c)\,\delta_T(\Om).
+\]
+The existence of $\rhad$ uses the Lebesgue bad-set measure bounds
+$\mathcal L^1(B_\tau)\le C\delta_T$ (profile-gap) and
+$\mathcal L^1(B_I\cap G_\tau)\le C\delta_T$ (deficit identity over
+$G_\tau$).
+This is exactly where the two defects interact: $D_I$ supplies many
+levels close to balls, while $D_H$ supplies the kinetic control needed
+to transport that closeness uniformly through the window.  The
+substitution $\rdel\rightsquigarrow\rhad$ feeds the downstream
+boundary-layer transfer without changing the sharp exponent (see
+Step~7).
 
-\renewcommand{\arraystretch}{1.25}
-\begin{center}
-\begin{tabular}{|l|l|l|}\hline
-Stage & Constant & Dependence \\\hline
-(L) deficit identity & --- & --- \\
-(M) first variation & $C_{n,\rstar,R}=\rstar^{-n}$ & $n,\rstar,R$ \\
-(F) centroid bound & $C_{\rm cent}$ & $n,R,\rstar$ \\
-($\Pi$) (B$^2$-int) & $C_{B^2}$ & $n,R,\rstar$ \\
-($\Pi$) (T$_1^2$-int) & $C_{\rm radial}$ & $n,R,\rstar$ \\
-(K) action, kinetic, trace & $C,C',C_*$ & $n,R,\rstar$ \\
-($\partial$) bounded SV & $C(n,R,\rstar)$ & $n,R,\rstar$ \\
-$\rstar=1/2$, $R\to R_*(n)$ & $C(n,R_*(n),1/2)$ & $n$ \\
-(FK) BDV constants & $C_9(n),\delta(n),d(n)$ & $n$ \\
-(FK) global SV & $c_{\rm SV}^{\rm glob}(n)$ & $n$ \\
-(FK) KJ multiplier & $4L_n/((n+2)T_n)$ & $n$ \\
-(FK) final & $c_{\rm FK}(n)$ & $n$ \\\hline
-\end{tabular}
-\end{center}
+\section{Step 7: boundary-layer transfer from $\rhad$}
 
-\textbf{Conclusion.} All $R$- and $\rstar$-dependence is absorbed at
-the Block~($\partial$) $\to$ (FK) interface; final constant
-$c_{\rm FK}(n)$ depends only on $n$.
+By definition of $d_\X$ and the scaling $F_\rho=\rho^{-1}E_\rho$,
+the good-endpoint trace implies
+\begin{equation}\label{eq:Erdel-asym}
+  \Fr(E_{\rhad})^2\le C(n,R,\rho_c)\,\delta_T(\Om),
+\end{equation}
+where the asymmetry of $E_{\rhad}$ is measured at its own volume
+$\omega_n\rhad^{\,n}$.  Since $E_{\rhad}\subset\Om$ and
+$\rhad\in[\rdel-C_1\delta_T,\rdel]$,
+\[
+  |\Om\setminus E_{\rhad}|
+  =\omega_n(1-\rhad^{\,n})
+  \le \omega_n n(1-\rhad)
+  \le \omega_n n\bigl(\kappa\sqrt{\delta_T}+C_1\delta_T\bigr)
+  \le C(n)\sqrt{\delta_T(\Om)}.
+\]
+The elementary superlevel transfer lemma gives
+\[
+  \Fr(\Om)\le \Fr(E_{\rhad})
+  +\frac{2}{\omega_n}|\Om\setminus E_{\rhad}|.
+\]
+Squaring and using \eqref{eq:Erdel-asym} gives the bounded sharp
+Saint--Venant inequality
+\begin{equation}\label{eq:bounded-SV}
+  \Fr(\Om)^2\le C(n,R,\rho_c)\,\delta_T(\Om)
+\end{equation}
+in the small-deficit regime.  The cross term
+$O(\delta_T^{\,3/2})$ from $\rdel-\rhad$ is dominated by the leading
+$O(\sqrt{\delta_T})$ collar, so the sharp exponent is preserved.  For
+large deficit the trivial bound $\Fr(\Om)<2$ is absorbed by
+increasing $C$.
 
-\section{Comparison with Plan~1 (Route~A)}\label{sec:vsPlan1}
+\section{Step 8: bounded reduction and Kohler--Jobin}
 
-Both routes deliver Theorem~\ref{thm:final}. The structural
-difference is concentrated in the bounded sharp Saint--Venant
-stage. Plan~1 uses the chain
-(S)\,selection $\to$ (G)\,graph entry $\to$ (I)\,Schauder
-interpolation $\to$ (N)\,nearly-spherical closure
-(\cite{Plan1Master}). Plan~2 uses the chain
-(L)\,deficit identity $\to$ (M)\,metric first variation $\to$
-(F)\,centroid bound $\to$ ($\Pi$)\,space-time + slicing-then-squaring
-$\to$ (K)\,metric trace $\to$ ($\partial$)\,boundary-layer transfer.
+Fix $\rho_c=3/4$ for the Plan 2 core and then apply the bounded result
+at the BDV dimensional radius $R_*(n)$.  The bounded-to-global
+reduction imported from Plan 1 gives
+\[
+  E(\Om)-E(B_1)\ge c_{\rm SV}^{\rm glob}(n)\Fr(\Om)^2
+  \qquad (|\Om|=\omega_n).
+\]
+Scaling gives the corresponding global Saint--Venant estimate at
+arbitrary volume.  The Kohler--Jobin transfer then yields
+\eqref{eq:FK} with
+\[
+  c_{\rm FK}(n)=
+  \min\left\{
+    \frac{4L_n\,c_{\rm SV}^{\rm glob}(n)}{(n+2)T_n},
+    \frac{L_n(2^{2/(n+2)}-1)}{4}
+  \right\},
+\]
+where $L_n=\lambda_1(B_1)$ and $T_n=T(B_1)$.
+
+\section{What is load-bearing, and what is not}
+
+The load-bearing proof is the eight-step chain above.  The current role
+of the surrounding WIP files is as follows.
 
 \begin{center}
 \renewcommand{\arraystretch}{1.18}
-\begin{tabular}{|l|c|c|}\hline
-Tool & Plan~1 / Route~A & Plan~2 / Route~$\delta$ \\\hline
-Selection / penalised functional & uses & avoids \\
-Graph entry ($C^{1,\gamma}$ normal graph) & uses & avoids \\
-Schauder bootstrap (Lieberman) & uses & avoids \\
-Gagliardo--Nirenberg interpolation & uses & avoids \\
-Nearly-spherical closure (BDV Thm.~3.3) & uses & avoids \\
-Fuglede $H^{1/2}$ expansion & uses & avoids \\
-Free-boundary regularity (Alt--Caffarelli) & uses & avoids \\\hline
-BV coarea on $\partial^*E_t$ for a.e.\ $t$ & not used & uses \\
-AGS metric framework, $|\dot F_\rho|_\X$ & not used & uses \\
-Centroid kinematic identity (no homothety) & not used & uses \\
-Space--time $\Pi$ identity & not used & uses \\
-Slicing-then-squaring (good rays / bad rays) & not used & uses \\
-Slice-rearrangement $|E\Delta B|^2\le C\Pi$ & not used & uses \\
-Sobolev--Sard (Figalli--Maggi App.~A \cite{FigalliMaggi2011}) & not used & uses \\\hline
-BDV bounded reduction \cite[\S5]{BraDeP2017} & uses & uses \\
-Kohler--Jobin transfer & uses & uses \\\hline
+\begin{tabular}{@{}lll@{}}
+\toprule
+File & Role & Status in the proof \\
+\midrule
+\texttt{WIP\_LevelSetIdentity} & exact $D_H+D_I$ identity & load-bearing \\
+\texttt{WIP\_LimsupDeformation} & metric first variation, unconditional & load-bearing \\
+\texttt{WIP\_SameCentreFJ} & joint same-centre FJ + Borel selection & load-bearing \\
+\texttt{WIP\_MetricFramework} & smooth identity + $\X$ setup & superseded by \textsc{LimsupDeformation} \\
+\texttt{WIP\_FJCenterBridge} & oriented radial divergence trace & bridge, now unconditional \\
+\texttt{WIP\_TrimmedVelocityRepair} & removes Hyp-G(lower) & load-bearing \\
+\texttt{WIP\_WeightedMetricTrace} & action/kinetic/uniform trace & load-bearing modulo bad-kinetic \\
+\texttt{WIP\_GoodEndpointTrace} & Borel good endpoint $\rhad$ & load-bearing \\
+\texttt{WIP\_BoundaryLayerTransfer} & endpoint back to $\Om$ & load-bearing \\
+\texttt{WIP\_GlobalAssembly} & BDV reduction + KJ transfer & load-bearing \\
+\texttt{WIP\_CentroidBound} & centroid diagnostics & auxiliary \\
+\texttt{WIP\_SpaceTimeIdentity} & space-time diagnostics & auxiliary \\
+\bottomrule
 \end{tabular}
 \end{center}
 
-The methodological gain of Plan~2 is that no PDE regularity beyond
-$W^{2,p}_{\rm loc}$, no free-boundary regularity, no selection,
-no graph parametrisation, and no nearly-spherical closure is used.
-The price is the new infrastructure in Blocks~(M)--($\Pi$)--(K).
+In particular, the following are not used in the current shortest
+route: BDV/Cicalese--Leonardi selection, graph entry, Schauder
+interpolation, nearly-spherical expansions, pointwise radial trace
+(R), pointwise $(B^2)$, and the pointwise lower-gradient Hyp-G.
 
-\section{Open issues and audit trail}\label{sec:audit}
+\section{Audit checklist}
 
-The Plan~2 chain has been audited in three waves on the markdown
-source side; each post-audit correction is reflected in the
-\texttt{WIP\_X.tex} files.
-
-\textbf{Wave~1}\footnote{Internal audit trail: source file
-\texttt{agent6-adversarial-audit.md}.} flagged five issues: centre-choice ambiguity (Fraenkel vs.\ centroid); reliance
-on the open pointwise per-$\rho$ radial trace (R); missing
-Sobolev--Sard citation; broken Cauchy--Schwarz in (G4)~§5.2;
-notational drift between centre choices.
-
-\textbf{Wave~2}\footnote{Internal audit trail: source files
-\texttt{wave2-*}.} addressed: the centroid choice
-$\zbar=|E_\rho|^{-1}\int_{E_\rho}x$; the integrated form (B$^2$-int)
-replacing pointwise (R); the Figalli--Maggi App.~A Sobolev--Sard
-citation; the kinetic bound (K) rederivation from (B$^2$-int).
-
-\textbf{Wave~3}\footnote{Internal audit trail: source files
-\texttt{wave3-F,G,H,J}.} introduced two new structural inputs: (F) the $H^1$-in-$\rho$ centroid bound
-(\textsc{CentroidBound}); and the slicing-then-squaring
-decomposition (\textsc{SpaceTimeIdentity} §5). The latter replaces
-the broken Cauchy--Schwarz of (G4) §5.2 by the linear good-ray
-equality and the slice-rearrangement; squaring before integrating
-preserves the sharp $\delta$ rate.
-
-\textbf{Status.} The Plan~2 proof closes in its integrated form
-only. Pointwise per-$\rho$ statements (R) and (B$^2$) are not
-invoked. The integrated form, controlled by (F) of
-\textsc{CentroidBound} and (B$^2$-int) of \textsc{SpaceTimeIdentity},
-suffices for the metric-trace and boundary-layer-transfer chain.
-This is the unconditional honest content of Plan~2.
+The remaining useful audit tasks are now sharply focused:
+\begin{enumerate}
+\item \emph{(Discharged.)} The upper-gradient recovery theorem needed
+for \eqref{eq:metric-first} is replaced by the direct finite-perimeter
+limsup deformation estimate of
+\cite[Thm.~1.1]{LimsupDeformation}.  Audit: verify the Lebesgue-point
+input (genericity (iii) there) and the compact-strip device.
+\item \emph{(Discharged.)} The exact same-centre Fusco--Julin theorem
+and its measurable-selection input are now proved in
+\cite[Thms.~3.6, 4.2]{SameCentreFJ}.  Audit: verify the
+``centres-close'' Theorem~3.4 against the Fuglede / Cicalese--Leonardi
+nearly-spherical inputs.
+\item Check the self-truncated algebra
+\eqref{eq:low-charge}--\eqref{eq:trimmed-V}; it is the active
+replacement for Hyp-G.
+\item Verify the repaired Talenti profile-gap bad-set estimate used to
+pass from \eqref{eq:action} to \eqref{eq:kinetic}.
+\item Verify the remaining bad-level kinetic hypotheses now stated in
+\cite[Hyp.~3.6]{WeightedMetricTrace}.  These are \emph{not} discharged
+by the present round of Deliverables A--D; the
+\textsc{GoodEndpointTrace} variant gives a cleaner downstream
+interface, but the underlying trace-uniform theorem still uses both
+bad-level action bounds.
+\item Check the superlevel transfer from $E_{\rhad}$ to $\Om$ and the
+constant bookkeeping in the BDV/Kohler--Jobin imports.
+\end{enumerate}
 
 \begin{thebibliography}{99}
 
 \bibitem{LevelSetIdentity}
-Plan~2 building block \textsc{LevelSetIdentity},
+Plan 2 building block \textsc{LevelSetIdentity},
 \texttt{WIP\_LevelSetIdentity.tex}.
 
 \bibitem{MetricFramework}
-Plan~2 building block \textsc{MetricFramework},
+Plan 2 building block \textsc{MetricFramework},
 \texttt{WIP\_MetricFramework.tex}.
 
-\bibitem{CentroidBound}
-Plan~2 building block \textsc{CentroidBound},
-\texttt{WIP\_CentroidBound.tex}.
+\bibitem{LimsupDeformation}
+Plan 2 Deliverable~A, \textsc{LimsupDeformation},
+\texttt{WIP\_LimsupDeformation.tex}.
 
-\bibitem{SpaceTimeIdentity}
-Plan~2 building block \textsc{SpaceTimeIdentity},
-\texttt{WIP\_SpaceTimeIdentity.tex}.
+\bibitem{FJCenterBridge}
+Plan 2 bridge block \textsc{FJCenterBridge},
+\texttt{WIP\_FJCenterBridge.tex}.
+
+\bibitem{SameCentreFJ}
+Plan 2 Deliverables~B and~C, \textsc{SameCentreFJ},
+\texttt{WIP\_SameCentreFJ.tex}.
+
+\bibitem{TrimmedVelocityRepair}
+Plan 2 building block \textsc{TrimmedVelocityRepair},
+\texttt{WIP\_TrimmedVelocityRepair.tex}.
 
 \bibitem{WeightedMetricTrace}
-Plan~2 building block \textsc{WeightedMetricTrace},
+Plan 2 building block \textsc{WeightedMetricTrace},
 \texttt{WIP\_WeightedMetricTrace.tex}.
 
+\bibitem{GoodEndpointTrace}
+Plan 2 Deliverable~D, \textsc{GoodEndpointTrace},
+\texttt{WIP\_GoodEndpointTrace.tex}.
+
 \bibitem{BoundaryLayerTransfer}
-Plan~2 building block \textsc{BoundaryLayerTransfer},
+Plan 2 building block \textsc{BoundaryLayerTransfer},
 \texttt{WIP\_BoundaryLayerTransfer.tex}.
 
 \bibitem{GlobalAssembly}
-Plan~2 building block \textsc{GlobalAssembly},
+Plan 2 building block \textsc{GlobalAssembly},
 \texttt{WIP\_GlobalAssembly.tex}.
 
-\bibitem{Plan1Master}
-Plan~1 master document (companion route), \texttt{Final/master.tex}.
-
 \bibitem{BDV-BoundedReduction-Plan1}
-Plan~1 building block \textsc{BoundedReduction},
+Plan 1 building block \textsc{BoundedReduction},
 \texttt{Final/BoundedReduction.tex}.
 
 \bibitem{KohlerJobinTransfer-Plan1}
-Plan~1 building block \textsc{KohlerJobinTransfer},
+Plan 1 building block \textsc{KohlerJobinTransfer},
 \texttt{Final/KohlerJobinTransfer.tex}.
-
-\bibitem{BraDeP2017} L.~Brasco, G.~De~Philippis, B.~Velichkov,
-\emph{Faber--Krahn inequalities in sharp quantitative form},
-Duke Math.\ J.\ \textbf{164} (2015), 1777--1831.
-
-\bibitem{FMP2008} N.~Fusco, F.~Maggi, A.~Pratelli,
-\emph{The sharp quantitative isoperimetric inequality},
-Ann.\ of Math.\ \textbf{168} (2008), 941--980.
-
-\bibitem{FMPLaplace} N.~Fusco, F.~Maggi, A.~Pratelli,
-Ann.\ Sc.\ Norm.\ Super.\ Pisa Cl.\ Sci.\ (5) \textbf{8} (2009), 51--71.
-
-\bibitem{FJ2014} N.~Fusco, V.~Julin, Calc.\ Var.\ PDE \textbf{50} (2014), 925--937.
-
-\bibitem{CL2012} M.~Cicalese, G.~P.~Leonardi,
-Arch.\ Ration.\ Mech.\ Anal.\ \textbf{206} (2012), 617--643.
-
-\bibitem{AFM2013} E.~Acerbi, N.~Fusco, M.~Morini,
-Comm.\ Math.\ Phys.\ \textbf{322} (2013), 515--557.
-
-\bibitem{AGS2008} L.~Ambrosio, N.~Gigli, G.~Savar\'e,
-\emph{Gradient Flows in Metric Spaces…}, Birkh\"auser, 2008.
-
-\bibitem{Brasco2014} L.~Brasco,
-ESAIM Control Optim.\ Calc.\ Var.\ \textbf{20} (2014), 315--338.
-
-\bibitem{KohlerJobin} M.-T.~Kohler-Jobin,
-Z.\ Angew.\ Math.\ Phys.\ \textbf{29} (1978), 757--766.
-
-\bibitem{Talenti1976} G.~Talenti,
-Ann.\ Mat.\ Pura Appl.\ \textbf{110} (1976), 353--372.
-
-\bibitem{Maggi2012} F.~Maggi, Cambridge Univ.\ Press, 2012.
-
-\bibitem{AFP2000} L.~Ambrosio, N.~Fusco, D.~Pallara, Oxford, 2000.
-
-\bibitem{DeGiorgi1958} E.~De~Giorgi,
-Atti Accad.\ Naz.\ Lincei \textbf{5} (1958), 33--44.
-
-\bibitem{FigalliMaggi2011} A.~Figalli, F.~Maggi,
-Arch.\ Ration.\ Mech.\ Anal.\ \textbf{201} (2011), 143--207.
-
-\bibitem{FMP2010} A.~Figalli, F.~Maggi, A.~Pratelli,
-Invent.\ Math.\ \textbf{182} (2010), 167--211.
-
-\bibitem{Faber1923} G.~Faber, Bayer.\ Akad.\ Wiss.\ M\"unchen 1923, 169--172.
-
-\bibitem{Krahn1925} E.~Krahn, Math.\ Ann.\ \textbf{94} (1925), 97--100.
-
-\bibitem{KawohlBook} B.~Kawohl, Springer LNM 1150, 1985.
-
-\bibitem{HenrotBook} A.~Henrot, Birkh\"auser, 2006.
-
-\bibitem{BucurButtazzo} D.~Bucur, G.~Buttazzo, Birkh\"auser, 2005.
-
-\bibitem{HansenNadirashvili1994} W.~Hansen, N.~Nadirashvili,
-Potential Anal.\ \textbf{3} (1994), 1--14.
-
-\bibitem{Melas1992} A.~D.~Melas,
-J.\ Differential Geom.\ \textbf{36} (1992), 19--33.
-
-\bibitem{Bhattacharya2001} T.~Bhattacharya,
-Electron.\ J.\ Differential Equations \textbf{35} (2001), 1--15.
-
-\bibitem{AKN} M.~Allen, D.~Kriventsov, R.~Neumayer,
-Ars Inveniendi Analytica (2023).
-
-\bibitem{AC1981} H.~W.~Alt, L.~A.~Caffarelli,
-J.\ Reine Angew.\ Math.\ \textbf{325} (1981), 105--144.
-
-\bibitem{Fuglede} B.~Fuglede,
-Trans.\ AMS \textbf{314} (1989), 619--638.
-
-\bibitem{KN} D.~Kinderlehrer, L.~Nirenberg,
-Ann.\ Scuola Norm.\ Sup.\ Pisa (4) \textbf{4} (1977), 373--391.
-
-\bibitem{Li86} G.~M.~Lieberman,
-J.\ Math.\ Anal.\ Appl.\ \textbf{113} (1986), 422--440.
 
 \end{thebibliography}
 

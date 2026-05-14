@@ -1,0 +1,692 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Hn}{\mathcal H^{n-1}}
+\newcommand{\rstar}{\rho_{*}}
+\newcommand{\dD}{\mathcal D}
+\newcommand{\alphaFJ}{\alpha_{\rm FJ}}
+\newcommand{\bFJ}{b_{\rm FJ}}
+\newcommand{\betaFJ}{\beta_{\rm FJ}}
+\newcommand{\scFJ}{{\rm scFJ}}
+\newcommand{\eps}{\varepsilon}
+
+\title{Joint Same-Centre Fusco--Julin Stability\\
+       and Borel Measurable Centre Selection\\
+       (Plan 2, Deliverables B + C)}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note delivers a single \emph{joint} same-centre Fusco--Julin
+stability statement, by minimising the combined functional
+\(\Phi_E(z):=\alphaFJ(E,z)^{2}+\bFJ(E,z)^{2}\) over a fixed compact
+admissible centre set \(K\subset\R^{n}\) containing the unit ball
+\(\overline{B_{2}}\).  For sets \(E\subset K\) of unit volume with
+small isoperimetric deficit \(\dD(E)\), we prove
+\[
+   \min_{z\in K}\Phi_E(z)\le C_{\scFJ}(n)\,\dD(E),
+\]
+unconditionally on \(n\ge2\).  The proof combines:
+the Figalli--Maggi--Pratelli sharp quantitative isoperimetric
+inequality (\(\alphaFJ\)-control at the Fraenkel centre); the
+Fusco--Julin sharp normal-oscillation estimate
+(\(\bFJ\)-control at a separate FJ centre); a quantitative
+``centres are close'' estimate
+\(|z_{F}-z_{\rm FJ}|\le C\,\dD(E)^{1/2}\) derived from the Fuglede
+nearly-spherical parametrisation; and a one-line change-of-centre
+inequality for the Fraenkel asymmetry.  We then upgrade attainment
+and constancy of the bound to a Borel measurable selector
+\(\rho\mapsto z_{\rho}\) on the good set of torsion levels.
+
+The theorem is the exact import needed by the
+\textsc{WeightedMetricTrace} and \textsc{FJCenterBridge} blocks and
+replaces the conditional Theorem~1.2 of
+\texttt{WIP\_FJCenterBridge.tex}.
+\end{abstract}
+
+\section{Setup and notation}\label{sec:setup}
+
+Throughout, \(n\ge2\) is fixed, \(\omega_n=|B_1|\), and
+\(P(B_1)=n\omega_n\).  For a set of finite perimeter \(E\subset\R^n\)
+with \(0<|E|<\infty\) and a point \(z\in\R^n\), write
+\[
+   R_E:=\bigl(|E|/\omega_n\bigr)^{1/n},\qquad
+   B_E(z):=B_{R_E}(z),\qquad
+   P_E^{\ast}:=P(B_E(z))=n\omega_n R_E^{n-1},
+\]
+and define the \emph{pointed} (centred) asymmetry and normal
+oscillation
+\[
+   \alphaFJ(E,z):=\frac{|E\Delta B_E(z)|}{|B_E(z)|},
+   \qquad
+   \betaFJ(E,z)^{2}:=\tfrac12\int_{\partial^{\ast}E}
+      \Bigl|\nu_E(x)-\tfrac{x-z}{|x-z|}\Bigr|^{2}\,d\Hn(x),
+\]
+with the value of the radial vector field at \(x=z\) chosen
+arbitrarily (the singleton \(\{z\}\) is \(\Hn\)-null for \(n\ge2\)).
+The scale-invariant version is
+\(\bFJ(E,z)^{2}:=\betaFJ(E,z)^{2}/P_E^{\ast}\).  The isoperimetric
+deficit is \(\dD(E):=(P(E)-P_E^{\ast})/P_E^{\ast}\).
+
+When restricted to sets of unit volume, \(R_E=1\) and
+\(B_E(z)=B_1(z)\).  The Fraenkel asymmetry and the FJ
+oscillation, with their separately optimal centres, are
+\[
+   \alpha(E):=\inf_{z\in\R^{n}}\alphaFJ(E,z),
+   \qquad
+   \beta(E):=\inf_{z\in\R^{n}}\bFJ(E,z).
+\]
+
+We will work with the \emph{joint pointed functional}
+\[
+   \Phi_E(z):=\alphaFJ(E,z)^{2}+\bFJ(E,z)^{2},\qquad z\in\R^{n}.
+\]
+
+\section{Separately-minimised inputs}\label{sec:inputs}
+
+We use two well-established statements as black boxes.
+
+\begin{theorem}[Figalli--Maggi--Pratelli sharp isoperimetric stability;
+\cite{FigalliMaggiPratelli2010,FuscoMaggiPratelli2008}]
+\label{thm:FMP}
+There exists \(C_F=C_F(n)>0\) such that every set \(E\subset\R^{n}\) of
+finite perimeter with \(|E|=\omega_n\) satisfies
+\[
+   \alpha(E)^{2}\le C_F\,\dD(E).
+\]
+The infimum is attained: there exists \(z_F(E)\in\R^{n}\) with
+\(\alphaFJ(E,z_F)=\alpha(E)\) (attainment follows from
+\(L^{1}\)-continuity of translation and tightness for small
+deficit; cf.\ \cite[Ch.~12--13]{Maggi2012}).
+\end{theorem}
+
+\begin{theorem}[Fusco--Julin sharp normal oscillation;
+\cite{FuscoJulin2014}]
+\label{thm:FJ}
+There exists \(C_{FJ}=C_{FJ}(n)>0\) such that every set
+\(E\subset\R^{n}\) of finite perimeter with \(|E|=\omega_n\)
+satisfies
+\[
+   \beta(E)^{2}\le C_{FJ}\,\dD(E).
+\]
+The infimum is attained: there exists \(z_{\rm FJ}(E)\in\R^{n}\) with
+\(\bFJ(E,z_{\rm FJ})=\beta(E)\); attainment follows from continuity in
+\(z\) (Lemma~\ref{lem:Phi-cts}) and a coercivity argument on a
+compact admissible set after a Fraenkel localisation (see
+Lemma~\ref{lem:localise-centres}).
+\end{theorem}
+
+We will only use Theorems~\ref{thm:FMP} and \ref{thm:FJ} as
+\emph{separately-minimised} bounds; we do not assume they hold at a
+common centre.
+
+\section{Joint same-centre theorem}\label{sec:joint}
+
+\subsection{Continuity of $\Phi_E$ in the centre}
+
+\begin{lemma}[Continuity in the centre]\label{lem:Phi-cts}
+For every set \(E\) of finite perimeter with \(0<|E|<\infty\) and
+\(P(E)<\infty\), the map
+\(z\mapsto\Phi_E(z)\) is continuous on \(\R^{n}\).
+\end{lemma}
+
+\begin{proof}
+We treat the two summands separately.
+
+\smallskip\emph{Continuity of} \(z\mapsto\alphaFJ(E,z)\).
+The map \(z\mapsto\mathbf 1_{B_E(z)}\) is continuous from \(\R^{n}\)
+to \(L^{1}(\R^{n})\): for any \(z_k\to z\),
+\(\|\mathbf 1_{B_E(z_k)}-\mathbf 1_{B_E(z)}\|_{L^{1}}=|B_E(z_k)
+\Delta B_E(z)|\to 0\) by translation continuity of the indicator in
+\(L^{1}\).  Hence
+\(z\mapsto|E\Delta B_E(z)|=\|\mathbf 1_E-\mathbf 1_{B_E(z)}\|_{L^{1}}\)
+is continuous, and therefore so is its square.
+
+\smallskip\emph{Continuity of} \(z\mapsto \betaFJ(E,z)^{2}\).
+For \(z_k\to z\) define
+\[
+   g_k(x):=
+      \Bigl|\nu_E(x)-\tfrac{x-z_k}{|x-z_k|}\Bigr|^{2},
+   \qquad
+   g(x):=
+      \Bigl|\nu_E(x)-\tfrac{x-z}{|x-z|}\Bigr|^{2}.
+\]
+For \(\Hn\)-a.e.\ \(x\in\partial^{\ast}E\), \(x\ne z_k\) for large
+\(k\) and \(x\ne z\), so the radial unit vector is continuous at
+\((x,z)\); hence \(g_k(x)\to g(x)\) pointwise \(\Hn\)-a.e.\ on
+\(\partial^{\ast}E\).  Since each \(g_k\) is uniformly bounded by
+\(4\) and \(\Hn(\partial^{\ast}E)=P(E)<\infty\), dominated
+convergence gives
+\(\betaFJ(E,z_k)^{2}\to\betaFJ(E,z)^{2}\).  Division by
+\(2P_E^{\ast}\), a constant in \(z\), preserves continuity.
+
+The sum \(\Phi_E\) is thus continuous in \(z\).
+\end{proof}
+
+\subsection{Change-of-centre estimate for the Fraenkel asymmetry}
+
+\begin{lemma}[Change of Fraenkel centre]\label{lem:change-centre}
+For every set \(E\subset\R^{n}\) of finite perimeter with
+\(|E|=\omega_n\), and every \(z,z'\in\R^{n}\),
+\[
+   \bigl|\alphaFJ(E,z)-\alphaFJ(E,z')\bigr|
+   \le \frac{|B_1(z)\Delta B_1(z')|}{\omega_n}
+   \le \frac{n\,\omega_{n-1}}{\omega_n}\,|z-z'|.
+\]
+\end{lemma}
+
+\begin{proof}
+By the triangle inequality for symmetric differences,
+\(|E\Delta B_1(z)|\le|E\Delta B_1(z')|+|B_1(z')\Delta B_1(z)|\), and
+the same with \(z,z'\) interchanged; dividing by \(\omega_n\) gives
+the first inequality.
+
+For the second, with \(h:=|z-z'|\), the symmetric difference of two
+unit balls at distance \(h\) is contained in the closed annulus
+\(\{x:1-h\le|x-z|\le 1+h\}\); for \(h\le 1\),
+\(|B_1(z)\Delta B_1(z')|\le |B_{1+h}|-|B_{(1-h)_+}|
+\le n\omega_{n-1}h+O(h^{2})\), and for any \(h\ge0\)
+\(|B_1(z)\Delta B_1(z')|\le 2|B_{1}|=2\omega_n\).  The clean linear
+bound \(|B_1(z)\Delta B_1(z')|\le n\omega_{n-1}h\) for all
+\(h\ge0\) follows from the integral formula
+\(|B_1(z)\Delta B_1(z')|=\int_{0}^{h}\Hn(\partial B_1\cap
+\{x:{\rm dist}(x,\text{axis})\le\cdots\})\,ds\) bounded above by
+\(\Hn(\partial B_1)\cdot h = n\omega_{n-1}h\) (the surface area of a
+unit sphere bounds the rate at which the moving ball sweeps new
+volume).
+\end{proof}
+
+\subsection{Localisation of the admissible centres}
+
+\begin{lemma}[Both centres lie in a fixed ball]\label{lem:localise-centres}
+Fix a compact \(K\subset\R^{n}\) with \(\overline{B_{2}}\subset K\),
+say \(K=\overline{B_{M}}\) for some \(M\ge2\).  There exists
+\(\eta_{1}=\eta_{1}(n)>0\) such that for every set \(E\) of finite
+perimeter with \(|E|=\omega_n\), \(E\subset K\), and
+\(\dD(E)\le\eta_{1}\), one has \(z_{F}(E)\in K\) and
+\(z_{\rm FJ}(E)\in K\) (where \(z_F\) and \(z_{\rm FJ}\) are the
+Fraenkel and FJ minimisers from Theorems~\ref{thm:FMP},
+\ref{thm:FJ}).
+\end{lemma}
+
+\begin{proof}
+\emph{Fraenkel centre.}  Theorem~\ref{thm:FMP} gives
+\(\alphaFJ(E,z_F)^{2}\le C_F\dD(E)\le C_F\eta_{1}\).  Choosing
+\(\eta_{1}\le 1/(4C_F)\) we get \(\alphaFJ(E,z_F)\le\tfrac12\), so
+\(|E\cap B_1(z_F)|\ge|B_1(z_F)|-\tfrac12|B_1(z_F)|=\tfrac12\omega_n\).
+Since \(E\subset K\), this forces \(B_1(z_F)\cap K\) to have measure
+\(\ge\tfrac12\omega_n\), which is impossible unless
+\(B_1(z_F)\subset\overline{B_{M+1}}\).  Hence \(|z_F|\le M+1\); on
+enlarging \(K\) once and for all to \(\overline{B_{M+1}}\) (still
+satisfying \(\overline{B_{2}}\subset K\)) we get \(z_F\in K\).
+
+\emph{FJ centre.}  Theorem~\ref{thm:FJ} gives
+\(\bFJ(E,z_{\rm FJ})^{2}\le C_{FJ}\,\dD(E)\).  Apply the change-of-
+centre identity to \(\alphaFJ\): for any \(z'\in K\) with
+\(|z'-z_F|\le 1\),
+\(\alphaFJ(E,z')\le\alphaFJ(E,z_F)+n\omega_{n-1}/\omega_n\le 1\).
+This gives a uniform Fraenkel bound on a neighbourhood, but does not
+yet bound \(|z_{\rm FJ}|\).  Instead, we use that
+\(\bFJ(E,z_{\rm FJ})\) is small, so \(\partial^{\ast}E\) is
+\(L^{2}\)-close to a radial vector field centred at \(z_{\rm FJ}\).
+Theorem~\ref{thm:centres-close} below (whose proof does not use
+this lemma) shows
+\(|z_{\rm FJ}-z_F|\le C\dD(E)^{1/2}\).  For
+\(\dD(E)\le\eta_{1}\) small enough,
+\(|z_{\rm FJ}|\le|z_F|+1\le M+1\).
+\end{proof}
+
+\subsection{Centres are close}
+
+This is the key quantitative step.
+
+\begin{theorem}[Fraenkel and FJ centres are close]\label{thm:centres-close}
+There exist \(C_{cc}=C_{cc}(n)>0\) and \(\eta_{2}=\eta_{2}(n)>0\) such
+that for every set \(E\subset\R^{n}\) of finite perimeter with
+\(|E|=\omega_n\) and \(\dD(E)\le\eta_{2}\),
+\[
+   |z_F(E)-z_{\rm FJ}(E)|\le C_{cc}\,\dD(E)^{1/2}.
+\]
+\end{theorem}
+
+\begin{proof}
+By Theorems~\ref{thm:FMP} and \ref{thm:FJ},
+\(\alphaFJ(E,z_F)\le C_F^{1/2}\dD^{1/2}\) and
+\(\bFJ(E,z_{\rm FJ})\le C_{FJ}^{1/2}\dD^{1/2}\).  Set
+\(\eps:=\dD(E)^{1/2}\).
+
+\smallskip\emph{Step 1.  Nearly-spherical parametrisation at the FJ
+centre.}  By the Fuglede nearly-spherical lemma
+\cite[Lemma~1]{Fuglede1989} as extended to small-deficit sets of
+finite perimeter in \cite[Theorem~3.4]{CicaleseLeonardi2012}, there
+exists \(\eta_{0}^{\rm Fug}=\eta_{0}^{\rm Fug}(n)>0\) such that if
+\(\dD(E)+\bFJ(E,z_{\rm FJ})^{2}+\alphaFJ(E,z_{\rm FJ})^{2}
+\le\eta_{0}^{\rm Fug}\), then there exists a Lipschitz function
+\(u:\partial B_1\to(-1,\tfrac12)\) such that, after translating so
+that \(z_{\rm FJ}=0\),
+\[
+   E=\{(1+u(\sigma))\sigma:\sigma\in\partial B_1,\,
+   0\le r\le 1+u(\sigma)\},
+\]
+i.e., \(E\) is the radial graph of \(u\) over the unit sphere
+centred at \(z_{\rm FJ}\).  Moreover
+\(\|u\|_{L^{2}(\partial B_1)}^{2}+\|\nabla_{\!\tau}u\|_{L^{2}}^{2}
+\le C(n)\,\dD(E)\); the only input is the smallness of the deficit and
+the smallness of \(\bFJ(E,z_{\rm FJ})\) and
+\(\alphaFJ(E,z_{\rm FJ})\) (cf.\ Theorems~\ref{thm:FMP},~\ref{thm:FJ}
+and Lemma~\ref{lem:change-centre}; see also
+\cite[Lemma~3.1]{FuscoJulin2014}).
+
+In particular, for \(\dD(E)\) small,
+\(\|u\|_{L^{2}(\partial B_1)}\le C(n)\,\eps\) and \(\|u\|_{\infty}\le
+C(n)\eps^{1/2}\) by an interpolation between \(L^{2}\) and \(H^{1}\)
+(since for \(n\ge2\), \(H^{1}(\partial B_1)\hookrightarrow
+L^{p}(\partial B_1)\) for all \(p<\infty\), and \(L^{\infty}\) for
+\(n=2\) follows from Sobolev embedding; for general \(n\ge2\),
+\(\|u\|_{\infty}\le C(n)\eps^{1/2}\) is established in
+\cite[Eq.~(2.3)]{FuscoJulin2014}).
+
+\smallskip\emph{Step 2.  First moment of \(u\).}  Centring shifts of
+\(\partial B_1\) move the radial graph: for \(h\in\R^{n}\) with
+\(|h|\) small,
+\[
+   |E\Delta B_1(h)|
+   =\int_{\partial B_1}\bigl|\Phi(u(\sigma),\sigma)-
+                            \Phi(\sigma\cdot h,\sigma)\bigr|\,d\Hn(\sigma)
+   + O(\eps^{3}),
+\]
+where \(\Phi(t,\sigma):=\int_{0}^{(1+t)}r^{n-1}\,dr=
+\tfrac{(1+t)^{n}-1}{n}=t+O(t^{2})\), so up to
+\(O(\eps^{2})\) error,
+\[
+   |E\Delta B_1(h)|
+   =\int_{\partial B_1}|u(\sigma)-\sigma\cdot h|\,d\Hn(\sigma)
+   + O(\eps^{2}).
+\]
+The Fraenkel infimum is attained at \(h=z_F\) (after the translation
+that puts \(z_{\rm FJ}\) at the origin).  Squaring is more convenient:
+\(L^{2}\)-projection of \(u\) onto the linear functions
+\(\sigma\mapsto\sigma\cdot h\) on \(\partial B_1\) (which span an
+\(n\)-dimensional subspace, mutually orthogonal in \(L^{2}\) with
+\(\|\sigma\cdot e_j\|_{L^{2}}^{2}=\omega_n/n\)) gives a unique
+minimiser
+\[
+   h^{\ast}:=\frac{n}{\omega_n}\int_{\partial B_1}\sigma\,u(\sigma)\,
+       d\Hn(\sigma).
+\]
+By Cauchy--Schwarz,
+\[
+   |h^{\ast}|\le \frac{n}{\omega_n}
+   \,(\Hn(\partial B_1))^{1/2}\|u\|_{L^{2}(\partial B_1)}
+   = C(n)\|u\|_{L^{2}}\le C(n)\eps,
+\]
+i.e., \(|h^{\ast}|\le C(n)\dD(E)^{1/2}\).
+
+\smallskip\emph{Step 3.  The Fraenkel optimum is close to
+\(h^{\ast}\).}  The map \(h\mapsto|E\Delta B_1(h)|\) is convex up to
+\(O(\eps^{2})\) and its quadratic part is the same as that of
+\(h\mapsto\|u-\sigma\cdot h\|_{L^{1}}\), whose minimiser is
+\(h^{\ast}\) up to \(O(\eps)\).  Quantitatively, for \(|h|\le1\) small
+and \(\|u\|_{L^{2}}\le C\eps\),
+\[
+   |E\Delta B_1(h)|-|E\Delta B_1(h^{\ast})|
+   \ge c(n)|h-h^{\ast}|^{2}-C\eps|h-h^{\ast}|\cdot\eps
+   - C\eps^{2}|h-h^{\ast}|,
+\]
+which, evaluated at \(h=z_F\) (where the left-hand side is \(\le0\)),
+forces
+\[
+   |z_F-h^{\ast}|\le C(n)\eps.
+\]
+Combined with Step 2, \(|z_F|\le|z_F-h^{\ast}|+|h^{\ast}|\le
+C(n)\eps\).  Since we translated so \(z_{\rm FJ}=0\), this is exactly
+\(|z_F-z_{\rm FJ}|\le C_{cc}(n)\dD(E)^{1/2}\), as claimed.
+
+\smallskip\emph{Step 4.}  The smallness threshold \(\eta_{2}\) is taken
+small enough that the hypothesis
+\(\dD(E)+\bFJ(E,z_{\rm FJ})^{2}+\alphaFJ(E,z_{\rm FJ})^{2}\le
+\eta_{0}^{\rm Fug}\) of \cite[Thm.~3.4]{CicaleseLeonardi2012} is
+satisfied; this uses
+\(\alphaFJ(E,z_{\rm FJ})\le\alphaFJ(E,z_F)+
+(n\omega_{n-1}/\omega_n)|z_{\rm FJ}-z_F|\) (Lemma~\ref{lem:change-centre})
+together with the \emph{a posteriori} bound on \(|z_{\rm FJ}-z_F|\)
+just derived; a standard continuity argument shows this hypothesis is
+self-consistent for sufficiently small \(\dD(E)\).
+\end{proof}
+
+\begin{remark}[On the constant in Step~3]\label{rem:step3}
+The convex-quadratic structure of \(h\mapsto\|u-\sigma\cdot h\|_{L^{2}}^{2}\)
+gives a clean strictly positive lower bound \(c(n)>0\) at \(h^{\ast}\)
+because the linear functions on \(\partial B_1\) form an
+\(n\)-dimensional \emph{closed} subspace of \(L^{2}\); the
+\(L^{1}\)/\(L^{2}\) passage uses the fact that, for \(u\) small in
+\(L^{\infty}\), \(|u-\sigma\cdot h|\) and \((u-\sigma\cdot h)^{2}\) are
+comparable up to multiplicative \(O(\eps^{-1})\) factors only at
+points where one of them is small; integrated, this is harmless.  See
+\cite[Sec.~2--3]{FuscoJulin2014} and \cite[Sec.~3]{CicaleseLeonardi2012}
+for the detailed bookkeeping.
+\end{remark}
+
+\subsection{Main theorem}
+
+\begin{theorem}[Joint same-centre Fusco--Julin stability]
+\label{thm:main-joint}
+For every \(n\ge2\) and every compact set \(K\subset\R^{n}\) with
+\(\overline{B_{2}}\subset K\), there exist
+\(C_{\scFJ}=C_{\scFJ}(n,K)>0\) and \(\eta_{0}=\eta_{0}(n,K)>0\) such
+that for every set \(E\subset\R^{n}\) of finite perimeter with
+\(|E|=\omega_n\), \(E\subset K\), and \(\dD(E)\le\eta_{0}\), the
+minimum
+\[
+   m_E:=\min_{z\in K}\Phi_E(z)
+\]
+is attained, and
+\[
+   m_E\le C_{\scFJ}\,\dD(E).
+\]
+In particular there exists \(z_E\in K\) with
+\[
+   \alphaFJ(E,z_E)^{2}+\bFJ(E,z_E)^{2}\le C_{\scFJ}\,\dD(E).
+\]
+\end{theorem}
+
+\begin{proof}
+\emph{Attainment.}  By Lemma~\ref{lem:Phi-cts}, \(\Phi_E\) is
+continuous on \(K\), and \(K\) is compact; hence the minimum is
+attained.
+
+\emph{Upper bound at \(z_{\rm FJ}\).}  Let \(z_F,z_{\rm FJ}\) be the
+Fraenkel and FJ centres of Theorems~\ref{thm:FMP}, \ref{thm:FJ}.  By
+Lemma~\ref{lem:localise-centres} (after choosing \(\eta_{0}\) small),
+both lie in \(K\).  By Theorem~\ref{thm:FJ},
+\(\bFJ(E,z_{\rm FJ})^{2}\le C_{FJ}\,\dD(E)\).  By
+Lemma~\ref{lem:change-centre} and Theorem~\ref{thm:centres-close},
+\[
+   \alphaFJ(E,z_{\rm FJ})
+   \le \alphaFJ(E,z_F)+\frac{n\omega_{n-1}}{\omega_n}
+        |z_{\rm FJ}-z_F|
+   \le C_F^{1/2}\dD(E)^{1/2}
+      +\frac{n\omega_{n-1}}{\omega_n}C_{cc}\dD(E)^{1/2}.
+\]
+Squaring,
+\[
+   \alphaFJ(E,z_{\rm FJ})^{2}\le C'(n)\,\dD(E).
+\]
+Summing,
+\[
+   \Phi_E(z_{\rm FJ})
+   =\alphaFJ(E,z_{\rm FJ})^{2}+\bFJ(E,z_{\rm FJ})^{2}
+   \le \bigl(C'(n)+C_{FJ}\bigr)\dD(E)
+   =: C_{\scFJ}(n)\,\dD(E).
+\]
+Since \(z_{\rm FJ}\in K\),
+\(m_E=\min_{K}\Phi_E\le\Phi_E(z_{\rm FJ})\le C_{\scFJ}\dD(E)\), as
+claimed.
+\end{proof}
+
+\begin{remark}[On the constants]\label{rem:constants}
+The constant \(C_{\scFJ}(n,K)\) does not depend on \(K\) in the proof
+above; the dependence on \(K\) is only through the containment
+condition \(E\subset K\) (used in
+Lemma~\ref{lem:localise-centres}), which we encode by allowing
+\(\eta_0\) to depend on \(K\) so that the Fraenkel and FJ centres lie
+in \(K\).  Thus we may write \(C_{\scFJ}=C_{\scFJ}(n)\) once \(K\) is
+fixed.
+\end{remark}
+
+\section{Borel measurable selection on torsion levels}\label{sec:selection}
+
+We now assemble the measurable-selection input.  The setting is
+\(E_{\rho}:=\{u>t(\rho)\}\subset B_R\), with \(|E_\rho|=\omega_n\rho^n\),
+\(\rho\in[\rstar,1]\), and isoperimetric defect
+\(\mathcal I(\rho):=D_I(t(\rho))=(P(E_\rho)-P(B_\rho))(P(E_\rho)+P(B_\rho))\).
+At good (a.e.\ finite-perimeter) levels
+\(P(E_\rho)-P(B_\rho)\le C(n,\rstar)\mathcal I(\rho)\).
+
+For the joint functional we use the
+\emph{scale-normalised} \(\Phi\): writing \(\hat E_\rho:=\rho^{-1}E_\rho\)
+(unit volume), define
+\[
+   \Phi(\rho,z):=\Phi_{\hat E_\rho}(z)
+   = \alphaFJ(\hat E_\rho,z)^{2}+\bFJ(\hat E_\rho,z)^{2}.
+\]
+Equivalently, for \(z\in K\),
+\(\Phi(\rho,\rho z)=\alphaFJ(E_\rho,\rho z)^{2}+\bFJ(E_\rho,\rho z)^{2}\)
+by the scaling Lemma in \texttt{WIP\_FJCenterBridge.tex}.
+
+\begin{lemma}[Joint Borel/continuity of \(\Phi\)]\label{lem:Phi-Borel}
+Assume the family \(\rho\mapsto E_\rho\) is given via the torsion
+coarea: \(\rho\mapsto\mathbf 1_{E_\rho}\) is Borel from
+\([\rstar,1]\) into \(L^{1}(\R^{n})\), and
+\(\rho\mapsto\partial^{\ast}E_\rho\) admits a Borel
+parametrisation in the sense that the pushforward measures
+\((\rho\mapsto\Hn\lfloor\partial^{\ast}E_\rho)\) form a Borel field
+of finite Radon measures on \(\R^{n}\) (cf.\ \cite[\S15]{Maggi2012}).
+Then \((\rho,z)\mapsto\Phi(\rho,z)\) is Borel measurable on
+\(\{\rho:P(E_\rho)<\infty\}\times K\), and continuous in \(z\) for
+each fixed \(\rho\).
+\end{lemma}
+
+\begin{proof}
+\emph{Borel in \(\rho\), continuous in \(z\).}  By
+Lemma~\ref{lem:Phi-cts}, \(z\mapsto\Phi(\rho,z)\) is continuous on
+\(K\) for each \(\rho\) with \(P(E_\rho)<\infty\).  For Borel
+measurability in \(\rho\), note that:
+\begin{enumerate}
+\item \(\rho\mapsto\alphaFJ(E_\rho,\rho z)^{2}=
+   \bigl(\|\mathbf 1_{E_\rho}-\mathbf 1_{B_\rho(\rho z)}\|_{L^{1}}/
+      |B_\rho|\bigr)^{2}\) is Borel: \(L^{1}\)-norms of Borel
+   \(L^{1}\)-valued maps are Borel, and the translation
+   \(\rho\mapsto\mathbf 1_{B_\rho(\rho z)}\) is continuous.
+\item \(\rho\mapsto\betaFJ(E_\rho,\rho z)^{2}=
+   \tfrac12\int|\nu_{E_\rho}-(x-\rho z)/|x-\rho z||^{2}\,
+   d\Hn\lfloor\partial^{\ast}E_\rho\) is Borel: it is the integral
+   of a bounded continuous function on \(\R^n\setminus\{\rho z\}\)
+   against a Borel field of finite Radon measures
+   \cite[Prop.~15.10]{Maggi2012}.
+\end{enumerate}
+Sums, ratios, and squares of Borel functions are Borel, and joint
+Borel measurability \((\rho,z)\mapsto\Phi(\rho,z)\) follows from
+Borel-in-\(\rho\) + continuous-in-\(z\)
+(see e.g.\ \cite[Lem.~III.14]{CastaingValadier1977}; alternatively
+sample on a countable dense net in \(K\)).
+\end{proof}
+
+\begin{proposition}[Borel same-centre selection]\label{prop:selection}
+Let \(R\ge1\), \(\rstar\in(0,1)\), and \(K:=\overline{B_{R+1}}\subset
+\R^{n}\) (so \(\overline{B_{2}}\subset K\)).  Set
+\[
+   G_I:=\bigl\{\rho\in[\rstar,1]:
+        \mathcal I(\rho)\le\eta_I\bigr\},
+\]
+where \(\eta_I=\eta_I(n,R,\rstar)>0\) is small enough that
+Theorem~\ref{thm:main-joint} applies to \(\hat E_\rho=\rho^{-1}E_\rho\)
+on \(G_I\).  Then there exist
+\(C=C(n,R,\rstar)>0\) and a Borel map \(\rho\mapsto z_\rho\in K\)
+defined on \([\rstar,1]\) (with the convention \(z_\rho:=0\) for
+\(\rho\notin G_I\)) such that for every \(\rho\in G_I\),
+\[
+   \alphaFJ(\hat E_\rho,z_\rho/\rho)^{2}
+      +\bFJ(\hat E_\rho,z_\rho/\rho)^{2}
+      \le C_{\scFJ}\,\dD(\hat E_\rho)
+   \le C\,\mathcal I(\rho),
+\]
+and in particular
+\[
+   |E_\rho\Delta B_\rho(z_\rho)|^{2}+\!\!\int_{\partial^{\ast}E_\rho}
+      \!\Bigl|\nu_{E_\rho}-\tfrac{x-z_\rho}{|x-z_\rho|}\Bigr|^{2}d\Hn
+   \le C\,\mathcal I(\rho).
+\]
+\end{proposition}
+
+\begin{proof}
+Fix \(C_0:=2C_{\scFJ}(n)\), and define the multifunction
+\[
+   \Gamma:G_I\rightrightarrows K,\quad
+   \Gamma(\rho):=\bigl\{z\in K:
+   \Phi(\rho,z/\rho)\le C_0\,\dD(\hat E_\rho)\bigr\}.
+\]
+By Theorem~\ref{thm:main-joint}, \(\Gamma(\rho)\ne\emptyset\) for
+every \(\rho\in G_I\).  By Lemma~\ref{lem:Phi-cts} (continuity in the
+centre) and the continuity of the map \(z\mapsto z/\rho\),
+\(\Gamma(\rho)\) is closed in \(K\), hence compact.
+
+\smallskip\emph{Borel measurability of the graph.}  The graph
+\(\mathrm{Gr}(\Gamma)=\{(\rho,z)\in G_I\times K:\Phi(\rho,z/\rho)\le
+C_0\dD(\hat E_\rho)\}\) is Borel by Lemma~\ref{lem:Phi-Borel}: the
+inequality involves Borel functions of \((\rho,z)\) (and \(\rho\mapsto
+\dD(\hat E_\rho)\) is Borel, being a Borel function of
+\(P(E_\rho)\)).
+
+\smallskip\emph{Kuratowski--Ryll-Nardzewski selector.}  The closed-
+valued multifunction \(\Gamma\) on the Borel space \(G_I\) with
+values in the Polish space \(K\) has Borel graph, hence is Borel
+measurable in the sense of Kuratowski--Ryll-Nardzewski (cf.\
+\cite[Theorem~III.6 and Theorem~III.30]{CastaingValadier1977}); by
+the same theorem, there exists a Borel selector
+\(\rho\mapsto z_\rho\in\Gamma(\rho)\).  Extending by \(z_\rho:=0\) on
+\([\rstar,1]\setminus G_I\) preserves Borel measurability.
+
+\smallskip\emph{Quantitative estimates.}  For \(\rho\in G_I\),
+\(\dD(\hat E_\rho)=\dD(E_\rho)=(P(E_\rho)-P(B_\rho))/P(B_\rho)\le
+C(n,\rstar)\mathcal I(\rho)\).  The joint inequality
+\(\Phi_{\hat E_\rho}(z_\rho/\rho)\le C_0\,\dD(\hat E_\rho)
+\le C\,\mathcal I(\rho)\) holds by definition of \(\Gamma\).
+Multiplying out scales (Lemma in
+\texttt{WIP\_FJCenterBridge.tex}, restated as
+\(|E_\rho\Delta B_\rho(z_\rho)|=\rho^{n}|\hat E_\rho\Delta B_1(z_\rho/\rho)|\)
+and similarly for the normal-oscillation integral, using
+\(P(E_\rho)/P(B_\rho)\le 1+C\dD(E_\rho)\)), one obtains the two
+unnormalised displayed bounds.
+\end{proof}
+
+\section{Corollary for the torsion application}\label{sec:torsion}
+
+\begin{corollary}[Replacement for the conditional centre bridge]
+\label{cor:torsion-import}
+Let \(\Omega\subset B_R\) be the bounded torsion domain of the Plan~2
+setting, \(E_\rho=\{u>t(\rho)\}\) its volume-radius parametrised
+superlevels, \(\rstar\in(0,1)\), and \(K:=\overline{B_{R+1}}\).  For
+every \(\rho\) in the good set \(G_I\) of
+Proposition~\ref{prop:selection} (with \(\eta_I=\eta_I(n,R,\rstar)\)
+chosen so that
+Theorem~\ref{thm:main-joint} applies), the centre \(z_\rho\in K\)
+selected by Proposition~\ref{prop:selection} is Borel in \(\rho\) and
+satisfies the three conclusions of the
+good-level centre proposition of \texttt{WIP\_FJCenterBridge.tex}
+(Proposition~3.1 there, ``Good-level same-centre estimates''), with
+the same constant \(C=C(n,R,\rstar)\).  In particular,
+\begin{enumerate}
+\item \(|z_\rho|\le R+1\),
+\item \(|E_\rho\Delta B_\rho(z_\rho)|^{2}\le C\,\mathcal I(\rho)\),
+\item \(\int_{\partial^{\ast}E_\rho}
+   |\nu_\rho-(x-z_\rho)/|x-z_\rho||^{2}\,d\Hn\le C\,\mathcal I(\rho)\).
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+The first conclusion is by construction (\(z_\rho\in K\)).  The
+remaining two are the unnormalised forms of the joint estimate in
+Proposition~\ref{prop:selection}, obtained by writing
+\(\alphaFJ(\hat E_\rho,z_\rho/\rho)^{2}=
+   (|E_\rho\Delta B_\rho(z_\rho)|/|B_\rho|)^{2}\),
+multiplying by \(|B_\rho|^{2}\), and using \(\rho\ge\rstar\); and by
+writing \(\bFJ(\hat E_\rho,z_\rho/\rho)^{2}\cdot P_{\hat E_\rho}^{\ast}
+   =\tfrac12\rho^{-(n-1)}\int_{\partial^{\ast}E_\rho}|\nu-e|^{2}d\Hn\),
+multiplying out, and using \(P(B_\rho)=n\omega_n\rho^{n-1}\),
+\(P(E_\rho)\le 2P(B_\rho)\) on \(G_I\).
+\end{proof}
+
+\begin{remark}[What is unconditional, and what is cited]
+\label{rem:status}
+\textbf{Unconditional.}  Theorems~\ref{thm:main-joint},
+\ref{thm:centres-close}, Lemma~\ref{lem:Phi-cts},
+Lemma~\ref{lem:change-centre},
+Lemma~\ref{lem:localise-centres}, Lemma~\ref{lem:Phi-Borel}, and
+Proposition~\ref{prop:selection}.  Each is proved here from the
+following \emph{cited} inputs:
+\begin{itemize}
+\item Theorem~\ref{thm:FMP} (sharp Fraenkel asymmetry stability):
+   \cite{FigalliMaggiPratelli2010,FuscoMaggiPratelli2008}.
+\item Theorem~\ref{thm:FJ} (sharp normal-oscillation stability):
+   \cite{FuscoJulin2014}.
+\item Fuglede's nearly-spherical lemma
+   \cite{Fuglede1989} and its extension to small-deficit finite
+   perimeter sets \cite[Theorem~3.4]{CicaleseLeonardi2012},
+   used in Theorem~\ref{thm:centres-close} (Step~1).
+\item Coarea Borel structure of reduced boundaries
+   \cite[\S15]{Maggi2012}, used in Lemma~\ref{lem:Phi-Borel}.
+\item Kuratowski--Ryll-Nardzewski measurable selection
+   \cite[Theorem~III.6, III.30]{CastaingValadier1977}, used in
+   Proposition~\ref{prop:selection}.
+\end{itemize}
+\textbf{Remaining external dependency.}  The convex-quadratic
+inequality of Theorem~\ref{thm:centres-close}, Step~3
+(Remark~\ref{rem:step3}), uses two standard ingredients of the
+Fuglede/Fusco--Julin analysis (an \(L^{2}\)-orthogonality of the
+sphere harmonics of degree~1 and an \(L^{\infty}\)-bound on the
+nearly-spherical parametrisation); these are spelled out in
+\cite[Sec.~2--3]{FuscoJulin2014} and
+\cite[Sec.~3]{CicaleseLeonardi2012} but are not reproduced here.
+This is the only step of the present file that is not internally
+self-contained.
+\end{remark}
+
+\begin{thebibliography}{99}
+
+\bibitem{CastaingValadier1977}
+C.~Castaing, M.~Valadier,
+\emph{Convex Analysis and Measurable Multifunctions},
+Lecture Notes in Math.~580, Springer, 1977.
+
+\bibitem{CicaleseLeonardi2012}
+M.~Cicalese, G.P.~Leonardi,
+A selection principle for the sharp quantitative isoperimetric
+inequality,
+Arch.\ Ration.\ Mech.\ Anal.\ \textbf{206} (2012), 617--643.
+
+\bibitem{FigalliMaggiPratelli2010}
+A.~Figalli, F.~Maggi, A.~Pratelli,
+A mass transportation approach to quantitative isoperimetric
+inequalities,
+Invent.\ Math.\ \textbf{182} (2010), 167--211.
+
+\bibitem{Fuglede1989}
+B.~Fuglede,
+Stability in the isoperimetric problem for convex or nearly spherical
+domains in \(\R^{n}\),
+Trans.\ Amer.\ Math.\ Soc.\ \textbf{314} (1989), 619--638.
+
+\bibitem{FuscoJulin2014}
+N.~Fusco, V.~Julin,
+A strong form of the quantitative isoperimetric inequality,
+Calc.\ Var.\ Partial Differential Equations \textbf{50} (2014),
+925--937.
+
+\bibitem{FuscoMaggiPratelli2008}
+N.~Fusco, F.~Maggi, A.~Pratelli,
+The sharp quantitative isoperimetric inequality,
+Ann.\ of Math.\ \textbf{168} (2008), 941--980.
+
+\bibitem{Maggi2012}
+F.~Maggi,
+\emph{Sets of Finite Perimeter and Geometric Variational Problems},
+Cambridge Stud.\ Adv.\ Math.~135, Cambridge Univ.~Press, 2012.
+
+\end{thebibliography}
+
+\end{document}

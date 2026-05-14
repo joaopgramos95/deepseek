@@ -1,0 +1,403 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Fr}{\mathcal{A}}
+\newcommand{\Om}{\Omega}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\rstar}{\rho_{*}}
+\newcommand{\rdel}{\rho_\delta}
+\newcommand{\rhad}{\widehat\rho}
+\newcommand{\X}{\mathcal X}
+
+\title{Good-Endpoint Variant of the Weighted Metric Trace\\
+       (Route~$\delta$, Plan~2, Building Block \textsc{GoodEndpointTrace})}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We strengthen the weighted metric trace of \cite{WeightedMetricTrace} by
+producing a Borel level $\rhad\in G_I\cap G_\tau$ within
+$O(\delta_T)$ of $\rdel=1-\kappa\sqrt{\delta_T}$ at which
+$d_\X(F_{\rhad},B_1)^2\le C\delta_T$.  Here $G_I$ is the
+Fusco--Julin good set $\{D_I\le\eta_I\}$ and
+$G_\tau=\{w(\rho)\ge\tau_0\}$ is the profile-gap good set.  The point is
+that the boundary-layer transfer of \cite{BoundaryLayerTransfer} only
+requires the metric trace at \emph{some} level $\rhad$ with
+$\rdel-\rhad=O(\delta_T)$: the collar volume
+$|\Om\setminus E_{\rhad}|\le \omega_n n(\kappa\sqrt{\delta_T}+O(\delta_T))$
+still has order $\sqrt{\delta_T}$, so squaring preserves the sharp
+exponent.  This removes the need for $\rhad$ to coincide with the exact
+endpoint $\rdel$.  Honest status of the bad-level kinetic hypotheses is
+recorded in \S\ref{sec:bad-status}: both bad-$I$ action
+\eqref{eq:bad-I-action} and bad-$\tau$ action
+\eqref{eq:bad-tau-action} remain load-bearing for the underlying trace
+theorem we invoke, and this variant does not by itself eliminate either.
+\end{abstract}
+
+\section{Notation and standing assumptions}\label{sec:notation}
+
+We follow \cite{WeightedMetricTrace}.  Fix $n\ge 2$, $R\ge 2$,
+$\rstar\in(0,1)$, $\kappa=\kappa(n,\rstar)>0$.  Let $\Om\subset B_R$ be
+open with $|\Om|=\omega_n$, $u=u_\Om$ the variational torsion function,
+$\delta:=\delta_T(\Om)$, $w(\rho)=-t'(\rho)$,
+$d\mu(\rho)=w(\rho)d\rho$, $F_\rho:=\rho^{-1}E_\rho$.
+The smallness threshold from
+\cite[(eq:delta-smallness)]{WeightedMetricTrace} gives
+\[
+   \delta\le \delta_0:=\left(\frac{1-\rstar}{2\kappa}\right)^2,
+   \qquad
+   \rdel:=1-\kappa\sqrt\delta\ge\frac{1+\rstar}{2},
+   \qquad
+   L^*:=\frac{\rdel-\rstar}{4}\ge\frac{1-\rstar}{8}.
+\]
+Set $J^*:=[\rdel-L^*,\rdel]$, the order-one trace window.  Define
+\begin{align*}
+   G_I &:= \{\rho\in[\rstar,\rdel]:D_I(t(\rho))\le\eta_I\},
+   & B_I &:= [\rstar,\rdel]\setminus G_I,\\
+   G_\tau &:= \{\rho\in[\rstar,\rdel]:w(\rho)\ge\tau_0\},
+   & B_\tau &:= [\rstar,\rdel]\setminus G_\tau,
+   & \tau_0&:=\rstar/(2n),
+\end{align*}
+where $\eta_I=\eta_I(n,R,\rstar)>0$ is fixed in
+\cite[Hyp.~3.5]{WeightedMetricTrace}.
+
+\section{The good-endpoint trace}\label{sec:statement}
+
+\begin{theorem}[Good-endpoint weighted metric trace]\label{thm:good-end}
+There exist constants $C=C(n,R,\rstar,\kappa)>0$,
+$C_1=C_1(n,R,\rstar,\kappa)>0$, and a smallness threshold
+$\delta_0'(n,R,\rstar,\kappa)>0$ such that, under the conditional
+hypotheses of \cite[Hyp.~3.5--3.7]{WeightedMetricTrace} (i.e.\ the
+inputs that yield Theorem~3.3 of that block), the following holds.
+
+For every open $\Om\subset B_R$ with $|\Om|=\omega_n$ and
+$\delta=\delta_T(\Om)\le\delta_0'$, there exists a Borel level
+\begin{equation}\label{eq:rhat-range}
+   \rhad\;\in\;[\rdel-C_1\delta,\rdel]\cap G_I\cap G_\tau
+\end{equation}
+such that
+\begin{equation}\label{eq:rhat-trace}
+   d_\X(F_{\rhad},B_1)^{2}\;\le\;C(n,R,\rstar,\kappa)\,\delta.
+\end{equation}
+\end{theorem}
+
+The proof has two steps: a measure-theoretic non-emptiness statement
+for the candidate window, and a direct application of the existing
+trace-uniform theorem of \cite{WeightedMetricTrace}.
+
+\section{Bad-level measure bounds in Lebesgue form}\label{sec:bad-measure}
+
+\begin{lemma}[Bad-set Lebesgue measures]\label{lem:bad-leb}
+There is $C_{\rm bad}=C_{\rm bad}(n,R,\rstar)>0$ such that
+\begin{align}
+   \mathcal L^1(B_\tau)
+      &\;\le\; C_{\rm bad}\,\delta,
+      \label{eq:Btau-leb}\\
+   \mathcal L^1(B_I\cap G_\tau)
+      &\;\le\; C_{\rm bad}\,\delta.
+      \label{eq:BI-Gtau-leb}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+The first bound is exactly the profile-gap input
+\cite[Hyp.~3.7, eq.\ (profile-gap)]{WeightedMetricTrace}.
+
+For the second, the level-set deficit identity
+\cite[(DH-DI-int)]{WeightedMetricTrace} combined with the definition of
+$G_I$ gives
+\[
+   \mu(B_I)\;\le\;\eta_I^{-1}
+      \int_{\rstar}^{\rdel}D_I(t(\rho))\,d\mu(\rho)
+   \;\le\; \frac{C(n,\rstar)}{\eta_I}\,\delta.
+\]
+On $B_I\cap G_\tau$, $w(\rho)\ge\tau_0=\rstar/(2n)$, so
+$\mu(B_I\cap G_\tau)\ge \tau_0\,\mathcal L^1(B_I\cap G_\tau)$.
+Hence
+\[
+   \mathcal L^1(B_I\cap G_\tau)
+   \;\le\;\frac{\mu(B_I)}{\tau_0}
+   \;\le\;\frac{2nC(n,\rstar)}{\rstar\,\eta_I}\,\delta.
+\]
+Taking the maximum of the two constants gives $C_{\rm bad}$.
+\end{proof}
+
+\begin{lemma}[Non-empty good window near $\rdel$]\label{lem:window-nonempty}
+Let $C_1:=3C_{\rm bad}$ with $C_{\rm bad}$ as in
+Lemma~\ref{lem:bad-leb}.  Assume
+$\delta\le\delta_0'(n,R,\rstar,\kappa):=\min\{\delta_0,L^*/(2C_1)\}$.
+Then
+\begin{equation}\label{eq:nonempty}
+   \mathcal L^1\bigl([\rdel-C_1\delta,\rdel]\cap G_I\cap G_\tau\bigr)
+   \;\ge\; C_{\rm bad}\,\delta\;>\;0.
+\end{equation}
+In particular the set in \eqref{eq:rhat-range} is non-empty and has
+positive Lebesgue measure.
+\end{lemma}
+
+\begin{proof}
+Write $I_\delta:=[\rdel-C_1\delta,\rdel]$.  The condition
+$\delta\le L^*/(2C_1)$ ensures $C_1\delta\le L^*/2$, so
+$I_\delta\subset J^*\subset[\rstar,\rdel]$, in particular
+$\mathcal L^1(I_\delta)=C_1\delta$.
+By Lemma~\ref{lem:bad-leb},
+\[
+   \mathcal L^1(I_\delta\cap B_\tau)\le C_{\rm bad}\delta,
+   \qquad
+   \mathcal L^1(I_\delta\cap B_I\cap G_\tau)
+      \le \mathcal L^1(B_I\cap G_\tau)\le C_{\rm bad}\delta.
+\]
+The complement satisfies
+\[
+   I_\delta\cap G_I\cap G_\tau
+   \;=\; I_\delta\setminus
+      \bigl(B_\tau\cup (B_I\cap G_\tau)\bigr),
+\]
+and the two excluded sets are disjoint (the first sits in $B_\tau$, the
+second in $G_\tau$).  Hence
+\[
+   \mathcal L^1(I_\delta\cap G_I\cap G_\tau)
+   \;\ge\; C_1\delta - 2C_{\rm bad}\delta
+   \;=\; (3C_{\rm bad}-2C_{\rm bad})\delta
+   \;=\; C_{\rm bad}\delta\;>\;0.
+\]
+\end{proof}
+
+\begin{remark}[Borel measurability]\label{rem:borel}
+The set $G_I$ is Borel because $\rho\mapsto D_I(t(\rho))$ is Borel
+(coarea on a Sobolev function); $G_\tau$ is Borel because $w=-t'$ is
+Borel.  Hence the candidate set in \eqref{eq:rhat-range} is Borel, and
+any specific Borel selector (e.g.\ the essential infimum of the set,
+which is Borel-measurable because the set has positive measure)
+provides a Borel-measurable choice of $\rhad$.
+\end{remark}
+
+\section{Proof of Theorem~\ref{thm:good-end}}\label{sec:proof}
+
+\begin{proof}
+Let $\delta\le\delta_0'$.  By Lemma~\ref{lem:window-nonempty}, the
+candidate set in \eqref{eq:rhat-range} has positive Lebesgue measure;
+choose any
+$\rhad\in [\rdel-C_1\delta,\rdel]\cap G_I\cap G_\tau$ (Borel selection
+exists by Remark~\ref{rem:borel}; the conclusion below does not depend
+on the selection rule).
+Since $C_1\delta\le L^*/2$, $\rhad\in J^*=[\rdel-L^*,\rdel]$.
+
+The trace-uniform theorem
+\cite[Thm.~3.3, eq.\ (trace-uniform)]{WeightedMetricTrace} states
+\[
+   \sup_{\rho\in J^*}d_\X(F_\rho,B_1)^2
+   \;\le\; C_*(n,R,\rstar,\kappa)\,\delta.
+\]
+Specialising to $\rho=\rhad\in J^*$ gives
+\eqref{eq:rhat-trace} with $C:=C_*$.
+\end{proof}
+
+\section{Verification: downstream boundary-layer transfer absorbs
+$\rhad$}\label{sec:downstream}
+
+The boundary-layer transfer of \cite{BoundaryLayerTransfer} is stated
+at $\rdel$ but only uses the two ingredients
+\eqref{eq:rhat-trace} and the collar volume bound.  We verify both
+survive the replacement $\rdel\rightsquigarrow\rhad$.
+
+\begin{lemma}[Collar volume at $\rhad$]\label{lem:collar-good}
+For $\rhad$ as in Theorem~\ref{thm:good-end},
+\begin{equation}\label{eq:collar-good}
+   |\Om\setminus E_{\rhad}|\;\le\;\omega_n n\,(1-\rhad)
+   \;\le\;\omega_n n\bigl(\kappa\sqrt\delta+C_1\delta\bigr)
+   \;\le\;C_{\rm lay}'\sqrt\delta,
+\end{equation}
+where $C_{\rm lay}':=\omega_n n(\kappa+C_1\sqrt{\delta_0'})$.
+\end{lemma}
+
+\begin{proof}
+Since $E_{\rhad}\subset\Om$ and $|E_{\rhad}|=\omega_n\rhad^{\,n}$,
+$|\Om\setminus E_{\rhad}|=\omega_n(1-\rhad^{\,n})$.  The mean-value
+theorem on $\rho\mapsto 1-\rho^n$ over $[\rhad,1]\subset[\rstar,1]$
+gives $1-\rhad^{\,n}\le n(1-\rhad)$.  From \eqref{eq:rhat-range},
+\[
+   1-\rhad\;=\;(1-\rdel)+(\rdel-\rhad)\;\le\;\kappa\sqrt\delta+C_1\delta
+   \;\le\;(\kappa+C_1\sqrt{\delta_0'})\sqrt\delta.
+\]
+\end{proof}
+
+\begin{corollary}[Bounded sharp Saint--Venant via $\rhad$]\label{cor:SV-good}
+Under the hypotheses of Theorem~\ref{thm:good-end}, there is
+$C_{\rm SV}=C_{\rm SV}(n,R,\rstar,\kappa)>0$ such that
+\begin{equation}\label{eq:SV-good}
+   \Fr(\Om)^{2}\le C_{\rm SV}\,\delta.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+By the superlevel transfer lemma
+\cite[Lemma~4.2]{BoundaryLayerTransfer} applied with $E_t=E_{\rhad}$
+(valid because $E_{\rhad}\subset\Om$ and the lemma is purely
+combinatorial in the volume defect),
+\[
+   \Fr(\Om)\;\le\;\Fr(E_{\rhad})+\frac{2}{\omega_n}|\Om\setminus E_{\rhad}|.
+\]
+By \eqref{eq:rhat-trace} and \cite[Rem.~2.4]{BoundaryLayerTransfer},
+$\Fr(E_{\rhad})\le \omega_n^{-1}d_\X(F_{\rhad},B_1)$, so
+$\Fr(E_{\rhad})^2\le \omega_n^{-2}C\,\delta$.  By
+Lemma~\ref{lem:collar-good},
+$|\Om\setminus E_{\rhad}|^2\le (C_{\rm lay}')^2\delta$.
+Squaring with $(a+b)^2\le 2a^2+2b^2$,
+\[
+   \Fr(\Om)^2
+   \;\le\; \frac{2C}{\omega_n^{2}}\delta
+      + \frac{8(C_{\rm lay}')^2}{\omega_n^{2}}\,\delta
+   \;=:\;C_{\rm SV}\,\delta.
+\]
+The exponent~$2$ is preserved exactly because the $O(\delta)$
+contribution from $\rdel-\rhad$ is dominated by the
+$O(\sqrt\delta)$ collar coming from $1-\rdel=\kappa\sqrt\delta$; the
+cross term $O(\delta\cdot\sqrt\delta)=O(\delta^{3/2})$ is absorbed by
+$O(\delta)$ for $\delta\le 1$.
+\end{proof}
+
+\section{Status of bad-level kinetic hypotheses}\label{sec:bad-status}
+
+This section is the honest analysis the task brief asks for.  We
+record exactly which of the two bad-level kinetic action bounds of
+\cite[Hyp.~3.6]{WeightedMetricTrace}, namely
+\begin{align}
+   \int_{B_I}|\dot F_\rho|_\X^2\,d\mu(\rho)
+      &\le C\delta,\tag{$K_I$}\label{eq:bad-I-action}\\
+   \int_{B_\tau}|\dot F_\rho|_\X^2\,d\rho
+      &\le C\delta,\tag{$K_\tau$}\label{eq:bad-tau-action}
+\end{align}
+are still load-bearing under the proof above.
+
+\paragraph{What the proof above actually uses.}
+The proof of Theorem~\ref{thm:good-end} invokes the trace-uniform
+estimate \cite[Thm.~3.3]{WeightedMetricTrace} as a black box, hence it
+inherits \emph{all} of that theorem's dependencies.  In the chain of
+\cite{WeightedMetricTrace}:
+\begin{itemize}
+\item the integrated action bound (its Thm.~3.1) uses
+\eqref{eq:bad-I-action} on $B_I$;
+\item the Lebesgue kinetic bound (its Thm.~3.2) uses the integrated
+action bound on $G_\tau$ plus \eqref{eq:bad-tau-action} on $B_\tau$;
+\item the trace-uniform statement (its Thm.~3.3) uses both of the
+above as (H1), (H4) in its abstract trace lemma.
+\end{itemize}
+Thus, taken at face value, the proof above does \emph{not} remove
+either \eqref{eq:bad-I-action} or \eqref{eq:bad-tau-action}.
+
+\paragraph{Can a refined proof remove \eqref{eq:bad-tau-action}?}
+A potential refinement, sketched in the brief, is to repeat the
+trace argument starting from a Markov point
+$\rho_0\in J^*\cap G_\tau$ extracted from the integrated action
+\eqref{eq:bad-I-action}-only bound, and then propagate to
+$\rhad\in J^*\cap G_I\cap G_\tau$ by kinetic Cauchy--Schwarz on
+$[\rhad,\rho_0]$.  The honest obstruction to dropping
+\eqref{eq:bad-tau-action} is:
+\begin{quote}
+The interval $[\rhad,\rho_0]$ may intersect $B_\tau$, and the
+Cauchy--Schwarz step needs
+$\int_{[\rhad,\rho_0]}|\dot F_\rho|_\X^2\,d\rho<\infty$ with the
+right $\delta$-scaling.  On $[\rhad,\rho_0]\cap G_\tau$ the bound
+follows from $w\ge\tau_0$ and the integrated $d\mu$-action; on
+$[\rhad,\rho_0]\cap B_\tau$ \emph{some} $\delta$-scaling input is
+needed.
+\end{quote}
+The bound \(\mathcal L^1(B_\tau)\le C_{\rm bad}\delta\) controls only
+the measure of $B_\tau$, not the $L^2(d\rho)$ integral of
+$|\dot F_\rho|_\X$ over $B_\tau$.  Without \eqref{eq:bad-tau-action} or
+a substitute (e.g.\ a pointwise Lipschitz bound on $\rho\mapsto F_\rho$
+in $\X$, which is exactly the discredited A0), this Cauchy--Schwarz
+step is not closed.  Hence the present good-endpoint variant does not
+remove \eqref{eq:bad-tau-action} on its own.
+
+\paragraph{Can a refined proof remove \eqref{eq:bad-I-action}?}
+The bad-$I$ action input is used to bound the integrated action
+$\int_{[\rstar,\rdel]}(d_\X^2+|\dot F|_\X^2)\,d\mu\le C\delta$ on $B_I$,
+which then feeds Markov to find $\rho_0\in J^*\cap G_\tau$.  An
+alternative route is to skip the integrated action entirely and
+extract $\rho_0$ from the pointwise good-level estimate
+$d_\X(F_\rho,B_1)^2\le C\,D_I(t(\rho))$ valid on $G_I$
+(\cite[Hyp.~3.5]{WeightedMetricTrace}) combined with the integrated
+budget $\int D_I\,d\mu\le C\delta$.  By Markov on
+$d\mu|_{G_I\cap J^*}$ one obtains $\rho_0\in G_I\cap J^*$ with
+$d_\X(F_{\rho_0},B_1)^2\le K_1\delta$ \emph{without using}
+\eqref{eq:bad-I-action}.  The catch is that one then still has to
+propagate this distance bound from $\rho_0$ to $\rhad$, which puts us
+back at the same Cauchy--Schwarz obstruction on
+$[\rhad,\rho_0]\cap B_\tau$.
+
+In summary:
+\begin{itemize}
+\item Replacing the exact endpoint $\rdel$ by $\rhad\in G_I\cap G_\tau$
+near $\rdel$ is a clean structural simplification of the
+downstream interface (Corollary~\ref{cor:SV-good}).
+\item It does \emph{not} by itself eliminate either bad-level kinetic
+hypothesis.  Both \eqref{eq:bad-I-action} and
+\eqref{eq:bad-tau-action} remain load-bearing for the trace-uniform
+theorem that we invoke.
+\item A genuine elimination of \eqref{eq:bad-tau-action} would require
+a non-trivial substitute for the Cauchy--Schwarz transport across
+$B_\tau$ (e.g., a quantitative AC bound for
+$\rho\mapsto F_\rho$ at bad-density levels), which is exactly the
+discredited A0; we do not provide one here.
+\end{itemize}
+
+\section{Conditionality summary}\label{sec:cond}
+
+Theorem~\ref{thm:good-end} is conditional on the same external
+ingredients as \cite[Thm.~3.3]{WeightedMetricTrace}:
+\begin{itemize}
+\item the level-set deficit identity \cite{LevelSetIdentity},
+\item the conditional same-centre Fusco--Julin trace package
+\cite[Hyp.~3.5]{WeightedMetricTrace},
+\item the conditional good-level metric upper gradient
+\cite[Hyp.~3.6]{WeightedMetricTrace},
+\item the bad-level action inputs \eqref{eq:bad-I-action} and
+\eqref{eq:bad-tau-action},
+\item the profile-gap/Talenti density input
+\cite[Hyp.~3.7]{WeightedMetricTrace}.
+\end{itemize}
+No new conditional input is introduced.  The variant produces a Borel
+$\rhad$ in $G_I\cap G_\tau\cap[\rdel-C_1\delta,\rdel]$, which the
+boundary-layer transfer of \cite{BoundaryLayerTransfer} absorbs without
+loss of the sharp exponent~$2$, as shown in Corollary~\ref{cor:SV-good}.
+
+\begin{thebibliography}{9}
+
+\bibitem{WeightedMetricTrace}
+Plan~2 building block \textsc{WeightedMetricTrace}.
+Integrated action, kinetic bound, and weighted metric trace at
+$\rdel$; see in particular Theorems~3.1--3.3, Hypotheses~3.5--3.7, and
+the abstract trace Theorem~4.1.
+
+\bibitem{BoundaryLayerTransfer}
+Plan~2 building block \textsc{BoundaryLayerTransfer}.
+Endpoint metric trace to bounded sharp Saint--Venant via superlevel
+transfer; Theorem~3.1 (transfer at the level $\rhad$) and
+Theorem~4.1 (small-$\delta_T$ Saint--Venant).
+
+\bibitem{LevelSetIdentity}
+Plan~2 building block \textsc{LevelSetIdentity}.
+Exact level-set deficit identity
+$\frac{2\delta_T}{|\Om|}=\frac{1}{|\Om|}\int(D_H+D_I)/(n^2\omega_n^{2/n}m^{1-2/n})\,dt$
+and the profile-gap measure estimate
+$\mathcal L^1(B_\tau)\le C\delta$.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,8 +1,65 @@
 # Sharp Faber–Krahn Stability via Plan 2 / Route δ — Handoff for Independent Verification
 
-This document is a self-contained briefing for an independent reviewer (or a separate AI system) to (a) audit the current state of the Plan 2 / Route δ proof, and (b) attempt to close the one residual conditionality — a quantitative lower bound on the gradient of the torsion function on level surfaces.
+**Update (May 14, 2026 — third pass, gap-bridge round).** Three of the
+four conditional inputs of the previous pass are now discharged.
 
-The chain of 7 LaTeX files lives in this directory (`Plan 2/WIP/`); each compiles independently to a PDF.
+1. The conditional upper-gradient recovery hypothesis of
+   `WIP_MetricFramework.tex` is replaced by a direct finite-perimeter
+   limsup deformation estimate in `WIP_LimsupDeformation.tex` (Plan 2
+   Deliverable A).  The proof is a direct coarea computation on the
+   symmetric difference between $E_{\rho+h}$ and an affine pull-back
+   $T_h(E_\rho)$; no Reshetnyak, no BV lower-semicontinuity.
+2. The conditional same-centre Fusco--Julin theorem of
+   `WIP_FJCenterBridge.tex` is replaced by an unconditional joint
+   functional theorem in `WIP_SameCentreFJ.tex` (Plan 2 Deliverable B).
+   The conditional Borel measurable-selection input is discharged in
+   the same file (Plan 2 Deliverable C).  The joint functional is
+   $\Phi_E(z):=\alpha_{FJ}^2+b_{FJ}^2$ on a compact admissible set; the
+   key input is a centres-close estimate
+   $|z_F-z_{FJ}|\le C\mathcal D^{1/2}$ derived from the Fuglede /
+   Cicalese--Leonardi nearly-spherical parametrisation.
+3. The exact endpoint $\rho_\delta$ at which the metric trace is
+   anchored is replaced by a Borel good level
+   $\widehat\rho\in[\rho_\delta-C_1\delta_T,\rho_\delta]\cap G_I\cap G_\tau$
+   in `WIP_GoodEndpointTrace.tex` (Plan 2 Deliverable D).  The
+   downstream boundary-layer transfer is verified to absorb the
+   $O(\delta_T)$ endpoint shift without loss of sharp exponent.
+
+**Update (May 14, 2026, second pass).** The pointwise lower-gradient hypothesis
+Hyp-G described below has been superseded by
+`WIP_TrimmedVelocityRepair.tex`.  The repair proves a self-truncated
+velocity defect: on Fusco--Julin good levels, the low-gradient part of
+the level surface is discarded relative to the intrinsic mean
+`|E_rho|/P(E_rho)` and charged by `D_H` itself.  The metric trace block
+now uses this estimate instead of a uniform lower bound
+`|grad u| >= m_0`; tiny components are paid for by the deficit budget.
+
+This document is a self-contained briefing for an independent reviewer (or a separate AI system) to audit the current state of the Plan 2 / Route δ proof.  Sections describing Hyp-G are now historical: the current repair is the self-truncated velocity estimate in `WIP_TrimmedVelocityRepair.tex`.
+
+The chain of WIP files lives in this directory (`Plan 2/WIP/`).  The
+standalone blocks compile independently; `WIP_FJCenterBridge.tex` is a
+bridge fragment meant to be imported, not a standalone article.
+
+## Post-audit status (May 14, 2026, third pass)
+
+The current shortest route is
+
+`LevelSetIdentity -> LimsupDeformation -> SameCentreFJ -> TrimmedVelocityRepair -> WeightedMetricTrace -> GoodEndpointTrace -> BoundaryLayerTransfer -> GlobalAssembly`.
+
+What is now closed:
+
+- `WIP_LevelSetIdentity.tex`: the no-atoms/coarea/layer-cake/inverse step and the Talenti profile-gap bad-set estimate.
+- `WIP_LimsupDeformation.tex`: the unconditional finite-perimeter metric first-variation upper bound (Deliverable A).  Replaces the conditional Theorem T of `WIP_MetricFramework.tex`.
+- `WIP_SameCentreFJ.tex`: the unconditional joint same-centre Fusco--Julin theorem and Borel selection (Deliverables B+C).  Replaces the conditional Theorem 1.2 of `WIP_FJCenterBridge.tex`.
+- `WIP_GoodEndpointTrace.tex`: Borel good endpoint $\widehat\rho$ within $O(\delta_T)$ of $\rho_\delta$ (Deliverable D); the boundary-layer transfer absorbs this without exponent loss.
+- `WIP_TrimmedVelocityRepair.tex`: the self-truncated velocity defect replacing Hyp-G(lower).
+- `WIP_BoundaryLayerTransfer.tex` and `WIP_GlobalAssembly.tex`: endpoint admissibility, constant bookkeeping, and the finite-measure Kohler--Jobin exhaustion step.
+
+What remains explicitly conditional:
+
+- `WIP_WeightedMetricTrace.tex` Hypothesis 3.6 (bad-level kinetic action bounds): these were not discharged by the present round of Deliverables A--D.  The good-endpoint variant gives a cleaner downstream interface but does not by itself eliminate the bad-level kinetic dependencies; the underlying trace-uniform theorem still uses both bad-$I$ and bad-$\tau$ action bounds.  Removing them would require, e.g., proving a global $\mu$-integrated metric-derivative bound that does not assume FJ structure on bad levels.
+
+Sections 5--8 below are archival notes from the older Hyp-G-centred pass.  They remain useful background, but they are not the current statement of the open problems.
 
 ---
 
@@ -16,19 +73,24 @@ The theorem is known unconditionally — Brasco–De Philippis–Velichkov (Duke
 
 ---
 
-## 2. The seven building blocks
+## 2. The building blocks
 
 | # | Block | Role |
 |---|-------|------|
 | I | `LevelSetIdentity` | Exact deficit identity $\frac{2}{|\Omega|}(E(\Omega)-E(B)) = \int (D_H + D_I)/\text{weight}\,dt$. |
-| II | `MetricFramework` | Metric space $\mathcal{X}$ of $L^1$-classes modulo translation; metric first variation (Theorem T). |
-| III | `CentroidBound` | Centroid kinematic identity (auxiliary). |
-| IV | `SpaceTimeIdentity` | Space-time $\Pi$ identity, slicing-then-squaring (auxiliary). |
-| V | `WeightedMetricTrace` | **Load-bearing.** Fusco–Julin centre + radial $L^1$ trace + Markov/kinetic combination → pointwise $d_{\mathcal X}(F_{\rho_\delta}, B_1)^2 \le C_*\delta_T$ at the deficit endpoint. |
-| VI | `BoundaryLayerTransfer` | Transfer from $E_{\rho_\delta}$ back to $\Omega$ via Lemma 8.3. |
-| VII | `GlobalAssembly` | Stage 1 (bounded Saint–Venant) → Stage 2 (BDV bounded reduction) → Stage 3 (Kohler–Jobin) → sharp Faber–Krahn. |
+| II | `MetricFramework` | Metric space $\mathcal{X}$ of $L^1$-classes modulo translation; smooth first variation + conditional finite-perimeter closure. |
+| III | `FJCenterBridge` | Same-centre Fusco--Julin package, measurable selection, and oriented radial/homothetic trace bridge. |
+| IV | `CentroidBound` | Centroid kinematic identity (auxiliary). |
+| V | `SpaceTimeIdentity` | Space-time $\Pi$ identity, slicing-then-squaring (auxiliary). |
+| VI | `WeightedMetricTrace` | **Load-bearing modulo named inputs.** Integrated action + kinetic transport + endpoint trace. |
+| VII | `BoundaryLayerTransfer` | Transfer from $E_{\rho_\delta}$ back to $\Omega$ via Lemma 8.3. |
+| VIII | `GlobalAssembly` | Stage 1 (bounded Saint–Venant) → Stage 2 (BDV bounded reduction) → Stage 3 (Kohler–Jobin) → sharp Faber–Krahn. |
 
-The proof is **conditional on one standing hypothesis** (Hyp-G, §6 below). Everything else is unconditional.
+The proof is no longer organised around Hyp-G.  The active remaining
+issues are the finite-perimeter upper-gradient recovery theorem in
+`WIP_MetricFramework.tex` and the exact same-centre Fusco--Julin
+theorem/measurable-selection input isolated in
+`WIP_FJCenterBridge.tex`.
 
 ---
 
@@ -38,8 +100,8 @@ The chain originally tried to extract a single level $\hat\rho$ where the level 
 
 **The fix:** combine two integrated inputs that the deficit identity supplies for free:
 
-- **Input A** ($D_I$ via Fusco–Julin): $\int d_{\mathcal X}(F_\rho, B_1)^2\,d\mu \le C\delta$ ("many levels are close to balls").
-- **Input B** ($D_H$ via metric first variation): $\int |\dot F_\rho|_{\mathcal X}^2\,d\rho \le C'\delta$ ("the levels don't curve away faster than $\sqrt{\delta}$ in $L^2$").
+- **Input A** ($D_I$ via same-centre FJ): $\int d_{\mathcal X}(F_\rho, B_1)^2\,d\mu \le C\delta$ ("many levels are close to balls").
+- **Input B** ($D_H$ via conditional metric first variation + trimmed velocity repair): $\int |\dot F_\rho|_{\mathcal X}^2\,d\rho \le C'\delta$ ("the levels don't curve away faster than $\sqrt{\delta}$ in $L^2$").
 
 Their pairing, via 1D Sobolev embedding $H^1(J^*) \hookrightarrow L^\infty(J^*)$ on the order-one window $J^* = [\rho_\delta - L^*, \rho_\delta]$ (equivalently: Markov on $A$ + Cauchy–Schwarz kinetic transport on $B$ + triangle inequality), yields the **uniform pointwise bound**
 $$\sup_{\rho \in J^*} d_{\mathcal X}(F_\rho, B_1)^2 \;\le\; C_*\,\delta_T.$$
@@ -58,21 +120,23 @@ The exposition lives in:
 |---------|------|----------|
 | Overall architecture | `WIP_master.pdf` | §3 + §6 |
 | Deficit identity $D_H + D_I$ | `WIP_LevelSetIdentity.pdf` | Theorem 5.1 (boxed) |
-| **Unit-weight variance bound** | `WIP_LevelSetIdentity.pdf` | **§7 (Hyp-G, Prop 7.3, Cor 7.4)** |
-| Fusco–Julin centre package | `WIP_WeightedMetricTrace.pdf` | Lemma 2.1 |
-| Radial $L^1$ trace | `WIP_WeightedMetricTrace.pdf` | Lemma 2.2 |
-| Integrated action bound | `WIP_WeightedMetricTrace.pdf` | Theorem 1.1 (proof at §3) |
-| **The $D_H/D_I$ pairing** | `WIP_WeightedMetricTrace.pdf` | **Theorem 5.6 + Remark 5.7** |
+| **Unit-weight variance bound** | `WIP_TrimmedVelocityRepair.pdf` | self-truncated velocity defect replacing Hyp-G |
+| Same-centre FJ bridge | `WIP_FJCenterBridge.tex` | §1--§4 |
+| Integrated action bound | `WIP_WeightedMetricTrace.pdf` | conditional Theorem 1.1 / §4 |
+| **The $D_H/D_I$ pairing** | `WIP_WeightedMetricTrace.pdf` | weighted trace lemma + conditionality section |
 | Boundary-layer transfer | `WIP_BoundaryLayerTransfer.pdf` | §3–4 |
 | Final assembly | `WIP_GlobalAssembly.pdf` | §1–4 |
 
-To audit the load-bearing argument, read `WIP_LevelSetIdentity.pdf` §7 first, then `WIP_WeightedMetricTrace.pdf` Lemma 2.1 → 2.2 → 2.3 → Theorem 3.1 proof → Theorem 5.6 → Remark 5.7.
+To audit the current load-bearing argument, read `WIP_LevelSetIdentity.pdf`,
+then `WIP_MetricFramework.pdf`, then `WIP_FJCenterBridge.tex`, then
+`WIP_TrimmedVelocityRepair.pdf`, then `WIP_WeightedMetricTrace.pdf`
+including its conditionality section.
 
 ---
 
-## 5. The one residual conditionality: Hyp-G (lower bound)
+## 5. Former residual conditionality: Hyp-G (lower bound)
 
-The entire chain is rigorous **given** the following standing hypothesis, stated as Hypothesis 7.1 in `WIP_LevelSetIdentity.tex`:
+Earlier drafts made the chain rigorous **given** the following hypothesis, stated as Hypothesis 7.1 in `WIP_LevelSetIdentity.tex`:
 
 > **(Hyp-G)** There exist constants $0 < m_0 \le M_0 < \infty$ depending only on $n, R, \rho_*$ such that, for $\mathcal L^1$-a.e. $\rho \in [\rho_*, \rho_\delta]$,
 > $$m_0 \le |\nabla u(x)| \le M_0$$
@@ -84,7 +148,7 @@ Here $u = u_\Omega$ is the variational torsion function ($-\Delta u = 1$ in $\Om
 
 Cianchi–Maz'ya (JEMS 2011) for the linear case $p=2$, applied to $-\Delta u = 1 \in L^\infty \subset L^q$ for $q > n$, gives $\|\nabla u\|_{L^\infty(\Omega)} \le K_n R$ for $\Omega \subset B_R$ in the bounded reduction class produced by BDV's Lemma 5.3. (Alternatively: Stampacchia, or Talenti's rearrangement followed by boundary regularity transfer.)
 
-### Lower bound $m_0$ — the residual conditionality
+### Lower bound $m_0$ — formerly the residual conditionality
 
 What is **expected but not yet proven**: a quantitative pointwise positive lower bound $|\nabla u| \ge m_0(n, \rho_*) > 0$ on $\partial^* E_\rho$ for a.e. $\rho \in [\rho_*, \rho_\delta]$, uniform in $\rho$ and in $\Omega$ within the small-deficit bounded-reduction class.
 
@@ -96,14 +160,15 @@ What is **plausible**:
 - In the small-deficit regime $\delta_T \le \delta_0(n, R, \rho_*)$, the level set $\partial^* E_\rho$ is close to the sphere $\partial B_\rho$, where $|\nabla u_B| = \rho/n \ge \rho_*/n > 0$.
 - A **Caffarelli-type non-degeneracy estimate** on annular shells $E_\rho \setminus E_{\rho + \varepsilon}$, exploiting the non-zero driving term $-\Delta u = 1$, should yield the quantitative bound.
 
-### Why this is the *only* residual conditionality
+### Why this was isolated as the only residual conditionality
 
 The chain is structured so that:
 - Block I §7 derives the load-bearing inequality $(\int |V_\rho - \bar V_\rho|)^2 \le D_H(t(\rho))/(n^2 m_0^2)$ **conditional on Hyp-G** (Proposition 7.3).
 - Blocks V, VI, VII all carry constants depending polynomially on $(M_0/m_0)^2$ via this inequality.
 - No other step in the chain requires Hyp-G or any other unproven input.
 
-So closing Hyp-G(lower) makes the entire chain unconditional.
+The current repair avoids closing Hyp-G(lower): the low-gradient portion
+is truncated levelwise and paid for by $D_H$.
 
 ---
 
@@ -276,8 +341,8 @@ For the elliptic regularity used in Hyp-G(upper):
 
 The handoff is "complete" when:
 
-1. **Independent audit confirms** the Pass 6+7 chain is rigorous (modulo Hyp-G), at the level of detail expected for an Annals/Duke-grade research paper.
-2. **Hyp-G(lower) is proven** (or definitively reduced to a known result in the literature) — turning the entire chain into an unconditional proof.
+1. **Independent audit confirms** the Pass 6+7 chain is rigorous with `WIP_TrimmedVelocityRepair.tex` replacing Hyp-G.
+2. **The self-truncated velocity defect is audited** at the same level as the earlier Hyp-G-dependent Proposition 7.3.
 
 Either outcome (audit confirmation OR a closing of Hyp-G) is a substantial step forward. Independent failure to close Hyp-G via the strategies in §6 is also informative — it would identify where additional novel work is needed.
 

@@ -1,0 +1,448 @@
+% Plan 2 WIP bridge block.
+% Purpose: replacement import for the Fusco--Julin centre and radial
+% trace portion of WIP_WeightedMetricTrace.tex.
+%
+% This file is intentionally a TeX fragment, not a standalone document:
+% it assumes the importing file has loaded amsmath/amsthm/amssymb and has
+% theorem, lemma, proposition, and remark environments.
+
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\rstar}{\rho_*}
+\providecommand{\Hn}{\mathcal H^{n-1}}
+
+\section{Same-centre Fusco--Julin bridge}
+\label{sec:fjbridge}
+
+This block isolates the exact centre package needed by the weighted
+metric trace argument.  It deliberately does not replace a
+Fusco--Julin centre by the bulk centroid.  All estimates below use the
+same centre \(z_\rho\) for the centred symmetric difference, the normal
+oscillation, and the oriented radial trace.
+
+\subsection{Normalised notation}
+\label{ssec:fjbridge-notation}
+
+Let \(E\subset\R^n\) be a set of finite perimeter with
+\(0<|E|<\infty\), and write
+\[
+   R_E:=\left(\frac{|E|}{\omega_n}\right)^{1/n},
+   \qquad B_E(z):=B_{R_E}(z),
+   \qquad P_E^*:=P(B_{R_E})=n\omega_n R_E^{n-1}.
+\]
+The isoperimetric deficit is
+\[
+   \mathcal D(E):=\frac{P(E)-P_E^*}{P_E^*}.
+\]
+For \(z\in\R^n\) define the centred asymmetry and the pointed
+Fusco--Julin oscillation by
+\[
+   \alpha_{\rm FJ}(E,z)
+   :=\frac{|E\Delta B_E(z)|}{|B_{R_E}|},
+\]
+\[
+   \beta_{\rm FJ}(E,z)^2
+   :=\frac12\int_{\partial^*E}
+      \left|\nu_E(x)-\frac{x-z}{|x-z|}\right|^2\,d\Hn(x),
+\]
+with any value assigned to the radial vector at \(x=z\).  Since
+\(\{z\}\) is \(\Hn\)-null for \(n\ge2\), this convention is irrelevant.
+The scale-invariant version is
+\[
+   b_{\rm FJ}(E,z)^2:=\frac{\beta_{\rm FJ}(E,z)^2}{P_E^*}
+   =\frac{1}{2P_E^*}\int_{\partial^*E}
+      \left|\nu_E(x)-\frac{x-z}{|x-z|}\right|^2\,d\Hn(x).
+\]
+
+\begin{remark}[No collision with the coarea symbol]
+The symbol \(\beta_{\rm FJ}\) in this block is only the
+Fusco--Julin normal oscillation.  It is not the level-set flux
+\(\beta(t)=\int_{\partial^*E_t}|\nabla u|\,d\Hn\) used in the
+level-set identity.
+\end{remark}
+
+\begin{lemma}[Scaling of the pointed quantities]
+\label{lem:fjbridge-scaling}
+Let \(\lambda>0\), \(E_\lambda:=\lambda E\), and
+\(z_\lambda:=\lambda z\).  Then
+\[
+   \alpha_{\rm FJ}(E_\lambda,z_\lambda)
+      =\alpha_{\rm FJ}(E,z),
+   \qquad
+   b_{\rm FJ}(E_\lambda,z_\lambda)
+      =b_{\rm FJ}(E,z),
+\]
+and
+\[
+   \beta_{\rm FJ}(E_\lambda,z_\lambda)^2
+      =\lambda^{n-1}\beta_{\rm FJ}(E,z)^2,
+   \qquad
+   \mathcal D(E_\lambda)=\mathcal D(E).
+\]
+\end{lemma}
+
+\begin{proof}
+Volumes scale by \(\lambda^n\), perimeters and reduced-boundary
+measures by \(\lambda^{n-1}\), and the measure-theoretic normal is
+invariant under dilation.  The radial direction is also invariant:
+\[
+   \frac{\lambda x-\lambda z}{|\lambda x-\lambda z|}
+   =\frac{x-z}{|x-z|}.
+\]
+The displayed identities follow directly.
+\end{proof}
+
+\subsection{The exact same-centre input}
+\label{ssec:fjbridge-same-centre-input}
+
+\begin{theorem}[Same-centre Fusco--Julin input]
+\label{thm:fjbridge-same-centre-input}
+For every \(n\ge2\) there is \(C_{\rm scFJ}(n)\) such that every
+set \(E\subset\R^n\) of finite perimeter with \(0<|E|<\infty\)
+satisfies
+\[
+   \inf_{z\in\R^n}
+   \left[
+      \alpha_{\rm FJ}(E,z)^2+b_{\rm FJ}(E,z)^2
+   \right]
+   \le C_{\rm scFJ}(n)\,\mathcal D(E).
+\]
+Equivalently, there is one centre \(z_E\) for which both the centred
+symmetric-difference term and the pointed normal-oscillation term are
+controlled by the same deficit.
+\end{theorem}
+
+\begin{remark}[Status of the input]
+\label{rem:fjbridge-input-status}
+The weighted metric trace requires Theorem
+\ref{thm:fjbridge-same-centre-input} in this same-centre form.  A
+statement controlling
+\[
+   \inf_z \alpha_{\rm FJ}(E,z)^2+\inf_z b_{\rm FJ}(E,z)^2
+\]
+is not sufficient, because the radial trace uses one fixed centre in
+both terms.  Thus, if the available citation to Fusco--Julin
+\cite[Thm.~1.1]{FJ2014} is only an unpointed or separately-minimised
+form, the missing same-centre formulation remains an external
+dependency.  The rest of this block is conditional on Theorem
+\ref{thm:fjbridge-same-centre-input}.
+\end{remark}
+
+\begin{corollary}[Scaled same-centre package]
+\label{cor:fjbridge-scaled}
+Fix \(\rstar\in(0,1)\).  Let \(\rho\in[\rstar,1]\), and let
+\(E\subset\R^n\) be a set of finite perimeter with
+\(|E|=\omega_n\rho^n\).  Then there exists \(z\in\R^n\) such that
+\[
+   \left(\frac{|E\Delta B_\rho(z)|}{\omega_n\rho^n}\right)^2
+   +\frac{1}{2P(B_\rho)}
+      \int_{\partial^*E}
+      \left|\nu_E(x)-\frac{x-z}{|x-z|}\right|^2\,d\Hn(x)
+   \le C_{\rm scFJ}(n)\,\mathcal D(E).
+\]
+Consequently,
+\[
+   |E\Delta B_\rho(z)|^2
+      \le C(n,\rstar)\,
+         \bigl(P(E)-P(B_\rho)\bigr),
+\]
+and
+\[
+   \int_{\partial^*E}
+      \left|\nu_E(x)-\frac{x-z}{|x-z|}\right|^2\,d\Hn(x)
+      \le C(n)\,\bigl(P(E)-P(B_\rho)\bigr).
+\]
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{thm:fjbridge-same-centre-input} to
+\(\rho^{-1}E\) and scale back with Lemma~\ref{lem:fjbridge-scaling}.
+The last two estimates use
+\(\mathcal D(E)=(P(E)-P(B_\rho))/P(B_\rho)\),
+\(P(B_\rho)=n\omega_n\rho^{n-1}\), and \(\rho\ge\rstar\).
+\end{proof}
+
+\subsection{Selection and localisation on good levels}
+\label{ssec:fjbridge-selection}
+
+In the torsion application let \(E_\rho=\{u>t(\rho)\}\subset B_R\),
+\(|E_\rho|=\omega_n\rho^n\), and
+\[
+   \mathcal I(\rho):=D_I(t(\rho))
+   =(P(E_\rho)-P(B_\rho))(P(E_\rho)+P(B_\rho)).
+\]
+For a.e. finite-perimeter level,
+\[
+   P(E_\rho)-P(B_\rho)
+   \le \frac{\mathcal I(\rho)}{P(B_\rho)}
+   \le C(n,\rstar)\mathcal I(\rho).
+\]
+
+\begin{proposition}[Good-level same-centre estimates]
+\label{prop:fjbridge-good-level}
+Assume Theorem~\ref{thm:fjbridge-same-centre-input}.  There are
+\(\eta_I=\eta_I(n,\rstar)>0\) and \(C=C(n,R,\rstar)\) such that for
+every a.e. finite-perimeter level \(\rho\in[\rstar,1]\) with
+\(\mathcal I(\rho)\le\eta_I\), one can choose a centre \(z_\rho\)
+with
+\[
+   |z_\rho|\le R+1,
+\]
+\[
+   |E_\rho\Delta B_\rho(z_\rho)|^2
+      \le C\,\mathcal I(\rho),
+\]
+and
+\[
+   \int_{\partial^*E_\rho}
+      \left|\nu_\rho(x)-\frac{x-z_\rho}{|x-z_\rho|}\right|^2
+      d\Hn(x)
+      \le C\,\mathcal I(\rho).
+\]
+\end{proposition}
+
+\begin{proof}
+Corollary~\ref{cor:fjbridge-scaled} gives a same-centre \(z_\rho\).
+Combining its two unnormalised estimates with the preceding bound on
+\(P(E_\rho)-P(B_\rho)\) gives the two displayed quantitative bounds.
+
+It remains to localise the centre.  Let
+\[
+   A_\rho:=
+   \frac{|E_\rho\Delta B_\rho(z_\rho)|}{|B_\rho|}.
+\]
+The first quantitative bound gives \(A_\rho\le C(n,\rstar)
+\mathcal I(\rho)^{1/2}\).  Choose \(\eta_I\) so small that
+\(A_\rho<2\).  Then \(E_\rho\cap B_\rho(z_\rho)\) has positive measure.
+Since \(E_\rho\subset B_R\), the two balls \(B_R\) and
+\(B_\rho(z_\rho)\) intersect, and therefore
+\[
+   |z_\rho|\le R+\rho\le R+1.
+\]
+\end{proof}
+
+\begin{proposition}[Measurable same-centre selection]
+\label{prop:fjbridge-measurable-selection}
+Let
+\[
+   G_I:=\{\rho\in[\rstar,1]:\mathcal I(\rho)\le\eta_I\}
+\]
+and \(K:=\overline{B_{R+1}}\).  Suppose the level family has the
+standard Borel trace parametrisation: the map
+\[
+   (\rho,z)\mapsto
+   \Phi(\rho,z):=
+   \alpha_{\rm FJ}(E_\rho,z)^2+b_{\rm FJ}(E_\rho,z)^2
+\]
+is Borel on the a.e. finite-perimeter levels and continuous in \(z\)
+for each such \(\rho\).  Then there is a Borel map
+\(\rho\mapsto z_\rho\), with \(z_\rho\in K\) on \(G_I\), such that the
+three conclusions of Proposition~\ref{prop:fjbridge-good-level} hold
+for a.e. \(\rho\in G_I\).  Outside \(G_I\) one may set \(z_\rho=0\).
+\end{proposition}
+
+\begin{proof}
+For \(\rho\in G_I\), Proposition~\ref{prop:fjbridge-good-level}
+ensures that the same-centre admissible set inside \(K\) is non-empty.
+Fix a constant \(C_0>C_{\rm scFJ}(n)\) large enough to absorb the
+normalisations in Corollary~\ref{cor:fjbridge-scaled}, and define
+\[
+   \Gamma(\rho):=
+   \{z\in K:\Phi(\rho,z)\le C_0\mathcal D(E_\rho)\}
+   \qquad(\rho\in G_I).
+\]
+The sets \(\Gamma(\rho)\) are non-empty compact subsets of \(K\).  Their
+graph is Borel because \(\Phi\) and \(\rho\mapsto\mathcal D(E_\rho)\)
+are Borel.  The Kuratowski--Ryll-Nardzewski measurable selection
+theorem, in the Castaing--Valadier form \cite[Thm.~III.6]{CastaingValadier1977},
+therefore gives a Borel selector.  The estimates are exactly those of
+Proposition~\ref{prop:fjbridge-good-level}.
+\end{proof}
+
+\begin{remark}[Trace-parametrisation dependency]
+\label{rem:fjbridge-trace-param-dependency}
+The only measurability input not proved in this block is the Borel
+trace parametrisation of \(\Phi\).  For torsion superlevel sets this
+should be supplied from the coarea disintegration of
+\(\Hn\lfloor\partial^*E_\rho\) and the Borel representative of the
+measure-theoretic normal.  If that parametrisation is not already in
+the preliminaries, it is a separate GMT dependency; it is independent
+of the same-centre issue.
+\end{remark}
+
+\subsection{Oriented radial trace}
+\label{ssec:fjbridge-radial-trace}
+
+\begin{theorem}[Finite-perimeter oriented radial trace]
+\label{thm:fjbridge-radial-trace}
+Let \(n\ge2\), \(R\ge1\), \(\rstar\in(0,1)\), and
+\(\rho\in[\rstar,1]\).  Let \(E\subset B_R\) be a set of finite
+perimeter with \(|E|=|B_\rho|\), and let \(z\in\overline{B_{R+1}}\).
+Set
+\[
+   e_z(x):=\frac{x-z}{|x-z|},
+   \qquad
+   w_z(x):=\left|\frac{|x-z|}{\rho}-1\right|,
+   \qquad
+   X_z(x):=w_z(x)e_z(x),
+\]
+away from \(x=z\), with arbitrary values at \(x=z\).  Then
+\[
+   \int_{\partial^*E}w_z\,d\Hn
+   \le
+   \frac{n}{\rstar}|E\Delta B_\rho(z)|
+   +\frac{W(R,\rstar)}{2}
+      \int_{\partial^*E}|\nu_E-e_z|^2\,d\Hn,
+\]
+where one may take
+\[
+   W(R,\rstar):=1+\frac{2R+1}{\rstar}.
+\]
+No centroid containment, ray slicing, or smoothness of
+\(\partial E\) is used.
+\end{theorem}
+
+\begin{proof}
+By translating, take \(z=0\), write \(B=B_\rho\),
+\(e=x/|x|\), \(w(r)=|r/\rho-1|\), and \(X=w(|x|)e\).  Since
+\(E\subset B_R\) and \(|z|\le R+1\) before the translation, on
+\(\partial^*E\) one has \(w\le W(R,\rstar)\).
+
+On \(\partial^*E\), outside the \(\Hn\)-null point \(\{0\}\),
+\[
+   w=w\,e\cdot\nu_E+w(1-e\cdot\nu_E).
+\]
+Thus
+\[
+   \int_{\partial^*E}w\,d\Hn
+   =
+   \int_{\partial^*E}X\cdot\nu_E\,d\Hn
+   +\frac12\int_{\partial^*E}w|\nu_E-e|^2\,d\Hn.
+\]
+The second term is at most
+\[
+   \frac{W(R,\rstar)}{2}
+   \int_{\partial^*E}|\nu_E-e|^2\,d\Hn.
+\]
+
+It remains to estimate the oriented term.  For
+\(\varepsilon>0\) let \(\eta_\varepsilon\) be a smooth radial cut-off
+which is \(0\) on \(B_{\varepsilon/2}\), \(1\) outside \(B_\varepsilon\),
+and satisfies \(|\eta_\varepsilon'|\le4/\varepsilon\).  Multiplying
+also by a fixed outer cut-off equal to \(1\) on a ball containing
+\(E\cup B\), set
+\[
+   X_\varepsilon(x):=\eta_\varepsilon(|x|)X(x).
+\]
+Then \(X_\varepsilon\) is Lipschitz and compactly supported, so the
+Gauss--Green formula for finite-perimeter sets gives
+\[
+   \int_{\partial^*E}X_\varepsilon\cdot\nu_E\,d\Hn
+      =\int_E {\rm div}\,X_\varepsilon\,dx,
+   \qquad
+   \int_{\partial B}X_\varepsilon\cdot\nu_B\,d\Hn
+      =\int_B {\rm div}\,X_\varepsilon\,dx.
+\]
+The boundary integral over \(\partial B\) is zero because \(w(\rho)=0\).
+Letting \(\varepsilon\downarrow0\) is legitimate: \(X_\varepsilon\to X\)
+boundedly on \(\partial^*E\), \({\rm div}\,X\in L^1_{\rm loc}\) for
+\(n\ge2\), and the cut-off derivative contributes at most
+\[
+   \frac{C}{\varepsilon}
+   |(E\cup B)\cap\{\varepsilon/2<|x|<\varepsilon\}|
+   \le C\varepsilon^{n-1}\to0.
+\]
+Hence
+\[
+   \int_{\partial^*E}X\cdot\nu_E\,d\Hn
+   =
+   \int_{E\setminus B}{\rm div}\,X\,dx
+   -\int_{B\setminus E}{\rm div}\,X\,dx.
+\]
+For \(r=|x|>\rho\),
+\[
+   {\rm div}\,X=\frac{n}{\rho}-\frac{n-1}{r}
+      \le \frac{n}{\rho}\le\frac{n}{\rstar}.
+\]
+For \(0<r<\rho\),
+\[
+   {\rm div}\,X=\frac{n-1}{r}-\frac{n}{\rho},
+   \qquad
+   (-{\rm div}\,X)_+\le\frac{n}{\rho}\le\frac{n}{\rstar}.
+\]
+Therefore
+\[
+   \int_{\partial^*E}X\cdot\nu_E\,d\Hn
+   \le \frac{n}{\rstar}\bigl(|E\setminus B|+|B\setminus E|\bigr)
+   =\frac{n}{\rstar}|E\Delta B|.
+\]
+Combining the two estimates proves the theorem.
+\end{proof}
+
+\begin{corollary}[Radial and homothetic traces on good levels]
+\label{cor:fjbridge-homothetic-trace}
+With the measurable same-centre field from
+Proposition~\ref{prop:fjbridge-measurable-selection}, for a.e.
+\(\rho\in G_I\),
+\[
+   T_\rho:=
+   \int_{\partial^*E_\rho}
+      \left|\frac{|x-z_\rho|}{\rho}-1\right|\,d\Hn(x)
+   \le C(n,R,\rstar)\mathcal I(\rho)^{1/2},
+\]
+and, if
+\[
+   H_{z_\rho,\rho}(x):=
+      \frac{(x-z_\rho)\cdot\nu_\rho(x)}{\rho},
+   \qquad
+   \bar V_\rho:=\frac{P(B_\rho)}{P(E_\rho)},
+\]
+then
+\[
+   \left(
+      \int_{\partial^*E_\rho}
+         |H_{z_\rho,\rho}-\bar V_\rho|\,d\Hn
+   \right)^2
+   \le C(n,R,\rstar)\mathcal I(\rho).
+\]
+\end{corollary}
+
+\begin{proof}
+Theorem~\ref{thm:fjbridge-radial-trace} and
+Proposition~\ref{prop:fjbridge-good-level} give
+\[
+   T_\rho\le
+   C\left(\mathcal I(\rho)^{1/2}+\mathcal I(\rho)\right).
+\]
+Since \(\mathcal I(\rho)\le\eta_I\le1\) on \(G_I\), this gives the
+first estimate.
+
+Writing \(e_\rho=(x-z_\rho)/|x-z_\rho|\), one has
+\[
+   |H_{z_\rho,\rho}-1|
+   \le
+   \left|\frac{|x-z_\rho|}{\rho}-1\right|
+   +|e_\rho\cdot\nu_\rho-1|
+   =
+   \left|\frac{|x-z_\rho|}{\rho}-1\right|
+   +\frac12|e_\rho-\nu_\rho|^2.
+\]
+After integration this is bounded by \(C\mathcal I(\rho)^{1/2}\).  Also
+\[
+   P(E_\rho)|1-\bar V_\rho|
+   =P(E_\rho)-P(B_\rho)
+   \le C(n,\rstar)\mathcal I(\rho)
+   \le C(n,\rstar)\mathcal I(\rho)^{1/2}.
+\]
+The triangle inequality and squaring yield the homothetic trace bound.
+\end{proof}
+
+\begin{remark}[Import point for \textsc{WeightedMetricTrace}]
+\label{rem:fjbridge-import-point}
+The intended replacement for the current centre package in
+\texttt{WIP\_WeightedMetricTrace.tex} is:
+Proposition~\ref{prop:fjbridge-measurable-selection} for the Borel
+same-centre field, Theorem~\ref{thm:fjbridge-radial-trace} for the
+finite-perimeter oriented divergence trace, and
+Corollary~\ref{cor:fjbridge-homothetic-trace} for the good-level
+homothetic trace estimate used in the metric first-variation step.
+\end{remark}

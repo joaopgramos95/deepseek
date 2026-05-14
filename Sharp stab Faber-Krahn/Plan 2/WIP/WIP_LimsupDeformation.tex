@@ -1,0 +1,445 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{enumitem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Om}{\Omega}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\rstar}{\rho_{*}}
+\newcommand{\X}{\mathcal X}
+\newcommand{\Hn}{\mathcal H^{n-1}}
+\DeclareMathOperator{\dist}{dist}
+
+\title{Direct Finite-Perimeter Limsup Deformation Estimate\\
+       for the Rescaled Torsion Level Curve\\
+       (Route~$\delta$, Plan~2, Deliverable~A)}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We prove an unconditional one-sided (limsup) upper bound on the metric
+derivative of the volume-rescaled torsion level curve
+$\rho\mapsto[F_\rho]\in(\X,d_\X)$, with no use of Reshetnyak or $BV$ lower
+semicontinuity.  The bound replaces Definition~4.2 (upper-gradient
+recovery hypothesis) of \textsc{MetricFramework}.  The proof is a direct
+coarea computation of the symmetric difference between $E_{\rho+h}$ and
+the affine pull-back $T_h(E_\rho)$ corresponding to homothety plus a chosen
+translation.
+\end{abstract}
+
+\section{Setting and main theorem}\label{sec:setup}
+
+We adopt verbatim the standing hypotheses of \textsc{MetricFramework}
+\cite{MetricFramework}: $\Om\subset B_R$ bounded open, $|\Om|=\omega_n$,
+torsion potential $u\in H^1_0(\Om)\cap L^\infty(\Om)$ solving
+$-\Delta u=1$, volume-radius parametrization $E_\rho=\{u>t(\rho)\}$ with
+$|E_\rho|=\omega_n\rho^n$, $\rho\in[\rstar,1]$, $t(\rho)$ absolutely
+continuous and nonincreasing, and $F_\rho:=\rho^{-1}E_\rho$. Interior
+regularity yields $u\in W^{2,p}_{\rm loc}(\Om)\hookrightarrow
+C^{1,\alpha}_{\rm loc}(\Om)$ for every $p>n$, $\alpha=1-n/p$. Fix a bounded
+Borel centre field $z:[\rstar,1]\to\R^n$ with $\sup_\rho|z_\rho|\le R'$.
+Set
+\begin{equation}\label{eq:V-H}
+   V_\rho(x):=\frac{-t'(\rho)}{|\nabla u(x)|},\qquad
+   H_{z_\rho,\rho}(x):=\frac{(x-z_\rho)\cdot\nu_\rho(x)}{\rho},
+\end{equation}
+on $\partial^*E_\rho\cap\{|\nabla u|>0\}$ (a full $\Hn$-measure subset for
+a.e.\ $\rho$ by Prop.~3.1 of \textsc{MetricFramework}; here $\nu_\rho$ is
+the outer unit normal to $E_\rho$). The target action is
+\begin{equation}\label{eq:G-def}
+   G_z(\rho):=\rho^{-n}\inf_{a\in\R^n}
+   \int_{\partial^*E_\rho}|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,d\Hn .
+\end{equation}
+
+\begin{theorem}[Direct limsup deformation bound]\label{thm:main}
+Under the standing hypotheses,
+\begin{equation}\label{eq:limsup}
+   \limsup_{h\to 0}\frac{d_\X([F_{\rho+h}],[F_\rho])}{|h|}
+   \le G_z(\rho)
+   \qquad\text{for a.e.\ }\rho\in[\rstar,1].
+\end{equation}
+Consequently $G_z\in L^1([\rstar,1])$ is an upper gradient for
+$\rho\mapsto[F_\rho]$, the curve is absolutely continuous in $(\X,d_\X)$,
+and the metric derivative satisfies $|\dot F_\rho|_\X\le G_z(\rho)$ a.e.
+\end{theorem}
+
+\section{Generic levels}\label{sec:generic}
+
+Call $\rho\in[\rstar,1]$ \emph{generic} if all of the following hold:
+\begin{enumerate}[label=(\roman*)]
+\item $E_\rho$ has finite perimeter and
+$\Hn(\partial^*E_\rho\cap\{|\nabla u|=0\})=0$;
+\item $t$ is differentiable at $\rho$ with $t'(\rho)\in(-\infty,0]$ and
+\begin{equation}\label{eq:coarea-rho}
+   (-t'(\rho))\int_{\partial^*E_\rho}\frac{1}{|\nabla u|}\,d\Hn
+   =n\omega_n\rho^{n-1};
+\end{equation}
+\item $V_\rho\in L^1(\partial^*E_\rho,\Hn)$ and $t(\rho)$ is a Lebesgue
+point of the (locally) $L^1$-function
+\[
+   \tau\longmapsto
+   N_\psi(\tau):=\int_{\partial^*\{u>\tau\}}\frac{\psi(x)}{|\nabla u(x)|}\,d\Hn(x)
+\]
+for every fixed bounded Borel $\psi:\R^n\to\R$; equivalently, for a
+countable dense family of such $\psi$, e.g.\ $\psi\in\{1,\,|x|,\,|\nabla u|\}$
+and finite Boolean combinations of half-spaces and balls (which generate
+the bounded Borel functions in $L^1$). Equivalently, the action measure
+$\mu_\tau:=|\nabla u|^{-1}\Hn\!\!\restriction_{\partial^*\{u>\tau\}}$
+satisfies $\mu_\tau\to\mu_{t(\rho)}$ in the local weak-$*$ sense at
+$\tau=t(\rho)$ in the Lebesgue-differentiation sense $\lim_{r\to0}
+r^{-1}\int_{t(\rho)-r}^{t(\rho)+r}|N_\psi(\tau)-N_\psi(t(\rho))|d\tau=0$.
+\end{enumerate}
+By Prop.~3.1 of \textsc{MetricFramework}, the BV coarea formula
+\cite[Thm.~13.1]{Maggi2012}, \cite[Thm.~3.40]{AFP2000}, the absolute
+continuity of $t$, and Lebesgue differentiation, the set of non-generic
+levels has Lebesgue measure zero. Fix a generic $\rho$ for the rest of
+Sections~\ref{sec:competitor}--\ref{sec:conclude}.
+
+\section{Pull-back to $E_\rho$-coordinates}\label{sec:competitor}
+
+Let $b\in\R^n$ and $h\in\R$ small with $\rho_h:=\rho+h\in[\rstar,1]$. Set
+$z:=z_\rho$ (frozen) and use the homothety
+$\Psi_s^z(y):=z+s^{-1}(y-z)$, so that $\Psi_s^z(E_s)$ is a translate of
+$F_s$. Translation-invariance of $d_\X$ gives the competitor bound
+\[
+   d_\X([F_{\rho_h}],[F_\rho])
+   \le\bigl|\Psi^z_{\rho_h}(E_{\rho_h})\,\Delta\,(\Psi^z_\rho(E_\rho)+hb)\bigr|.
+\]
+Apply the change of variables $y=\Psi_{\rho_h}^z(x)$ (Jacobian $\rho_h^{-n}$)
+to the right-hand side:
+\begin{equation}\label{eq:pull-back}
+   d_\X([F_{\rho_h}],[F_\rho])
+   \le\rho_h^{-n}\bigl|E_{\rho_h}\,\Delta\,T_h(E_\rho)\bigr|,
+\end{equation}
+where
+\begin{equation}\label{eq:Th}
+   T_h(x):=(\Psi^z_{\rho_h})^{-1}(\Psi^z_\rho(x)+hb)
+   =\frac{\rho_h}{\rho}(x-z)+z+\rho_h h\,b
+   =x+h\,W_h(x),
+\end{equation}
+\begin{equation}\label{eq:Wh}
+   W_h(x):=\rho^{-1}(x-z)+\rho_h b,\qquad
+   W_0(x):=\rho^{-1}(x-z)+\rho b.
+\end{equation}
+$W_h\to W_0$ uniformly on bounded sets and $\det DT_h=(\rho_h/\rho)^n=1+O(h)$.
+
+Note: for $x\in\partial^*E_\rho\cap\{|\nabla u|>0\}$, the outer normal is
+$\nu_\rho(x)=-\nabla u(x)/|\nabla u(x)|$, hence
+\begin{equation}\label{eq:W0-nu}
+   \nabla u(x)\cdot W_0(x)=-|\nabla u(x)|\,W_0(x)\cdot\nu_\rho(x).
+\end{equation}
+
+\section{The shell estimate}\label{sec:bv-shell}
+
+\begin{lemma}[Symmetric-difference asymptotic]\label{lem:shell}
+For a generic $\rho$ and every $b\in\R^n$,
+\begin{equation}\label{eq:shell-asymp}
+   \limsup_{h\to 0}\frac{|E_{\rho_h}\,\Delta\,T_h(E_\rho)|}{|h|}
+   \le\int_{\partial^*E_\rho}\bigl|V_\rho(x)-W_0(x)\cdot\nu_\rho(x)\bigr|\,d\Hn(x).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Treat $h>0$; the case $h<0$ is symmetric (cf.\ Remark~\ref{rem:downward}).
+Throughout, $K\Subset\Om$ is a compact set containing
+$\bigcup_{\rho'\in[\rstar,1-\eta]}\overline{E_{\rho'}}\setminus E_1$ for a
+fixed $\eta>0$; we deal with the trimmed range $\rho\in[\rstar,1-\eta]$ and
+let $\eta\to0$ at the end. On $K$, $u\in C^{1,\alpha}(K)$ uniformly, and we
+write $L:=\|u\|_{C^1(K)}+\|\nabla u\|_{C^{0,\alpha}(K)}$.
+
+\smallskip
+\emph{Step 1 (pointwise indicator identity).} For $x\in\R^n$,
+\[
+   T_h(E_\rho)=\{x:T_h^{-1}(x)\in E_\rho\}=\{x:u(T_h^{-1}(x))>t(\rho)\}.
+\]
+By $C^{1,\alpha}$ regularity on $K$ and $|T_h^{-1}(x)-x|\le Ch$ on bounded
+sets,
+\begin{equation}\label{eq:linearization}
+   u(T_h^{-1}(x))=u(x)-h\nabla u(x)\cdot W_h(x)+\eta_h(x),
+   \qquad
+   \sup_{x\in K}|\eta_h(x)|=O(h^{1+\alpha}),
+\end{equation}
+because $T_h^{-1}(x)=x-hW_h(x)+O(h^2)$ uniformly on bounded sets and
+$\nabla u\in C^{0,\alpha}(K)$. Replace $W_h$ by $W_0$ to incur an extra
+$O(h)$-error absorbed into $\eta_h(x)$ (since $|W_h-W_0|=|\rho_h-\rho||b|=O(h)$).
+Define
+\[
+   \Phi_h(x):=u(x)-h\,\nabla u(x)\cdot W_0(x),
+\]
+so $u(T_h^{-1}(x))=\Phi_h(x)+\eta_h(x)$ with $\eta_h=o(h)$ uniformly on $K$.
+Then
+\begin{equation}\label{eq:xor}
+   \mathbf 1_{E_{\rho_h}\Delta T_h(E_\rho)}(x)
+   =\mathbf 1_{u(x)>t(\rho_h)}\oplus
+    \mathbf 1_{\Phi_h(x)+\eta_h(x)>t(\rho)}.
+\end{equation}
+
+\smallskip
+\emph{Step 2 (containment in an $x$-dependent slab).} The XOR
+\eqref{eq:xor} equals $1$ exactly when the thresholds $t(\rho_h)$ and
+$t(\rho)$ separate $u(x)$ from $\Phi_h(x)+\eta_h(x)$, equivalently when
+$u(x)\in I_h(x)$, where the (closed or open) interval $I_h(x)$ has endpoints
+\[
+   t(\rho_h)\qquad\text{and}\qquad t(\rho)+\bigl(u(x)-\Phi_h(x)-\eta_h(x)\bigr)
+   =t(\rho)+h\nabla u(x)\cdot W_0(x)-\eta_h(x).
+\]
+Therefore $|I_h(x)|\le|S_h(x)|$ with
+\begin{equation}\label{eq:Sh}
+   S_h(x):=t(\rho)-t(\rho_h)+h\nabla u(x)\cdot W_0(x)-\eta_h(x).
+\end{equation}
+By genericity (ii), $t(\rho)-t(\rho_h)=(-t'(\rho))h+o(h)$, so
+\begin{equation}\label{eq:Sh-asymp}
+   S_h(x)=h\bigl(-t'(\rho)+\nabla u(x)\cdot W_0(x)\bigr)+\xi_h(x),
+   \qquad \sup_K|\xi_h|=o(h).
+\end{equation}
+
+\smallskip
+\emph{Step 3 (coarea representation of the symmetric difference).}
+Apply the BV coarea formula to the bounded Borel function
+$\varphi(x):=\mathbf 1_{u(x)\in I_h(x)}\,|\nabla u(x)|^{-1}\,
+\mathbf 1_{\{|\nabla u(x)|>0\}}$ on $\Om$ (note $\varphi\,|\nabla u|=
+\mathbf 1_{u(x)\in I_h(x)}\mathbf 1_{\{|\nabla u|>0\}}$):
+\begin{equation}\label{eq:coarea-app}
+   \int_\Om\mathbf 1_{u(x)\in I_h(x)}\,dx
+   =\int_{\R}\Bigl(\int_{\partial^*\{u>t\}}\frac{\mathbf 1_{t\in I_h(x)}}
+    {|\nabla u(x)|}\,d\Hn(x)\Bigr)dt,
+\end{equation}
+where we used $|\{|\nabla u|=0,\,0<u<\|u\|_\infty\}|=0$ (Lemma~3.2 of
+\textsc{LevelSetIdentity}) to drop the $\{|\nabla u|=0\}$ piece. By Step~2,
+$\mathbf 1_{E_{\rho_h}\Delta T_h(E_\rho)}(x)\le\mathbf 1_{u(x)\in I_h(x)}$,
+so
+\begin{equation}\label{eq:upper-bound-coarea}
+   |E_{\rho_h}\Delta T_h(E_\rho)|
+   \le\int_\R\int_{\partial^*\{u>t\}}\frac{\mathbf 1_{t\in I_h(x)}}
+   {|\nabla u(x)|}\,d\Hn(x)\,dt.
+\end{equation}
+
+\smallskip
+\emph{Step 4 (change of variables in $t$).} Substitute $t=t(\rho_h)+h\sigma$
+in \eqref{eq:upper-bound-coarea}. The endpoints of $I_h(x)$ are $t(\rho_h)$
+and $t(\rho_h)+S_h(x)$, so $t\in I_h(x)$ iff $\sigma$ lies between $0$ and
+$S_h(x)/h$. Set $\Lambda_h(x):=S_h(x)/h$; by \eqref{eq:Sh-asymp},
+$\Lambda_h(x)=F(x)+o(1)$ uniformly on $K$, with
+\begin{equation}\label{eq:F-def}
+   F(x):=-t'(\rho)+\nabla u(x)\cdot W_0(x).
+\end{equation}
+The substitution gives
+\begin{equation}\label{eq:after-sub}
+   |E_{\rho_h}\Delta T_h(E_\rho)|
+   \le h\int_\R\int_{\partial^*\{u>t(\rho_h)+h\sigma\}}
+   \frac{\mathbf 1_{\sigma\in J(\Lambda_h(x))}}{|\nabla u(x)|}\,d\Hn(x)\,d\sigma,
+\end{equation}
+where $J(\lambda)$ denotes the closed interval with endpoints $0$ and
+$\lambda$ (so $|J(\lambda)|=|\lambda|$).
+
+\smallskip
+\emph{Step 5 (passage to the limit via Lebesgue point).}
+The constraint $t \in I_h(x)$ in \eqref{eq:upper-bound-coarea} preserves
+sign information: it is equivalent to $\sigma_x \in J(\Lambda_h(x))$,
+where $\sigma_x:=(t-t(\rho_h))/h$ and $J(\lambda)$ is the closed interval
+with endpoints $0$ and $\lambda$ (length $|\lambda|$). Substituting
+$t=t(\rho_h)+h\sigma$, $dt=h\,d\sigma$, in
+\eqref{eq:upper-bound-coarea}:
+\begin{equation}\label{eq:after-sub-final}
+   |E_{\rho_h}\Delta T_h(E_\rho)|
+   \le h\int_\R q_h(\sigma)\,d\sigma,
+\end{equation}
+\[
+   q_h(\sigma):=\int_{\partial^*\{u>t(\rho_h)+h\sigma\}}
+   \frac{\mathbf 1_{\sigma\in J(\Lambda_h(x))}}{|\nabla u(x)|}\,d\Hn(x).
+\]
+By Step~2, $\Lambda_h\to F$ uniformly on $K$ as $h\to0^+$, so for every
+fixed $\sigma\in\R\setminus\{0,\pm F(x):x\in K\}$ (a co-null set),
+$\mathbf 1_{\sigma\in J(\Lambda_h(x))}\to\mathbf 1_{\sigma\in J(F(x))}$ for
+all $x$ in a co-null set of $\partial^*E_\rho$.
+
+By genericity~(iii) applied to the bounded Borel function
+$\psi_\sigma(x):=\mathbf 1_{\sigma\in J(F(x))}$ (which is bounded by $1$
+and is a Borel-measurable function on $\R^n$ since $F$ is continuous on
+$K$ and $\sigma\in J(F(x))=\{0\le\sigma F(x)\le F(x)^2\}$), the
+Lebesgue-point property gives, after a small averaging in $\sigma$ to
+absorb the $\Lambda_h\to F$ replacement error, the convergence in measure
+in $\sigma$:
+\[
+   q_h(\sigma)\to q_0(\sigma)
+   :=\int_{\partial^*E_\rho}\frac{\mathbf 1_{\sigma\in J(F(x))}}{|\nabla u(x)|}
+   \,d\Hn(x)\qquad\text{as }h\to0^+,\quad\text{for a.e.\ }\sigma.
+\]
+$q_h$ is uniformly bounded on $|\sigma|\le\|F\|_\infty+1$ by
+$\sup_{|\tau-t(\rho)|\le1}\alpha(\tau)<\infty$, and zero outside this
+interval. Dominated convergence in $\sigma$:
+\[
+   \limsup_{h\to0^+}\frac{|E_{\rho_h}\Delta T_h(E_\rho)|}{h}
+   \le\int_\R q_0(\sigma)\,d\sigma.
+\]
+Fubini in $(\sigma,x)$: $\int_\R\mathbf 1_{\sigma\in J(F(x))}d\sigma=|F(x)|$,
+hence
+\begin{equation}\label{eq:fubini-clean}
+   \limsup_{h\to0^+}\frac{|E_{\rho_h}\Delta T_h(E_\rho)|}{h}
+   \le\int_{\partial^*E_\rho}\frac{|F(x)|}{|\nabla u(x)|}\,d\Hn(x).
+\end{equation}
+
+\smallskip
+\emph{Step 6 (identification of $F/|\nabla u|$).} On
+$\partial^*E_\rho\cap\{|\nabla u|>0\}$, by \eqref{eq:W0-nu},
+\[
+   \frac{F(x)}{|\nabla u(x)|}
+   =\frac{-t'(\rho)}{|\nabla u(x)|}+\frac{\nabla u(x)\cdot W_0(x)}{|\nabla u(x)|}
+   =V_\rho(x)-W_0(x)\cdot\nu_\rho(x).
+\]
+Together with \eqref{eq:fubini-clean} and $\Hn(\partial^*E_\rho\cap
+\{|\nabla u|=0\})=0$, this gives \eqref{eq:shell-asymp} for $h\to0^+$.
+The case $h\to0^-$ is handled by Remark~\ref{rem:downward} below.
+
+The compact-strip device $K\Subset\Om$ was implicit in Step~1; for
+$\rho\in[\rstar,1-\eta]$ a fixed $K=K_\eta$ works, and letting $\eta\to0^+$
+covers a.e.\ $\rho$ (the residual interval $(1-\eta,1)$ near $\rho=1$
+contributes a null set).
+\end{proof}
+
+\begin{remark}\label{rem:downward}
+For $h<0$, redo Step~1 with $T_h^{-1}-{\rm id}=-h W_h$ (sign flip):
+$u(T_h^{-1}(x))=u(x)+|h|\nabla u\cdot W_h+\eta_h$, hence
+\eqref{eq:Sh-asymp} reads
+$S_h(x)=h(-t'(\rho)+\nabla u(x)\cdot W_0(x))+o(h)$ with the same $F$. The
+remaining steps go through verbatim with $|h|$ in place of $h$ in
+\eqref{eq:fubini-clean}.
+\end{remark}
+
+\section{Conclusion of Theorem~\ref{thm:main}}\label{sec:conclude}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Fix a generic $\rho\in[\rstar,1]$ and any $b\in\R^n$. Combining
+\eqref{eq:pull-back} and Lemma~\ref{lem:shell}, with $\rho_h^{-n}\to\rho^{-n}$,
+\[
+   \limsup_{h\to0}\frac{d_\X([F_{\rho_h}],[F_\rho])}{|h|}
+   \le \rho^{-n}\int_{\partial^*E_\rho}|V_\rho-W_0\cdot\nu_\rho|\,d\Hn .
+\]
+By \eqref{eq:W0-nu} the integrand equals $|V_\rho-H_{z,\rho}-a\cdot\nu_\rho|$
+with $a:=\rho b$. As $b$ ranges over $\R^n$ so does $a$; taking the
+infimum gives \eqref{eq:limsup}.
+
+\smallskip
+\emph{$G_z\in L^1_{\rm loc}$.}
+Taking $a=0$ in the definition of $G_z$ and using
+\eqref{eq:coarea-rho} for $\int|V_\rho|\,d\Hn=n\omega_n\rho^{n-1}$, plus
+$|H_{z_\rho,\rho}(x)|\le\rho^{-1}(R+R')$ on $\partial^*E_\rho\subset B_R$,
+\begin{equation}\label{eq:G-L1-bound}
+   G_z(\rho)\le\rho^{-n}\Bigl(n\omega_n\rho^{n-1}+\rho^{-1}(R+R')P(E_\rho)\Bigr).
+\end{equation}
+Since $P(E_\rho)\cdot|t'(\rho)|\in L^1([\rstar,1])$ (BV coarea applied to
+$\varphi\equiv 1$ gives $\int_{\rstar}^1 P(E_\rho)|t'(\rho)|\,d\rho=
+\int_{t(1)}^{t(\rstar)}P(\{u>t\})\,dt<\infty$), and $|t'(\rho)|$ is
+strictly positive on a set of full measure in $[\rstar,1]$, the function
+$P(E_\rho)$ is in $L^1_{\rm loc}$ on the complement of $\{|t'|=0\}$. The
+upper-gradient lemma below only needs $G_z\in L^1_{\rm loc}$ on a
+full-measure subset of $[\rstar,1]$; this is what we use.
+
+\smallskip
+\emph{Upper gradient.} Given $\rstar\le s<t\le 1$, partition
+$[s,t]$ into intervals of length $\to 0$ and apply the pointwise bound
+\eqref{eq:limsup} together with the integral upper-gradient lemma of
+\cite[Lem.~1.1.4]{AGS2008} (which only needs the pointwise upper limit
+estimate a.e.\ and an $L^1$ majorant) to conclude
+$d_\X([F_t],[F_s])\le\int_s^t G_z(\rho)\,d\rho$. Hence $\gamma:\rho\mapsto
+[F_\rho]$ is absolutely continuous with upper gradient $G_z$, and
+$|\dot\gamma|\le G_z$ a.e.\ by Definition~3.2 of \textsc{MetricFramework}.
+\end{proof}
+
+\section{Status and replacement of Definition~4.2}\label{sec:status}
+
+\textbf{Unconditional content.}
+Theorem~\ref{thm:main} is established for finite-perimeter level sets of
+the torsion potential using only:
+\begin{enumerate}[label=(\arabic*)]
+\item $W^{2,p}_{\rm loc}$-regularity of $u$ for some $p>n$, equivalent to
+$u\in C^{1,\alpha}_{\rm loc}(\Om)$, true for the torsion potential.
+\item BV coarea (\cite[Thm.~13.1]{Maggi2012}) and Sobolev--Sard (Prop.~3.1
+of \textsc{MetricFramework}).
+\item Lebesgue differentiation and absolute continuity of $t(\rho)$.
+\end{enumerate}
+No Reshetnyak, no $BV$ lower semicontinuity for the upper bound, no smooth
+recovery construction, and no pointwise lower bound on $|\nabla u|$.
+
+\smallskip
+\textbf{Where compactness in $K\Subset\Om$ enters.}
+The Lipschitz/$C^{1,\alpha}$ bound for $u$ is uniform only on compact
+subsets $K\Subset\Om$. The interval $[\rstar,1-\eta]$ keeps
+$\partial^*E_\rho$ a fixed positive distance from $\partial\Om$, so a fixed
+$K$ works. Letting $\eta\to0^+$ recovers a.e.\ $\rho\in[\rstar,1]$. This is
+the standard ``compact-strip'' device.
+
+\smallskip
+\textbf{Technical input used (genericity~(iii) Lebesgue point).}
+The proof of Lemma~\ref{lem:shell} uses that $t(\rho)$ is a Lebesgue point
+of $\tau\mapsto\int_{\partial^*\{u>\tau\}}\psi/|\nabla u|\,d\Hn$ for
+bounded Borel $\psi$. This is a standard consequence of:
+\begin{itemize}
+\item BV coarea, which writes the measure $|\nabla u(x)|\,dx$ as the
+disintegration $\Hn\!\!\restriction_{\partial^*\{u>\tau\}}\otimes d\tau$;
+\item Lebesgue differentiation applied to the
+$\sigma$-finite Borel measure $\nu_\psi:=\psi(x)/|\nabla u(x)|\Hn\otimes d\tau$
+on $\Om\times\R$, projected to $\R$ via the second coordinate;
+\item Separability of the bounded Borel function space in $L^1$.
+\end{itemize}
+The set of $\rho$ for which $t(\rho)$ is \emph{not} a Lebesgue point for
+this disintegration has Lebesgue measure zero. This step is unconditional.
+
+\smallskip
+\textbf{What is \emph{not} claimed.}
+We do not claim a recovery theorem for general $BV$ deformations of
+arbitrary finite-perimeter sets. The argument relies heavily on the
+ambient $W^{2,p}_{\rm loc}$-function $u$ that foliates space via its
+super-level sets. It is special to the torsion problem.
+
+\smallskip
+\textbf{Replacement of Definition~4.2 of \textsc{MetricFramework}.}
+The conditional conclusion of Theorem~T (formerly Theorem~4.1) of
+\textsc{MetricFramework} reads $|\dot F_\rho|_\X\le G_z(\rho)$ a.e.\ on
+$[\rstar,1]$ \emph{under} the upper-gradient recovery hypothesis
+Definition~4.2. Theorem~\ref{thm:main} of this note proves the same
+conclusion unconditionally. Therefore Definition~4.2 can be removed from
+\textsc{MetricFramework} and from any downstream user
+(\textsc{WeightedMetricTrace}): replace ``assume Definition~4.2'' by
+``invoke Theorem~\ref{thm:main} of \textsc{LimsupDeformation}.''
+
+\begin{thebibliography}{99}
+
+\bibitem{AGS2008}
+L.~Ambrosio, N.~Gigli, G.~Savar\'e,
+\emph{Gradient Flows in Metric Spaces and in the Space of Probability
+Measures}, 2nd ed., Birkh\"auser, 2008.
+
+\bibitem{AFP2000}
+L.~Ambrosio, N.~Fusco, D.~Pallara,
+\emph{Functions of Bounded Variation and Free Discontinuity Problems},
+Oxford, 2000.
+
+\bibitem{Maggi2012}
+F.~Maggi, \emph{Sets of Finite Perimeter and Geometric Variational
+Problems}, Cambridge, 2012.
+
+\bibitem{MetricFramework}
+\emph{Building Block} \textsc{MetricFramework}, Plan~2, file
+\texttt{WIP\_MetricFramework.tex}.
+
+\bibitem{LevelSetIdentity}
+\emph{Building Block} \textsc{LevelSetIdentity}, Plan~2, file
+\texttt{WIP\_LevelSetIdentity.tex}.
+
+\end{thebibliography}
+
+\end{document}
