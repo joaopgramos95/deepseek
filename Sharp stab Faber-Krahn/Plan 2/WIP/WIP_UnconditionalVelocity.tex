@@ -1,0 +1,334 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Om}{\Omega}
+\newcommand{\rstar}{\rho_{*}}
+\newcommand{\rdel}{\rho_\delta}
+\newcommand{\Hn}{\mathcal H^{n-1}}
+\newcommand{\X}{\mathcal X}
+
+\title{Unconditional Velocity-Defect Bound\\
+       and the Reduction of Bad-Level Kinetic\\
+       to a Homothetic-Trace Question}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We prove an unconditional pointwise inequality
+\[
+   \Bigl(\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,d\Hn\Bigr)^{\!2}
+   \;\le\;\Bigl(\frac{P(B_\rho)}{P(E_\rho)}\Bigr)^{\!2}D_H(t(\rho))
+   \;\le\;D_H(t(\rho))
+\]
+for every a.e.\ finite-perimeter torsion level $\rho\in[\rstar,1]$.
+The bound holds on \emph{all} levels, not only the Fusco--Julin good
+set, and the prefactor $(P(B_\rho)/P(E_\rho))^{2}\le 1$ is itself
+small on isoperimetrically-bad levels.  Integrating against
+$d\mu=-t'\,d\rho$ and using the level-set deficit identity gives, with
+no further hypothesis,
+\[
+   \int_{\rstar}^{\rdel}\Bigl(\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,d\Hn\Bigr)^{2}d\mu(\rho)
+   \;\le\; C(n,\rstar)\,\delta_T(\Om).
+\]
+The remaining obstruction to closing the bad-level kinetic action
+$\int_{B_I}|\dot F_\rho|_\X^{2}d\mu\le C\delta$ is therefore reduced
+to the analogous integrated bound for the
+\emph{homothetic} term $\int|H_{z_\rho,\rho}-\bar V_\rho|d\Hn$ for
+some Borel centre field $z_\rho$ defined on bad levels.  We sketch
+two routes for this remaining piece — the centroid space--time
+$\Pi$-identity and a direct $L^1$-radial-trace
+construction — and identify which inputs they need.
+\end{abstract}
+
+\section{Setup}\label{sec:setup}
+
+Adopt the notation of \texttt{WIP\_WeightedMetricTrace.tex}: torsion
+function $u=u_\Om$, $-\Delta u=1$, levels $E_\rho=\{u>t(\rho)\}$,
+$|E_\rho|=\omega_n\rho^n$, $w(\rho)=-t'(\rho)\ge 0$,
+$d\mu=w\,d\rho$, $V_\rho=w/|\nabla u|$,
+$\bar V_\rho=P(B_\rho)/P(E_\rho)$, $D_H$ the Cauchy--Schwarz defect
+$D_H=\alpha\beta-P^{2}$ with $\alpha=\int 1/|\nabla u|\,d\Hn$,
+$\beta=\int|\nabla u|\,d\Hn=|E_\rho|$, $P=P(E_\rho)$,
+$P(B_\rho)=n\omega_n\rho^{n-1}$.
+
+For convenience write $P^{*}:=P(B_\rho)$.  The fundamental flux
+identity $w\alpha=P^{*}$ (consequence of
+$|E_\rho|=\omega_n\rho^n$ and $\alpha=-m'(t(\rho))$,
+$w=-t'(\rho)$) is used throughout.
+
+\section{The unconditional velocity-defect bound}\label{sec:main}
+
+\begin{lemma}[Weighted variance of $V$]\label{lem:V-weighted-var}
+For a.e.\ $\rho\in[\rstar,1]$ at which $E_\rho$ has finite perimeter,
+\begin{equation}\label{eq:V-weighted-id}
+   \int_{\partial^{*}E_\rho}\frac{(V_\rho-\bar V_\rho)^{2}}{V_\rho}\,d\Hn
+   \;=\;\frac{P^{*}}{P^{2}}\,D_H(t(\rho)).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set $f:=V_\rho=w/|\nabla u|$, $\bar f:=\bar V_\rho=P^{*}/P$.
+Expanding $(f-\bar f)^{2}/f=f-2\bar f+\bar f^{2}/f$ and integrating,
+\[
+   \int(f-\bar f)^{2}/f
+   =\int f-2\bar f P+\bar f^{2}\!\int 1/f.
+\]
+Now $\int f=\int V_\rho=w\alpha=P^{*}$ (flux);
+$\int 1/f=\int|\nabla u|/w=\beta/w$;
+$\bar f P=P^{*}$ and $\bar f^{2}=P^{*\,2}/P^{2}$.  Hence
+\[
+   \int(f-\bar f)^{2}/f
+   =P^{*}-2P^{*}+\frac{P^{*\,2}}{P^{2}}\cdot\frac{\beta}{w}
+   =-P^{*}+\frac{P^{*}}{P^{2}}\cdot\frac{P^{*}\beta}{w}
+   =-P^{*}+\frac{P^{*}}{P^{2}}\,\alpha\beta,
+\]
+where the last equality used $w\alpha=P^{*}$ to write
+$P^{*}\beta/w=\alpha\beta$.  Therefore
+\[
+   \int(f-\bar f)^{2}/f
+   =\frac{P^{*}}{P^{2}}\bigl(\alpha\beta-P^{2}\bigr)
+   =\frac{P^{*}}{P^{2}}\,D_H.\qedhere
+\]
+\end{proof}
+
+\begin{theorem}[Unconditional $L^{1}$ velocity-defect bound]
+\label{thm:V-defect}
+For a.e.\ $\rho\in[\rstar,1]$ at which $E_\rho$ has finite perimeter,
+\begin{equation}\label{eq:V-defect}
+   \Bigl(\int_{\partial^{*}E_\rho}|V_\rho-\bar V_\rho|\,d\Hn\Bigr)^{\!2}
+   \;\le\;\Bigl(\frac{P^{*}}{P}\Bigr)^{\!2}D_H(t(\rho))
+   \;\le\;D_H(t(\rho)).
+\end{equation}
+No isoperimetric smallness or Fusco--Julin good-level assumption is
+used.
+\end{theorem}
+
+\begin{proof}
+By Cauchy--Schwarz in the form
+$\bigl(\int|g|\,d\Hn\bigr)^{2}\le\bigl(\int g^{2}/V_\rho\,d\Hn\bigr)\bigl(\int V_\rho\,d\Hn\bigr)$
+applied to $g:=V_\rho-\bar V_\rho$ (with the standard
+$\sqrt{V_\rho}\cdot\sqrt{1/V_\rho}$-factorisation),
+\[
+   \Bigl(\int|V_\rho-\bar V_\rho|\Bigr)^{2}
+   \le\Bigl(\int\frac{(V_\rho-\bar V_\rho)^{2}}{V_\rho}\Bigr)\!\Bigl(\int V_\rho\Bigr)
+   =\frac{P^{*}}{P^{2}}\,D_H\cdot P^{*}
+   =\Bigl(\frac{P^{*}}{P}\Bigr)^{\!2}D_H,
+\]
+using Lemma~\ref{lem:V-weighted-id} and $\int V_\rho=P^{*}$.  The
+second inequality of \eqref{eq:V-defect} follows from
+$P\ge P^{*}$ (isoperimetric inequality).
+\end{proof}
+
+\begin{remark}[Strengthening over \textsc{TrimmedVelocityRepair}]
+\label{rem:strengthen}
+The estimate \eqref{eq:V-defect} is sharper than the bound proved in
+\texttt{WIP\_TrimmedVelocityRepair.tex} in two ways.
+\begin{enumerate}
+\item It is \emph{unconditional}: the previous argument restricted to
+the Fusco--Julin good set $G_I=\{D_I\le\eta_I\}$ via a truncation
+$\{f\ge\bar f/2\}$.  No such restriction is needed here.  The
+Cauchy--Schwarz $(\int|g|)^{2}\le(\int g^{2}/V)(\int V)$ does not
+require a lower bound on $V$: it weights the variance by $V$ itself,
+making the integrand integrable wherever $V$ is.
+\item The prefactor $(P^{*}/P)^{2}\le 1$ is itself \emph{smaller}
+on isoperimetrically bad levels.  Since
+$\mathcal I(\rho)=P^{2}-P^{*\,2}=(P-P^{*})(P+P^{*})$, we have
+$(P^{*}/P)^{2}=1-\mathcal I/P^{2}$.  In the regime where
+$P\gg P^{*}$ on a bad level, the velocity defect is suppressed by
+a factor $\le (P^{*}/P)^{2}\le P^{*\,2}/(P^{*\,2}+\mathcal I)$.
+\end{enumerate}
+\end{remark}
+
+\begin{corollary}[Integrated velocity-defect on all levels]
+\label{cor:V-integrated}
+\begin{equation}\label{eq:V-integrated}
+   \int_{\rstar}^{\rdel}\Bigl(\int_{\partial^{*}E_\rho}|V_\rho-\bar V_\rho|\,d\Hn\Bigr)^{\!2}d\mu(\rho)
+   \;\le\;\int_{\rstar}^{\rdel}D_H(t(\rho))\,d\mu(\rho)
+   \;\le\;C(n,\rstar)\,\delta_T(\Om).
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{thm:V-defect} pointwise, then integrate; the second
+inequality is the level-set deficit identity of
+\texttt{WIP\_LevelSetIdentity.tex}.
+\end{proof}
+
+\section{Reduction of the bad-level kinetic problem}\label{sec:reduction}
+
+Combining \eqref{eq:V-defect} with the unconditional metric upper
+gradient of \texttt{WIP\_LimsupDeformation.tex},
+\[
+   |\dot F_\rho|_\X
+   \le \rho^{-n}\inf_{a\in\R^{n}}\int_{\partial^{*}E_\rho}
+       |V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,d\Hn,
+\]
+specialising to $a=0$, and the triangle inequality
+$|V_\rho-H_{z_\rho,\rho}|\le|V_\rho-\bar V_\rho|+|H_{z_\rho,\rho}-\bar V_\rho|$,
+we obtain pointwise
+\begin{equation}\label{eq:Fdot-decomp-uncon}
+   |\dot F_\rho|_\X^{2}
+   \;\le\;2\rho^{-2n}\Bigl[D_H(t(\rho))
+   +\bigl(\int|H_{z_\rho,\rho}-\bar V_\rho|\,d\Hn\bigr)^{2}\Bigr]
+\end{equation}
+for any bounded Borel centre field $z_\rho$.  This holds on
+\emph{every} a.e.\ finite-perimeter level, with no FJ smallness.
+
+\begin{proposition}[Reduction to homothetic-trace]\label{prop:reduction}
+Suppose there is a bounded Borel centre field
+$\rho\mapsto z_\rho\in\R^{n}$, $|z_\rho|\le R'$, and a constant
+$C_{\rm hom}=C_{\rm hom}(n,R,R',\rstar)>0$ such that
+\begin{equation}\label{eq:hom-integrated}
+   \int_{\rstar}^{\rdel}\Bigl(\int_{\partial^{*}E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|\,d\Hn\Bigr)^{\!2}d\mu(\rho)
+   \;\le\;C_{\rm hom}\,\delta_T(\Om).
+\end{equation}
+Then
+\begin{equation}\label{eq:full-kinetic}
+   \int_{\rstar}^{\rdel}|\dot F_\rho|_\X^{2}\,d\mu(\rho)
+   \;\le\;C(n,R,R',\rstar)\,\delta_T(\Om).
+\end{equation}
+In particular both bad-level kinetic hypotheses
+\textup{(eq:bad-I-action)} and \textup{(eq:bad-tau-action)} of
+\texttt{WIP\_WeightedMetricTrace.tex} are discharged.
+\end{proposition}
+
+\begin{proof}
+Integrate \eqref{eq:Fdot-decomp-uncon} against $d\mu$ and use
+Corollary~\ref{cor:V-integrated} for the first piece,
+\eqref{eq:hom-integrated} for the second, and
+$\rho^{-2n}\le\rstar^{-2n}$ on $[\rstar,\rdel]$.
+The bad-$\tau$ kinetic follows by the standard
+$w\ge\tau_0$-on-$G_\tau$ split applied to \eqref{eq:full-kinetic}
+inside \texttt{WIP\_WeightedMetricTrace.tex}'s Theorem~3.2 proof, and
+the bad-$I$ kinetic is a direct corollary because $B_I$ has
+finite $\mu$-measure inside $[\rstar,\rdel]$.
+\end{proof}
+
+\section{Status of \eqref{eq:hom-integrated}: two candidate routes}
+\label{sec:routes}
+
+The conditional input \eqref{eq:hom-integrated} is the
+\emph{only} remaining input needed to make Plan 2 / Route $\delta$
+unconditional.  Two routes for proving it are visible.
+
+\subsection{Route I: centroid space--time $\Pi$-identity}
+
+Choose $z_\rho:=\bar z_\rho$, the centroid of $E_\rho$.  The
+divergence identity \cite[Eq.~(5.3$'$)]{SpaceTimeIdentity},
+\[
+   \int_{\partial^{*}E_\rho}|\nu_{E_\rho}-e_{z_\rho}|^{2}d\Hn
+   =2\bigl(P(E_\rho)-P(B_\rho)\bigr)+2\Pi(E_\rho,\bar z_\rho),
+\]
+combined with the radial trace estimate of
+\cite[Thm.~2.2]{FJCenterBridge}, gives
+\begin{equation}\label{eq:hom-via-Pi}
+   \Bigl(\int|H_{\bar z_\rho,\rho}-\bar V_\rho|\,d\Hn\Bigr)^{2}
+   \le C(n,R,\rstar)\Bigl[|E_\rho\Delta B_\rho(\bar z_\rho)|^{2}
+   +\bigl(\int|\nu-e_{z_\rho}|^{2}d\Hn\bigr)^{2}\Bigr].
+\end{equation}
+By the pointwise slice-rearrangement inequality
+$|E_\rho\Delta B_\rho(\bar z_\rho)|^{2}\le C\,\Pi(E_\rho,\bar z_\rho)$
+of \cite[Lem.~4.3]{SpaceTimeIdentity} and the integrated
+identity
+\[
+   \int_{\rstar}^{\rdel}\Pi(E_\rho,\bar z_\rho)\,d\mu
+   \le C_\Pi\,\delta_T \qquad (\Pi\text{-int})
+\]
+of the same block, \emph{plus} an integrated bound on
+$\bigl(\int|\nu-e_{z_\rho}|^{2}\bigr)^{2}$ which is open
+(naive Cauchy--Schwarz only yields a $\sqrt{\delta_T}$ rate, not
+$\delta_T$), one obtains \eqref{eq:hom-integrated}.  The remaining
+sub-target inside Route I is therefore
+\[
+   \int_{\rstar}^{\rdel}\Bigl(\int_{\partial^{*}E_\rho}|\nu-e_{z_\rho}|^{2}\,d\Hn\Bigr)^{\!2}d\mu(\rho)
+   \;\le\;C\,\delta_T,
+\]
+which is currently isolated as a separate open problem.
+
+\subsection{Route II: oriented radial flux on bad levels}
+
+The oriented divergence trace
+\cite[Thm.~2.1]{FJCenterBridge} gives, for \emph{any} centre $z$
+with $|z|\le R+1$,
+\[
+   \int_{\partial^{*}E_\rho}\Bigl|\tfrac{|x-z|}{\rho}-1\Bigr|d\Hn
+   \le\tfrac{n}{\rstar}|E_\rho\Delta B_\rho(z)|
+   +\tfrac{W(R,\rstar)}{2}\int|\nu-e_z|^{2}d\Hn,
+\]
+unconditionally on the deficit.  If $z$ is chosen as the
+\emph{Fraenkel} centre $z_F=z_F(E_\rho)$, then
+$|E_\rho\Delta B_\rho(z_F)|^{2}\le C_F\,\mathcal I(\rho)$ holds
+unconditionally (Figalli--Maggi--Pratelli).  The squared integrated
+$\int|\nu-e_{z_F}|^{2}d\Hn$ at the \emph{Fraenkel} centre is not
+$\le C\mathcal I$ in general — that is the input that fails when one
+tries to use the Fraenkel centre as a substitute for the FJ centre
+on bad levels.  Closing Route II therefore reduces to bounding
+$\int\bigl(\int|\nu-e_{z_F}|^{2}\bigr)^{2}d\mu$ separately, with
+the same kind of structural difficulty as Route I.
+
+\section{Summary of progress}\label{sec:summary}
+
+\begin{itemize}
+\item Theorem~\ref{thm:V-defect} is new: the $L^{1}$-velocity defect
+$\int|V-\bar V|d\Hn$ is controlled by $\sqrt{D_H}$ on \emph{every}
+finite-perimeter level, with prefactor $P^{*}/P\le 1$.  The previous
+\textsc{TrimmedVelocityRepair} bound was good-level only.
+\item Corollary~\ref{cor:V-integrated} integrates this against
+$d\mu$ unconditionally, giving the half of the kinetic action that
+involves $D_H$ directly.
+\item Proposition~\ref{prop:reduction} reduces the bad-level kinetic
+problem to a single integrated homothetic-trace bound
+\eqref{eq:hom-integrated}.
+\item Section~\ref{sec:routes} isolates the residual difficulty as
+\[
+   \int_{\rstar}^{\rdel}\Bigl(\int|\nu-e_{z_\rho}|^{2}d\Hn\Bigr)^{\!2}d\mu(\rho)\;\le\;C\,\delta_T,
+\]
+for either the centroid centre $z_\rho=\bar z_\rho$ (Route I, via
+$\Pi$-int) or the Fraenkel centre $z_\rho=z_F$ (Route II, direct).
+This is a clean, decoupled mathematical question and not specific
+to Fusco--Julin.
+\end{itemize}
+
+\begin{thebibliography}{99}
+
+\bibitem{LevelSetIdentity}
+Plan 2 building block \textsc{LevelSetIdentity},
+\texttt{WIP\_LevelSetIdentity.tex}.
+
+\bibitem{LimsupDeformation}
+Plan 2 Deliverable~A, \textsc{LimsupDeformation},
+\texttt{WIP\_LimsupDeformation.tex}.
+
+\bibitem{TrimmedVelocityRepair}
+Plan 2 building block \textsc{TrimmedVelocityRepair},
+\texttt{WIP\_TrimmedVelocityRepair.tex}.
+
+\bibitem{SpaceTimeIdentity}
+Plan 2 auxiliary block \textsc{SpaceTimeIdentity},
+\texttt{WIP\_SpaceTimeIdentity.tex}.
+
+\bibitem{FJCenterBridge}
+Plan 2 bridge block \textsc{FJCenterBridge},
+\texttt{WIP\_FJCenterBridge.tex}.
+
+\bibitem{WeightedMetricTrace}
+Plan 2 building block \textsc{WeightedMetricTrace},
+\texttt{WIP\_WeightedMetricTrace.tex}.
+
+\end{thebibliography}
+
+\end{document}
