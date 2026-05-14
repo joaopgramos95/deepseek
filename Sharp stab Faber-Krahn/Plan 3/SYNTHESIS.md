@@ -3,6 +3,15 @@
 Outcome of the seven parallel agents launched from
 `Plan 3/claude-agent-deployment.md`.
 
+> **Post-deployment update (2026-05-14, JSR).**
+> Brandolini–Nitsch–Salani–Trombetti (`Plan 3/brandolini.pdf`)
+> **Theorem 2** plus a new elementary lemma (annular squeeze + connected
+> ⇒ radial graph) discharges Agent 2's missing step. See
+> `Plan 3/BRANDOLINI_GRAPH_ENTRY_ROUTE.md`. The chain now closes
+> modulo two open points: a `C^{2,α}` regularity hypothesis (which is
+> automatic on the fixed outer annulus, by interior Schauder) and a
+> one-component reduction (excluded by smallness of `D_I`).
+
 ## Bottom-line verdict
 
 The Plan 3 hybrid route (outer-collar graph entry from `D_H + D_I`,
