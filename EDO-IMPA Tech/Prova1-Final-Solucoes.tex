@@ -1,0 +1,243 @@
+\documentclass[10pt,a4paper]{amsart}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{enumitem}
+\usepackage[left=1.5cm, right=1.5cm]{geometry}
+
+\newcommand{\R}{\mathbb{R}}
+\renewcommand{\d}{\mathrm{d}}
+
+    \title{Introdução às Equações Diferenciais - Prova 1 (Soluções)}
+
+\begin{document}
+\maketitle
+
+\noindent {\bf Problema 1.} Resolva os seguintes problemas de valor inicial.
+\begin{enumerate}[label=(\alph*)]
+    \item $y' - 3y = 6e^{3t}, \ y(0) = 1.$
+
+    \emph{Solução.} Equação linear de primeira ordem; fator integrante $\mu(t) = e^{-3t}$:
+    \[
+        \bigl(e^{-3t}\, y\bigr)' \;=\; e^{-3t}\bigl(y' - 3y\bigr) \;=\; 6 e^{3t} e^{-3t} \;=\; 6.
+    \]
+    Logo $e^{-3t} y = 6t + C$, isto é, $y(t) = (6t + C) e^{3t}$. A condição $y(0) = 1$ dá $C = 1$, e portanto
+    \[
+        y(t) \;=\; (6t + 1)\, e^{3t},
+    \]
+    definida em todo $\R$.
+
+    \item $y' = \dfrac{t}{y}, \ y(0) = 2.$
+
+    \emph{Solução.} Equação separável: $y\,\d y = t\,\d t$. Integrando, $\tfrac{y^2}{2} = \tfrac{t^2}{2} + C_1$, ou seja, $y^2 = t^2 + C$. De $y(0) = 2$ obtém-se $C = 4$. Como $y(0) > 0$, escolhemos a raiz positiva:
+    \[
+        y(t) \;=\; \sqrt{t^2 + 4},
+    \]
+    definida em todo $\R$ (pois $t^2 + 4 \geq 4 > 0$ e a raiz nunca se anula).
+
+    \item $y' = \dfrac{2t + y}{t}, \ y(1) = 1, \ t > 0.$
+
+    \emph{Solução.} Reescrevendo, $y' - \tfrac{1}{t} y = 2$. Linear, com fator integrante $\mu(t) = e^{-\int \d t/t} = 1/t$:
+    \[
+        \bigl(y/t\bigr)' \;=\; \frac{2}{t} \;\Longrightarrow\; \frac{y}{t} \;=\; 2 \ln t + C \;\Longrightarrow\; y(t) \;=\; 2 t \ln t + C\, t.
+    \]
+    De $y(1) = 1$ vem $C = 1$, de modo que
+    \[
+        y(t) \;=\; 2 t \ln t + t,
+    \]
+    definida no maior intervalo contendo $t = 1$ onde a EDO faz sentido, isto é, $(0, +\infty)$.
+
+    \item $\sin(y) \cos(t) + t \cos(y) \cos(t)\, y' = 0, \ y\!\left(\tfrac{\pi}{2}\right) = \tfrac{\pi}{6}.$
+
+    \emph{Solução.} Onde $\cos(t) \neq 0$ podemos dividir por $\cos(t)$, obtendo
+    \[
+        \sin(y) + t \cos(y)\, y' \;=\; 0,
+    \]
+    que é exatamente $\dfrac{\d}{\d t}\bigl[t \sin(y)\bigr] = 0$. Logo $t \sin(y) = C$ é constante. Em $t = \pi/2$ com $y = \pi/6$:
+    \[
+        C \;=\; \tfrac{\pi}{2}\, \sin\!\bigl(\tfrac{\pi}{6}\bigr) \;=\; \tfrac{\pi}{2} \cdot \tfrac{1}{2} \;=\; \tfrac{\pi}{4}.
+    \]
+    Portanto $t \sin y = \pi/4$, isto é,
+    \[
+        y(t) \;=\; \arcsin\!\left( \frac{\pi}{4 t} \right).
+    \]
+    Para que $y$ esteja bem definida e diferenciável, precisamos $\pi/(4t) < 1$, isto é, $t > \pi/4$ (com $t > 0$). Em $t = \pi/4$ tem-se $\sin y = 1$, logo $y = \pi/2$ e $\cos y = 0$, e da forma resolvida $y' = -\tan(y)/t$ vê-se que $y'(t) \to -\infty$ quando $t \to (\pi/4)^+$. O maior intervalo é
+    \[
+        \bigl(\pi/4,\, +\infty\bigr).
+    \]
+\end{enumerate}
+
+\vspace{5mm}
+
+\noindent {\bf Problema 2.} Equação autônoma $x' = \sin(x)$.
+\begin{enumerate}[label=(\alph*)]
+    \item \emph{Solução.} Os equilíbrios são as raízes de $\sin(x) = 0$:
+    \[
+        x \;=\; k \pi, \quad k \in \mathbb{Z}.
+    \]
+    Como $f(x) := \sin(x)$ é de classe $C^1$, classificamos cada equilíbrio pelo sinal de $f'(x) = \cos(x)$:
+    \begin{itemize}
+        \item Se $k$ é par, $x_0 = 2 m \pi$, então $f'(x_0) = \cos(2 m \pi) = 1 > 0$: o equilíbrio é \emph{instável}.
+        \item Se $k$ é ímpar, $x_0 = (2 m + 1) \pi$, então $f'(x_0) = \cos((2 m + 1) \pi) = -1 < 0$: o equilíbrio é \emph{(assintoticamente) estável}.
+    \end{itemize}
+    Alternativamente, em qualquer intervalo $(k\pi, (k+1)\pi)$ o sinal de $\sin(x)$ é constante, e a análise de fluxo mostra: nos intervalos onde $\sin x > 0$ a solução é crescente, e onde $\sin x < 0$ é decrescente, levando ao mesmo veredicto.
+
+    \item \emph{Solução.} Seja $x : [0, T_+) \to \R$ a solução maximal com $x(0) = x_0 \in (0, \pi)$.
+
+    Como $f(x) = \sin(x)$ é localmente Lipschitz, vale a unicidade. Note que $\bar x \equiv 0$ e $\tilde x \equiv \pi$ são também soluções da EDO. Pela unicidade, o gráfico de $x$ não pode tocar nenhum desses dois equilíbrios: se existisse $t_* \in [0, T_+)$ com $x(t_*) = 0$, então (por unicidade aplicada no instante $t_*$) teríamos $x \equiv 0$, contradizendo $x(0) = x_0 \in (0, \pi)$. Analogamente para $\pi$. Como $x(0) = x_0 \in (0, \pi)$ e $x$ é contínua, segue (pelo Teorema do Valor Intermediário) que
+    \[
+        x(t) \in (0, \pi) \quad \text{para todo } t \in [0, T_+).
+    \]
+    Em particular, $x(t)$ permanece no compacto $[0, \pi] \subset \R$.
+
+    Pelo teorema de extensão de soluções (uma solução cuja imagem permanece num compacto contido no domínio do campo se estende a todo $t \geq 0$), conclui-se que $T_+ = +\infty$ e $x(t)$ está definida para todo $t \geq 0$.
+\end{enumerate}
+
+\vspace{5mm}
+
+\noindent {\bf Problema 3.} Suponha que $\sin t$ e $\sin 2t$ sejam ambas soluções de
+\[
+    x^{(n)} + c_{n-1} x^{(n-1)} + \cdots + c_1 x' + c_0 x = 0, \quad c_i \in \R.
+\]
+\begin{enumerate}[label=(\alph*)]
+    \item \emph{Solução.} Como $\sin t$ é solução, $\pm i$ são raízes do polinômio característico
+    \[
+        p(r) \;=\; r^n + c_{n-1} r^{n-1} + \cdots + c_1 r + c_0
+    \]
+    (de fato, $\sin t = \tfrac{1}{2 i}(e^{i t} - e^{-i t})$ é solução, e como $p$ tem coeficientes reais e suas raízes complexas vêm em pares conjugados, $\pm i$ são raízes). Analogamente, $\sin 2t$ ser solução implica que $\pm 2 i$ são raízes de $p$.
+
+    Logo $p$ é divisível pelo polinômio $(r - i)(r + i)(r - 2i)(r + 2i) = (r^2 + 1)(r^2 + 4)$, de grau $4$. Portanto
+    \[
+        n \;\geq\; 4,
+    \]
+    e a ordem mínima é $n = 4$.
+
+    \item \emph{Solução.} Tomando $p(r) = (r^2 + 1)(r^2 + 4) = r^4 + 5 r^2 + 4$, a equação de ordem mínima procurada é
+    \[
+        x^{(4)} + 5\, x'' + 4\, x \;=\; 0.
+    \]
+    De fato, $\sin t$ e $\sin 2t$ são (subespaços do espaço gerado pelas) soluções correspondentes às raízes $\pm i$ e $\pm 2 i$.
+\end{enumerate}
+
+\vspace{5mm}
+
+\noindent {\bf Problema 4.}
+\begin{enumerate}[label=(\alph*)]
+    \item Prove que toda solução de $y'' + y^3 = 0$ é limitada.
+
+    \emph{Solução.} Multiplicamos a equação por $y'$:
+    \[
+        y' y'' + y^3 y' \;=\; 0 \;\Longleftrightarrow\; \frac{\d}{\d t}\!\left[ \frac{(y')^2}{2} + \frac{y^4}{4} \right] \;=\; 0.
+    \]
+    Logo a quantidade $E := \frac{(y')^2}{2} + \frac{y^4}{4}$ é constante ao longo de qualquer solução. Em particular,
+    \[
+        \frac{y(t)^4}{4} \;\leq\; \frac{(y'(t))^2}{2} + \frac{y(t)^4}{4} \;=\; E
+        \quad\Longrightarrow\quad |y(t)| \;\leq\; (4 E)^{1/4}
+    \]
+    para todo $t$ no intervalo de existência. Portanto $y$ é limitada.
+
+    (Observação: como $|y|$ e $|y'|$ permanecem limitadas, o argumento padrão de extensão garante também que $y$ está definida em todo $\R$.)
+
+    \item Prove que nenhuma solução de $y'' = e^{y}$ se estende para a reta real toda.\footnote{Note que com o sinal do enunciado, $y'' + e^y = 0$, isto é $y'' = -e^y$, a energia é $\tfrac{(y')^2}{2} + e^y$, $|y'|$ permanece limitada por $\sqrt{2 E}$ e o tempo até $y \to -\infty$ é infinito; logo todas as soluções se estendem a $\R$. A versão clássica deste problema, e a única que admite a conclusão pedida, é $y'' = e^y$ (Liouville), que tratamos aqui.}
+
+    \emph{Solução.} Multiplicando $y'' = e^y$ por $y'$ e integrando:
+    \[
+        y' y'' \;=\; e^y y' \;\Longrightarrow\; \frac{\d}{\d t}\!\left[ \frac{(y')^2}{2} - e^y \right] \;=\; 0,
+    \]
+    isto é, $\frac{(y')^2}{2} - e^y = E$ constante, ou
+    \[
+        (y')^2 \;=\; 2 e^y + 2 E. \qquad (\star)
+    \]
+
+    Como $y'' = e^y > 0$, a derivada $y'$ é estritamente crescente. Em particular, $y'$ não pode ser identicamente nula (caso contrário $y$ seria constante e $y'' = e^y \neq 0$, absurdo); logo existe $t_0$ com $y'(t_0) \neq 0$. A equação é invariante pela reflexão $t \mapsto -t$ (pois $\widetilde y(t) := y(-t)$ ainda satisfaz $\widetilde y'' = e^{\widetilde y}$); supomos sem perda de generalidade $y'(t_0) > 0$.
+
+    Como $y'$ é estritamente crescente, $y'(t) \geq y'(t_0) > 0$ para todo $t \geq t_0$, e $y$ é estritamente crescente em $[t_0, \infty)$. Afirmamos que $y(t) \to +\infty$ neste intervalo: caso $y(t) \to L < \infty$, por $(\star)$ teríamos $y'(t) \to \sqrt{2 e^L + 2 E} > 0$, mas então $y(t) \to \infty$, contradição.
+
+    Tome $y_1 \geq y(t_0)$ tão grande que $e^{y_1} \geq 2 |E|$; então para todo $y \geq y_1$ vale $2 e^y + 2 E \geq e^y$, e por $(\star)$,
+    \[
+        y'(t) \;\geq\; e^{y(t)/2}.
+    \]
+    Seja $t_1$ o (único) instante com $y(t_1) = y_1$. Para $t \geq t_1$,
+    \[
+        \frac{\d}{\d t}\!\left( -2 e^{- y / 2} \right) \;=\; e^{- y / 2} y' \;\geq\; 1.
+    \]
+    Integrando de $t_1$ a $t$:
+    \[
+        -2 e^{- y(t) / 2} + 2 e^{- y_1 / 2} \;\geq\; t - t_1
+        \;\Longrightarrow\; t - t_1 \;\leq\; 2 e^{- y_1 / 2} - 2 e^{- y(t)/2} \;<\; 2 e^{- y_1 / 2},
+    \]
+    pois $2 e^{- y(t) / 2} > 0$. Logo
+    \[
+        t \;<\; t_1 + 2 e^{- y_1 / 2} \;=:\; T_+,
+    \]
+    isto é, $y$ não pode estar definida em $[T_+, \infty)$ — em particular, não em todo $\R$.
+\end{enumerate}
+
+\vspace{5mm}
+
+\noindent {\bf Problema 5.} Seja $y : (1, +\infty) \to \R$ continuamente diferenciável com
+\[
+    y'(t) \;=\; \frac{t^2 - y(t)^2}{t^2 (y(t)^2 + 1)} \quad \text{para todo } t > 1.
+\]
+Mostre que $\lim_{t \to \infty} y(t) = +\infty$.
+
+\emph{Solução.} A ideia é multiplicar pela ``função de teste'' $y^2 + 1$ para reconhecer uma derivada exata:
+\[
+    (y^2 + 1)\, y'(t) \;=\; \frac{t^2 - y^2}{t^2} \;=\; 1 - \frac{y^2}{t^2}, \qquad
+    \text{ou seja} \qquad
+    \frac{\d}{\d t}\!\left[ \frac{y^3}{3} + y \right] \;=\; 1 - \frac{y^2}{t^2}. \qquad (\ast)
+\]
+Fixe $T > 1$. Provaremos em três passos: $y$ é limitada inferiormente, $y$ cresce no máximo como $t^{1/3}$, e a integral em $(\ast)$ converge --- o que força $y(t) \to +\infty$.
+
+\smallskip
+
+\noindent \textbf{Passo 1: cota inferior para $y$.} Observe que
+\[
+    y'(t) \;=\; \frac{1}{y^2 + 1} - \frac{y^2}{t^2 (y^2 + 1)} \;\geq\; -\frac{1}{t^2}
+\]
+(usando $y^2 / (y^2 + 1) \leq 1$). Integrando de $T$ a $t$,
+\[
+    y(t) \;\geq\; y(T) - \int_T^t \frac{\d s}{s^2} \;=\; y(T) + \frac{1}{t} - \frac{1}{T} \;\geq\; y(T) - \frac{1}{T} \;=:\; m,
+\]
+constante. Assim $y(t) \geq m$ para todo $t \geq T$.
+
+\smallskip
+
+\noindent \textbf{Passo 2: cota superior $y(t) \leq C\, t^{1/3}$.} De $(\ast)$ e $y^2/t^2 \geq 0$,
+\[
+    \frac{\d}{\d t}\!\left[ \frac{y^3}{3} + y \right] \;\leq\; 1.
+\]
+Integrando de $T$ a $t$,
+\[
+    \frac{y(t)^3}{3} + y(t) \;\leq\; \frac{y(T)^3}{3} + y(T) + (t - T) \;=:\; A + t.
+\]
+A função $f(z) = \tfrac{z^3}{3} + z$ é estritamente crescente em $\R$, com $f(z) \sim z^3 / 3$ quando $z \to +\infty$. Logo existem $C > 0$ e $T_1 \geq T$ tais que
+\[
+    y(t) \;\leq\; C\, t^{1/3} \quad \text{para todo } t \geq T_1.
+\]
+
+\smallskip
+
+\noindent \textbf{Passo 3: convergência da integral.} Pelos passos 1 e 2, $|y(s)| \leq \max\bigl(|m|,\, C s^{1/3}\bigr)$ para $s \geq T_1$, donde
+\[
+    \frac{y(s)^2}{s^2} \;\leq\; \frac{m^2}{s^2} + \frac{C^2 s^{2/3}}{s^2} \;=\; \frac{m^2}{s^2} + \frac{C^2}{s^{4/3}},
+\]
+ambas integráveis em $[T_1, \infty)$. Logo
+\[
+    I \;:=\; \int_{T_1}^{\infty} \frac{y(s)^2}{s^2}\, \d s \;<\; \infty.
+\]
+
+\smallskip
+
+\noindent \textbf{Conclusão.} Integrando $(\ast)$ de $T_1$ a $t$:
+\[
+    \frac{y(t)^3}{3} + y(t) \;=\; \frac{y(T_1)^3}{3} + y(T_1) + (t - T_1) - \int_{T_1}^t \frac{y(s)^2}{s^2}\, \d s.
+\]
+Como $t \to +\infty$, o termo $(t - T_1) \to +\infty$ e a integral converge ao valor finito $I$. Logo
+\[
+    \frac{y(t)^3}{3} + y(t) \;\longrightarrow\; +\infty \quad (t \to \infty).
+\]
+Como $f(z) = \tfrac{z^3}{3} + z$ é estritamente crescente e tende a $+\infty$ se e somente se $z \to +\infty$, conclui-se
+\[
+    \lim_{t \to \infty} y(t) \;=\; +\infty. \qed
+\]
+
+\end{document}

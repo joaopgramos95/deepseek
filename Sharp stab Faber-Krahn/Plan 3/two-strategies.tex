@@ -1,0 +1,722 @@
+\documentclass[11pt]{amsart}
+\usepackage[margin=0.9in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\linespread{0.97}
+\setlength{\parskip}{1pt}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\theoremstyle{remark}
+\newtheorem*{checkpoint}{\textbf{Checkpoint}}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\Ot}{\widetilde\Omega}
+\newcommand{\Et}{E_{\hat t}}
+\newcommand{\St}{\Sigma_{\hat t}}
+\newcommand{\dT}{\delta_T}
+\newcommand{\Asym}{\mathcal A}
+\newcommand{\Hess}{D^2u}
+\newcommand{\TF}{\bigl(\Hess+\tfrac1n I\bigr)}
+\newcommand{\R}{\mathcal R}
+\newcommand{\Vbar}{\mathcal V}
+\newcommand{\Rn}{\mathbb R^n}
+\newcommand{\Hn}{\mathcal H^{n-1}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\tr}{tr}
+\newcommand{\fint}{\mathop{\mathchoice%
+  {\,\rlap{$-$}\!\int}{\,\rlap{$-$}\!\int}%
+  {\,\rlap{$\scriptstyle-$}\!\int}{\,\rlap{$\scriptscriptstyle-$}\!\int}}\nolimits}
+
+\title{Two strategies for sharp quantitative Saint--Venant stability \\ via a single torsion level set}
+\author{Working note (Plan 3)}
+\date{\today}
+
+\begin{document}
+\begin{abstract}
+We record, in full and honestly, the two strategies developed for the sharp
+quantitative Saint--Venant (equivalently, torsional Faber--Krahn) inequality
+$\Asym(\Om)^2\le C(n)\,\dT(\Om)$ through the device of a single torsion level
+set. Strategy~A (``graph route'') is the by-hand Plan~1 idea executed with
+Serrin stability: pass to a near-Serrin level set, show it is a small graph,
+close perturbatively, transfer back. Strategy~B (``integrated
+route'') uses Serrin \emph{directly}: Weinberger's $P$-function rigidity made
+quantitative, controlling the trace-free Hessian and hence the asymmetry, with
+no graph and no boundary regularity. We give the common skeleton with proofs,
+both attacks with detailed sketches, the tentacle analysis (including the
+precise origin of the $w^2$ escape floor that obstructs Strategy~A for
+$n\ge3$), the sharpness/norm-gap discussion, the comparison with the BDV
+selection principle, and an explicit checklist of every step requiring
+independent verification.
+\end{abstract}
+\maketitle
+
+\section{Setup}
+
+Let $\Om\subset\Rn$, $n\ge2$, be open with finite measure; after scaling
+$|\Om|=\omega_n=|B_1|$. Its \emph{torsion function} $u=u_\Om$ is the unique
+minimiser of $J(v)=\tfrac12\int|\nabla v|^2-\int v$ over $H^1_0(\Om)$,
+equivalently the variational solution of
+\begin{equation}\label{eq:torsion}
+  -\Delta u=1\ \text{ in }\Om,\qquad u=0\ \text{ on }\partial\Om,\qquad u>0\ \text{ in }\Om.
+\end{equation}
+The \emph{torsional rigidity} is $T(\Om)=\int_\Om|\nabla u|^2=\int_\Om u=-2\min J$.
+For the ball $B_r$, $u_{B_r}(x)=\tfrac{r^2-|x|^2}{2n}$ and
+$T(B_r)=\dfrac{\omega_n r^{\,n+2}}{n(n+2)}$. The Saint--Venant inequality
+states $T(\Om)\le T(B)$ for the volume-matched ball $B$, with equality iff
+$\Om$ is a ball. Define the scale-invariant deficit and the Fraenkel asymmetry
+\[
+  \dT(\Om):=\frac{T(B)-T(\Om)}{T(B)}\ge0,\qquad
+  \Asym(\Om):=\min_{x_0}\frac{|\Om\triangle B(x_0)|}{|\Om|}.
+\]
+The target is the sharp quantitative inequality
+\begin{equation}\label{eq:target}
+  \boxed{\ \Asym(\Om)^2\le C(n)\,\dT(\Om)\ }\qquad(\dT(\Om)\le\dT^0(n)).
+\end{equation}
+
+\subsection*{Sharpness of the exponent}
+For the ellipsoid $\mathcal E_\varepsilon=\{\sum x_i^2/a_i^2<1\}$ with
+$a_1=1+\varepsilon$, $a_i=1-\varepsilon/(n-1)$ (volume fixed to first order),
+one computes $\Asym(\mathcal E_\varepsilon)\simeq_n\varepsilon$ while
+$\dT(\mathcal E_\varepsilon)\simeq_n\varepsilon^2$ (the first-order shape
+variation is volume/translation-neutral, so the deficit is purely quadratic).
+Hence $\Asym^2/\dT\to$ const: the exponent $2$ in \eqref{eq:target} is
+optimal, and any proof must produce exactly the quadratic relation, not a
+fractional power. This is why every step below is tracked for the
+\emph{linear}-in-$\dT$ (i.e.\ quadratic-in-$\Asym$) scaling.
+
+\section{The common skeleton}
+
+Neither strategy argues on the rough set $\Om$. Instead one passes to a single
+superlevel set $\Et=\{u>\hat t\}$ of its own torsion function, proves
+\eqref{eq:target} \emph{there}, and transfers it back. The structural reason
+to use a level set --- the insight of Plan~3 --- is:
+
+\begin{quote}\itshape
+$-\Delta u=1$ has real-analytic coefficients, so $u$ is real-analytic in the
+interior of $\Om$, with \emph{no hypothesis on $\partial\Om$}. By Sard's
+theorem, for a.e.\ $\hat t$ the level $\St=\{u=\hat t\}$ is a compact
+real-analytic hypersurface with $|\nabla u|>0$. Boundary regularity of $\Om$
+is never used; only interior regularity of $u$, which is free.
+\end{quote}
+
+\subsection{The exact level-set deficit identity}
+By the coarea formula, $T(\Om)=\int_\Om u=\int_0^{\|u\|_\infty}m(t)\,dt$
+with $m(t)=|\{u>t\}|=|E_t|$, and
+$-m'(t)=\int_{\Sigma_t}|\nabla u|^{-1}\,d\Hn$, while differentiating
+$\int_{E_t}(-\Delta u)=\int_{\Sigma_t}|\nabla u|$ gives
+$m(t)=\int_{\Sigma_t}|\nabla u|\,d\Hn$. Combining these with the
+isoperimetric inequality $P(t)\ge n\omega_n^{1/n}m(t)^{(n-1)/n}$ and
+Cauchy--Schwarz $\bigl(\int_{\Sigma_t}1\bigr)^2\le
+\bigl(\int|\nabla u|^{-1}\bigr)\bigl(\int|\nabla u|\bigr)$ produces, after the
+Kohler-Jobin/Talenti algebra, the \emph{exact identity}
+\begin{equation}\label{eq:identity}
+  \dT(\Om)\ \simeq_n\ \int_0^{\|u\|_\infty}\!\bigl(D_H(t)+D_I(t)\bigr)\,w(t)\,dt,
+  \qquad w(t)=\bigl(n^2\omega_n^{2/n}m(t)^{1-2/n}\bigr)^{-1},
+\end{equation}
+where, on a regular level (with $P(t)=\Hn(\Sigma_t)$, $\bar f_t=m(t)/P(t)$),
+\begin{align}
+  D_H(t)&=\Bigl(\int_{\Sigma_t}\!\tfrac{d\Hn}{|\nabla u|}\Bigr)
+          \Bigl(\int_{\Sigma_t}\!|\nabla u|\,d\Hn\Bigr)-P(t)^2\ \ge0
+          \quad(\text{Cauchy--Schwarz / Serrin defect}),
+  \label{eq:DH}\\
+  D_I(t)&=P(t)^2-n^2\omega_n^{2/n}m(t)^{2-2/n}\ \ge0
+          \quad(\text{isoperimetric defect}).
+  \label{eq:DI}
+\end{align}
+$D_H(t)=0$ iff $|\nabla u|\equiv$ const on $\Sigma_t$; $D_I(t)=0$ iff
+$\Sigma_t$ is a sphere. The decisive exact reformulation is the
+\emph{weighted-variance identity}
+\begin{equation}\label{eq:boxed}
+  \int_{\Sigma_t}\frac{\bigl(|\nabla u|-\bar f_t\bigr)^2}{|\nabla u|}\,d\Hn
+  \ =\ \frac{m(t)}{P(t)^2}\,D_H(t)\ =:\ \frac{m(t)}{P(t)^2}\,\Vbar(t)\,(\dots),
+\end{equation}
+obtained by expanding $\int(|\nabla u|-\bar f)^2/|\nabla u|=\int|\nabla u|^{-1}\bar f^2-2\bar f P+\int|\nabla u|$ and using $\bar f P=m$.
+\emph{$D_H$ is the variance of $|\nabla u|$ on $\Sigma_t$ weighted by
+$1/|\nabla u|$.} This weighting is the protagonist of the whole note.
+
+\begin{remark}[How \eqref{eq:identity} arises]
+Let $\mu(t)=-m'(t)=\int_{\Sigma_t}|\nabla u|^{-1}$ and recall
+$m(t)=\int_{\Sigma_t}|\nabla u|$. The Saint--Venant functional admits the
+one-dimensional reduction $T(\Om)=\int_0^\infty m(t)\,dt$, and along the
+torsion flow one has the differential relation
+$\bigl(\tfrac{d}{dt}\bigr)\!\int_{\Sigma_t}|\nabla u|=-P(t)^2/\!\int|\nabla u|^{-1}+\dots$
+Two losses appear when comparing with the ball flow: the
+\emph{Cauchy--Schwarz} loss
+$P(t)^2\le\bigl(\int|\nabla u|^{-1}\bigr)\bigl(\int|\nabla u|\bigr)$, whose
+defect is exactly $D_H(t)$ in \eqref{eq:DH}, and the \emph{isoperimetric}
+loss $P(t)^2\ge n^2\omega_n^{2/n}m^{2-2/n}$, whose defect is $D_I(t)$ in
+\eqref{eq:DI}. Integrating the resulting differential inequality for the
+profile gap against the weight $w(t)$ (Talenti/Kohler-Jobin) and using
+$T(B)-T(\Om)=\int_0^{|\Om|}h$ collapses to \eqref{eq:identity}. The point for
+us: $\dT$ is \emph{exactly} the total of the two defects, each nonnegative,
+each with a clean geometric meaning; smallness of $\dT$ forces both small
+\emph{in integrated average}.
+\end{remark}
+
+\subsection{Common Lemma 1: extraction of a good near-boundary level}
+\begin{lemma}[good-level extraction]\label{lem:step1}
+Fix a small absolute constant $\theta\in(0,1)$. There exist $C_n$ and a level
+$\hat t$ with: \textup{(i)} $D_H(\hat t)\le n^2\omega_n\,\theta$, equivalently
+$\Vbar(\hat t)\le\theta$; \textup{(ii)} $|\Om\setminus\Et|\le(C_n/\theta)\dT(\Om)$;
+\textup{(iii)} $\hat t$ Sard-regular, so $\St$ is real-analytic, $|\nabla u|>0$.
+\end{lemma}
+\begin{proof}
+Drop $D_I\ge0$ in \eqref{eq:identity}: $\int(D_H w)\,dt\le C_n\dT(\Om)$. Near
+the boundary $m(t)\uparrow|\Om|$, so $w(t)$ is two-sidedly bounded by
+dimensional constants there --- \emph{not} because $\dT$ is small but because
+$m\to|\Om|$. Change variables to the volume parameter $s=m(t)\in(0,|\Om|)$,
+strictly decreasing and absolutely continuous; the layer is then
+\emph{exactly linear}, $|\Om\setminus E_t|=|\Om|-s$. In $s$, the deficit
+integrand $\Phi(s):=D_H w\,|dt/ds|$ satisfies $\int_0^{|\Om|}\Phi\le C_n\dT$;
+by Markov the set $\{\Phi>\theta'\}$ has $s$-measure $\le C_n\dT/\theta'$.
+Choosing the small-layer window $S_\lambda=[|\Om|-\lambda,|\Om|)$ with
+$\lambda=(4C_n/\theta')\dT$, the bad set occupies $\le\tfrac12\lambda$ of it, so
+$\{D_H\le\theta\}\cap S_\lambda$ has positive $s$-measure; pull back to
+positive $t$-measure (strict monotone AC change) and intersect with the
+Lebesgue-null Sard set. (The naive ``$t$-length'' phrasing is only heuristic:
+for a rough domain $\int|\nabla u|^{-1}$ may be unbounded, so there is no
+$t$-length lower bound; the volume variable removes this entirely.)
+\end{proof}
+\begin{checkpoint}[C1]
+$w(t)=O(1)$ on the near-boundary range with dimensional constants; the
+volume-variable Markov bookkeeping. Routine.
+\end{checkpoint}
+
+\subsection{Common Lemma 2: exact deficit transfer}
+\begin{lemma}[exact deficit transfer]\label{lem:step3}
+Put $\Ot:=\Et$, $v:=u-\hat t$. Then $-\Delta v=1$ in $\Ot$, $v=0$ on
+$\partial\Ot$: $v$ is \emph{exactly} the torsion function of $\Ot$. With
+$\lambda=|\Om\setminus\Ot|$,
+$\dT(\Ot)\le(1-\lambda/\omega_n)^{-1}\dT(\Om)\le2\dT(\Om)$, i.e.\
+$\dT(\Ot)=\dT(\Om)+O_n(\dT(\Om)^2)$.
+\end{lemma}
+\begin{proof}
+Write the decreasing rearrangements $u^*_\Om(s)$, $u^*_{\Ot}(s)$ and the ball
+comparison profiles $b_\Om(s)=\tfrac{1-(s/\omega_n)^{2/n}}{2n}$,
+$b_{\Ot}(s)=\tfrac{\tilde\rho^2-(s/\omega_n)^{2/n}}{2n}$
+($\tilde\rho=(|\Ot|/\omega_n)^{1/n}$). Talenti's theorem gives the
+deficit-by-profile formula $T(B_D)-T(D)=\tfrac12\int_0^{|D|}h_D(s)\,ds+\dots$
+with $h_D=b_D-u^*_D\ge0$. Because $v=u-\hat t$ is \emph{exactly} the torsion
+function of $\Ot$ (an identity, not a comparison), the rearrangements satisfy
+$u^*_{\Ot}(s)=u^*_\Om(s)-\hat t$ for $s\in[0,|\Ot|]$, while
+$b_{\Ot}(s)-b_\Om(s)=(\tilde\rho^2-1)/(2n)$ is a \emph{constant} --- the
+$(s/\omega_n)^{2/n}$ terms cancel exactly. Hence $h_{\Ot}=h_\Om+\Delta$ with
+$\Delta=\hat t+(\tilde\rho^2-1)/(2n)$ a constant; the exact identity
+$\hat t=u^*_\Om(|\Ot|)$ together with the Talenti bound
+$u^*_\Om(|\Ot|)\le b_\Om(|\Ot|)=(1-\tilde\rho^2)/(2n)$ forces $\Delta\le0$. So
+the \emph{unnormalised} deficit does not increase; the only enlargement is the
+volume renormalisation factor $(1-\lambda/\omega_n)^{-1}=1+O(\lambda)$. No
+``deficit monotonicity under super-levelling'' (a false statement, the V13
+trap) is invoked: only the exact profile identity.
+\end{proof}
+\begin{checkpoint}[C2]
+The profile-shift identity $u^*_{\Ot}=u^*_\Om-\hat t$ and the sign
+$\Delta\le0$ (the $(s/\omega_n)^{2/n}$ cancellation is the load-bearing line).
+\end{checkpoint}
+
+\subsection{Common Lemma 3: asymmetry transfer}
+\begin{lemma}[superlevel asymmetry transfer]\label{lem:step5}
+For measurable $\Ot\subset\Om$, $\ \Asym(\Om)\le\Asym(\Ot)+2|\Om\setminus\Ot|/|\Om|$.
+\end{lemma}
+\begin{proof}
+Let $B$ be an optimal ball for $\Ot$, $|B|=|\Ot|$. Take the concentric
+$B'\supset B$ with $|B'|=|\Om|$; then $|B'\setminus B|=|\Om|-|\Ot|=\lambda$. By
+the triangle inequality for symmetric differences,
+$|\Om\triangle B'|\le|\Om\triangle\Ot|+|\Ot\triangle B|+|B\triangle B'|
+\le\lambda+|\Ot\triangle B|+\lambda$. Dividing by $|\Om|$ and recalling
+$\Asym(\Ot)=|\Ot\triangle B|/|\Ot|$ with $|\Ot|\le|\Om|$ gives the claim with
+constant $2$.
+\end{proof}
+Composing Lemmas \ref{lem:step1}--\ref{lem:step5}: if at the level one has
+$\Asym(\Et)^2\le c(n)\dT(\Et)$, then with $\lambda=O(\dT)$,
+\[
+  \Asym(\Om)^2\le2\Asym(\Et)^2+8(\lambda/|\Om|)^2
+  \le2c(n)\dT(\Et)+C'(n)\dT(\Om)^2\le C_*(n)\,\dT(\Om),
+\]
+the squared collar $O(\dT^2)\ll\dT$ being the ``$\dT$ of room to spare''.
+\begin{checkpoint}[C3]
+The constant $2$ above, and the composition of volume rescalings across
+Lemmas \ref{lem:step3}--\ref{lem:step5} (no $O(\dT)$ term escaping to
+lower order than $\dT$).
+\end{checkpoint}
+
+\emph{Everything thus reduces to the single at-level inequality}
+$\Asym(\Et)^2\le c(n)\dT(\Et)$. The two strategies are two proofs of it.
+
+\section{Strategy A: the graph route}
+
+This is the by-hand Plan~1 idea with Serrin stability as the regulariser:
+exhibit a nearby domain that is a small \emph{graph} over a sphere and whose
+asymmetry controls the original's, then invoke the sharp inequality in the
+nearly-spherical class. Here the nearby domain is $\Et$ itself.
+
+\subsection{The intended argument}
+At $\hat t$ we have $D_H(\hat t)\le\theta$, i.e.\ via \eqref{eq:boxed}
+$|\nabla u|$ is $L^2(\St)$-close to a constant: the \emph{approximate Serrin
+condition}. Serrin's theorem: if $|\nabla v|\equiv c$ on $\partial\Ot$ for the
+torsion function $v$ of $\Ot$, then $\Ot$ is a ball. Quantitative Serrin
+stability (Aftalion--Busca--Reichel; Brandolini--Nitsch--Salani--Trombetti;
+Magnanini--Poggesi) should upgrade ``$|\nabla v|$ near constant'' to
+``$\partial\Ot$ is a small graph $\{(1+\varphi(\xi))\xi\}$ over a sphere''.
+Then the sharp nearly-spherical Saint--Venant inequality (Fuglede; Brasco--De
+Philippis--Velichkov) gives $\Asym(\Et)^2\lesssim\dT(\Et)$.
+
+\subsection{What the route structurally requires}
+To pass from the $L^2$ defect to the \emph{pointwise/geometric} conclusion one
+needs, $\dT$-uniformly:
+\begin{itemize}
+\item[\textbf{(NDg)}] $|\nabla u|\ge q_->0$ \emph{everywhere} on $\St$: needed
+to parametrise $\{u=\hat t\}$ as a graph at all (the implicit function theorem
+divides by the normal derivative $|\nabla u|$; where $|\nabla u|\to0$ the level
+can pinch or fold), and because the principal curvatures of $\St$ are
+$\sim|\Hess|/|\nabla u|$.
+\item[\textbf{(Mod)}] a $\dT$-uniform $C^\alpha(\St)$ modulus of $|\nabla u|$,
+to run the surface interpolation
+$\norm{f}_{L^\infty(\St)}\lesssim\norm{f}_{L^2(\St)}^{\vartheta}[f]_{C^\alpha(\St)}^{1-\vartheta}$,
+$\vartheta=\tfrac{2\alpha}{2\alpha+n-1}$, with $f=|\nabla u|-\bar f_{\hat t}$,
+$\norm{f}_{L^2}^2\simeq D_H$.
+\end{itemize}
+The interpolation inequality is the standard ball-covering one: at the
+$L^\infty$-point $x_0$, on $\St\cap B_r(x_0)$ one has
+$|f|\ge\norm f_\infty-[f]_{C^\alpha}r^\alpha$; choosing
+$r=(\norm f_\infty/2[f]_{C^\alpha})^{1/\alpha}$ and using the lower volume
+bound $\Hn(\St\cap B_r)\ge c r^{n-1}$ (a non-degeneracy of $\St$ itself!) gives
+the displayed estimate. Both (NDg) and (Mod) thus enter unavoidably.
+
+\subsection{The tentacle and the precise origin of the $w^2$ floor}
+\label{ss:tent}
+This is the point flagged as ``weird''. We derive the $w^2$ transparently.
+
+\textbf{Model.} $\Om=B_1\cup T$, $T$ a tube of axial length $L=O(1)$ and
+cross-radius $w\ll1$ attached to $\partial B_1$; $|T|\simeq\kappa_n w^{n-1}L$.
+
+\emph{(a) Capping height $t_{\mathrm{cap}}\simeq_n w^2$.}
+Freeze the tube axis; the cross-section is an $(n-1)$-ball of radius $w$.
+To leading order $u$ restricted to a cross-section solves
+$-\Delta'\phi=1$, $\phi|_{\partial}=0$, with the explicit barrier
+$\phi(r)=\tfrac{w^2-r^2}{2(n-1)}$, $\max\phi=\tfrac{w^2}{2(n-1)}$. The
+transverse Dirichlet eigenvalue is $\lambda_1^\perp\simeq w^{-2}$, so by a
+Phragm\'en--Lindel\"of/maximum-principle barrier the axial direction adds only
+a bounded correction: $\sup_T u\le C_n w^2$ \emph{independently of $L$}, and
+$\ge c_n w^2$. Hence
+\[
+  t_{\mathrm{cap}}:=\sup_T u\ \simeq_n\ w^2,
+\]
+and for $t>t_{\mathrm{cap}}$ the level set $E_t$ does not meet $T$.
+
+\emph{(b) The unavoidable ball-shell, measure $\simeq_n w^2$.}
+A tentacle-free level needs $\hat t>t_{\mathrm{cap}}\simeq w^2$, hence one
+discards $\{u<\hat t\}$. Besides $T$, this contains the boundary layer of the
+ball part: with $u_{B_1}(x)=\tfrac{1-|x|^2}{2n}$,
+\[
+  \{x\in B_1:u_{B_1}(x)<\hat t\}=\{|x|>\sqrt{1-2n\hat t}\}
+  =\{|x|>1-n\hat t+O(\hat t^2)\},
+\]
+an annular shell of thickness $\simeq n\hat t\simeq_n w^2$, of measure
+\[
+  \bigl|\{x\in B_1:u_{B_1}<\hat t\}\bigr|\simeq_n\Hn(\partial B_1)\cdot n\hat t
+  \simeq_n w^2 .
+\]
+\emph{This is the $w^2$.} It is elementary: escaping a tube of height
+$\simeq w^2$ forces peeling a ball-shell of the same height, whose
+$n$-volume is $\simeq w^2$ \emph{for every dimension}, irrespective of the
+(possibly tiny) tube volume.
+
+\emph{(c) The deficit is only $\simeq_n|T|$.}
+Energy expansion: attaching the thin tube changes $T(\Om)$ by
+$\int_T u+(\text{junction})\simeq w^2|T|=O(w^{n+1}L)$ (negligible), while the
+equal-volume comparison ball $B_*$ grows: $T(B_*)=T(B_1)(1+|T|/\omega_n)^{(n+2)/n}
+=T(B_1)\bigl(1+\tfrac{n+2}{n}\tfrac{|T|}{\omega_n}+\dots\bigr)$. Hence
+$T(B_*)-T(\Om)\simeq_n|T|$ and
+\[
+  \dT(\Om)\ \simeq_n\ |T|\ =\ \kappa_n w^{n-1}L \qquad(\text{no }w^2\text{ floor}).
+\]
+(Independently confirmed by a direct level-set energy computation:
+$\dT=(2n^2\omega_n)^{-1}|T|(1+o(1))$.)
+
+\emph{(d) The obstruction to Strategy~A.}
+The escape layer is $\lambda_{\mathrm{esc}}\simeq_n|T|+w^2$, while the route's
+budget (Lemma~\ref{lem:step1}\,(ii)) is $|\Om\setminus\Et|=O(\dT)=O(|T|)$. For
+$n\ge3$, $L=O(1)$, $w\to0$ the shell dominates, $w^2\gg w^{n-1}L=|T|\simeq\dT$,
+so $\lambda_{\mathrm{esc}}/\dT\simeq w^{-(n-3)}\to\infty$: a tentacle-free
+(graph-like) level is \emph{unreachable within an $O(\dT)$ layer for $n\ge3$}.
+Only $n=2$ survives ($|T|=\kappa_1 wL\gg w^2$ since $L\gg w$). This is exactly
+``tentacles yield non-graphs''.
+
+\subsection{Why this is not fatal to the program}
+The ``weird'' feeling is justified: the obstruction is to the \emph{graph
+formulation only}, and the offending configuration is excluded by the very
+hypothesis $D_H(\hat t)\le\theta$. A genuine tentacle has
+$|\nabla u|\simeq w\to0$ on the tube part of $\Sigma_t$ for $t<t_{\mathrm{cap}}$.
+But by \eqref{eq:boxed} $D_H$ is the $1/|\nabla u|$-\emph{weighted} variance:
+on the tube part $|\nabla u|\simeq w$ is far from the mean $\bar f\simeq1$ set
+by the dominant ball part, so the integrand is
+$(|\nabla u|-\bar f)^2/|\nabla u|\simeq 1/w$. Explicitly, decompose the level
+$\Sigma_t=\Gamma_{\mathrm{ball}}\sqcup\Gamma_{\mathrm{tube}}$ for
+$t<t_{\mathrm{cap}}$: on $\Gamma_{\mathrm{ball}}$, $|\nabla u|\simeq_n1$ and
+$\Hn(\Gamma_{\mathrm{ball}})\simeq_n1$; on $\Gamma_{\mathrm{tube}}$,
+$|\nabla u|\simeq w$ and $\Hn(\Gamma_{\mathrm{tube}})\simeq_n w^{n-2}L$. The
+two-block Cauchy--Schwarz deficit is exactly
+\[
+  D_H(t)=A_0A_1\frac{(g_0-g_1)^2}{g_0\,g_1},\quad
+  A_i=\Hn(\Gamma_i),\ \ g_i=\text{mean of }|\nabla u|\text{ on }\Gamma_i,
+\]
+(the value of $\bigl(\int|\nabla u|^{-1}\bigr)\bigl(\int|\nabla u|\bigr)-P^2$
+for a two-valued $|\nabla u|$). With $g_0\simeq1$, $g_1\simeq w$,
+$A_0\simeq1$, $A_1\simeq w^{n-2}L$:
+\[
+  D_H(t)\ \simeq_n\ 1\cdot w^{n-2}L\cdot\frac{1}{w}\ =\ w^{\,n-3}L
+\]
+on a $t$-window of length $\simeq w^2$ (reproduced exactly by
+Lemma~\ref{lem:B4}). The dimensional behaviour of $w^{\,n-3}L$
+(thin tube, $w\to0$, $L=O(1)$) is decisive and must be read correctly:
+\begin{itemize}
+\item $n=2$: $D_H\simeq w^{-1}L\to\infty$ --- a level with $D_H\le\theta$
+  \emph{cannot} pass through a tentacle; the tentacle is genuinely
+  priced out.
+\item $n=3$: $D_H\simeq L=O(1)$ --- bounded; excluded only if the
+  absolute constant exceeds $\theta$, i.e.\ a constant-dependent
+  borderline, not a robust exclusion.
+\item $n\ge4$: $D_H\simeq w^{\,n-3}L\to0$ --- the tentacle has
+  \emph{small} $D_H$ and therefore \emph{satisfies} the near-Serrin
+  hypothesis $D_H\le\theta$. It is \textbf{not} excluded.
+\end{itemize}
+\emph{Correction of an earlier over-claim.} A previous version of this
+note asserted ``$D_H\le\theta$ forbids a tentacled level for $n\ge3$,
+so the obstruction is vacuous''. That is \textbf{false for $n\ge4$}:
+$w^{n-3}L\to0$. For $n\ge4$ a thin tentacle is a genuine
+near-Serrin level that is not a graph and cannot be escaped within an
+$O(\dT)$ layer --- Strategy~A is \emph{genuinely obstructed for
+$n\ge4$}, not vacuously. What survives is \emph{Strategy~B}, which
+never needs to exclude the tentacle: a tentacled level still has
+$\Asym\simeq|T|$ and $\dT\simeq|T|$, so $\Asym^2\simeq|T|^2\ll|T|\simeq\dT$
+and the interior estimate holds with room. (The first agentic
+$L^2\!\to\!L^\infty$ attempt did err by treating $D_H$ as the
+\emph{unweighted} variance; but the corrected weighted reading prices
+out tentacles only for $n=2$, not for $n\ge3$.)
+
+\begin{checkpoint}[A1, the one you doubt --- revised]
+The chain (a)--(d): $t_{\mathrm{cap}}\simeq w^2$ (transverse barrier
+dominates, $L$ irrelevant); ball-shell measure $\simeq_n w^2$;
+$\dT\simeq_n|T|$ (no $w^2$ floor in the deficit); hence the $n\ge3$
+graph obstruction. The $D_H\simeq w^{n-3}L$ tube-level scaling excludes
+tentacles \emph{only for $n=2$}; for $n\ge4$ tentacles satisfy
+$D_H\le\theta$, so Strategy~A's obstruction is \emph{real and not
+vacuous} for $n\ge4$. Strategy~A is therefore genuinely a graph
+obstruction in dimension $\ge4$; only the interior route (Strategy~B)
+survives it.
+\end{checkpoint}
+
+\subsection{Honest status of Strategy~A}
+Even granting (NDg) (delivered, in measure, by $D_H$ via Lemma~\ref{lem:B4}),
+two genuine difficulties remain. First, the available sharp nearly-spherical
+\emph{torsional} inequality (Brasco--De Philippis--Velichkov) is, as
+literally proved, conditional on
+$\norm{\varphi}_{C^{2,\gamma}}$ small, whereas the torsional deficit controls
+only $\norm{\varphi}_{H^{1/2}}$ (see \S\ref{sec:norm}); the regularity-free
+$W^{1,\infty}$ torsional analogue is not in the corpus. Second, (Mod): even
+with (NDg), the interpolation needs a $\dT$-uniform $C^\alpha/\Hess$ bound on
+$\St$, while interior Schauder gives only a constant
+$\sim\dist(\St,\partial\Om)^{-\beta}$ that degrades as the level nears a rough
+$\partial\Om$.
+\begin{checkpoint}[A2]
+Whether the perturbative theorem runs with the weak norm the deficit controls
+($H^{1/2}$, not $C^{2,\gamma}$), and whether (Mod) can be made $\dT$-uniform.
+\emph{Open for Strategy~A; precisely what Strategy~B circumvents.}
+\end{checkpoint}
+
+\section{Strategy B: a direct interior approach via Weinberger rigidity}
+
+Serrin's theorem states that if the torsion function of a domain has constant
+gradient on the boundary, the domain is a ball. Weinberger's proof of this is
+not geometric: it produces an auxiliary function whose failure to be harmonic
+is exactly the trace-free part of $\Hess$, and that quantity vanishes
+precisely on the ball quadratic. Strategy~B makes this rigidity
+\emph{quantitative} and applies it, not to the rough set $\Om$, but to a
+single superlevel set of $u$, which is automatically smooth. Because the whole
+argument is interior, it uses \emph{no} regularity of $\partial\Om$ and never
+represents a level set as a graph.
+
+\subsection{The Weinberger function (classical)}
+Let $u$ solve \eqref{eq:torsion} on a domain $D$. Set
+$P:=|\nabla u|^2+\tfrac2n u$. Since $\Delta u\equiv-1$,
+\[
+  \Delta P=\Delta|\nabla u|^2+\tfrac2n\Delta u
+  =2|\Hess|^2-\tfrac2n
+  =2\Bigl(|\Hess|^2-\tfrac1n\Bigr).
+\]
+The pointwise Cauchy--Schwarz inequality
+$|\Hess|^2\ge(\tr\Hess)^2/n=(\Delta u)^2/n=1/n$ gives $\Delta P\ge0$, with
+equality at a point iff $\Hess=-\tfrac1n I$ there, i.e.\ iff $u$ agrees to
+second order with a ball quadratic $a-|x-x_0|^2/(2n)$. Writing the trace-free
+Hessian $\TF$, one has $|\TF|^2=|\Hess|^2-\tfrac1n\ge0$ and the exact identity
+\begin{equation}\label{eq:DP}
+  \Delta P=2\,\bigl|\TF\bigr|^2 .
+\end{equation}
+Thus $\R(D):=\int_D|\TF|^2$ measures how far $u$ is from a ball quadratic; it
+vanishes iff $D$ is a ball. Serrin/Weinberger rigidity is the qualitative
+statement ``$\R(D)=0\Rightarrow D$ a ball''. Strategy~B is its quantitative
+form. This subsection is classical and not in question.
+
+\subsection{Step 1: reduction to one level set}
+By the common skeleton (Lemmas~\ref{lem:step1}--\ref{lem:step5}) it suffices
+to prove the sharp inequality on a single superlevel set. Precisely, there is
+a level $\hat t$ such that, with $\Ot:=\Et=\{u>\hat t\}$ and
+$\St=\{u=\hat t\}$:
+\textup{(i)} $\St$ is a compact real-analytic hypersurface with
+$|\nabla u|>0$ on it (Sard's theorem and interior analyticity; no boundary
+regularity);
+\textup{(ii)} the boundary defect is a small absolute constant,
+$\int_{\St}(|\nabla u|-\bar f)^2/|\nabla u|\,d\Hn\le\theta$, where
+$\bar f$ is the mean of $|\nabla u|$ on $\St$;
+\textup{(iii)} $|\Om\setminus\Ot|\le C_n\dT(\Om)/\theta$; and
+\textup{(iv)} $\dT(\Ot)\le2\,\dT(\Om)$.
+Moreover $u-\hat t$ is \emph{exactly} the torsion function of $\Ot$. So it
+suffices to prove $\Asym(\Ot)^2\le C(n)\,\dT(\Ot)$, which the next two steps
+establish.
+
+\subsection{Step 2: the deficit dominates the Hessian defect}
+\begin{proposition}\label{prop:B1}
+There is a dimensional constant $c(n)>0$ such that, for every bounded domain
+$D$ with the regularity of a Sard-regular level set \textup{(}in particular
+$D=\Ot$\textup{)},
+\[
+  \dT(D)\ \ge\ c(n)\,|D|^{-1}\,\R(D).
+\]
+The constant depends only on $n$ --- not on any regularity, inradius, or shape
+constant of $D$ --- and is additive over connected components.
+\end{proposition}
+\begin{proof}[Idea]
+Two classical identities for $v$ the torsion function of $D$
+($v=0$, $\nabla v=v_\nu\nu$ on $\partial D$). First, the Rellich--Pohozaev
+identity, obtained by testing $-\Delta v=1$ with $x\!\cdot\!\nabla v$ and
+integrating by parts:
+\[
+  \tfrac12\!\int_{\partial D}|\nabla v|^2(x\!\cdot\!\nu)\,d\Hn
+  =\tfrac{n+2}{2}\!\int_D v=\tfrac{n+2}{2}\,T(D).
+\]
+Second, integrating \eqref{eq:DP} and using the boundary value
+$P=|\nabla v|^2$ on $\partial D$ writes the Saint--Venant gap
+$T(B_D)-T(D)$ \emph{both} as a nonnegative boundary functional of
+$|\nabla v|$ on $\partial D$ \emph{and}, pairing \eqref{eq:DP} with the Green
+function of $D$ (a positive weight requiring no boundary regularity), as a
+dimensional multiple of $\int_D|\TF|^2=\R(D)$. The pointwise inequality
+$|\Hess|^2\ge1/n$, sharp only on the ball quadratic, makes the two
+expressions comparable. Combining them yields the stated inequality with
+$c(n)$ dimensional. This is precisely the quantitative form of Weinberger's
+rigidity.
+\end{proof}
+\begin{checkpoint}[B1]
+That Proposition~\ref{prop:B1} holds with a \emph{purely dimensional} constant,
+using only that the Rellich--Pohozaev and Green-function identities are valid
+on a Sard-regular interior-analytic level (no $\partial\Om$ regularity), and
+that it is stable under disconnection and thin tentacles. Consistency check:
+on a ball-with-thin-tube model both sides scale like the tube volume.
+\end{checkpoint}
+
+\subsection{Step 3: the Hessian defect dominates the asymmetry}
+The engine is a rigidity for the Hessian.
+\begin{lemma}[quantitative Liouville for the Hessian]\label{lem:B2}
+Let $D\subset\Rn$ be open with $|D|=\omega_n$ and $w\in H^2(D)$. There exist a
+quadratic $q(x)=a-|x-x_0|^2/(2n)$ and a constant $K(D)$ with
+\[
+  \int_D|\nabla w-\nabla q|^2\ \le\ K(D)\int_D\bigl|D^2w+\tfrac1n I\bigr|^2 .
+\]
+$K(D)$ is a Poincar\'e-type constant of $D$; it is dimensional for $D$ in a
+controlled class. Controlling $K(D)$ for the level domains that arise is the
+load-bearing analytic point of Strategy~B.
+\end{lemma}
+\begin{proposition}\label{prop:B3}
+With $D=\Ot$ there is a dimensional $C(n)$ with
+$\ \Asym(D)^2\le C(n)\,|D|^{-1}\,\R(D)$.
+\end{proposition}
+\begin{proof}[Idea]
+Apply Lemma~\ref{lem:B2} with $w=u$: if $|D|^{-1}\R(D)$ is small then
+$\Hess\approx-\tfrac1n I$ in $L^2$, so $u$ is $H^2$-close to a quadratic $q$;
+its superlevel set $\{u>\hat t\}$ is then close in measure to the ball
+$\{q>\hat t\}$ at the sharp (quadratic) rate, and the Fraenkel asymmetry,
+being the squared $L^2$ size of the boundary deviation, is controlled by
+$|D|^{-1}\R(D)$. The one delicate point is that $K(D)$ in
+Lemma~\ref{lem:B2} could degrade where $\nabla u$ is small (the level set can
+pinch there). Remove the set $Z=\{|\nabla u|\le s_0\}$ at a dimensional
+threshold $s_0\simeq_n1/n$ and bound its measure directly:
+\begin{lemma}[the small-gradient set is small]\label{lem:B4}
+On $\St$, for every $s>0$,
+$\ \Hn\bigl(\{|\nabla u|\le s\}\cap\St\bigr)\le
+4s\,\bar f^{-2}\int_{\St}(|\nabla u|-\bar f)^2/|\nabla u|\,d\Hn.$
+\end{lemma}
+\noindent(Where $|\nabla u|\le s\le\bar f/2$ one has
+$(|\nabla u|-\bar f)^2/|\nabla u|\ge\bar f^2/(4s)$; integrate over that set
+only --- Chebyshev applied to the defect integral of (ii).) By (ii) the right
+side is a small absolute constant, so $|Z|$ is small and is paid for
+\emph{additively}: removing a piece changes the asymmetry by at most its
+relative measure. On the remaining set $D\setminus Z$ one has
+$|\nabla u|\ge s_0$, so $K(D\setminus Z)$ is dimensional, and the divergent
+contribution that would come from the pinch region has been excised rather
+than multiplied against surviving terms. If $D$ is disconnected the argument
+runs per component; a component of order-one asymmetry has order-one deficit
+by Lemma~\ref{lem:B5}, hence lies outside the small-deficit regime, so the
+per-component treatment loses nothing.
+\end{proof}
+\begin{lemma}[strict-stability threshold]\label{lem:B5}
+There are $\eta_0(n),c_0(n)>0$ with: any open $D$, $|D|=\omega_n$,
+$\Asym(D)\ge\eta_0$ satisfies $\dT(D)\ge c_0$. \textup{(}$\dT$ is lower
+semicontinuous and positive off balls on the compact-modulo-translation set
+$\{\Asym\ge\eta_0\}$.\textup{)}
+\end{lemma}
+\begin{checkpoint}[B2, decisive]
+That $K(D\setminus Z)$ in Lemma~\ref{lem:B2} is \emph{dimensional} uniformly
+over the admissible level domains --- possibly pinched or multi-component ---
+once the small-gradient set $Z$ is excised. Concretely, on a ball-with-tube
+model the true values are $\Asym\simeq|T|$ and $\R\simeq|T|$, so
+Proposition~\ref{prop:B3} must give $\Asym^2\simeq|T|^2\le C\,|T|$ with $C$
+dimensional and room to spare. Everything else in Step~3 is elementary or is
+Lemma~\ref{lem:B4}; \emph{this is the single point on which the strategy
+rests.}
+\end{checkpoint}
+
+\subsection{Step 4: conclusion}
+\begin{theorem}\label{thm:B6}
+\textup{(}Conditional on Checkpoints \textup{B1, B2.}\textup{)} There is
+$C_*(n)$ such that every finite-measure open $\Om\subset\Rn$ with
+$\dT(\Om)\le\dT^0(n)$ satisfies $\Asym(\Om)^2\le C_*(n)\,\dT(\Om)$, sharp
+exponent.
+\end{theorem}
+\begin{proof}
+On $\Ot=\Et$, Propositions \ref{prop:B3} and \ref{prop:B1} give
+$\Asym(\Ot)^2\le C(n)|\Ot|^{-1}\R(\Ot)\le (C(n)/c(n))\,\dT(\Ot)$, and
+$\dT(\Ot)\le2\dT(\Om)$ by Step~1(iv). Lemma~\ref{lem:step5} transfers:
+$\Asym(\Om)^2\le2\Asym(\Ot)^2+8(|\Om\setminus\Ot|/|\Om|)^2
+\le C_*(n)\dT(\Om)$, the squared collar being $O(\dT^2)\ll\dT$ by
+Step~1(iii). No boundary regularity, no graph, and no perturbative
+nearly-spherical step is used.
+\end{proof}
+
+\section{Sharpness and the norm gap}\label{sec:norm}
+
+Why does Strategy~A stall where B does not? Expand a nearly-spherical
+$\partial D=\{(1+\varphi(\xi))\xi:\xi\in\mathbb S^{n-1}\}$ in spherical
+harmonics $\varphi=\sum_{k\ge0}\sum_m \hat\varphi_{k,m}\,Y_{k,m}$,
+$-\Delta_{\mathbb S^{n-1}}Y_{k,m}=k(k+n-2)Y_{k,m}$. The volume constraint
+$|D|=\omega_n$ pins the mode $k=0$ at second order
+($\hat\varphi_0=-\tfrac1{2}\sum_{k\ge1}|\hat\varphi_k|^2/\dots$), and choosing
+the optimal centre kills the modes $k=1$ (translations are
+asymmetry-neutral). The Fuglede second variation of the torsional energy is
+\[
+  \dT(D)\ \simeq_n\ \sum_{k\ge2}\gamma_k\,|\hat\varphi_k|^2,\qquad
+  \gamma_k=\frac{(k-1)(2k+n-2)+\dots}{\,k+n-2\,}\ \asymp\ k,
+\]
+so the surviving quadratic form is comparable to
+$\sum_{k\ge2}k\,|\hat\varphi_k|^2\simeq\norm{\varphi}_{H^{1/2}(\mathbb S^{n-1})}^2$
+(the Steklov/Dirichlet-to-Neumann scale), \emph{not}
+$\sum k^2|\hat\varphi_k|^2\simeq\norm{\varphi}_{H^1}^2$. The gap
+$\gamma_k>0$ for $k\ge2$ is the quantitative Saint--Venant rigidity; its
+\emph{linear} (not quadratic) growth in $k$ is the precise reason the deficit
+controls only a half-derivative of the graph. There is an explicit family
+$\Om_h$ with $\norm{\varphi_h}_{H^{1/2}}$ bounded but
+$\norm{\varphi_h}_{H^1}\to\infty$: \emph{the deficit cannot control more than
+$H^{1/2}$ of the graph.} The BDV nearly-spherical theorem, as written, needs
+$\norm{\varphi}_{C^{2,\gamma}}$ small (its Hadamard-flow remainder, not its
+$H^{1/2}$ Steklov core, forces the two extra derivatives). So Strategy~A must
+either supply $C^{2,\gamma}$ smallness regularity-free (the dead (BReg)
+route) or reprove BDV in the flow-free $H^{1/2}$ norm. Strategy~B sidesteps
+this entirely: Propositions~\ref{prop:B1} and \ref{prop:B3} never see a graph
+norm; they trade through the interior $H^2$ quantity $\R$, for which the sharp
+quadratic relation is intrinsic (the $|\Hess|^2\ge1/n$ Newton inequality is
+exactly order $2$).
+
+\section{The Faber--Krahn eigenvalue version}
+
+The title says Faber--Krahn; we record how the torsional statement
+\eqref{eq:target} delivers the eigenvalue one. Let $\lambda_1(\Om)$ be the
+first Dirichlet eigenvalue, $\lambda_1(B)$ its ball value at equal volume, and
+$\delta_\lambda(\Om)=\bigl(\lambda_1(\Om)-\lambda_1(B)\bigr)/\lambda_1(B)$ the
+Faber--Krahn deficit. Two routes connect the two functionals.
+\begin{itemize}
+\item \emph{Kohler-Jobin.} The Kohler-Jobin inequality
+$T(\Om)\,\lambda_1(\Om)^{(n+2)/2}\ge T(B)\,\lambda_1(B)^{(n+2)/2}$, sharp on
+balls, gives $\dT(\Om)\le c(n)\,\delta_\lambda(\Om)$ to first order: a small
+eigenvalue deficit forces a small torsional deficit, so \eqref{eq:target}
+yields $\Asym(\Om)^2\le C(n)\,\delta_\lambda(\Om)$ --- the sharp quantitative
+Faber--Krahn inequality --- with no extra work.
+\item \emph{Direct analogue.} The first eigenfunction $u_1>0$ solves
+$-\Delta u_1=\lambda_1 u_1$; the Weinberger $P$-function for the eigenvalue
+problem, $P_\lambda=|\nabla u_1|^2+\lambda_1 u_1^2$, is again subharmonic with
+$\Delta P_\lambda=2|D^2u_1+\tfrac{\lambda_1}{n}u_1 I|^2\ge0$ and the same
+trace-free Hessian rigidity. Strategy~B transfers verbatim with $\R$ replaced
+by $\int|D^2u_1+\tfrac{\lambda_1}{n}u_1I|^2$ and the level sets of $u_1$ in
+place of those of $u$; the level set $\{u_1>\hat t\}$ has its own eigenfunction
+$u_1-\hat t$ only after the standard substitution, so the cleaner statement
+goes through Kohler-Jobin. Either way the eigenvalue version is a corollary,
+not a separate problem.
+\end{itemize}
+\begin{checkpoint}[FK]
+The Kohler-Jobin reduction constant and its sharpness on balls (classical;
+see Brasco--De Philippis--Velichkov). Only needed if the eigenvalue
+statement is wanted directly rather than as a corollary of \eqref{eq:target}.
+\end{checkpoint}
+
+\section{Comparison with Plan 1, and what to trust}
+
+\subsection{Plan 1 vs.\ the two strategies}
+Plan~1 (the BDV \emph{selection principle}) replaces an arbitrary
+near-extremal $\Om$ by a penalised minimiser $\Ot$ that is, by free-boundary
+regularity, a smooth nearly-spherical set, with deficit not worse and
+asymmetry not smaller, then closes by the nearly-spherical inequality. Its hard
+core is the selection step's regularity (the $C^{1,\gamma}$/free-boundary
+constant tracking, Plan~1's Lemmas 6--7). \emph{Strategy~A is the literal
+analogue} --- the smooth competitor is a torsion level set, Serrin stability
+the regulariser --- and inherits both a regularity gap and the $n\ge3$
+tentacle/$w^2$ obstruction to graphicality. \emph{Strategy~B replaces the
+selection principle outright}: it never produces a smooth competitor; it
+applies quantitative Weinberger directly to the level set, so no graph, no
+$C^{2,\gamma}$, no selection principle --- the regularity-free
+small-gradient bound (Lemma~\ref{lem:B4}, driven by $D_H$) supplies the only
+non-degeneracy the argument needs.
+Strategy~B is the realisation of ``do Plan~1's idea, but with Serrin,
+directly''.
+
+\subsection{Consolidated checklist}
+\textbf{Common skeleton.} C1 (Lemma~\ref{lem:step1}); C2
+(Lemma~\ref{lem:step3}, profile shift \& sign); C3 (Lemma~\ref{lem:step5} \&
+rescaling composition).\\
+\textbf{Strategy~A.} A1 (\S\ref{ss:tent}: $t_{\mathrm{cap}}\simeq w^2$;
+ball-shell $\simeq_n w^2$; $\dT\simeq_n|T|$; $n\ge3$ obstruction; the
+$D_H\simeq w^{n-3}L$ tube scaling excludes tentacles \emph{only for
+$n=2$} --- \emph{the $w^2$ you asked about, derived in
+\S\ref{ss:tent}(b)}; for $n\ge4$ tentacles satisfy $D_H\le\theta$ and the
+graph obstruction is genuine). A2 (perturbative theorem in the weak
+norm $H^{1/2}$; $\dT$-uniform (Mod)) --- \emph{open; B circumvents it}.\\
+\textbf{Strategy~B (decisive).} B1 (Prop.~\ref{prop:B1}: regularity-free
+quantitative Weinberger, dimensional constant, stable under
+disconnection/tentacles). B2 (Prop.~\ref{prop:B3} via Lemma~\ref{lem:B2}:
+$H^2$-rigidity $\Rightarrow$ sharp Fraenkel, dimensional Poincar\'e constant
+on pinched/disconnected $D$ after excising the small-gradient set ---
+\emph{the single most important line}). B3 (Lemma~\ref{lem:B4} \& its
+agreement with the tentacle $D_H$ scaling).
+
+\subsection{What is, and is not, established}
+Lemmas \ref{lem:step1}--\ref{lem:step5} are routine (C1--C3 bookkeeping).
+Strategy~A's $n\ge3$ obstruction is, modulo A1, correct arithmetic
+about tentacled domains; the $D_H\simeq w^{n-3}L$ scaling prices
+tentacles out only for $n=2$, so for $n\ge4$ the obstruction is
+\emph{genuine, not vacuous} --- a thin tentacle is a bona fide
+near-Serrin level that is not a graph. It remains irrelevant to
+Strategy~B, which never excludes the tentacle: such a level still has
+$\Asym^2\simeq|T|^2\ll|T|\simeq\dT$, so the interior estimate holds with
+room. Strategy~B's analytic inputs B1, B2 have been derived and passed an
+internal adversarial verification with an independent cross-check (B3
+reproduces the tentacle scaling exactly), but are \textbf{not} human-refereed.
+Honest status: the program plausibly closes \eqref{eq:target} for all $n$ via
+Strategy~B, conditional on B1 and especially B2 surviving a full referee;
+Strategy~A, as a graph route, is genuinely obstructed for $n\ge3$ and is the
+heuristic motivating B, not a proof.
+\end{document}

@@ -1,0 +1,331 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+\usepackage{enumitem}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\Tr}{\mathcal{T}}
+\newcommand{\TT}{\mathbf{T}}
+% --- lightweight fallbacks so this notes file compiles standalone ---
+\newcommand{\Ft}{\mathcal{F}}
+\newcommand{\G}{\Gamma}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\Gc}{\mathcal{G}}
+\newcommand{\Ncal}{\mathcal{N}}
+\newcommand{\jap}[1]{\langle #1\rangle}
+\newcommand{\ind}{\mathbf{1}}
+\newcommand{\mul}{\mathfrak{m}}
+\newcommand{\sbf}{\mathrm{p}}
+\newcommand{\pb}{\mathrm{pb}}
+\newcommand{\bul}{\bullet}
+\newcommand{\Psitree}{\Psi}
+\newcommand{\tree}[1]{\texttt{[#1]}}
+\renewcommand{\l}{\ell}
+\newcommand{\dt}{\partial_t}
+\newcommand{\noi}{\noindent}
+\newcommand{\com}[1]{\textit{\textcolor{blue}{#1}}}
+\newcommand{\sugg}[1]{\par\smallskip\textbf{Suggested text:}\quad #1}
+\newcommand{\why}[1]{\par\smallskip\textbf{Why:}\quad #1\par\medskip}
+
+\title{Responses to the blue annotations in \texttt{Final/Last/main-new.tex}}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+Each entry below quotes the blue comment, gives a concrete suggestion of what
+to insert (or how to rewrite), and explains the rationale. Line numbers refer
+to \texttt{main-new.tex} as of the current draft.
+
+\section*{Introduction (\S1.1--1.3)}
+
+\begin{enumerate}[leftmargin=*]
+
+\item[\textbf{L790}] \com{Ainda n\~ao falaste de integrabilidade. Talvez p\^or
+``see below''.}
+\sugg{``\dots\ to reach this threshold by perturbative means, that is, without
+appealing to the integrable structure of \eqref{eq:NV} (this point is made
+precise in the overview of \S1.2 and in Remark~\textit{[ref]}).''}
+\why{``Integrable structure'' is used here for the first time as if already
+discussed. A forward pointer turns an apparent gap into a deliberate
+signpost; alternatively, drop the clause here and introduce integrability
+only in \S1.2 where the perturbative/non-integrable contrast is actually
+developed.}
+
+\item[\textbf{L834}] \com{Uniform pode ser enganador, o tempo de exist\^encia
+depende de $E$ n\~ao-uniformemente.}
+\sugg{Replace ``and the statement is uniform in the energy $E\in\R$'' by
+``and the statement holds for every fixed energy $E\in\R$ (the proof, and in
+particular the local existence time, depending on $E$).''}
+\why{``Uniform in $E$'' wrongly suggests $E$-independent constants/lifespan.
+The genuine uniformity is structural (same mechanism for all $E$), not
+quantitative; the rephrasing keeps the intended message without overclaiming.}
+
+\item[\textbf{L849 / L1265}] \com{Nas transformadas de Fourier aparece muitas
+vezes $\F_z$. Dois problemas: n\~ao se fez a identifica\c c\~ao $z=x+iy$ e $z$
+\'e usado para a gauged variable. Talvez p\^or $\F_{x,y}$ ou $\hat{\cdot}$.}
+(L1265: \com{trocar nota\c c\~ao de $\F$}.)
+\sugg{Globally replace $\F_z$ and $\Ft_x$ by a single symbol, e.g.
+$\widehat{\,\cdot\,}=\F_{x,y}$, the spatial Fourier transform on
+$\R^2_{x,y}$; reserve $z$ exclusively for the gauged variable.}
+\why{$z$ is overloaded: as the complex coordinate $x+iy$ (never explicitly
+identified) and as the gauged unknown. A neutral spatial-Fourier notation
+removes the clash and the missing $z=x+iy$ identification altogether. This
+must be applied consistently (hence the same fix resolves L1265).}
+
+\item[\textbf{L864}] \com{L\'a \`a frente falas de absorver as constantes
+multiplicativas para dentro do $K$ como discutido aqui, mas aqui n\~ao h\'a
+discuss\~ao nenhuma.}
+\sugg{Insert after \eqref{eq:NV2}: ``Here and below, absolute multiplicative
+constants arising from the Fourier normalisation and from the algebra of
+\eqref{eq:NV} are absorbed once and for all into the bilinear multiplier $K$;
+this convention is what is referred to as `the discussion preceding
+\eqref{eq:NV2}'.''}
+\why{Line~1230 explicitly says ``see the discussion preceding
+\eqref{eq:NV2}'', but no such discussion exists. One sentence makes the later
+back-reference correct.}
+
+\item[\textbf{L873 (a)}] \com{N\~ao percebi. Talvez ``summing up the boundary
+terms in the normal-form expansion''?}
+\sugg{``\dots\ the gauge transform $\Gc_\delta$, defined by summing the
+\emph{boundary} terms of the infinite normal-form expansion.''}
+\why{The gauge is built precisely from the series of boundary contributions
+(cf.\ L1636--1643). ``Summing up the normal-form expansion'' is ambiguous and
+could be read as summing every term; the reviewer's reading is the correct
+one.}
+
+\item[\textbf{L873 (b)}] \com{P\^or como tag?} (about the gauged NV equation).
+\sugg{Give the displayed equation a permanent tag, e.g.\ a
+\texttt{\textbackslash tag\{gNV\}} (or a numbered \texttt{equation}
+environment with \texttt{\textbackslash label\{z1\}}), and refer to it as
+``the gauged Novikov--Veselov equation~(gNV)'' throughout.}
+\why{The equation is cited repeatedly (``\eqref{z1}''); a stable, mnemonic tag
+improves readability and guarantees the reference resolves.}
+
+\item[\textbf{L887}] \com{Trocar $b$ por $1/2^+$ ou ent\~ao dizer
+$b=\tfrac12^+$.}
+\sugg{Append to the displayed estimate ``\dots, with $b=\tfrac12^{+}$ and
+$0+$ as in the notation of \S1.3.''}
+\why{$b$ has not been fixed at this point in the overview, so the bound is
+not self-contained. Pinning $b=\tfrac12^{+}$ (or substituting the value
+directly) removes the ambiguity.}
+
+\item[\textbf{L888}] \com{it ensures summability over} (replacing ``it is
+summable over'').
+\sugg{Accept: ``\dots\ the exponent $(2s+2)(j-3)-1$: it ensures summability
+over $j$ for any $s>-1$\dots''}
+\why{An exponent is not itself ``summable''; it is the series
+$\sum_j C^j\delta^{(2s+2)(j-3)-1}$ that converges. The edit is a precise and
+costless improvement.}
+
+\item[\textbf{L893}] \com{Aqui n\~ao se percebe de onde vem este $n$.}
+(``uniform-in-$n$ control'').
+\sugg{Either introduce the smoothing sequence first --- ``approximating the
+datum by a sequence $u_{0,n}\in H^\infty$ and writing $u_n$ for the
+corresponding smooth solutions'' --- or replace ``uniform-in-$n$'' by
+``uniform along the smoothing sequence''.}
+\why{$n$ appears with no antecedent; it is the index of the smoothing
+approximation used in the density argument. Naming the sequence before using
+$n$ makes the sentence self-contained.}
+
+\item[\textbf{L897}] \com{O que se ganha n\~ao \'e a analiticidade (isso j\'a
+est\'a no nosso teorema), mas sim o facto de a solu\c c\~ao viver em
+$X^{s,b}$.}
+\sugg{Retitle the appendix: ``\textbf{Appendix: persistence in $X^{s,b}$ for
+$s>-\tfrac34$}'', and rewrite the body so the stated gain is the $X^{s,b}$
+contraction/persistence of the flow (analyticity being already part of
+Theorem~\ref{thm:main_intro}).}
+\why{Theorem~\ref{thm:main_intro} already yields analyticity in its range, so
+advertising ``analyticity'' as the appendix's contribution is misleading. The
+real added value is the stronger functional setting ($X^{s,b}$), which should
+headline the appendix.}
+
+\item[\textbf{L898 (a)}] \com{S\'o era conhecido no caso $E=0$, talvez
+reescrever.} (``the (already-known) range $s>-\tfrac34$'').
+\sugg{``A short appendix is devoted to the range $s>-\tfrac34$, known for
+$E=0$ by Adams--Gr\"unrock \cite{adamsgrunrock} and here extended to all
+$E\in\R$.''}
+\why{The prior result is for $E=0$ only; ``already-known'' overstates what was
+available and hides the actual novelty of the appendix (the $E\neq0$ case).}
+
+\item[\textbf{L898 (b)}] \com{corrigir} (``\dots\ from continuous to analytic
+in that range'').
+\sugg{In line with L897: ``\dots\ and shows that in this range the
+data-to-solution map is, in addition, real-analytic and the solution persists
+in $X^{s,b}$.''}
+\why{Must be reconciled with the L897 correction: state the genuine
+improvement ($X^{s,b}$ persistence; analyticity recovered by an easier
+argument) rather than a continuous-to-analytic ``upgrade'' that the main
+theorem already provides.}
+
+\item[\textbf{L909 (a)}] \com{or $\cdot^\vee$} (alternative inverse-Fourier
+notation).
+\sugg{Accept: ``\dots\ by $\F$ and $\F^{-1}$ (or $\widehat{\,\cdot\,}$ and
+$\,\cdot\,^{\vee}$) the spatial Fourier transform and its inverse\dots''}
+\why{Introducing $\cdot^\vee$ here legitimises its use later and pairs
+naturally with $\widehat{\,\cdot\,}$; harmless and improves consistency.}
+
+\item[\textbf{L909 (b)}] \com{defined in Section 2.2} (about
+$\Ncal_\l(\TT;\cdot)$).
+\sugg{Accept: ``\dots\ the multilinear operator associated with a tree $\TT$
+and a type label $\l\in\{1,\dots,5\}$, defined in
+Section~\ref{sec:...}\,''} (use the actual label of \S2.2).
+\why{$\Ncal_\l$ is non-trivial; a forward reference to its definition is
+expected in a notation list.}
+
+\end{enumerate}
+
+\section*{Normal-form derivation (\S2)}
+
+\begin{enumerate}[leftmargin=*]
+
+\item[\textbf{L965}] \com{, given $\TT\in\Tr_j$,}
+\sugg{Accept the insertion: ``From Definition~\ref{DEF:tree}, it follows
+that, given $\TT\in\Tr_j$, \dots''}
+\why{The clause that follows quantifies over a tree of the $j$-th generation;
+naming it explicitly removes a dangling reference.}
+
+\item[\textbf{L1214}] \com{Isto n\~ao est\'a coerente. $\Gamma$ \'e um
+conjunto em $\R^3$, $A$ em $\R^2$\dots}
+\sugg{Make the ambient space uniform. Either present both as subsets of the
+convolution hyperplane,
+\[
+A:=\Big\{(\xi_1,\xi_2)\in(\R^2)^2:\ \xi_1+\xi_2=\xi,\ |\xi_1|\vee|\xi_2|\le
+1/\delta\Big\},\quad A^c:=\G(\tree{1})\setminus A,
+\]
+defining $\G(\tree{1})$ as that same hyperplane $\{\xi_1+\xi_2=\xi\}$; or carry
+the constraint $\xi_1+\xi_2=\xi$ explicitly so that $A\subset\G(\tree{1})$
+literally.}
+\why{As written, $\G(\tree{1})\setminus A$ subtracts an $\R^2$-set from an
+$\R^3$-set, which is ill-typed. Fixing $\G(\tree{1})$ and $A$ to live on the same
+constraint set makes $A^c=\G(\tree{1})\setminus A$ meaningful.}
+
+\item[\textbf{L1525}] \com{Referir que a prova est\'a feita em [11] (\'e
+preciso explicar o que acontece com os termos $E$?).}
+\sugg{Add: ``The systematic iteration is carried out exactly as in
+\cite{[11]}; the only new feature here is the energy term: the splitting
+$K\Psi_0=K\Psi-E\,K\Psi_E$ feeds the lower-order piece $E\,K\Psi_E$ into the
+remainders, where it is estimated perturbatively (see \eqref{NFE001}), so the
+combinatorics of the trees is unaffected.''}
+\why{The reader needs to know the iterative machinery is borrowed (cite the
+source) and that the $E$-dependent terms do not alter the tree bookkeeping ---
+the natural worry given \eqref{eq:NV} carries the extra $E\,\Phi_E$ symbol.}
+
+\item[\textbf{L1643}] \com{N\~ao falaste the colourings.}
+\sugg{Insert before first use: ``Each leaf of a tree may be filled either
+with $w$ or with $\D[w,w]$; we call such an assignment a \emph{colouring} of
+the tree. Expanding \eqref{w1} thus produces, for each underlying tree,
+several terms of equal homogeneity indexed by their colouring.''}
+\why{``Colourings'' is introduced as if defined; one sentence makes the
+combinatorial object precise and the ``bundling tree-by-tree'' statement
+rigorous.}
+
+\item[\textbf{L1645}] \com{P\^or isto como t\'itulo do lemma?} (the heading
+``The boundary cancellation'').
+\sugg{Drop the \texttt{\textbackslash subsubsection*} and fold the phrase
+into the lemma, e.g.\ ``\textbf{Lemma~\ref{LEM:wbd} (Boundary
+cancellation).}''.}
+\why{The heading and Lemma~\ref{LEM:wbd} state the same fact; naming the lemma
+``Boundary cancellation'' avoids a redundant sectioning unit and gives the
+result a citable name.}
+
+\end{enumerate}
+
+\section*{Multilinear estimates (\S3)}
+
+\begin{enumerate}[leftmargin=*]
+
+\item[\textbf{L1873}] \com{O Lema~\ref{lem:eta1} n\~ao \'e de frequ\^encia
+restrita, eu tiraria este.}
+\sugg{``\dots\ funnelled into one of two off-the-shelf frequency-restricted
+estimates \cite{CLS,COS} (Lemmas~\ref{lem:fre_bi}, \ref{lem:fre_tri}),
+combined with the elementary integration bound Lemma~\ref{lem:eta1}\dots''}
+\why{Lemma~\ref{lem:eta1} is an auxiliary $\jap{\cdot}$-integration estimate,
+not a frequency-restricted estimate; listing it among the FRE inputs
+mischaracterises it. Demoting it to a separate ``combined with'' clause is
+accurate and keeps it in the argument.}
+
+\item[\textbf{L2011}] \com{Passar a refer\^encias?} (H\"ormander /
+Duistermaat cited inline).
+\sugg{Add \texttt{hormander1}, \texttt{duistermaat} to \texttt{biblio.bib}
+and replace the inline mentions by ``Morse's lemma with parameters
+(\cite[Lemma~C.6.1]{hormander1}; see also \cite[\S3.4]{duistermaat})''.}
+\why{Books cited inline by title break the citation style used everywhere
+else; bib entries make them consistent and clickable.}
+
+\item[\textbf{L2073}] \com{$\star1,$} inserted into the heading
+``$B=\{\star1,\star2\}$''.
+\sugg{Reconcile heading and body: the text below says ``Choosing
+$B=\{\star2\}$''. Decide which is correct and make both read identically
+(most likely $B=\{\star2\}$, since the argument trades resonance only against
+$\xi_{\star2}$).}
+\why{The inserted ``$\star1,$'' contradicts the body of Step~2; an
+inconsistency in the choice of the splitting set $B$ would confuse the reader
+following the bookkeeping. Verify against the multiplier and unify.}
+
+\item[\textbf{L2074}] \com{large} (``via the large-frequency restriction
+$|\xi_{\bul2}|\gtrsim1/\delta$'').
+\sugg{Accept: ``\dots\ contributes a factor $\delta^{2s+2}$ via the
+large-frequency restriction $|\xi_{\bul2}|\gtrsim1/\delta$\dots''}
+\why{$|\xi_{\bul2}|\gtrsim1/\delta$ is precisely a high/large-frequency
+constraint; the qualifier removes ambiguity about which regime supplies the
+$\delta^{2s+2}$ gain.}
+
+\item[\textbf{L2092}] \com{$2,$} inserted into ``$B=\{2,11\}$''.
+\sugg{Accept provided it matches the body of Step~3: with $\TT=\tree{21}$ and the
+worst-case ordering $|\xi_2|\ge|\xi|\ge|\xi_{11}|\ge|\xi_{12}|$, the splitting
+set should indeed be $B=\{2,11\}$. Confirm against \eqref{typeIVmult2} and
+the integration that follows, then keep $B=\{2,11\}$.}
+\why{The choice of $B$ must coincide with the variables actually traded
+against resonance in Step~3; the insertion looks correct but should be
+checked against the displayed multiplier before being made permanent.}
+
+\item[\textbf{L2265}] \com{Isto n\~ao est\'a certo assim.} (``$\int
+\jap{\xi_{\sbf(\star)}}^{-(4s+2)}\,d\xi_{\sbf(\star)}\lesssim1$ for $s>-1$'').
+\sugg{Correct the convergence claim. Since $\xi_{\sbf(\star)}\in\R^2$, the
+plain integral $\int_{\R^2}\jap{\xi}^{-(4s+2)}\,d\xi$ converges only for
+$4s+2>2$, i.e.\ $s>0$, \emph{not} for $s>-1$. The fix is to keep the
+resonance restriction or an extra weight on $\xi_{\sbf(\star)}$ so the
+effective exponent exceeds the dimension $2$: e.g.\ retain a factor
+$\ind_{|\Psi(\TT)-\alpha|<M}$ (or the companion $\jap{\xi_{\star21}}$ weight)
+in the $\xi_{\sbf(\star)}$ integration and conclude
+$\int\jap{\xi_{\sbf(\star)}}^{-(4s+2)}\ind_{\{\cdot\}}\,d\xi_{\sbf(\star)}
+\lesssim M$ (or $\lesssim1$) by Lemma~\ref{lem:eta1}, rather than asserting
+unrestricted convergence for $s>-1$.}
+\why{In two dimensions $\jap{\xi}^{-(4s+2)}$ is integrable iff $s>0$, so the
+sentence as written is false in the relevant range $s\in(-1,0]$. The
+gain claimed for Step~7 must come from the resonance/weight structure, not
+from bare integrability; the surrounding $\delta^{(2s+2)(j-3)}M$ conclusion is
+likely still correct but the intermediate justification needs to be redone
+with the restriction kept.}
+
+\end{enumerate}
+
+\section*{Inversion / density (\S4)}
+
+\begin{enumerate}[leftmargin=*]
+
+\item[\textbf{L2540}] \com{$\delta$} inserted into ``$\sum_{j\ge0}(C\delta)^j$''.
+\sugg{Accept: the series must read $\sum_{j\ge0}(C\delta)^j$ (geometric,
+convergent once $C\delta<1$).}
+\why{Without the $\delta$ the series $\sum_j C^j$ diverges; the smallness that
+closes the contraction/uniqueness estimate is exactly the gauge parameter
+$\delta$ (taken small in terms of the data), so $(C\delta)^j$ is the intended
+summand. State explicitly that $\delta$ is chosen with $C\delta<1$.}
+
+\end{enumerate}
+
+\bigskip
+\noindent\textbf{Cross-cutting note.} Items L849, L909(a), L1265 are the same
+underlying issue (Fourier-transform notation and the symbol $z$); fixing them
+together with a single global convention is preferable to local patches.
+Items L897, L898(a), L898(b) must also be edited together so the appendix's
+stated contribution is internally consistent.
+
+\end{document}
