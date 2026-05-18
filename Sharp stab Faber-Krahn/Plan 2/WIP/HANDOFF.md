@@ -53,11 +53,20 @@ What is now closed:
 - `WIP_SameCentreFJ.tex`: the unconditional joint same-centre Fusco--Julin theorem and Borel selection (Deliverables B+C).  Replaces the conditional Theorem 1.2 of `WIP_FJCenterBridge.tex`.
 - `WIP_GoodEndpointTrace.tex`: Borel good endpoint $\widehat\rho$ within $O(\delta_T)$ of $\rho_\delta$ (Deliverable D); the boundary-layer transfer absorbs this without exponent loss.
 - `WIP_TrimmedVelocityRepair.tex`: the self-truncated velocity defect replacing Hyp-G(lower).
+- `PLAN2_INTERVAL_ROUTE_BAD_KINETIC_PATCH.md`: the bad-$I$ kinetic action in `WIP_WeightedMetricTrace.tex` Hypothesis 3.6 follows from the unconditional limsup deformation bound and the weighted level-set deficit identity; the bad-$\tau$ action is also closed on $G_I$.
 - `WIP_BoundaryLayerTransfer.tex` and `WIP_GlobalAssembly.tex`: endpoint admissibility, constant bookkeeping, and the finite-measure Kohler--Jobin exhaustion step.
 
 What remains explicitly conditional:
 
-- `WIP_WeightedMetricTrace.tex` Hypothesis 3.6 (bad-level kinetic action bounds): these were not discharged by the present round of Deliverables A--D.  The good-endpoint variant gives a cleaner downstream interface but does not by itself eliminate the bad-level kinetic dependencies; the underlying trace-uniform theorem still uses both bad-$I$ and bad-$\tau$ action bounds.  Removing them would require, e.g., proving a global $\mu$-integrated metric-derivative bound that does not assume FJ structure on bad levels.
+- The remaining part of `WIP_WeightedMetricTrace.tex` Hypothesis 3.6 is the slow-and-isoperimetrically-bad kinetic estimate
+  \[
+    \int_{B_{\tau_0}\cap B_I} |\dot F_\rho|_{\mathcal X}^2\,d\rho
+       \le C\,\delta_T(\Omega).
+  \]
+  Equivalently, using the crude deformation bound, it would be enough to prove
+  \(\int_{B_{\tau_0}\cap B_I}D_I(t(\rho))\,d\rho\le C\delta_T(\Omega)\).
+  The existing identities give only the weighted estimate
+  \(\int D_I(t(\rho))\,w(\rho)d\rho\le C\delta_T(\Omega)\), which does not control this term on \(B_{\tau_0}=\{w<\tau_0\}\).  The good-endpoint variant gives a cleaner downstream interface but does not by itself remove this last bad-$\tau$ kinetic dependency.
 
 Sections 5--8 below are archival notes from the older Hyp-G-centred pass.  They remain useful background, but they are not the current statement of the open problems.
 

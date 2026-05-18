@@ -138,8 +138,21 @@ $\bar\rho(N,R)$, then it improves to a $C^{1,\gamma}$ graph at scale
 $\bar\rho/2$ with norm $C_{\rm AC}(N,R)\bar\mu$.
 \end{itemize}
 
-These four results are quoted from BDV~\S 4 verbatim. They are used as
-black boxes; their proofs are unchanged.
+These four results are quoted from BDV~\S 4. We use each one \emph{per single
+set}, not along a sequence, and this is legitimate at the level of BDV's own
+proofs: the proofs of Lemmas~4.9--4.12 open with ``being $j$ fixed we drop the
+subscript'' and proceed by a one-set variational comparison against the
+perturbed minimality inequality~(4.19), which is itself the single-set first
+variation of Lemma~4.2; the resulting constants depend only on $(N,R)$ and on
+the regularity regime $q\le q_{\rm sel}(N,R)$ (equivalently BDV's
+$\sigma\le\sigma_{\rm reg}(N,R)$, the penalization prefactor being
+$\le\tau=q^{1/4}$). The \emph{only} place BDV pass to $j\to\infty$ is
+Lemma~4.13 (Kuratowski convergence $\partial\Omega_j\to\partial B_1$), invoked
+solely to produce a free-boundary point near every $\bar x\in\partial B_1$.
+That single qualitative step is exactly what Lemma~\ref{lem:alphaH} below
+replaces quantitatively, so Lemma~4.13 is \emph{not invoked} anywhere in this
+route. The single-set quasi-minimality these per-set lemmas require is the one
+Lemma~\ref{lem:rescale} secures for the selected $U_*$ before dilation.
 
 \paragraph{BDV nearly spherical theorem (used as black box).}
 The closing step is:
@@ -271,7 +284,7 @@ $E(U_*)\le E(\Omega_0)+\hbox{error}\le E(B_1)+(1+O(\tau))(E(\Omega_0)-E(B_1))$.
 The selected $U_*$ has volume $\abs{B_1}+O(\delta_T)$, so it must be
 rescaled to compare with the unit ball.
 
-\begin{lemma}[Volume-normalized Bernoulli law]\label{lem:rescale}
+\begin{lemma}[Volume-normalized law and quasi-minimality]\label{lem:rescale}
 Set $r_*=(\abs{U_*}/\abs{B_1})^{1/N}$, $\widetilde\Omega=r_*^{-1}U_*$,
 $\widetilde u(x)=r_*^{-2}u_{U_*}(r_*x)$. Then
 \[
@@ -284,32 +297,74 @@ and the rescaled Bernoulli law on $\partial\widetilde\Omega$ reads
 \abs{\nabla\widetilde u(y)}^2=\widetilde\Lambda+\widetilde a_\sigma\widetilde\Psi(y),
 \]
 with $\widetilde\Lambda=r_*^{-2}\Lambda$, $\widetilde a_\sigma=r_*^{-1}a_\sigma$,
-and $\widetilde\Psi$ the rescaled $\alpha$-bracket. In the regime
-$\delta_T\le c$ small, the constants degrade by $1+O(\delta_T)$ and are
-absorbed into $(N,R)$-constants.
+and $\widetilde\Psi$ the rescaled $\alpha$-bracket. Moreover, if $U_*$
+satisfies BDV's perturbed minimality inequality with parameter $\sigma$, then
+$\widetilde u$ satisfies the same type of inequality for the rescaled volume
+penalty
+\[
+\widetilde f(s):=r_*^{-(N+2)}f_{\hat\eta}(r_*^Ns)
+\]
+and with quasi-minimality parameter $C\sigma r_*^{-2}$. In the regime
+$\delta_T\le c$ small, $r_*\in[1/2,2]$, so all constants degrade by bounded
+$(N,R)$-factors.
 \end{lemma}
 
 \begin{proof}
-The torsion equation scales by $u\mapsto r_*^{-2}u(r_*\cdot)$, energy by
-$r_*^{-(N+2)}$, gradient by $r_*^{-1}$. The Bernoulli bracket
-$\Psi_{U_*}(x)=\abs{x-x_{U_*}}-(\int_{U_*}(z-x_{U_*})/\abs{z-x_{U_*}}\d z)\cdot x$
-scales by $r_*\cdot\Psi_{\widetilde\Omega}(y)$ (one $r_*$ from the
-$\abs{\cdot}$, $r_*^N$ from the centroid volume element and $r_*$ from $x=r_*y$,
-$r_*$ from the dot product; the volume Jacobian factor cancels the $r_*^N$ in the
-centroid). Combined with the $r_*^{-2}$ rescaling of the gradient,
-$\widetilde a_\sigma=r_*^{-1}a_\sigma$. Detailed computation in
-\texttt{corrections-response.tex}, \S 1.
+The torsion equation scales by $u\mapsto r_*^{-2}u(r_*\cdot)$ and the gradient
+by $\nabla\widetilde u(y)=r_*^{-1}\nabla u_{U_*}(r_*y)$.
+
+Write the first-variation bracket in the translation-invariant averaged form
+\[
+A_U:=\frac1{\abs U}\int_U\frac{z-x_U}{\abs{z-x_U}}\d z,\qquad
+\Psi_U(x):=\abs{x-x_U}-A_U\cdot(x-x_U).
+\]
+This is BDV's bracket, up to an additive constant if one writes $A_U\cdot x$;
+that constant is absorbed into $\Lambda$. Under the change of variables
+$U_*=r_*\widetilde\Omega$ one has $A_{U_*}=A_{\widetilde\Omega}$ and
+\[
+\Psi_{U_*}(r_*y)=r_*\Psi_{\widetilde\Omega}(y).
+\]
+Thus
+\[
+\abs{\nabla\widetilde u(y)}^2
+=r_*^{-2}\bigl(\Lambda+a_\sigma\Psi_{U_*}(r_*y)\bigr)
+=r_*^{-2}\Lambda+r_*^{-1}a_\sigma\Psi_{\widetilde\Omega}(y).
+\]
+
+For the quasi-minimality, let $\zeta$ be an admissible competitor for
+$\widetilde u$ and set $v(x)=r_*^2\zeta(x/r_*)$. Then
+\[
+\mathcal E(v)=r_*^{N+2}\mathcal E(\zeta),\qquad
+\abs{\{v>0\}}=r_*^N\abs{\{\zeta>0\}},
+\]
+and
+\[
+\abs{U_*\Delta\{v>0\}}=r_*^N
+\abs{\widetilde\Omega\Delta\{\zeta>0\}}.
+\]
+Dividing BDV's perturbed minimality inequality for $U_*$ by $r_*^{N+2}$
+gives the displayed rescaled inequality.
 \end{proof}
+
+\begin{remark}[Proof order]
+The free-boundary regularity arguments below are applied to the original
+selected minimizer $U_*$ before the final dilation. Lemma~\ref{lem:rescale}
+shows that applying them after dilation would also be legitimate, but the
+pre-dilation order avoids any hidden use of post-normalization minimality.
+\end{remark}
 
 \section{Graph entry}\label{sec:graphentry}
 
-The selected set $\widetilde\Omega$ becomes a global graph over $\partial B_1$
-once its asymmetry is below an explicit threshold.
+The selected minimizer is regularized before the final dilation; equivalently,
+by Lemma~\ref{lem:rescale}, the volume-normalized set
+$\widetilde\Omega$ is a BDV-type quasi-minimizer with uniformly transported
+constants. It becomes a global graph over $\partial B_1$ once its asymmetry is
+below an explicit threshold.
 
 \subsection{Asymmetry to Hausdorff distance}
 
-\begin{lemma}[\texttt{graph-entry-closure.md}, \S 2]\label{lem:alphaH}
-For every BDV penalized minimizer $\widetilde\Omega$ with
+\begin{lemma}[Asymmetry to Hausdorff distance]\label{lem:alphaH}
+For every volume-normalized selected quasi-minimizer $\widetilde\Omega$ with
 $\abs{\widetilde\Omega}=\abs{B_1}$ and comparison ball $B_1$ (after
 translating by barycenter),
 \[
@@ -319,12 +374,76 @@ d_H(\partial\widetilde\Omega,\partial B_1)
 \end{lemma}
 
 \begin{proof}
-BDV Lemma 4.2 gives
-$\abs{\widetilde\Omega\Delta B_1}\le C_\alpha(N)\alpha(\widetilde\Omega)^{1/2}$.
-Combine with BDV Lemma 4.9 density: a free-boundary point distance $d$ from
-$\partial B_1$ traps volume $\gtrsim d^N$ in $\widetilde\Omega\Delta B_1$.
-Inverting, $d\le C_H(N,R)\abs{\widetilde\Omega\Delta B_1}^{1/N}$, giving the
-displayed estimate with $C_H'=C_H\cdot C_\alpha^{1/N}$.
+Write $\alpha:=\alpha(\widetilde\Omega)$ and
+$d:=d_H(\partial\widetilde\Omega,\partial B_1)$. Two per-set ingredients enter
+-- the asymmetry--volume comparison and the two-sided density estimate --
+and no limit is taken anywhere.
+
+\emph{Step 1 (asymmetry controls the symmetric difference).} By BDV Lemma~4.2,
+for a penalized minimizer normalized by its barycenter with
+$\abs{\widetilde\Omega}=\abs{B_1}$,
+\[
+\abs{\widetilde\Omega\Delta B_1}\le C_\alpha(N)\,\alpha^{1/2},
+\]
+the exponent $1/2$ accounting for the passage from the optimal Fraenkel
+center to the barycenter-centered ball.
+
+\emph{Step 2 (density turns volume into one-sided distance).} Fix
+$x\in\partial\widetilde\Omega$ and set $t:=\operatorname{dist}(x,\partial B_1)$.
+Since $B_t(x)$ does not meet $\partial B_1$ it lies either inside $B_1$ or in
+$\R^N\setminus\overline{B_1}$. Put $r:=\min\{t,r_d\}$ with $r_d=r_d(N,R)$ the
+density radius of the package. If $B_t(x)\subset B_1$, the lower density of the
+\emph{complement} at the free-boundary point $x$ (the upper-density half of
+BDV Lemma~4.9) gives
+\[
+\abs{B_1\setminus\widetilde\Omega}
+\ \ge\ \abs{\widetilde\Omega^{\,c}\cap B_r(x)}
+\ \ge\ c_d\,\omega_N r^{N};
+\]
+if instead $B_t(x)\subset\R^N\setminus\overline{B_1}$, the lower density of
+$\widetilde\Omega$ gives $\abs{\widetilde\Omega\setminus B_1}\ge
+c_d\,\omega_N r^{N}$. In either case
+\[
+\abs{\widetilde\Omega\Delta B_1}\ \ge\ c_d\,\omega_N\,
+\bigl(\min\{t,r_d\}\bigr)^{N}.
+\]
+Once $\alpha\le\alpha_0(N,R)$ is small enough that
+$C_\alpha\alpha_0^{1/2}<c_d\,\omega_N r_d^{\,N}$, the minimum cannot be
+attained at $r_d$, so it is attained at $t$ and, with Step~1,
+\[
+\sup_{x\in\partial\widetilde\Omega}\operatorname{dist}(x,\partial B_1)
+\ \le\ \Bigl(\tfrac{C_\alpha}{c_d\,\omega_N}\Bigr)^{1/N}\alpha^{1/(2N)} .
+\]
+
+\emph{Step 3 (the reverse inclusion, no density needed).} Let
+$\bar x\in\partial B_1$ and $s:=\operatorname{dist}(\bar x,\partial\widetilde
+\Omega)$. The ball $B_s(\bar x)$ contains no point of
+$\partial\widetilde\Omega$, hence lies entirely in $\widetilde\Omega$ or
+entirely in its complement. For $s\le\tfrac12$ each of the two caps
+$B_s(\bar x)\cap B_1$ and $B_s(\bar x)\setminus\overline{B_1}$ has volume at
+least $c_N s^{N}$, $c_N=c_N(N)>0$. If $B_s(\bar x)\subset\widetilde\Omega$ the
+outer cap lies in $\widetilde\Omega\setminus B_1$; if
+$B_s(\bar x)\subset\widetilde\Omega^{\,c}$ the inner cap lies in
+$B_1\setminus\widetilde\Omega$. Either way $\abs{\widetilde\Omega\Delta
+B_1}\ge c_N s^{N}$, so $s\le(C_\alpha/c_N)^{1/N}\alpha^{1/(2N)}$.
+
+Combining Steps~2--3,
+\[
+d_H(\partial\widetilde\Omega,\partial B_1)\le C_H'(N,R)\,\alpha^{1/(2N)},
+\qquad
+C_H'=\max\Bigl\{\bigl(\tfrac{C_\alpha}{c_d\omega_N}\bigr)^{1/N},
+\bigl(\tfrac{C_\alpha}{c_N}\bigr)^{1/N}\Bigr\},
+\]
+for every $\alpha\le\alpha_0(N,R)$, where $\alpha_0$ is the minimum of the
+finitely many displayed smallness conditions
+($C_\alpha\alpha_0^{1/2}<c_d\omega_N r_d^{\,N}$ for Step~2, and
+$(C_\alpha/c_N)^{1/N}\alpha_0^{1/(2N)}\le\tfrac12$ so that $s\le\tfrac12$ in
+Step~3). The threshold $\alpha_0$ is thus a fixed $(N,R)$-quantity (it is
+absorbed into $\alpha_{\rm graph}$ in \S\ref{sec:graphentry}); it depends on
+neither $\delta_T$ nor the conclusion.
+The constants $c_d,r_d$ are the per-set density constants of the regularity
+package, valid for the single selected set by the discussion following its
+statement; no sequence or compactness is used.
 \end{proof}
 
 \subsection{Hausdorff to flatness}
@@ -337,7 +456,7 @@ Pick $\rho_\mu\le\bar\rho$ so that every cap of $\partial B_1$ of radius
 $6\rho_\mu$ lies in a $\mu\rho_\mu$-slab around its tangent. Set
 $h_F:=\mu\rho_\mu/16$.
 
-\begin{proposition}[\texttt{graph-entry-closure.md} Prop.~3.1]\label{prop:flatness}
+\begin{proposition}[Hausdorff closeness to Alt--Caffarelli flatness]\label{prop:flatness}
 If $d_H(\partial\widetilde\Omega,\partial B_1)\le h_F$, then for every
 $\bar x\in\partial B_1$ there is $x_0\in\partial\widetilde\Omega\cap B_{h_F}(\bar x)$
 such that in $B_{4\rho_\mu}(x_0)$, the torsion function $\widetilde u$ is of
@@ -346,19 +465,69 @@ direction $\nu_{\bar x}$.
 \end{proposition}
 
 \begin{proof}
-Hausdorff inclusion implies the slab containment
-$\partial\widetilde\Omega\cap B_{5\rho_\mu}(\bar x)\subset
-\{x:\abs{(x-\bar x)\cdot\nu_{\bar x}}\le\mu\rho_\mu+h_F\}$. Centering at
-$x_0$ changes the slab height by at most $h_F$, so
-$\partial\widetilde\Omega\cap B_{4\rho_\mu}(x_0)
-\subset\{\abs{(x-x_0)\cdot\nu_{\bar x}}\le2\mu\rho_\mu\}$.
-BDV Lemmas 4.9, 4.12 supply the two-phase density/nondegeneracy/Lipschitz
-inequalities for the $F(C_0\mu,1,+\infty)$ class.
+First, Hausdorff closeness and $\abs{\widetilde\Omega}=\abs{B_1}$ give the
+annular sandwich
+\[
+B_{1-h_F}\subset\widetilde\Omega\subset B_{1+h_F}.
+\]
+The outer inclusion follows because a point of $\widetilde\Omega$ outside
+$B_{1+h_F}$ would force a boundary point farther than $h_F$ from $\partial B_1$.
+For the inner inclusion, any component of
+$B_{1-h_F}\setminus\widetilde\Omega$ would have boundary inside $B_{1-h_F}$,
+again contradicting the Hausdorff bound; the alternative
+$B_{1-h_F}\subset\R^N\setminus\widetilde\Omega$ contradicts the volume identity
+for $h_F$ small, since $\widetilde\Omega\subset B_{1+h_F}$.
+
+Choose $x_0\in\partial\widetilde\Omega\cap B_{h_F}(\bar x)$ by the
+Hausdorff bound. The curvature of $\partial B_1$ gives
+\[
+\partial B_1\cap B_{5\rho_\mu}(\bar x)\subset
+\{x:\abs{(x-\bar x)\cdot\nu_{\bar x}}\le C\rho_\mu^2\}.
+\]
+Combining this with the Hausdorff bound and recentering at $x_0$ yields
+\[
+\partial\widetilde\Omega\cap B_{4\rho_\mu}(x_0)
+\subset
+\{x:\abs{(x-x_0)\cdot\nu_{\bar x}}\le C(\rho_\mu^2+h_F)\}.
+\]
+The choices $\rho_\mu\le c\mu$ and $h_F\le c\mu\rho_\mu$ make the last height
+at most $C\mu\rho_\mu$.
+
+With $\nu_{\bar x}$ oriented as the inward normal to $B_1$, the slab bound and
+the annular sandwich pin \emph{both} phases deterministically. A point
+$x\in B_{4\rho_\mu}(x_0)$ with
+$(x-x_0)\cdot\nu_{\bar x}\le -C_0\mu(4\rho_\mu)$ lies outside $B_{1+h_F}$ once
+$C_0$ is chosen large, hence, by the outer inclusion
+$\widetilde\Omega\subset B_{1+h_F}$ of the sandwich, satisfies
+$\widetilde u(x)=0$. Symmetrically, a point with
+$(x-x_0)\cdot\nu_{\bar x}\ge +C_0\mu(4\rho_\mu)$ lies inside $B_{1-h_F}$, hence,
+by the inner inclusion $B_{1-h_F}\subset\widetilde\Omega$, lies in
+$\widetilde\Omega$, so $\widetilde u>0$ there. Thus the positive phase of the
+class $F(C_0\mu,1,+\infty)$ is \emph{not} an additional hypothesis to be
+assumed: it is supplied, with the same explicit constants, by the inner
+inclusion of the sandwich, exactly mirroring the empty outer half-slab.
+
+The only quantitative input the flatness-improvement iteration consumes on the
+positive side is a growth rate, and this is the \emph{explicit per-set}
+nondegeneracy of the regularity package: for every $x_0\in\partial\widetilde
+\Omega$ and $r\le r_d(N,R)$,
+\[
+\sup_{B_r(x_0)}\widetilde u\ \ge\ c_d(N,R)\,r ,
+\]
+(BDV Lemma~4.12; the constant is $c_d(N,R)$, never relative to $\delta_T$),
+together with the two-sided density $c_d\,\omega_N r^{N}\le
+\abs{\widetilde\Omega\cap B_r(x_0)}\le(1-c_d)\,\omega_N r^{N}$ of BDV
+Lemma~4.9. Both hold for the single selected set under
+$q\le q_{\rm sel}(N,R)$, by the per-set discussion in
+\S\ref{sec:notation}. With the zero set, the positive set, and the
+nondegeneracy/density constants all exhibited, $\widetilde u$ is of
+Alt--Caffarelli class $F(C_0\mu,1,+\infty)$ in $B_{4\rho_\mu}(x_0)$ with the
+package's $(N,R)$-constants.
 \end{proof}
 
 \subsection{Local flatness to global graph}
 
-\begin{proposition}[\texttt{graph-entry-closure.md}, \S 4]\label{prop:globalgraph}
+\begin{proposition}[Local flatness to a global radial graph]\label{prop:globalgraph}
 Assume Prop.~\ref{prop:flatness} holds at every $\bar x\in\partial B_1$.
 Choose $\mu$ small enough that $C_0\mu\le\bar\mu$ (so BDV~4.18 applies) and
 $C_{\rm AC}\mu\le\mu_{\rm tub}(N)$, the tubular-neighborhood slope for radial
@@ -376,9 +545,27 @@ with
 
 \begin{proof}
 BDV Theorem 4.18 in each $B_{\rho_\mu}(x_0)$ of Prop.~\ref{prop:flatness}
-gives local $C^{1,\gamma}$ graphs of norm $\le C_{\rm AC}\mu$. The
-tubular condition prevents radial folding, and the local parametrizations
-patch via uniqueness.
+gives local $C^{1,\gamma}$ graphs of norm $\le C_{\rm AC}\mu$. These charts
+cover the entire free boundary: if $y\in\partial\widetilde\Omega$, choose
+$\bar x=y/\abs y\in\partial B_1$; the annular sandwich gives
+$\abs{y-\bar x}\le h_F$, while the corresponding chart center $x_0$ satisfies
+$\abs{x_0-\bar x}\le h_F$, so $y\in B_{\rho_\mu}(x_0)$ after shrinking
+$h_F/\rho_\mu$.
+
+On every local chart the radial projection is a $C^{1,\gamma}$ diffeomorphism
+onto its image, because the local normal makes an angle bounded away from
+$\pi/2$ with the radial direction when $C_{\rm AC}\mu\le\mu_{\rm tub}$.
+Surjectivity of the global radial projection follows from the annular
+sandwich: every ray from the origin meets $\partial\widetilde\Omega$ between
+radii $1-h_F$ and $1+h_F$. For injectivity, if two boundary points lay on the
+same ray, their distance would be at most $2h_F<\rho_\mu/2$, so both would lie
+in one local chart; a transverse local graph is intersected by such a radial
+line at most once. Hence the intersection on every ray is unique.
+
+The unique radial intersection defines $g$. The $L^\infty$ bound follows from
+the annular sandwich, and the $C^{1,\gamma}$ bound follows by passing the
+finite family of local chart estimates through the uniformly nondegenerate
+radial-projection coordinates.
 \end{proof}
 
 \subsection{Graph-entry threshold}
@@ -388,7 +575,7 @@ Set
 \[
 \alpha_{\rm graph}(N,R):=\Bigl(\frac{h_F}{C_H'(N,R)}\Bigr)^{2N}.
 \]
-Every BDV penalized minimizer $\widetilde\Omega\subset B_R$ with
+Every volume-normalized selected quasi-minimizer $\widetilde\Omega\subset B_R$ with
 $\abs{\widetilde\Omega}=\abs{B_1}$, barycenter $0$, and
 \(
 \alpha(\widetilde\Omega)\le\alpha_{\rm graph}
@@ -420,15 +607,48 @@ For every integer $m\ge3$ there is $M_m(N,R)<\infty$ such that
 \end{proposition}
 
 \begin{proof}
-BDV Lemma~4.16 gives the starting uniform bounds for the Bernoulli coefficient
-$q=\abs{\nabla\widetilde u}$ in a neighborhood of the free boundary. Once the
-flatness theorem has produced the first $C^{1,\gamma}$ graph, the selected
-Bernoulli law has an explicit smooth right-hand side on the fixed collar.
-Applying the hodograph transform to the torsion equation gives a uniformly
-elliptic oblique boundary problem there. Schauder estimates for oblique
-problems (Kinderlehrer--Nirenberg 1977; Lieberman 1985), iterated with this
-smooth selected boundary data, give the displayed $C^{m,\gamma}$ bound. This
-is the quantitative version of the bootstrap BDV use after Theorem~4.18.
+Work first with the unscaled selected minimizer $U_*$, and write
+$\abs{U_*}=\abs{B_r}$, with $r\in[1/2,2]$ in the small-deficit regime. The
+scale-invariant form of the graph-entry step gives a $C^{1,\gamma}$ graph over
+$\partial B_r(x_{U_*})$ and
+the annular containment
+\[
+B_{r-h}(x_{U_*})\subset U_*\subset B_{r+h}(x_{U_*}),\qquad h\le r/4.
+\]
+Hence a fixed collar of the free boundary lies in
+$\{r/2\le\abs{x-x_{U_*}}\le3r/2\}$.
+
+The selected Bernoulli coefficient has the form
+\[
+q_{U_*}(x)^2=\Lambda+a_\sigma\Psi_{U_*}(x),\qquad
+\Psi_{U_*}(x)=\abs{x-x_{U_*}}-A_{U_*}\cdot(x-x_{U_*}),
+\]
+with $\abs{A_{U_*}}\le1$, $\abs{a_\sigma}\le C\sigma$, and
+$0<q_-\le q_{U_*}\le q_+$. On the fixed annular collar,
+\[
+\norm{\Psi_{U_*}}_{C^k}\le C_k(N,R)
+\]
+for every fixed $k$, since only derivatives of $\abs{x-x_{U_*}}$ and a linear
+term occur. Choosing $\sigma$ below BDV's regularity threshold and using the
+positive lower bound on $q_{U_*}$ gives
+\[
+\norm{q_{U_*}}_{C^k(\hbox{\rm collar})}\le C_k(N,R).
+\]
+This is the single-set content of BDV Lemma~4.16; no derivative of the unknown
+graph enters this estimate.
+
+Now apply the higher-regularity clause of BDV Theorem~4.18. The local
+Alt--Caffarelli charts obtained in Theorem~\ref{thm:graphentry} have
+$C^{m,\gamma}$ norms bounded by a constant depending only on
+$N,R,m$ and the above $C^{m-1,\gamma}$ bound for $q_{U_*}$. A finite cover of
+$\partial B_r(x_{U_*})$, together with the already-known small $C^1$ slope,
+turns these local estimates into a global radial graph bound
+\[
+\norm{g_r}_{C^{m,\gamma}(\partial B_r)}\le M_m'(N,R).
+\]
+The final dilation in Lemma~\ref{lem:rescale} changes this norm by at most a
+bounded factor because $r\in[1/2,2]$. This gives the claimed $M_m(N,R)$ for
+$\widetilde\Omega$.
 \end{proof}
 
 \begin{lemma}[Interpolation to the nearly spherical threshold]\label{lem:interp}

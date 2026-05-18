@@ -1,0 +1,348 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Sph}{\mathbb S^{n-1}}
+\newcommand{\Om}{\Omega}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\cA}{\mathcal A}
+\newcommand{\dH}{\,d\mathcal H^{n-1}}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+\title{A Direct Quantitative Stability Theorem\\
+for Small-Amplitude Radial Graphs}
+\author{}
+\date{May 18, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note proves the sharp Saint--Venant/Fraenkel estimate for a
+near-ball radial-graph class without using the BDV theorem as a black box.
+The coercive norm is not the full \(H^{1/2}\) norm of the graph.  The
+right coercive quantity for the main theorem is the \(L^2\) size of the
+radial displacement, which controls the Fraenkel asymmetry.  The proof is
+fully quantitative in principle: every constant below is obtained from
+elementary Taylor bounds, the Steklov spectrum of the ball, and a
+one-dimensional annular Poincare estimate.
+\end{abstract}
+
+\section{Statement}
+
+Let
+\[
+   \Om_R=\{r\theta: \theta\in\Sph,\ 0<r<R(\theta)\},\qquad
+   R=1+\varphi,
+\]
+where \(R\) is smooth and positive.  We normalize
+\[
+   |\Om_R|=|B_1|,\qquad \int_{\Om_R}x\,dx=0.
+\]
+Let \(u_\Om\) solve \(-\Delta u_\Om=1\) in \(\Om_R\), \(u_\Om=0\) on
+\(\partial\Om_R\), and set \(E(\Om)=-\frac12\int_\Om u_\Om\).
+
+\begin{theorem}[Direct radial-graph stability]\label{thm:direct}
+For every \(n\ge2\) there are computable constants
+\(\eta_0(n)>0\), \(\eps_0(n)>0\), and \(c(n)>0\) such that the following
+holds.  If
+\[
+   \norm{\varphi}_{L^\infty(\Sph)}\le\eta_0(n),\qquad
+   \norm{\varphi}_{L^2(\Sph)}\le\eps_0(n),
+\]
+then
+\[
+   E(\Om_R)-E(B_1)\ge c(n)\norm{\varphi}_{L^2(\Sph)}^2.
+\]
+Consequently
+\[
+   E(\Om_R)-E(B_1)\ge c_*(n)\,\cA(\Om_R)^2,
+\]
+with another computable dimensional constant \(c_*(n)>0\).
+
+In particular the theorem applies to any subclass with
+\(\norm{\varphi}_{H^{1/2}}\le\eps_0(n)\) and
+\(\norm{\varphi}_{L^\infty}\le\eta_0(n)\), since
+\(\norm{\varphi}_{L^2}\le\norm{\varphi}_{H^{1/2}}\).
+\end{theorem}
+
+\begin{remark}
+The \(L^\infty\) amplitude assumption is not a regularity assumption: no
+slope, perimeter, curvature, \(C^1\), or \(C^2\) bound appears.  It is used
+only to put the boundary in a thin annulus and to make the volume and
+barycenter constraints remove the constant and first spherical harmonics
+quantitatively.
+\end{remark}
+
+\section{The exact energy identity}
+
+Let
+\[
+   u_0(x)=\frac{1-|x|^2}{2n}.
+\]
+Define
+\[
+   z=u_{\Om_R}-u_0 \qquad\hbox{in }\Om_R.
+\]
+Then \(z\) is harmonic in \(\Om_R\), and on the boundary
+\[
+   z(R(\theta)\theta)=-u_0(R(\theta)\theta)
+      =\frac{R(\theta)^2-1}{2n}
+      =:h(\theta).
+\]
+
+\begin{lemma}[Exact graph identity]\label{lem:identity}
+For every smooth positive radial graph \(R\) with \(|\Om_R|=|B_1|\),
+\[
+   E(\Om_R)-E(B_1)
+   =\frac12\int_{\Om_R}|\nabla z|^2\,dx
+     -\frac{1}{2n^2(n+2)}
+      \int_{\Sph}\bigl(R^{n+2}-1\bigr)\dH .
+\]
+\end{lemma}
+
+\begin{proof}
+Since \(-\Delta u_0=1\), expanding
+\[
+   J_{\Om_R}(v)=\frac12\int_{\Om_R}|\nabla v|^2-\int_{\Om_R}v
+\]
+at \(u_0\) gives
+\[
+   E(\Om_R)=J_{\Om_R}(u_0)
+      +\int_{\partial\Om_R}z\,\partial_\nu u_0\,d\mathcal H^{n-1}
+      +\frac12\int_{\Om_R}|\nabla z|^2 .
+\]
+On \(\partial\Om_R\), \(z=(R^2-1)/(2n)\) and
+\(\partial_\nu u_0=-x\cdot\nu/n\).  The radial graph identity
+\((x\cdot\nu)\,d\mathcal H^{n-1}=R^n\,d\mathcal H^{n-1}_{\Sph}\) gives
+\[
+   \int_{\partial\Om_R}z\,\partial_\nu u_0\,d\mathcal H^{n-1}
+   =\frac{1}{2n^2}\int_{\Sph}(1-R^2)R^n\dH .
+\]
+Also
+\[
+   J_{\Om_R}(u_0)
+   =-\frac{|B_1|}{2n}
+     +\frac{n+1}{2n^2(n+2)}\int_{\Sph}R^{n+2}\dH ,
+\]
+using \(|\Om_R|=|B_1|\).  Subtracting the same formula with \(R\equiv1\)
+and using \(\int_{\Sph}R^n\,d\mathcal H^{n-1}=|\Sph|\) yields the stated
+identity.
+\end{proof}
+
+\section{Slope-free annular trace lower bound}
+
+Fix \(0<\eta<1/4\), assume \(1-\eta\le R\le1+\eta\), and put
+\(\rho=1-\eta\).  Write the spherical-harmonic expansion
+\[
+   h=\sum_{k\ge0}h_k,\qquad h_k\in\mathcal H_k.
+\]
+
+\begin{lemma}[Annular Steklov lower bound]\label{lem:annular}
+There is an explicit number \(b_n(\eta)>0\), with \(b_n(\eta)\to2\) as
+\(\eta\downarrow0\), such that every \(w\in H^1(\Om_R)\) whose radial
+trace on \(r=R(\theta)\) is \(h(\theta)\) satisfies
+\[
+   \int_{\Om_R}|\nabla w|^2\,dx
+      \ge b_n(\eta)\sum_{k\ge2}\norm{h_k}_{L^2(\Sph)}^2.
+\]
+One admissible choice is
+\[
+   b_n(\eta)
+   =\frac{2(1-\eta)^{n-2}\mu_n(\eta)}
+          {2(1-\eta)^{n-2}+\mu_n(\eta)},
+   \qquad
+   \mu_n(\eta)=\frac{(1-\eta)^{n-1}}{2\eta}.
+\]
+\end{lemma}
+
+\begin{proof}
+Let \(f(\theta)=w(\rho\theta)\).  The energy inside \(B_\rho\) is bounded
+from below by the harmonic extension energy:
+\[
+   \int_{B_\rho}|\nabla w|^2
+      \ge \rho^{n-2}\sum_{k\ge1} k\,\norm{f_k}_{L^2(\Sph)}^2 .
+\]
+Along each ray, Cauchy's inequality gives
+\[
+   \int_{\rho}^{R(\theta)} |\partial_r w(r,\theta)|^2 r^{n-1}\,dr
+      \ge
+   \frac{|h(\theta)-f(\theta)|^2}
+        {\int_\rho^{R(\theta)}r^{1-n}\,dr}.
+\]
+Since \(R(\theta)\le1+\eta\), the denominator is at most
+\[
+   2\eta(1-\eta)^{1-n}.
+\]
+Therefore the annular part of the energy is bounded below by
+\[
+   \mu_n(\eta)\norm{h-f}_{L^2(\Sph)}^2,
+   \qquad \mu_n(\eta)=\frac{(1-\eta)^{n-1}}{2\eta}.
+\]
+For each spherical harmonic degree \(k\ge1\), minimize
+\[
+   \rho^{n-2}k\,|f_k|^2+\mu_n(\eta)|h_k-f_k|^2
+\]
+over \(f_k\).  The minimum is
+\[
+   \frac{\rho^{n-2}k\,\mu_n(\eta)}
+        {\rho^{n-2}k+\mu_n(\eta)}
+   |h_k|^2 .
+\]
+This coefficient is increasing in \(k\), so on \(k\ge2\) it is bounded
+below by the value at \(k=2\), which is exactly \(b_n(\eta)\).
+\end{proof}
+
+\section{Elementary consequences of the constraints}
+
+\begin{lemma}[Removal of neutral modes]\label{lem:modes}
+There are computable constants \(C_n\) and \(\eta_1(n)>0\) such that if
+\(\norm{\varphi}_{L^\infty}\le\eta_1(n)\), \(|\Om_R|=|B_1|\), and
+\(\int_{\Om_R}x\,dx=0\), then
+\[
+   \norm{P_0\varphi}_{L^2}+\norm{P_1\varphi}_{L^2}
+      \le C_n\norm{\varphi}_{L^2}^2 .
+\]
+Consequently, if also \(\norm{\varphi}_{L^2}\le\eps_1(n)\), then
+\[
+   \norm{P_{\ge2}\varphi}_{L^2}^2
+      \ge \frac{15}{16}\norm{\varphi}_{L^2}^2 .
+\]
+\end{lemma}
+
+\begin{proof}
+The volume condition is
+\[
+   0=\int_{\Sph}\bigl((1+\varphi)^n-1\bigr)\dH
+     =n\int_{\Sph}\varphi\,\dH
+       +O_n\!\left(\int_{\Sph}\varphi^2\dH\right),
+\]
+where the \(O_n\)-constant is explicit for
+\(\norm{\varphi}_{L^\infty}\le\eta_1(n)\).  This gives
+\(\norm{P_0\varphi}_{L^2}\le C_n\norm{\varphi}_{L^2}^2\).
+
+The barycenter condition is
+\[
+   0=\int_{\Sph}(1+\varphi)^{n+1}\theta\,\dH
+     =(n+1)\int_{\Sph}\varphi\theta\,\dH
+       +O_n\!\left(\int_{\Sph}\varphi^2\dH\right),
+\]
+which gives the \(P_1\) estimate.  The last claim follows by choosing
+\(\eps_1(n)\) so that the squared neutral-mode contribution is at most
+\(\frac1{16}\norm{\varphi}_{L^2}^2\).
+\end{proof}
+
+\begin{lemma}[Moment and boundary data bounds]\label{lem:taylor}
+There are computable \(\eta_2(n)>0\) and \(C_n\) such that, if
+\(\norm{\varphi}_{L^\infty}\le\eta_2(n)\), then
+\[
+   \int_{\Sph}\bigl(R^{n+2}-1\bigr)\dH
+      \le (n+2)(1+C_n\eta_2)\norm{\varphi}_{L^2}^2
+\]
+and, for \(h=(R^2-1)/(2n)\),
+\[
+   \norm{P_{\ge2}h}_{L^2}^2
+      \ge \frac{1-C_n\eta_2}{n^2}
+            \norm{P_{\ge2}\varphi}_{L^2}^2
+         - C_n\norm{\varphi}_{L^2}^4 .
+\]
+\end{lemma}
+
+\begin{proof}
+Taylor's formula gives
+\[
+   R^{n+2}-1=(n+2)\varphi+\frac{(n+2)(n+1)}2\varphi^2
+      +O_n(\eta_2\varphi^2),
+\]
+and the volume expansion used in Lemma~\ref{lem:modes} gives
+\[
+   \int_{\Sph}\varphi\,\dH
+      =-\frac{n-1}{2}\int_{\Sph}\varphi^2\,\dH
+        +O_n(\eta_2\norm{\varphi}_{L^2}^2).
+\]
+Combining these two identities yields the moment estimate.
+
+For the boundary datum,
+\[
+   h=\frac{\varphi}{n}+\frac{\varphi^2}{2n}.
+\]
+Since
+\(\norm{P_{\ge2}(\varphi^2)}_{L^2}\le
+\norm{\varphi}_{L^\infty}\norm{\varphi}_{L^2}\),
+the stated lower bound follows from
+\(\norm{a+b}^2\ge (1-\tau)\norm{a}^2-\tau^{-1}\norm{b}^2\), with a fixed
+small \(\tau\), and then shrinking \(\eta_2(n)\).
+\end{proof}
+
+\section{Proof of the theorem}
+
+Choose \(\eta_0(n)>0\) so small that
+\[
+   b_n(\eta_0)\ge\frac32,\qquad C_n\eta_0\le\frac1{8},
+\]
+where \(C_n\) is large enough for Lemmas~\ref{lem:modes} and
+\ref{lem:taylor}.  Then choose \(\eps_0(n)>0\) so small that the
+quartic terms in Lemmas~\ref{lem:modes} and~\ref{lem:taylor} are
+absorbed by \(\frac1{16}\norm{\varphi}_{L^2}^2\).
+
+Apply Lemma~\ref{lem:annular} to \(w=z\), then Lemmas~\ref{lem:modes}
+and~\ref{lem:taylor}:
+\[
+   \int_{\Om_R}|\nabla z|^2
+      \ge \frac{3}{2}\norm{P_{\ge2}h}_{L^2}^2
+      \ge \frac{5}{4n^2}\norm{\varphi}_{L^2}^2
+\]
+after the above choices of \(\eta_0,\eps_0\).  Also
+\[
+   \int_{\Sph}(R^{n+2}-1)\dH
+      \le \frac{9}{8}(n+2)\norm{\varphi}_{L^2}^2 .
+\]
+The exact identity in Lemma~\ref{lem:identity} therefore gives
+\[
+\begin{aligned}
+   E(\Om_R)-E(B_1)
+   &\ge
+      \frac12\frac{5}{4n^2}\norm{\varphi}_{L^2}^2
+      -\frac{1}{2n^2(n+2)}
+       \frac{9}{8}(n+2)\norm{\varphi}_{L^2}^2  \\
+   &= \frac{1}{16n^2}\norm{\varphi}_{L^2}^2 .
+\end{aligned}
+\]
+This proves the first assertion, with the displayed constant after the
+explicit threshold choices above.
+
+Finally,
+\[
+   |\Om_R\Delta B_1|
+      =\frac1n\int_{\Sph}|R^n-1|\dH
+      \le C_n\norm{\varphi}_{L^1(\Sph)}
+      \le C_n\norm{\varphi}_{L^2(\Sph)}.
+\]
+Since \(\cA(\Om_R)\le |B_1|^{-1}|\Om_R\Delta B_1|\), the Fraenkel
+estimate follows.
+
+\section{What this proves and what it does not prove}
+
+The proof is quantitative and does not invoke BDV's global theorem or
+BDV's nearly-spherical theorem.  It proves the main theorem in a genuine
+small-amplitude radial-graph class with no slope or curvature control.
+The \(H^{1/2}\) hypothesis is used only as a convenient way to guarantee
+small \(L^2\); the coercive output is the \(L^2\)/Fraenkel scale.
+
+The proof does not prove the false estimate
+\[
+   E(\Om_R)-E(B_1)\gtrsim\norm{\varphi}_{H^{1/2}}^2
+\]
+without additional geometry.  High-frequency capillary ripples still rule
+out that stronger statement.  It also does not remove the need for an
+amplitude hypothesis: \(H^{1/2}(\Sph)\) alone does not put the graph in a
+thin annulus or even give an \(L^\infty\) radius bound.
+
+\end{document}

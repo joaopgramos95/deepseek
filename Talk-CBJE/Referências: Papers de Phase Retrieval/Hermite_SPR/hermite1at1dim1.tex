@@ -1,0 +1,1030 @@
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\newcommand{\ip}[2]{\langle #1,#2\rangle}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\rhoFn}{\rho}
+\DeclareMathOperator{\dist}{dist}
+
+\title{Local Stable Phase Retrieval in the First Hermite Model Space}
+
+\begin{document}
+
+\begin{abstract}
+In the analytic Fock space, local stable phase retrieval at the constant
+function is proved by combining an abstract orthogonal reduction with circle
+estimates for positive-frequency trigonometric polynomials and a radial
+localisation argument. This note records the corresponding argument in the
+first true polyanalytic model space associated with the first Hermite window.
+The new input is an annulus localisation estimate for the basis functions of
+that model space. Relative to the earlier proof sketch, we make the dependence
+on the block width explicit in the annulus-circle estimate, define the leakage
+parameter quantitatively, repair the signed squaring step in the assembly
+argument, and state the orthogonal reduction only in the phase-normalised form
+that is supplied by the verified analytic proof. The final theorem is therefore
+formulated entirely in the model space $H_1$, where it yields local
+phase-optimised stability near the distinguished vector $\Phi_0=\overline z$.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Let
+\[
+L^2_\gamma(\C)
+:=
+L^2\!\Bigl(\C,\frac{\ee^{-\abs{z}^2}}{\pi}\,\dd m(z)\Bigr),
+\]
+with inner product
+\[
+\ip{F}{G}
+:=
+\frac1\pi \int_\C F(z)\overline{G(z)}\,\ee^{-\abs{z}^2}\,\dd m(z),
+\qquad
+\norm{F}^2 := \ip{F}{F}.
+\]
+
+For the first Hermite window, the relevant model space is the first true
+polyanalytic level. We work with the functions
+\[
+\Phi_0(z) := \overline z,
+\qquad
+\Phi_n(z) := \frac{z^{n-1}}{\sqrt{n!}}\bigl(\abs{z}^2 - n\bigr)
+\quad (n \ge 1),
+\]
+and define
+\[
+H_1 := \overline{\operatorname{span}}\{\Phi_n : n \ge 0\} \subset L^2_\gamma(\C).
+\]
+Thus $H_1$ is a Hilbert space by construction, and below we will see that
+$(\Phi_n)_{n\ge0}$ is an orthonormal basis of $H_1$.
+
+Our goal is to prove the Hermite analogue of the analytic orthogonal coercivity
+estimate:
+\[
+\norm{G}
+\lesssim
+\norm{\abs{\Phi_0 + G} - \abs{\Phi_0}}
+\qquad
+\bigl(G \in H_1 \cap \Phi_0^\perp\bigr).
+\]
+Once this is done, the phase-normalised orthogonal reduction from the verified
+analytic proof, together with an elementary phase-alignment lemma, yields local
+phase-optimised stability near $\Phi_0$ inside $H_1$.
+
+The overall architecture is the same as in the analytic Fock-space proof:
+\begin{enumerate}
+\item identify an orthonormal basis adapted to polar coordinates;
+\item reduce the modulus defect on each circle to the nonlinear quantity
+\[
+\rhoFn(w) := \abs{1+w} - 1
+\]
+applied to a positive-frequency trigonometric polynomial;
+\item localise square frequency blocks to spatial annuli;
+\item combine a local-circle estimate, a high-frequency estimate, and a
+leakage argument.
+\end{enumerate}
+The only genuinely new estimate is the annulus localisation for the basis
+functions $\Phi_n$.
+
+The theorem proved here is a theorem in the model space $H_1$. We do not
+reproduce in this note the identification between $H_1$ and the image of the
+short-time Fourier transform with the first Hermite window, so we do not state
+here a separate signal-space corollary.
+
+Throughout, we use
+\[
+\N = \{0,1,2,\dots\}.
+\]
+
+\section{Main theorem}
+
+We use the following ingredients from the verified analytic Fock-space proof as
+black boxes. Here we keep the same signed defect $\rhoFn(w)=\abs{1+w}-1$ as in
+that argument, so the quoted circle estimates apply without any change of
+notation.
+
+\begin{proposition}[Local circle estimate]\label{prop:local-circle}
+Let $E \subset \Z_{>0}$ be finite with $\#E \le L$, and let
+\[
+P(\zeta) = \sum_{n\in E} c_n \zeta^n
+\]
+be a trigonometric polynomial on $S^1$ with only strictly positive
+frequencies. Then
+\[
+\int_{S^1} \abs{P(\zeta)}^2\,\dd \sigma(\zeta)
+\le
+144\,L \int_{S^1} \rhoFn\bigl(P(\zeta)\bigr)^2\,\dd \sigma(\zeta).
+\]
+\end{proposition}
+
+\begin{proposition}[High-frequency circle estimate]\label{prop:high-circle}
+Let $N \ge 1$, and let
+\[
+P(\zeta) = \sum_{n=N}^{N+L-1} c_n \zeta^n
+\]
+have only strictly positive frequencies. If
+\[
+1343\,L^2 \le N^2,
+\]
+then
+\[
+\int_{S^1} \abs{P(\zeta)}^2\,\dd \sigma(\zeta)
+\le
+32 \int_{S^1} \rhoFn\bigl(P(\zeta)\bigr)^2\,\dd \sigma(\zeta).
+\]
+\end{proposition}
+
+\begin{proposition}[Phase-normalised orthogonal reduction]\label{prop:orth-red}
+Let $H$ be a complex Hilbert space continuously embedded in an $L^2$-space,
+and let $f_0 \in H$ satisfy $\norm{f_0}=1$. Assume there exists $C>0$ such
+that
+\[
+\norm{g}
+\le
+C\,\norm{\abs{f_0 + g} - \abs{f_0}}
+\qquad
+\text{for all } g \in H \cap f_0^\perp.
+\]
+Then there exist $\delta,\widetilde M>0$ such that for every $h \in H$ with
+$\norm{h}\le\delta$ and $\ip{h}{f_0}\in\R$, one has
+\[
+\norm{h}
+\le
+\widetilde M\,\norm{\abs{f_0 + h} - \abs{f_0}}.
+\]
+\end{proposition}
+
+\begin{lemma}[Phase alignment]\label{lem:phase-alignment}
+Let $H$ be a complex Hilbert space, let $f_0 \in H$ with $\norm{f_0}=1$, and
+let $u \in H$. Then there exists $w \in \C$, $\abs{w}=1$, such that
+\[
+h := w(f_0 + u) - f_0
+\]
+satisfies $\ip{h}{f_0} \in \R$ and $\norm{h} \le \norm{u}$.
+\end{lemma}
+
+\begin{proof}
+Set
+\[
+\beta := 1 + \ip{u}{f_0}.
+\]
+If $\beta = 0$, take $w=1$. Then
+\[
+\ip{h}{f_0} = \ip{u}{f_0} = -1 \in \R
+\]
+and $\norm{h}=\norm{u}$.
+
+Assume now $\beta \ne 0$ and choose
+\[
+w := \frac{\overline{\beta}}{\abs{\beta}}.
+\]
+Then
+\[
+\ip{h}{f_0}
+=
+w\,\ip{f_0 + u}{f_0} - 1
+=
+w\beta - 1
+=
+\abs{\beta} - 1
+\in \R.
+\]
+Moreover,
+\begin{align*}
+\norm{h}^2
+&=
+\norm{w(f_0 + u) - f_0}^2 \\
+&=
+\norm{f_0 + u}^2 + \norm{f_0}^2 - 2\,\Re\!\bigl(w\,\ip{f_0 + u}{f_0}\bigr) \\
+&=
+\bigl(1 + 2\Re\ip{u}{f_0} + \norm{u}^2\bigr) + 1 - 2\abs{\beta} \\
+&=
+\norm{u}^2 + 2\bigl(1 + \Re\ip{u}{f_0} - \abs{\beta}\bigr)
+\le
+\norm{u}^2,
+\end{align*}
+because $\abs{\beta}\ge\Re(\beta)=1+\Re\ip{u}{f_0}$.
+\end{proof}
+
+\begin{theorem}\label{thm:main-orthog}
+There exists a constant $C>0$ such that every
+$G \in H_1 \cap \Phi_0^\perp$ satisfies
+\[
+\norm{G}
+\le
+C\,\norm{\abs{\Phi_0 + G} - \abs{\Phi_0}}.
+\]
+\end{theorem}
+
+\begin{corollary}\label{cor:main-local}
+There exist $\delta,\widetilde M>0$ such that every $H \in H_1$ with
+$\norm{H}\le\delta$ admits a phase $w \in \C$, $\abs{w}=1$, with
+\[
+\norm{w(\Phi_0 + H) - \Phi_0}
+\le
+\widetilde M\,\norm{\abs{\Phi_0 + H} - \abs{\Phi_0}}.
+\]
+\end{corollary}
+
+\begin{proof}
+Apply Lemma~\ref{lem:phase-alignment} with $f_0=\Phi_0$ and $u=H$ to obtain
+$w$ such that
+\[
+h := w(\Phi_0 + H) - \Phi_0
+\]
+satisfies $\ip{h}{\Phi_0}\in\R$ and $\norm{h}\le\norm{H}$. By
+Lemma~\ref{lem:orthonormal}, $\norm{\Phi_0}=1$. If
+$\delta>0$ is chosen as in Proposition~\ref{prop:orth-red} for the constant
+from Theorem~\ref{thm:main-orthog}, then $\norm{h}\le\delta$ whenever
+$\norm{H}\le\delta$. Moreover,
+\[
+\abs{\Phi_0 + h} - \abs{\Phi_0}
+=
+\abs{w(\Phi_0 + H)} - \abs{\Phi_0}
+=
+\abs{\Phi_0 + H} - \abs{\Phi_0}.
+\]
+Proposition~\ref{prop:orth-red} therefore yields the claim.
+\end{proof}
+
+\section{The first true-level basis}
+
+For $n \ge 0$, let
+\[
+e_n(z) := \frac{z^n}{\sqrt{n!}}.
+\]
+
+Here and below, for $z=x+iy$ we write
+\[
+\partial_z := \frac12\bigl(\partial_x - i\partial_y\bigr)
+\]
+for the standard Wirtinger derivative.
+
+\begin{lemma}\label{lem:basis-operator}
+For every $n \ge 0$,
+\[
+\Phi_n = (\overline z - \partial_z)e_n.
+\]
+\end{lemma}
+
+\begin{proof}
+For $n=0$, this is $\Phi_0 = \overline z$. For $n \ge 1$,
+\[
+(\overline z - \partial_z)e_n(z)
+=
+\frac{\overline z z^n}{\sqrt{n!}} - \frac{n z^{n-1}}{\sqrt{n!}}
+=
+\frac{z^{n-1}}{\sqrt{n!}}\bigl(\abs{z}^2 - n\bigr)
+=
+\Phi_n(z).
+\qedhere
+\]
+\end{proof}
+
+\begin{lemma}\label{lem:polar-basis}
+If $z=re^{it}$, then
+\[
+\Phi_0(re^{it}) = re^{-it},
+\]
+and for every $n \ge 1$,
+\[
+\Phi_n(re^{it})
+=
+\frac{r^{n-1}(r^2 - n)}{\sqrt{n!}}\,e^{i(n-1)t}.
+\]
+\end{lemma}
+
+\begin{proof}
+The first identity is immediate from $\Phi_0(z)=\overline z$. For $n \ge 1$,
+\[
+\Phi_n(re^{it})
+=
+\frac{(re^{it})^{n-1}}{\sqrt{n!}}(r^2-n)
+=
+\frac{r^{n-1}(r^2 - n)}{\sqrt{n!}}\,e^{i(n-1)t}.
+\qedhere
+\]
+\end{proof}
+
+\begin{lemma}\label{lem:orthonormal}
+The family $(\Phi_n)_{n\ge0}$ is orthonormal in $L^2_\gamma(\C)$.
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:polar-basis}, $\Phi_0(re^{it})$ has angular frequency $-1$,
+while $\Phi_n(re^{it})$ has angular frequency $n-1$ for $n \ge 1$. Hence
+distinct basis vectors are orthogonal on each circle and therefore in
+$L^2_\gamma(\C)$.
+
+For $n=0$,
+\[
+\norm{\Phi_0}^2
+=
+\frac1\pi \int_\C \abs{z}^2 \ee^{-\abs{z}^2}\,\dd m(z)
+=
+2\int_0^\infty r^3 \ee^{-r^2}\,\dd r
+=
+\int_0^\infty u\,\ee^{-u}\,\dd u
+=
+1.
+\]
+
+For $n \ge 1$, Lemma~\ref{lem:polar-basis} gives
+\[
+\norm{\Phi_n}^2
+=
+\frac{2}{n!}\int_0^\infty r^{2n-1}(r^2-n)^2 \ee^{-r^2}\,\dd r
+=
+\frac{1}{n!}\int_0^\infty u^{n-1}(u-n)^2 \ee^{-u}\,\dd u.
+\]
+Expanding $(u-n)^2$ and using the Gamma integrals,
+\[
+\norm{\Phi_n}^2
+=
+\frac{(n+1)! - 2n\,n! + n^2 (n-1)!}{n!}
+=
+1.
+\qedhere
+\]
+\end{proof}
+
+\begin{corollary}\label{cor:expansion}
+Every $G \in H_1$ has a unique expansion
+\[
+G = \sum_{n=0}^\infty a_n \Phi_n
+\qquad \text{in } H_1,
+\]
+with
+\[
+\norm{G}^2 = \sum_{n=0}^\infty \abs{a_n}^2.
+\]
+Moreover, $G \in \Phi_0^\perp$ if and only if $a_0=0$.
+\end{corollary}
+
+\begin{proof}
+This is immediate from the definition of $H_1$ as the closed span of the
+orthonormal family $(\Phi_n)_{n\ge0}$.
+\end{proof}
+
+\section{Reduction to the circle}
+
+The crucial observation is that after dividing by the distinguished vector
+$\Phi_0$, the perturbation still has only strictly positive angular
+frequencies.
+
+\begin{lemma}\label{lem:circle-reduction}
+Let
+\[
+G = \sum_{n=1}^D a_n \Phi_n.
+\]
+For $r>0$, define
+\[
+P_r(e^{it})
+:=
+\sum_{n=1}^D a_n c_n(r)e^{int},
+\qquad
+c_n(r) := \frac{r^{n-2}(r^2-n)}{\sqrt{n!}}.
+\]
+Then
+\[
+G(re^{it}) = r e^{-it} P_r(e^{it}),
+\qquad
+\Phi_0(re^{it}) + G(re^{it}) = r e^{-it}\bigl(1 + P_r(e^{it})\bigr).
+\]
+Consequently,
+\[
+\bigl(\abs{\Phi_0 + G} - \abs{\Phi_0}\bigr)(re^{it})
+=
+r\,\rhoFn\bigl(P_r(e^{it})\bigr).
+\]
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:polar-basis},
+\[
+\Phi_n(re^{it})
+=
+r e^{-it}\frac{r^{n-2}(r^2-n)}{\sqrt{n!}}\,e^{int}
+\qquad (n \ge 1).
+\]
+Summing in $n$ gives the identity for $G$. The formula for $\Phi_0+G$ follows
+from $\Phi_0(re^{it})=re^{-it}$. Since
+\[
+\abs{\Phi_0(re^{it}) + G(re^{it})}
+=
+r\abs{1 + P_r(e^{it})}
+\quad \text{and} \quad
+\abs{\Phi_0(re^{it})}=r,
+\]
+subtracting gives the last claim.
+\end{proof}
+
+\section{Annulus localisation for the basis functions}
+
+We first isolate the elementary ``polynomial absorbs Gaussian'' estimate used
+twice in the proof of annulus localisation.
+
+\begin{lemma}\label{lem:poly-gauss}
+Let $a>0$ and let $k \in \N$. There exists $C_{a,k}>0$ such that
+\[
+\bigl(1+x^k\bigr)\ee^{-a x^2}
+\le
+C_{a,k}\,\ee^{-a x^2/2}
+\qquad
+(x \ge 0).
+\]
+\end{lemma}
+
+\begin{proof}
+The function $x \mapsto (1+x^k)\ee^{-a x^2/2}$ is continuous on $[0,\infty)$
+and tends to $0$ as $x\to\infty$, so it is bounded.
+\end{proof}
+
+For $j \ge 0$, let
+\[
+A_j := \{z \in \C : j \le \abs{z} < j+1\}.
+\]
+
+\begin{lemma}\label{lem:annulus-basis}
+There exist absolute constants $C,c>0$ such that for every $n \ge 1$ and
+every $j \ge 0$,
+\[
+\frac1\pi \int_{A_j} \abs{\Phi_n(z)}^2 \ee^{-\abs{z}^2}\,\dd m(z)
+\le
+C \exp\!\Bigl(-c\bigl(\abs{j-\sqrt n}-3\bigr)_+^2\Bigr).
+\]
+\end{lemma}
+
+\begin{proof}
+Set
+\[
+I_{n,j}
+:=
+\frac1\pi \int_{A_j} \abs{\Phi_n(z)}^2 \ee^{-\abs{z}^2}\,\dd m(z).
+\]
+By Lemma~\ref{lem:polar-basis} and polar coordinates,
+\[
+I_{n,j}
+=
+\frac{2}{n!}\int_j^{j+1} r^{2n-1}(r^2-n)^2 \ee^{-r^2}\,\dd r
+=
+\frac1n \int_{j^2}^{(j+1)^2} (u-n)^2 q_n(u)\,\dd u,
+\]
+where
+\[
+q_n(u) := \frac{u^{n-1}\ee^{-u}}{(n-1)!}
+\]
+is the $\Gamma(n,1)$ density.
+
+We first bound $q_n$. There exists $C_1>0$ such that for all $n \ge 1$ and
+$u \ge 0$,
+\[
+q_n(u)
+\le
+\frac{C_1}{\sqrt n}
+\exp\!\bigl(-(\sqrt u - \sqrt{n-1})^2\bigr).
+\]
+For $n=1$, this is immediate. For $n \ge 2$, let $a=n-1$ and set
+$u=v^2$, $\psi_a(v)=2a\log v - v^2$. Then
+\[
+\psi_a''(v) = -\frac{2a}{v^2} - 2 \le -2,
+\]
+so $\psi_a$ is concave and attains its maximum at $v=\sqrt a$. Hence
+\[
+\psi_a(v) \le \psi_a(\sqrt a) - (v-\sqrt a)^2.
+\]
+Exponentiating and dividing by $(n-1)! = a!$, Stirling's lower bound gives the
+claim.
+
+Now set
+\[
+y := \abs{\sqrt u - \sqrt n}.
+\]
+Since
+\[
+\abs{u-n} = y(\sqrt u + \sqrt n)
+\quad \text{and} \quad
+\sqrt u \le y + \sqrt n,
+\]
+we obtain
+\[
+\frac{(u-n)^2}{n}
+=
+\frac{y^2(\sqrt u + \sqrt n)^2}{n}
+\le
+2y^2 \frac{u+n}{n}
+\le
+8y^2 + 2y^4
+\le
+10(1+y^4).
+\]
+Also,
+\[
+y
+\le
+\abs{\sqrt u - \sqrt{n-1}} + \abs{\sqrt n - \sqrt{n-1}}
+\le
+\abs{\sqrt u - \sqrt{n-1}} + 1.
+\]
+Therefore, after enlarging constants,
+\[
+\frac{(u-n)^2}{n}q_n(u)
+\le
+\frac{C_2}{\sqrt n}
+\Bigl(1 + \abs{\sqrt u - \sqrt{n-1}}^4\Bigr)
+\exp\!\bigl(-(\sqrt u - \sqrt{n-1})^2\bigr).
+\]
+Applying Lemma~\ref{lem:poly-gauss} with $a=1$ and $k=4$, we obtain
+\[
+\frac{(u-n)^2}{n}q_n(u)
+\le
+\frac{C_3}{\sqrt n}
+\exp\!\Bigl(-\frac12(\sqrt u - \sqrt{n-1})^2\Bigr).
+\]
+
+Now set
+\[
+d := \dist\bigl([j,j+1],\sqrt{n-1}\bigr).
+\]
+For every $u \in [j^2,(j+1)^2]$, one has
+$\abs{\sqrt u - \sqrt{n-1}} \ge d$, hence
+\[
+I_{n,j}
+\le
+\frac{C_3}{\sqrt n}\,\ee^{-d^2/2}\bigl((j+1)^2 - j^2\bigr)
+=
+\frac{C_3(2j+1)}{\sqrt n}\,\ee^{-d^2/2}.
+\]
+
+We now compare $d$ with $\abs{j-\sqrt n}$. Since
+$\abs{\sqrt n - \sqrt{n-1}} \le 1$,
+\[
+d
+\ge
+\dist\bigl([j,j+1],\sqrt n\bigr) - 1.
+\]
+Moreover,
+\[
+\dist\bigl([j,j+1],\sqrt n\bigr)
+\ge
+\bigl(\abs{j-\sqrt n}-1\bigr)_+,
+\]
+so
+\[
+d \ge \bigl(\abs{j-\sqrt n}-2\bigr)_+.
+\]
+
+If $\abs{j-\sqrt n}\le 3$, then the desired right-hand side is bounded below
+by a positive constant, while $I_{n,j}\le\norm{\Phi_n}^2=1$ by
+Lemma~\ref{lem:orthonormal}, so the claim is automatic after enlarging $C$.
+
+Assume now $\abs{j-\sqrt n}>3$. Then
+\[
+\frac{2j+1}{\sqrt n}
+\le
+2 + \frac{2\abs{j-\sqrt n}+1}{\sqrt n}
+\le
+3 + 2\abs{j-\sqrt n},
+\]
+so
+\[
+I_{n,j}
+\le
+C_4\bigl(1+\abs{j-\sqrt n}\bigr)
+\exp\!\Bigl(-\frac12\bigl(\abs{j-\sqrt n}-2\bigr)^2\Bigr).
+\]
+Applying Lemma~\ref{lem:poly-gauss} once more with $a=\frac12$ and $k=1$,
+and then weakening constants slightly, gives
+\[
+I_{n,j}
+\le
+C \exp\!\Bigl(-c\bigl(\abs{j-\sqrt n}-3\bigr)_+^2\Bigr).
+\qedhere
+\]
+\end{proof}
+
+\section{Block decomposition}
+
+As in the analytic proof, we divide the frequency axis into square blocks. For
+$\ell \ge 0$, define
+\[
+I_\ell := \{n \in \N : \ell^2 \le n < (\ell+1)^2\}.
+\]
+Given a finite sum
+\[
+G = \sum_{n=1}^D a_n \Phi_n,
+\]
+define
+\[
+G_\ell := \sum_{n \in I_\ell \cap \{1,\dots,D\}} a_n \Phi_n.
+\]
+Since $I_0 \cap \{1,\dots,D\} = \emptyset$, we have $G_0=0$ by definition,
+and
+\[
+G = \sum_{\ell \ge 0} G_\ell.
+\]
+
+\begin{lemma}\label{lem:block-annulus}
+There exist absolute constants $C,c>0$ such that for all $j,\ell \ge 0$,
+\[
+\frac1\pi \int_{A_j} \abs{G_\ell(z)}^2 \ee^{-\abs{z}^2}\,\dd m(z)
+\le
+C \exp\!\Bigl(-c\bigl(\abs{j-\ell}-4\bigr)_+^2\Bigr)\norm{G_\ell}^2.
+\]
+\end{lemma}
+
+\begin{proof}
+For each fixed $r$, the functions $\Phi_n(r\cdot)$ with $n \in I_\ell$ have
+distinct angular frequencies $n-1$, so they are orthogonal on the circle.
+Therefore
+\[
+\int_{S^1} \abs{G_\ell(r\zeta)}^2\,\dd \sigma(\zeta)
+=
+\sum_{n \in I_\ell \cap \{1,\dots,D\}}
+\abs{a_n}^2 \frac{r^{2n-2}(r^2-n)^2}{n!}.
+\]
+Integrating over $A_j$ and applying Lemma~\ref{lem:annulus-basis} termwise
+gives
+\[
+\frac1\pi \int_{A_j} \abs{G_\ell(z)}^2 \ee^{-\abs{z}^2}\,\dd m(z)
+\le
+\sum_{n \in I_\ell \cap \{1,\dots,D\}}
+\abs{a_n}^2 C \exp\!\Bigl(-c\bigl(\abs{j-\sqrt n}-3\bigr)_+^2\Bigr).
+\]
+If $n \in I_\ell$, then $\abs{\sqrt n - \ell}<1$, hence
+\[
+\bigl(\abs{j-\sqrt n}-3\bigr)_+
+\ge
+\bigl(\abs{j-\ell}-4\bigr)_+.
+\]
+Factoring out the common exponential and using
+Corollary~\ref{cor:expansion} gives the result.
+\end{proof}
+
+\section{Leakage of distant blocks}
+
+Fix an integer $M \ge 1$. For each $j \ge 0$, define
+\[
+V_j := \sum_{\abs{\ell-j}\le M} G_\ell,
+\qquad
+R_j := G - V_j.
+\]
+The function $V_j$ is the local part of $G$ relevant to the annulus $A_j$,
+while $R_j$ is the contribution of distant blocks.
+
+\begin{lemma}\label{lem:leakage}
+Define
+\[
+\eta_M
+:=
+2C \sum_{m>M} \exp\!\bigl(-c(m-4)_+^2\bigr),
+\]
+where $C,c$ are the constants from Lemma~\ref{lem:block-annulus}. Then
+\[
+\sum_{j\ge0}
+\frac1\pi \int_{A_j} \abs{R_j(z)}^2 \ee^{-\abs{z}^2}\,\dd m(z)
+\le
+\eta_M \norm{G}^2.
+\]
+Moreover, $\eta_M \downarrow 0$ as $M \to \infty$.
+\end{lemma}
+
+\begin{proof}
+For each fixed radius, disjoint blocks are orthogonal on the circle, so on
+every annulus
+\[
+\frac1\pi \int_{A_j} \abs{R_j(z)}^2 \ee^{-\abs{z}^2}\,\dd m(z)
+=
+\sum_{\abs{\ell-j}>M}
+\frac1\pi \int_{A_j} \abs{G_\ell(z)}^2 \ee^{-\abs{z}^2}\,\dd m(z).
+\]
+Applying Lemma~\ref{lem:block-annulus}, summing in $j$, and swapping the order
+of summation yields
+\[
+\sum_{j\ge0}
+\frac1\pi \int_{A_j} \abs{R_j(z)}^2 \ee^{-\abs{z}^2}\,\dd m(z)
+\le
+\sum_{\ell\ge0}
+\sum_{\abs{j-\ell}>M}
+C \exp\!\bigl(-c(\abs{j-\ell}-4)_+^2\bigr)\norm{G_\ell}^2.
+\]
+The inner sum is bounded by
+$2C\sum_{m>M}\exp(-c(m-4)_+^2)=\eta_M$, so
+\[
+\sum_{j\ge0}
+\frac1\pi \int_{A_j} \abs{R_j(z)}^2 \ee^{-\abs{z}^2}\,\dd m(z)
+\le
+\eta_M \sum_{\ell\ge0}\norm{G_\ell}^2
+=
+\eta_M \norm{G}^2
+\]
+by Corollary~\ref{cor:expansion}. The Gaussian tail clearly tends to $0$ as
+$M\to\infty$.
+\end{proof}
+
+\section{The annulus-circle estimate}
+
+The next step is to estimate $V_j$ on each annulus. The key point is that
+after dividing by $\Phi_0(re^{it}) = r e^{-it}$, the normalised perturbation
+still has only positive frequencies.
+
+\begin{lemma}\label{lem:annulus-circle}
+For every integer $M \ge 1$ there exists $B_M>0$ with
+\[
+B_M^2 \le 10^7 M^2
+\]
+such that for every $j \ge 0$ and every $r \in [j,j+1]$,
+\[
+\int_{S^1} \abs{V_j(r\zeta)}^2\,\dd \sigma(\zeta)
+\le
+B_M^2 \int_{S^1}
+\bigl(\abs{\Phi_0 + V_j}(r\zeta) - \abs{\Phi_0}(r\zeta)\bigr)^2
+\dd \sigma(\zeta).
+\]
+\end{lemma}
+
+\begin{proof}
+If $r=0$, then necessarily $j=0$. Since $\Phi_0(0)=0$,
+\[
+\int_{S^1} \abs{V_0(0)}^2\,\dd \sigma
+\le
+B_M^2 \int_{S^1}
+\bigl(\abs{\Phi_0 + V_0}(0) - \abs{\Phi_0}(0)\bigr)^2
+\dd \sigma
+\]
+for every $B_M \ge 1$, because the right-hand integrand is
+$\abs{V_0(0)}^2$. Thus it remains to consider $r>0$.
+
+Assume $r>0$. By Lemma~\ref{lem:circle-reduction},
+\[
+V_j(re^{it}) = r e^{-it} Q_{j,r}(e^{it}),
+\]
+where $Q_{j,r}$ is a trigonometric polynomial with only strictly positive
+frequencies. Moreover,
+\[
+\abs{V_j(re^{it})} = r\abs{Q_{j,r}(e^{it})},
+\qquad
+\bigl(\abs{\Phi_0 + V_j} - \abs{\Phi_0}\bigr)(re^{it})
+=
+r\,\rhoFn\bigl(Q_{j,r}(e^{it})\bigr).
+\]
+So it is enough to prove
+\[
+\int_{S^1} \abs{Q_{j,r}}^2\,\dd \sigma
+\le
+B_M^2 \int_{S^1} \rhoFn(Q_{j,r})^2\,\dd \sigma.
+\]
+
+\emph{Low annuli: $j < 250M$.}
+If $\abs{\ell-j}\le M$ and $n \in I_\ell$, then
+$n < (j+M+1)^2$. Hence $Q_{j,r}$ has at most $(j+M+1)^2$ frequencies. In
+this range,
+\[
+(j+M+1)^2 \le (251M+1)^2 \le 252^2 M^2.
+\]
+Proposition~\ref{prop:local-circle} therefore gives
+\[
+\int_{S^1} \abs{Q_{j,r}}^2\,\dd \sigma
+\le
+144 \cdot 252^2 M^2 \int_{S^1} \rhoFn(Q_{j,r})^2\,\dd \sigma
+<
+10^7 M^2 \int_{S^1} \rhoFn(Q_{j,r})^2\,\dd \sigma.
+\]
+
+\emph{High annuli: $j \ge 250M$.}
+Here $j \ge M+1$, so the frequency support of $Q_{j,r}$ is contained in
+\[
+[(j-M)^2,(j+M+1)^2).
+\]
+Thus the lowest frequency is
+\[
+N_{j,M} := (j-M)^2
+\]
+and the bandwidth is at most
+\[
+L_{j,M}
+:=
+(j+M+1)^2 - (j-M)^2
+=
+(2M+1)(2j+1).
+\]
+For fixed $M$, the function
+\[
+x \mapsto \frac{2x+1}{(x-M)^2}
+\]
+is decreasing on $(M,\infty)$, since
+\[
+\frac{\dd}{\dd x}\frac{2x+1}{(x-M)^2}
+=
+-\frac{2(x+M+1)}{(x-M)^3}
+<
+0.
+\]
+Therefore $L_{j,M}/N_{j,M}$ is maximal at $j=250M$ among all $j \ge 250M$. At
+that point,
+\[
+L_{250M,M}
+=
+(2M+1)(500M+1)
+\le
+1503 M^2,
+\qquad
+N_{250M,M} = (249M)^2.
+\]
+Since
+\[
+1343 \cdot 1503^2 < 249^4,
+\]
+we obtain
+\[
+1343\,L_{j,M}^2 \le N_{j,M}^2
+\qquad
+(j \ge 250M).
+\]
+Proposition~\ref{prop:high-circle} then yields
+\[
+\int_{S^1} \abs{Q_{j,r}}^2\,\dd \sigma
+\le
+32 \int_{S^1} \rhoFn(Q_{j,r})^2\,\dd \sigma
+\le
+10^7 M^2 \int_{S^1} \rhoFn(Q_{j,r})^2\,\dd \sigma.
+\]
+
+Taking $B_M^2 = 10^7 M^2$ proves the lemma.
+\end{proof}
+
+\section{Assembly of the argument}
+
+\begin{lemma}\label{lem:assembly-circle}
+For every $j \ge 0$ and every $r \in [j,j+1]$,
+\begin{align*}
+\int_{S^1} \abs{G(r\zeta)}^2\,\dd \sigma(\zeta)
+&\le
+4B_M^2 \int_{S^1}
+\bigl(\abs{\Phi_0 + G}(r\zeta) - \abs{\Phi_0}(r\zeta)\bigr)^2
+\dd \sigma(\zeta) \\
+&\qquad +
+\bigl(4B_M^2 + 2\bigr)\int_{S^1} \abs{R_j(r\zeta)}^2\,\dd \sigma(\zeta).
+\end{align*}
+\end{lemma}
+
+\begin{proof}
+Lemma~\ref{lem:annulus-circle} gives
+\[
+\int_{S^1} \abs{V_j(r\zeta)}^2\,\dd \sigma
+\le
+B_M^2 \int_{S^1}
+\bigl(\abs{\Phi_0 + V_j}(r\zeta) - \abs{\Phi_0}(r\zeta)\bigr)^2
+\dd \sigma.
+\]
+Since $G = V_j + R_j$, the reverse triangle inequality gives
+\[
+\Bigl\lvert
+\bigl(\abs{\Phi_0 + V_j} - \abs{\Phi_0}\bigr)
+-
+\bigl(\abs{\Phi_0 + G} - \abs{\Phi_0}\bigr)
+\Bigr\rvert
+\le
+\abs{R_j}.
+\]
+Hence
+\[
+\abs{\abs{\Phi_0 + V_j} - \abs{\Phi_0}}
+\le
+\abs{\abs{\Phi_0 + G} - \abs{\Phi_0}} + \abs{R_j}.
+\]
+Squaring and using $(a+b)^2 \le 2a^2 + 2b^2$ yields
+\begin{align*}
+\int_{S^1} \abs{V_j(r\zeta)}^2\,\dd \sigma
+&\le
+2B_M^2 \int_{S^1}
+\bigl(\abs{\Phi_0 + G}(r\zeta) - \abs{\Phi_0}(r\zeta)\bigr)^2
+\dd \sigma \\
+&\qquad +
+2B_M^2 \int_{S^1} \abs{R_j(r\zeta)}^2\,\dd \sigma.
+\end{align*}
+Finally,
+\[
+\abs{G}^2 \le 2\abs{V_j}^2 + 2\abs{R_j}^2,
+\]
+and substituting the previous estimate gives the claim.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main-orthog}]
+We first treat finite sums
+\[
+G = \sum_{n=1}^D a_n \Phi_n.
+\]
+Fix an integer $M \ge 1$ for the moment. Multiply the inequality from
+Lemma~\ref{lem:assembly-circle} by $2r\ee^{-r^2}$, integrate over
+$r \in [j,j+1]$, and sum in $j \ge 0$. Since the annuli $A_j$ partition the
+plane, we obtain
+\[
+\norm{G}^2
+\le
+4B_M^2 \norm{\abs{\Phi_0 + G} - \abs{\Phi_0}}^2
++
+\bigl(4B_M^2 + 2\bigr)
+\sum_{j\ge0}
+\frac1\pi \int_{A_j} \abs{R_j(z)}^2 \ee^{-\abs{z}^2}\,\dd m(z).
+\]
+By Lemma~\ref{lem:leakage},
+\[
+\norm{G}^2
+\le
+4B_M^2 \norm{\abs{\Phi_0 + G} - \abs{\Phi_0}}^2
++
+\bigl(4B_M^2 + 2\bigr)\eta_M \norm{G}^2.
+\]
+Now $B_M^2 \le 10^7 M^2$, while
+\[
+\eta_M = 2C \sum_{m>M} \exp\!\bigl(-c(m-4)_+^2\bigr)
+\]
+has Gaussian decay. Hence
+\[
+\bigl(4B_M^2 + 2\bigr)\eta_M \longrightarrow 0
+\qquad
+(M\to\infty).
+\]
+Choose $M$ so large that
+\[
+\bigl(4B_M^2 + 2\bigr)\eta_M \le \frac12.
+\]
+Then
+\[
+\norm{G}^2
+\le
+8B_M^2 \norm{\abs{\Phi_0 + G} - \abs{\Phi_0}}^2,
+\]
+which proves the theorem for finite sums.
+
+For general $G \in H_1 \cap \Phi_0^\perp$, write
+\[
+G = \sum_{n=1}^\infty a_n \Phi_n
+\]
+and let
+\[
+G_N := \sum_{n=1}^N a_n \Phi_n.
+\]
+By Corollary~\ref{cor:expansion}, $G_N \to G$ in $H_1$. The finite-sum bound
+gives
+\[
+\norm{G_N}
+\le
+C_0 \norm{\abs{\Phi_0 + G_N} - \abs{\Phi_0}},
+\]
+with $C_0 = \sqrt{8}\,B_M$ independent of $N$. Since the modulus is
+$1$-Lipschitz,
+\[
+\abs{\bigl(\abs{\Phi_0 + G_N} - \abs{\Phi_0}\bigr)
+-
+\bigl(\abs{\Phi_0 + G} - \abs{\Phi_0}\bigr)}
+\le
+\abs{G_N - G},
+\]
+so the right-hand side converges to
+$\norm{\abs{\Phi_0 + G} - \abs{\Phi_0}}$. Passing to the limit yields the
+theorem.
+\end{proof}
+
+\begin{remark}
+The only new analytic ingredient is Lemma~\ref{lem:annulus-basis}. Once the
+annulus localisation is available, the remaining argument follows the same
+block decomposition and leakage scheme as in the analytic case, provided one
+also keeps track of the explicit $M$-dependence of $B_M$, passes from the
+phase-normalised orthogonal reduction to phase-optimised stability via
+Lemma~\ref{lem:phase-alignment}, and squares the signed defect only after
+inserting absolute values as in Lemma~\ref{lem:assembly-circle}.
+\end{remark}
+
+\begin{thebibliography}{1}
+
+\bibitem{FockSPR}
+J.~de~Dios~Pont and M.~Taylor,
+\emph{Local Stable Phase Retrieval in Fock Space},
+Lean-verified repository version \texttt{FOCK Old/FockSPR-10.pdf}, 2026.
+
+\end{thebibliography}
+
+\end{document}

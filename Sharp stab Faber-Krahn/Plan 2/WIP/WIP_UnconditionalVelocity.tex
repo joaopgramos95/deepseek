@@ -128,7 +128,7 @@ $\sqrt{V_\rho}\cdot\sqrt{1/V_\rho}$-factorisation),
    =\frac{P^{*}}{P^{2}}\,D_H\cdot P^{*}
    =\Bigl(\frac{P^{*}}{P}\Bigr)^{\!2}D_H,
 \]
-using Lemma~\ref{lem:V-weighted-id} and $\int V_\rho=P^{*}$.  The
+using Lemma~\ref{lem:V-weighted-var} and $\int V_\rho=P^{*}$.  The
 second inequality of \eqref{eq:V-defect} follows from
 $P\ge P^{*}$ (isoperimetric inequality).
 \end{proof}
@@ -201,9 +201,12 @@ Then
    \int_{\rstar}^{\rdel}|\dot F_\rho|_\X^{2}\,d\mu(\rho)
    \;\le\;C(n,R,R',\rstar)\,\delta_T(\Om).
 \end{equation}
-In particular both bad-level kinetic hypotheses
-\textup{(eq:bad-I-action)} and \textup{(eq:bad-tau-action)} of
-\texttt{WIP\_WeightedMetricTrace.tex} are discharged.
+In particular the weighted bad-isoperimetric action
+\textup{(eq:bad-I-action)} of \texttt{WIP\_WeightedMetricTrace.tex}
+is discharged after restriction to \(B_I\).  This does \emph{not}
+discharge the unweighted bad-density action
+\textup{(eq:bad-tau-action)}, which is a \(d\rho\)-estimate on
+\(\{w<\tau_0\}\).
 \end{proposition}
 
 \begin{proof}
@@ -211,11 +214,11 @@ Integrate \eqref{eq:Fdot-decomp-uncon} against $d\mu$ and use
 Corollary~\ref{cor:V-integrated} for the first piece,
 \eqref{eq:hom-integrated} for the second, and
 $\rho^{-2n}\le\rstar^{-2n}$ on $[\rstar,\rdel]$.
-The bad-$\tau$ kinetic follows by the standard
-$w\ge\tau_0$-on-$G_\tau$ split applied to \eqref{eq:full-kinetic}
-inside \texttt{WIP\_WeightedMetricTrace.tex}'s Theorem~3.2 proof, and
-the bad-$I$ kinetic is a direct corollary because $B_I$ has
-finite $\mu$-measure inside $[\rstar,\rdel]$.
+Restricting \eqref{eq:full-kinetic} to \(B_I\) gives the bad-\(I\)
+action.  On \(G_\tau=\{w\ge\tau_0\}\), the same estimate also implies
+the corresponding \(d\rho\)-kinetic bound after division by
+\(\tau_0\).  No conclusion follows on \(B_\tau=\{w<\tau_0\}\), because
+\(d\mu=w\,d\rho\) may be arbitrarily small there.
 \end{proof}
 
 \section{Status of \eqref{eq:hom-integrated}: two candidate routes}
@@ -290,9 +293,10 @@ finite-perimeter level, with prefactor $P^{*}/P\le 1$.  The previous
 \item Corollary~\ref{cor:V-integrated} integrates this against
 $d\mu$ unconditionally, giving the half of the kinetic action that
 involves $D_H$ directly.
-\item Proposition~\ref{prop:reduction} reduces the bad-level kinetic
-problem to a single integrated homothetic-trace bound
-\eqref{eq:hom-integrated}.
+\item Proposition~\ref{prop:reduction} reduces the weighted kinetic
+problem, and hence the bad-\(I\) action, to the single integrated
+homothetic-trace bound \eqref{eq:hom-integrated}.  It does not remove
+the separate bad-\(\tau\) \(d\rho\)-action requirement.
 \item Section~\ref{sec:routes} isolates the residual difficulty as
 \[
    \int_{\rstar}^{\rdel}\Bigl(\int|\nu-e_{z_\rho}|^{2}d\Hn\Bigr)^{\!2}d\mu(\rho)\;\le\;C\,\delta_T,

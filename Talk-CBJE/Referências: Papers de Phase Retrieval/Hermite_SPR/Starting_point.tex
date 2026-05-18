@@ -1,0 +1,1257 @@
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{hyperref}
+\usepackage[shortlabels]{enumitem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\DeclareMathOperator{\dist}{dist}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\rhoFn}{\rho}
+\newcommand{\Fd}{\mathcal{F}_d}
+\newcommand{\Sphere}{S^{2d-1}}
+\newcommand{\Ann}[1]{\mathcal{A}_{#1}}
+
+\title{Local Stable Phase Retrieval in Bargmann--Fock Space on $\C^d$}
+\author{}
+
+\begin{document}
+
+\begin{abstract}
+We give a higher-dimensional analogue of the verified one-dimensional
+argument recorded in the source tree
+\texttt{Constant/Latex/FockSPR}.  The main analytic task is to prove the
+orthogonal coercivity estimate in $\Fd(\C^d)$.  We first establish it for
+holomorphic polynomials with vanishing constant term.  The key observation
+is that the circle estimates from
+\texttt{Constant/Latex/FockSPR/CircleEstimates.tex} lift directly to the
+unit sphere $\Sphere$ by averaging the global phase action
+$\omega \mapsto \ee^{\ii t}\omega$.  After that, the annulus decomposition
+and leakage estimates from
+\texttt{Constant/Latex/FockSPR/BlockDecomposition.tex} go through with the
+total degree replacing the one-variable degree.  A density argument then
+extends the orthogonal estimate from polynomials to all of $\Fd$.  Finally,
+we record the orthogonal reduction explicitly in the present notation and
+verify phase retrieval at the constant function in $\Fd(\C^d)$.  This yields
+a quantitative small-data stability theorem at the constant, with a
+constant depending only on~$d$.  We also isolate a separate
+compactness-based local-to-global passage, but we treat that final step as
+an optional soft consequence rather than as part of the quantitative core.
+\end{abstract}
+
+\maketitle
+
+\section{Statement}
+
+For a measurable function $f \colon \C^d \to \C$, define
+\[
+\norm{f}_{\Fd}^2
+:=
+\frac{1}{\pi^d}\int_{\C^d} \abs{f(z)}^2 \ee^{-\abs{z}^2}\,\dd m(z),
+\]
+and let $\Fd = \Fd(\C^d)$ be the closed subspace of entire functions with
+finite norm.
+Throughout, $\langle \cdot,\cdot\rangle_{\Fd}$ denotes the Fock-space inner
+product
+\[
+\langle f,g\rangle_{\Fd}
+:=
+\frac{1}{\pi^d}\int_{\C^d} f(z)\overline{g(z)} \ee^{-\abs{z}^2}\,\dd m(z),
+\]
+which is linear in the first slot.
+By abuse of notation, $\norm{\cdot}_{\Fd}$ also denotes this ambient
+Gaussian weighted $L^2$ norm on measurable functions; in particular,
+expressions such as $\norm{\rhoFn \circ U}_{\Fd}$ are interpreted in that
+sense.
+
+As in the one-dimensional note, write
+\[
+\rhoFn(w) := \bigl\lvert\, \abs{1+w} - 1 \,\bigr\rvert.
+\]
+The one-dimensional note writes $\rho_0(w) := \abs{1+w}-1$ without the
+outer absolute value.  In the argument below we only use that
+\[
+\abs{\rho_0(w)} = \rhoFn(w)
+\qquad\text{and}\qquad
+\abs{\rhoFn(w)-\rhoFn(z)} \le \abs{w-z}.
+\]
+Consequently, every estimate from the one-dimensional note whose statement
+depends only on the $L^2$ norm of $\rho_0 \circ P$ transfers unchanged to
+$\rhoFn \circ P$, because for every measurable $P$ one has
+\[
+\norm{\rho_0 \circ P}_{L^2} = \norm{\rhoFn \circ P}_{L^2}.
+\]
+Separately, the same $1$-Lipschitz bounds remain available.  We do not use
+any signed identity for $\rho_0$ after passing to $\rhoFn$.
+
+The real analytic content is the following orthogonal estimate.
+
+\begin{theorem}[Orthogonal coercivity on $\C^d$]\label{thm:orthog}
+Fix $d \ge 1$.  There exists a constant $C_d > 0$ such that every
+$U \in \Fd$ with $U(0) = 0$ satisfies
+\[
+\norm{U}_{\Fd}^2
+\le
+C_d^2\, \norm{\rhoFn \circ U}_{\Fd}^2.
+\]
+\end{theorem}
+
+\noindent
+Theorem~\ref{thm:orthog}, combined with the orthogonal reduction stated
+explicitly in Proposition~\ref{prop:orth-reduction}, implies the following
+small-data stability statement, which is the main quantitative consequence
+of the note.
+
+\begin{corollary}[Small-data stability at the constant]\label{cor:small}
+Fix $d \ge 1$, and let $C_d$ be as in Theorem~\ref{thm:orthog}.  Then there
+exist
+\[
+\delta_d := \frac{1}{C_d + 1},
+\qquad
+\widetilde M_d := 5 C_d + 3,
+\]
+such that every $F \in \Fd$ satisfying
+\[
+\inf_{\abs{w}=1}\norm{wF - 1}_{\Fd}
+\le
+\delta_d
+\]
+also satisfies
+\[
+\inf_{\abs{w}=1}\norm{wF - 1}_{\Fd}
+\le
+\widetilde M_d\, \bigl\|\, \abs{F} - 1 \,\bigr\|_{\Fd}.
+\]
+\end{corollary}
+
+\begin{proposition}[Optional soft global consequence]\label{prop:soft-global}
+Fix $d \ge 1$.  There exists a constant $\widehat M_d > 0$ such that every
+$F \in \Fd$ satisfies
+\[
+\inf_{\abs{w}=1}\norm{wF - 1}_{\Fd}
+\le
+\widehat M_d\, \bigl\|\, \abs{F} - 1 \,\bigr\|_{\Fd}.
+\]
+\end{proposition}
+
+Theorem~\ref{thm:orthog} implies Corollary~\ref{cor:small} by the
+orthogonal reduction recorded in Proposition~\ref{prop:orth-reduction}.
+Proposition~\ref{prop:soft-global} then follows from
+Corollary~\ref{cor:small} by a separate compactness argument, once phase
+retrieval at the constant is verified.  These auxiliary steps are carried
+out in Section~\ref{sec:prelim-local}.  They are included for completeness,
+but the quantitative core of the paper stops at
+Corollary~\ref{cor:small}.
+
+We first prove Theorem~\ref{thm:orthog} for holomorphic polynomials with
+vanishing constant term.  The passage to general $U \in \Fd$ is by
+total-degree truncation and is completed in Section~\ref{sec:assembly}.
+
+\section{Fock-Space Preliminaries and Optional Soft Reduction}\label{sec:prelim-local}
+
+We record the standard several-variable Fock-space facts used later to
+identify $1^\perp$ with the functions vanishing at the origin and to pass
+from polynomial estimates to general elements of $\Fd$.
+
+For a multi-index $\alpha = (\alpha_1,\dots,\alpha_d) \in \N^d$, write
+\[
+\abs{\alpha} := \alpha_1 + \cdots + \alpha_d,
+\qquad
+\alpha! := \alpha_1! \cdots \alpha_d!,
+\qquad
+z^\alpha := z_1^{\alpha_1}\cdots z_d^{\alpha_d}.
+\]
+For $a \in \C^d$, set
+\[
+K_a(z) := \exp\!\Bigl(\sum_{j=1}^d z_j \overline{a_j}\Bigr).
+\]
+
+\begin{proposition}[Kernel, basis, and truncations]\label{prop:fock-facts}
+For $\alpha \in \N^d$, define
+\[
+e_\alpha(z) := \frac{z^\alpha}{\sqrt{\alpha!}}.
+\]
+Then:
+\begin{enumerate}[(1)]
+\item $\{e_\alpha : \alpha \in \N^d\}$ is an orthonormal basis of $\Fd$.
+\item For every $a \in \C^d$, the function $K_a$ belongs to $\Fd$ and
+\[
+\langle F, K_a\rangle_{\Fd} = F(a)
+\qquad
+\text{for every } F \in \Fd.
+\]
+\item In particular, $K_0 = 1$, so
+\[
+\langle F,1\rangle_{\Fd} = F(0)
+\qquad
+\text{for every } F \in \Fd.
+\]
+\item If
+\[
+F = \sum_{\alpha \in \N^d} c_\alpha e_\alpha,
+\qquad
+F^{(\le N)} := \sum_{\abs{\alpha}\le N} c_\alpha e_\alpha,
+\]
+then $F^{(\le N)} \to F$ in $\Fd$ as $N \to \infty$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Orthogonality is a product of the one-variable Gaussian moments:
+\[
+\langle e_\alpha,e_\beta\rangle_{\Fd}
+=
+\prod_{j=1}^d
+\frac{1}{\pi}\int_{\C}
+\frac{z_j^{\alpha_j}\overline{z_j}^{\beta_j}}{\sqrt{\alpha_j!\beta_j!}}
+\ee^{-\abs{z_j}^2}\,\dd m(z_j)
+=
+\delta_{\alpha\beta}.
+\]
+
+Now let $F \in \Fd$, and write its power-series expansion
+\[
+F(z) = \sum_{\alpha \in \N^d} b_\alpha z^\alpha.
+\]
+Because $F$ is entire, this series converges absolutely and uniformly on
+every compact subset of $\C^d$.  Fix
+$r=(r_1,\dots,r_d)\in(0,\infty)^d$.  On the polytorus
+\[
+\bigl\{(r_1 \ee^{\ii\theta_1},\dots,r_d \ee^{\ii\theta_d}) :
+(\theta_1,\dots,\theta_d)\in[0,2\pi]^d\bigr\}
+\]
+we may therefore apply Parseval on $\mathbb T^d$ to obtain
+\[
+\int_{[0,2\pi]^d}
+\abs{F(r_1 \ee^{\ii\theta_1},\dots,r_d \ee^{\ii\theta_d})}^2\,
+\prod_{j=1}^d \frac{\dd\theta_j}{2\pi}
+=
+\sum_{\alpha \in \N^d} \abs{b_\alpha}^2 r^{2\alpha},
+\]
+where $r^{2\alpha}:=r_1^{2\alpha_1}\cdots r_d^{2\alpha_d}$.  Integrating in
+$r$ against $\prod_{j=1}^d 2 r_j \ee^{-r_j^2}\,\dd r_j$ and using Tonelli's
+theorem gives
+\[
+\norm{F}_{\Fd}^2
+=
+\sum_{\alpha \in \N^d} \abs{b_\alpha}^2
+\prod_{j=1}^d
+\left(
+2\int_0^\infty r_j^{2\alpha_j+1}\ee^{-r_j^2}\,\dd r_j
+\right)
+=
+\sum_{\alpha \in \N^d} \abs{b_\alpha}^2 \alpha!.
+\]
+Thus $c_\alpha := b_\alpha \sqrt{\alpha!}$ belongs to $\ell^2(\N^d)$ and
+\[
+F
+=
+\sum_{\alpha \in \N^d} c_\alpha e_\alpha,
+\qquad
+\norm{F}_{\Fd}^2
+=
+\sum_{\alpha \in \N^d} \abs{c_\alpha}^2.
+\]
+In particular, $\{e_\alpha\}$ is complete as well as orthonormal, hence an
+orthonormal basis.  For the total-degree truncations,
+\[
+F^{(\le N)} := \sum_{\abs{\alpha}\le N} c_\alpha e_\alpha,
+\]
+we therefore have
+\[
+\norm{F - F^{(\le N)}}_{\Fd}^2
+=
+\sum_{\abs{\alpha}>N} \abs{c_\alpha}^2
+\xrightarrow[N\to\infty]{} 0.
+\]
+
+For $a \in \C^d$,
+\[
+\abs{K_a(z)}^2 \ee^{-\abs{z}^2}
+=
+\ee^{2\operatorname{Re}\sum_j z_j\overline{a_j} - \abs{z}^2}
+=
+\ee^{\abs{a}^2}\,\ee^{-\abs{z-a}^2},
+\]
+so $K_a \in \Fd$.  Moreover,
+\[
+K_a(z)
+=
+\sum_{\alpha \in \N^d} \frac{\overline{a}^\alpha}{\alpha!}\, z^\alpha
+=
+\sum_{\alpha \in \N^d} \frac{\overline{a}^\alpha}{\sqrt{\alpha!}}\, e_\alpha(z),
+\]
+and the coefficient sequence is square-summable because
+\[
+\sum_{\alpha \in \N^d} \frac{\abs{a}^{2\alpha}}{\alpha!}
+=
+\prod_{j=1}^d \sum_{n\ge0}\frac{\abs{a_j}^{2n}}{n!}
+=
+\ee^{\abs{a}^2}.
+\]
+\[
+\norm{K_a}_{\Fd}^2
+=
+\sum_{\alpha \in \N^d} \frac{\abs{a}^{2\alpha}}{\alpha!}
+=
+\ee^{\abs{a}^2},
+\]
+in agreement with the direct Gaussian computation above.  If
+$F=\sum_\alpha c_\alpha e_\alpha$, then
+Cauchy--Schwarz gives absolute convergence of
+\[
+\sum_{\alpha \in \N^d} c_\alpha \frac{a^\alpha}{\sqrt{\alpha!}},
+\]
+because
+\[
+\sum_{\alpha \in \N^d} \frac{\abs{a}^{2\alpha}}{\alpha!}
+=
+\ee^{\abs{a}^2}
+<
+\infty.
+\]
+Therefore
+\[
+F(a)
+=
+\sum_{\alpha \in \N^d} c_\alpha \frac{a^\alpha}{\sqrt{\alpha!}}
+=
+\left\langle
+\sum_{\alpha \in \N^d} c_\alpha e_\alpha,\,
+\sum_{\alpha \in \N^d} \frac{\overline{a}^\alpha}{\sqrt{\alpha!}}\,e_\alpha
+\right\rangle_{\Fd}
+=
+\langle F, K_a\rangle_{\Fd}.
+\]
+Taking $a=0$ gives $K_0=1$ and $\langle F,1\rangle_{\Fd}=F(0)$.
+\end{proof}
+
+\begin{proposition}[Orthogonal reduction at the constant]\label{prop:orth-reduction}
+Let $C_d$ be as in Theorem~\ref{thm:orthog}, and set
+\[
+\delta_d := \frac{1}{C_d+1},
+\qquad
+\widetilde M_d := 5C_d+3.
+\]
+Suppose $h \in \Fd$ satisfies
+\[
+\norm{h}_{\Fd} \le \delta_d
+\qquad\text{and}\qquad
+\langle h,1\rangle_{\Fd} \in \mathbb R.
+\]
+Then
+\[
+\norm{h}_{\Fd}
+\le
+\widetilde M_d\,\norm{\abs{1+h}-1}_{\Fd}.
+\]
+\end{proposition}
+
+\begin{proof}
+This is the abstract Hilbert-space orthogonal reduction from
+\texttt{Constant/Latex/FockSPR/OrthogonalReduction.tex}, applied with
+$H=\Fd$, $f_0=1$, and $M=C_d$.  By
+Proposition~\ref{prop:fock-facts}, the orthogonality condition $g \perp 1$
+is equivalent to $g(0)=0$, so Theorem~\ref{thm:orthog} supplies the
+required orthogonal coercivity hypothesis.  The quoted reduction theorem
+then yields the stated constants $\delta_d = 1/(C_d+1)$ and
+$\widetilde M_d = 5C_d+3$.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:small}]
+Let $F \in \Fd$ satisfy
+\[
+\inf_{\abs{w}=1}\norm{wF-1}_{\Fd} \le \delta_d.
+\]
+Because the unit circle is compact and
+$w \mapsto \norm{wF-1}_{\Fd}$ is continuous, there exists a minimising
+phase $w_0 \in \C$, $\abs{w_0}=1$, such that
+\[
+\norm{w_0F-1}_{\Fd}
+=
+\inf_{\abs{w}=1}\norm{wF-1}_{\Fd}
+\le
+\delta_d.
+\]
+For every unimodular $w$,
+\[
+\norm{wF-1}_{\Fd}^2
+=
+\norm{F}_{\Fd}^2 + 1 - 2\operatorname{Re}\!\bigl(w\langle F,1\rangle_{\Fd}\bigr),
+\]
+because $\norm{wF}_{\Fd}=\norm{F}_{\Fd}$ and the inner product is linear in
+the first slot.  Since $w_0$ minimises the left-hand side, it maximises
+$\operatorname{Re}(w\langle F,1\rangle_{\Fd})$ over $\abs{w}=1$.  If
+$\langle F,1\rangle_{\Fd}=0$, this quantity is identically zero and the next
+display is trivial.  Otherwise its maximum is
+$\abs{\langle F,1\rangle_{\Fd}}$, attained exactly when
+\[
+w_0 \langle F,1\rangle_{\Fd}
+=
+\bigl|\langle F,1\rangle_{\Fd}\bigr|
+\in
+\mathbb R_{\ge 0},
+\]
+so $h := w_0F-1$ satisfies $\langle h,1\rangle_{\Fd} \in \mathbb R$.
+Since $\norm{h}_{\Fd}\le \delta_d$, Proposition~\ref{prop:orth-reduction}
+therefore yields
+\[
+\norm{w_0F-1}_{\Fd}
+\le
+\widetilde M_d\,\bigl\|\, \abs{F} - 1 \,\bigr\|_{\Fd}.
+\]
+Since the left-hand side is the phase distance to $1$, this is precisely
+the claimed estimate.
+\end{proof}
+
+\begin{proposition}[Phase retrieval at the constant]\label{prop:phase-at-one}
+If $F \in \Fd$ satisfies $\abs{F}=1$ almost everywhere on $\C^d$, then
+$F \equiv w$ for some $w \in \C$ with $\abs{w}=1$.
+\end{proposition}
+
+\begin{proof}
+Because the Gaussian density $\ee^{-\abs{z}^2}$ never vanishes,
+Gaussian-null sets and Lebesgue-null sets coincide.  Since $F$ is
+continuous, the almost-everywhere identity $\abs{F}=1$ forces
+$\abs{F(z)}=1$ for every $z \in \C^d$.
+
+Fix $(z_2,\dots,z_d) \in \C^{d-1}$.  Then the function
+\[
+t \mapsto F(t,z_2,\dots,z_d)
+\]
+is entire on $\C$ and bounded by $1$, hence constant by Liouville's
+theorem.  Thus $F$ is independent of $z_1$.  Repeating the same argument in
+each coordinate shows that $F$ is constant on $\C^d$.  Its constant value
+has modulus~$1$.
+\end{proof}
+
+\begin{remark}[On the optional soft local-to-global step]
+Proposition~\ref{prop:local-reduction} is the only non-quantitative part of
+the argument: it uses weak compactness, pointwise continuity of evaluation,
+and subsequence extraction from $L^2$ convergence.  The quantitative core of
+the note is Theorem~\ref{thm:orthog} together with
+Corollary~\ref{cor:small}; Proposition~\ref{prop:local-reduction} is only
+used to pass from that small-data statement to the global estimate recorded
+as Proposition~\ref{prop:soft-global}.
+\end{remark}
+
+\begin{proposition}[Local reduction at the constant]\label{prop:local-reduction}
+Suppose that there exist $\varepsilon > 0$ and $C_{\mathrm{loc}} > 0$ such
+that every $F \in \Fd$ satisfying
+\[
+\inf_{\abs{w}=1}\norm{wF - 1}_{\Fd} < \varepsilon
+\]
+also satisfies
+\[
+\inf_{\abs{w}=1}\norm{wF - 1}_{\Fd}
+\le
+C_{\mathrm{loc}}\,\bigl\|\, \abs{F} - 1 \,\bigr\|_{\Fd}.
+\]
+Then there exists $C_{\mathrm{glob}} > 0$ such that
+\[
+\inf_{\abs{w}=1}\norm{wF - 1}_{\Fd}
+\le
+C_{\mathrm{glob}}\,\bigl\|\, \abs{F} - 1 \,\bigr\|_{\Fd}
+\qquad
+\text{for every } F \in \Fd.
+\]
+\end{proposition}
+
+\begin{proof}
+Assume the contrary.  Then for each $n \ge 1$ there exists $F_n \in \Fd$
+such that
+\[
+D_n > nR_n,
+\]
+where
+\[
+D_n := \inf_{\abs{w}=1}\norm{wF_n - 1}_{\Fd},
+\qquad
+R_n := \bigl\|\, \abs{F_n} - 1 \,\bigr\|_{\Fd}.
+\]
+
+If $\norm{F_n}_{\Fd} \ge 4$, then
+\[
+D_n \le \norm{F_n}_{\Fd} + 1 \le \frac54 \norm{F_n}_{\Fd},
+\]
+whereas
+\[
+R_n
+\ge
+\bigl|\norm{F_n}_{\Fd} - \norm{1}_{\Fd}\bigr|
+=
+\norm{F_n}_{\Fd} - 1
+\ge
+\frac34 \norm{F_n}_{\Fd}.
+\]
+Hence $D_n \le \frac53 R_n$, contradicting $D_n > nR_n$ for every
+$n \ge 2$.  After discarding finitely many terms, we may therefore assume
+that $\norm{F_n}_{\Fd} < 4$ for all $n$.  In particular, $D_n \le 5$, so
+$R_n < 5/n \to 0$.
+
+The sequence $(F_n)$ is bounded in the Hilbert space $\Fd$, so after
+passing to a subsequence we may assume that $F_n \rightharpoonup F$ weakly
+in $\Fd$ for some $F \in \Fd$.  By
+Proposition~\ref{prop:fock-facts}, point evaluations are continuous on
+$\Fd$, so $F_n(z) \to F(z)$ for every $z \in \C^d$.
+
+Since $R_n \to 0$ in $L^2$, after passing to a further subsequence we may
+also assume that $\abs{F_n(z)} \to 1$ for almost every $z$.  Combining this
+with the pointwise convergence $F_n(z) \to F(z)$ yields
+$\abs{F(z)} = 1$ for almost every $z$.  Proposition~\ref{prop:phase-at-one}
+therefore implies that $F \equiv w_\ast$ for some unimodular constant
+$w_\ast$.
+
+Moreover,
+\[
+\bigl|\norm{F_n}_{\Fd} - 1\bigr|
+\le
+R_n
+\xrightarrow[n\to\infty]{} 0,
+\]
+so $\norm{F_n}_{\Fd} \to 1 = \norm{F}_{\Fd}$.  Weak convergence together
+with convergence of norms now gives $F_n \to F$ strongly in $\Fd$.  Hence
+\[
+D_n
+\le
+\norm{\overline{w_\ast}F_n - 1}_{\Fd}
+\xrightarrow[n\to\infty]{} 0.
+\]
+For all sufficiently large $n$ we therefore have $D_n < \varepsilon$, so
+the local hypothesis gives $D_n \le C_{\mathrm{loc}} R_n$.  This
+contradicts $D_n > nR_n$ once $n > C_{\mathrm{loc}}$.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:soft-global}]
+Apply Proposition~\ref{prop:local-reduction} with
+$\varepsilon = \delta_d$ and $C_{\mathrm{loc}} = \widetilde M_d$,
+using Corollary~\ref{cor:small}.  The phase-retrieval input needed in the
+proof of Proposition~\ref{prop:local-reduction} is exactly
+Proposition~\ref{prop:phase-at-one}.  The resulting constant
+$C_{\mathrm{glob}}$ is the desired $\widehat M_d$.
+\end{proof}
+
+\section{Polar Coordinates and Homogeneous Pieces}\label{sec:polar}
+
+Let $\sigma_d$ denote the probability measure on the unit sphere
+$\Sphere \subset \C^d$.  Since
+\[
+\abs{\Sphere}
+=
+\frac{2\pi^d}{(d-1)!},
+\]
+polar coordinates give
+\begin{equation}\label{eq:polar}
+\norm{F}_{\Fd}^2
+=
+\frac{2}{(d-1)!}
+\int_0^\infty
+r^{2d-1} \ee^{-r^2}
+\biggl(
+\int_{\Sphere} \abs{F(r\omega)}^2\,\dd \sigma_d(\omega)
+\biggr)\dd r.
+\end{equation}
+
+For the polynomial part of the proof, let $U$ be a holomorphic polynomial
+with $U(0)=0$.  Write
+\[
+U = \sum_{n=1}^D H_n,
+\]
+where each $H_n$ has total degree $n$.
+
+\begin{lemma}[Sphere orthogonality by degree]\label{lem:sphere-orth}
+If $n \ne m$, then
+\[
+\int_{\Sphere}
+H_n(\omega)\, \overline{H_m(\omega)}\, \dd \sigma_d(\omega)
+=
+0.
+\]
+\end{lemma}
+
+\begin{proof}
+The measure $\sigma_d$ is invariant under the global phase action
+$\omega \mapsto \ee^{\ii t}\omega$.  Since
+$H_n(\ee^{\ii t}\omega) = \ee^{\ii nt} H_n(\omega)$ and similarly for $H_m$,
+the integral is multiplied by $\ee^{\ii(n-m)t}$ for every $t$, hence must
+vanish.
+\end{proof}
+
+Consequently, on each sphere of radius $r$,
+\[
+\int_{\Sphere} \abs{U(r\omega)}^2\,\dd \sigma_d(\omega)
+=
+\sum_{n=1}^D r^{2n}\, \norm{H_n}_{L^2(\Sphere)}^2,
+\]
+\[
+\norm{U}_{\Fd}^2
+=
+\frac{2}{(d-1)!}
+\sum_{n=1}^D
+\norm{H_n}_{L^2(\Sphere)}^2
+\int_0^\infty r^{2n+2d-1}\ee^{-r^2}\,\dd r.
+\]
+With the substitution $s=r^2$,
+\[
+2\int_0^\infty r^{2n+2d-1}\ee^{-r^2}\,\dd r
+=
+\int_0^\infty s^{n+d-1}\ee^{-s}\,\dd s
+=
+(n+d-1)!,
+\]
+and therefore
+\begin{equation}\label{eq:fock-by-degree}
+\norm{U}_{\Fd}^2
+=
+\sum_{n=1}^D
+\frac{(n+d-1)!}{(d-1)!}\,
+\norm{H_n}_{L^2(\Sphere)}^2.
+\end{equation}
+
+\section{Sphere Versions of the Circle Estimates}
+
+The one-dimensional proof uses two circle estimates:
+
+\begin{itemize}
+\item the local circle estimate
+$\norm{P}_{L^2(S^1)}^2 \le 144 L\, \norm{\rhoFn \circ P}_{L^2(S^1)}^2$
+for trigonometric polynomials with $L$ positive frequencies;
+\item the high-frequency estimate
+$\norm{P}_{L^2(S^1)}^2 \le 32\, \norm{\rhoFn \circ P}_{L^2(S^1)}^2$
+for bands $\{N,\dots,N+L-1\}$ with $1343L^2 \le N^2$.
+\end{itemize}
+
+Here $\sigma$ denotes the probability Haar measure on $S^1$.
+
+The point is that both lift directly to $\Sphere$.
+
+\begin{proposition}[Lifted local estimate]\label{prop:lifted-local}
+Let $E \subset \N_{\ge 1}$ be finite with $\abs{E} = L$, and let
+\[
+P(\omega) = \sum_{n \in E} G_n(\omega),
+\]
+where each $G_n$ is the restriction to $\Sphere$ of a homogeneous
+holomorphic polynomial of degree $n$.  Then
+\[
+\norm{P}_{L^2(\Sphere)}^2
+\le
+144 L\, \norm{\rhoFn \circ P}_{L^2(\Sphere)}^2.
+\]
+\end{proposition}
+
+\begin{proof}
+Fix $\omega \in \Sphere$.  The function
+\[
+t \mapsto P(\ee^{\ii t}\omega)
+=
+\sum_{n \in E} \ee^{\ii nt} G_n(\omega)
+\]
+is a trigonometric polynomial with the same positive frequency set $E$.
+The one-dimensional local circle estimate applies to this polynomial
+uniformly in the coefficients $G_n(\omega)$, so
+\[
+\int_{S^1} \abs{P(\ee^{\ii t}\omega)}^2\,\dd \sigma(t)
+\le
+144 L
+\int_{S^1} \rhoFn(P(\ee^{\ii t}\omega))^2\,\dd \sigma(t).
+\]
+Integrating in $\omega$ and using Tonelli's theorem gives
+\[
+\int_{\Sphere}\!\int_{S^1} \abs{P(\ee^{\ii t}\omega)}^2
+\,\dd \sigma(t)\,\dd \sigma_d(\omega)
+\le
+144L
+\int_{\Sphere}\!\int_{S^1} \rhoFn(P(\ee^{\ii t}\omega))^2
+\,\dd \sigma(t)\,\dd \sigma_d(\omega).
+\]
+For each fixed $t$, the map $\omega \mapsto \ee^{\ii t}\omega$ preserves
+$\sigma_d$, hence
+\[
+\int_{\Sphere} \abs{P(\ee^{\ii t}\omega)}^2\,\dd \sigma_d(\omega)
+=
+\int_{\Sphere} \abs{P(\omega)}^2\,\dd \sigma_d(\omega),
+\]
+and likewise
+\[
+\int_{\Sphere} \rhoFn(P(\ee^{\ii t}\omega))^2\,\dd \sigma_d(\omega)
+=
+\int_{\Sphere} \rhoFn(P(\omega))^2\,\dd \sigma_d(\omega).
+\]
+Substituting these identities and integrating in $t$ yields the claimed
+estimate.
+\end{proof}
+
+\begin{proposition}[Lifted high-frequency estimate]\label{prop:lifted-high}
+Let $N,L \ge 1$ satisfy $1343L^2 \le N^2$, and let
+\[
+P(\omega) = \sum_{m=0}^{L-1} G_{N+m}(\omega),
+\]
+where each $G_{N+m}$ is homogeneous holomorphic of degree $N+m$.  Then
+\[
+\norm{P}_{L^2(\Sphere)}^2
+\le
+32\, \norm{\rhoFn \circ P}_{L^2(\Sphere)}^2.
+\]
+\end{proposition}
+
+\begin{proof}
+For fixed $\omega$, the function
+$t \mapsto P(\ee^{\ii t}\omega)$ has frequencies contained in
+$\{N,\dots,N+L-1\}$, with zero coefficients allowed.  The one-dimensional
+high-frequency estimate therefore applies uniformly in $\omega$, yielding
+\[
+\int_{S^1} \abs{P(\ee^{\ii t}\omega)}^2\,\dd \sigma(t)
+\le
+32\int_{S^1} \rhoFn(P(\ee^{\ii t}\omega))^2\,\dd \sigma(t).
+\]
+Now integrate in $\omega$ and use the same Tonelli-plus-invariance argument
+as in Proposition~\ref{prop:lifted-local}.
+\end{proof}
+
+\section{Degree Blocks and Leakage}
+
+The one-dimensional proof groups monomials by the radius where their Gaussian
+mass is largest.  In $\C^d$, the homogeneous degree-$n$ piece plays the same
+role, because its radial weight is
+\[
+r^{2n+2d-1}\ee^{-r^2}.
+\]
+Set
+\[
+m_n := n+d-1,
+\qquad
+r_n := \sqrt{m_n + \tfrac12} = \sqrt{n+d-\tfrac12}.
+\]
+Then $r_n$ is the unique maximiser of the function
+\[
+\phi_n(r)
+:=
+(2m_n+1)\log r - r^2.
+\]
+
+Fix an integer window width $M \ge 2$, to be chosen later.
+For $\ell \ge 1$, define the degree block
+\[
+I_\ell^{(d)}
+:=
+\bigl\{
+n \in \N_{\ge 1} : \ell^2 \le m_n < (\ell+1)^2
+\bigr\},
+\]
+and the corresponding block polynomial
+\[
+U_\ell := \sum_{n \in I_\ell^{(d)}} H_n.
+\]
+
+\begin{lemma}[Peak localisation]\label{lem:peak}
+If $n \in I_\ell^{(d)}$, then $\ell < r_n < \ell+1$.
+\end{lemma}
+
+\begin{proof}
+Since $m_n$ is an integer and $m_n < (\ell+1)^2$, we in fact have
+$m_n \le (\ell+1)^2 - 1$.  Therefore
+\[
+\ell^2
+<
+m_n + \tfrac12
+\le
+(\ell+1)^2 - \tfrac12
+<
+(\ell+1)^2,
+\]
+which is equivalent to $\ell < r_n < \ell+1$.
+\end{proof}
+
+For each annulus index $j \ge 0$, define
+\[
+V_j := \sum_{\abs{\ell-j}\le M} U_\ell,
+\qquad
+R_j := U - V_j.
+\]
+Thus $V_j$ contains the degrees whose radial peaks lie within $M$ annuli of
+$[j,j+1]$, and $R_j$ is the distant remainder.
+
+\begin{lemma}[Degree bands on an annulus]\label{lem:count}
+For every $j \ge 0$, set
+\[
+a_j := \max(1,j-M),
+\qquad
+b_j := j+M,
+\qquad
+N_j := \max\bigl(1,\,a_j^2 - d + 1\bigr),
+\qquad
+K_j := (b_j+1)^2 - d.
+\]
+Then every degree appearing in $V_j$ lies in the possibly empty interval
+\[
+\bigl\{
+n \in \N_{\ge 1} : N_j \le n \le K_j
+\bigr\}.
+\]
+In particular, this interval has length at most
+\[
+L_j := (b_j+1)^2 - a_j^2
+\]
+and therefore $V_j$ uses at most $L_j$ distinct degrees.
+If moreover $j \ge M+1$, then $a_j = j-M$ and
+\[
+L_j = (2M+1)(2j+1).
+\]
+\end{lemma}
+
+\begin{proof}
+If $\abs{\ell-j}\le M$, then $a_j \le \ell \le b_j$.  Hence every
+$n \in I_\ell^{(d)}$ satisfies
+\[
+a_j^2 \le \ell^2 \le m_n < (\ell+1)^2 \le (b_j+1)^2.
+\]
+Since $m_n = n+d-1$, this implies
+\[
+a_j^2-d+1 \le n \le (b_j+1)^2-d.
+\]
+Together with $n \ge 1$, this shows that every degree appearing in $V_j$
+lies in the stated interval, and that interval has length
+\[
+K_j-N_j+1 \le (b_j+1)^2-a_j^2 = L_j.
+\]
+If $j \ge M+1$, then $a_j = j-M$, and the displayed formula simplifies to
+\[
+(j+M+1)^2-(j-M)^2 = (2M+1)(2j+1).
+\]
+\end{proof}
+
+The radial saddle-point argument follows the exact Gamma-integral proof from
+\texttt{Constant/Latex/FockSPR/BlockDecomposition.tex}, with $n$ replaced by
+$m_n$.
+
+\begin{lemma}[Single-degree radial bound]\label{lem:single-degree}
+For every $n \ge 1$ and every $r > 0$,
+\[
+\ee^{\phi_n(r)}
+\le
+\ee^{\phi_n(r_n)} \ee^{-(r-r_n)^2},
+\qquad
+\ee^{\phi_n(r_n)}
+\le
+\frac{\ee^{1/4}}{2}\, m_n!.
+\]
+\end{lemma}
+
+\begin{proof}
+Since
+\[
+\phi_n'(r_n)=0,
+\qquad
+\phi_n''(r)
+=
+-\frac{2m_n+1}{r^2}-2
+\le
+-2,
+\]
+Taylor's theorem gives
+\[
+\phi_n(r)
+\le
+\phi_n(r_n)-(r-r_n)^2
+\qquad (r>0),
+\]
+which is the first estimate.
+
+For the second estimate, note that $m_n \ge d \ge 1$, so
+\[
+\frac{m_n!}{2}
+=
+\int_0^\infty \ee^{\phi_n(r)}\,\dd r.
+\]
+Since $m_n \ge 1$, we have $r_n = \sqrt{m_n+\tfrac12} \ge \sqrt{3/2} > 1$,
+so the interval $[r_n-\tfrac12,r_n+\tfrac12]$ lies in $(0,\infty)$.  By the
+first estimate,
+\[
+\phi_n(r) \ge \phi_n(r_n)-\frac14
+\qquad
+\text{for every } r \in [r_n-\tfrac12,r_n+\tfrac12].
+\]
+Therefore
+\[
+\frac{m_n!}{2}
+\ge
+\int_{r_n-\frac12}^{r_n+\frac12} \ee^{\phi_n(r)}\,\dd r
+\ge
+\ee^{\phi_n(r_n)-\frac14}.
+\]
+Rearranging gives
+\[
+\ee^{\phi_n(r_n)}
+\le
+\frac{\ee^{1/4}}{2}\,m_n!,
+\]
+as claimed.
+\end{proof}
+
+\begin{proposition}[Single-block leakage]\label{prop:single-leak}
+For every $\ell \ge 1$ and $j \ge 0$,
+\[
+\Ann{j}(U_\ell)
+\le
+\ee^{1/4}\,
+\ee^{-(\abs{j-\ell}-1)_+^2}
+\norm{U_\ell}_{\Fd}^2,
+\]
+where
+\[
+\Ann{j}(F)
+:=
+\frac{2}{(d-1)!}
+\int_j^{j+1} r^{2d-1}\ee^{-r^2}
+\biggl(
+\int_{\Sphere} \abs{F(r\omega)}^2\,\dd \sigma_d(\omega)
+\biggr)\dd r.
+\]
+\end{proposition}
+
+\begin{proof}
+Because distinct degrees are orthogonal on $\Sphere$,
+\[
+\int_{\Sphere}\abs{U_\ell(r\omega)}^2\,\dd \sigma_d(\omega)
+=
+\sum_{n \in I_\ell^{(d)}} r^{2n}\norm{H_n}_{L^2(\Sphere)}^2.
+\]
+Hence
+\[
+\Ann{j}(U_\ell)
+=
+\frac{2}{(d-1)!}
+\sum_{n \in I_\ell^{(d)}} \norm{H_n}_{L^2(\Sphere)}^2
+\int_j^{j+1} r^{2m_n+1}\ee^{-r^2}\,\dd r.
+\]
+Lemma~\ref{lem:single-degree} gives
+\[
+\int_j^{j+1} r^{2m_n+1}\ee^{-r^2}\,\dd r
+\le
+\frac{\ee^{1/4}}{2}\,m_n!\,
+\ee^{-\dist(r_n,[j,j+1])^2}.
+\]
+If $n \in I_\ell^{(d)}$, then Lemma~\ref{lem:peak} yields
+$r_n \in (\ell,\ell+1)$, and therefore
+\[
+\dist(r_n,[j,j+1]) \ge (\abs{j-\ell}-1)_+.
+\]
+Substituting this into the previous display yields
+\[
+\Ann{j}(U_\ell)
+\le
+\frac{\ee^{1/4}}{(d-1)!}\,
+\ee^{-(\abs{j-\ell}-1)_+^2}
+\sum_{n \in I_\ell^{(d)}} m_n!\,\norm{H_n}_{L^2(\Sphere)}^2.
+\]
+The sum is exactly $(d-1)!\,\norm{U_\ell}_{\Fd}^2$ by
+\eqref{eq:fock-by-degree}, so the stated bound follows.
+\end{proof}
+
+\begin{corollary}[Total leakage]\label{cor:leakage}
+Let
+\[
+\eta_M := 2\ee^{1/4}\sum_{m \ge M}\ee^{-m^2}.
+\]
+Then
+\[
+\sum_{j \ge 0} \Ann{j}(R_j)
+\le
+\eta_M\, \norm{U}_{\Fd}^2.
+\]
+\end{corollary}
+
+\begin{proof}
+On each annulus, the blocks $U_\ell$ with $\abs{\ell-j}>M$ have pairwise
+disjoint degree supports.  By Lemma~\ref{lem:sphere-orth}, this gives
+\[
+\Ann{j}(R_j)
+=
+\sum_{\abs{\ell-j}>M} \Ann{j}(U_\ell).
+\]
+Applying Proposition~\ref{prop:single-leak} termwise yields
+\[
+\Ann{j}(R_j)
+\le
+\ee^{1/4}\sum_{\abs{\ell-j}>M}
+\ee^{-(\abs{j-\ell}-1)_+^2}\norm{U_\ell}_{\Fd}^2.
+\]
+Summing over $j \ge 0$ and using Tonelli's theorem,
+\[
+\sum_{j \ge 0} \Ann{j}(R_j)
+\le
+\ee^{1/4}\sum_{\ell \ge 1}\norm{U_\ell}_{\Fd}^2
+\sum_{\substack{j \ge 0\\ \abs{\ell-j}>M}}
+\ee^{-(\abs{j-\ell}-1)_+^2}.
+\]
+If $\abs{\ell-j}>M$ and $M \ge 2$, then
+$(\abs{j-\ell}-1)_+ = \abs{j-\ell}-1 \ge M$.  For each integer $m \ge M$,
+there are at most two indices $j \ge 0$ such that $\abs{j-\ell}-1 = m$,
+so
+\[
+\sum_{\substack{j \ge 0\\ \abs{\ell-j}>M}}
+\ee^{-(\abs{j-\ell}-1)_+^2}
+\le
+2\sum_{m \ge M}\ee^{-m^2}.
+\]
+Finally, the blocks are orthogonal in $\Fd$ by \eqref{eq:fock-by-degree}, so
+\[
+\sum_{\ell \ge 1}\norm{U_\ell}_{\Fd}^2
+=
+\norm{U}_{\Fd}^2.
+\]
+Combining the previous displays gives the stated bound.
+\end{proof}
+
+\section{Annulus Estimate}
+
+For fixed $j$ and $r \in [j,j+1]$, the restriction
+$\omega \mapsto V_j(r\omega)$ uses only positive degrees.  By
+Lemma~\ref{lem:count}, these degrees lie in a contiguous band starting at
+degree at least $N_j$ and having length at most $L_j$.
+
+Choose an integer $J = J(d,M) \ge M+1$ so large that
+\begin{equation}\label{eq:threshold}
+1343\, L_j^2 \le N_j^2
+\qquad
+\text{for all } j \ge J.
+\end{equation}
+Such a $J$ exists because $L_j = O(j)$ whereas $N_j \sim j^2$.
+For instance, one may take
+\[
+J(d,M) := M + 75(2M+1) + \lceil \sqrt d \rceil,
+\]
+because for $j = M + 75(2M+1) + s$ with $s \ge \sqrt d$,
+\[
+N_j \ge (75(2M+1)+s)^2 - d + 1
+\ge 5625(2M+1)^2 + 150(2M+1)s + 1,
+\]
+whereas
+\[
+\sqrt{1343}\,L_j
+\le
+37(2M+1)(2j+1)
+=
+37(2M+1)\bigl(151(2M+1)+2s\bigr).
+\]
+Since $5625 > 37 \cdot 151$ and $150 > 74$, the required inequality holds.
+
+\begin{remark}[Illustrative threshold when $M=5$]\label{rem:explicit-J}
+If one fixes $M=5$, then one may for instance take
+\[
+J(d,5) = 819 + \lceil \sqrt d \rceil.
+\]
+Indeed, if $j = 819+s$ with $s \ge \sqrt d$, then
+\[
+N_j \ge (j-5)^2 - d + 1 = (814+s)^2 - d + 1 \ge 662597 + 1628s,
+\]
+while
+\[
+\sqrt{1343}\,L_j
+\le
+11\sqrt{1343}\,(2j+1)
+<
+404(2j+1)
+=
+662156 + 808s.
+\]
+This special case is included only to compare with the one-dimensional
+bookkeeping.  The proof of Theorem~\ref{thm:orthog} below does not fix
+$M=5$; instead, it later chooses $M$ depending on $d$ so that the absorption
+step closes.
+\end{remark}
+
+\begin{proposition}[Uniform annulus estimate]\label{prop:annulus}
+Set
+\[
+B_{d,M}^2 := 144(2M+1)(2J+1).
+\]
+Then for every $j \ge 0$ and every $r \in [j,j+1]$,
+\[
+\int_{\Sphere} \abs{V_j(r\omega)}^2\,\dd \sigma_d(\omega)
+\le
+B_{d,M}^2
+\int_{\Sphere} \rhoFn(V_j(r\omega))^2\,\dd \sigma_d(\omega).
+\]
+\end{proposition}
+
+\begin{proof}
+If $V_j=0$, there is nothing to prove.  Assume henceforth that $V_j \ne 0$.
+
+If $j < J$, apply Proposition~\ref{prop:lifted-local} together with the
+bound $L_j \le (2M+1)(2J+1)$.  Indeed, if $j \ge M+1$, then
+Lemma~\ref{lem:count} gives
+\[
+L_j = (2M+1)(2j+1) \le (2M+1)(2J+1).
+\]
+If instead $0 \le j \le M$, then
+\[
+L_j = (j+M+1)^2-1 \le (2M+1)^2-1 \le (2M+1)(2J+1),
+\]
+because $J \ge M+1$.
+
+If $j \ge J$, let
+\[
+L'_j := K_j-N_j+1.
+\]
+Lemma~\ref{lem:count} shows that the degrees of $V_j$ lie in the
+contiguous band $\{N_j,\dots,K_j\}$, and $L'_j \le L_j$.  Padding absent
+degrees in this band by zero, we may write
+\[
+V_j(r\omega)
+=
+\sum_{m=0}^{L'_j-1} \widetilde G_{N_j+m}(\omega),
+\]
+where each $\widetilde G_{N_j+m}$ is homogeneous holomorphic of degree
+$N_j+m$ and may be identically zero.  Proposition~\ref{prop:lifted-high}
+therefore applies with bandwidth $L'_j$.  Since
+\eqref{eq:threshold} gives
+\[
+1343(L'_j)^2 \le 1343L_j^2 \le N_j^2,
+\]
+this yields the stronger estimate
+\[
+\int_{\Sphere} \abs{V_j(r\omega)}^2\,\dd \sigma_d(\omega)
+\le
+32
+\int_{\Sphere} \rhoFn(V_j(r\omega))^2\,\dd \sigma_d(\omega),
+\]
+and $32 \le B_{d,M}^2$.
+\end{proof}
+
+\section{Assembly}\label{sec:assembly}
+
+We now assemble the annulus estimate and the leakage bound exactly as in the
+one-dimensional proof, with the higher-dimensional ingredients proved above
+replacing their circle counterparts.
+
+\begin{proof}[Proof of Theorem~\ref{thm:orthog}]
+We first treat the case where $U$ is a holomorphic polynomial with
+$U(0)=0$.
+
+Fix $d$.  Since $\eta_M \to 0$ super-exponentially as $M \to \infty$,
+while the explicit choice of $J(d,M)$ above gives $B_{d,M} = O_d(M)$,
+we may choose $M \ge 2$ so large that
+\[
+(4B_{d,M}^2+2)\eta_M < \frac12.
+\]
+Now choose this $M$, set $J = J(d,M)$, and let $B = B_{d,M}$.
+
+By Proposition~\ref{prop:annulus}, for every $r \in [j,j+1]$,
+\[
+\int_{\Sphere} \abs{V_j(r\omega)}^2\,\dd \sigma_d(\omega)
+\le
+B^2
+\int_{\Sphere} \rhoFn(V_j(r\omega))^2\,\dd \sigma_d(\omega).
+\]
+Since $\rhoFn$ is $1$-Lipschitz and $U = V_j + R_j$,
+\[
+\rhoFn(V_j) \le \rhoFn(U) + \abs{R_j}.
+\]
+Squaring and using $(a+b)^2 \le 2a^2 + 2b^2$ yields
+\[
+\int_{\Sphere} \abs{V_j(r\omega)}^2\,\dd \sigma_d(\omega)
+\le
+2B^2 \int_{\Sphere} \rhoFn(U(r\omega))^2\,\dd \sigma_d(\omega)
++
+2B^2 \int_{\Sphere} \abs{R_j(r\omega)}^2\,\dd \sigma_d(\omega).
+\]
+Now use $\abs{U}^2 \le 2\abs{V_j}^2 + 2\abs{R_j}^2$ to obtain
+\[
+\int_{\Sphere} \abs{U(r\omega)}^2\,\dd \sigma_d(\omega)
+\le
+4B^2 \int_{\Sphere} \rhoFn(U(r\omega))^2\,\dd \sigma_d(\omega)
++
+(4B^2+2)\int_{\Sphere} \abs{R_j(r\omega)}^2\,\dd \sigma_d(\omega).
+\]
+Multiply by $\frac{2}{(d-1)!}r^{2d-1}\ee^{-r^2}$, integrate
+$r \in [j,j+1]$, and sum over $j \ge 0$.  Using \eqref{eq:polar} and
+Corollary~\ref{cor:leakage}, we get
+\[
+\norm{U}_{\Fd}^2
+\le
+4B^2 \norm{\rhoFn \circ U}_{\Fd}^2
++
+(4B^2+2)\eta_M \norm{U}_{\Fd}^2.
+\]
+Absorbing the remainder term gives
+\[
+\norm{U}_{\Fd}^2
+\le
+\frac{4B_{d,M}^2}{1-(4B_{d,M}^2+2)\eta_M}
+\norm{\rhoFn \circ U}_{\Fd}^2.
+\]
+Set
+\[
+C_d^2
+:=
+\frac{4B_{d,M}^2}{1-(4B_{d,M}^2+2)\eta_M}.
+\]
+Then the displayed estimate shows that
+\[
+\norm{U}_{\Fd}^2
+\le
+C_d^2\,\norm{\rhoFn \circ U}_{\Fd}^2
+\]
+for every holomorphic polynomial $U$ with $U(0)=0$.
+
+Now let $U \in \Fd$ satisfy $U(0)=0$.  Let $U^{(\le N)}$ be the truncation
+of its Taylor expansion to total degree at most $N$.  By
+Proposition~\ref{prop:fock-facts}, these truncations satisfy
+$U^{(\le N)} \to U$ in $\Fd$.  Because $U(0)=0$, the constant coefficient
+of $U$ vanishes, so each $U^{(\le N)}$ also satisfies
+$U^{(\le N)}(0)=0$.  Since $\rhoFn$ is
+$1$-Lipschitz,
+\[
+\norm{\rhoFn \circ U^{(\le N)} - \rhoFn \circ U}_{\Fd}
+\le
+\norm{U^{(\le N)}-U}_{\Fd}
+\to
+0.
+\]
+Passing to the limit in the polynomial estimate yields
+\[
+\norm{U}_{\Fd}^2
+\le
+C_d^2\,\norm{\rhoFn \circ U}_{\Fd}^2.
+\]
+This proves Theorem~\ref{thm:orthog}.
+\end{proof}
+
+\begin{remark}
+For the orthogonal coercivity estimate, only two genuinely new ingredients
+are needed beyond the one-dimensional proof.
+\begin{enumerate}[(1)]
+\item Replace monomials $z^n$ by homogeneous holomorphic pieces of total
+degree $n$.
+\item Lift the circle estimates to the sphere by averaging the
+$U(1)$-action $\omega \mapsto \ee^{\ii t}\omega$.
+\end{enumerate}
+Once these are in place, the block decomposition, leakage estimate, and
+final absorption follow the same bookkeeping pattern as in
+\texttt{Constant/Latex/FockSPR/BlockDecomposition.tex} and
+\texttt{Constant/Latex/FockSPR/MainTheorem.tex}.
+\end{remark}
+
+\begin{remark}
+This note does \emph{not} optimize constants.  The proof above gives a
+dimension-dependent constant $C_d$.  It seems plausible that a more careful
+choice of blocks and a sharper use of the one-dimensional high-frequency
+estimate could keep the constants much closer to the $d=1$ case.
+\end{remark}
+
+\end{document}

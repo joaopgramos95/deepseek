@@ -1,0 +1,345 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Om}{\Omega}
+\newcommand{\B}{B_1}
+\newcommand{\Sph}{\mathbb S^{n-1}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dT}{\delta_T}
+\newcommand{\HH}{H^{1/2}}
+\newcommand{\Lamb}{\Lambda}
+\newcommand{\Th}{\theta}
+
+\title{Why the Torsion Deficit Sees \(H^{1/2}\), Not \(H^1\),\\
+and What the Capillary Obstruction Actually Rules Out}
+\author{}
+\date{May 18, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note answers the question whether the Cauchy--Serrin defect \(D_H\),
+together with the equation \(-\Delta u=1\), should give more than
+\(H^{1/2}\)-smallness of a boundary perturbation.  The conclusion is:
+boundary \(D_H\), if available in a controlled graph regime, is indeed an
+\(H^1\)-scale quantity.  But the torsion deficit controls only an integrated
+level-set \(D_H\), not the boundary \(D_H\).  High-frequency capillary ripples
+can have small amplitude and prescribed \(H^{1/2}\) size while their torsion
+deficit is much smaller than the square of that \(H^{1/2}\) size.  Thus a
+bare \(H^{1/2}\)-coercive perturbative theorem is false.  This does not refute
+the main sharp stability theorem, whose target is
+\(\dT(\Om)\gtrsim\mathcal A(\Om)^2\), since Fraenkel asymmetry is an
+\(L^1\)-scale quantity rather than an \(H^{1/2}\)-scale quantity.
+\end{abstract}
+
+\section{Three different quantities}
+
+Let \(u_\Om\) solve
+\[
+   -\Delta u_\Om=1,\qquad u_\Om\in H^1_0(\Om),
+\]
+and write \(T(\Om)=\int_\Om u_\Om\).  At fixed volume the ball maximizes
+torsion, and the Saint--Venant deficit is comparable to
+\[
+   \dT(\Om)=T(\B)-T(\Om)
+\]
+up to the harmless sign and factor conventions used elsewhere in the project.
+
+For a smooth near-ball
+\[
+   \partial\Om_\eps=\{(1+\eps\varphi(\theta))\theta:\theta\in\Sph\},
+\]
+with volume and barycenter normalized, the first shape derivative satisfies
+\[
+   \Delta u_1=0\quad\hbox{in }\B,\qquad
+   u_1|_{\partial\B}=\frac{\varphi}{n}.
+\]
+If \(\varphi=\sum_{k\ge0}\varphi_k\) is the spherical-harmonic decomposition,
+then
+\[
+   u_1(r,\theta)=\frac1n\sum_{k\ge0}r^k\varphi_k(\theta),
+   \qquad
+   \int_{\B}|\nabla(nu_1)|^2
+      =\sum_{k\ge1} k\,\|\varphi_k\|_{L^2(\Sph)}^2.
+\]
+This is exactly the \(H^{1/2}\) scale.
+
+On the other hand, the boundary normal derivative has first variation
+\[
+   |\nabla u_{\Om_\eps}|_{\partial\Om_\eps}
+   =\frac1n-\frac{\eps}{n}\sum_{k\ge0}(k-1)\varphi_k+O(\eps^2)
+\]
+in the classical small \(C^2\) graph regime.  Therefore a boundary Serrin or
+Cauchy oscillation defect has the scale
+\[
+   D_H^{\partial}(\Om_\eps)
+      \simeq \eps^2\sum_{k\ge2}(k-1)^2
+             \|\varphi_k\|_{L^2(\Sph)}^2,
+\]
+which is an \(H^1\)-scale quantity.  The perimeter deficit has the same high
+frequency scale,
+\[
+   P(\Om_\eps)-P(\B)\simeq
+   \eps^2\sum_{k\ge2}k^2\|\varphi_k\|_{L^2(\Sph)}^2.
+\]
+
+Thus there is no contradiction:
+\[
+   \hbox{torsion deficit}\sim H^{1/2},\qquad
+   \hbox{boundary }D_H\hbox{ or perimeter}\sim H^1.
+\]
+The issue is that the sharp stability problem gives the former, not the latter.
+
+\section{Why the global \(D_H\) control does not give boundary \(H^1\)}
+
+The level-set identity used in Plan 2 controls an integral of the form
+\[
+   \int \bigl(D_H(t)+D_I(t)\bigr)\,w(t)\,dt
+      \le C\,\dT(\Om),
+\]
+or, in volume-radius variables, an analogous \(d\mu=(-t'(\rho))\,d\rho\)
+integral over level surfaces.  This is an averaged statement over interior
+levels.  It is not a pointwise bound for the boundary level \(t=0\).
+
+In a coherent smooth foliation, \(D_H\) supplies the radial kinetic part of an
+annular Sobolev norm and \(D_I\) supplies the angular part.  A trace from a
+bulk \(H^1\)-type annular norm to one endpoint gives exactly an
+\(H^{1/2}\)-boundary norm.  This is the same half-derivative that appears in
+the Steklov spectrum of the ball.
+
+To obtain \(H^1\)-smallness of the boundary graph one would need substantially
+more information, for example a pointwise boundary \(D_H^\partial\) bound, a
+uniform nondegenerate graph collar, or a theorem excluding concentration of the
+level-set \(D_H\) in a very thin boundary layer.  The equation
+\(-\Delta u=1\) does smooth the solution inside the domain, but without
+boundary geometry it does not prevent the boundary from oscillating in a
+region of tiny harmonic or torsional relevance.
+
+\section{A capillary counterexample to bare \(H^{1/2}\) coercivity}
+
+The too-strong low-regularity perturbative theorem would say that, for radial
+graphs with small amplitude and small \(H^{1/2}\) norm,
+\[
+   \dT(\Om_\varphi)\ge c\,\|\varphi\|_{H^{1/2}(\Sph)}^2
+\]
+with no slope, perimeter, curvature, or higher-norm hypothesis.  This is
+false already in dimension two.
+
+\begin{proposition}[High-frequency capillary ripples]\label{prop:capillary}
+Let \(n=2\).  For \(k\ge2\) and \(0<a\ll1\), set
+\[
+   R_{a,k}(\theta)=c_a(1+a\cos(k\theta)),\qquad
+   \Om_{a,k}=\{re^{i\theta}:0<r<R_{a,k}(\theta)\},
+\]
+where \(c_a\) is chosen so that \(|\Om_{a,k}|=|B_1|\).  Then the barycenter of
+\(\Om_{a,k}\) is zero,
+\[
+   \|R_{a,k}-1\|_{L^\infty}\le C a,\qquad
+   \|R_{a,k}-1\|_{H^{1/2}(S^1)}^2
+      = c\,k a^2+O(a^2+a^4),
+\]
+but
+\[
+   0\le T(B_1)-T(\Om_{a,k})\le C a .
+\]
+Consequently there are smooth volume-normalized, barycentered radial graphs
+with \(\|\varphi_j\|_{L^\infty}\to0\),
+\(\|\varphi_j\|_{H^{1/2}}^2\to0\), and
+\[
+   T(B_1)-T(\Om_j)
+      =o\bigl(\|\varphi_j\|_{H^{1/2}(S^1)}^2\bigr).
+\]
+\end{proposition}
+
+\begin{proof}
+Since
+\[
+   \frac1{2\pi}\int_0^{2\pi}(1+a\cos(k\theta))^2\,d\theta
+      =1+\frac{a^2}{2},
+\]
+the volume normalization is achieved by
+\[
+   c_a=(1+a^2/2)^{-1/2}=1+O(a^2).
+\]
+Thus \(\|R_{a,k}-1\|_{L^\infty}\le Ca\), and the constant Fourier mode is
+only \(O(a^2)\).  The barycenter is proportional to
+\[
+   \int_0^{2\pi}R_{a,k}(\theta)^3 e^{i\theta}\,d\theta.
+\]
+For \(k\ge2\), the function \(R_{a,k}^3\) contains only Fourier modes that are
+multiples of \(k\), hence this first Fourier coefficient vanishes.
+
+The \(H^{1/2}(S^1)\) estimate follows from the Fourier characterization of
+\(H^{1/2}\): the modes \(\pm k\) have amplitude comparable to \(a\), while
+the constant correction contributes only \(O(a^4)\).  Hence
+\[
+   \|R_{a,k}-1\|_{H^{1/2}}^2=c\,k a^2+O(a^2+a^4).
+\]
+
+Finally,
+\[
+   B_{1-Ca}\subset \Om_{a,k}\subset B_{1+Ca}.
+\]
+Torsion is monotone under inclusion, and the ball maximizes torsion at fixed
+volume.  Therefore
+\[
+   0\le T(B_1)-T(\Om_{a,k})
+      \le T(B_1)-T(B_{1-Ca}).
+\]
+In two dimensions \(T(B_R)=\pi R^4/8\), so the last quantity is at most
+\(Ca\).
+
+Choose \(a_j=\eps_j^3\), \(k_j\simeq \eps_j^{-4}\), with \(\eps_j\to0\).
+Then
+\[
+   \|R_{a_j,k_j}-1\|_{H^{1/2}}^2\simeq \eps_j^2,
+   \qquad
+   T(B_1)-T(\Om_{a_j,k_j})\le C\eps_j^3,
+\]
+which proves the claim.
+\end{proof}
+
+\begin{remark}
+This does not contradict the classical second variation formula.  That formula
+is local in a stronger topology, such as small \(C^{2,\gamma}\) or at least a
+geometry that prevents the slope from blowing up.  In the example above
+\(\|R_{a,k}'\|_{L^\infty}\sim ak\), which tends to infinity for the chosen
+sequence.
+\end{remark}
+
+\section{What the equation \(-\Delta u=1\) can and cannot do}
+
+The transformation
+\[
+   h(x)=u_\Om(x)+\frac{|x|^2}{2n}
+\]
+is useful: \(h\) is harmonic in \(\Om\), and the first variation at the ball is
+the harmonic extension of the boundary displacement.  This is the reason the
+natural spectral norm is \(H^{1/2}\).
+
+However, harmonicity is an interior regularity statement.  It does not make
+surface measure comparable to harmonic measure, and it does not force the
+solution to see every oscillation of a rough boundary.  In the capillary
+example, the oscillations live in a thin, high-frequency boundary layer.  The
+torsion function can be very close to the ball torsion away from that layer,
+and the cost of the layer is controlled by its amplitude, not by the
+\(H^{1/2}\) size of the radial parametrization.
+
+This is also the warning for two-dimensional conformal methods.  Dirichlet
+energy is conformally natural, but the radial \(H^{1/2}\) norm in the
+geometric angle \(\theta\) is not automatically comparable to the conformal
+trace norm unless one has quantitative control of the boundary map
+(for instance chord-arc, quasidisk, or quasisymmetry constants).  Without such
+control, conformal coordinates compress the capillary fingers; the bad
+oscillation may have very small harmonic measure.
+
+\section{Compatibility with the main asymmetry theorem}
+
+The previous proposition must not be read as a counterexample to the main
+theorem.  In the same example,
+\[
+   |\Om_{a,k}\Delta B_1|
+      =\frac12\int_0^{2\pi}|R_{a,k}(\theta)^2-1|\,d\theta
+      = c\,a+O(a^2),
+\]
+with \(c>0\) independent of \(k\).  Hence
+\[
+   \mathcal A(\Om_{a,k})^2\simeq a^2.
+\]
+The upper bound \(T(B_1)-T(\Om_{a,k})\le Ca\) is completely compatible with
+the sharp Saint--Venant conclusion
+\[
+   T(B_1)-T(\Om_{a,k})\ge c\,\mathcal A(\Om_{a,k})^2\simeq c\,a^2.
+\]
+What fails is only the stronger estimate with
+\(\|R_{a,k}-1\|_{H^{1/2}}^2\simeq ka^2\) on the right.
+
+\section{What extra ``tame capillary'' assumptions could work}
+
+The obstruction above rules out bare \(H^{1/2}\)-norm coercivity, but not the
+main theorem and not every perturbative route.  The following strengthened
+statements remain plausible or already available.
+
+\begin{enumerate}[label=\textbf{(\Alph*)}]
+\item \textbf{Classical near-spherical regime.}
+If \(\|\varphi\|_{C^{2,\gamma}}\) is sufficiently small, BDV's
+near-spherical theorem gives
+\[
+   \dT(\Om_\varphi)\ge c(n)\|\varphi\|_{H^{1/2}}^2.
+\]
+Here the coercive norm is \(H^{1/2}\), but the smallness topology is much
+stronger.
+
+\item \textbf{Small \(H^{1/2}\) plus a fixed high-norm bound.}
+If
+\[
+   \|\varphi\|_{H^{1/2}}\le\eps,\qquad
+   \|\varphi\|_{C^{m,\gamma}}\le M(n,R)
+\]
+with \(m+\gamma>2+\gamma_0\), then interpolation gives
+\[
+   \|\varphi\|_{C^{2,\gamma_0}}
+      \le C\,\|\varphi\|_{H^{1/2}}^\theta
+              M(n,R)^{1-\theta}.
+\]
+For \(\eps\) small this enters BDV.  This is precisely the mechanism recorded
+in the graph-bootstrap notes.
+
+\item \textbf{Boundary \(D_H^\partial\) plus graph nondegeneracy.}
+If the actual boundary Serrin defect is controlled and the boundary is already
+a nondegenerate graph so that the expansion of \(|\nabla u|\) is valid, then
+\[
+   D_H^\partial\sim
+   \|(\Lambda-I)\varphi\|_{L^2}^2
+\]
+does give \(H^1\)-scale control of the non-neutral modes.  The missing input in
+the global problem is the boundary \(D_H^\partial\) bound itself.
+
+\item \textbf{Uniform chord-arc, Lipschitz, NTA, or harmonic-measure control.}
+In dimension two, a conformal or transport method could plausibly work under a
+quantitative assumption preventing capillary screening, for example a uniform
+quasidisk/chord-arc constant together with small amplitude.  Such a condition
+would have to imply comparability between surface measure and harmonic measure
+and a one-sided Dirichlet-to-Neumann form bound.  The constants would depend on
+the tameness parameter.
+
+\item \textbf{Interior levels.}
+The equation \(-\Delta u=1\) smooths level sets away from the boundary.
+Integrated \(D_H\) can provide radial kinetic control through the foliation,
+and a trace theorem then naturally gives \(H^{1/2}\) control at a selected
+level.  Transferring that information back to \(\partial\Om\) requires a
+separate boundary-layer theorem excluding precisely the capillary behavior in
+Proposition~\ref{prop:capillary}.
+\end{enumerate}
+
+\section{Conclusion}
+
+The answer to the original question is therefore twofold.
+
+First, \(D_H\) really is stronger than \(H^{1/2}\) when it is a boundary
+Serrin defect in a controlled graph regime: spectrally it sees
+\((\Lambda-I)\varphi\), hence \(H^1\).  But the sharp torsion deficit does not
+control that boundary quantity.  It controls an integrated level-set defect,
+and tracing an integrated \(H^1\)-type quantity to a boundary naturally loses a
+half derivative.
+
+Second, the equation \(-\Delta u=1\) is not enough by itself to recover the
+missing half derivative at the rough boundary.  Capillary oscillations can be
+screened from the torsion function.  Thus the perturbative theorem with
+\(\|\varphi\|_{H^{1/2}}^2\) on the right is false under bare \(H^{1/2}\)
+smallness.  The main theorem for this class has a different right hand side,
+\(\mathcal A(\Om)^2\), and survives this example.  A Plan~3 proof that avoids
+Plan~1 would have to prove an \(L^1/L^2\)-scale capillary estimate, such as a
+lower bound by the radial second moment \(\int_{\Sph}(R-1)^2\), not a full
+\(H^{1/2}\)-coercive estimate.
+
+\end{document}

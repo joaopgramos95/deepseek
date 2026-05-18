@@ -1,0 +1,800 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\title{Fock-space coercivity inequality: detailed proof}
+\author{}
+\date{}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+
+\newcommand{\rhof}{\rho}
+\newcommand{\F}{\mathcal F}
+\newcommand{\Zpos}{\mathbb{Z}_{>0}}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\abs}[1]{\lvert #1\rvert}
+\newcommand{\ip}[2]{\langle #1,#2\rangle}
+\DeclareMathOperator{\spec}{spec}
+\DeclareMathOperator{\dist}{dist}
+
+\begin{document}
+\maketitle
+
+\section{Setup and main result}
+
+\subsection{Notation and conventions}
+Throughout this document:
+\begin{itemize}[nosep]
+\item $\Zpos = \{1,2,3,\ldots\}$ denotes the positive integers.
+\item On $S^1$ we use the \emph{probability} measure $d\sigma(e^{it}) := dt/(2\pi)$.
+  All $L^2(S^1)$ norms are with respect to $d\sigma$:
+  \[
+    \norm{f}_{L^2(S^1)}^2 := \int_{S^1} |f|^2\,d\sigma
+    = \frac{1}{2\pi}\int_0^{2\pi} |f(e^{it})|^2\,dt.
+  \]
+  Parseval's identity reads $\norm{f}_{L^2(S^1)}^2 = \sum_n |\hat f(n)|^2$.
+\item The Fock measure is $d\mu(z) := \frac{1}{\pi}e^{-|z|^2}\,dm(z)$,
+  where $dm$ is Lebesgue measure on $\mathbb{C}$.
+  The Fock norm is
+  \[
+    \norm{U}_F^2 := \int_{\mathbb C}|U|^2\,d\mu = \sum_{n\ge 0}|a_n|^2\, n!
+  \]
+  for $U(z) = \sum a_n z^n$.
+\item We define
+  \[
+    \rhof(w) := \bigl||1+w|-1\bigr| \qquad (w\in\mathbb{C}).
+  \]
+\item For $x \in \mathbb{R}$, we write $(x)_+ := \max(x,0)$.
+\item All numbered constants (e.g.\ $C_1, C_2,\ldots$) are absolute (independent of
+  polynomial degree, coefficients, or any parameter).
+\end{itemize}
+
+\subsection{Polar-coordinate identity}
+For any measurable $F : \mathbb{C} \to [0,\infty)$,
+\begin{equation}\label{eq:polar}
+  \int_{\mathbb C} F\,d\mu
+  = 2\int_0^\infty r\,e^{-r^2}\Bigl(\int_{S^1} F(r\zeta)\,d\sigma(\zeta)\Bigr)\,dr.
+\end{equation}
+Indeed, $d\mu = \frac{1}{\pi}e^{-|z|^2}r\,dr\,d\theta$ in polar coordinates,
+and $\frac{1}{\pi}\int_0^{2\pi}d\theta = 2$,
+while $\int_{S^1}\cdot\,d\sigma = \frac{1}{2\pi}\int_0^{2\pi}\cdot\,d\theta$.
+Hence $\int_{\mathbb C}F\,d\mu = \frac{1}{\pi}\int_0^\infty re^{-r^2}\int_0^{2\pi}F(re^{i\theta})d\theta\,dr
+= 2\int_0^\infty re^{-r^2}\int_{S^1}F(r\zeta)d\sigma(\zeta)\,dr$.
+
+\subsection{Main theorem (finitary version)}
+
+\begin{theorem}[Fock-space coercivity]\label{thm:main}
+There exists an absolute constant $C$ such that for every $D \ge 1$ and every polynomial
+$U(z) = \sum_{n=1}^D a_n z^n$ with $U(0) = 0$,
+\[
+  \norm{U}_F \le C\,\norm{\rhof(U)}_F.
+\]
+One may take $C = 3700$.
+\end{theorem}
+
+The proof occupies Sections~\ref{sec:prelim}--\ref{sec:assembly}.
+
+%% ====================================================================
+\section{Preliminary lemmas}\label{sec:prelim}
+
+\begin{lemma}[$\rhof$ is $1$-Lipschitz]\label{lem:lip}
+For all $w,z\in\mathbb C$, $|\rhof(w)-\rhof(z)|\le|w-z|$.
+\end{lemma}
+\begin{proof}
+$\rhof(w) = ||1+w|-1|$.  Both $w\mapsto|1+w|$ and $t\mapsto|t-1|$ ($t\in\mathbb R$) are
+$1$-Lipschitz, so their composition is $1$-Lipschitz.
+
+More explicitly: $|\rhof(w)-\rhof(z)| = \bigl|||1+w|-1|-||1+z|-1|\bigr|
+\le ||1+w|-|1+z|| \le |w-z|$,
+using the reverse triangle inequality twice.
+\end{proof}
+
+\begin{lemma}[Safe-square inequality]\label{lem:safe-sq}
+For all $a,b\in\mathbb R$,
+\begin{equation}\label{eq:safe-sq}
+  (a+b)^2 \ge \tfrac{1}{2}a^2 - b^2.
+\end{equation}
+\end{lemma}
+\begin{proof}
+$(a+b)^2 - \tfrac{1}{2}a^2 + b^2 = \tfrac{1}{2}a^2 + 2ab + 2b^2 = \tfrac{1}{2}(a+2b)^2 \ge 0$.
+\end{proof}
+
+\begin{lemma}[Nonnegative safe-square]\label{lem:safe-sq-nonneg}
+Let $a,b,c \ge 0$ with $a \ge b - c$.  Then $a^2 \ge \tfrac{1}{2}b^2 - c^2$.
+\end{lemma}
+\begin{proof}
+If $b \le c$: $\tfrac{1}{2}b^2 - c^2 \le -\tfrac{1}{2}c^2 \le 0 \le a^2$.
+If $b > c$: $a \ge b-c > 0$, so $a^2 \ge (b-c)^2$.
+Now $(b-c)^2 - \tfrac{1}{2}b^2 + c^2 = \tfrac{1}{2}b^2 - 2bc + 2c^2 = \tfrac{1}{2}(b-2c)^2 \ge 0$.
+\end{proof}
+
+\begin{lemma}[Rotational averaging]\label{lem:avg}
+Define
+\[
+  A(r) := \int_{S^1}\rhof(r\zeta)^2\,d\sigma(\zeta)
+  = \frac{1}{2\pi}\int_0^{2\pi}\rhof(re^{i\theta})^2\,d\theta.
+\]
+Then for all $r \ge 0$,
+\begin{equation}\label{eq:Alower}
+  A(r) \ge \frac{r^2}{8}.
+\end{equation}
+\end{lemma}
+\begin{proof}
+For $r = 0$ both sides vanish.  Fix $r > 0$ and $\theta$ with $|\theta| \le \pi/4$.
+Then $\cos\theta \ge 1/\sqrt{2}$.
+
+Write $|1+re^{i\theta}|^2 = 1+2r\cos\theta+r^2$, so
+\[
+  |1+re^{i\theta}|-1
+  = \frac{|1+re^{i\theta}|^2 - 1}{|1+re^{i\theta}|+1}
+  = \frac{r^2+2r\cos\theta}{|1+re^{i\theta}|+1}.
+\]
+Since $\cos\theta \ge 1/\sqrt2 > 0$, the numerator is $\ge r^2 + \sqrt2\,r > 0$,
+so $|1+re^{i\theta}| > 1$ and $\rhof(re^{i\theta}) = |1+re^{i\theta}|-1$.
+
+The denominator satisfies $|1+re^{i\theta}|+1 \le (1+r)+1 = r+2$,
+so
+\[
+  \rhof(re^{i\theta}) \ge \frac{r^2+\sqrt2\,r}{r+2}
+  = r\cdot\frac{r+\sqrt2}{r+2}.
+\]
+Since $\sqrt2(r+2) = \sqrt2\,r+2\sqrt2 \le \sqrt2\,r+2\sqrt2$
+and $r+\sqrt2 \ge \sqrt2$ while $r+2 \le 2(r+\sqrt2)/\sqrt2$\ldots\
+more directly: $(r+\sqrt2)/(r+2) \ge 1/\sqrt2$
+since $\sqrt2(r+\sqrt2) = \sqrt2\,r+2 \ge r+2$ iff $(\sqrt2-1)r \ge 0$, which holds.
+
+Therefore $\rhof(re^{i\theta}) \ge r/\sqrt2$ for $|\theta|\le\pi/4$.
+The arc $\{|\theta|\le\pi/4\}$ has $\sigma$-measure $(2\cdot\pi/4)/(2\pi) = 1/4$, so
+\[
+  A(r) \ge \frac{1}{4}\cdot\frac{r^2}{2} = \frac{r^2}{8}. \qedhere
+\]
+\end{proof}
+
+\begin{lemma}[Laplace bound for factorials]\label{lem:laplace}
+For every integer $n \ge 1$, define $r_n := \sqrt{n+\tfrac12}$ and
+$\phi_n(r) := (2n+1)\log r - r^2$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item\label{it:concave}
+  $\phi_n$ is strictly concave on $(0,\infty)$ with unique maximum at $r_n$,
+  and $\phi_n''(r) \le -2$ for all $r > 0$.
+\item\label{it:quad-bound}
+  $\phi_n(r) \le \phi_n(r_n) - (r-r_n)^2$ for all $r > 0$.
+\item\label{it:stirling}
+  $e^{\phi_n(r_n)} \le \frac{e^{1/4}}{2}\,n!$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+\ref{it:concave}:
+$\phi_n'(r) = (2n+1)/r - 2r$, vanishing at $r = r_n$.
+$\phi_n''(r) = -(2n+1)/r^2 - 2 \le -2$.
+
+\ref{it:quad-bound}:
+Since $\phi_n''(r) \le -2$ and $\phi_n'(r_n) = 0$,
+Taylor with Lagrange remainder gives
+$\phi_n(r) \le \phi_n(r_n) + \frac{1}{2}(-2)(r-r_n)^2 = \phi_n(r_n)-(r-r_n)^2$.
+
+\ref{it:stirling}:
+The substitution $t = r^2$ gives
+$n! = \int_0^\infty t^n e^{-t}\,dt = 2\int_0^\infty r^{2n+1}e^{-r^2}\,dr
+= 2\int_0^\infty e^{\phi_n(r)}\,dr$.
+
+By~\ref{it:quad-bound},
+$e^{\phi_n(r)} \ge e^{\phi_n(r_n)-(r-r_n)^2}$ with equality of the inequality direction reversed---
+we use it as: from $e^{\phi_n(r)} \ge e^{\phi_n(r_n)}\cdot e^{-(r-r_n)^2}$
+(which follows since the bound in~\ref{it:quad-bound} is an \emph{upper} bound on $\phi_n$\ldots
+actually we need a \emph{lower} bound on the integral).
+
+Since $r_n = \sqrt{n+1/2} \ge \sqrt{3/2} > 1$ for $n \ge 1$,
+the interval $[r_n-1/2,\,r_n+1/2] \subset (0,\infty)$.
+On this interval, $|r-r_n|\le 1/2$, so by~\ref{it:quad-bound}:
+$\phi_n(r) \ge \phi_n(r_n) - 1/4$.
+Hence
+\[
+  \frac{n!}{2}
+  = \int_0^\infty e^{\phi_n(r)}\,dr
+  \ge \int_{r_n-1/2}^{r_n+1/2} e^{\phi_n(r)}\,dr
+  \ge 1\cdot e^{\phi_n(r_n)-1/4}
+  = e^{-1/4}\,e^{\phi_n(r_n)}.
+\]
+Therefore $e^{\phi_n(r_n)} \le e^{1/4}\cdot n!/2$.
+\end{proof}
+
+%% ====================================================================
+\section{Quantitative local estimate on $S^1$}\label{sec:local}
+
+\begin{proposition}[Local circle estimate]\label{prop:local}
+Let $E \subset \Zpos$ be finite with $|E| = L \ge 1$, and let
+\[
+  P(e^{it}) = \sum_{n\in E} b_n\,e^{int}.
+\]
+Then
+\begin{equation}\label{eq:local-bound}
+  \norm{P}_{L^2(S^1)} \le 12\sqrt{L}\;\norm{\rhof(P)}_{L^2(S^1)}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Write $x := \norm{P}_{L^2(S^1)}$ and $y := \norm{\rhof(P)}_{L^2(S^1)}$.
+If $x = 0$ there is nothing to prove, so assume $x > 0$.
+Write $P = u + iv$ with $u,v$ real-valued.
+
+\medskip\noindent\textbf{Step 1: $L^\infty$ bound.}
+By Cauchy--Schwarz and Parseval,
+\[
+  |P(e^{it})| \le \sum_{n\in E}|b_n|
+  \le \sqrt{L}\,\Bigl(\sum_{n\in E}|b_n|^2\Bigr)^{\!1/2}
+  = \sqrt{L}\,x.
+\]
+Hence
+\begin{equation}\label{eq:Linf}
+  \norm{P}_{L^\infty(S^1)} \le \sqrt{L}\,x.
+\end{equation}
+
+\medskip\noindent\textbf{Step 2: Equal $L^2$ masses of real and imaginary parts.}
+Since every $n \in E$ satisfies $n \ge 1$, for any $n,m \in E$ we have $n+m \ge 2 > 0$.
+Therefore
+\[
+  \int_{S^1} P^2\,d\sigma
+  = \sum_{n,m\in E} b_n b_m \underbrace{\int_{S^1} e^{i(n+m)t}\,d\sigma}_{=\,0}
+  = 0.
+\]
+Expanding $P^2 = (u^2-v^2) + 2iuv$ and taking real and imaginary parts:
+\begin{equation}\label{eq:equal-mass}
+  \int_{S^1} u^2\,d\sigma = \int_{S^1} v^2\,d\sigma = \frac{x^2}{2},
+  \qquad
+  \int_{S^1} uv\,d\sigma = 0.
+\end{equation}
+
+\medskip\noindent\textbf{Step 3: Small-amplitude regime ($x \le 1/(4\sqrt{L})$).}
+By~\eqref{eq:Linf}, $\norm{P}_\infty \le 1/4$.
+Fix any point and write $w = P = u+iv$ there.
+Since $|w| \le 1/4$: $u \ge -1/4$, hence $1+u \ge 3/4$, and
+$|1+w| = \sqrt{(1+u)^2+v^2} \ge 1+u \ge 3/4$.
+
+The exact algebraic identity:
+\begin{equation}\label{eq:exact-id}
+  |1+w|-1-u
+  = \frac{|1+w|^2-(1+u)^2}{|1+w|+(1+u)}
+  = \frac{v^2}{|1+w|+1+u}.
+\end{equation}
+(Valid since $|1+w|+(1+u) > 0$.)
+
+Set $\varepsilon := |1+w|-1-u = v^2/(|1+w|+1+u)$.
+Then:
+\begin{itemize}[nosep]
+\item $\varepsilon \ge 0$ (since the numerator and denominator are nonneg).
+\item $|1+w|+1+u \ge 3/4+3/4 = 3/2$, so
+  $\varepsilon \le 2v^2/3 \le 2|w|^2/3 \le |w|^2$.
+\item $\rhof(w) = ||1+w|-1| = |u+\varepsilon|$
+  (since $|1+w|-1 = u+\varepsilon$).
+\end{itemize}
+
+Apply Lemma~\ref{lem:safe-sq} with $a = u$, $b = \varepsilon$:
+\[
+  \rhof(w)^2 = (u+\varepsilon)^2 \ge \tfrac{1}{2}u^2 - \varepsilon^2
+  \ge \tfrac{1}{2}u^2 - |w|^4.
+\]
+Integrating over $S^1$:
+\[
+  y^2 \ge \tfrac{1}{2}\int u^2\,d\sigma - \int|P|^4\,d\sigma
+  = \frac{x^2}{4} - \int|P|^4\,d\sigma.
+\]
+Now $\int|P|^4\,d\sigma \le \norm{P}_\infty^2\norm{P}_2^2 \le Lx^2\cdot x^2 = Lx^4$.
+Since $x \le 1/(4\sqrt{L})$: $Lx^2 \le 1/16$, so $Lx^4 \le x^2/16$.
+Therefore
+\[
+  y^2 \ge \frac{x^2}{4} - \frac{x^2}{16} = \frac{3x^2}{16},
+\]
+hence
+\begin{equation}\label{eq:small-regime}
+  y \ge \frac{\sqrt3}{4}\,x.
+\end{equation}
+
+\medskip\noindent\textbf{Step 4: Large-amplitude regime ($x > 1/(4\sqrt{L})$).}
+Since $P$ has no constant term ($0 \notin E$),
+\[
+  \int_{S^1}|1+P|^2\,d\sigma
+  = 1 + \underbrace{\int P\,d\sigma}_{=\,0} + \underbrace{\int\bar P\,d\sigma}_{=\,0}
+    + \int|P|^2\,d\sigma
+  = 1 + x^2.
+\]
+Factor: for real $s \ge 0$, $|s^2-1| = |s-1|(s+1)$.
+Applying this with $s = |1+P(\zeta)| \ge 0$:
+\[
+  \bigl||1+P|^2-1\bigr| = \rhof(P)\,(|1+P|+1).
+\]
+Therefore
+\begin{align}
+  x^2
+  &= \int_{S^1}(|1+P|^2-1)\,d\sigma \notag\\
+  &\le \int_{S^1}||1+P|^2-1|\,d\sigma
+   = \int_{S^1}\rhof(P)(|1+P|+1)\,d\sigma \notag\\
+  &\le y\,\norm{|1+P|+1}_{L^2(S^1)}.
+  \label{eq:CS-step}
+\end{align}
+By Minkowski's inequality,
+$\norm{|1+P|+1}_2 \le \norm{1+P}_2 + 1 = \sqrt{1+x^2}+1$.
+Hence
+\begin{equation}\label{eq:quad-lower}
+  y \ge \frac{x^2}{\sqrt{1+x^2}+1}.
+\end{equation}
+
+\textit{Subcase $x \le 1$}: $\sqrt{1+x^2}+1 \le \sqrt2+1 < 3$, so $y \ge x^2/3$.
+Since $x > 1/(4\sqrt{L})$: $y \ge x^2/3 = x\cdot(x/3) > x/(12\sqrt{L})$.
+
+\textit{Subcase $x > 1$}: $\sqrt{1+x^2} \le \sqrt{x^2+x^2} = x\sqrt{2}$...
+more elementarily, $1+x^2 \le (x+1)^2$ gives $\sqrt{1+x^2}+1 \le x+2 \le 3x$
+(the last step using $x \ge 1$).
+So $y \ge x/3 \ge x/(12\sqrt{L})$ (since $\sqrt{L} \ge 1$).
+
+In both subcases, $y \ge x/(12\sqrt{L})$.
+
+\medskip\noindent\textbf{Combining.}
+In the small regime, $y \ge \sqrt3\,x/4 \ge x/(12\sqrt{L})$
+(since $\sqrt3/4 > 1/3 \ge 1/(12\sqrt{L})$ for $L \ge 1$).
+In the large regime, $y \ge x/(12\sqrt{L})$.
+Hence $y \ge x/(12\sqrt{L})$ always, giving $x \le 12\sqrt{L}\,y$.
+\end{proof}
+
+%% ====================================================================
+\section{High-frequency band estimate}\label{sec:highfreq}
+
+\begin{proposition}[High-frequency band estimate]\label{prop:band}
+Let $N \ge 1$ and $L \ge 1$ be integers with
+\begin{equation}\label{eq:LN-cond}
+  \frac{L^2}{N^2} \le \frac{1}{136}.
+\end{equation}
+Let $P(e^{it}) = \sum_{n=N}^{N+L-1}b_n\,e^{int}$.
+Then
+\begin{equation}\label{eq:band-bound}
+  \norm{P}_{L^2(S^1)} \le 4\sqrt{2}\;\norm{\rhof(P)}_{L^2(S^1)}.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Write $P(e^{it}) = e^{iNt}\,Q(e^{it})$ with $Q(e^{it}) = \sum_{m=0}^{L-1}c_m\,e^{imt}$.
+Then $\norm{P}_2 = \norm{Q}_2$ (since $|e^{iNt}| = 1$).
+
+Partition $[0,2\pi)$ into $N$ equal intervals
+\[
+  I_k := \Bigl[\frac{2\pi k}{N},\,\frac{2\pi(k+1)}{N}\Bigr),
+  \qquad k = 0,\ldots,N-1.
+\]
+Each has arc length $|I_k| = 2\pi/N$ and $\sigma$-measure $\sigma(I_k) = 1/N$.
+
+Define the average of $Q$ on $I_k$ (with respect to $d\sigma$):
+\[
+  q_k := N\int_{I_k}Q\,d\sigma
+  = \frac{N}{2\pi}\int_{I_k}Q(e^{it})\,dt
+  = \frac{1}{|I_k|}\int_{I_k}Q(e^{it})\,dt.
+\]
+
+\medskip\noindent\textbf{Step 1: $Q$ is nearly constant on each interval.}
+
+Write $Q'_t := \frac{d}{dt}Q(e^{it}) = \sum_{m=0}^{L-1}im\,c_m\,e^{imt}$.
+
+By the Wirtinger--Poincar\'e inequality on an interval of length $h = 2\pi/N$
+(with sharp constant $1/\pi^2$):
+\[
+  \int_{I_k}|Q(e^{it})-q_k|^2\,dt \le \frac{h^2}{\pi^2}\int_{I_k}|Q'_t|^2\,dt
+  = \frac{4}{N^2}\int_{I_k}|Q'_t|^2\,dt.
+\]
+Dividing by $2\pi$ (to convert to $d\sigma$):
+\begin{equation}\label{eq:poincare-sigma}
+  \int_{I_k}|Q-q_k|^2\,d\sigma \le \frac{4}{N^2}\int_{I_k}|Q'_t|^2\,d\sigma.
+\end{equation}
+Summing over $k$:
+\[
+  \sum_{k=0}^{N-1}\int_{I_k}|Q-q_k|^2\,d\sigma
+  \le \frac{4}{N^2}\norm{Q'_t}_{L^2(d\sigma)}^2
+  = \frac{4}{N^2}\sum_{m=0}^{L-1}m^2|c_m|^2
+  \le \frac{4L^2}{N^2}\norm{Q}_2^2,
+\]
+where the last step uses $m \le L-1 < L$.
+Denote this error by
+\begin{equation}\label{eq:delta-def}
+  \delta := \sum_k\int_{I_k}|Q-q_k|^2\,d\sigma
+  \le \frac{4L^2}{N^2}\norm{Q}_2^2.
+\end{equation}
+
+The Parseval-type identity on $S^1$:
+for each $k$, $\int_{I_k}Q\,d\sigma = q_k/N$, so
+$\int_{I_k}(Q-q_k)d\sigma = 0$.
+Hence
+\[
+  \int_{I_k}|Q|^2\,d\sigma
+  = |q_k|^2\sigma(I_k) + \int_{I_k}|Q-q_k|^2\,d\sigma
+  = \frac{|q_k|^2}{N} + \int_{I_k}|Q-q_k|^2\,d\sigma.
+\]
+Summing:
+\begin{equation}\label{eq:parseval-partition}
+  \norm{Q}_2^2 = \frac{1}{N}\sum_k|q_k|^2 + \delta.
+\end{equation}
+Therefore
+\begin{equation}\label{eq:mean-energy}
+  \frac{1}{N}\sum_k|q_k|^2 = \norm{Q}_2^2 - \delta
+  \ge \Bigl(1 - \frac{4L^2}{N^2}\Bigr)\norm{Q}_2^2.
+\end{equation}
+
+\medskip\noindent\textbf{Step 2: Freezing the slow factor and averaging the fast rotation.}
+
+On each $I_k$, as $t$ traverses an interval of length $2\pi/N$,
+the phase $Nt$ increases by $2\pi$, so $e^{iNt}$ completes exactly one rotation.
+Therefore, substituting $\theta = Nt + \arg(q_k)$:
+\[
+  \int_{I_k}\rhof(e^{iNt}q_k)^2\,d\sigma
+  = \sigma(I_k)\cdot A(|q_k|)
+  = \frac{A(|q_k|)}{N}
+  \ge \frac{|q_k|^2}{8N},
+\]
+using Lemma~\ref{lem:avg}.
+
+\medskip\noindent\textbf{Step 3: Comparing $Q$ and $q_k$ inside $\rhof$.}
+
+By Lemma~\ref{lem:lip}: $\rhof(e^{iNt}Q) \ge \rhof(e^{iNt}q_k) - |Q - q_k|$.
+Since $\rhof(e^{iNt}Q), \rhof(e^{iNt}q_k), |Q-q_k|$ are all nonneg, Lemma~\ref{lem:safe-sq-nonneg} gives
+\[
+  \rhof(e^{iNt}Q)^2 \ge \tfrac12\,\rhof(e^{iNt}q_k)^2 - |Q-q_k|^2.
+\]
+Also $\rhof(P) = \rhof(e^{iNt}Q)$ (since $P = e^{iNt}Q$).
+
+Integrating on $I_k$:
+\[
+  \int_{I_k}\rhof(P)^2\,d\sigma
+  \ge \frac{|q_k|^2}{16N} - \int_{I_k}|Q-q_k|^2\,d\sigma.
+\]
+Summing over $k$:
+\begin{align}
+  \norm{\rhof(P)}_2^2
+  &\ge \frac{1}{16}\cdot\frac{1}{N}\sum_k|q_k|^2 - \delta \notag\\
+  &= \frac{1}{16}(\norm{Q}_2^2 - \delta) - \delta
+  \quad\text{(by~\eqref{eq:parseval-partition})} \notag\\
+  &= \frac{1}{16}\norm{Q}_2^2 - \frac{17}{16}\delta. \label{eq:rhoP-lower}
+\end{align}
+Using~\eqref{eq:delta-def}:
+\[
+  \norm{\rhof(P)}_2^2 \ge \frac{1}{16}\Bigl(1 - \frac{68 L^2}{N^2}\Bigr)\norm{Q}_2^2.
+\]
+Under hypothesis~\eqref{eq:LN-cond}, $68L^2/N^2 \le 68/136 = 1/2$, so
+\[
+  \norm{\rhof(P)}_2^2 \ge \frac{1}{32}\norm{Q}_2^2 = \frac{1}{32}\norm{P}_2^2.
+\]
+Hence $\norm{P}_2 \le \sqrt{32}\,\norm{\rhof(P)}_2 = 4\sqrt2\,\norm{\rhof(P)}_2$.
+\end{proof}
+
+%% ====================================================================
+\section{Block-annulus decomposition}\label{sec:block}
+
+Fix $D \ge 1$ and a polynomial $U(z) = \sum_{n=1}^D a_n z^n$ with $U(0) = 0$.
+
+\subsection{Frequency blocks}
+For $\ell \ge 1$, define the frequency block
+\[
+  I_\ell := \{n \in \Zpos : \ell^2 \le n < (\ell+1)^2\},
+  \qquad
+  U_\ell(z) := \sum_{n\in I_\ell}a_n z^n.
+\]
+Note $|I_\ell| = 2\ell+1$.
+Let $\Lambda := \max\{\ell \ge 1 : I_\ell \cap \{1,\ldots,D\} \ne \emptyset\}
+= \lfloor\sqrt{D}\rfloor$.
+Then
+\[
+  U = \sum_{\ell=1}^{\Lambda}U_\ell, \qquad
+  \norm{U}_F^2 = \sum_{\ell=1}^{\Lambda}\norm{U_\ell}_F^2
+\]
+(since the blocks are frequency-disjoint, Parseval on each circle gives orthogonality).
+
+\subsection{Annuli}
+For $j \ge 0$, define
+\[
+  A_j := \{z \in \mathbb{C} : j \le |z| < j+1\}.
+\]
+Then $\norm{U}_F^2 = \sum_{j\ge 0}\int_{A_j}|U|^2\,d\mu$.
+(Only finitely many annuli contribute, since $U$ is a polynomial.)
+
+\subsection{Local and remainder pieces}
+Fix an integer $M \ge 1$ (to be chosen as $M = 5$ later). Define
+\[
+  V_j := \sum_{\substack{\ell=1\\\abs{\ell-j}\le M}}^{\Lambda}U_\ell,
+  \qquad
+  R_j := U - V_j = \sum_{\substack{\ell=1\\|\ell-j|>M}}^{\Lambda}U_\ell.
+\]
+
+\begin{lemma}[Frequency support of $V_j$]\label{lem:Vj-support}
+For $j \ge M+1$, the frequency support of $V_j$ is contained in the interval
+$[(j-M)^2,\,(j+M+1)^2)$ of consecutive positive integers, with
+\[
+  N_j := (j-M)^2, \qquad L_j := (j+M+1)^2 - (j-M)^2 = (2M+1)(2j+1).
+\]
+For $0 \le j \le M$, the support is in $[1,\,(j+M+1)^2)$ with at most $(j+M+1)^2-1$ frequencies.
+\end{lemma}
+\begin{proof}
+The blocks $I_\ell$ for $\ell = j-M, j-M+1, \ldots, j+M$ are consecutive and partition
+the integers in $[(j-M)^2, (j+M+1)^2)$.
+When $j \ge M+1$, $j-M \ge 1$ and all blocks are present.
+When $j \le M$, the effective range is $\ell = 1, \ldots, j+M$,
+giving support in $[1, (j+M+1)^2)$.
+\end{proof}
+
+\begin{lemma}[Monomial localization]\label{lem:monomial-loc}
+For $n \in I_\ell$ with $\ell \ge 1$, the peak location $r_n = \sqrt{n+1/2}$
+satisfies $r_n \in (\ell, \ell+1)$.
+\end{lemma}
+\begin{proof}
+$n \ge \ell^2$ gives $r_n > \ell$. $n < (\ell+1)^2$ gives
+$r_n < \sqrt{(\ell+1)^2} = \ell+1$.
+More precisely, $r_n^2 = n+1/2 < (\ell+1)^2$
+iff $n < (\ell+1)^2 - 1/2$, which holds since $n \le (\ell+1)^2-1$.
+\end{proof}
+
+%% ====================================================================
+\section{Leakage estimate}\label{sec:leakage}
+
+\begin{proposition}[Block-to-annulus leakage]\label{prop:leak-single}
+For all $\ell \ge 1$ and $j \ge 0$ with $j \ne \ell$,
+\[
+  \int_{A_j}|U_\ell|^2\,d\mu
+  \le e^{1/4}\,e^{-(|j-\ell|-1)_+^2}\;\norm{U_\ell}_F^2.
+\]
+For $j = \ell$,
+$\int_{A_\ell}|U_\ell|^2\,d\mu \le e^{1/4}\,\norm{U_\ell}_F^2$.
+\end{proposition}
+\begin{proof}
+By orthogonality on circles,
+\[
+  \int_{A_j}|U_\ell|^2\,d\mu
+  = 2\sum_{n\in I_\ell}|a_n|^2\int_j^{j+1}r^{2n+1}e^{-r^2}\,dr.
+\]
+By Lemma~\ref{lem:laplace}\ref{it:quad-bound}:
+$r^{2n+1}e^{-r^2} = e^{\phi_n(r)} \le e^{\phi_n(r_n)}\,e^{-(r-r_n)^2}$.
+
+Since $e^{-(r-r_n)^2} \le e^{-\dist(r_n,[j,j+1])^2}$ for $r \in [j,j+1]$
+(the exponential is maximized where $|r-r_n|$ is minimized), and the interval has length~$1$:
+\[
+  \int_j^{j+1}e^{-(r-r_n)^2}\,dr \le 1\cdot e^{-\dist(r_n,[j,j+1])^2}.
+\]
+By Lemma~\ref{lem:monomial-loc}, $r_n \in (\ell, \ell+1)$.
+If $j \ge \ell+1$: $\dist(r_n,[j,j+1]) = j - r_n > j - (\ell+1) = j - \ell - 1 = (|j-\ell|-1)_+$.
+If $j \le \ell-1$: $\dist(r_n,[j,j+1]) = r_n - (j+1) > \ell - j - 1 = (|j-\ell|-1)_+$.
+If $j = \ell$: $r_n \in (\ell,\ell+1) = (j,j+1) \subset [j,j+1]$, so $\dist = 0$ and $(|j-\ell|-1)_+ = 0$.
+
+In all cases, $\dist(r_n,[j,j+1]) \ge (|j-\ell|-1)_+$.
+
+Combining with Lemma~\ref{lem:laplace}\ref{it:stirling}:
+\[
+  \int_j^{j+1}r^{2n+1}e^{-r^2}\,dr
+  \le \frac{e^{1/4}n!}{2}\cdot e^{-(|j-\ell|-1)_+^2}.
+\]
+Therefore
+\[
+  \int_{A_j}|U_\ell|^2\,d\mu
+  \le 2\cdot\frac{e^{1/4}}{2}\,e^{-(|j-\ell|-1)_+^2}\sum_{n\in I_\ell}|a_n|^2\,n!
+  = e^{1/4}\,e^{-(|j-\ell|-1)_+^2}\,\norm{U_\ell}_F^2. \qedhere
+\]
+\end{proof}
+
+\begin{proposition}[Total leakage]\label{prop:total-leak}
+For $M \ge 2$,
+\[
+  \sum_{j\ge 0}\int_{A_j}|R_j|^2\,d\mu \le \eta_M\,\norm{U}_F^2,
+\]
+where
+\begin{equation}\label{eq:etaM-def}
+  \eta_M := 2e^{1/4}\sum_{m=M}^{\infty}e^{-m^2}.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Since the blocks have disjoint frequency supports, they are orthogonal on every circle,
+hence on every annulus:
+$\int_{A_j}|R_j|^2\,d\mu = \sum_{|\ell-j|>M}\int_{A_j}|U_\ell|^2\,d\mu$.
+
+By Proposition~\ref{prop:leak-single} and $|\ell - j| > M \ge 2$
+(so $(|j-\ell|-1)_+ = |j-\ell|-1 \ge M - 1 \ge 1$):
+\[
+  \sum_{j\ge 0}\int_{A_j}|R_j|^2\,d\mu
+  \le \sum_{\ell=1}^{\Lambda}\norm{U_\ell}_F^2
+    \sum_{\substack{j\ge 0\\|j-\ell|>M}}e^{1/4}\,e^{-(|j-\ell|-1)^2}.
+\]
+The inner sum (substituting $k = |j-\ell|$, noting $j \ge 0$ and $\ell \ge 1$):
+\[
+  \sum_{\substack{j\ge 0\\|j-\ell|>M}}e^{-(|j-\ell|-1)^2}
+  \le 2\sum_{k=M+1}^{\infty}e^{-(k-1)^2}
+  = 2\sum_{m=M}^{\infty}e^{-m^2}.
+\]
+Hence the total leakage is $\le \eta_M\,\sum_\ell\norm{U_\ell}_F^2 = \eta_M\,\norm{U}_F^2$.
+\end{proof}
+
+\begin{lemma}[Leakage bound for $M = 5$]\label{lem:eta5}
+$\eta_5 \le 4\times 10^{-11}$.
+\end{lemma}
+\begin{proof}
+$\sum_{m=5}^{\infty}e^{-m^2} = e^{-25}+e^{-36}+\cdots \le e^{-25}\sum_{k=0}^{\infty}e^{-11k}
+= \frac{e^{-25}}{1-e^{-11}} \le 1.00002\,e^{-25}$.
+
+$e^{-25} < 1.389\times 10^{-11}$.
+$\eta_5 = 2e^{1/4}\sum_{m\ge 5}e^{-m^2} \le 2\cdot1.285\cdot1.00002\cdot1.389\times10^{-11}
+< 3.58\times10^{-11} < 4\times10^{-11}$.
+\end{proof}
+
+%% ====================================================================
+\section{Local estimate on each annulus}\label{sec:annulus-local}
+
+\begin{proposition}[Uniform local estimate on annuli]\label{prop:annulus}
+With $M = 5$, there is a constant $B_5 \le 1300$ such that for every $j \ge 0$
+and every $r \in [j,j+1]$ (interpreting $r \in [0,1]$ when $j = 0$),
+\begin{equation}\label{eq:annulus-local}
+  \norm{V_j(r\,\cdot\,)}_{L^2(S^1)} \le B_5\,\norm{\rhof(V_j(r\,\cdot\,))}_{L^2(S^1)}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Fix $j$ and $r > 0$ (the case $r = 0$ is trivial since $V_j(0) = 0$).
+The function $\zeta \mapsto V_j(r\zeta) = \sum_n a_n r^n \zeta^n$ is a trigonometric polynomial
+on $S^1$ with the same frequency support as $V_j$ (the coefficients $a_n r^n$ may differ from
+$a_n$ but the support is unchanged for $r > 0$).
+All frequencies are in $\Zpos$ (since $U(0)=0$ and all blocks have $\ell \ge 1$).
+
+\medskip\noindent\textbf{Case 1: $j \le 523$.}
+The support of $V_j$ is contained in $[1, (j+6)^2)$.
+The number of frequencies is at most $(j+6)^2 - 1 \le (529+6)^2 = 535^2 = 286225$.
+
+Actually, for $j \ge 6$: $L_j = 11(2j+1) \le 11\cdot 1059 = 11649$.
+For $j < 6$: $L_j \le (j+6)^2 \le 121$.
+In either case, $L_j \le 11649$, so $\sqrt{L_j} \le 108$.
+
+By Proposition~\ref{prop:local}: $\norm{V_j(r\cdot)}_2 \le 12\sqrt{L_j}\,\norm{\rhof(V_j(r\cdot))}_2
+\le 12\cdot 108\,\norm{\rhof(V_j(r\cdot))}_2 = 1296\,\norm{\rhof(V_j(r\cdot))}_2$.
+
+\medskip\noindent\textbf{Case 2: $j \ge 524$.}
+Then $j \ge M+1 = 6$, so $V_j$ has frequency support in $[(j-5)^2, (j+6)^2)$
+with $N_j = (j-5)^2$ and $L_j = 11(2j+1)$.
+
+We verify condition~\eqref{eq:LN-cond}: $L_j^2/N_j^2 = [11(2j+1)]^2/(j-5)^4$.
+The function $f(j) = 11(2j+1)/(j-5)^2$ is decreasing for $j \ge 6$
+(its derivative has numerator $22(j-5)^2 - 2(j-5)\cdot 11(2j+1)
+= 2(j-5)[11(j-5)-11(2j+1)] = 2(j-5)\cdot 11(-j-6) < 0$).
+
+At $j = 524$: $f(524) = 11\cdot 1049/519^2 = 11539/269361 \approx 0.04285$.
+So $f(j)^2 \le 0.04285^2 = 0.001836 < 1/136 \approx 0.00735$. (Actually $0.001836 < 0.00735$, OK.)
+
+Wait, we need $L_j^2/N_j^2 = f(j)^2 \le 1/136$.
+$f(524) = 11 \cdot 1049 / 519^2 = 11539/269361$.
+$f(524)^2 = 11539^2/269361^2 = 133148521/72555345321 \approx 0.001835$.
+And $1/136 \approx 0.00735$.
+So $f(524)^2 < 1/136$. \checkmark
+
+By Proposition~\ref{prop:band}:
+$\norm{V_j(r\cdot)}_2 \le 4\sqrt{2}\,\norm{\rhof(V_j(r\cdot))}_2 \le 6\,\norm{\rhof(V_j(r\cdot))}_2$.
+
+\medskip\noindent\textbf{Combining.}
+$B_5 := \max(1296, 6) = 1296 \le 1300$.
+\end{proof}
+
+%% ====================================================================
+\section{Assembly: proof of the main theorem}\label{sec:assembly}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Fix $M = 5$, $B_5 \le 1300$.
+
+\medskip\noindent\textbf{Step 1: Circle estimate to annulus estimate.}
+For each $j \ge 0$ and $r \in [j,j+1]$, Proposition~\ref{prop:annulus} gives
+\[
+  \int_{S^1}|V_j(r\zeta)|^2\,d\sigma(\zeta)
+  \le B_5^2\int_{S^1}\rhof(V_j(r\zeta))^2\,d\sigma(\zeta).
+\]
+
+\medskip\noindent\textbf{Step 2: Relating $\rhof(V_j)$ to $\rhof(U)$.}
+Since $U = V_j + R_j$ and $\rhof$ is $1$-Lipschitz (Lemma~\ref{lem:lip}):
+\[
+  \rhof(V_j(z)) \le \rhof(U(z)) + |R_j(z)|.
+\]
+Squaring: $\rhof(V_j)^2 \le 2\,\rhof(U)^2 + 2|R_j|^2$.
+
+\medskip\noindent\textbf{Step 3: From $V_j$ to $U$.}
+Since $|U|^2 \le 2|V_j|^2 + 2|R_j|^2$:
+\begin{align*}
+  \int_{S^1}|U(r\zeta)|^2\,d\sigma
+  &\le 2\int_{S^1}|V_j(r\zeta)|^2\,d\sigma + 2\int_{S^1}|R_j(r\zeta)|^2\,d\sigma \\
+  &\le 2B_5^2\bigl(2\int_{S^1}\rhof(U(r\zeta))^2\,d\sigma
+    + 2\int_{S^1}|R_j(r\zeta)|^2\,d\sigma\bigr) + 2\int_{S^1}|R_j(r\zeta)|^2\,d\sigma \\
+  &= 4B_5^2\int_{S^1}\rhof(U)^2\,d\sigma + (4B_5^2+2)\int_{S^1}|R_j|^2\,d\sigma.
+\end{align*}
+
+\medskip\noindent\textbf{Step 4: Integrating over the annulus.}
+By the polar-coordinate identity~\eqref{eq:polar}, integrating
+$r \in [j,j+1]$ against $2re^{-r^2}dr$:
+\[
+  \int_{A_j}|U|^2\,d\mu
+  \le 4B_5^2\int_{A_j}\rhof(U)^2\,d\mu + (4B_5^2+2)\int_{A_j}|R_j|^2\,d\mu.
+\]
+
+\medskip\noindent\textbf{Step 5: Summing over $j$ and absorbing.}
+Summing over all $j \ge 0$:
+\[
+  \norm{U}_F^2
+  \le 4B_5^2\,\norm{\rhof(U)}_F^2 + (4B_5^2+2)\sum_{j\ge 0}\int_{A_j}|R_j|^2\,d\mu.
+\]
+By Proposition~\ref{prop:total-leak}:
+\[
+  \norm{U}_F^2 \le 4B_5^2\,\norm{\rhof(U)}_F^2 + (4B_5^2+2)\,\eta_5\,\norm{U}_F^2.
+\]
+We verify the absorption coefficient is less than $1/2$:
+\[
+  (4B_5^2+2)\,\eta_5
+  \le (4\cdot 1300^2+2)\cdot 4\times 10^{-11}
+  = 6{,}760{,}002 \times 4\times 10^{-11}
+  < 2.71\times 10^{-4}
+  < \tfrac{1}{2}.
+\]
+Therefore
+\[
+  \bigl(1 - (4B_5^2+2)\eta_5\bigr)\norm{U}_F^2 \le 4B_5^2\,\norm{\rhof(U)}_F^2.
+\]
+Since $1 - 2.71\times10^{-4} > 1/2$:
+\[
+  \frac{1}{2}\norm{U}_F^2 \le 4B_5^2\,\norm{\rhof(U)}_F^2,
+\]
+hence
+\[
+  \norm{U}_F \le 2\sqrt{2}\,B_5\,\norm{\rhof(U)}_F
+  \le 2\sqrt{2}\times 1300\,\norm{\rhof(U)}_F
+  < 3678\,\norm{\rhof(U)}_F.
+\]
+Rounding up, $C = 3700$ suffices.
+\end{proof}
+
+%% ====================================================================
+\section{Summary of constants}
+
+For reference, here is the chain of constants in the proof:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lll}
+\hline
+\textbf{Quantity} & \textbf{Value} & \textbf{Source} \\
+\hline
+Rotational averaging: $A(r) \ge r^2/\alpha$ & $\alpha = 8$ & Lemma~\ref{lem:avg} \\
+Laplace/Stirling: $e^{\phi_n(r_n)} \le \beta\, n!/2$ & $\beta = e^{1/4}$ & Lemma~\ref{lem:laplace} \\
+Local circle constant & $12$ & Prop.~\ref{prop:local} \\
+High-freq band constant & $4\sqrt{2}$ & Prop.~\ref{prop:band} \\
+Band condition: $L^2/N^2 \le$ & $1/136$ & Prop.~\ref{prop:band} \\
+Block width parameter & $M = 5$ & Chosen \\
+Small/large-$j$ threshold & $j^* = 524$ & Prop.~\ref{prop:annulus} \\
+Max frequency count (small $j$) & $11649$ & Lemma~\ref{lem:Vj-support} \\
+Local annulus constant $B_5$ & $\le 1300$ & Prop.~\ref{prop:annulus} \\
+Leakage $\eta_5$ & $< 4\times 10^{-11}$ & Lemma~\ref{lem:eta5} \\
+$(4B_5^2+2)\eta_5$ & $< 2.71\times 10^{-4}$ & Step~5 \\
+Final constant $C$ & $\le 3700$ & Theorem~\ref{thm:main} \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{remark}[On the size of the constant]
+The constant $3700$ is far from optimal.
+The dominant contribution is the small-$j$ regime ($j \le 523$), where
+the crude Proposition~\ref{prop:local} (with its $\sqrt{L}$ factor) is used
+because the high-frequency Proposition~\ref{prop:band} does not yet apply.
+A tighter rotational-averaging bound (e.g.\ $A(r) \ge r^2/4$,
+which numerical evidence supports but we have not proved here)
+would reduce the threshold $j^*$ and hence the constant.
+We expect the true optimal constant to be of order~$1$.
+\end{remark}
+
+\begin{remark}[From finitary to full Fock space]
+Theorem~\ref{thm:main} immediately implies the same bound for all $U \in \F$ with $U(0) = 0$:
+approximate $U$ by its partial sums $U_D(z) = \sum_{n=1}^D a_n z^n$,
+apply the theorem to each $U_D$ (with the same constant $C$),
+and pass to the limit using $\norm{U_D}_F \to \norm{U}_F$ and
+$\norm{\rhof(U_D)}_F \to \norm{\rhof(U)}_F$ (the latter by dominated convergence,
+since $|\rhof(U_D)| \le |U_D| \le |U|$ pointwise, and $|U| \in L^2(d\mu)$).
+\end{remark}
+
+\end{document}

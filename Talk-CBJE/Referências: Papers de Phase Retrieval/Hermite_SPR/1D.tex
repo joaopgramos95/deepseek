@@ -1,0 +1,1209 @@
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{hyperref}
+\usepackage[shortlabels]{enumitem}
+\usepackage{xcolor}
+\definecolor{darkblue}{RGB}{0,0,139}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\newcommand{\ip}[2]{\langle #1,#2\rangle}
+\DeclareMathOperator{\re}{Re}
+\DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\dist}{dist}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\rhoFn}{\rho}
+\newcommand{\cF}{\mathcal{F}}
+
+\newcommand{\lnbrk}{\penalty100\hskip0pt plus 1pt\relax}
+\newcommand{\leanfont}{\normalfont\ttfamily\color{darkblue}}
+\newcommand{\leanname}[1]{\par\noindent\begingroup\footnotesize\leanfont
+  \def\_{\char`\_\lnbrk}\def\.{\char`\.\lnbrk}#1\endgroup\par\smallskip}
+\newcommand{\leanref}[1]{{\footnotesize\leanfont
+  \def\_{\char`\_\lnbrk}\def\.{\char`\.\lnbrk}#1}}
+
+\title{Local Stable Phase Retrieval in Fock Space}
+\author{Jaume de Dios Pont}
+\author{Mitchell Taylor}
+
+\begin{document}
+\begin{abstract}
+We prove that the Bargmann--Fock space admits local stable phase retrieval at
+the constant function, i.e. that there exists a constant \(\widetilde M\)
+such that for all \(F\in \cF^2(\C)\) we have
+\[
+\inf_{\abs{\lambda}=1}\norm{F-\lambda\mathbf 1}_{\cF}
+\le
+\widetilde M\,\bigl\|\,\abs F-1\,\bigr\|_{\cF}.
+\]
+The proof proceeds in three stages. First, a general local reduction in
+reproducing kernel Hilbert spaces shows that it suffices to prove the
+statement for those \(F\) satisfying
+\(\inf_{\abs{\lambda}=1}\norm{F-\lambda\mathbf 1}_{\cF}\ll1\). Second, a
+general orthogonal reduction in Hilbert space shows that local stability near
+any unit vector \(f_0\) follows from an ``orthogonal coercivity'' estimate for
+perturbations perpendicular to \(f_0\). Finally, we establish this orthogonal
+estimate for the Fock space at \(f_0=\mathbf 1\) with an explicit constant
+\(C=4600\), by reducing the Gaussian integral to a family of circle problems
+via polar coordinates, then controlling each circle uniformly using a
+combination of low-frequency and high-frequency arguments. The entire proof
+has been formalised in Lean~4.
+\end{abstract}
+\maketitle
+
+\section{Introduction}\label{sec:intro}
+
+\subsection{Phase retrieval and stability}
+
+Phase retrieval asks whether a signal can be recovered from the magnitudes of
+its measurements alone.  The problem arises throughout science and
+engineering---in crystallography, coherent diffraction imaging, and audio
+processing---whenever detectors record intensities but not phases.
+Mathematically, one seeks to invert (up to unavoidable phase ambiguities) the
+map $f \mapsto \abs{f}$ or, more generally, $f \mapsto \abs{Tf}$ for a
+suitable measurement operator~$T$.
+
+In finite dimensions the theory is by now extensive; see the
+survey~\cite{grohs2020survey}.  In infinite dimensions the situation is
+considerably more delicate.  A fundamental negative result of Alaifari and
+Grohs~\cite{alaifari2017continuous} shows that phase retrieval for continuous
+frames on infinite-dimensional Hilbert spaces is always unstable: the local
+Lipschitz constant of the reconstruction map is necessarily unbounded.  For
+the Gabor transform (the short-time Fourier transform with a Gaussian
+window), Grohs and Rathmair~\cite{grohs2020survey} discovered a deep
+connection between the stability constant and spectral geometry, showing that
+the reciprocal of the Cheeger constant of the time--frequency landscape
+$\abs{V_\varphi f}$ controls the local stability of reconstruction.  More
+recently, Alaifari, Pineau, Taylor, and
+Wellershoff~\cite{alaifari2021gabor} proved that for any reasonable
+window function and any weighted Sobolev norm up to the sharp regularity
+threshold, the local stability constant is infinite on a dense set---confirming
+that instability is pervasive for short-time Fourier transform phase retrieval.
+
+In a complementary direction, Calderbank, Daubechies, Freeman, and
+Freeman~\cite{calderbank2022stable} showed that stable phase retrieval
+\emph{is} possible in infinite dimensions for operators that do not arise from
+frames, and Christ, Pineau, and Taylor~\cite{christ2022examples} constructed
+explicit infinite-dimensional subspaces of $L^2(\R)$ admitting H\"older-stable
+phase retrieval.  The function-space framework of Freeman, Oikhberg, Pineau,
+and Taylor~\cite{FOTP} systematised these developments: given a closed
+subspace $E$ of a complex Banach lattice~$X$, one says that $E$ does
+\emph{stable phase retrieval} with constant~$C$ if
+\[
+\inf_{\abs{w}=1}\norm{f - wg}_X
+\;\le\;
+C\,\bigl\|\,\abs{f} - \abs{g}\,\bigr\|_X
+\qquad
+\text{for all } f,g \in E.
+\]
+Here the infimum over unit complex numbers~$w$ accounts for the inherent
+phase ambiguity: the map $f \mapsto \abs{f}$ cannot distinguish $f$ from
+$wf$.  The results of~\cite{FOTP} show that many order-continuous Banach
+lattices admit no infinite-dimensional subspace with this property, but leave
+open whether specific structured spaces---particularly spaces of entire
+functions---might enjoy stable phase retrieval, at least locally.
+
+\subsection{The Bargmann--Fock space}
+
+For any measurable $f \colon \C \to \C$, define the
+\emph{Fock norm}
+\[
+\norm{f}_{\cF}^2
+\;:=\;
+\frac{1}{\pi}\int_{\C} \abs{f(z)}^2 \, \ee^{-\abs{z}^2}\,\dd m(z).
+\]
+The \emph{Bargmann--Fock space}~\cite{bargmann1961hilbert}
+$\cF^2(\C)$ is the closed subspace of entire functions with
+$\norm{f}_\cF < \infty$.
+The monomials $e_n(z) = z^n/\sqrt{n!}$ form an orthonormal basis, so every
+$f(z) = \sum_{n \ge 0} a_n z^n$ satisfies
+$\norm{f}_{\cF}^2 = \sum_{n \ge 0} \abs{a_n}^2 n!$.
+With this convention the Fock norm is defined for arbitrary measurable
+functions, not only holomorphic ones; in particular
+$\norm{\,\abs{f}\,}_\cF = \norm{f}_\cF$.
+
+The Fock space occupies a special place in the phase retrieval landscape.  Its
+elements are entire functions, hence determined by their values on any open
+set, and the Gaussian weight provides strong localisation of
+high-degree monomials.  These structural features make it a natural candidate
+for stable phase retrieval results that fail in more general $L^2$ settings.
+
+\subsection{The main result}
+
+Given a unit-norm element $f_0 \in \cF^2(\C)$ and a small perturbation $p$,
+we cannot hope to recover the perturbation~$p$ from the magnitude
+$\abs{f_0 + p}$ alone: for any unit complex number $w$, we have
+$\abs{w(f_0 + p)} = \abs{f_0 + p}$, so the magnitude measurement cannot
+distinguish $f_0 + p$ from its phase rotation $w(f_0 + p)$.  The correct
+question is whether, after optimising over the phase~$w$, the Fock norm of
+$w(f_0+p) - f_0$ is controlled by the ``magnitude residual''
+$\bigl\|\, \abs{f_0 + p} - \abs{f_0}\,\bigr\|_\cF$.
+
+\begin{theorem}[Local stable phase retrieval in Fock space]\label{thm:local}
+\leanname{FockSPR\.LocalFockSPR\_exists\_phase}
+There exist absolute constants $\delta > 0$ and $\widetilde{M} > 0$ such
+that the following holds.  Let $p$ be a polynomial with
+$\norm{p}_\cF \le \delta$.  Then there exists $w \in \C$ with $\abs{w} = 1$
+such that
+\[
+\norm{w(1+p) - 1}_\cF
+\;\le\;
+\widetilde{M}\,
+\bigl\|\, \abs{1+p} - 1 \,\bigr\|_{\cF}.
+\]
+One may take $\delta = 1/4601$ and $\widetilde{M} = 23003$.
+\end{theorem}
+
+\begin{remark}\label{rem:wlog}
+We state the result for $f_0 = \mathbf{1}$ (the constant function~$1$).
+This is not without loss of generality: the Fock space does not possess an
+isometry mapping an arbitrary unit-norm element to the constant function.
+However, the constant function is a natural base point because the orthogonal
+complement $\mathbf{1}^\perp$ consists precisely of the functions vanishing at
+the origin, and the monomial structure of the Fock space makes this condition
+especially tractable.  The condition that $p$ is a polynomial can be
+relaxed to $1 + p \in \cF^2(\C)$ by approximation.
+\end{remark}
+
+Theorem~\ref{thm:local} is deduced from the following ``orthogonal
+coercivity'' estimate, which is the technical heart of the paper:
+
+\begin{theorem}[Orthogonal coercivity]\label{thm:orthog}
+\leanname{LocalFockSPR}
+Let $U(z) = \sum_{n=1}^D a_n z^n$ be a polynomial with $U(0) = 0$.  Then
+\[
+\norm{U}_\cF^2
+\;\le\;
+4600^2 \cdot
+\norm{\rhoFn \circ U}_\cF^2,
+\]
+where $\rhoFn(w) = \bigl\lvert\, \abs{1+w} - 1 \,\bigr\rvert$.
+\end{theorem}
+
+The condition $U(0) = 0$ means that $U$ is orthogonal to the constant
+function $\mathbf{1}$ in $\cF^2(\C)$.  The passage from
+Theorem~\ref{thm:orthog} to Theorem~\ref{thm:local} is a general
+Hilbert-space argument, carried out in Section~\ref{sec:reduction}.  The
+proof of Theorem~\ref{thm:orthog}---the content of
+Sections~\ref{sec:circle}--\ref{sec:assembly}---is where the analysis
+specific to Fock space takes place.  When combined with the local reduction
+of Section~\ref{sec:local-reduction}, we arrive at the following main
+theorem.
+
+\begin{theorem}[Main theorem]\label{thm:main}
+There exists an absolute constant \(M>0\) such that for all
+\(F\in\cF^2(\C)\) there exists \(w\in\C\) with \(\abs w=1\) such that
+\[
+\norm{wF-\mathbf 1}_{\cF}
+\le
+M\,\bigl\|\,\abs F-1\,\bigr\|_{\cF}.
+\]
+\end{theorem}
+
+\subsection{Strategy of proof}\label{sec:strategy}
+
+\noindent
+\textbf{The local-local to local reduction
+(Section~\ref{sec:local-reduction}).}\;
+A general argument in reproducing kernel Hilbert spaces shows that if one
+can prove phase retrieval at a function \(f_0\) and establish local stability
+with respect to very small perturbations of \(f_0\), then one can prove local
+stability for general perturbations of \(f_0\).
+
+\medskip
+\noindent
+\textbf{Orthogonal reduction (Section~\ref{sec:reduction}).}\;
+A general argument in Hilbert space shows that if orthogonal perturbations
+of a unit vector $f_0$ satisfy a coercivity estimate with constant~$M$,
+then all sufficiently small perturbations (after optimising over a global
+phase) satisfy a coercivity estimate with constant $\widetilde{M} = O(M)$.
+The key ingredients are the orthogonal decomposition $h = af_0 + g$ with
+$g \perp f_0$, control of the scalar coefficient $a$ via a Cauchy--Schwarz
+argument, and a smallness absorption.
+
+\medskip
+\noindent
+\textbf{Polar coordinates.}\;
+The Gaussian integral decomposes as
+\begin{equation}\label{eq:polar}
+\frac{1}{\pi}\int_{\C} F(z)\, \ee^{-\abs{z}^2}\,\dd m(z)
+\;=\;
+2\int_0^\infty r\,\ee^{-r^2}
+\biggl(\int_{S^1} F(r\ee^{\ii t})\,\dd\sigma(t)\biggr)\dd r,
+\end{equation}
+where $\dd\sigma = \dd t/(2\pi)$ is the probability Haar measure on the
+circle.  Both norms in Theorem~\ref{thm:orthog} decompose in this way, so it
+suffices to compare the inner circle integrals for each radius~$r$.
+
+\medskip
+\noindent
+\textbf{Circle estimates (Section~\ref{sec:circle}).}\;
+On a circle of radius~$r$, the function $t \mapsto U(r\ee^{\ii t})$ is a
+trigonometric polynomial with strictly positive frequencies (since
+$U(0) = 0$).  We prove two estimates relating the $L^2$ norm of such a
+polynomial~$P$ to that of $\rhoFn \circ P$:
+\begin{enumerate}[(i)]
+\item A \emph{local circle estimate} that works for any finite set of
+  positive frequencies, at the cost of a constant depending on how many
+  frequencies are present.
+
+\item A \emph{high-frequency estimate} that applies when the lowest
+  frequency is much larger than the bandwidth, giving a universal constant
+  independent of the number of frequencies.
+\end{enumerate}
+
+\medskip
+\noindent
+\textbf{Frequency localisation (Section~\ref{sec:blocks}).}\;
+The polynomial $U$ may have up to $D$ frequencies, but the monomial~$z^n$
+concentrates its Gaussian mass near the annulus $\abs{z} \approx \sqrt{n}$.
+We exploit this by partitioning the frequencies into blocks, each localised
+to a specific annulus.  For each annulus, only a bounded window of nearby
+blocks contributes significantly; the energy leaking from distant blocks
+decays as a Gaussian in the block distance.
+
+\medskip
+\noindent
+\textbf{Assembly (Section~\ref{sec:assembly}).}\;
+On each annulus, the nearby blocks form a trigonometric polynomial to which
+one of the two circle estimates applies.  This gives a uniform bound on the
+$\rhoFn$-norm of the ``local'' polynomial.  We then use the $1$-Lipschitz
+property of $\rhoFn$ to pass from the local polynomial to the full $U$,
+integrate over all annuli, and absorb the exponentially small leakage.
+
+\subsection{Notation}\label{sec:notation}
+
+All circle integrals use the probability measure
+$\dd\sigma = \dd t/(2\pi)$, so that Parseval reads
+$\norm{f}_{L^2}^2 = \sum_n \abs{\hat{f}(n)}^2$.
+The Lean theorem names recorded in {\leanfont blue monospace} throughout the
+paper refer to the accompanying Lean~4 formalisation, which uses the Mathlib
+library~\cite{mathlib}.  The only things that have not been Lean verified are
+the local-local to local reduction and the passage from perturbations which
+are polynomials to general perturbations in the Fock space. Full details are
+included.
+
+\section{The local reduction}\label{sec:local-reduction}
+
+In this section we show that local stable phase retrieval is implied by an
+even more local variant.
+
+\begin{proposition}[Local reduction]\label{prop:local-reduction}
+Let \(H\) be a reproducing kernel Hilbert space of real- or complex-valued
+functions isomorphically embedded in \(L^2(\Omega,\mu)\). Fix \(F\in H\) and
+\(\epsilon>0\). Suppose that there exists a constant \(C>0\) such that for
+all \(G\in H\) satisfying
+\[
+\inf_{\abs{\lambda}=1}\norm{F-\lambda G}_{L^2(\Omega)}<\epsilon
+\]
+we have
+\[
+\inf_{\abs{\lambda}=1}\norm{F-\lambda G}_{L^2(\Omega)}
+\le
+C\norm{\abs F-\abs G}_{L^2(\Omega)}.
+\]
+Suppose also that phase retrieval holds at \(F\), i.e. if \(G\in H\) and
+\(\abs F=\abs G\), then there exists \(\lambda\in\C\) with
+\(\abs\lambda=1\) and \(F=\lambda G\). Then there exists a constant
+\(C'>0\) such that for all \(G\in H\),
+\[
+\inf_{\abs{\lambda}=1}\norm{F-\lambda G}_{L^2(\Omega)}
+\le
+C'\norm{\abs F-\abs G}_{L^2(\Omega)}.
+\]
+\end{proposition}
+
+\begin{proof}
+We need to verify that there exists a constant \(C'\) such that for all
+\(G\in H\),
+\[
+\inf_{\abs{\lambda}=1}\norm{F-\lambda G}_{L^2(\Omega)}
+\le
+C'\norm{\abs F-\abs G}_{L^2(\Omega)}.
+\]
+
+First suppose that \(\norm{G}_{L^2(\Omega)}\ge4\norm F_{L^2(\Omega)}\).
+Then
+\[
+\norm{\abs F-\abs G}_{L^2(\Omega)}
+\ge
+\norm G_{L^2(\Omega)}-\norm F_{L^2(\Omega)}
+\ge
+\frac34\norm G_{L^2(\Omega)},
+\]
+while
+\[
+\inf_{\abs{\lambda}=1}\norm{F-\lambda G}_{L^2(\Omega)}
+\le
+\norm F_{L^2(\Omega)}+\norm G_{L^2(\Omega)}
+\le
+\frac54\norm G_{L^2(\Omega)}.
+\]
+Thus the desired inequality holds in this case with any \(C'\ge5/3\).
+Therefore we may restrict attention to \(G\) with
+\(\norm G_{L^2(\Omega)}<4\norm F_{L^2(\Omega)}\).
+
+Now suppose that the desired inequality is true for all \(G\) satisfying
+\[
+\inf_{\abs{\lambda}=1}\norm{F-\lambda G}_{L^2(\Omega)}<\epsilon,
+\]
+but is not true in general. Then for every \(n\) we can find \(G_n\in H\)
+with
+\[
+\inf_{\abs{\lambda}=1}\norm{F-\lambda G_n}_{L^2(\Omega)}\ge\epsilon,
+\]
+\[
+\inf_{\abs{\lambda}=1}\norm{F-\lambda G_n}_{L^2(\Omega)}
+>
+n\norm{\abs F-\abs{G_n}}_{L^2(\Omega)},
+\]
+and also \(\norm{G_n}_{L^2(\Omega)}<4\norm F_{L^2(\Omega)}\). This latter
+inequality guarantees that
+\(\inf_{\abs{\lambda}=1}\norm{F-\lambda G_n}_{L^2(\Omega)}\) is uniformly
+bounded, and hence
+\[
+\norm{\abs F-\abs{G_n}}_{L^2(\Omega)}\to0.
+\]
+In particular, after passing to a subsequence, we may assume that
+\[
+\abs{G_{n_k}(x)}\to\abs{F(x)}
+\qquad\text{for almost every }x\in\Omega.
+\]
+
+Since \(\norm{G_{n_k}}_{L^2(\Omega)}\) is bounded independently of \(k\), and
+the embedding of \(H\) into \(L^2(\Omega,\mu)\) is isomorphic, the sequence
+\((G_{n_k})\) is bounded in \(H\). Passing to a further subsequence if
+necessary, we may assume that \(G_{n_{k_\ell}}\rightharpoonup G\) weakly in
+\(H\). Since point evaluations are bounded on \(H\), we have
+\[
+G_{n_{k_\ell}}(x)\to G(x)
+\]
+for every \(x\in\Omega\). Hence \(\abs{G_{n_{k_\ell}}(x)}\to\abs{G(x)}\) for
+every \(x\in\Omega\). This forces \(\abs G=\abs F\) almost everywhere. By the
+phase-retrieval hypothesis, \(G=\lambda F\) for some unimodular \(\lambda\).
+
+Collecting what we know, \(G_{n_{k_\ell}}\) converges weakly in \(H\) to
+\(\lambda F\). Moreover, from
+\(\norm{\abs F-\abs{G_n}}_{L^2(\Omega)}\to0\), we see that
+\[
+\norm{G_n}_{L^2(\Omega)}=\norm{\abs{G_n}}_{L^2(\Omega)}
+\to
+\norm{\abs F}_{L^2(\Omega)}
+=\norm{\lambda F}_{L^2(\Omega)}.
+\]
+Because the embedding is isomorphic, weak convergence in \(H\) together with
+convergence of the \(L^2\)-norms to the norm of the weak limit implies strong
+convergence in \(L^2\). Thus \(G_{n_{k_\ell}}\to\lambda F\) in
+\(L^2(\Omega)\). For all sufficiently large \(\ell\), this contradicts
+\[
+\inf_{\abs{\lambda}=1}
+\norm{F-\lambda G_{n_{k_\ell}}}_{L^2(\Omega)}
+\ge \epsilon.
+\]
+\end{proof}
+
+\section{The orthogonal reduction}\label{sec:reduction}
+
+In this section we work in the generality of a complex Hilbert space $H$
+continuously embedded in $L^2(\mu)$ for some measure space $(\Omega, \mu)$.
+We show that \emph{orthogonal coercivity}---a stability estimate for
+perturbations perpendicular to a fixed unit vector---implies \emph{local
+stability} for all sufficiently small perturbations, after optimising over a
+global phase.  The argument is purely Hilbert-space-theoretic and uses no
+structure specific to the Fock space.
+
+\begin{theorem}[Orthogonal reduction]\label{thm:reduction}
+\leanname{FockSPR\.LocalFockSPR\_constants}
+Let $H$ be a complex Hilbert space with norm $\norm{\cdot}$, continuously
+embedded in $L^2(\mu)$.  Let $f_0 \in H$ with $\norm{f_0} = 1$, and
+suppose there exists $M > 0$ such that
+\begin{equation}\label{eq:orthog-hyp}
+\norm{g}
+\;\le\;
+M\, \bigl\|\, \abs{f_0 + g} - \abs{f_0} \,\bigr\|_{L^2}
+\qquad
+\text{for all } g \perp f_0.
+\end{equation}
+Then there exist $\delta > 0$ and $\widetilde{M} > 0$, depending only
+on~$M$, such that:
+for every $h \in H$ with $\norm{h} \le \delta$ and
+$\ip{h}{f_0} \in \R$, we have
+\[
+\norm{h}
+\;\le\;
+\widetilde{M}\, \bigl\|\, \abs{f_0 + h} - \abs{f_0} \,\bigr\|_{L^2}.
+\]
+One may take $\delta = 1/(M+1)$ and $\widetilde{M} = 5M + 3$.
+\end{theorem}
+
+\begin{remark}
+The condition $\ip{h}{f_0} \in \R$ is a phase normalisation: it says that
+$h$ has been rotated so that its component along $f_0$ is real.  In the
+application to Theorem~\ref{thm:local}, this is achieved by choosing the
+optimal unit phase $w$ so that $\ip{w(f_0 + p) - f_0}{f_0}$ is real and
+nonneg\-ative, which amounts to aligning the phase of the inner product
+$\ip{p}{f_0}$.
+\end{remark}
+
+\begin{proof}
+Write $m = \bigl\|\, \abs{f_0 + h} - \abs{f_0} \,\bigr\|_{L^2}$ for the
+magnitude residual.
+
+\medskip
+\noindent
+\emph{Step 1: Orthogonal decomposition.}\;
+Set $a = \re\ip{h}{f_0} = \ip{h}{f_0}$ (a real number by hypothesis) and
+$g = h - a f_0$.  Then $g \perp f_0$, $h = af_0 + g$, and
+$\norm{h}^2 = a^2 + \norm{g}^2$, so
+\begin{equation}\label{eq:triangle}
+\norm{h} \;\le\; \abs{a} + \norm{g}.
+\end{equation}
+
+\medskip
+\noindent
+\emph{Step 2: Control of the scalar coefficient.}\;
+The pointwise identity
+$\abs{f_0 + h}^2 - \abs{f_0}^2
+= 2\,\re(h\,\overline{f_0}) + \abs{h}^2$
+integrates to
+\[
+\int_\Omega \bigl(\abs{f_0 + h}^2 - \abs{f_0}^2\bigr)\,\dd\mu
+= 2a + \norm{h}^2.
+\]
+On the other hand, the factorisation
+$\abs{f_0 + h}^2 - \abs{f_0}^2
+= \bigl(\abs{f_0 + h} - \abs{f_0}\bigr)
+  \bigl(\abs{f_0 + h} + \abs{f_0}\bigr)$
+and Cauchy--Schwarz give
+\[
+\abs{2a + \norm{h}^2}
+\;\le\;
+m \cdot \bigl\|\, \abs{f_0 + h} + \abs{f_0} \,\bigr\|_{L^2}
+\;\le\;
+m\,(2 + \norm{h}).
+\]
+Hence
+\begin{equation}\label{eq:a-bound}
+\abs{a}
+\;\le\;
+\frac{2 + \norm{h}}{2}\, m
++ \frac{\norm{h}^2}{2}.
+\end{equation}
+
+\medskip
+\noindent
+\emph{Step 3: Control of the orthogonal component.}\;
+The reverse triangle inequality
+$\bigl\lvert \abs{f_0 + g} - \abs{f_0 + h} \bigr\rvert
+\le \abs{g - h} = \abs{a}\,\abs{f_0}$
+gives
+$\bigl\|\, \abs{f_0 + g} - \abs{f_0} \,\bigr\|_{L^2}
+\le \abs{a} + m$.
+The orthogonal coercivity hypothesis~\eqref{eq:orthog-hyp} then yields
+\begin{equation}\label{eq:g-bound}
+\norm{g} \;\le\; M\,(\abs{a} + m).
+\end{equation}
+
+\medskip
+\noindent
+\emph{Step 4: Combine.}\;
+Substituting~\eqref{eq:a-bound} and~\eqref{eq:g-bound}
+into~\eqref{eq:triangle}:
+\[
+\norm{h}
+\;\le\;
+\abs{a} + M(\abs{a} + m)
+= (M+1)\abs{a} + Mm
+\;\le\;
+\underbrace{\Bigl(M + \frac{(M+1)(2+\norm{h})}{2}\Bigr)}_{=:\, C(\norm{h})}
+m
+\;+\; \frac{M+1}{2}\,\norm{h}^2.
+\]
+
+\medskip
+\noindent
+\emph{Step 5: Smallness absorption.}\;
+Since $\norm{h} \le \delta$, we have $\norm{h}^2 \le \delta\,\norm{h}$, so
+\[
+\norm{h}
+\;\le\; C(\delta)\, m + \frac{(M+1)\delta}{2}\,\norm{h}.
+\]
+Choosing $\delta = 1/(M+1)$ makes $(M+1)\delta/2 = 1/2$, giving
+$\norm{h}/2 \le C(\delta)\, m$ and therefore
+\[
+\norm{h} \;\le\; 2\, C(\delta)\, m.
+\]
+A short computation shows
+$C(\delta) = M + (M+1)(2 + \delta)/2 < (5M+3)/2$, so one may take
+$\widetilde{M} = 5M + 3$.
+\end{proof}
+
+\begin{corollary}[Fock-space application]\label{cor:fock-local}
+Taking $f_0 = \mathbf{1}$ (the constant function), $H = \cF^2(\C)$, and
+$M = 4600$ (from Theorem~\ref{thm:orthog}), the orthogonal reduction gives
+$\delta = 1/4601$ and $\widetilde{M} = 23003$.
+This is Theorem~\ref{thm:local}.
+\end{corollary}
+
+\begin{proof}
+The condition $g \perp \mathbf{1}$ in $\cF^2(\C)$ means precisely that
+$g(0) = 0$, i.e.\ $g$ has no constant term.
+Theorem~\ref{thm:orthog} provides the orthogonal coercivity
+hypothesis~\eqref{eq:orthog-hyp} with $M = 4600$.
+The optimal phase $w$ is chosen so that
+$h = w(1 + p) - 1$ satisfies $\ip{h}{\mathbf{1}} \in \R$ and
+$\norm{h}_\cF \le \delta$; the existence of such a $w$ is straightforward.
+Theorem~\ref{thm:reduction} then yields the conclusion of
+Theorem~\ref{thm:local}.
+\end{proof}
+
+ \section{Circle estimates}\label{sec:circle}
+
+In this section we prove two estimates controlling the $L^2$ norm of a
+trigonometric polynomial $P$ on the circle in terms of the $L^2$ norm of
+$\rhoFn \circ P$.  Both exploit the fact that all frequencies of~$P$ are
+strictly positive---a consequence of $U(0) = 0$---but they apply in
+complementary regimes.  The \emph{local circle estimate}
+(Theorem~\ref{thm:local-circle}) works for any frequency set and gives a
+constant proportional to $\sqrt{L}$, where $L$ is the number of frequencies.
+The \emph{high-frequency estimate} (Theorem~\ref{thm:high-freq}) applies
+when the lowest frequency is much larger than the bandwidth, and gives an
+absolute constant.  Together they will provide a uniform bound on every
+annulus.
+
+Throughout this section, $P$ denotes a trigonometric polynomial
+$P(t) = \sum_{n \in E} b_n \ee^{\ii nt}$ with $E \subset \Z_{>0}$ finite,
+and all norms are $L^2(S^1, \dd\sigma)$.
+
+Recall the function $\rhoFn(w) = \bigl\lvert \abs{1+w} - 1 \bigr\rvert$,
+which is $1$-Lipschitz by two applications of the reverse triangle inequality:
+$\abs{\rhoFn(w) - \rhoFn(z)}
+\le \bigl\lvert \abs{1+w} - \abs{1+z} \bigr\rvert
+\le \abs{w - z}$.
+In particular, $\rhoFn(w) \le \abs{w}$ (take $z = 0$) and
+\begin{equation}\label{eq:rho-lip}
+\rhoFn(w) \;\ge\; \rhoFn(z) - \abs{w - z}.
+\end{equation}
+\leanname{FockSPR\.rho\_lipschitz}
+
+\subsection{The local circle estimate}\label{sec:local}
+
+A preliminary inequality will be useful both here and in the high-frequency
+estimate.
+
+\begin{lemma}[Safe-square inequality]\label{lem:safe-square}
+\leanname{FockSPR\.nonneg\_safe\_square}
+Let $a, b, c \ge 0$ with $a \ge b - c$.  Then
+$a^2 \ge \tfrac{1}{2}\, b^2 - c^2$.
+\end{lemma}
+
+\begin{proof}
+If $b \le c$ the right side is nonpositive.  If $b > c$ then
+$a \ge b-c > 0$ gives $a^2 \ge (b-c)^2 \ge \tfrac{1}{2}b^2 - c^2$, where
+the last step is the identity
+$(b-c)^2 - \tfrac{1}{2}b^2 + c^2 = \tfrac{1}{2}(b-2c)^2 \ge 0$.
+\end{proof}
+
+\begin{theorem}[Local circle estimate]\label{thm:local-circle}
+\leanname{FockSPR\.local\_circle\_estimate}
+Let $E \subset \Z_{>0}$ with $\abs{E} = L \ge 1$, let $b_n \in \C$ for
+$n \in E$, and set $P(t) = \sum_{n \in E} b_n\,\ee^{\ii nt}$.  Then
+\[
+\norm{P}_{L^2}^2
+\;\le\;
+144\, L \cdot \norm{\rhoFn \circ P}_{L^2}^2.
+\]
+\end{theorem}
+
+\begin{proof}
+Write $\alpha = \norm{P}_{L^2}$ and $\beta = \norm{\rhoFn \circ P}_{L^2}$.
+We show $\beta \ge \alpha/(12\sqrt{L})$, which gives the result after
+squaring.  The threshold between the two regimes is
+$\alpha_0 = 1/(4\sqrt{L})$.
+
+Two structural properties of $P$ underpin both cases.  First,
+\emph{Cauchy--Schwarz and Parseval} give the pointwise bound
+$\abs{P(t)} \le \sqrt{L}\, \alpha$ for all~$t$.
+Second, since every $n \in E$ satisfies $n \ge 1$, the zeroth Fourier
+coefficient of $P$ vanishes:
+$\int_{S^1} P\,\dd\sigma = 0$.
+More importantly, $n + m \ge 2$ for all $n, m \in E$, so
+$\int_{S^1} P^2\,\dd\sigma = 0$ as well.  Writing $P = u + \ii v$ with
+$u, v$ real-valued, this identity splits as
+\begin{equation}\label{eq:equal-mass}
+\int_{S^1} u^2\,\dd\sigma
+= \int_{S^1} v^2\,\dd\sigma
+= \frac{\alpha^2}{2}
+\qquad\text{and}\qquad
+\int_{S^1} uv\,\dd\sigma = 0.
+\end{equation}
+
+\medskip
+\noindent
+\textbf{Small amplitudes} ($\alpha \le \alpha_0$).
+Then $\norm{P}_\infty \le \sqrt{L}\,\alpha \le 1/4$.  For $\abs{w} \le 1/4$
+we have $\abs{1+w} \ge 3/4$ and $\re(w) \ge -1/4$, so the denominator
+$\abs{1+w} + 1 + \re(w) \ge 3/2 > 0$.  The algebraic identity
+\[
+\abs{1+w} - 1 - \re(w)
+= \frac{\im(w)^2}{\abs{1+w} + 1 + \re(w)}
+\]
+shows that $\abs{1+w} - 1 = \re(w) + \varepsilon$ with
+$0 \le \varepsilon \le \im(w)^2/(3/2) \le \abs{w}^2$.  In particular
+$\rhoFn(w) = \bigl\lvert \re(w) + \varepsilon\bigr\rvert \ge
+\abs{\re(w)} - \varepsilon$, so by the safe-square inequality
+(Lemma~\ref{lem:safe-square}),
+\[
+\rhoFn(P)^2 \;\ge\; \tfrac{1}{2}\, u^2 - \abs{P}^4.
+\]
+Integrating and using~\eqref{eq:equal-mass}:
+$\beta^2 \ge \alpha^2/4 - \norm{P}_\infty^2\, \alpha^2 \ge \alpha^2/4 - L\,\alpha^4$.
+Since $L\alpha^2 \le 1/16$, we get $\beta^2 \ge 3\alpha^2/16$, so
+$\beta \ge \sqrt{3}\,\alpha/4 \ge \alpha/(12\sqrt{L})$.
+
+\medskip
+\noindent
+\textbf{Large amplitudes} ($\alpha > \alpha_0$).
+The vanishing of $\hat P(0)$ gives
+$\int_{S^1}\abs{1+P}^2\,\dd\sigma = 1 + \alpha^2$, so
+\[
+\alpha^2
+= \int_{S^1}\bigl(\abs{1+P}^2 - 1\bigr)\,\dd\sigma
+\le \int_{S^1} \rhoFn(P)\,\bigl(\abs{1+P} + 1\bigr)\,\dd\sigma,
+\]
+where we used $\bigl\lvert \abs{1+P}^2 - 1\bigr\rvert
+= \bigl(\abs{1+P} + 1\bigr)\rhoFn(P)$.  By Cauchy--Schwarz,
+\[
+\alpha^2 \;\le\; \beta \cdot \bigl(\sqrt{1+\alpha^2} + 1\bigr).
+\]
+If $\alpha \le 1$: $\beta \ge \alpha^2/3$ and $\alpha > \alpha_0 = 1/(4\sqrt{L})$ give
+$\beta \ge \alpha/(12\sqrt{L})$.
+If $\alpha > 1$: $\beta \ge \alpha/3 \ge \alpha/(12\sqrt{L})$.
+
+\medskip
+In both regimes $\beta \ge \alpha/(12\sqrt{L})$.
+\end{proof}
+
+
+\subsection{Rotational averaging}\label{sec:rot-avg}
+
+The local circle estimate grows with the number of frequencies~$L$.  To
+eliminate this dependence for high-frequency polynomials, we will need the
+following fact: the $\rhoFn$-image of a full circle already captures a
+definite fraction of its radius.
+
+\begin{proposition}[Rotational averaging]\label{prop:rot-avg}
+\leanname{FockSPR\.rotational\_averaging\_bound}
+For all $r \ge 0$,
+\[
+\int_{S^1} \rhoFn(r\ee^{\ii\theta})^2\,\dd\sigma(\theta)
+\;\ge\; \frac{r^2}{8}.
+\]
+\end{proposition}
+
+\begin{proof}
+On the arc $\abs{\theta} \le \pi/4$ (which has $\dd\sigma$-measure $1/4$),
+we claim $\rhoFn(r\ee^{\ii\theta}) \ge r/\sqrt{2}$.  Indeed,
+$\cos\theta \ge 1/\sqrt{2}$ gives
+\[
+\abs{1 + r\ee^{\ii\theta}} - 1
+= \frac{r^2 + 2r\cos\theta}{\abs{1+r\ee^{\ii\theta}} + 1}
+\ge \frac{r(r + \sqrt{2})}{r + 2}
+\ge \frac{r}{\sqrt{2}},
+\]
+where the last inequality is $(\sqrt{2}-1)r \ge 0$.  Moreover the numerator
+is positive, so $\abs{1 + r\ee^{\ii\theta}} > 1$ and $\rhoFn$ equals
+$\abs{1+r\ee^{\ii\theta}} - 1$ without absolute value.  Restricting the
+integral to this arc:
+$\int \rhoFn^2\,\dd\sigma \ge \frac{1}{4}(r/\sqrt{2})^2 = r^2/8$.
+\end{proof}
+
+
+\subsection{The high-frequency estimate}\label{sec:high-freq}
+
+When the polynomial oscillates rapidly, the Lipschitz property
+of~$\rhoFn$ and the rotational averaging of
+Proposition~\ref{prop:rot-avg} combine to give an absolute bound.  The idea
+is to factor $P(t) = \ee^{\ii Nt}\, Q(t)$ where $Q$ is a slowly varying
+envelope; on short intervals the leading phase $\ee^{\ii Nt}$ sweeps through
+a full rotation while $Q$ barely changes, and the rotational averaging
+ensures that $\rhoFn$ captures a positive fraction of $\abs{Q}^2$.  The only
+analytic input is a Poincar\'e inequality quantifying how well $Q$ is
+approximated by its local averages.
+
+\begin{theorem}[High-frequency band estimate]\label{thm:high-freq}
+\leanname{FockSPR\.high\_freq\_band\_estimate}
+Let $N \ge 1$ and $L \ge 1$ satisfy $1343\, L^2 \le N^2$.
+For any $b_0, \dots, b_{L-1} \in \C$, the polynomial
+$P(t) = \sum_{m=0}^{L-1} b_m\, \ee^{\ii(N+m)t}$ satisfies
+\[
+\norm{P}_{L^2}^2
+\;\le\;
+32\, \norm{\rhoFn \circ P}_{L^2}^2.
+\]
+\end{theorem}
+
+\begin{proof}
+Write $P(t) = \ee^{\ii Nt}\,Q(t)$ with
+$Q(t) = \sum_{m=0}^{L-1} b_m\,\ee^{\ii mt}$, so $\norm{P} = \norm{Q}$.
+Partition the circle into $N$ equal arcs
+$J_k = [2\pi k/N,\; 2\pi(k+1)/N)$, and let
+$q_k = N\!\int_{J_k}\! Q\,\dd\sigma$ be the average of $Q$ on~$J_k$.
+
+\medskip
+\noindent
+\emph{Step 1: Poincar\'e approximation.}\;
+On each interval $J_k$ of length $h = 2\pi/N$, the Poincar\'e
+inequality gives
+$\int_{J_k}\abs{Q - q_k}^2\,\dd\sigma \le h^2\int_{J_k}\abs{Q'}^2\,
+\dd\sigma$.\footnote{We use the inequality
+$\int_0^h \abs{f - \bar f}^2\,\dd x
+\le h^2\int_0^h\abs{f'}^2\,\dd x$
+with the non-sharp constant~$1$; here $\bar f$ denotes the mean of~$f$
+on~$[0,h]$.  The sharp Wirtinger
+constant is $1/\pi^2$, which would improve the threshold from $1343$ to~$136$.
+We use this weaker version because it has a short proof from Jensen's
+inequality and Cauchy--Schwarz, and we formalised this proof in Lean; the
+sharp Wirtinger inequality is not currently available in Mathlib.}
+Summing over $k$ and using Bernstein's inequality $\norm{Q'}^2 \le L^2\norm{Q}^2$
+(since every frequency of~$Q$ has modulus at most~$L{-}1 < L$):
+\begin{equation}\label{eq:delta}
+\delta \;:=\; \sum_{k} \int_{J_k}\abs{Q - q_k}^2\,\dd\sigma
+\;\le\; \frac{4\pi^2 L^2}{N^2}\,\norm{Q}^2.
+\end{equation}
+
+\noindent
+\emph{Step 2: Parseval partition.}\;
+The mean-variance decomposition on each $J_k$ gives
+\begin{equation}\label{eq:parseval-partition}
+\norm{Q}^2
+= \frac{1}{N}\sum_{k}\abs{q_k}^2 + \delta.
+\end{equation}
+
+\noindent
+\emph{Step 3: Frozen rotation.}\;
+As $t$ traverses $J_k$, the argument $Nt$ traverses one full period.
+Substituting $s = Nt$ and applying Proposition~\ref{prop:rot-avg} with
+$r = \abs{q_k}$:
+\[
+\int_{J_k}\rhoFn\bigl(\ee^{\ii Nt} q_k\bigr)^2\,\dd\sigma
+= \frac{1}{N}\int_{S^1}\rhoFn\bigl(\abs{q_k}\ee^{\ii s}\bigr)^2\,\dd\sigma(s)
+\;\ge\; \frac{\abs{q_k}^2}{8N}.
+\]
+
+\noindent
+\emph{Step 4: Assembly.}\;
+On $J_k$, the Lipschitz bound~\eqref{eq:rho-lip} gives
+$\rhoFn(P) = \rhoFn(\ee^{\ii Nt}Q)
+\ge \rhoFn(\ee^{\ii Nt}q_k) - \abs{Q - q_k}$.
+By Lemma~\ref{lem:safe-square},
+$\rhoFn(P)^2 \ge \tfrac{1}{2}\rhoFn(\ee^{\ii Nt}q_k)^2 - \abs{Q - q_k}^2$.
+Integrating over $J_k$ and using Step~3:
+\[
+\int_{J_k}\rhoFn(P)^2\,\dd\sigma
+\;\ge\; \frac{\abs{q_k}^2}{16N} - \int_{J_k}\abs{Q-q_k}^2\,\dd\sigma.
+\]
+Summing over $k$ and applying~\eqref{eq:parseval-partition}:
+\[
+\norm{\rhoFn \circ P}^2
+\;\ge\; \frac{1}{16}\Bigl(\norm{Q}^2 - \delta\Bigr) - \delta
+= \frac{\norm{Q}^2}{16} - \frac{17\delta}{16}.
+\]
+Substituting the bound~\eqref{eq:delta}:
+\[
+\norm{\rhoFn \circ P}^2
+\;\ge\;
+\frac{1}{16}\Bigl(1 - \frac{68\pi^2 L^2}{N^2}\Bigr)\norm{Q}^2.
+\]
+The condition $1343\,L^2 \le N^2$ gives $68\pi^2 L^2/N^2 \le 1/2$
+(since $136\pi^2 < 1343$), and therefore
+$\norm{\rhoFn \circ P}^2 \ge \norm{P}^2/32$.
+\end{proof}
+ \section{Frequency localisation}\label{sec:blocks}
+
+The circle estimates of Section~\ref{sec:circle} require the trigonometric
+polynomial to have a controlled number of frequencies, yet $U$ may have
+arbitrarily many.  The Gaussian weight resolves this: the radial factor
+$r \mapsto r^{2n+1}\ee^{-r^2}$ peaks sharply near $r = \sqrt{n + 1/2}$,
+so grouping frequencies by peak location decomposes $U$ into ``blocks''
+approximately supported on disjoint annuli.
+
+\subsection{Blocks and their properties}\label{sec:block-def}
+
+For $\ell \ge 1$, define the \emph{frequency block}
+\[
+I_\ell = \bigl\{n \in \N : \ell^2 \le n < (\ell+1)^2\bigr\},
+\]
+which has $\abs{I_\ell} = 2\ell+1$ elements, and the corresponding
+\emph{block polynomial}
+$U_\ell(z) = \sum_{n \in I_\ell,\, n \le D} a_n z^n$.
+\leanname{FockSPR\.freqBlock, FockSPR\.blockPoly}The blocks $I_1, I_2, \dots$ are pairwise disjoint and cover
+$\{1, \dots, D\}$ up to index $\Lambda = \lfloor\sqrt{D}\rfloor$.  Since the
+Fock norm is a sum over individual frequencies, it decomposes accordingly:
+\begin{equation}\label{eq:fock-decomp}
+\norm{U}_\cF^2 = \sum_{\ell=1}^{\Lambda} \norm{U_\ell}_\cF^2.
+\end{equation}
+\leanname{FockSPR\.fockNorm\_decomposes}Similarly, on each circle of radius~$r$, blocks with distinct frequency
+supports are orthogonal:
+$\int_{S^1} U_{\ell_1}(r\ee^{\ii t})\,
+\overline{U_{\ell_2}(r\ee^{\ii t})}\,\dd\sigma(t) = 0$
+for $\ell_1 \ne \ell_2$.
+
+The key geometric fact is that \emph{each block has its peaks in the
+corresponding annulus}:
+
+\begin{lemma}[Peak localisation]\label{lem:peak}
+\leanname{FockSPR\.monomial\_peak\_localization}
+For $n \in I_\ell$ with $\ell \ge 1$, the saddle point
+$r_n = \sqrt{n + 1/2}$ satisfies $\ell < r_n < \ell + 1$.
+\end{lemma}
+
+\begin{proof}
+From $n \ge \ell^2$: $r_n > \ell$.  From $n < (\ell+1)^2$:
+$r_n < \ell + 1$.
+\end{proof}
+
+\subsection{Local and remainder polynomials}\label{sec:local-remainder}
+
+Fix a window width $M \ge 1$.  For each annulus index $j \ge 0$, define the
+\emph{local polynomial}
+\[
+V_j = \sum_{\substack{1 \le \ell \le \Lambda \\ \abs{\ell - j} \le M}} U_\ell
+\qquad\text{and the \emph{remainder}}\qquad
+R_j = U - V_j.
+\]
+\leanname{FockSPR\.localPoly}The local polynomial gathers the blocks whose peaks fall within $M$ steps of
+annulus~$j$; the remainder gathers the rest.
+
+For $j \ge M + 1$, the frequency support of $V_j$ lies in
+$[(j{-}M)^2,\; (j{+}M{+}1)^2)$, and the number of frequencies is
+$L_j = (2M{+}1)(2j{+}1)$.
+
+\subsection{Saddle-point estimates for the leakage}\label{sec:saddle}
+
+The energy that a block $U_\ell$ contributes to a distant annulus decays
+like $\ee^{-(\abs{j-\ell}-1)^2}$.  The mechanism is simple: the function
+$\varphi_n(r) = (2n{+}1)\log r - r^2$ (so that
+$r^{2n+1}\ee^{-r^2} = \ee^{\varphi_n(r)}$) has a unique maximum at
+$r_n = \sqrt{n+1/2}$ and concavity $\varphi_n''(r) \le -2$, giving the
+Gaussian upper bound
+\begin{equation}\label{eq:phi-quad}
+\ee^{\varphi_n(r)}
+\;\le\;
+\ee^{\varphi_n(r_n)}\, \ee^{-(r - r_n)^2}.
+\end{equation}
+\leanname{FockSPR\.phiFunc\_quad\_bound}The value at the saddle point is controlled by the factorial:
+
+\begin{lemma}\label{lem:exp-phi}
+\leanname{FockSPR\.exp\_phi\_le\_factorial}
+For $n \ge 1$,\;
+$\ee^{\varphi_n(r_n)} \le \ee^{1/4}\, n!/2$.
+\end{lemma}
+
+\begin{proof}
+The Gamma integral gives
+$n!/2 = \int_0^\infty \ee^{\varphi_n(r)}\,\dd r$.
+Since $r_n \ge \sqrt{3/2} > 1$, the interval $[r_n - 1/2,\, r_n + 1/2]$
+lies in $(0,\infty)$, and~\eqref{eq:phi-quad} shows that
+$\varphi_n \ge \varphi_n(r_n) - 1/4$ on this interval.  Hence
+$n!/2 \ge \ee^{\varphi_n(r_n) - 1/4}$.
+\end{proof}
+
+Combining~\eqref{eq:phi-quad} and Lemma~\ref{lem:exp-phi}: for $r \in
+[j, j{+}1]$ and $n \in I_\ell$, the monomial weight satisfies
+\begin{equation}\label{eq:monomial-bound}
+r^{2n+1}\ee^{-r^2}
+\;\le\;
+\frac{\ee^{1/4}\, n!}{2}\,
+\ee^{-\dist(r_n,\,[j,j{+}1])^2},
+\end{equation}
+where $\dist(r_n, [j,j{+}1]) = \max(j - r_n,\, r_n - (j{+}1),\, 0)$.
+By Lemma~\ref{lem:peak}, $r_n \in (\ell, \ell{+}1)$, so this distance is at
+least $(\abs{j - \ell} - 1)_+$.
+
+\subsection{Leakage bounds}
+
+\begin{proposition}[Single-block leakage]\label{prop:single-leak}
+\leanname{FockSPR\.block\_annulus\_leakage}
+For $\ell \ge 1$ and $j \ge 0$,
+\[
+\frac{1}{\pi}\int_{\{j \le \abs{z} < j+1\}}
+\abs{U_\ell(z)}^2\, \ee^{-\abs{z}^2}\,\dd m(z)
+\;\le\;
+\ee^{1/4}\,
+\ee^{-(\abs{j-\ell}-1)_+^2}\,
+\norm{U_\ell}_\cF^2.
+\]
+\end{proposition}
+
+\begin{proof}
+Passing to polar coordinates and using the orthogonality of distinct
+monomials on each circle, the left side equals
+$2\sum_{n \in I_\ell}\abs{a_n}^2 \int_j^{j+1} r^{2n+1}\ee^{-r^2}\dd r$.
+Bounding each radial integral by~\eqref{eq:monomial-bound} and summing:
+$\le \ee^{1/4}\ee^{-(\abs{j-\ell}-1)_+^2}\sum_{n \in I_\ell}\abs{a_n}^2 n!$.
+\end{proof}
+
+Summing over all distant blocks and swapping the order of summation
+yields:
+
+\begin{proposition}[Total leakage]\label{prop:total-leak}
+\leanname{FockSPR\.total\_leakage\_bound}
+For $M \ge 2$, define $\eta_M = 2\ee^{1/4}\sum_{m \ge M}\ee^{-m^2}$.  Then
+\[
+\sum_{j \ge 0}\;
+\frac{1}{\pi}\int_{\{j \le \abs{z} < j+1\}}
+\abs{R_j(z)}^2\, \ee^{-\abs{z}^2}\,\dd m(z)
+\;\le\;
+\eta_M \cdot \norm{U}_\cF^2.
+\]
+\end{proposition}
+
+\begin{proof}
+By circle orthogonality on each annulus,
+$\int \abs{R_j}^2 = \sum_{\abs{\ell-j}>M}\int\abs{U_\ell}^2$.
+Apply Proposition~\ref{prop:single-leak}, swap $\sum_j$ and $\sum_\ell$
+(all terms are nonneg\-ative), and note that for $\abs{j-\ell} > M \ge 2$
+the decay factor is $\ee^{-(\abs{j-\ell}-1)^2}$.  The inner sum over
+$j$ contributes at most $2\sum_{m \ge M}\ee^{-m^2}$; multiplying by
+$\ee^{1/4}$ and using~\eqref{eq:fock-decomp} gives the result.
+\end{proof}
+
+For $M = 5$: the geometric series bound
+$\sum_{m \ge 5}\ee^{-m^2} \le \ee^{-25}/(1 - \ee^{-11}) < 1.39 \times
+10^{-11}$ gives:
+
+\begin{corollary}\label{cor:eta5}
+\leanname{FockSPR\.eta\_5\_bound}
+$\eta_5 < 4 \times 10^{-11}$.
+\end{corollary}
+
+\subsection{The annulus estimate}\label{sec:annulus}
+
+We can now state the uniform estimate that holds on every annulus.  The
+function $\zeta \mapsto V_j(r\zeta)$ is a trigonometric polynomial on $S^1$
+with all frequencies in $\Z_{>0}$, and we apply either
+Theorem~\ref{thm:local-circle} or Theorem~\ref{thm:high-freq} depending
+on~$j$.
+
+\begin{proposition}[Annulus local estimate]\label{prop:annulus}
+\leanname{FockSPR\.annulus\_local\_estimate}
+With $M = 5$: for every $j \ge 0$ and every $r \in [j, j{+}1]$,
+\[
+\int_{S^1}\abs{V_j(r\zeta)}^2\,\dd\sigma(\zeta)
+\;\le\;
+1620^2 \cdot
+\int_{S^1}\rhoFn\bigl(V_j(r\zeta)\bigr)^2\,\dd\sigma(\zeta).
+\]
+\end{proposition}
+
+\begin{proof}
+When $r = 0$ both sides vanish (all monomials have positive degree).
+For $r > 0$, the function $\zeta \mapsto V_j(r\zeta)$ is a trigonometric
+polynomial with positive frequencies and coefficients $a_n r^n$.
+
+\smallskip\noindent
+\emph{Case $j \le 817$.}\;
+With $M = 5$, the frequency count satisfies $L_j \le 11(2 \cdot 817 + 1)
+< 18{,}000$.  By Theorem~\ref{thm:local-circle},
+$\norm{V_j(r\,\cdot\,)}^2 \le 144\, L_j \cdot
+\norm{\rhoFn \circ V_j(r\,\cdot\,)}^2$, and
+$144 \cdot 18{,}000 < 1620^2$.
+
+\smallskip\noindent
+\emph{Case $j \ge 818$.}\;
+The lowest frequency is $N_j = (j{-}5)^2$ and the bandwidth is
+$L_j = 11(2j{+}1)$.  The ratio $L_j^2/N_j^2$ is decreasing in~$j$
+(for $j \ge 6$), so it suffices to verify the condition
+$1343\,L_j^2 \le N_j^2$ of Theorem~\ref{thm:high-freq} at $j = 818$.
+A direct computation confirms $1343 \cdot (11 \cdot 1637)^2 < 813^4$.
+The high-frequency estimate then gives
+$\norm{V_j(r\,\cdot\,)}^2 \le 32\,\norm{\rhoFn \circ V_j(r\,\cdot\,)}^2
+\le 1620^2\,\norm{\rhoFn \circ V_j(r\,\cdot\,)}^2$.
+\end{proof}
+ \section{Proof of the orthogonal coercivity estimate}\label{sec:assembly}
+
+With the circle estimates (Section~\ref{sec:circle}), the leakage bounds
+(Section~\ref{sec:blocks}), and the annulus estimate
+(Proposition~\ref{prop:annulus}) in hand, the proof of
+Theorem~\ref{thm:orthog} is a short calculation.
+
+\begin{proof}[Proof of Theorem~\ref{thm:orthog}]
+Fix $M = 5$ throughout, and write $B = 1620$ for the annulus constant from
+Proposition~\ref{prop:annulus}.  Let $V_j$ and $R_j$ be the local and
+remainder polynomials from Section~\ref{sec:local-remainder}.
+
+\medskip
+\noindent
+\emph{Step 1: From $V_j$ to $\rhoFn(U)$ on each circle.}\;
+For $r \in [j, j{+}1]$, Proposition~\ref{prop:annulus} gives
+\begin{equation}\label{eq:annulus-applied}
+\int_{S^1}\abs{V_j(r\zeta)}^2\,\dd\sigma
+\;\le\;
+B^2\int_{S^1}\rhoFn\bigl(V_j(r\zeta)\bigr)^2\,\dd\sigma.
+\end{equation}
+Since $\rhoFn$ is $1$-Lipschitz and $U = V_j + R_j$,
+\[
+\rhoFn\bigl(V_j(z)\bigr)
+\le \rhoFn\bigl(U(z)\bigr) + \abs{R_j(z)}.
+\]
+Squaring ($(a+b)^2 \le 2a^2 + 2b^2$) and substituting
+into~\eqref{eq:annulus-applied}:
+\begin{equation}\label{eq:Vj-to-U}
+\int_{S^1}\abs{V_j(r\zeta)}^2\,\dd\sigma
+\;\le\;
+2B^2\!\int_{S^1}\rhoFn(U(r\zeta))^2\,\dd\sigma
+\;+\; 2B^2\!\int_{S^1}\abs{R_j(r\zeta)}^2\,\dd\sigma.
+\end{equation}
+
+\medskip
+\noindent
+\emph{Step 2: From $U$ to $V_j$ on each circle.}\;
+Applying $\abs{U}^2 \le 2\abs{V_j}^2 + 2\abs{R_j}^2$
+and~\eqref{eq:Vj-to-U}:
+\begin{equation}\label{eq:circle-ineq}
+\int_{S^1}\abs{U(r\zeta)}^2\,\dd\sigma
+\;\le\;
+4B^2\!\int_{S^1}\rhoFn(U)^2\,\dd\sigma
+\;+\; (4B^2 + 2)\!\int_{S^1}\abs{R_j}^2\,\dd\sigma.
+\end{equation}
+
+\medskip
+\noindent
+\emph{Step 3: Integrate over annuli.}\;
+Multiply~\eqref{eq:circle-ineq} by $2r\ee^{-r^2}$, integrate $r$ over
+$[j, j{+}1]$, and use the polar decomposition~\eqref{eq:polar}.  The
+$\rhoFn(U)$ term on the right does not depend on~$j$ (the annuli tile the
+plane), while the $R_j$ term does.  Summing over $j \ge 0$:
+\[
+\norm{U}_\cF^2
+\;\le\;
+4B^2\,\norm{\rhoFn(U)}_\cF^2
+\;+\;
+(4B^2 + 2)\sum_{j \ge 0}\;
+\frac{1}{\pi}\int_{\{j \le \abs{z} < j+1\}}\!\!
+\abs{R_j}^2\ee^{-\abs{z}^2}\dd m.
+\]
+By Proposition~\ref{prop:total-leak} with $M = 5$, the remainder sum is at
+most $\eta_5\,\norm{U}_\cF^2$.  Hence
+\begin{equation}\label{eq:absorb}
+\norm{U}_\cF^2
+\;\le\;
+4B^2\,\norm{\rhoFn(U)}_\cF^2
+\;+\;
+(4B^2 + 2)\,\eta_5\,\norm{U}_\cF^2.
+\end{equation}
+
+\medskip
+\noindent
+\emph{Step 4: Absorption.}\;
+Since $4B^2 + 2 < 10^7$ and $\eta_5 < 4 \times 10^{-11}$, the coefficient
+of $\norm{U}_\cF^2$ on the right of~\eqref{eq:absorb} satisfies
+$(4B^2 + 2)\,\eta_5 < 4 \times 10^{-4} < \tfrac{1}{2}$.
+Moving this term to the left and using $1 - (4B^2+2)\eta_5 > 1/2$:
+\[
+\norm{U}_\cF^2
+\;\le\; 8B^2\,\norm{\rhoFn(U)}_\cF^2
+\;=\; 8 \cdot 1620^2\,\norm{\rhoFn(U)}_\cF^2
+\;\le\; 4600^2\,\norm{\rhoFn(U)}_\cF^2.\qedhere
+\]
+\end{proof}
+
+\begin{remark}[On the constant]
+The bottleneck is the crossover at $j^* = 818$ between the two circle
+estimates.  Below this threshold, the local polynomial has up to
+$L \approx 18{,}000$ frequencies, producing the large annulus constant
+$B = 1620$; the leakage and the squaring step ($8B^2 \le C^2$) contribute
+only modest additional factors.
+
+The single most effective improvement would be to replace the weak
+Poincar\'e constant in Theorem~\ref{thm:high-freq} by the sharp Wirtinger
+constant $1/\pi^2$.  This would lower the high-frequency threshold from
+$1343\,L^2 \le N^2$ to $136\,L^2 \le N^2$, moving the crossover to
+$j^* \approx 90$ and reducing $C$ to approximately~$3700$.
+\end{remark}
+
+\begin{remark}[Formalisation]
+The entire proof---including the orthogonal reduction
+(Theorem~\ref{thm:reduction}), the orthogonal coercivity estimate
+(Theorem~\ref{thm:orthog}), and their combination into the local stability
+theorem (Theorem~\ref{thm:local})---has been formalised in Lean~4 using the
+Mathlib library~\cite{mathlib}.  The formalisation closely mirrors the paper
+structure, and the theorem names recorded in {\leanfont blue monospace}
+throughout can be searched directly in the accompanying repository.
+
+The only result \emph{not} taken from Mathlib is the weak Poincar\'e
+inequality on intervals used in the proof of
+Theorem~\ref{thm:high-freq} (see the footnote there), which we proved
+from scratch using Jensen's inequality and Cauchy--Schwarz.
+All other analytic ingredients---polar coordinates, the Gamma integral,
+Fourier orthonormality, Parseval's identity---are imported from Mathlib.
+\end{remark}
+ 
+\begin{thebibliography}{10}
+
+\bibitem{alaifari2017continuous}
+R.~Alaifari and P.~Grohs.
+\newblock Phase retrieval in the general setting of continuous frames for
+  {B}anach spaces.
+\newblock \emph{SIAM J.\ Math.\ Anal.}, 49(3):1895--1911, 2017.
+
+\bibitem{alaifari2021gabor}
+R.~Alaifari and P.~Grohs.
+\newblock Gabor phase retrieval is severely ill-posed.
+\newblock \emph{Appl.\ Comput.\ Harmon.\ Anal.}, 50:401--419, 2021.
+
+\bibitem{bargmann1961hilbert}
+V.~Bargmann.
+\newblock On a {H}ilbert space of analytic functions and an associated integral
+  transform.
+\newblock \emph{Comm.\ Pure Appl.\ Math.}, 14:187--214, 1961.
+
+\bibitem{calderbank2022stable}
+R.~Calderbank, I.~Daubechies, D.~Freeman, and N.~Freeman.
+\newblock Stable phase retrieval for infinite dimensional subspaces of
+  $L_2(\mathbb{R})$.
+\newblock arXiv:2203.03135, 2022.
+
+\bibitem{christ2022examples}
+M.~Christ, B.~Pineau, and M.~A.~Taylor.
+\newblock Examples of {H}\"older-stable phase retrieval.
+\newblock \emph{Math.\ Res.\ Lett.}, 31(5):1339--1352, 2024.
+
+\bibitem{grohs2020survey}
+P.~Grohs, S.~Koppensteiner, and M.~Rathmair.
+\newblock Phase retrieval: uniqueness and stability.
+\newblock \emph{SIAM Rev.}, 62(2):301--350, 2020.
+
+\bibitem{FOTP}
+D.~Freeman, T.~Oikhberg, B.~Pineau, and M.~A.~Taylor.
+\newblock Stable phase retrieval in function spaces.
+\newblock \emph{Math.\ Ann.}, 390(1):1--43, 2024.
+
+\bibitem{mathlib}
+The Mathlib Community.
+\newblock \emph{Mathlib: the Lean~4 mathematics library}.
+\newblock \url{https://github.com/leanprover-community/mathlib4}, 2024.
+
+\end{thebibliography}
+
+\end{document}

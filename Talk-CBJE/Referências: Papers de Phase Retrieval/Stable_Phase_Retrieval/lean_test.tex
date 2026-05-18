@@ -1,0 +1,31 @@
+\documentclass{article}
+\usepackage{fontspec}
+% switch to a monospace font supporting more Unicode characters
+\setmonofont{JuliaMono}xx
+\usepackage{minted}
+\newmintinline[lean]{lean4}{bgcolor=white}
+\newminted[leancode]{lean4}{fontsize=\footnotesize}
+\usemintedstyle{tango}  % a nice, colorful theme
+
+\begin{document}
+\begin{leancode}
+theorem quantitative_orthogonal_lower_bound
+    {n : ℕ}
+    (ξ : Fin n → Ω → ℝ)--                     Let ξ₁, …, ξₙ : Ω → ℝ be random variables
+    (hMeas : ∀ i, Measurable (ξ i))--         (measurable)
+    (hIndep : iIndepFun--                     that are jointly independent.
+      (m := fun _ => inferInstance) ξ ℙ)
+    (hMean : ∀ i, ��[ξ i] = 0)--               Assume that ��[ξᵢ] = 0
+    (hVar : ∀ i, (��[(ξ i) ^ 2] : ℝ) = 1)--    and ��[ξᵢ²] = 1.
+    {A B : ℝ} (hA : 0 < A) (hB : B < 1)--     Let 0 < A, B < 1
+    (hL1_lower : ∀ i, A ≤ ��[|ξ i|])--         such that A ≤ ��[|ξᵢ|],
+    (hL1_upper : ∀ i, i.val ≠ 0 → ��[|ξ i|] ≤ B)-- and ��[|ξᵢ|] ≤ B for i ≠ 0.
+    (a b : Fin n → ℝ)--                       Let (a₁,... aₙ), (b₁,... aₙ) be real vectors
+    (haNorm : ∑ i, a i ^ 2 = 1)--             satisfying ‖a‖₂ = 1,
+    (hbNorm : ∑ i, b i ^ 2 = 1)--             ‖b‖₂ = 1,
+    (hab : ∑ i, a i * b i = 0)--              and ⟨a, b⟩ = 0.
+    : --                                      Then,
+    StabilityConstant A B ≤ --                StabilityConstant(A,B) ≤ √ ��[(|Xa| − |Xb|)²]
+      Real.sqrt (��[(|∑ i, a i • ξ i| - |∑ i, b i • ξ i|) ^ 2])
+\end{leancode}
+\end{document}

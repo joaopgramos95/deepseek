@@ -1,0 +1,26 @@
+\frametitle{Teorema 2 --- enunciado em Lean}
+\vspace{-0.3em}
+\begin{lstlisting}
+-- Base de Hermite, medida gaussiana e fecho do span: ver Showcase.lean
+def γ : Measure (Fin d → ℂ) :=
+  volume.withDensity fun z ↦
+    ENNReal.ofReal ((1 / Real.pi ^ d) *
+      Real.exp (-∑ q : Fin d, ‖z q‖ ^ 2))
+
+theorem stable_phase_retrieval
+    (hd : 0 < d) {κ : Fin d → ℕ}
+    {P : (Fin d → ℂ) → ℂ} (hP : P ∈ TrueHermitePolys κ) :
+    ∃ M : ℝ, 0 < M ∧
+      ∀ Q ∈ TrueHermiteFunctions κ,
+        ∃ θ : ℂ, ‖θ‖ = 1 ∧
+          ∫ z, ‖P z - θ * Q z‖ ^ 2 ∂ γ
+            ≤ M ^ 2 * ∫ z, (‖P z‖ - ‖Q z‖) ^ 2 ∂ γ
+\end{lstlisting}
+  \vspace{-0.3em}
+  \pause
+  \begin{itemize}\small
+    \item Enunciado por \hl{integrais explícitas} (sem teoria
+          abstrata de Hilbert), com a constante $M$ quantificada.
+    \item \texttt{θ} no lugar de $\lambda$ --- reservado para
+          funções anônimas em Lean.
+  \end{itemize}

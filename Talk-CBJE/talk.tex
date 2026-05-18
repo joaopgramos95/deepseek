@@ -1,0 +1,1220 @@
+% =====================================================================
+%  A Lean, Mean Theorem-Proving Machine
+%  LLMs, Phase Retrieval & Autoformalization
+%  ---------------------------------------------------------------------
+%  Compile with:  xelatex talk.tex   (twice)
+% =====================================================================
+\documentclass[10pt,aspectratio=169]{beamer}
+
+% ---------- Fonts (xelatex) ------------------------------------------
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\setsansfont{Latin Modern Sans}[Scale=1.0]
+\setmonofont{DejaVu Sans Mono}[Scale=0.85]
+
+% ---------- Packages -------------------------------------------------
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc,shapes.geometric}
+\usepackage{hyperref}
+
+% ---------- Dark "Lean / tech" theme ---------------------------------
+\definecolor{bgdark}{HTML}{0E1116}        % near-black background
+\definecolor{bgpanel}{HTML}{161B22}       % slightly lighter panels
+\definecolor{fgmain}{HTML}{E6EDF3}        % main text
+\definecolor{fgmute}{HTML}{8B949E}        % muted
+\definecolor{accent}{HTML}{7EE787}        % Lean green
+\definecolor{accent2}{HTML}{79C0FF}       % blue
+\definecolor{accent3}{HTML}{FFA657}       % orange
+\definecolor{accent4}{HTML}{D2A8FF}       % purple
+\definecolor{accentred}{HTML}{FF7B72}     % red
+\definecolor{rule}{HTML}{30363D}
+
+\setbeamercolor{background canvas}{bg=bgdark}
+\setbeamercolor{normal text}{fg=fgmain,bg=bgdark}
+\setbeamercolor{structure}{fg=accent}
+\setbeamercolor{alerted text}{fg=accent3}
+\setbeamercolor{example text}{fg=accent2}
+\setbeamercolor{title}{fg=fgmain}
+\setbeamercolor{subtitle}{fg=fgmute}
+\setbeamercolor{author}{fg=fgmute}
+\setbeamercolor{institute}{fg=fgmute}
+\setbeamercolor{date}{fg=fgmute}
+\setbeamercolor{frametitle}{fg=fgmain,bg=bgdark}
+\setbeamercolor{itemize item}{fg=accent}
+\setbeamercolor{itemize subitem}{fg=accent2}
+\setbeamercolor{itemize subsubitem}{fg=accent4}
+\setbeamercolor{enumerate item}{fg=accent}
+\setbeamercolor{block title}{fg=bgdark,bg=accent}
+\setbeamercolor{block body}{fg=fgmain,bg=bgpanel}
+\setbeamercolor{block title alerted}{fg=bgdark,bg=accent3}
+\setbeamercolor{block body alerted}{fg=fgmain,bg=bgpanel}
+\setbeamercolor{block title example}{fg=bgdark,bg=accent2}
+\setbeamercolor{block body example}{fg=fgmain,bg=bgpanel}
+\setbeamercolor{footline}{fg=fgmute}
+\setbeamercolor{page number in head/foot}{fg=fgmute}
+
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamerfont{title}{size=\LARGE,series=\bfseries}
+\setbeamerfont{subtitle}{size=\normalsize,series=\mdseries}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\raisebox{0.15ex}{\textbullet}}
+\setbeamertemplate{itemize subitem}{\textendash}
+
+% Frame title with a thin accent rule underneath
+\setbeamertemplate{frametitle}{%
+  \vspace{0.6em}\hspace{0.6em}%
+  \begin{minipage}{\dimexpr\paperwidth-1.2em\relax}%
+    \insertframetitle\par
+    \vspace{0.15em}%
+    {\color{rule}\rule{\linewidth}{0.4pt}}%
+  \end{minipage}%
+  \vspace{0.2em}%
+}
+
+% Footer
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+    \hspace{1em}%
+    {\color{fgmute}\scriptsize A Lean, Mean Theorem-Proving Machine}%
+    \hfill%
+    {\color{fgmute}\scriptsize \insertframenumber\,/\,\inserttotalframenumber}%
+    \hspace{1em}%
+  }%
+  \vspace{0.4em}%
+}
+
+% ---------- Code listing style (Lean) --------------------------------
+\lstdefinelanguage{lean}{%
+  morekeywords={theorem,lemma,def,example,by,exact,apply,intro,intros,
+    rintro,rfl,simp,rw,have,show,let,fun,return,do,if,then,else,match,with,
+    induction,cases,constructor,refine,use,obtain,calc,end,namespace,
+    section,variable,variables,open,import,structure,class,instance,
+    inductive,where,Type,Prop,True,False,not,and,or,iff,forall,exists,
+    sorry,decide,linarith,nlinarith,ring,field_simp,norm_num,omega,
+    aesop,positivity,polyrith,gcongr,abel,group,push_neg,trivial,assumption},
+  morecomment=[l]{--},
+  morecomment=[s]{/-}{-/},
+  morestring=[b]",
+  sensitive=true,
+  alsoletter={.}
+}
+
+\lstdefinestyle{leanstyle}{%
+  language=lean,
+  backgroundcolor=\color{bgpanel},
+  basicstyle=\ttfamily\scriptsize\color{fgmain},
+  keywordstyle=\color{accent4}\bfseries,
+  commentstyle=\color{fgmute}\itshape,
+  stringstyle=\color{accent3},
+  numberstyle=\tiny\color{fgmute},
+  numbers=left,
+  numbersep=8pt,
+  showstringspaces=false,
+  breaklines=false,
+  extendedchars=true,
+  inputencoding=utf8,
+  frame=none,
+  xleftmargin=1em,
+  xrightmargin=0.5em,
+  aboveskip=0.4em,
+  belowskip=0.4em,
+  columns=flexible,
+  keepspaces=true,
+  mathescape=false,
+  texcl=false,
+}
+
+\lstset{style=leanstyle}
+
+% ---------- "Chat bubble" boxes for the LLM examples ------------------
+\newtcolorbox{userbox}[1][]{%
+  colback=bgpanel,colframe=accent2,
+  coltext=fgmain,
+  arc=2pt,boxrule=0.5pt,
+  left=6pt,right=6pt,top=4pt,bottom=4pt,
+  title={\color{accent2}\sffamily\bfseries\footnotesize User},
+  fonttitle=\footnotesize,
+  attach boxed title to top left={yshift=-2mm,xshift=4mm},
+  boxed title style={colback=bgdark,colframe=bgdark,boxrule=0pt},
+  enhanced,#1}
+
+\newtcolorbox{llmbox}[1][]{%
+  colback=bgpanel,colframe=accent,
+  coltext=fgmain,
+  arc=2pt,boxrule=0.5pt,
+  left=6pt,right=6pt,top=4pt,bottom=4pt,
+  title={\color{accent}\sffamily\bfseries\footnotesize LLM},
+  fonttitle=\footnotesize,
+  attach boxed title to top left={yshift=-2mm,xshift=4mm},
+  boxed title style={colback=bgdark,colframe=bgdark,boxrule=0pt},
+  enhanced,#1}
+
+\newtcolorbox{llmbadbox}[1][]{%
+  colback=bgpanel,colframe=accentred,
+  coltext=fgmain,
+  arc=2pt,boxrule=0.5pt,
+  left=6pt,right=6pt,top=4pt,bottom=4pt,
+  title={\color{accentred}\sffamily\bfseries\footnotesize LLM (\textit{confiante, e errado})},
+  fonttitle=\footnotesize,
+  attach boxed title to top left={yshift=-2mm,xshift=4mm},
+  boxed title style={colback=bgdark,colframe=bgdark,boxrule=0pt},
+  enhanced,#1}
+
+% ---------- Theorem environments -------------------------------------
+\newtcolorbox{thmbox}[1][Theorem]{%
+  colback=bgpanel,colframe=accent3,
+  coltext=fgmain,
+  coltitle=bgdark,
+  arc=2pt,boxrule=0.5pt,
+  left=8pt,right=8pt,top=5pt,bottom=5pt,
+  title={\sffamily\bfseries\small #1},
+  fonttitle=\small,
+  enhanced}
+
+\newtcolorbox{defbox}[1][Definition]{%
+  colback=bgpanel,colframe=accent2,
+  coltext=fgmain,
+  coltitle=bgdark,
+  arc=2pt,boxrule=0.5pt,
+  left=8pt,right=8pt,top=5pt,bottom=5pt,
+  title={\sffamily\bfseries\small #1},
+  fonttitle=\small,
+  enhanced}
+
+\newtcolorbox{quotebox}[1][]{%
+  colback=bgpanel,colframe=accent4,
+  coltext=fgmain,
+  arc=2pt,boxrule=0.5pt,
+  left=10pt,right=10pt,top=8pt,bottom=8pt,
+  enhanced,#1}
+
+% ---------- Misc shortcuts -------------------------------------------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\E}{\mathbb{E}}
+\DeclareMathOperator{\Span}{span}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\ip}[2]{\left\langle #1,#2 \right\rangle}
+\newcommand{\hl}[1]{{\color{accent}\textbf{#1}}}
+\newcommand{\hlb}[1]{{\color{accent2}\textbf{#1}}}
+\newcommand{\hlo}[1]{{\color{accent3}\textbf{#1}}}
+\newcommand{\hlp}[1]{{\color{accent4}\textbf{#1}}}
+\newcommand{\fade}[1]{{\color{fgmute}#1}}
+
+% Section divider style
+\AtBeginSection[]{%
+  \begin{frame}[plain,noframenumbering]
+    \vfill
+    \begin{center}
+      {\color{accent}\rule{0.4\linewidth}{0.4pt}}\\[0.6em]
+      {\color{fgmute}\small\sffamily\insertsectionnumber}\\[0.4em]
+      {\Large\sffamily\bfseries\color{fgmain}\insertsectionhead}\\[0.6em]
+      {\color{accent}\rule{0.4\linewidth}{0.4pt}}
+    \end{center}
+    \vfill
+  \end{frame}
+}
+
+% ---------- Title information ----------------------------------------
+\title{\textbf{A Lean, Mean Theorem-Proving Machine}}
+\subtitle{LLMs, recuperação de fase e autoformalização}
+\author{João Pedro Ramos}
+\institute{IMPA}
+\date{18/05/2026 $\cdot$ Congresso Brasileiro de Jovens Matemáticos e Estatísticos}
+
+% =====================================================================
+\begin{document}
+% =====================================================================
+
+% --- Title slide -----------------------------------------------------
+\begin{frame}[plain,noframenumbering]
+  \vspace{0.6em}
+  {\color{accent}\rule{0.25\linewidth}{0.5pt}}\\[0.4em]
+  {\color{fgmute}\ttfamily\small \$\ lean --version}\\
+  {\color{fgmute}\ttfamily\small Lean (version 4.x, talk-2026, commit \texttt{\#deadbeef})}\\[1em]
+  {\LARGE\bfseries A \textcolor{accent}{Lean}, Mean Theorem-Proving Machine}\\[0.5em]
+  {\large\color{fgmute} LLMs, recuperação de fase e autoformalização}\\[1.5em]
+  {\normalsize João Pedro Ramos\par}
+  {\small\color{fgmute} IMPA \quad$\cdot$\quad CBJME \quad$\cdot$\quad 19/05/2026}\\[1em]
+  {\color{fgmute}\footnotesize Em colaboração com P.~Abdalla, S.~Bertolini, J.~de Dios, B.~Pineau e M.~Taylor.}
+\end{frame}
+
+% --- Roadmap ---------------------------------------------------------
+\begin{frame}{Roteiro}
+  \vspace{0.4em}
+  \begin{columns}[T]
+    \column{0.5\linewidth}
+    \textbf{\color{accent}1.}\ LLMs: o bom, o mau e o útil\\[0.6em]
+    \textbf{\color{accent}2.}\ Lean: matemática como código\\[0.6em]
+    \textbf{\color{accent}3.}\ Recuperação de fase\\[0.6em]
+    \textbf{\color{accent}4.}\ Dois teoremas, dois ``co-autores''\\[0.6em]
+    \textbf{\color{accent}5.}\ Verificação autônoma em Lean\\[0.6em]
+    \textbf{\color{accent}6.}\ Perspectiva
+
+    \column{0.5\linewidth}
+    \begin{tcolorbox}[colback=bgpanel,colframe=rule,coltext=fgmain,
+                       arc=2pt,boxrule=0.4pt,left=8pt,right=8pt,top=8pt,bottom=8pt]
+      \footnotesize\itshape\color{fgmute}
+      ``Mathematics is the art of giving the same name to different things.''\\[0.3em]
+      \hfill --- H.~Poincaré
+    \end{tcolorbox}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\section{LLMs: o bom, o mau, e o útil}
+% =====================================================================
+
+% --- LLMs do bem ------------------------------------------------------
+\begin{frame}{LLMs: vocês já sabem que isso funciona\ldots}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\linewidth}
+    \begin{userbox}
+      \small Lembre-me da prova de que $\sqrt{2}$ é irracional.
+    \end{userbox}
+    \vspace{0.6em}
+    \begin{llmbox}
+      \small Suponha $\sqrt2 = p/q$ irredutível. Então $p^2 = 2q^2$,
+      logo $p$ é par, $p=2k$, daí $q$ também é par --- contradição.\\
+      \fade{(correto, exposição limpa)}
+    \end{llmbox}
+    \pause
+
+    \column{0.5\linewidth}
+    \begin{userbox}
+      \small Me dê uma ideia para provar que toda função analítica de módulo constante num aberto conexo é constante.
+    \end{userbox}
+    \vspace{0.6em}
+    \begin{llmbox}
+      \small Use Cauchy--Riemann em $|f|^2 = f\bar f$, derive, e mostre que $f' \equiv 0$\ldots\\
+      \fade{(razoável, na direção certa)}
+    \end{llmbox}
+  \end{columns}
+  \vfill
+  \pause
+  \begin{center}\color{fgmute}\small
+    Útil para trabalho braçal, busca de lemas, paráfrases, e como
+    ``parede para rebater ideias''\ldots
+  \end{center}
+\end{frame}
+
+% --- LLMs do mal ------------------------------------------------------
+\begin{frame}{\ldots\ e também sabem que isso falha de modo cômico}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\linewidth}
+    \begin{userbox}
+      \small Quantos $r$'s há em ``strawberry''?
+    \end{userbox}
+    \begin{llmbadbox}
+      \small Há \textbf{2} letras $r$ em ``strawberry''.
+    \end{llmbadbox}
+    \vspace{0.35em}
+    \begin{userbox}
+      \small Qual é maior, $9.11$ ou $9.9$?
+    \end{userbox}
+    \begin{llmbadbox}
+      \small $9.11$ é maior do que $9.9$.
+    \end{llmbadbox}
+    \pause
+
+    \column{0.5\linewidth}
+    \begin{userbox}
+      \small O número $91$ é primo?
+    \end{userbox}
+    \begin{llmbadbox}
+      \small Sim, $91$ é primo: não é divisível por $2$, $3$ nem
+      $5$. \fade{($91 = 7 \times 13$)}
+    \end{llmbadbox}
+    \vspace{0.35em}
+    \begin{userbox}
+      \small Resolva $x + 3 = 7$ e confira a resposta.
+    \end{userbox}
+    \begin{llmbadbox}
+      \small $x = 4$. Conferindo: $4 + 3 = 8$. \emph{Confere!}
+    \end{llmbadbox}
+  \end{columns}
+  \vfill
+  \pause
+  \begin{center}\color{fgmute}\small
+    O problema não é ``às vezes errar''. É \hlo{errar com confiança máxima}.
+  \end{center}
+\end{frame}
+
+% --- A saga dos goblins (I) ------------------------------------------
+\begin{frame}{Bestiário de 2026: a saga dos goblins (I)}
+  \begin{center}
+    \includegraphics[height=0.66\textheight,keepaspectratio]{Images/goblin1.png}\\[0.4em]
+  
+  \end{center}
+\end{frame}
+
+% --- A saga dos goblins (II) -----------------------------------------
+\begin{frame}{A saga dos goblins (II)}
+  \begin{center}
+    \includegraphics[height=0.66\textheight,keepaspectratio]{Images/Goblin2.png}\\[0.4em]
+    \end{center}
+\end{frame}
+
+% --- Goblins: a explicação -------------------------------------------
+\begin{frame}{Goblins: o que aconteceu?}
+  \vspace{0.4em}
+  \begin{itemize}
+    \setlength{\itemsep}{0.7em}
+    \item \hlo{O sintoma:} o modelo passou a \emph{enfiar goblins
+          (e gremlins)} em lugares onde não cabem --- a ponto de o
+          provedor ter de intervir.
+    \pause
+    \item \hlb{A causa real:} a
+          ``personalidade nerd'' do GPT~5.4 simplesmente desenvolveu
+          uma \hl{predileção oculta por goblins}.
+    \pause
+    \item \hl{A moral:} o modelo carrega \emph{vieses
+          escondidos} que não pedimos --- e os exibe com total
+          naturalidade.
+  \end{itemize}
+  \vspace{0.6em}
+  \pause
+  \begin{center}\color{fgmute}\small
+    Engraçado --- e \emph{exatamente} o tipo de viés invisível que
+    não se pode ter dentro de uma prova.
+  \end{center}
+\end{frame}
+
+% --- O emoji do cavalo-marinho ---------------------------------------
+\begin{frame}{\ldots\ e o emoji do cavalo-marinho}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.40\linewidth}
+    \centering
+    \includegraphics[height=0.86\textheight,keepaspectratio]%
+      {Images/seahorse_crop.png}
+
+    \column{0.60\linewidth}
+    \vspace{0.4em}
+    \begin{itemize}\small
+      \setlength{\itemsep}{0.6em}
+      \item Pergunta: \emph{``existe um emoji de cavalo-marinho?''}
+      \pause
+      \item O modelo \hl{jura que sim}, tenta emiti-lo, erra, ``corrige'',
+            tenta de novo\ldots\ e entra num \hlo{loop} de
+            auto-correção que não converge.
+      \pause
+      \item Causa \emph{diferente} da dos goblins, mas o padrão é o
+            mesmo: o modelo carrega \hlb{crenças e predileções
+            ocultas} --- aqui, uma \emph{falsa memória coletiva}
+            (muita gente jura que esse emoji existe).
+    \end{itemize}
+    \vspace{0.6em}
+    \begin{center}\color{fgmute}\scriptsize
+      Confiança máxima, convergência zero.
+    \end{center}
+  \end{columns}
+\end{frame}
+
+% --- O ponto novo: ajuda real em matemática ---------------------------
+\begin{frame}{Mas algo mudou\ldots}
+  \vspace{0.2em}
+  \begin{itemize}
+    \setlength{\itemsep}{0.6em}
+    \item \hl{2024--2026:} modelos com ``raciocínio'' resolvem problemas
+          olímpicos (IMO/Putnam) com performance \emph{não-trivial}.
+    \pause
+    \item \hl{Math co-pilot:} sugerem lemas, completam contas, propõem
+          contraexemplos, mapeiam literatura.
+    \pause
+    \item \hl{Agentes autônomos:} buscam provas, chamam táticas em Lean,
+          iteram com o \texttt{kernel} até fechar o goal.
+    \pause
+    \item \hl{O que era ficção em 2022:} um teorema novo, descoberto
+          \emph{com ajuda de} um LLM, e \emph{verificado por outro}
+          em Lean.
+  \end{itemize}
+  \vspace{0.4em}
+  \pause
+  \begin{quotebox}
+    \small\color{fgmain}
+    A pergunta interessante hoje não é ``isso funciona?'', mas
+    \hlp{``como muda o que um matemático faz?''}
+  \end{quotebox}
+\end{frame}
+
+% =====================================================================
+\section{Lean: matemática como código}
+% =====================================================================
+
+% --- O que é Lean -----------------------------------------------------
+\begin{frame}{O que é Lean?}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.55\linewidth}
+    \begin{itemize}
+      \setlength{\itemsep}{0.5em}
+      \item Linguagem de programação \hl{+} assistente de provas.
+      \pause
+      \item Baseado em \hlb{teoria de tipos dependentes}: todo objeto
+            tem um \emph{tipo}, e tipos podem \emph{depender de
+            valores} (e.g.\ ``vetores de tamanho $n$''). Proposições
+            são tipos; provas são termos desses tipos.
+      \pause
+      \item Toda definição, lema, teorema é \hlo{verificado pelo
+            kernel}: nada de ``pode confiar em mim''.
+      \pause
+      \item \hlp{Mathlib:} biblioteca colaborativa com $>1.5$M de linhas,
+            cobrindo análise, álgebra, topologia, prob., etc.
+      \pause
+      \item Comunidade ativa formalizando
+            matemática moderna (Scholze, Tao, Gowers, \ldots).
+    \end{itemize}
+
+    \column{0.45\linewidth}
+    \begin{tcolorbox}[colback=bgpanel,colframe=rule,arc=2pt,boxrule=0.4pt,
+                       left=6pt,right=6pt,top=4pt,bottom=4pt]
+      \scriptsize\color{fgmute}
+      \textbf{\color{fgmain}Slogan.}\\[0.3em]
+      Em Lean, uma prova \emph{é} um \emph{termo} de um certo \emph{tipo}.
+      Provar $P$ é construir um elemento do tipo $P$.\\[0.4em]
+      \[\text{Prop} \;\leftrightarrow\; \text{Type} \qquad
+        \text{prova} \;\leftrightarrow\; \text{termo}\]
+    \end{tcolorbox}
+  \end{columns}
+\end{frame}
+
+% --- Lean: exemplo básico --------------------------------------------
+\begin{frame}[fragile]{Um teorema básico em Lean 4}
+  \vspace{-0.2em}
+\begin{lstlisting}
+import Mathlib.Tactic
+
+-- Para todo número natural n, vale n + 0 = n.
+theorem add_zero (n : ℕ) : n + 0 = n := by
+  rfl
+\end{lstlisting}
+
+  \vspace{0.2em}
+  \pause
+  \begin{itemize}\small
+    \setlength{\itemsep}{0.35em}
+    \item \texttt{\color{accent4}theorem add\_zero} --- o nome que
+          damos ao resultado.
+    \item \texttt{(n : ℕ)} --- a hipótese/dado: ``seja $n$ um número
+          natural''.
+    \item \texttt{: n + 0 = n} --- o \emph{enunciado} a ser provado
+          (o ``tipo'').
+    \item \texttt{:= by} --- ``aqui vem a \emph{prova}'', em modo de
+          \emph{táticas}.
+    \pause
+    \item \texttt{\color{accent4}rfl} --- de \emph{reflexividade}
+          ($a=a$). Prova uma igualdade quando os dois lados são
+          \hl{iguais por definição}: o Lean \emph{calcula} ambos e vê
+          que coincidem. Aqui, $n+0$ reduz a $n$ pela definição de
+          soma, então $n+0=n$ é literalmente $n=n$.
+    \pause
+    \item Se o kernel aceita, o teorema está \hl{provado}. Fim.
+  \end{itemize}
+\end{frame}
+
+% --- Lean: objetivo de longo prazo ------------------------------------
+\begin{frame}{O objetivo: estender Mathlib}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\linewidth}
+    \textbf{O ciclo virtuoso}
+    \begin{enumerate}
+      \setlength{\itemsep}{0.4em}
+      \item Demonstro um teorema novo (no papel).
+      \pause
+      \item Formalizo em Lean $\Rightarrow$ certeza absoluta.
+      \pause
+      \item Contribuo para o Mathlib $\Rightarrow$ próximas provas
+            ficam \emph{mais fáceis}.
+      \pause
+      \item LLMs/agentes têm \hlb{mais base} para sugerir provas.
+      \pause
+      \item Volta ao passo 1, mais ambicioso.
+    \end{enumerate}
+
+    \column{0.5\linewidth}
+    \begin{tcolorbox}[colback=bgpanel,colframe=accent,arc=2pt,boxrule=0.5pt,
+                       left=8pt,right=8pt,top=6pt,bottom=6pt]
+      \small\color{fgmain}
+      \textbf{\color{accent}Por que isso importa agora?}\\[0.3em]
+      Quanto mais a biblioteca cresce, mais um agente pode \emph{pesquisar
+      por similaridade} e \emph{compor} provas existentes.\\[0.4em]
+      Mathlib é, em parte, o \hl{dataset de treino} da próxima geração
+      de provadores automáticos.
+    \end{tcolorbox}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\section{Recuperação de fase}
+% =====================================================================
+
+% --- Phase retrieval: o problema -------------------------------------
+\begin{frame}{Recuperação de fase --- o que é?}
+  \begin{defbox}[O problema (informal)]
+    Dadas as medidas $\abs{\F(f)(\xi)}$ (módulo da transformada de Fourier,
+    ou de outra transformação linear), recuperar $f$ \emph{módulo
+    simetrias triviais}.
+  \end{defbox}
+  \vspace{0.4em}
+  \begin{itemize}\small
+    \setlength{\itemsep}{0.4em}
+    \item Em uma medição física, frequentemente só \hlo{intensidades}
+          $\abs{\hat f(\xi)}^2$ são observáveis --- a \hl{fase} se perde.
+    \item Simetrias triviais: $f \mapsto e^{i\theta} f$,\
+          $f \mapsto \bar f(-\cdot)$, translações\ldots
+    \item Pergunta-mãe: \hlb{quando} a fase é determinada pela
+          magnitude? \hlb{Como} reconstruí-la?
+  \end{itemize}
+\end{frame}
+
+% --- Phase retrieval: aplicações --------------------------------------
+\begin{frame}{Onde isso aparece}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.33\linewidth}
+    \textbf{\color{accent}Física}\\[0.3em]
+    \footnotesize\color{fgmute}
+    Cristalografia de raios X, difração coerente, óptica quântica,
+    espectroscopia.
+
+    \column{0.33\linewidth}
+    \textbf{\color{accent2}Engenharia}\\[0.3em]
+    \footnotesize\color{fgmute}
+    Processamento de sinais (áudio, fala), ptychography, radar de
+    abertura sintética, holografia.
+
+    \column{0.33\linewidth}
+    \textbf{\color{accent3}Medicina}\\[0.3em]
+    \footnotesize\color{fgmute}
+    Microscopia eletrônica de partícula única (cryo-EM), imagiamento
+    sem-lente, certas modalidades de MRI.
+  \end{columns}
+  \vspace{1.2em}
+  \begin{center}
+    \begin{tikzpicture}[every node/.style={font=\footnotesize\color{fgmain}}]
+      \node[draw=accent2,thick,rounded corners,fill=bgpanel,
+            minimum width=2.6cm,minimum height=0.9cm] (f) {sinal $f$};
+      \node[draw=accent,thick,rounded corners,fill=bgpanel,
+            minimum width=2.6cm,minimum height=0.9cm,right=1.2cm of f]
+            (af) {medida $\abs{Af}$};
+      \node[draw=accent3,thick,rounded corners,fill=bgpanel,
+            minimum width=2.6cm,minimum height=0.9cm,right=1.2cm of af]
+            (rec) {$f$ recuperado};
+      \draw[->,thick,accent2] (f) -- node[above,font=\scriptsize\color{fgmute}]
+            {$|A\cdot|$} (af);
+      \draw[->,thick,accentred,dashed] (af) -- node[above,font=\scriptsize\color{fgmute}]
+            {\,?\,} (rec);
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+% --- Phase retrieval: histórico ---------------------------------------
+\begin{frame}{Uma história curta (e parcial)}
+  \begin{itemize}\small
+    \setlength{\itemsep}{0.42em}
+    \item \hl{1933} --- \textbf{Problema de Pauli}: $\abs{\psi}$ e
+          $\abs{\hat\psi}$ determinam o estado quântico $\psi$?
+    \pause
+    \item \hl{1956} --- \textbf{Akutowicz}: primeiras respostas de
+          \emph{unicidade} via fatorização de funções inteiras.
+    \pause
+    \item \hl{1972--82} --- \textbf{Gerchberg--Saxton}, \textbf{Fienup}:
+          algoritmos iterativos \fade{(o lado aplicado)}.
+    \pause
+    \item \hl{2006--} \textbf{Balan--Casazza--Edidin}: teoria de
+          \emph{frames de fase}; unicidade e estabilidade abstratas.
+    \pause
+    \item \hl{2014--} \textbf{Candès et al.}: garantias rigorosas
+          (PhaseLift, Wirtinger flow).
+    \pause
+    \item \hl{2020--} \textbf{Estabilidade \emph{sharp} e rigidez}
+          para classes estruturadas (band-limitadas, gaussianas,
+          Hermite, \ldots).
+  \end{itemize}
+\end{frame}
+
+% --- Dois sub-problemas: visão geral ----------------------------------
+\begin{frame}{Dois sub-problemas neste trabalho}
+  \vspace{0.3em}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.48\linewidth}
+    \begin{tcolorbox}[colback=bgpanel,colframe=accent2,coltext=fgmain,
+                       arc=2pt,boxrule=0.5pt,
+                       left=8pt,right=8pt,top=6pt,bottom=6pt,
+                       title={\sffamily\bfseries\small Sub-problema A
+                              --- ``sabor probabilístico''},
+                       coltitle=bgdark,fonttitle=\small]
+      \small
+      Combinações $X$ de variáveis aleatórias \hlb{independentes}.
+      Quando $\abs{X}$ determina $X$ a menos de sinal --- e de forma
+      \emph{estável}?\\[0.3em]
+      \fade{\scriptsize Recuperação estável de $X$ a partir de
+      $\abs{X}$, módulo sinal, em spans de v.a.\ independentes.}
+    \end{tcolorbox}
+    \pause
+
+    \column{0.48\linewidth}
+    \begin{tcolorbox}[colback=bgpanel,colframe=accent3,coltext=fgmain,
+                       arc=2pt,boxrule=0.5pt,
+                       left=8pt,right=8pt,top=6pt,bottom=6pt,
+                       title={\sffamily\bfseries\small Sub-problema B
+                              --- ``sabor analítico''},
+                       coltitle=bgdark,fonttitle=\small]
+      \small
+      Recuperação no \hlo{espaço de Fock}: $\abs{F}$
+      determina $F$ a menos de fase. Rigidez \emph{estável} perto da
+      função $\mathbf{1}$.\\[0.3em]
+      \fade{\scriptsize Estabilidade da recuperação de fase para
+      funções analíticas, localizada em $\mathbf{1}$.}
+    \end{tcolorbox}
+  \end{columns}
+
+  \vspace{0.8em}
+  \pause
+  \begin{center}\small\color{fgmute}
+    Mesmo problema, métodos completamente diferentes ---
+    e \hl{ambos} se beneficiaram de assistência por LLM.
+  \end{center}
+\end{frame}
+
+% =====================================================================
+\section{Sub-problema A: o teorema probabilístico}
+% =====================================================================
+
+% --- Paper 1: setup --------------------------------------------------
+\begin{frame}{Sub-problema A --- formulação}
+  \begin{defbox}[Setup]
+    Sejam $\eta,\xi_2,\xi_3,\ldots$ variáveis aleatórias reais
+    \hlb{independentes}, normalizadas em $L^2$ e de média zero.
+    Considere os elementos $X$ do espaço gerado (fechado),
+    \[
+      X \in \overline{\Span}(\eta,\xi_2,\xi_3,\ldots).
+    \]
+    \emph{Medimos $\abs{X}$; queremos recuperar $X$ a menos de sinal
+    $\pm$ --- de modo \hlo{estável}.}
+  \end{defbox}
+  \vspace{0.4em}
+  \pause
+  \begin{itemize}\small
+    \setlength{\itemsep}{0.35em}
+    \item ``Estável'' $=$ a perda da fase só pode distorcer pouco:
+          $\min_{\sigma=\pm1}\norm{X-\sigma Y}_{L^2}$ controlado por
+          $\norm{\,\abs{X}-\abs{Y}\,}_{L^2}$.
+    \item A pergunta: \hl{quais hipóteses} sobre as $\xi_i$ garantem
+          uma constante \emph{uniforme}?
+  \end{itemize}
+\end{frame}
+
+% --- Paper 1: o teorema ---------------------------------------------
+\begin{frame}{Teorema 1 --- recuperação de fase estável (v.a.\ independentes)}
+  \begin{thmbox}[Teorema 1 (Abdalla, de Dios Pont, Ramos, Taylor)]
+    \small
+    Sejam $\eta,\xi_2,\xi_3,\ldots$ variáveis aleatórias reais
+    independentes e $\delta>0$. Suponha
+    \[
+      \norm{\eta}_{L^2}=1,\quad \E[\eta]=0,
+    \]
+    e, para todo $i\ge2$,\
+    $\norm{\xi_i}_{L^2}=1$,\ $\E[\xi_i]=0$,\
+    $\delta\le\norm{\xi_i}_{L^1}\le 1-\delta$.
+    Então existe $C_{\delta,\eta}\ge1$ tal que, para todos
+    $X,Y\in\overline{\Span}(\eta,\xi_i:i\ge2)$,
+    \[
+      \min_{\sigma\in\{\pm1\}}\norm{X-\sigma Y}_{L^2}
+      \;\le\;
+      C_{\delta,\eta}\,\bigl\|\,\abs{X}-\abs{Y}\,\bigr\|_{L^2}.
+    \]
+  \end{thmbox}
+  \vspace{0.5em}
+  \pause
+  \begin{itemize}\small
+    \item A hipótese-chave é o \hl{controle bilateral de
+          $\norm{\xi_i}_{L^1}$} (longe de $0$ e de $1$) para
+          $i\ge2$ --- e \emph{ela é necessária}.
+  \end{itemize}
+\end{frame}
+
+% --- Paper 1: ideia da prova -----------------------------------------
+\begin{frame}{Teorema 1 --- ideia da prova}
+  \begin{itemize}\small
+    \setlength{\itemsep}{0.55em}
+    \item \hl{Redução ao caso ortogonal.} Basta provar a desigualdade
+          para pares \emph{ortogonais} $X\perp Y$
+          (via Freeman--Oikhberg--Pineau).
+    \pause
+    \item \hl{Contradição por compacidade.} Se não houver constante
+          uniforme, tome sequências quase-contraexemplo
+          $(X_n,Y_n)$ no span.
+    \pause
+    \item \hl{Decomposição cabeça--cauda.} Separe os coeficientes em
+          uma \emph{cabeça} que converge forte em $\ell^2$ e uma
+          \emph{cauda difusa} ($\ell^\infty\to0$).
+    \pause
+    \item \hl{Passagem ao limite.} Por independência, obtém-se
+          $\abs{H_X+R_X}=\abs{H_Y+R_Y}$ com $(R_X,R_Y)$ um vetor
+          \emph{infinitamente divisível}, independente da cabeça.
+    \pause
+    \item \hl{Contradição geométrica.} Leis infinitamente divisíveis
+          não podem concentrar-se em duas retas distintas.
+    \pause
+    \item \hlo{Versão quantitativa.} Troque o limite por uma
+          \emph{dicotomia concentração--difusão} explícita $+$
+          anticoncentração (tipo Sperner) $\Rightarrow$
+          $C_{\delta,\eta}$ explícito.
+  \end{itemize}
+\end{frame}
+
+% --- Paper 1: statement em Lean --------------------------------------
+\begin{frame}[fragile]{Teorema 1 --- enunciado em Lean}
+  \vspace{-0.3em}
+\begin{lstlisting}
+theorem quantitative_orthogonal_lower_bound
+    {n : ℕ} (ξ : Fin n → Ω → ℝ)
+    (hMeas  : ∀ i, Measurable (ξ i))
+    (hIndep : iIndepFun (fun _ => inferInstance) ξ ℙ)
+    (hMean  : ∀ i, 𝔼[ξ i] = 0)
+    (hVar   : ∀ i, 𝔼[(ξ i) ^ 2] = 1)
+    {A B : ℝ} (hA : 0 < A) (hB : B < 1)
+    (hL1_lo : ∀ i, A ≤ 𝔼[|ξ i|])
+    (hL1_hi : ∀ i, i.val ≠ 0 → 𝔼[|ξ i|] ≤ B)
+    (a b : Fin n → ℝ)
+    (haN : ∑ i, a i ^ 2 = 1) (hbN : ∑ i, b i ^ 2 = 1)
+    (hab : ∑ i, a i * b i = 0) :
+    StabilityConstant A B ≤
+      Real.sqrt (𝔼[(|∑ i, a i • ξ i| - |∑ i, b i • ξ i|) ^ 2])
+\end{lstlisting}
+  \vspace{-0.3em}
+  \pause
+  \begin{itemize}\small
+    \item Forma \hl{finitária e quantitativa}: caso ortogonal,
+          dimensão finita, constante \emph{computável}
+          (\texttt{StabilityConstant}).
+    \item Esta é a forma ``amigável para Lean'' --- a passagem ao
+          limite fica para um lema-ponte dedicado.
+  \end{itemize}
+\end{frame}
+
+% --- Paper 1: onde o LLM ajudou --------------------------------------
+\begin{frame}{Onde o LLM \emph{realmente} ajudou (paper A)}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\linewidth}
+    \textbf{\color{accent}Onde ajudou}
+    \begin{itemize}\small
+      \setlength{\itemsep}{0.3em}
+      \item \hl{Ponto de partida:} já tínhamos a prova humana do caso
+            $L^p$, $p>2$; o GPT achou na literatura argumentos que
+            adaptamos ao endpoint $L^2$.
+      \item \hl{Pilar conceitual:} propôs abrir mão da gaussianidade
+            do limite e usar o princípio ao lado (\emph{Anedota}).
+      \item \hl{Salto quantitativo:} pedida uma alternativa, gerou
+            uma estratégia \emph{combinatória} (Sperner) --- ideal
+            para estimativas uniformes e verificação formal.
+    \end{itemize}
+    \vspace{0.35em}
+    \pause
+    \textbf{\color{accentred}Onde \emph{não} ajudou}
+    \begin{itemize}\small
+      \item Referências \hlo{alucinadas}; o código Lean gerado era de
+            baixa qualidade --- enunciados conferidos e reescritos
+            por nós.
+    \end{itemize}
+
+    \column{0.5\linewidth}
+    \pause
+    \begin{tcolorbox}[colback=bgpanel,colframe=accent,arc=2pt,boxrule=0.5pt,
+                       left=8pt,right=8pt,top=6pt,bottom=6pt,
+                       title={\sffamily\bfseries\small Anedota --- o princípio que destravou},
+                       coltitle=bgdark,fonttitle=\small]
+      \small\color{fgmain}
+      Um vetor aleatório \emph{infinitamente divisível} em $\R^2$,
+      não-trivial e suportado na \hl{cruz}
+      \[
+        \{(x,y)\in\R^2:\abs{x}=\abs{y}\},
+      \]
+      tem de estar concentrado em uma das \hlb{diagonais}
+      $\{x=y\}\cup\{x=-y\}$.\\[0.4em]
+      \fade{\scriptsize Sugerido numa conversa com o GPT; virou um dos
+      pilares do projeto. A versão quantitativa: ``perto da cruz''
+      força ``perto de uma diagonal''.}
+    \end{tcolorbox}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\section{Sub-problema B: o teorema analítico}
+% =====================================================================
+
+% --- Paper 2: setup --------------------------------------------------
+\begin{frame}{Sub-problema B --- formulação}
+  \begin{defbox}[Setup]
+    Espaço de Fock $\mathcal{F}^2(\C)$: funções inteiras $F=\sum a_n z^n$
+    com peso gaussiano,
+    \[
+      \norm{F}_{\mathcal{F}}^2
+      =\frac1\pi\!\int_{\C}\!\abs{F(z)}^2 e^{-\abs{z}^2}\,dm(z)
+      =\sum_{n\ge0}\abs{a_n}^2\,n!.
+    \]
+    Dado $\abs{F}$, recuperar $F$ a menos de fase $\lambda$,
+    $\abs{\lambda}=1$ --- \emph{de modo estável, perto de
+    $\mathbf{1}$.}
+  \end{defbox}
+  \vspace{0.4em}
+  \pause
+  \begin{itemize}\small
+    \setlength{\itemsep}{0.35em}
+    \item \hl{Rigidez analítica} em vez de aleatoriedade.
+    \item Ferramentas: coordenadas polares, estimativas de círculo,
+          localização em frequência, função-defeito Lipschitz.
+  \end{itemize}
+\end{frame}
+
+% --- Paper 2: o teorema ---------------------------------------------
+\begin{frame}{Teorema 2 --- SPR local em $\mathbf{1}$ (espaço de Fock)}
+  \begin{thmbox}[Teorema 2 (Bertolini, de Dios Pont, Pineau, Ramos, Taylor)]
+    \small
+    Existe uma constante absoluta $M>0$ tal que, para toda
+    $F\in\mathcal{F}^2(\C)$,
+    \[
+      \inf_{\abs{\lambda}=1}\norm{F-\lambda}_{\mathcal{F}}
+      \;\le\;
+      M\,\bigl\|\,\abs{F}-1\,\bigr\|_{\mathcal{F}}.
+    \]
+  \end{thmbox}
+  \vspace{0.4em}
+  \pause
+  \begin{itemize}\small
+    \setlength{\itemsep}{0.4em}
+    \item Em palavras: se o \emph{módulo} $\abs{F}$ está perto de
+          $1$, então $F$ está perto de uma \emph{constante de
+          módulo $1$} --- e a perda na fase é controlada
+          \hl{linearmente} pelo defeito de módulo.
+  \end{itemize}
+\end{frame}
+
+% --- Paper 2: ideia da prova -----------------------------------------
+\begin{frame}{Teorema 2 --- ideia da prova}
+  \begin{itemize}\small
+    \setlength{\itemsep}{0.5em}
+    \item \hl{Redução a uma desigualdade de coercividade.} Basta
+          tratar perturbações \emph{ortogonais} à constante; como o
+          defeito de módulo é \emph{1-Lipschitz}, isso sobe para a
+          estabilidade local.
+    \pause
+    \item \hl{Coordenadas polares.} A integral gaussiana se separa
+          em \emph{raio} $\times$ \emph{círculo} --- basta controlar
+          cada círculo, um raio de cada vez.
+    \pause
+    \item \hl{Estimativas de círculo.} Uma para poucas frequências;
+          outra, \emph{uniforme}, quando as frequências são altas.
+    \pause
+    \item \hl{Localização.} Cada termo concentra sua massa gaussiana
+          num anel; trabalha-se anel a anel, e a ``conversa'' entre
+          anéis distantes decai muito rápido.
+    \pause
+    \item \hl{Montagem.} Junta-se as estimativas de círculo anel a
+          anel e integra-se; o resto é exponencialmente pequeno.
+  \end{itemize}
+\end{frame}
+
+% --- Paper 2: statement em Lean --------------------------------------
+\begin{frame}[fragile]{Teorema 2 --- enunciado em Lean}
+  \vspace{-0.3em}
+\begin{lstlisting}
+-- Base de Hermite, medida gaussiana e fecho do span: ver Showcase.lean
+def γ : Measure (Fin d → ℂ) :=
+  volume.withDensity fun z ↦
+    ENNReal.ofReal ((1 / Real.pi ^ d) *
+      Real.exp (-∑ q : Fin d, ‖z q‖ ^ 2))
+
+theorem stable_phase_retrieval
+    (hd : 0 < d) {κ : Fin d → ℕ}
+    {P : (Fin d → ℂ) → ℂ} (hP : P ∈ TrueHermitePolys κ) :
+    ∃ M : ℝ, 0 < M ∧
+      ∀ Q ∈ TrueHermiteFunctions κ,
+        ∃ θ : ℂ, ‖θ‖ = 1 ∧
+          ∫ z, ‖P z - θ * Q z‖ ^ 2 ∂ γ
+            ≤ M ^ 2 * ∫ z, (‖P z‖ - ‖Q z‖) ^ 2 ∂ γ
+\end{lstlisting}
+  \vspace{-0.3em}
+  \pause
+  \begin{itemize}\small
+    \item Enunciado por \hl{integrais explícitas} (sem teoria
+          abstrata de Hilbert), com a constante $M$ quantificada.
+    \item \texttt{θ} no lugar de $\lambda$ --- reservado para
+          funções anônimas em Lean.
+  \end{itemize}
+\end{frame}
+
+% --- Paper 2: onde o LLM ajudou --------------------------------------
+\begin{frame}{Onde o LLM ajudou (paper B)}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\linewidth}
+    \textbf{\color{accent}Onde ajudou}
+    \begin{itemize}\small
+      \setlength{\itemsep}{0.3em}
+      \item \hl{Destravou a direção:} de uma redução \emph{falsa} a
+            uma estimativa de círculo (\emph{Anedota}), vimos o que
+            salvar.
+      \item \hl{Refinou a estimativa:} nosso esboço perdia um
+            $\log$; o GPT (Codex) refinou --- saiu a prova completa.
+    \end{itemize}
+    \vspace{0.35em}
+    \pause
+    \textbf{\color{accentred}Onde \emph{não} ajudou}
+    \begin{itemize}\small
+      \item A redução-chave \emph{não} veio do LLM (variante de
+            resultado clássico); no Lean, traduções erradas do
+            blueprint e estrutura de Hilbert desnecessária.
+    \end{itemize}
+
+    \column{0.5\linewidth}
+    \pause
+    \begin{tcolorbox}[colback=bgpanel,colframe=accent2,arc=2pt,boxrule=0.5pt,
+                       left=8pt,right=8pt,top=6pt,bottom=6pt,
+                       title={\sffamily\bfseries\small Anedota --- a redução falsa que funcionou},
+                       coltitle=bgdark,fonttitle=\small]
+      \small\color{fgmain}
+      Numa conversa de várias trocas com o GPT, surgiu uma
+      \hlo{redução \emph{incorreta}} do problema a uma estimativa de
+      círculo. Insistindo em entendê-la, percebemos que uma
+      \emph{modificação} do argumento se salvava --- e levava à prova.
+    \end{tcolorbox}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\section{Verificação autônoma em Lean}
+% =====================================================================
+
+% --- Pipeline --------------------------------------------------------
+\begin{frame}{O pipeline de autoformalização}
+  \vspace{0.4em}
+  \begin{center}
+    \begin{tikzpicture}[every node/.style={font=\footnotesize\color{fgmain}},
+                        node distance=0.9cm and 0.6cm]
+      \node[draw=accent2,thick,rounded corners,fill=bgpanel,
+            minimum width=2.4cm,minimum height=0.9cm] (paper) {prova em LaTeX};
+      \node[draw=accent,thick,rounded corners,fill=bgpanel,
+            minimum width=2.4cm,minimum height=0.9cm,right=of paper]
+            (stmt) {enunciado Lean};
+      \node[draw=accent,thick,rounded corners,fill=bgpanel,
+            minimum width=2.4cm,minimum height=0.9cm,right=of stmt]
+            (skel) {esqueleto de prova};
+      \node[draw=accent3,thick,rounded corners,fill=bgpanel,
+            minimum width=2.4cm,minimum height=0.9cm,right=of skel]
+            (search) {busca de táticas};
+      \node[draw=accent4,thick,rounded corners,fill=bgpanel,
+            minimum width=2.4cm,minimum height=0.9cm,below=1.2cm of search]
+            (kernel) {kernel verifica};
+      \node[draw=accent,thick,rounded corners,fill=bgpanel,
+            minimum width=2.4cm,minimum height=0.9cm,left=of kernel]
+            (lemmas) {lemas em Mathlib};
+      \node[draw=accent2,thick,rounded corners,fill=bgpanel,
+            minimum width=2.4cm,minimum height=0.9cm,left=of lemmas]
+            (qed) {QED $\checkmark$};
+
+      \draw[->,thick,accent2] (paper) -- (stmt);
+      \draw[->,thick,accent] (stmt) -- (skel);
+      \draw[->,thick,accent] (skel) -- (search);
+      \draw[->,thick,accent3] (search) -- (kernel);
+      \draw[->,thick,accent4] (kernel) -- (lemmas);
+      \draw[->,thick,accent] (lemmas) -- (qed);
+      \draw[->,thick,accentred,dashed] (kernel.north)
+            to[bend right=30] node[right,font=\scriptsize\color{fgmute}]
+            {falhou: itera} (search.south);
+    \end{tikzpicture}
+  \end{center}
+  \vspace{0.6em}
+  \pause
+  \begin{itemize}\small
+    \item \hl{Agente} = LLM + ambiente Lean + memória de tentativas.
+    \item Cada passo é \hlo{verificado pelo kernel} --- nenhuma
+          alucinação sobrevive.
+  \end{itemize}
+\end{frame}
+
+% --- Metodologia: o passo-a-passo ------------------------------------
+\begin{frame}{Como formalizamos: o passo-a-passo}
+  \begin{enumerate}\small
+    \setlength{\itemsep}{0.5em}
+    \item \hl{Esboço / fatiamento.} Quebrar o paper em pedaços
+          \emph{auto-contidos} (uma ideia por arquivo). Extrair
+          \emph{toda} referência externa, separando ``matemática
+          comum'' de ``resultados citados''. Isolar cada lema com seu
+          contexto mínimo e revisá-lo para correção.
+    \pause
+    \item \hlb{Blueprint.} Transformar a prova numa árvore de arquivos
+          \texttt{.md}. Reescrever
+          os enunciados em forma \emph{finitária e quantitativa}. \emph{Toda} hipótese explícita.
+          Pré-checar que cada resultado citado existe no Mathlib.
+    \pause
+    \item \hlo{Enxame em Lean.} Um agente por arquivo, cada um editando
+          só sua cópia e importando as outras versões.
+          Dependências entram como \emph{axiomas/}\texttt{sorry}
+          (proposital). Ninguém muda assinatura de teorema sem sinalizar.
+    \pause
+    \item \hlp{Kernel \texttt{+} faxina.} Substituir os originais pelas cópias quando \emph{sorry-free};
+          deixar lemas ``Mathlib-ready'', anotando os reaproveitáveis
+          com \texttt{-{}- to\_mathlib:}.
+    \pause
+    \item \hl{Loop.} Devolver os enunciados verificados $\to$ contribuir
+          ao Mathlib $\to$ a próxima prova fica mais fácil.
+  \end{enumerate}
+\end{frame}
+
+% --- Metodologia: a realidade crua -----------------------------------
+\begin{frame}{A realidade crua (sem filtro)}
+  \begin{itemize}\small
+    \setlength{\itemsep}{0.55em}
+    \item \hlo{Tempo:} cada resultado ``ingênuo'' leva tipicamente
+          \hl{$\sim$2 dias} para formalizar de ponta a ponta.
+    \pause
+    \item \hlo{Custo:} consome boa parte da cota mensal de tokens de
+          uma conta \hl{Claude Max / GPT Max} --- não é barato.
+    \pause
+    \item \hlo{Axiomas implícitos:} o primeiro passe quase sempre
+          ``fecha'' --- mas escondendo \texttt{sorry}/axiomas nas
+          dependências. \hl{Auditar sempre} (\texttt{\#print axioms}).
+    \pause
+    \item \hlo{Refinar é a regra:} um enunciado ingênuo vira um
+          enunciado \emph{difícil} em Lean. Trocar
+          \texttt{tsum}/integrais por somas finitas, caçar
+          \texttt{MAX\_HEARTBEATS}, requantificar constantes.
+    \pause
+    \item \hlo{O ciclo real:} refinar $\to$ rebuildar $\to$ reauditar.
+          O ``co-autor'' não é autônomo --- é um operário rápido que
+		 precisa de \hl{andaimes humanos}.
+  \end{itemize}
+  \vspace{0.4em}
+  \pause
+  \begin{center}\color{fgmute}\small
+    Lento e caro \emph{hoje}. Mas a certeza é \hl{absoluta}, e a
+    biblioteca composta acelera a próxima prova.
+  \end{center}
+\end{frame}
+
+% --- O que o agente fez bem / mal ------------------------------------
+\begin{frame}{O que o agente fez bem (e mal)}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\linewidth}
+    \textbf{\color{accent}Bem}
+    \begin{itemize}\small
+      \item Encontrou lemas no Mathlib que nós \emph{não conhecíamos}.
+      \item Resolveu pequenas imprecisões (tipo, namespace, coerção).
+      \item Iterou rapidamente quando \texttt{simp}/\texttt{linarith}
+            quase fechavam.
+      \item Aprendeu a estruturar blocos
+            longos.
+    \end{itemize}
+    \pause
+
+    \column{0.5\linewidth}
+    \textbf{\color{accentred}Mal}
+    \begin{itemize}\small
+      \item Inventou nomes de lemas que não existiam.
+      \item Misturou Lean 3 e Lean 4 (\texttt{begin\ldots end} vs
+            \texttt{by}).
+      \item Em provas longas, perdeu o ``estado'' do goal.
+      \item Falhou em raciocínios verdadeiramente \emph{globais} ---
+             precisa de \hl{andaimes humanos}.
+    \end{itemize}
+  \end{columns}
+  \vspace{0.8em}
+  \pause
+  \begin{center}\small\color{fgmute}
+    Resultado líquido: \hl{muito útil}, especialmente quando o
+    matemático sabe \emph{o que pedir} e \emph{como fazer}.
+  \end{center}
+\end{frame}
+
+% =====================================================================
+\section{Perspectiva}
+% =====================================================================
+
+% --- O que isso muda -------------------------------------------------
+\begin{frame}{O que muda no trabalho do matemático?}
+  \begin{itemize}\setlength{\itemsep}{0.55em}
+    \item \hl{Curto/Médio prazo:} co-piloto onipresente;
+          menos trabalho braçal; formalização \emph{em paralelo} com
+          a escrita; busca de lemas e contas verificadas.
+    \item \hlb{Longo prazo:} {\bf ?} \pause Por enquanto, é só isso que podemos afirmar - não sabemos para
+          onde o longo prazo vai, e prometer certezas = chute.
+  \end{itemize}
+  \vspace{0.5em}
+  \pause
+  \begin{quotebox}
+    \small\color{fgmain}
+    Uma coisa não muda: quem \hlp{atribui significado},
+    \hlp{conecta ideias distantes}, \hlp{enxerga beleza} e
+    \hlp{decide o que vale a pena perguntar} somos nós. Os LLMs são, e
+    seguirão sendo, \emph{ferramentas excelentes}; o trabalho
+    matemático permanece, no fundo, \hl{inerentemente humano}.
+  \end{quotebox}
+\end{frame}
+
+% --- Direções futuras ------------------------------------------------
+\begin{frame}{Direções futuras concretas}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\linewidth}
+    \textbf{\color{accent}Lean \& autoformalização}
+    \begin{itemize}\small
+      \item Contribuir os lemas de recuperação de fase ao Mathlib.
+      \item Tornar reprodutível o pipeline \emph{artigo $\to$ Lean}.
+      \item \emph{Benchmarks} de autoformalização em análise
+            harmônica.
+    \end{itemize}
+    \pause
+
+    \column{0.5\linewidth}
+    \textbf{\color{accent2}LLMs \& aplicações}
+    \begin{itemize}\small
+      \item Melhorar a tradução \emph{blueprint $\to$ Lean} (o gargalo
+            de hoje).
+      \item Busca de provas assistida por agentes, com auditoria de
+            axiomas.
+      \item Levar os resultados de volta à recuperação de fase
+            \emph{experimental} (e.g.\ amostragem em espiral).
+    \end{itemize}
+  \end{columns}
+  \vspace{0.8em}
+  \pause
+  \begin{quotebox}
+    \small\itshape\color{fgmain}
+    ``I think this is going to be very transformative for mathematics.
+    \ldots\ Mathematicians and AI will work together.''\\[0.3em]
+    \hfill --- \textnormal{Terence Tao}
+  \end{quotebox}
+\end{frame}
+
+% --- Agradecimentos / fim --------------------------------------------
+\begin{frame}[plain]{Obrigado}
+  \vspace{0.4em}
+  \begin{center}
+    {\Large\bfseries\color{fgmain} Obrigado!}\\[1em]
+    {\color{fgmute} Trabalho em colaboração com}\\[0.3em]
+    {P.~Abdalla, S.~Bertolini, J.~de Dios, B.~Pineau, M.~Taylor.}\\[1.5em]
+    {\color{accent}\rule{0.3\linewidth}{0.4pt}}\\[1em]
+    \begin{minipage}{0.8\linewidth}
+      \itshape\small\color{fgmute}
+      ``The book of nature is written in the language of mathematics.''
+      --- Galileo\\[0.5em]
+      \itshape\small\color{fgmute}
+      ``\ldots\ and increasingly, mathematics is being written in the
+      language of Lean.''
+    \end{minipage}\\[1.5em]
+    {\ttfamily\small\color{accent} questions?}\quad
+    {\ttfamily\small\color{fgmute} \# perguntas?}
+  \end{center}
+\end{frame}
+
+\end{document}

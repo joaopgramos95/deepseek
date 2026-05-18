@@ -1,0 +1,444 @@
+\documentclass[12pt,leqno]{amsart}
+\usepackage[latin1]{inputenc}
+\textheight=8.6truein
+ \textwidth=7truein \hoffset=-1truein
+\usepackage{color}
+\usepackage{amssymb,amsmath,amsthm,amscd,amsfonts}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage[all]{xy}
+\vfuzz2pt
+\hfuzz2pt
+\usepackage{hyperref,cleveref,graphics,mathrsfs}
+ %\voffset=-.5truein
+%\usepackage{showkeys}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\numberwithin{equation}{section}
+\def\hangbox to #1 #2{\vskip3pt\hangindent #1\noindent \hbox to #1{#2}$\!\!$}
+\def\Item#1{\hangbox to 50pt {#1\hfill}}
+
+%%%%%%%  ENVIRONMENT SETTINGS %%%%
+
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+
+\usepackage{hyperref,cleveref,amssymb,mathtools}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{numbered}[theorem]{}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+
+\renewcommand{\theenumi}{\roman{enumi}} % Use small romans for items
+\renewcommand{\labelenumi}{(\theenumi)}
+
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\bigabs}[1]{\bigl\lvert#1\bigr\rvert}
+\newcommand{\bignorm}[1]{\bigl\lVert#1\bigr\rVert}
+\newcommand{\Bigabs}[1]{\Bigl\lvert#1\Bigr\rvert}
+\newcommand{\biggabs}[1]{\biggl\lvert#1\biggr\rvert}
+\newcommand{\Bignorm}[1]{\Bigl\lVert#1\Bigr\rVert}
+\newcommand{\biggnorm}[1]{\biggl\lVert#1\biggr\rVert}
+\newcommand{\Biggnorm}[1]{\Biggl\lVert#1\Biggr\rVert}
+\newcommand{\term}[1]{{\textit{\textbf{#1}}}}   % To introduce a term
+\newcommand{\marg}[1]{\marginpar{\tiny #1}}     % A margin note
+\renewcommand{\mid}{\::\:}
+
+\DeclareSymbolFont{bbold}{U}{bbold}{m}{n}
+\DeclareSymbolFontAlphabet{\mathbbold}{bbold}
+\def\one{\mathbbold{1}}
+%\def\one{\mathbb 1}
+
+%\DeclareMathOperator{\Range}{Range}
+\DeclareMathOperator{\FLA}{FLA}
+\DeclareMathOperator{\FLAu}{FLA^1}
+\DeclareMathOperator{\FLAuplus}{FLA^{1+}}
+\DeclareMathOperator{\FBLA}{FBLA}
+\DeclareMathOperator{\FBL}{FBL}
+\DeclareMathOperator{\FVL}{FVL}
+\renewcommand{\le}{\leqslant}
+\renewcommand{\ge}{\geqslant}
+
+\renewcommand{\baselinestretch}{1.2}
+
+%%%%%%  MACROS %%%%%%%%%%%%%%
+
+\def\C{{\mathbb C}}
+\def\N{{\mathbb N}}
+\def\R{{\mathbb R}}
+\def\Q{{\mathbb Q}}
+\def\Z{{\mathbb Z}}
+\def\F{{\mathbb F}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\bC{{\mathbf C}}
+\def\bE{{\mathbf E}}
+\def\bF{{\mathbf F}}
+\def\bG{{\mathbf G}}
+\def\bH{{\mathbf H}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\a{{\rm a}}
+\def\b{{\rm b}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\cA{{\mathcal A}}
+\def\cB{{\mathcal B}}
+\def\cC{{\mathcal C}}
+\def\cG{{\mathcal G}}
+\def\cL{{\mathcal L}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\trivert}{|\!|\!|}
+\newcommand{\btrivert}{\big|\!\big|\!\big|}
+\newcommand{\cBtrivert}{\Big|\!\Big|\!\Big|}
+\newcommand{\ra}{\rangle}
+\newcommand{\la}{\langle}
+\newcommand{\itemEq}[1]{%
+        \begingroup%
+        \setlength{\abovedisplayskip}{0pt}%
+        \setlength{\belowdisplayskip}{0pt}%
+        \parbox[c]{\linewidth}{\begin{flalign}#1&&\end{flalign}}%
+        \endgroup}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\sfrac#1#2{\kern.1em\raise.5ex\hbox{$#1$}
+        \kern-.1em/\kern-.05em\lower.25ex\hbox{$#2$}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\ov#1{\overline{#1}}
+\def\To{\Rightarrow}
+\def\ds{\displaystyle}
+\def\vp{\varepsilon}
+\def\dim{\operatorname{dim}}
+\def\Id{\operatorname{Id}}
+\def\NORM#1{{|\!|\!| #1 |\!|\!|}}
+\def\Talpha{{T_{c,\alpha}}}
+\def\Talphas{{T_{c,\alpha}^*}}
+\def\Tac{{T_{\cA,c}}}
+\def\Tacs{{T_{\cA,c}^*}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\keq}{\!=\!}
+\newcommand{\kleq}{\!\leq\!}
+\newcommand{\kge}{\!\ge\!}
+\newcommand{\kle}{\!<\!}
+\newcommand{\kgr}{\!>\!}
+\newcommand\kin{\!\in\!}
+\newcommand{\ksubset}{\!\subset\!}
+\newcommand{\ksetminus}{\!\setminus\!}
+\newcommand{\kplus}{\!+\!}
+\newcommand{\kcdot}{\!\cdot\!}
+\newcommand{\ktimes}{\!\times\!}
+\newcommand{\kotimes}{\!\otimes\!}
+
+\newcommand{\RE}{\mathrm{Re}}
+\newcommand{\IM}{\mathrm{Im}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\sign}{\text{\rm sign}}
+\newcommand{\wb}{\overline{\text{\rm w}}}
+\newcommand{\wu}{\underline{\text{\rm w}}}
+\newcommand{\w}{\text{w}}
+\newcommand{\fw}{\text{\fw}}
+\newcommand{\age}{\hbox{\text{\rm age}}}
+\newcommand{\rk}{\hbox{\text{\rm rk}}}
+\newcommand{\rg}{\text{\rm rg}}
+\newcommand{\loc}{{\text{\rm loc}}}
+\newcommand{\supp}{{\rm supp}}
+\newcommand{\coo}{c_{00}}
+\newcommand{\cof}{{\rm cof}}
+\newcommand{\cuts}{{\rm cuts}}
+\newcommand{\dist}{{\rm dist}}
+\newcommand{\f}{{\rm f}}
+\newcommand{\spa}{{\rm span}}
+
+\newcommand{\cBb}{\overline{B}}
+\def\ran{\operatorname{ran}}
+
+
+\def\bC{{\mathbf C}}
+\def\bE{{\mathbf E}}
+\def\bF{{\mathbf F}}
+\def\bG{{\mathbf G}}
+\def\bH{{\mathbf H}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\cA{{\mathcal A}}
+\def\cB{{\mathcal B}}
+\def\cC{{\mathcal C}}
+\def\cG{{\mathcal G}}
+\def\cF{{\mathcal F}}
+
+
+\newcommand{\raw}{\to}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+
+\newcommand{\fb}{\ensuremath{\mathfrak{B}}}
+\newcommand{\db}{{\mathrm{dist}}_{\fb}}
+
+\newcommand{\ce}{\ensuremath{\mathcal{E}}}
+\newcommand{\cep}{{\ce}^\prime}
+\newcommand{\se}{\ensuremath{\mathcal{S}_{\ce}}}
+\newcommand{\bbe}{\ensuremath{\boldsymbol{\beta}}}
+\newcommand{\maxprod}{\widehat{\otimes}}
+\newcommand{\ii}{\mathcal{I}}
+\newcommand{\tra}{\mathbf{tr}}
+\newcommand{\diag}{\mathrm{diag}}
+\newcommand{\bs}{\mathbf{S}}
+\newcommand{\ks}{{\mathbf{K}}_\sigma}
+\newcommand{\eks}{E_{\ks}}
+\newcommand{\ssim}{\overset{*}{\sim}}
+\newcommand{\nn}{\mathbf{n}}
+\newcommand{\bfy}{\mathbf{Y}}
+\newcommand{\cq}{\tilde{\mathbb{Q}}}
+\newcommand{\om}{{\mathcal{O}}_m}
+\newcommand{\subsp}{\mathbf{S}}
+\newcommand{\sing}{\mathbf{s}}
+\newcommand{\tn}{\tilde{\N}}
+\newcommand{\bon}{\mathbf{n}}
+\newcommand{\bom}{\mathbf{m}}
+\newcommand{\osa}{\overline{S}_A}
+\newcommand{\fami}{\boldsymbol{\mathfrak{F}}}
+\newcommand{\comp}{\boldsymbol{\mathfrak{C}}}
+\newcommand{\xd}{X^d}
+
+\newcommand{\coi}[1]{\overset{#1}{\simeq}}
+\newcommand{\is}{\mathcal{S}}
+\newcommand{\hs}{\is_2}
+\newcommand{\pp}{\mathfrak{P}}
+\newcommand{\uu}{\mathfrak{U}}
+\newcommand{\injtens}{\check{\otimes}}
+\newcommand{\projtens}{\hat{\otimes}}
+\newcommand{\anytens}{\tilde{\otimes}}
+\newcommand{\spn}{{\mathrm{span} \, }}
+
+\newcommand{\timur}[1]{{\textcolor{blue}{{\bf T.O:} #1}}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\ifx\color@cmyk\@undefined\else
+%\definecolor{cyan}{cmyk}{1,0,0,0}
+%\definecolor{purple}{rgb}{128,0,128}
+%\definecolor{yellow}{cmyk}{0,0,1,0}
+%\fi
+
+
+
+%%%%%  BODY  %%%%%%%%%%%%%%%%%
+\title[Problems Pedro will know how to solve]{Problems Pedro will know how to solve and will become famous for}
+
+\author{M.~A.\ Taylor, Joao and Dr.~Abdalla}
+\address{Department of Mathematics\\
+ETH Z\"urich
+} \email{mitchell.taylor@math.ethz.ch}
+\date{\today}
+
+\subjclass[2020]{46B42, 43A46, 42C15} %Banach lattices; vector lattices; free lattices; linear operators on ordered spaces
+
+\keywords{Phase retrieval; stable phase retrieval.}
+
+
+\begin{document}
+\begin{abstract}
+  
+\end{abstract}
+
+\maketitle
+\allowdisplaybreaks
+\tableofcontents
+
+\setlength\parindent{0pt}
+\section{Introduction}
+
+I'll list some of the directions studied in phase retrieval that may be of interest to us.
+
+
+\subsection{Stable phase retrieval in infinite dimensions}
+Until a couple of years ago it was generally believed to be impossible for phase retrieval in infinite dimensions to be stable. However, this perspective was changed by the paper \cite{calderbank2022stable} of Calderbank-Daubechies-Freeman-Freeman, who constructed the first infinite dimensional subspaces of real-valued $L^2$ doing SPR. Their main result is as follows:
+\begin{theorem}
+Let $(r_n)_{n=1}^\infty$ be an orthonormal sequence of independent mean-zero random variables in $L_2([0,1])$. The following are equivalent.
+\begin{enumerate}
+\item The closed span of $(r_n+\one_{(n,n+1]})_{n=1}^\infty$ does SPR in $L^2(\mathbb{R}).$
+\item The $L_1$ and $L_2$ norms of $(r_n)$ are uniformly comparable, i.e., there exists $A>0$ such that $A\|r_n\|_{L_2([0,1])}\leq \|r_n\|_{L_1([0,1])}\leq \|r_n\|_{L_2([0,1])}$ for all $n\in \mathbb{N}$.
+\end{enumerate}
+\end{theorem}
+After writing their paper, Calderbank-Daubechies-Freeman-Freeman communicated several open problems to me, many of which we solved in \cite{Stable, Stablephaseretrieval} (see also Dan's grant application in our reference folder). The paper \cite{Stable} takes an approach inspired by Rudin's work on $\Lambda(p)$-sets, and \cite{Stablephaseretrieval} takes a functional analytic approach. Both papers are worth looking at -- some open questions are collected below.
+ \begin{question}
+Given a trigonometric polynomial $P(x)=\sum_k a_k e^{2\pi i kx}$ and a dilation set $\Lambda$, when does $\{P(\lambda \cdot) : \lambda\in \Lambda\}$ generate an SPR subspace of $L_p[0,1]$? If $P(x) = \sin(2\pi x)$, does any lacunary dilation set give a real SPR subspace of $L_2[0,1]$?
+ \end{question}
+ \begin{question}
+ The techniques used to build complex SPR subspaces in \cite{Stable} are based on the work of Rudin. Can one find analogues of the techniques of Bourgain and his successors? In particular, can we prove an SPR analogue of Bourgain's solution to the $\Lambda(p)$-set problem? A  nice discussion on $\Lambda(p)$-sets can be found in Bourgain's contribution to the handbook of the geometry of Banach spaces, \cite{MR1863693}.
+ \end{question}
+ \begin{question}
+Can one build ``large" and/or natural subspaces $E$ of $L_2(\mathbb{R}^d)$ which do Pauli
+stable phase retrieval, meaning that for all $f,g\in E$ we have 
+$$\inf_{|\lambda|=1}\|f-\lambda g\|\leq C\left( \||f|-|g|\|+\||\widehat{f}|-|\widehat{g}|\|\right)?$$
+ \end{question}
+ \begin{question}
+Let $p \geq 2$ and let $(r_n)$ be a mean zero iid sequence in $L_p(\mu; \mathbb{R})$ with non-constant moduli. Does the closed span of $(r_n)$ do SPR in $L_p$? In \cite{Stable}, we showed that this is true when $p = 4$, and by the interpolation/extrapolation theory from \cite{Stablephaseretrieval}, it follows that this also holds for $p > 4$. We do not know if it holds for $p\in [2,4)$; it would also be interesting to prove variants of the results in \cite{Stable} for independent but not necessarily iid variables.  In particular, it is conjectured in Dan's grant proposal (see our reference folder) that if $(r_n)$ is an orthonormal sequence of mean-zero independent random variables in $L_2([0,1])$ then span$(r_n)$ does SPR in $L_2([0,1])$ if and only if there exist constants $0<A\leq B<1$ such that $A\leq \|r_n\|_{L_1([0,1)]} \leq B$ for all but at most one $n\in \mathbb{N}$. This is related to the discussion we had with Shahar about extending my results with Mike Christ to more general random variables.
+ \end{question}
+\subsection{Discretization}
+After constructing infinite dimensional SPR subspaces of $L^2(\mu)$, the second half of \cite{calderbank2022stable}  considers the problem of when one can randomly discretize the measure space in order to use  their infinite dimensional construction to give an extension of the Candes, et.~al.~results on uniform stability in finite dimensions. When using sub-Gaussian random variables they prove that phase retrieval holds with high probability and stability constant independent of the dimension $n$ when using $m$ on the order of $n$ random vectors. Without sub-Gaussian or any other higher moment assumptions, they are able to achieve phase retrieval with high probability and stability constant independent of the dimension $n$ when using $m$ on the order of $n \log(n)$ random vectors.
+The probabilistic methods  employed in \cite{calderbank2022stable} are rather elementary (and they only consider real scalars) -- we should be able to vastly generalize their results.
+\medskip
+
+
+
+As far as I'm aware, the most important problem in discretization (more specifically sampling) of phase retrieval is the question of discretization in the Fock space. Let $\mathcal{F}$ denote the Fock space, i.e., the set of entire functions on $\mathbb{C}$ which are in $L^2(e^{-|z|^2}dA)$. The question is whether one can find a uniformly discrete set $\Lambda$ in $\mathbb{C}$ with the property that for all $F,G\in \mathcal{F}$ with $|F|=|G|$ on $\Lambda$ we have that $F=c G$ on $\mathbb{C}$ for some unimodular scalar $c$.
+My guess is that such a property will hold when $\Lambda$ is a random perturbation of a sufficiently dense lattice, but I don't know how to prove it. See the papers of Lukas Liehr and Philipp Grohs for many (far from definitive) results in this direction.
+\medskip
+
+
+We also leave open some questions on discretization in \cite{Stablephaseretrieval}; to be honest, Dan added these questions at the very last minute before publication and I never thought about any of them. I think he was inspired by his paper with  Dorsa \cite{fg22}, but we never discussed such questions during our collaboration.
+
+
+
+
+\subsection{Phase retrieval in finite dimensions}
+ I know for SPR people did things with noise, sparse vectors, subgaussian distributions, discretization, complex scalars, other $\ell^p$ norms, etc.~that could be interesting to look at for declipping\footnote{I imagine they are also only in crude forms for SPR, so maybe we can refine them even in the setting of SPR.}. I'm not an expert on the finite dimensional phase retrieval literature, but Dan put some references to Candes, Shahar, Krahmer, etc. in his slides/papers that could be a nice place to start looking. Below I list some of the fundamental results and papers that I like.
+\begin{enumerate}
+\item The classical papers of Candes: \cite{MR3260258,MR3069958}.\footnote{Candes may have other papers on SPR.}
+\item Shahar's papers \cite{eldarmendelson,MR3354617}.
+\item The papers of  Krahmer \cite{MR3746047,KS} on SPR without small ball and SPR for complex subgaussian measurements.
+\item If I'm understanding correctly, \cite{MR3323113} shows that if $m\approx 2n$ then any sequence of $n$-dimensional subspaces of $\mathbb{R}^m$ cannot do SPR with constant uniform in the dimension; however, if $m\approx (2+\delta)n$, then one can achieve SPR with uniform constant. The question of the rate of blowup of the SPR constant when $m\approx 2n$ is raised in \cite[Section 5]{MR3323113}, and it would be really great if we could answer this question. I have some notes on this, but I didn't make it very far. The complex version of this question is studied by Bodmann and Hammen in \cite{MR3683672}, but their result seems to be non-optimal.
+\item If I'm understanding correctly, \cite{xia2024stability} tries to identify frames with an optimal SPR constant. I haven't read it, but it could be interesting. My guess is that Gaussians give the minimal constant.
+\item According to the infamous Simon Becker, phase retrieval is also of relevance in quantum information/tomography. I don't know the literature, but two references I happen to know are \cite{MR4477807,liu2023phase}. I don't think this subject is particularly scary -- they basically just replace scalar measurements by matrices (cf.~the discussion in \cite{MR3323113}).
+\end{enumerate}
+ 
+
+
+
+\subsection{Declipping} 
+There is not too much known on this subject, so any analogue of a result in phase retrieval should be of interest. The main reference is \cite{alharbi2024declipping}, which initiates the study of declipping from a frame theoretic perspective. Some elementary results are established in \cite{alharbi2024declipping}, and some basic open problems are raised.
+\medskip
+
+I added Dan's ETH slides to our reference folder. There he raises the problem we answered on doing stable $\lambda$-declipping with $m$ on the order of $n$ measurements\footnote{It could also be nice to extend this result to infinite dimensions, like we plan to do for SPR to generalize the results with Mike Christ.}, but also raises a question related to studying declipping in infinite dimensions: Does there exist a frame $(x_j)_{j=1}^\infty$ of unit vectors for $\ell_2$ which does stable $\lambda$-saturation recovery on $B_{\ell_2}$ for all $\lambda >0$?
+\medskip
+
+Dan's ETH slides are also worth looking at for further references on the subject; see also his talk at the CodEx webinar. There is also apparently a related problem studied by Krahmer on folding.
+
+
+
+
+
+
+%Dan's talk, slides, paper. open problems.
+
+
+
+\subsection{Some talks}
+Dan and I both gave talks at the CodEx webinar, the Banach space webinar and the BIRS Recent advances in Banach lattices conference in 2023 (not the one in 2018), which can all be found online and may be worth watching. In particular, in his BIRS talk, Dan raises a lot of open questions, and I put his slides in our reference folder. I also added my slides from my EPFL talk to the reference folder.
+
+\subsection{Other peoples work}
+Duchi-Ruan, Dorsa, Casazza, Jaming, Krahmer, Bodmann, Philipp's group (Rima, Francesca, Matthias, Lukas, Martin). There is a huge literature. I'll update this later...
+\medskip
+
+Pisier gave a really nice lecture at IAS on Sidon sets which can be found on youtube. He explains the connection to subgaussian, which could be useful in our investigation of sin series doing SPR. Although he doesn't explain the connection in the video, a set $A$ is Sidon iff it is $\Lambda(p)$  for all $p<\infty$, with optimal ($\sqrt{p}$) asymptotics of the norm equivalence constant as $p\to\infty$. See Bourgain's handbook \cite{MR1863693} for more on $\Lambda(p)$-sets, and recall that SPR in $L_p$ implies $\Lambda(p)$, which is why understanding these sets is important for us.
+\medskip
+
+SPR for operators/matrices could be really nice to look at. I can give several references for where this topic appears in quantum stuff and ptychography -- mathematically, it could connect nicely with random matrices, free probability and in particular the free central limit theorem. I also have some (very unfinished) notes on this topic with Timur, where we take a more Schatten-$p$/operator space perspective, if anyone is interested.
+\subsection{Operator SPR}
+I have been asked on many occasions whether one can extend our results to quantum/operator SPR. I think now that this can be done, but first one has to formulate the problem precisely. 
+\medskip
+
+First recall that for $L_p(\mu)$ (or more generally a Banach lattice) we have the triangle inequality $\||f|-|g|\|\leq \|f-g\|$. Replacing $g$ by $\lambda g$ and then taking inf over unimodular scalars, we obtain
+$$\||f|-|g|\|\leq \inf_{|\lambda|=1}\|f-\lambda g\|.$$
+SPR  can therefore be viewed as finding conditions on a subspace $E$ of a Banach lattice $X$ for which the above inequality is sharp.
+\medskip
+
+For the operator norm on a Hilbert space $H$, it is well-known that the inequality 
+$$\||T|-|S|\|_{B(H)}\leq C\|T-S\|_{B(H)}$$
+is generally not true.\footnote{A H\"older estimate is true though.} %However, we do have 
+%$$\||T|^2-|S|^2\|_{B(H)}\leq C(\|T\|_{B(H)}+\|S\|_{B(H)})\|T-S\|_{B(H)}.$$
+However, for the Schatten norms $\mathcal{S}^p$ (meaning singular values lie in $\ell_p$, so $p=\infty$ is compact operators, $p=2$ is Hilbert-Schmidt and $p=1$ is trace class) we have
+$$\||T|-|S|\|_{\mathcal{S}^p}\leq C_p\|T-S\|_{\mathcal{S}^p}$$
+when $1<p<\infty$ (this is a 2011 Acta paper by Potapov and Sukochev). Therefore, it makes sense to ask for SPR in these norms, i.e., ask for which subspaces $E\subseteq \mathcal{S}^p$ can one  stably recover $T\in E$ from $|T|$. However, before asking this question, one must  decide what are the ``trivial ambiguities", i.e., the analogue of the ``global phase ambiguity" in the usual phase retrieval problem. This, in principle, depends on the context. For example, let us assume that $E$ consists only of self-adjoint elements. Since the self-adjoint elements form a \emph{real} vector space, the natural trivial obstruction to recovering $T$ from $|T|$ is multiplication by $\pm I$. We may therefore say that a subspace $E\subseteq \mathcal{S}^p_{sa}$ does SPR if there exists a constant $C$ such that for all $T,S\in E$,
+$$\min\{\|T-S\|_{\mathcal{S}^p},\|T+S\|_{\mathcal{S}^p}\}\leq C\||T|-|S|\|_{\mathcal{S}^p}.$$
+Note that this inequality resembles the case of real SPR that we have been working on. Going to complex SPR is like dropping the assumption that elements of $E$ are self-adjoint and assuming now that $E$ is a complex subspace. Here, of course, additional ambiguities arise, like multiplying by a unimodular scalar $\lambda$ -- the strongest definition of SPR would be a complex subspace $E\subseteq \mathcal{S}^p$ does SPR if there exists a constant $C$ such that for all $T,S\in E$,
+$$\inf_{|\lambda|=1}\|T-\lambda S\|_{\mathcal{S}^p}\leq C\||T|-|S|\|_{\mathcal{S}^p}.$$
+\begin{remark}
+    There is a way to partially convert between the general case and the self-adjoint case, which is known as Paulsen's $2\times 2$ trick: For $x\in S^p$ define 
+    $$ \tilde{x}=
+  \begin{bmatrix}
+    0 & x \\
+    x^* & 0 
+  \end{bmatrix}
+$$
+which is now a self adjoint operator on $H\times H$, which can be shown to respect the modulus and norm well and hence inherit SPR.
+\end{remark}
+Here is my conjecture: 
+\begin{conjecture}\label{conj}
+    Fix  $p\geq 2$ and let $H_d$ denote the $d$-dimensional Hilbert space. There exists a uniform constant $C$ and a sequence $E_m \subseteq \mathcal{S}^p(H_d)$ which does $C$-SPR with $m\sim d^{1+2/p}$. Moreover, this dependence on $m$ and $d$  is sharp.
+\end{conjecture}
+Why do I believe this? Well, the key  theorem we needed for SPR was the following.
+\begin{theorem}\label{them1}
+    Let $1\leq p<\infty$ and $\mu$ a probability measure. TFAE for a subspace $E$ of $L^p(\mu)$.
+    \begin{enumerate}
+        \item $E$ contains no normalized almost disjoint sequence.
+        \item For all $1\leq q<p$, $\|\cdot\|_{L_q}\sim \|\cdot\|_{L_p}$ on $E$.
+         \item For some $1\leq q<p$, $\|\cdot\|_{L_q}\sim \|\cdot\|_{L_p}$ on $E$.
+    \end{enumerate}
+\end{theorem}
+Since if a subspace $E$ does SPR in $L_p$ it cannot contain almost disjoint pairs of vectors, we deduce from Theorem~\ref{them1} that $\|\cdot\|_{L_1}\sim \|\cdot\|_{L_p}$ on $E$. 
+\medskip
+
+When $p\geq 2$, Theorem~\ref{them1} is known as the Kadec-Pelcynski dichotomy: A subspace $E$ of $L_p(\mu)$ either contains an almost disjoint sequence or is isomorphic to $\ell_2$.  This turns out to have a non-commutative analogue in the Schatten classes (there are many works on this but one example is the paper by Raynaud-Xu in 2001). So, if I'm understanding everything right, we should have the implication ``SPR in $\mathcal{S}^p$ implies $\|\cdot\|_{\mathcal{S}^p}\sim \|\cdot\|_{\mathcal{S}^2}$." Note that $\|\cdot\|_{\mathcal{S}^2}$ is Hilbert, so in particular, SPR subspaces of $\mathcal{S}^p$ when $p>2$ should be isomorphic to Hilbert spaces.
+\medskip
+
+
+The question now is, when do we have $\|\cdot\|_{\mathcal{S}^p}\sim \|\cdot\|_{\mathcal{S}^2}$? To make this concrete, let us  assume our Hilbert space is finite dimensional of dimension $d$. A classic result of Figiel-Lindenstrauss-Milman\footnote{See the discussion in ``non-additivity of Renyi entropy and Dvoretzsky's theorem" by Aubrun-Szarek-Werner for several ways to prove this} is that for an $m$ dimensional subspace $E$ of the $d^2$ dimensional space of matrices $M_d$, when $p>2$, the finite dimensional Kadec-Pelcynski for $\mathcal{S}^p$ holds with uniform constant if $m\sim d^{1+2/p}$, and this is sharp. 
+Conjecture~\ref{conj} asks whether we can upgrade this result to SPR.
+\medskip
+
+Why do I think this is cool? Well, I have been asked about non-commutative SPR by many people, such as Timur Oikhberg, Radu Balan, Franz Luef, Simon Becker, etc.~It is relevant for certain applications in applied math and quantum tomography, which I'll add later. Mathematically, subspaces $E$ of $B(H)$ are known as \emph{operator spaces} and have been extensively studied in recent decades by Arveson, Haagerup, Wittstock,  Effros, Ruan, Paulsen, Pisier, Junge, etc. If $E$ is a subspace of $\mathcal{B}(H)$, then one can consider $d\times d$ matrices of elements acting on $H^d$ and then consider  ``completely contractive/positive maps", i.e.,  operators $T$ for which all their canonical amplifications are uniformly bounded/positive. This ``encodes" the fact that $E$ is sitting inside $B(H)$. Indeed, by results of Ruan, one can define an abstract operator space as a Banach space $E$ equipped with a sequence of matricial norms satisfying certain axioms, and then prove that one can always construct an isometric embedding of $E$ into $B(H)$ so that the matricial norms arise via this identification. This therefore defines a new category (subspaces of $B(H)$ as objects and completely contractive maps as morphism) which turned out to be a deep theory... The point I want to make is that subspaces formed by Hilbert space operators are well-studied and I think  people in this community will like SPR for operators a lot.
+\medskip
+
+I'll also mention that Conjecture~\ref{conj}  is related to the local theory of Banach spaces. It should be compared, e.g., with the analogous question for $\ell_p$: 
+    Fix  $p\geq 2$ and let $\ell^p_d$ denote the $d$-dimensional $\ell^p$ space. There exists a uniform constant $C$ and a sequence $E_m \subseteq \ell^p_d$ which does $C$-SPR with $m\sim d^{2/p}$\footnote{This dependence is the same as the maximal density of $\Lambda(p)$-sets, which is not a coincidence} and this dependence on $m$ and $d$  is sharp. I can explain the proof later: The sufficiency of $m\sim d^{2/p}$ uses our extrapolation theory for SPR and the necessity follow from the Kadec-Pelcynski theorem and an ultraproduct argument. The point is that Dvoretsky slicings of the ball and SPR are ``almost" the same in finite dimensions, although Conjecture~\ref{conj} is a bit different as now we are using operator modulus.
+    \medskip
+
+    If we can answer Conjecture~\ref{conj}  we can also try to find a small ball type property that characterizes when this property holds, like we did for SPR/declipping.
+
+
+
+
+\bibliographystyle{plain}
+\bibliography{References.bib}
+fuck you Joao. Why are you spying on me. fuck you too
+Thank you! I was worried that you wouldnt ask me to go fuck myself, i am not spying, just certifying that you are doing a good job (which is rarely the case)  Rarely the case for you. I am very good at getting fucked over.hahahahahaha Daniel Tataru sends his regards 
+We met yesterday, and he had a beautfiul solution to the issue we were having. Amazing got around the main issue.
+Is it complete garbage though? 
+He used the fact that the normal to an $H^s$ surface is also $H^s$. ... That really helps, if you assume you have 1 degree extra regularity, everything trivializes. Yeah, that usually is the case. Wonderful that he makes such kinds of mistakes... Wonderful is codeword for extremely sad 
+He first gave us a lecture on "the goal of the existence scheme"
+and then just absolutely biffed it
+wtf... 
+anyway, got to go, you tell me more about it tomorrow. C U Bye
+
+p.s. keep this conversation here 
+
+
+\end{document}
