@@ -1,0 +1,392 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\R}{\mathbb R}
+\newcommand{\dT}{\delta_T}
+\newcommand{\A}{\mathcal A}
+\newcommand{\X}{\mathcal X}
+\newcommand{\Et}{E_{\hat t}}
+
+\title{Pushing the Planar Graph-Reduction Step}
+\author{}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\section{Executive summary}
+
+This note tries to prove the remaining planar reduction-to-graph step.  I do
+not get a complete proof.  I do get a sharper formulation that looks more
+realistic than the previous \(O(\dT)\)-radialization target.
+
+The key adjustment is to stop at a boundary layer of size
+\[
+   \lambda \simeq \sqrt{\dT(\Om)}
+\]
+rather than at size \(O(\dT(\Om))\).  This is still sharp for the final
+asymmetry estimate, because the transfer back costs \(O(\lambda)\) in
+Fraenkel asymmetry and hence \(O(\lambda^2)=O(\dT)\) after squaring.  The gain
+is that the level-set Chebyshev step now gives
+\[
+   D_H(\hat t)+D_I(\hat t) \lesssim \sqrt{\dT(\Om)}
+\]
+instead of only a fixed small constant.  In dimension two this gives real
+geometric information: small components have total area \(O(\dT)\), holes with
+small perimeter have total area \(O(\dT)\), and connected outward fingers of
+macroscopic length are excluded by perimeter unless they are exactly the thin
+objects that the \(D_H\) weight detects.
+
+The proof still has one missing arbitrary-geometry lemma: a
+\emph{good-level convexification/radialization lemma}.  It must say that
+convexifying, filling, or pruning only the non-graph pieces of the good level
+changes the normalized torsion deficit by \(O(\dT)\).  The model estimates
+support this, but I do not see a complete decomposition proof in the current
+repo.
+
+\section{The better stopping scale}
+
+Let \(|\Om|=\pi\) and set \(\delta=\dT(\Om)\).  The volume-variable identity
+from Plan 3 Step 1 gives, for \(s=m(t)\),
+\[
+   \int_0^\pi
+      \frac{D_H(v(s))+D_I(v(s))}{c\,s^{0}}\,ds
+      \le C\delta
+      \qquad (n=2).
+\]
+Therefore for every layer budget \(\lambda\in(0,\pi/4)\) there is a regular
+level \(E_t\) with
+\[
+   |\Om\setminus E_t|\le \lambda,
+   \qquad
+   D_H(t)+D_I(t)\le C\frac{\delta}{\lambda}.
+   \tag{2.1}
+\]
+The Talenti rearrangement bound also gives
+\[
+   t\le C\lambda.
+   \tag{2.2}
+\]
+Indeed, the ball level with removed area \(\lambda\) has height
+\(\lambda/(4\pi)+O(\lambda^2)\), and \(u_\Om^*\le u_B^*\).
+
+Taking
+\[
+   \lambda=\kappa\sqrt\delta
+\]
+gives a regular level \(E=\Et\) satisfying
+\[
+   |\Om\setminus E|\le C\sqrt\delta,\qquad
+   D_H(E)+D_I(E)\le C\sqrt\delta,\qquad
+   \dT(E)\le C\delta.
+   \tag{2.3}
+\]
+The layer transfer back to \(\Om\) is still sharp:
+\[
+   \A(\Om)\le \A(E)+C\sqrt\delta,
+   \qquad
+   \A(\Om)^2\le 2\A(E)^2+C\delta.
+   \tag{2.4}
+\]
+Thus it is enough to prove \(\A(E)^2\le C\delta\) for the
+\(\sqrt\delta\)-stopped level.
+
+\begin{remark}
+This is a genuine improvement over the previous \(O(\delta)\)-layer graph
+entry target.  At an \(O(\delta)\) layer, Chebyshev only gives a fixed small
+\(D_H+D_I\).  At a \(\sqrt\delta\) layer, the geometric defects tend to zero.
+The final exponent is not harmed because asymmetry, not volume, is squared at
+the end.
+\end{remark}
+
+\section{What \(D_I\) already proves in the plane}
+
+Write
+\[
+   \varepsilon:=C\sqrt\delta
+\]
+for the right side of \(D_I(E)\le\varepsilon\).  Since
+\[
+   D_I(E)=P(E)^2-4\pi |E|,
+\]
+and \(|E|=\pi+O(\sqrt\delta)\), after harmless rescaling we may read this as
+\[
+   P(E)\le 2\pi+C\varepsilon.
+   \tag{3.1}
+\]
+
+\begin{lemma}[Small components are negligible]\label{lem:components}
+Let \(E\subset\R^2\) have \(|E|=\pi\) and \(P(E)\le 2\pi+\varepsilon\), with
+\(\varepsilon\le \varepsilon_0\).  Let \(E_0\) be an indecomposable component
+of largest area and set \(E_{\rm sat}=E\setminus E_0\).  Then
+\[
+   |E_{\rm sat}|\le C\varepsilon^2.
+\]
+\end{lemma}
+
+\begin{proof}
+Let \(a_j\) be the areas of the indecomposable components, ordered so that
+\(a_0\) is largest, and let \(v=\sum_{j\ge1}a_j\).  By the planar
+isoperimetric inequality and additivity of perimeter over indecomposable
+components,
+\[
+   2\pi+\varepsilon\ge P(E)
+      \ge 2\sqrt\pi\left(\sqrt{\pi-v}+\sum_{j\ge1}\sqrt{a_j}\right).
+\]
+For small \(v\),
+\[
+   2\sqrt\pi\sqrt{\pi-v}
+      \ge 2\pi-Cv.
+\]
+Hence
+\[
+   \sum_{j\ge1}\sqrt{a_j}\le C\varepsilon+Cv.
+\]
+For \(\varepsilon_0\) small, \(v\le \pi\) and the \(Cv\) term is absorbed
+using \(v\le(\sum_{j\ge1}\sqrt{a_j})^2\) unless \(v\) is already bounded by
+\(C\varepsilon^2\).  Thus \(v\le C\varepsilon^2\).
+\end{proof}
+
+With \(\varepsilon\simeq\sqrt\delta\), disconnected satellites have total area
+\(O(\delta)\).  They can be deleted without affecting the final asymmetry
+bound.  Their torsional rigidity is also negligible:
+\[
+   T(E_{\rm sat})\le \sum_j \frac{|E_j|^2}{4\pi}
+      \le \frac{|E_{\rm sat}|^2}{4\pi}
+      =O(\delta^2),
+\]
+by Saint--Venant on each component.
+
+\begin{lemma}[Small holes have quadratic area]\label{lem:holes}
+Let \(F\) be the main component and suppose the total perimeter of bounded
+hole boundaries is at most \(p_h\).  Then the total area of those holes is
+\[
+   |H_{\rm holes}|\le \frac{p_h^2}{4\pi}.
+\]
+\end{lemma}
+
+\begin{proof}
+Apply the planar isoperimetric inequality to each hole \(H_j\):
+\(|H_j|\le P(H_j)^2/(4\pi)\).  Summing and using
+\(\sum_j P(H_j)^2\le(\sum_jP(H_j))^2\) gives the claim.
+\end{proof}
+
+Thus closed holes whose total boundary cost is \(O(\sqrt\delta)\) have total
+area \(O(\delta)\).  This is already enough for tiny interior holes such as a
+punctured disk.  The capacity mechanism from
+\texttt{PLANAR\_RADIALIZATION\_PROOF\_ATTEMPT.tex} is stronger, but for the
+\(\sqrt\delta\)-stopped level the perimeter estimate already gives the correct
+area scale for closed holes.
+
+\section{Convex hull and the graph envelope}
+
+Let \(F\) be the main connected component from Lemma~\ref{lem:components}, and
+let \(K=\operatorname{co}(F)\).  For planar continua,
+\[
+   P(K)\le P(F).
+   \tag{4.1}
+\]
+Consequently \(K\) is a convex set with perimeter \(2\pi+O(\varepsilon)\) and
+area \(\pi+O(\varepsilon)\).  By Bonnesen's inequality, after translating to a
+suitable center \(z\), its inradius and circumradius satisfy
+\[
+   R_K-r_K\le C\sqrt\varepsilon.
+   \tag{4.2}
+\]
+For \(\delta\) small this puts \(K\), after area normalization, in the
+small-amplitude radial-graph class:
+\[
+   K^\sharp=\{z+r e^{i\theta}:0<r<1+\phi_K(\theta)\},
+   \qquad
+   \|\phi_K\|_{L^\infty}\le C\sqrt\varepsilon.
+   \tag{4.3}
+\]
+
+This is a useful reduction but not yet a proof.  The convex hull can overfill
+sparse outward structures.  If \(K\setminus F\) has volume merely
+\(O(\varepsilon)=O(\sqrt\delta)\), the crude fill-rescale lemma gives only
+\[
+   \dT(K^\sharp)\le C(\dT(F)+\sqrt\delta),
+\]
+which is too weak.  To close the sharp result one needs the stronger statement
+\[
+   \dT(K^\sharp)\le C\dT(E).
+   \tag{4.4}
+\]
+This is exactly where the remaining graph-reduction work sits.
+
+\section{Why \(D_H\) is the right extra input}
+
+The obstruction to using the convex hull alone is a sparse outward finger.
+In the model case, take a tube of width \(w\) and length \(L\) attached to the
+disk.  The convex hull may add area comparable to \(L\) times the angular span,
+while the actual tube volume is only \(wL\).  Perimeter sees only \(L\), so
+choosing the stopped level with \(D_I=O(\sqrt\delta)\) permits fingers of
+length \(L=O(\sqrt\delta)\), but not longer.  This already makes the hull a
+small-amplitude graph.
+
+The sharp deficit comparison, however, uses the \(D_H\) weight.  On active
+levels inside a planar tube,
+\[
+   D_H \simeq \frac{L}{w}.
+   \tag{5.1}
+\]
+Thus a long thin tube cannot occur on a \(D_H\)-good level.  Equivalently, if
+the tube survives the level \(u=t\), then either:
+\begin{enumerate}[label=\arabic*.]
+\item its cross-width satisfies \(w^2\gtrsim t\), since the torsion height in
+a width-\(w\) tube is \(O(w^2)\); or
+\item it lies below the stopped level and has already been removed.
+\end{enumerate}
+At the \(\sqrt\delta\)-stopped level, \(t\le C\sqrt\delta\).  Therefore any
+surviving tube has \(w\gtrsim \delta^{1/4}\).  Since the torsion deficit of a
+planar outward tube is \(O(wL)\), the length of a surviving tube paid by
+\(\delta\) is at most
+\[
+   L\lesssim \frac{\delta}{w}\lesssim \delta^{3/4}.
+\]
+So the dangerous long-thin convexification example is not compatible with the
+good-level information.
+
+This model computation is the reason the reduction should be true in
+dimension two.  It also shows why the proof must use both pieces:
+\[
+   D_I \quad\hbox{for perimeter/topological cleanup},\qquad
+   D_H \quad\hbox{for capillary thin-finger cleanup}.
+\]
+
+\section{A sufficient missing lemma}
+
+The following lemma would close the planar graph reduction without using BDV.
+
+\begin{conjecture}[Good-level convexification lemma]\label{conj:convexify}
+Let \(E=\Et\) be a regular \(\sqrt\delta\)-stopped good level in dimension
+two, satisfying
+\[
+   |\Om\setminus E|\le C\sqrt\delta,\qquad
+   D_H(E)+D_I(E)\le C\sqrt\delta,\qquad
+   \dT(E)\le C\delta.
+\]
+Let \(F\) be its largest indecomposable component and \(K=\operatorname{co}(F)\).
+After deleting the satellite components of total area \(O(\delta)\), there is
+a star-shaped set \(G\) with
+\[
+   F\subset G\subset K,\qquad
+   G^\sharp=\{r e^{i\theta}:0<r<1+\phi(\theta)\},
+   \qquad
+   \|\phi\|_{L^\infty}\le \eta_0,
+\]
+such that
+\[
+   |G\Delta E|\le C\sqrt\delta,
+   \qquad
+   \dT(G^\sharp)\le C\delta.
+   \tag{6.1}
+\]
+\end{conjecture}
+
+Assuming Conjecture~\ref{conj:convexify}, the proof closes:
+\[
+   \A(G)^2\le C\dT(G^\sharp)\le C\delta
+\]
+by the direct radial-graph theorem, while
+\[
+   \A(E)\le \A(G)+C|E\Delta G|\le C\sqrt\delta.
+\]
+Then \(\A(\Om)\le \A(E)+C\sqrt\delta\), hence \(\A(\Om)^2\le C\delta\).
+
+\section{Attempted proof of the missing lemma}
+
+The natural proof is a decomposition of \(K\setminus F\).
+
+\subsection{Closed holes}
+
+Closed holes are controlled by Lemma~\ref{lem:holes}; their area is
+\(O(\delta)\).  Filling them changes asymmetry by \(O(\delta)\).  The torsion
+change is harmless either by the crude fill-rescale lemma or by the stronger
+capacity identity:
+\[
+   T(D)-T(D\setminus H)\ge a^2\operatorname{cap}_D(H)
+\]
+whenever \(u_D\ge a\) on \(H\).  Tiny central holes are therefore not a real
+obstruction.
+
+\subsection{Boundary fjords}
+
+A fjord of radial depth \(h\) connected to the exterior has two sides of total
+length at least \(2h\).  Thus \(D_I\le C\sqrt\delta\) excludes \(h\gg
+\sqrt\delta\).  Fjords of depth \(O(\sqrt\delta)\) may be filled or ignored at
+the graph-amplitude level.  If their area is \(O(\sqrt\delta)\), they sit in a
+torsion boundary layer of height \(O(\sqrt\delta)\), so their torsion effect
+should be \(O(\delta)\).  Making the last sentence rigorous requires a
+uniform boundary-layer comparison for the convex envelope \(G\); this is not
+written in the repo.
+
+\subsection{Outward fingers}
+
+For tube-like fingers the model estimate above proves the needed scale:
+surviving fingers on the \(\sqrt\delta\)-stopped level have length
+\(O(\delta^{3/4})\), hence lie inside the graph amplitude threshold, and the
+ones not surviving have already been removed by the level flow.  What remains
+missing is an arbitrary-geometry version:
+
+\[
+   \hbox{every non-graph outward component}
+      \quad\Longrightarrow\quad
+   \hbox{a family of tube estimates like }D_H\simeq L/w.
+   \tag{7.1}
+\]
+
+This is not a cosmetic point.  Without (7.1), the convex hull could overfill a
+sparse set of outward arcs, and the crude volume estimate would lose the sharp
+rate.
+
+\subsection{Bad rays}
+
+Plan 2's radial slicing controls multiplicity on bad rays once an annular
+bracket is known.  At the \(\sqrt\delta\)-stopped level the annular bracket is
+available from the convex-hull/Bonnesen argument after deleting satellites.
+The remaining problem is not measuring the bad-ray set; it is proving that the
+radial repair along those bad rays changes torsion by \(O(\delta)\), not merely
+that it changes area by \(O(\sqrt\delta)\).
+
+\section{Verdict}
+
+I cannot honestly claim the graph-reduction step is proved.  But the
+\(\sqrt\delta\)-stopping scale makes the remaining theorem substantially more
+plausible and more precise.
+
+What is now proved or reduced to standard planar facts:
+\begin{enumerate}[label=\arabic*.]
+\item a good level with
+\[
+   |\Om\setminus E|\le C\sqrt\delta,\quad
+   D_H(E)+D_I(E)\le C\sqrt\delta,\quad
+   \dT(E)\le C\delta;
+\]
+\item satellite components have total area \(O(\delta)\);
+\item closed holes with total perimeter \(O(\sqrt\delta)\) have total area
+\(O(\delta)\);
+\item the main connected component has a convex graph envelope with small
+\(L^\infty\) amplitude by planar convex-hull perimeter and Bonnesen;
+\item model outward fingers are removed or made harmless at the correct scale
+by combining the level height \(t\le C\sqrt\delta\) with the planar tube
+deficit and the \(D_H\simeq L/w\) estimate.
+\end{enumerate}
+
+The exact missing point is Conjecture~\ref{conj:convexify}: an
+arbitrary-geometry decomposition showing that convexifying/radializing only
+the non-graph pieces of the good level changes the normalized torsion deficit
+by \(O(\delta)\).  This is narrower than the previous missing theorem and is
+where I would focus next.
+
+\end{document}

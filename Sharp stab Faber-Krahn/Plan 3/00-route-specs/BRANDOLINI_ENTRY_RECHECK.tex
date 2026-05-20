@@ -1,0 +1,272 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\R}{\mathbb R}
+\newcommand{\dT}{\delta_T}
+\newcommand{\A}{\mathcal A}
+\newcommand{\Et}{E_{\hat t}}
+\newcommand{\eps}{\varepsilon}
+
+\title{Brandolini and the Plan 3 Entry Theorem}
+\author{}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\section{Purpose}
+
+This note rechecks whether the remaining entry theorem in the planar hybrid
+route can be supplied by Brandolini--Nitsch--Salani--Trombetti together with
+the other Plan 3 ingredients.
+
+The answer is:
+
+\begin{quote}
+\emph{Brandolini supplies the correct Serrin-to-near-ball input, and the
+corrected \(\sqrt{\dT}\)-stopping scale makes this input usable.  However,
+Brandolini does not by itself give the radial graph/radialization theorem
+needed for the sharp conclusion with constants independent of the stopped
+level.  One planar no-fjord/radialization lemma is still missing.}
+\end{quote}
+
+This is a positive recheck, not a negative one: the missing lemma is now much
+narrower than the previous graph-entry statement.
+
+\section{The stopped level}
+
+Let \(n=2\), normalize \(|U|=\pi\), and set
+\[
+   \delta=\dT(U),\qquad a=\alpha(U).
+\]
+In the bad alternative for the desired estimate, \(a>M\sqrt\delta\).  Choose
+\[
+   \lambda=K\sqrt\delta.
+\]
+The volume-variable Chebyshev extraction, applied to the joint integrand
+\(D_H+D_I\), gives a regular level \(\Et=\{u>\hat t\}\) with
+\[
+   |U\setminus \Et|\le \lambda,\qquad
+   D_H(\hat t)+D_I(\hat t)\le C\frac{\delta}{\lambda}
+      =\frac{C}{K}\sqrt\delta .
+   \tag{2.1}\label{eq:good-level}
+\]
+The exact profile transfer gives
+\[
+   \dT(\Et)\le \frac{1}{1-\lambda/\pi}\,\dT(U)\le 2\delta
+   \tag{2.2}\label{eq:def-transfer}
+\]
+for small \(\delta\).  This is the \(u-\hat t=u_{\Et}\) identity, not a
+monotonicity principle.
+
+On the selected class, the \(D_H\)-to-\(L^\infty\) interpolation estimate
+from the companion note gives
+\[
+   \bigl\||\nabla u|-\bar f\bigr\|_{L^\infty(\partial\Et)}
+      \le
+   C\left(\frac{\delta}{\lambda^2}\right)^{1/3}
+      = C K^{-2/3}.
+   \tag{2.3}\label{eq:linfty-serrin}
+\]
+Thus \(K\) fixed and large makes \(\Et\) an approximate Serrin domain in the
+pointwise sense.
+
+\section{What Brandolini Gives}
+
+Let \(v=u-\hat t\), so \(v=u_{\Et}\).  After scaling \(v\) by the harmless
+dimensional factor that turns \(-\Delta v=1\) into Brandolini's
+\(\Delta w=2\) normalization, \eqref{eq:linfty-serrin} implies
+\[
+   \bigl||Dw|-1\bigr|\le \eps_K
+   \quad\hbox{on }\partial\Et,
+   \qquad
+   \eps_K\to0\quad(K\to\infty),
+   \tag{3.1}\label{eq:B-hyp}
+\]
+up to the harmless adjustment of the target constant coming from
+\(|\Et|=\pi+O(\sqrt\delta)\).
+
+Brandolini et al. give two different outputs.
+
+\subsection{Theorem 1: measure closeness to a union of balls}
+
+Their Theorem 1 needs smoothness, bounded diameter, the upper bound
+\(|Dw|\le1+\eps_K\), and \(L^1(\partial\Et)\)-closeness of \(|Dw|\) to \(1\).
+Our \(L^\infty\) bound gives both boundary assumptions.  The constant depends
+only on the diameter in this theorem.  Hence \(\Et\) is close in measure to a
+finite union of almost unit balls:
+\[
+   \left|\Et\Delta\bigcup_{i=1}^m B_i\right|
+      \le C\,\eps_K^\beta.
+   \tag{3.2}\label{eq:B-measure}
+\]
+For \(K\) large, and after removing the satellite components controlled by
+\(D_I\) below, the volume normalization forces \(m=1\).  Thus Brandolini gives
+a robust near-ball location and a center without importing BDV.
+
+\subsection{Theorem 2: annular containment}
+
+Their Theorem 2 says that if the domain is connected and \(C^{2,\alpha}\),
+then
+\[
+   R_{\rm out}-R_{\rm in}\le C\,\eps_K^\mu.
+   \tag{3.3}\label{eq:B-annulus}
+\]
+But here \(C\) depends on the \(C^{2,\alpha}\) regularity constants of the
+boundary.  For a stopped torsion level those constants are not uniform from
+the information currently proved.  At depth \(\lambda=K\sqrt\delta\), interior
+estimates only give schematically
+\[
+   \|D^2u\|_{L^\infty}\lesssim \lambda^{-1},\qquad
+   \|D^3u\|_{L^\infty}\lesssim \lambda^{-2},
+   \tag{3.4}
+\]
+while \(|\nabla u|\) is bounded below on the level.  Thus a direct
+implicit-function \(C^{2,\alpha}\) norm for \(\partial\Et\) can blow like a
+negative power of \(\lambda\).  Since \(K\) is fixed in the contradiction
+argument, \(\eps_K\) is fixed; it cannot compensate for a constant blowing as
+\(\delta\downarrow0\).
+
+Therefore Brandolini's Theorem 2 cannot be used as a black box with uniform
+constants unless one proves a new uniform regularity estimate for the stopped
+levels.  That estimate would essentially be a graph-entry theorem in another
+form.
+
+\section{What Plan 3 Adds}
+
+The Plan 3 and Plan 2 files contain several ingredients that partly replace
+the regularity-dependent part of Brandolini.
+
+\subsection{Satellites}
+
+Let \(E_0\) be the largest indecomposable component of \(\Et\).  Since
+\(D_I(\hat t)\le \eta\), where
+\[
+   \eta:=C K^{-1}\sqrt\delta,
+\]
+the planar component estimate in
+\texttt{PLANAR\_GRAPH\_REDUCTION\_PUSH.tex} gives
+\[
+   |\Et\setminus E_0|\le C\eta^2\le C_K\delta.
+   \tag{4.1}\label{eq:satellites}
+\]
+The Saint--Venant bound on each small component gives a negligible torsion
+contribution.  Thus satellites are not an obstruction.
+
+\subsection{Closed holes}
+
+The same planar perimeter bookkeeping gives that bounded holes whose total
+boundary perimeter is \(p_h\) have total area at most \(p_h^2/(4\pi)\).  Since
+their perimeter is part of the isoperimetric excess at the good level,
+\[
+   |H_{\rm holes}|\le C\eta^2\le C_K\delta.
+   \tag{4.2}\label{eq:holes}
+\]
+Filling closed holes is compatible with the torsion deficit by the monotone
+filling lemma in \texttt{PLANAR\_RADIALIZATION\_PROOF\_ATTEMPT.tex}.
+
+\subsection{Outer annular control}
+
+Brandolini Theorem 1 gives small measure distance to one ball once \(K\) is
+large.  Together with \(D_I(\hat t)\to0\), the planar Lemma 10 mechanism in
+Brandolini gives a small outer excursion.  In dimension two the final step of
+that argument is purely length-theoretic: a connected set reaching a distance
+\(s\) outside the selected ball pays perimeter outside the ball at least
+comparable to \(s\).  Thus the outer radius can be made smaller than the
+fixed graph-entry threshold by choosing \(K\) large and then \(\delta\) small.
+
+This part does not require a uniform \(C^{2,\alpha}\) constant in dimension
+two.
+
+\subsection{Outward fingers and bad rays}
+
+The \(n=2\) tentacle computation in the repo is favorable.  A surviving tube
+of width \(w\) and length \(L\) has active-level cost
+\[
+   D_H\simeq L/w.
+\]
+Thus a \(D_H\)-good level cannot carry an arbitrary long thin active finger.
+Plan 2's radial slicing gives a separate bad-ray multiplicity absorption once
+an annular bracket is known.  These are genuine ingredients for converting
+annular near-ball information into radialization.
+
+\section{The Point Still Not Proved}
+
+The remaining issue is the inner and multiple-crossing geometry.  Brandolini's
+Theorem 1 allows thin tentacles and gives only measure closeness.  Brandolini's
+Theorem 2 would give inner and outer radii, but its constant depends on
+boundary regularity.  Planar perimeter estimates rule out deep fjords at a
+fixed scale, and capacity rules out missing sets at positive torsion height,
+but the repo does not yet contain the arbitrary-geometry theorem that combines
+these facts at the sharp torsion scale.
+
+The exact missing lemma is the following.
+
+\begin{conjecture}[Planar Brandolini--Plan 3 radialization lemma]
+\label{conj:entry}
+Let \(E=\Et\subset\R^2\) be a regular \(\sqrt\delta\)-stopped level satisfying
+\eqref{eq:good-level}, \eqref{eq:def-transfer}, and
+\eqref{eq:linfty-serrin}, with \(K\) fixed sufficiently large.  Then, after
+translation and area normalization, there is a radial graph
+\[
+   G=\{re^{i\theta}:0<r<1+\varphi(\theta)\},
+   \qquad
+   \|\varphi\|_{L^\infty}\le \eta_0,
+\]
+such that
+\[
+   |E\Delta G|\le C_K\sqrt\delta,
+   \qquad
+   \dT(G)\le C_K\delta .
+   \tag{5.1}\label{eq:radialization}
+\]
+\end{conjecture}
+
+This lemma is weaker than literal graph entry for \(E\).  It permits filling
+shallow fjords and holes and pruning outward debris.  It is also exactly what
+the hybrid proof needs: the direct radial-graph theorem gives
+\[
+   \A(G)^2\le C\,\dT(G)\le C_K\delta,
+\]
+and then
+\[
+   \A(E)\le \A(G)+C|E\Delta G|\le C_K\sqrt\delta.
+\]
+The transfer from \(E\) to \(U\) costs another \(O(K\sqrt\delta)\), so the
+desired estimate follows.
+
+\section{Verdict}
+
+The user's instinct is correct in the following precise sense.  The repo
+contains the right ingredients around Brandolini:
+\[
+   \begin{gathered}
+   \hbox{pointwise Serrin level}
+   +\hbox{Brandolini measure near-ball}\\
+   +\,D_I\hbox{ satellite/hole cleanup}
+   +D_H\hbox{ thin-finger control}
+   +\hbox{Plan 2 bad-ray slicing}.
+   \end{gathered}
+\]
+These reduce the missing entry theorem to
+Conjecture~\ref{conj:entry}.
+
+But Conjecture~\ref{conj:entry} is not yet proved in the repo.  The tempting
+shortcut through Brandolini's annulus theorem is not uniform, because its
+constant depends on \(C^{2,\alpha}\) boundary regularity of the stopped level.
+The remaining work is therefore not another Serrin theorem.  It is a planar
+geometric radialization theorem showing that the pieces not already handled by
+Brandolini measure closeness, \(D_I\), \(D_H\), and bad-ray slicing can be
+filled or pruned with \(O(\sqrt\delta)\) measure loss and \(O(\delta)\)
+torsion-deficit cost.
+
+\end{document}

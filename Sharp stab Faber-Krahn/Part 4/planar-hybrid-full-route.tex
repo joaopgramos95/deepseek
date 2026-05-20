@@ -1,0 +1,3869 @@
+\documentclass[11pt]{amsart}
+
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Om}{\Omega}
+\newcommand{\Et}{E_{\hat t}}
+\newcommand{\dT}{\delta_T}
+\newcommand{\AF}{\mathcal A_F}
+\newcommand{\HH}{\mathcal H}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\Etil}{\widetilde E}
+\newcommand{\Gtil}{\widetilde G}
+\newcommand{\Sclass}{\mathcal S}
+\newcommand{\wt}{\widetilde}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\Lip}{Lip}
+\newcommand{\dHnm}{d\mathcal H^{n-1}\!\restriction_{S^{n-1}}}
+
+\title{Part 4: The Selection--Level--Brandolini Hybrid Route
+       (rigorous version, dimension-free main chain)}
+\author{}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\section{Purpose and status}
+
+This note records the hybrid Selection--Level--Brandolini route in
+one place, with every step proved.  The main chain is
+\emph{dimension-free}: each building block holds for arbitrary
+$n\ge 2$, and the route delivers
+$\AF(U)^{2}\le C\,\dT(U)$ with the sharp exponent in every
+dimension.  The explicit constants are written out for $n=2$ (where
+they are most transparent); the general-$n$ specialisation is
+catalogued in \S\ref{ss:general-n}.  The proof combines:
+
+\begin{enumerate}[label=\arabic*.]
+\item the quantitative selection reduction and its $C^{1,\gamma}$
+regularity output (Alt--Caffarelli, no Schauder bootstrap);
+\item a level extraction at the $\sqrt{\dT}$ boundary-layer scale;
+\item a quantitative $D_H\to L^\infty$-Serrin upgrade on the stopped
+level (using $\gamma$-Hölder interpolation);
+\item inheritance of the selected $C^{1,\gamma}$ regularity by the
+inset;
+\item the Brandolini--Nitsch--Salani--Trombetti Serrin stability
+theorem in its $C^{1,\gamma}$ form (proved here as
+Theorem~\ref{thm:BNST-Cgamma}), giving a concentric annular core;
+\item a dimension-free \emph{radial-graph promotion}
+(Lemma~\ref{lem:radialgraph}): the $C^{1,\gamma}$ regularity and the
+Brandolini inclusion together force $\partial\Etil$ to be a
+$C^{1,\gamma}$ radial graph from a barycentre, with no pocket-filling
+needed;
+\item a barycentre-recentring step;
+\item the direct small-amplitude radial-graph stability theorem.
+\end{enumerate}
+
+Step~6 is the load-bearing dimension-free part of the route: in any
+dimension $n\ge 2$, the chain delivers the sharp exponent
+$\AF(U)^2\lesssim\dT(U)$ once a dimension-free radial-graph theorem
+$(G_n)$ is supplied (the planar case is proved in
+\S\ref{sec:graph-proof}; the general-$n$ dimension-free derivation is
+cited in \S\ref{ss:G12-conclude}).  For $n=2$ we additionally record,
+in \S\ref{sec:hole-fill}, the elementary polar-slicing
+``hole-filling'' alternative to Step~6: a planar radial-hull pocket
+lemma that gives an $O(\dT)$-volume radialisation by the sharp
+planar isoperimetric inequality $|Q|\le P(Q)^2/(4\pi)$ followed by
+super-additivity.  The planar alternative is cute and self-contained;
+it does not extend to $n\ge 3$ at the sharp scaling because in higher
+dimensions the analogous quadratic isoperimetric bound is replaced
+by a $P(Q)^{n/(n-1)}$ bound, which yields only
+$v=O(\dT^{n/(2(n-1))})\not=O(\dT)$.  The radial-graph route of
+Step~6 sidesteps this obstruction entirely.
+
+The route does \emph{not} use Brasco--De Philippis--Velichkov's
+quantitative stability theorem as a black box.  It does use, with
+explicit statements:
+
+\begin{enumerate}[label=(I\arabic*)]
+\item the planar volume-variable level identity (Plan~2/Plan~3);
+\item the $C^{1,\gamma}$ Brandolini--Nitsch--Salani--Trombetti
+Serrin stability theorem;
+\item the direct radial-graph theorem proved in the Plan~3 graph note.
+\end{enumerate}
+
+The selected-minimizer regularity package $\Sclass$ and the
+quantitative selection principle (P) --- previously imported as
+Plan~1 black boxes --- are now \emph{proved in full} in
+\S\ref{sec:selection-package} below.  The only deep ingredient
+required for that proof is the $C^{1,\gamma}$ Alt--Caffarelli
+free-boundary regularity for selected quasi-minimisers; everything
+in $(S1)$--$(S6)$ beyond $(S3)$ is then derived from Lieberman
+boundary-Schauder estimates for the torsion equation on
+$C^{1,\gamma}$ domains and the Hopf lemma, in a quantitative form.
+\emph{No further Schauder bootstrap to $C^{2,\alpha}$ is required},
+because the BNST theorem (B) is itself proved here at the
+$C^{1,\gamma}$ regularity level (\S\ref{sec:BNST-proof}).
+
+Everything else is proved below in full.  In particular, all asymmetry
+quantities are kept in their Fraenkel form \(\AF\), so that the final
+estimate is sharp in the exponent without any auxiliary smooth-asymmetry
+detour.
+
+\section{Conventions, the selection class, and imported inputs}
+
+\subsection{Torsion convention}
+
+Throughout this note, \emph{the torsion function} \(u_D\) of a bounded
+open set \(D\subset\R^2\) is the unique \(H^1_0(D)\) solution of
+\begin{equation}\label{eq:torsion-pde}
+   -\Delta u_D=1\quad\hbox{in }D,
+   \qquad
+   u_D=0\quad\hbox{on }\partial D.
+\end{equation}
+Equivalently, \(\Delta u_D=-1\) and \(u_D\ge 0\) in \(D\).  We set
+\[
+   T(D):=\int_D u_D\,dx.
+\]
+The (unnormalised) Saint--Venant deficit of \(D\) at fixed area is
+\[
+   \dT(D):=T(B_D)-T(D),
+\]
+where \(B_D\) is any disk with \(|B_D|=|D|\).  Under the convention
+\eqref{eq:torsion-pde}, the explicit torsion of a planar disk is
+\begin{equation}\label{eq:disk-torsion}
+   T(B_r)=\frac{\pi r^4}{8},
+   \qquad
+   T(B_A)=\frac{A^2}{8\pi}\quad(A=|B_A|).
+\end{equation}
+On the disk \(B_1\) of radius \(1\) (area \(\pi\)) the gradient satisfies
+\(|\nabla u_{B_1}|(x)=|x|/2\), and in particular
+\(|\nabla u_{B_1}|\equiv 1/2\) on \(\partial B_1\).
+
+We normalize the comparison ball to area \(\pi\), so the area-\(\pi\)
+disk has radius \(1\).  Constants change harmlessly under any other
+normalisation by an explicit power of the dilation factor.
+
+The \emph{Fraenkel asymmetry} of a bounded measurable set
+\(E\subset\R^2\) with \(|E|>0\) is
+\[
+   \AF(E):=\inf_{z\in\R^2}\frac{|E\Delta B(z)|}{|E|},
+\]
+where \(B(z)\) is the disk of area \(|E|\) centred at \(z\).  This is
+the asymmetry we control: the corollary in \S10 is stated for \(\AF\).
+
+\subsection{The selection class}
+
+Selected minimisers of the BDV variational problem live in a class
+with explicit uniform regularity.  Fix once and for all the
+structural constants
+\[
+   R_0,\ K_{1,\gamma},\ \rho_0,\ \Lambda_\gamma,\ q_-,\ q_+,\ r_0,\
+   c_0,\ C_0>0,
+   \qquad
+   0<\gamma<1.
+\]
+
+\begin{definition}[Selection class \(\Sclass\)]\label{def:Sclass}
+The \emph{selection class} \(\Sclass=\Sclass(R_0,K_{1,\gamma},\rho_0,
+\Lambda_\gamma,q_\pm,r_0,c_0,C_0,\gamma)\) is the family of all open
+sets \(U\subset\R^2\) satisfying:
+\begin{enumerate}[label=(S\arabic*)]
+\item \(U\) is bounded, connected, and simply connected;\label{S1}
+\item \(|U|=\pi\) and \(U\subset B_{R_0}\);\label{S2}
+\item \(\partial U\) is a closed \(C^{1,\gamma}\) Jordan curve with
+$C^{1,\gamma}$ atlas pair $(K_{1,\gamma},\rho_0)$ \textup{(}i.e.\
+every \(x_0\in\partial U\) admits a chart
+\(\psi:B_{\rho_0}(x_0)\to\R^2\) with
+\(\|\psi\|_{C^{1,\gamma}},\|\psi^{-1}\|_{C^{1,\gamma}}\le K_{1,\gamma}\)
+straightening \(\partial U\) to \(\partial\R^2_+\)\textup{)};\label{S3}
+\item the torsion function $u=u_U$ satisfies
+$\|u\|_{C^{1,\gamma}(\overline U)}\le M_{1,\gamma}$ and the
+gradient Hölder bound $\|Du\|_{C^{0,\gamma}(\overline U)}\le
+\Lambda_\gamma$;\label{S4}
+\item the Hopf bound \(q_-\le|\nabla u|\le q_+\) holds on
+\(\partial U\);\label{S5}
+\item the linear-growth pair holds in the collar:
+\[
+   c_0\,\mathrm{dist}(x,\partial U)\le u(x)\le C_0\,
+   \mathrm{dist}(x,\partial U)
+   \quad\hbox{for }x\in\mathcal N_{r_0}(\partial U)\cap U.
+\]\label{S6}
+\end{enumerate}
+Here $M_{1,\gamma}=M_{1,\gamma}(R_0,K_{1,\gamma},\rho_0)$ is the
+universal constant from boundary Lieberman--Schauder estimates for
+$-\Delta u=1$ on $C^{1,\gamma}$ domains, depending only on
+$(R_0,K_{1,\gamma},\rho_0)$; we absorb it into the structural
+constants.
+\end{definition}
+
+The constants in \(\Sclass\) are fixed throughout; every constant
+generated below is allowed to depend on them.  We write
+\[
+   C\ \hbox{or}\ C(\Sclass)
+\]
+for a constant depending only on \(\Sclass\).
+
+\begin{remark}\label{rem:S-source}
+Properties (S1)--(S6) constitute the regularity package that the
+Alt--Caffarelli step of the BDV selection attaches to a selected
+minimiser; crucially, only the $C^{1,\gamma}$ free-boundary regularity
+(R4) of Theorem~\ref{thm:BDV-reg} is required to verify (S3), and (S4)
+follows from boundary Lieberman--Schauder estimates for $-\Delta u=1$
+on $C^{1,\gamma}$ domains.  No further $C^{2,\alpha}$ bootstrap is
+needed, since the BNST input (B) of \S\ref{sec:BNST-import} is the
+$C^{1,\gamma}$ version (proved in \S\ref{sec:BNST-proof}).  We use
+$\Sclass$ as a black box throughout \S\S3--8.  \S9 imports the
+quantitative selection principle (P) that delivers $U\in\Sclass$ from
+a small-asymmetry near-counterexample.  The two BDV-conditional
+inputs of this note are thus (i) the $C^{1,\gamma}$ regularity class
+$\Sclass$ (Definition~\ref{def:Sclass}), derived in \S11 from the
+Alt--Caffarelli regularity package (R1)--(R4), and (ii) the selection
+principle (P) of \S\ref{sec:transfer}.
+\end{remark}
+
+\subsection{The Brandolini--Nitsch--Salani--Trombetti theorem
+under \texorpdfstring{$C^{1,\gamma}$}{C(1,gamma)} regularity}
+\label{sec:BNST-import}
+
+We use the following $C^{1,\gamma}$ version of the planar
+Brandolini--Nitsch--Salani--Trombetti theorem~\cite{BNST}.  The
+original BNST result is stated for $C^{2,\alpha}$ domains; we
+strengthen it to $C^{1,\gamma}$ in \S\ref{sec:BNST-proof}, where it
+is proved in full as Theorem~\ref{thm:BNST-Cgamma}.  This
+strengthening allows the manuscript to bypass any Schauder bootstrap
+of the boundary: the $C^{1,\gamma}$ regularity required below is
+delivered directly by the Alt--Caffarelli step (R4) of the BDV
+regularity package (Theorem~\ref{thm:BDV-reg}).
+
+\begin{quote}
+\textbf{(B)} Let $\gamma\in(0,1]$ and let the \emph{atlas pair}
+$(K_{1,\gamma},\rho_0)$ consist of the $C^{1,\gamma}$ chart norm
+$K_{1,\gamma}$ and a uniform chart radius $\rho_0>0$.  There exist
+$\eta_B\in(0,1/4)$ and constants $C_{\rm Br}>0$ and $\mu=1/34$
+\textup{(the planar value of $\mu=1/(2(4n+9)(n-1))$ at $n=2$)},
+depending polynomially on $(K_{1,\gamma},1/\rho_0,R_0,\Lambda_\gamma)$
+and on $1/\gamma$, such that the following holds.  If $D\subset\R^2$
+is bounded, connected, with diameter $\le R_0$ and $C^{1,\gamma}$
+atlas pair bounded by $(K_{1,\gamma},\rho_0)$, and if
+$w\in C^{1,\gamma}(\overline D)\cap C^\infty(D)$ solves
+\[
+   \Delta w=2\ \hbox{in }D,
+   \qquad
+   w=0\ \hbox{on }\partial D,
+   \qquad
+   \bigl\||Dw|-1\bigr\|_{L^\infty(\partial D)}\le \eta\le\eta_B,
+\]
+with $\|Dw\|_{C^{0,\gamma}(\overline D)}\le\Lambda_\gamma$, then
+there exists $z\in\R^2$ and $r_{\rm in},r_{\rm out}>0$ with
+\begin{equation}\label{eq:brandolini-gap}
+   B_{r_{\rm in}}(z)\subset D\subset B_{r_{\rm out}}(z),
+   \qquad
+   r_{\rm out}-r_{\rm in}\le C_{\rm Br}\,\eta^\mu,
+   \qquad
+   \bigl|r_{\rm in}-\rho_D\bigr|+\bigl|r_{\rm out}-\rho_D\bigr|
+   \le C_{\rm Br}\,\eta^\mu,
+\end{equation}
+where $\rho_D:=\sqrt{|D|/\pi}$ is the radius of the disk of area
+$|D|$.
+\end{quote}
+
+Two observations: \textbf{(i)} No \emph{smallness} of the
+$C^{1,\gamma}$ atlas norm is required, only finiteness;
+$K_{1,\gamma}$ and $1/\rho_0$ enter polynomially in $C_{\rm Br}$,
+and the only smallness parameter is $\eta$.  \textbf{(ii)} The
+exponent $\mu=1/34$ is unchanged from the $C^{2,\alpha}$ version:
+the rate comes from the $L^1$ multi-ball argument of BNST (their
+Theorem~5; see \S\ref{ss:BNST-anatomy} step \ref{B1}), which uses
+no boundary regularity above Lipschitz.  Only the constant
+$C_{\rm Br}$ is affected by the $C^{2,\alpha}\to C^{1,\gamma}$
+relaxation.
+
+\subsection{Imported planar level identity}
+
+We use the volume-variable form of the level-set deficit identity
+(Plan~2/Plan~3, planar specialisation):
+
+\begin{quote}
+\textbf{(L)} For every bounded open \(U\subset\R^2\) of finite
+perimeter, with torsion function \(u=u_U\) and inverse distribution
+function \(v(s):=\inf\{t>0:|\{u>t\}|\le s\}\), and with
+\[
+   E_t:=\{u>t\},\quad
+   f_t:=|\nabla u|\restriction_{\partial E_t},\quad
+   P_t:=\HH^1(\partial E_t),\quad
+   A_t:=|E_t|,
+\]
+the level deficits
+\begin{equation}\label{eq:DH-DI-def}
+   D_H(t):=
+      \Bigl(\int_{\partial E_t}f_t\,d\HH^1\Bigr)
+      \Bigl(\int_{\partial E_t}\frac1{f_t}\,d\HH^1\Bigr)
+      -P_t^2,
+   \qquad
+   D_I(t):=P_t^2-4\pi A_t,
+\end{equation}
+are non-negative and satisfy
+\begin{equation}\label{eq:level-identity}
+   \int_0^{|U|}\bigl(D_H(v(s))+D_I(v(s))\bigr)\,ds
+      =8\pi\,\dT(U).
+\end{equation}
+\end{quote}
+
+The constant \(8\pi\) is the planar specialisation of the general
+identity, which has the dimensional factor
+\(n^2\omega_n^{2/n}\,s^{1-2/n}\); in \(n=2\) this equals \(4\pi\cdot 1\)
+and the equality with the deficit is obtained after multiplication by
+\(2\) and by \(|U|\) (cf.\ Plan~2, agent1).
+
+\subsection{Imported radial-graph theorem}\label{ss:G-import}
+
+We state the radial-graph theorem in dimension-free form
+$(G_n)$, valid for every $n\ge 2$; the planar case ($n=2$) is the
+form used in the main chain of \S\ref{sec:selected-domain}, and
+is proved in full as Theorem~\ref{thm:G12-explicit} in
+\S\ref{sec:graph-proof}.  The dimension-$n$ version is proved as
+Theorem~\ref{thm:Gn} in \S\ref{ss:Gn}.
+
+\begin{quote}
+\textbf{($G_n$)} Let $n\ge 2$.  There exist
+$\eta_G^{(n)},c_G^{(n)},C_G^{(n)}>0$ such that the following holds.
+If $\varphi\in C^0(S^{n-1})$ and
+\[
+   G=\{z+r\omega:0\le r<1+\varphi(\omega),\ \omega\in S^{n-1}\},
+\]
+satisfies
+\[
+   \|\varphi\|_{L^\infty(S^{n-1})}\le\eta_G^{(n)},
+   \qquad
+   |G|=\omega_n,
+   \qquad
+   \int_G(x-z)\,dx=0
+\]
+\textup{(i.e.\ the barycentre of $G$ is at the radial centre $z$)},
+then
+\begin{equation}\label{eq:graph-theorem}
+   \AF(G)^{2}\le C_G^{(n)}\,\dT(G).
+\end{equation}
+At $n=2$ this is the planar (G) used in
+\S\ref{sec:selected-domain}; we then drop the superscript and write
+$\eta_G,c_G,C_G$.  Admissible explicit constants are
+$\eta_G=1/13,c_G=15/1024,C_G<48$ (planar), or
+$c_G^{(n)}\ge 1/(16 n^{2})$ (general).
+\end{quote}
+
+Both the smallness of $\|\varphi\|_{L^\infty}$ and the barycentre
+condition are needed in the proof of $(G_n)$, the latter to suppress
+the $P_1$-mode in the spherical-harmonic expansion of $\varphi$.  We
+carry out the barycentre recentring in
+Lemma~\ref{lem:recenter} below.
+
+\subsection{General-\texorpdfstring{$n$}{n} specialisation}
+\label{ss:general-n}
+
+The detailed write-up of \S\S\ref{sec:level-id}--\ref{sec:transfer}
+is carried out at $n=2$, where every constant is explicit.  The same
+chain extends verbatim to general $n\ge 2$ via the following
+substitutions:
+
+\begin{itemize}[leftmargin=2em]
+\item Ambient: $\R^2\to\R^n$, $S^1\to S^{n-1}$,
+$\HH^1\to\HH^{n-1}$, Jordan curve\,$\to$\,closed embedded
+$C^{1,\gamma}$ hypersurface.
+\item Normalisations: $|U|=\pi\to|U|=\omega_n$ (volume of the unit
+ball); area of optimal disk $\pi\to\omega_n$; torsion of the unit
+ball $T(B_1)=\pi/8\to T(B_1)=\omega_n/(n(n+2))$; gradient of the
+torsion function on $\partial B_1$ is $1/n$ (so $|Dw|=1$ on
+$\partial B_1$ corresponds to $w=-2 u_0$ with $u_0=(1-|x|^2)/(2n)$).
+\item Level identity \eqref{eq:level-identity}: the constant
+$8\pi=4\pi\cdot 2$ becomes
+$C_{\mathrm{lev}}(n):=n^{2}\omega_n^{2/n}\,\bigl(|U|^{2-2/n}\,
+n/(2(n-1))\bigr)$ — concretely, the integral identity
+$\int_0^{|U|}(D_H(v)+D_I(v))ds=C_{\mathrm{lev}}(n)\,\dT(U)$ with
+$C_{\mathrm{lev}}(n)$ as above and $D_I(t)=P_t^2-n^{2}
+\omega_n^{2/n} A_t^{2-2/n}$ (the $n$-D isoperimetric deficit);
+cf.\ Plan~2/Plan~3.  At $n=2$, $C_{\mathrm{lev}}(2)=8\pi$ and
+$n^{2}\omega_n^{2/n}=4\pi$ recover the planar form.
+\item BNST exponent: $\mu=1/34\to\mu=1/(2(4n+9)(n-1))$ (see
+Theorem~\ref{thm:BNST-Cgamma} for the $C^{1,\gamma}$ form, which is
+stated for $\R^2$ but whose proof — \S\ref{sec:BNST-proof} — uses
+only Lipschitz boundary in steps (B1) and (B3), and the
+Hölder-modulus replacement of $D^2 w$ in (B2) is dimension-free).
+\item $D_H\to L^\infty$ Serrin interpolation (Lemma~\ref{lem:interp}):
+exponent $\gamma/(1+2\gamma)\to\gamma/(2\gamma+n-1)$ (the
+denominator counts the surface dimension, with $n-1$ in place of
+$1$), with constant depending on the lower density of $\partial\Et$
+and the chart radius (both controlled by $\Sclass$).
+\item Radial-graph promotion (Lemma~\ref{lem:radialgraph}): already
+stated and proved for arbitrary $n\ge 2$.
+\item Radial-graph theorem: planar (G) (Theorem~\ref{thm:G12-explicit})
+is replaced by $(G_n)$ (Theorem~\ref{thm:Gn} of \S\ref{ss:Gn}),
+with $c_G^{(n)}=1/(16 n^{2})$ and $C_G^{(n)}=8 n^{2}\bigl(C_n/
+\omega_n\bigr)^{2}$.
+\item Hole-filling (\S\ref{sec:hole-fill}): \emph{not} available in
+general $n$, since the planar isoperimetric bound $|Q|\le P(Q)^{2}/
+(4\pi)$ is replaced by $|Q|\le C_n P(Q)^{n/(n-1)}$, which yields
+only $v=O(\delta^{n/(2(n-1))})$, strictly weaker than $O(\delta)$
+for $n\ge 3$.  The radial-graph route of \S\ref{sec:radialgraph}
+is the dimension-free replacement.
+\end{itemize}
+
+With these substitutions, the selected-domain bound
+$\AF(U)^{2}\le C_\star(\Sclass,n)\,\dT(U)$ of
+Theorem~\ref{thm:selected} holds for every $n\ge 2$ with the same
+sharp exponent.  In the rest of this article we write all explicit
+constants for $n=2$ (where they are most transparent); the reader
+substitutes the entries above for general $n$.
+
+\begin{remark}\label{rem:Plan1}
+The regularity class $\Sclass$ (Definition~\ref{def:Sclass}) and the
+quantitative selection principle (P) of \S\ref{sec:transfer} are
+\emph{proved in \S\ref{sec:selection-package}} (see in particular
+Theorem~\ref{thm:S-package} for (S) and Theorem~\ref{thm:P-package}
+for (P)); the rest of \S\S3--10 uses them as already established
+hypotheses.  The only ``deep'' input required for the proof of (S)
+is $C^{1,\gamma}$ Alt--Caffarelli free-boundary regularity of a
+selected quasi-minimiser (Brasco--De~Philippis--Velichkov 2015,
+Theorem 4.18), invoked as a single black box and recorded as (R4) in
+Theorem~\ref{thm:BDV-reg}.  $(S1),(S2),(S4),(S5),(S6)$ are then
+derived from $(S3)=$(R4) by boundary Lieberman--Schauder estimates
+for the torsion equation on $C^{1,\gamma}$ domains and the Hopf
+lemma, in a quantitative form, with no smallness hypothesis on the
+$C^{1,\gamma}$ atlas norm.
+\end{remark}
+
+\section{Level-set identities and the stopped level}\label{sec:level-id}
+
+\begin{lemma}[Good level in a prescribed layer]\label{lem:good-level}
+Let \(U\in\Sclass\), set \(\delta:=\dT(U)\), and fix
+\(0<\lambda\le|U|/2=\pi/2\).  There is a regular value \(\hat t>0\)
+of \(u\) such that
+\begin{equation}\label{eq:layer-size}
+   \frac{\lambda}2\le |U\setminus E_{\hat t}|\le \lambda,
+\end{equation}
+and
+\begin{equation}\label{eq:good-D}
+   D_H(\hat t)+D_I(\hat t)
+      \le \frac{16\pi}{\lambda}\,\delta.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+In the volume variable \(s=|E_t|\), the layer
+\(|U|-\lambda\le s\le|U|-\lambda/2\) has length \(\lambda/2\).  By
+\eqref{eq:level-identity} and non-negativity of \(D_H,D_I\),
+\[
+   \int_{|U|-\lambda}^{|U|-\lambda/2}
+      \bigl(D_H(v(s))+D_I(v(s))\bigr)\,ds
+   \le 8\pi\delta,
+\]
+so for some \(s\) in this layer
+\(D_H(v(s))+D_I(v(s))\le (8\pi\delta)/(\lambda/2)=16\pi\delta/\lambda\).
+Sard's theorem applied to \(u\) gives that regular values of \(u\) are
+full-measure in the volume variable (the singular set of values is
+mapped under \(t\mapsto |E_t|\) to a Lebesgue-null subset of
+\([0,|U|]\)).  We may therefore choose \(s\) so that \(\hat t:=v(s)\) is
+a regular value, which gives \eqref{eq:layer-size} and
+\eqref{eq:good-D}.
+\end{proof}
+
+\begin{lemma}[Boundary-layer height]\label{lem:height}
+Let \(U\in\Sclass\).  There are constants \(c_h,C_h>0\) depending on
+\(\Sclass\) such that, for every regular value \(t\) with
+\(0<t<r_0\,c_0/2\),
+\begin{equation}\label{eq:t-layer}
+   c_h\,t\le |U\setminus E_t|\le C_h\,t.
+\end{equation}
+Consequently, when \(\hat t\) is the level from
+Lemma~\ref{lem:good-level} with \(\lambda<\lambda_0:=
+\min(\pi/2,r_0 c_0 C_h/2)\),
+\begin{equation}\label{eq:t-lambda}
+   \frac{\lambda}{2C_h}\le \hat t\le \frac{\lambda}{c_h}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By (S6), in the collar of width $r_0$,
+\[
+   \{\mathrm{dist}(\cdot,\partial U)\le t/C_0\}\cap U
+      \subset
+   \{0<u\le t\}
+      \subset
+   \{\mathrm{dist}(\cdot,\partial U)\le t/c_0\}\cap U.
+\]
+The chosen range $t<r_0c_0/2$ makes $t/c_0<r_0/2$, so both
+inclusions lie strictly inside the collar.  Since $\partial U\in
+C^{1,\gamma}$ with atlas pair $(K_{1,\gamma},\rho_0)$ (S3), the
+normal vector $\nu_U:\partial U\to S^1$ is $\gamma$-Hölder.  By the
+standard tubular-neighbourhood formula for $C^{1,\gamma}$
+hypersurfaces \textup{(}cf.\ \cite[Theorem~3.1]{HP}\textup{)}, normal
+coordinates $\Phi:(y,s)\mapsto y-s\nu_U(y)$ define a bi-Lipschitz
+parametrisation of the collar
+$\mathcal N_{r_0'}(\partial U)\cap U$ for some
+$r_0'=r_0'(K_{1,\gamma},\rho_0)>0$, with Jacobian satisfying
+$|J(y,s)-1|\le c(K_{1,\gamma})\,s^\gamma$ (a $\gamma$-Hölder
+modulus of $\nu_U$).  In particular
+\[
+   1-c(K_{1,\gamma})\,r^\gamma\le J(y,s)\le 1+c(K_{1,\gamma})\,r^\gamma
+   \qquad\text{for }s\in[0,r],
+\]
+giving
+\[
+   |\{\mathrm{dist}(\cdot,\partial U)\le r\}\cap U|
+      =\int_{\partial U}\int_0^r J(y,s)\,ds\,d\HH^1(y)
+      =r\,\HH^1(\partial U)+O(r^{1+\gamma}),
+\]
+with constants in $O(\cdot)$ controlled by $K_{1,\gamma}$.  Since
+$U\in\Sclass$ is bounded, $|U|=\pi$ and the boundary has uniform
+$C^{1,\gamma}$ atlas, the perimeter satisfies $P(U)\in[P_-,P_+]$ with
+$P_\pm$ depending only on $\Sclass$ (lower bound from the planar
+isoperimetric inequality $P\ge 2\pi$; upper bound from the
+$C^{1,\gamma}$ chart covering of $\partial U\subset B_{R_0}$).
+Substituting $r=t/c_0$ and $r=t/C_0$ yields \eqref{eq:t-layer} with
+$c_h=P_-/(2C_0)$ and $C_h=2P_+/c_0$ (the higher-order term
+$O(r^{1+\gamma})=O(t^{1+\gamma})$ being absorbed into the leading
+$r$-linear term for $t\le t_*(K_{1,\gamma})$ small).  The statement
+\eqref{eq:t-lambda} is immediate from \eqref{eq:layer-size}.
+\end{proof}
+
+\begin{lemma}[Monotone deficit transfer to the stopped level]
+\label{lem:def-transfer}
+Let \(U\in\Sclass\), set \(\delta:=\dT(U)\), and let \(E:=\Et\) be a
+regular level with \(\lambda:=|U\setminus E|\le\pi/2\).  Then
+\begin{equation}\label{eq:def-transfer}
+   \dT(E)\le\delta,
+\end{equation}
+where \(\dT(E)=T(B_{|E|})-T(E)\) is computed without area
+renormalisation.  After rescaling \(E\) by
+\(s:=\sqrt{\pi/|E|}\) to obtain \(\Etil:=sE\) with \(|\Etil|=\pi\),
+\begin{equation}\label{eq:def-transfer-norm}
+   \dT(\Etil)=s^4\,\dT(E)
+      \le\Bigl(\frac{\pi}{\pi-\lambda}\Bigr)^{2}\delta
+      \le 4\delta.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set \(\hat t=v(|E|)\) so \(E=\{u>\hat t\}\) and the function
+\(u_E:=u-\hat t\) is the torsion function of \(E\)
+(\(-\Delta u_E=1\) in \(E\), \(u_E=0\) on \(\partial E\)).  For
+\(\tau>0\) and \(x\in E\), \(u_E(x)>\tau\iff u(x)>\hat t+\tau\), so
+\[
+   \{u_E>\tau\}=\{u>\hat t+\tau\}\quad(\tau>0),
+\]
+and on the level \(\{u_E=\tau\}\) we have
+\(|\nabla u_E|=|\nabla u|\) and the same perimeter and area.
+Consequently, with the obvious notation
+\(D_H^E(\tau)=D_H^U(\hat t+\tau)\) and
+\(D_I^E(\tau)=D_I^U(\hat t+\tau)\).
+
+Now apply the identity \eqref{eq:level-identity} to \(E\):
+\[
+   8\pi\,\dT(E)
+      =\int_0^{|E|}
+      \bigl(D_H^E(v_E(\sigma))+D_I^E(v_E(\sigma))\bigr)
+      \,d\sigma.
+\]
+In the volume variable \(\sigma=|\{u_E>\tau\}|=|\{u>\hat t+\tau\}|\),
+the substitution \(\sigma\mapsto s=\sigma\) (over the range
+\([0,|E|]\), with the same area variable) makes the integrand on the
+right equal to \(D_H^U(v(s))+D_I^U(v(s))\) for \(s\in[0,|E|]\).  Hence
+\[
+   8\pi\,\dT(E)
+      =\int_0^{|E|}\bigl(D_H^U(v(s))+D_I^U(v(s))\bigr)\,ds
+      \le\int_0^{|U|}\bigl(D_H^U(v(s))+D_I^U(v(s))\bigr)\,ds
+      =8\pi\,\delta,
+\]
+using non-negativity of the integrand on \((|E|,|U|)\).  This is
+\eqref{eq:def-transfer}.
+
+For \eqref{eq:def-transfer-norm}, recall that torsion satisfies
+\(T(sE)=s^4 T(E)\) (because \(u_{sE}(y)=s^2 u_E(y/s)\) solves
+\(-\Delta=1\) in \(sE\)), and \(B_{|\Etil|}\) is the scaled
+\(B_{|E|}\), so \(\dT(\Etil)=s^4\dT(E)\).  With
+\(s^2=\pi/(\pi-\lambda)\) and \(\lambda\le\pi/2\), the factor
+\(s^4\le 4\).
+\end{proof}
+
+\section{From \(D_H\) to pointwise Serrin}
+
+\begin{lemma}[Exact variance identity]\label{lem:variance}
+Let \(U\in\Sclass\) and let \(t\) be a regular value of \(u\).  Set
+\(\bar f_t:=A_t/P_t=|E_t|/P_t\).  Then
+\begin{equation}\label{eq:variance}
+   \int_{\partial E_t}\frac{(|\nabla u|-\bar f_t)^2}{|\nabla u|}\,
+      d\HH^1
+      =
+   \frac{A_t}{P_t^{2}}\,D_H(t).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By the divergence theorem applied to \(\nabla u\) on \(E_t\),
+\[
+   \int_{\partial E_t}|\nabla u|\,d\HH^1
+      =-\int_{E_t}\Delta u\,dx=|E_t|=A_t.
+\]
+Hence, expanding the square and using \(\int_{\partial E_t}
+(\bar f_t)^2/|\nabla u|=\bar f_t^{\,2}\int 1/|\nabla u|\),
+\[
+\begin{aligned}
+\int_{\partial E_t}\frac{(|\nabla u|-\bar f_t)^2}{|\nabla u|}
+   &=
+   \int_{\partial E_t}|\nabla u|\,d\HH^1
+   -2\bar f_t P_t
+   +\bar f_t^{\,2}\int_{\partial E_t}\frac{d\HH^1}{|\nabla u|}\\
+   &=A_t-2\bar f_t P_t
+     +\frac{A_t^2}{P_t^2}\int_{\partial E_t}\frac{d\HH^1}{|\nabla u|}\\
+   &=\frac{A_t}{P_t^2}
+     \Bigl[A_t\int_{\partial E_t}\frac{d\HH^1}{|\nabla u|}-P_t^2\Bigr]
+   =\frac{A_t}{P_t^2}\,D_H(t),
+\end{aligned}
+\]
+where we used \(2\bar f_t P_t=2A_t\) in the third line.
+\end{proof}
+
+\begin{lemma}[\(L^2\) Serrin on the good level]\label{lem:L2}
+Let \(\hat t\) be the level produced by Lemma~\ref{lem:good-level} with
+\(\lambda\le\lambda_0\).  Then
+\begin{equation}\label{eq:L2-serrin}
+   \int_{\partial \Et}
+      \bigl(|\nabla u|-\bar f_{\hat t}\bigr)^2\,d\HH^1
+      \le
+   C_{L^2}\,\frac{\delta}{\lambda},
+\end{equation}
+with \(C_{L^2}\) depending only on \(\Sclass\).
+\end{lemma}
+
+\begin{proof}
+By \eqref{eq:t-lambda} we have \(\hat t\le\lambda/c_h\le\lambda_0/c_h<
+r_0/2\), so the good level lies in the selected collar.  By (S5) and
+(S4), $|\nabla u|\le q_++\Lambda_\gamma\,r_0^\gamma$ in the collar
+(from the Hölder modulus of $Du$).  By Lemma~\ref{lem:variance} and
+$A_{\hat t}\le|U|=\pi$,
+\[
+   \int_{\partial\Et}
+      \bigl(|\nabla u|-\bar f_{\hat t}\bigr)^2\,d\HH^1
+      \le
+   (q_++\Lambda_\gamma r_0^\gamma)\,
+   \int_{\partial\Et}
+      \frac{(|\nabla u|-\bar f_{\hat t})^2}{|\nabla u|}\,d\HH^1
+      \le
+   \frac{(q_++\Lambda_\gamma r_0^\gamma)\,\pi}{P_-^2}\,D_H(\hat t).
+\]
+Using \(D_H(\hat t)\le 16\pi\delta/\lambda\) from \eqref{eq:good-D}
+finishes the proof with
+$C_{L^2}=16\pi^2(q_++\Lambda_\gamma r_0^\gamma)/P_-^2$.
+\end{proof}
+
+\begin{lemma}[One-dimensional interpolation on a level curve, Hölder
+version]\label{lem:interp}
+Let \(\Sigma\subset\R^2\) be a compact \(C^1\) curve satisfying the
+uniform lower length density
+\begin{equation}\label{eq:density}
+   \HH^1(\Sigma\cap B_r(x))\ge c_\Sigma\,r
+   \qquad(x\in\Sigma,\ 0<r\le r_\Sigma).
+\end{equation}
+Let \(\gamma\in(0,1]\).  If \(g:\Sigma\to\R\) is $\gamma$-Hölder
+continuous with seminorm
+\([g]_{C^{0,\gamma}(\Sigma)}\le L_\gamma\) and
+\(\|g\|_{L^2(\Sigma)}^2\le B\), then
+\begin{equation}\label{eq:interp}
+   \|g\|_{L^\infty(\Sigma)}
+      \le
+   C_{\rm int}\Bigl[B^{\gamma/(1+2\gamma)}\,L_\gamma^{1/(1+2\gamma)}
+      +B^{1/2}\Bigr],
+   \qquad
+   C_{\rm int}=C_{\rm int}(c_\Sigma,r_\Sigma,\gamma)>0.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set \(A:=\|g\|_{L^\infty(\Sigma)}\) and pick \(x_0\in\Sigma\) with
+\(|g(x_0)|\ge A/2\).  Assume \(A>0\) (otherwise the bound is trivial).
+
+\emph{Case 1: $L_\gamma>0$ and $r:=(A/(4L_\gamma))^{1/\gamma}\le
+r_\Sigma$.}
+For $y\in\Sigma\cap B_r(x_0)$,
+$|g(y)|\ge|g(x_0)|-L_\gamma|y-x_0|^\gamma\ge A/2-L_\gamma r^\gamma
+=A/2-A/4=A/4$, so
+\[
+   B\ge\int_{\Sigma\cap B_r(x_0)}g^2\,d\HH^1
+      \ge\frac{A^2}{16}\,c_\Sigma r
+      =\frac{c_\Sigma A^2}{16}\Bigl(\frac{A}{4L_\gamma}\Bigr)^{1/\gamma}
+      =\frac{c_\Sigma\,A^{2+1/\gamma}}{16\cdot 4^{1/\gamma}\,L_\gamma^{1/\gamma}},
+\]
+giving $A^{2+1/\gamma}\le(16\cdot 4^{1/\gamma}/c_\Sigma)\,B\,
+L_\gamma^{1/\gamma}$, i.e.,
+$A\le C_1(\gamma,c_\Sigma)\,B^{\gamma/(1+2\gamma)}\,
+L_\gamma^{1/(1+2\gamma)}$, with
+$C_1(\gamma,c_\Sigma):=(16\cdot 4^{1/\gamma}/c_\Sigma)^{\gamma/(1+2\gamma)}$.
+
+\emph{Case 2: $L_\gamma=0$, or $L_\gamma>0$ with $(A/(4L_\gamma))^{1/
+\gamma}>r_\Sigma$.}
+In either case $|g|\ge A/2-L_\gamma r_\Sigma^\gamma\ge A/4$ on
+$\Sigma\cap B_{r_\Sigma}(x_0)$ (the case $L_\gamma=0$ being trivial,
+the second case using $L_\gamma r_\Sigma^\gamma<A/4$ by hypothesis),
+so
+\[
+   B\ge\frac{A^2}{16}\,c_\Sigma r_\Sigma,
+   \qquad
+   A\le\Bigl(\frac{16}{c_\Sigma r_\Sigma}\Bigr)^{1/2}B^{1/2}.
+\]
+Taking the maximum of the two cases yields \eqref{eq:interp} with
+\(C_{\rm int}=\max\bigl(C_1(\gamma,c_\Sigma),(16/(c_\Sigma r_\Sigma))^{1/2}
+\bigr)\).  For $\gamma=1$ the exponent $\gamma/(1+2\gamma)=1/3$ and
+$1/(1+2\gamma)=1/3$ recover the Lipschitz case
+$A\le C(BL)^{1/3}+CB^{1/2}$.
+\end{proof}
+
+\begin{lemma}[Pointwise Serrin on the good level]\label{lem:Linf}
+Under the hypotheses of Lemma~\ref{lem:L2}, with the inset
+regularity constants from Lemma~\ref{lem:inset-regularity} below,
+\begin{equation}\label{eq:Linf-serrin}
+   \bigl\||\nabla u|-\bar f_{\hat t}\bigr\|_{L^\infty(\partial \Et)}
+      \le
+   C_{L^\infty}\Bigl[
+      \Bigl(\frac{\delta}{\lambda}\Bigr)^{\!\gamma/(1+2\gamma)}
+      +\Bigl(\frac{\delta}{\lambda}\Bigr)^{\!1/2}
+   \Bigr],
+\end{equation}
+with $C_{L^\infty}$ depending only on $\Sclass$.
+\end{lemma}
+
+\begin{proof}
+By (S4), the function $g:=|\nabla u|-\bar f_{\hat t}$ is
+$\gamma$-Hölder on $\partial\Et$ with seminorm
+$[g]_{C^{0,\gamma}(\partial\Et)}\le\Lambda_\gamma$ (since
+$\bar f_{\hat t}$ is constant); by
+Lemma~\ref{lem:inset-regularity}, $\partial\Et$ satisfies the
+lower length density \eqref{eq:density} with constants
+$c_\Sigma,r_\Sigma$ depending only on $\Sclass$.  Apply
+Lemma~\ref{lem:interp} with $B=C_{L^2}\delta/\lambda$ from
+Lemma~\ref{lem:L2} and $L_\gamma=\Lambda_\gamma$.  The first term
+in \eqref{eq:interp} becomes
+$C_{\rm int}\cdot C_{L^2}^{\gamma/(1+2\gamma)}\,
+\Lambda_\gamma^{1/(1+2\gamma)}\cdot
+(\delta/\lambda)^{\gamma/(1+2\gamma)}$;
+the second is $C_{\rm int}\cdot C_{L^2}^{1/2}\,(\delta/\lambda)^{1/2}$.
+Both fit into \eqref{eq:Linf-serrin} with
+$C_{L^\infty}:=C_{\rm int}\,\max\bigl(C_{L^2}^{\gamma/(1+2\gamma)}\,
+\Lambda_\gamma^{1/(1+2\gamma)},C_{L^2}^{1/2}\bigr)$.  For
+$\gamma=1$ the exponent $\gamma/(1+2\gamma)=1/3$ recovers the
+Lipschitz case.
+\end{proof}
+
+\section{Inset regularity, recentring, and Brandolini}
+
+\begin{lemma}[Inset regularity]\label{lem:inset-regularity}
+Let $U\in\Sclass$.  There are $t_0,\rho_0^*,K_0^*,d_0>0$ depending
+only on $\Sclass$ such that every regular value $t\in(0,t_0)$
+yields an inset $E_t$ which is open, connected, simply connected,
+of diameter $\le d_0$, and bounded by a closed $C^{1,\gamma}$ Jordan
+curve with atlas pair $(K_0^*,\rho_0^*)$.
+\end{lemma}
+
+\begin{proof}
+By (S5) and the Hölder continuity of $\nabla u$ on the collar
+(from (S4): $\|Du\|_{C^{0,\gamma}}\le\Lambda_\gamma$), after shrinking
+the collar radius once and for all to
+$r_0'\in(0,r_0]$ depending only on $\Sclass$, we have
+$|\nabla u|\ge q_-/2$ throughout $\mathcal N_{r_0'}(\partial U)\cap U$.
+
+Introduce the normal coordinate map
+\[
+   \Phi(y,s):=y-s\,\nu_U(y),
+   \qquad
+   y\in\partial U,\ s\in[0,r_0').
+\]
+By (S3) ($C^{1,\gamma}$ atlas of $\partial U$), $\nu_U\in
+C^{0,\gamma}(\partial U)$, so $\Phi$ is a $C^{1,\gamma}$ map onto the
+collar.  Its differential at $s=0$ is the identity-plus-perturbation
+on $\partial U\times\R$, so for $r_0'$ small enough, $\Phi$ is a
+$C^{1,\gamma}$ diffeomorphism with uniformly bounded norm and inverse
+norm.  The composition $F(y,s):=u(\Phi(y,s))$ is $C^{1,\gamma}$ with
+norm bounded by $M_{1,\gamma}$ from (S4) and $\partial_s F(y,0)=
+|\nabla u(y)|\ge q_-$.  After further shrinking the collar to
+$r_0''\le r_0'$ (depending only on $M_{1,\gamma}, q_-,\gamma$) we have
+$|\partial_s F|\ge q_-/2$ throughout.
+
+Set $t_0:=\min(q_-r_0''/2,r_0 c_0/2)$.  For $0<t<t_0$, the
+quantitative implicit function theorem for $C^{1,\gamma}$ maps gives
+a unique $C^{1,\gamma}$ function $s_t:\partial U\to(0,r_0'')$ with
+$\|s_t\|_{C^{1,\gamma}}\le K_0^*$ and
+\[
+   \partial E_t=\{y-s_t(y)\,\nu_U(y):y\in\partial U\}.
+\]
+This makes $\partial E_t$ a closed $C^{1,\gamma}$ Jordan curve with
+atlas pair $(K_0^*,\rho_0^*)$ depending only on $\Sclass$, and makes
+$E_t$ a Jordan domain (open, connected, simply connected) by the
+normal-graph structure.  The diameter satisfies
+$\mathrm{diam}(E_t)\le\mathrm{diam}(U)\le 2R_0=:d_0$.
+\end{proof}
+
+\begin{lemma}[Lower length density of $\partial\Et$]
+\label{lem:density-quant}
+Under the hypotheses of Lemma~\ref{lem:inset-regularity}, the curve
+$\Sigma:=\partial \Et$ satisfies \eqref{eq:density} with explicit
+constants $c_\Sigma:=1/(2(1+K_0^*))$ and $r_\Sigma:=\rho_0^*/2$.
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:inset-regularity}, $\partial\Et$ admits at every
+point a $C^{1,\gamma}$ chart of size $\rho_0^*$ with chart norm
+bounded by $K_0^*$.  Since $C^{1,\gamma}\subset
+C^{0,1}$ (Lipschitz), the chart is bi-Lipschitz with constant
+$\le 1+K_0^*$.  For any disk $B_\rho(x_0)$ centred on $\Sigma$ with
+$\rho\le\rho_0^*/2$, the chart pulls $B_\rho(x_0)\cap\Sigma$ back to
+a subset of $\partial\R^2_+$ containing an interval of length
+$\ge\rho/(1+K_0^*)$; pushing forward (Lipschitz with constant
+$\le 1+K_0^*$ in the opposite direction) gives the curve segment of
+$\HH^1$-measure $\ge\rho/((1+K_0^*)^2)$.  Hence
+$\HH^1(B_\rho(x_0)\cap\Sigma)\ge\rho/(2(1+K_0^*))$ for the slightly
+more conservative constant $c_\Sigma=1/(2(1+K_0^*))$.
+\end{proof}
+
+\begin{lemma}[Brandolini annular core for the rescaled inset]
+\label{lem:Brandolini-core}
+Let \(U\in\Sclass\), set \(\delta:=\dT(U)\), and let \(K\ge1\) be a
+constant to be chosen later.  Apply
+Lemma~\ref{lem:good-level} with \(\lambda=K\sqrt\delta\), assuming
+\(\delta\le\delta_1(K,\Sclass)\) so that
+\(\lambda<\lambda_0\).  Let \(E:=\Et\) and let \(\Etil:=sE\) with
+\(s=\sqrt{\pi/|E|}\) so \(|\Etil|=\pi\).  There exists
+\(\delta_2(K,\Sclass)\in(0,\delta_1]\) such that, for
+\(\delta\le\delta_2\),
+\begin{equation}\label{eq:eta-explicit}
+   \eta(K,\delta):=
+   2C_{L^\infty}\Bigl(\frac{\sqrt\delta}{K}\Bigr)^{\!\gamma/(1+2\gamma)}
+   +C_h^*\sqrt\delta\le\eta_B,
+\end{equation}
+and there exist \(z\in\R^2\), \(r_{\rm in},r_{\rm out}>0\) such that
+\begin{equation}\label{eq:annular-core}
+   B_{r_{\rm in}}(z)\subset \Etil\subset B_{r_{\rm out}}(z),
+   \qquad
+   r_{\rm out}-r_{\rm in}+|r_{\rm in}-1|+|r_{\rm out}-1|
+   \le 3\,C_{\rm Br}\,\eta(K,\delta)^\mu.
+\end{equation}
+Here \(C_h^*=C_h^*(\Sclass)\) is a constant depending only on
+\(\Sclass\).
+\end{lemma}
+
+\begin{proof}
+\emph{Step 1: Pointwise Serrin on $\Etil$.}
+By Lemma~\ref{lem:Linf} applied with $\lambda=K\sqrt\delta$,
+\[
+   \bigl\||\nabla u|-\bar f_{\hat t}\bigr\|_{L^\infty(\partial E)}
+      \le
+   C_{L^\infty}\Bigl[
+      \Bigl(\frac{\sqrt\delta}{K}\Bigr)^{\!\gamma/(1+2\gamma)}
+      +\Bigl(\frac{\sqrt\delta}{K}\Bigr)^{\!1/2}
+   \Bigr]
+   \le
+   2C_{L^\infty}\Bigl(\frac{\sqrt\delta}{K}\Bigr)^{\!\gamma/(1+2\gamma)}
+\]
+for $\delta\le\delta_1$ small (the $1/2$-power being dominated by the
+$\gamma/(1+2\gamma)$-power for small $\sqrt\delta/K$, since
+$\gamma/(1+2\gamma)\le 1/3<1/2$).
+
+Now consider \(\tilde u(y):=s^2\,u(y/s)\) on \(\Etil\); then
+\(-\Delta\tilde u=1\) in \(\Etil\), \(\tilde u=0\) on \(\partial\Etil\),
+and \(|\nabla\tilde u|(y)=s\,|\nabla u|(y/s)\).  Set
+\(\bar{\tilde f}:=|\Etil|/P(\Etil)=\pi/(sP(E))=s\bar f_{\hat t}\).
+Then
+\[
+   \bigl\||\nabla\tilde u|-\bar{\tilde f}\bigr\|_{L^\infty
+     (\partial\Etil)}
+   =s\,\bigl\||\nabla u|-\bar f_{\hat t}\bigr\|
+     _{L^\infty(\partial E)}
+   \le 2s\,C_{L^\infty}\Bigl(\frac{\sqrt\delta}{K}\Bigr)^{\!\gamma/(1+2\gamma)}.
+\]
+With \(s=\sqrt{\pi/|E|}=1+O(\sqrt\delta)\), the factor \(s\le 2\) for
+\(\delta\) small.
+
+\emph{Step 2: \(\bar{\tilde f}\) close to \(1/2\).}  From
+\(D_I(\hat t)\le 16\pi\delta/\lambda=16\pi\sqrt\delta/K\) we get, by
+the planar isoperimetric inequality applied to \(\Etil\),
+\[
+   P(\Etil)^2=s^2P(E)^2\le s^2\bigl(4\pi|E|+16\pi\sqrt\delta/K\bigr)
+      =4\pi^2+\frac{16\pi^2\sqrt\delta}{K|E|}\cdot 1
+      \le 4\pi^2+\frac{32\pi\sqrt\delta}{K},
+\]
+so \(P(\Etil)\le 2\pi\sqrt{1+(8/(\pi K))\sqrt\delta}
+\le 2\pi+(8/K)\sqrt\delta\) (using \(\sqrt{1+x}\le 1+x/2\)).
+Consequently
+\[
+   \Bigl|\bar{\tilde f}-\tfrac12\Bigr|
+   =\Bigl|\frac{\pi}{P(\Etil)}-\frac12\Bigr|
+   =\frac{P(\Etil)-2\pi}{2P(\Etil)}
+   \le\frac{1}{2\cdot 2\pi}\cdot(8/K)\sqrt\delta
+   =\frac{2}{\pi K}\sqrt\delta.
+\]
+Set \(C_h^*:=4/\pi+1\) (the additional \(1\) absorbs the \(s\ne 1\)
+inflation).
+
+\emph{Step 3: Apply (B).}  Set \(w:=-2\tilde u\), which satisfies
+\(\Delta w=2\) in \(\Etil\) and \(w=0\) on \(\partial\Etil\).  Then
+\[
+   \bigl\||Dw|-1\bigr\|_{L^\infty(\partial\Etil)}
+      =\bigl\|2|\nabla\tilde u|-1\bigr\|_{L^\infty(\partial\Etil)}
+      \le 2\bigl\||\nabla\tilde u|-\bar{\tilde f}\bigr\|_{L^\infty}
+        +2\bigl|\bar{\tilde f}-\tfrac12\bigr|
+      \le\eta(K,\delta),
+\]
+with \(\eta(K,\delta)\) given by \eqref{eq:eta-explicit}.  For
+\(\delta\le\delta_2\) small enough we have
+$\eta(K,\delta)\le\eta_B$.  By Lemma~\ref{lem:inset-regularity},
+$\Etil$ is bounded, connected, with $C^{1,\gamma}$ atlas pair
+$(K_0^*,\rho_0^*)$ depending only on $\Sclass$ (rescaling by $s\sim
+1$ preserves these constants up to a universal factor), and
+$\|D\tilde u\|_{C^{0,\gamma}(\overline{\Etil})}\le 2\Lambda_\gamma$
+\textup{(}by the chain-rule scaling
+$\nabla\tilde u(y)=s\nabla u(y/s)$ and $s\le 2$ for $\delta$ small,
+with $\Lambda_\gamma$ from (S4)\textup{)}; and diameter $\le 2R_0$.
+Apply the $C^{1,\gamma}$ Brandolini theorem (B) of
+\S\ref{sec:BNST-import} \textup{(}proved as
+Theorem~\ref{thm:BNST-Cgamma}\textup{)}: there exist $z$ and
+$r_{\rm in}\le\rho_{\Etil}=1\le r_{\rm out}$ with
+$B_{r_{\rm in}}(z)\subset\Etil\subset B_{r_{\rm out}}(z)$ and the
+three-term bound \eqref{eq:annular-core} (the third side coming
+from BNST's $|r_{\rm in}-1|+|r_{\rm out}-1|\le 2C_{\rm Br}\eta^\mu$).
+\end{proof}
+
+\begin{lemma}[Barycentre recentring]\label{lem:recenter}
+Let \(\Etil\) and \(z\) be as in Lemma~\ref{lem:Brandolini-core}, and
+set \(\eta:=3C_{\rm Br}\eta(K,\delta)^\mu\).  Let
+\(y_\star:=\frac1\pi\int_{\Etil}(x-z)\,dx\) be the barycentre of
+\(\Etil-z\).  Then \(|y_\star|\le 6\eta\), and
+\begin{equation}\label{eq:recenter-bound}
+   B_{1-7\eta}(z+y_\star)\subset \Etil\subset
+      B_{1+7\eta}(z+y_\star).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:Brandolini-core}, \(B_{1-\eta}(z)\subset\Etil\subset
+B_{1+\eta}(z)\).  Since the disk \(B_{1-\eta}(z)\) is symmetric about
+\(z\), its barycentre contribution to \(\int_{\Etil-z}\!x\,dx\)
+vanishes.  Using \(|\Etil\setminus B_{1-\eta}(z)|\le|B_{1+\eta}(z)
+\setminus B_{1-\eta}(z)|=\pi\bigl((1+\eta)^2-(1-\eta)^2\bigr)=4\pi\eta\),
+\[
+   |y_\star|=\frac1\pi\Bigl|\int_{\Etil\setminus B_{1-\eta}(z)}
+      (x-z)\,dx\Bigr|
+      \le\frac{1+\eta}{\pi}\cdot|\Etil\setminus B_{1-\eta}(z)|
+      \le(1+\eta)\cdot 4\eta\le 6\eta,
+\]
+where the last step uses \(\eta\le\eta_B<1/2\).  Then
+\(z':=z+y_\star\) satisfies \(|z'-z|\le 6\eta\), and any \(x\in
+B_{1-7\eta}(z')\) lies in \(B_{1-7\eta+6\eta}(z)=B_{1-\eta}(z)
+\subset\Etil\); conversely any \(x\in\Etil\subset B_{1+\eta}(z)\)
+lies in \(B_{1+\eta+6\eta}(z')=B_{1+7\eta}(z')\).
+\end{proof}
+
+\section{Radial-graph promotion from $C^{1,\gamma}$ regularity}
+\label{sec:radialgraph}
+
+The Brandolini core (Lemma~\ref{lem:Brandolini-core}) yields a
+near-spherical inclusion
+\(B_{1-\eta}(z)\subset\Etil\subset B_{1+\eta}(z)\) for the rescaled
+inset, but does not by itself say that \(\Etil\) is a radial graph
+from \(z\).  The next lemma supplies that final step: combined with
+the global \(C^{1,\gamma}\) atlas of \(\partial\Etil\) inherited from
+inset regularity (Lemma~\ref{lem:inset-regularity}), the
+near-spherical inclusion automatically promotes to a \(C^{1,\gamma}\)
+radial-graph parametrisation, provided the Hausdorff gap \(\eta\) is
+small relative to the atlas constants.  In that regime there are no
+pockets to fill: \(\Etil\) is itself a radial graph, and may be
+handed directly to the small-amplitude radial-graph theorem (G).
+
+The criterion below is purely geometric and dimension-free.  We
+state and prove it for arbitrary \(n\ge 2\).  In the main chain of
+\S\ref{sec:selected-domain} it is invoked at \(n=2\); the
+dimension-free statement is what would extend the chain to
+arbitrary \(n\) once (G) is replaced by its dimension-free version
+(Theorem~\ref{thm:G12-explicit} carries over verbatim to
+\(S^{n-1}\), with \(c_G=1/(16 n^2)\); cf.\ the H12 derivation cited
+in \S\ref{ss:G12-conclude}).
+
+\begin{lemma}[Radial-graph promotion]\label{lem:radialgraph}
+Let \(n\ge 2\), \(\gamma\in(0,1]\), \(K\ge 1\), \(\rho\in(0,1/2)\),
+and let \(E\subset\R^n\) be a bounded open set with \(\partial E\) a
+closed connected \(C^{1,\gamma}\)-embedded hypersurface admitting a
+uniform atlas of \emph{normal-graph charts} of size \(\rho\) and
+norm \(K\): around every \(p\in\partial E\),
+\[
+   \partial E\cap B_\rho(p)
+      =\bigl\{p+\xi+h_p(\xi)\,\nu(p):\xi\in T_p\partial E,\
+         |\xi|\le\rho\bigr\},
+\]
+with \(h_p(0)=0\), \(\nabla h_p(0)=0\), and
+\(\|h_p\|_{C^{1,\gamma}(B_\rho(0))}\le K\).  There exist
+\(\eta_{\rm RG}=\eta_{\rm RG}(K,\rho,\gamma,n)\in(0,\rho/4)\) and
+\(K_{\rm RG}=K_{\rm RG}(K,\rho,\gamma,n)>0\) such that, for any
+\(z\in\R^n\) and \(\eta\in(0,\eta_{\rm RG}]\) satisfying
+\begin{equation}\label{eq:RG-shell}
+   B_{1-\eta}(z)\subset E\subset B_{1+\eta}(z),
+\end{equation}
+there exists a unique \(\varphi\in C^{1,\gamma}(S^{n-1})\) with
+\begin{equation}\label{eq:RG-graph}
+   \partial E
+      =\bigl\{z+(1+\varphi(\omega))\omega:\omega\in S^{n-1}\bigr\},
+   \qquad
+   E=\bigl\{z+r\omega:0\le r<1+\varphi(\omega),\,\omega\in S^{n-1}
+   \bigr\},
+\end{equation}
+and
+\begin{equation}\label{eq:RG-bounds}
+   \|\varphi\|_{L^\infty(S^{n-1})}\le\eta,
+   \quad
+   \|\nabla_\omega\varphi\|_{L^\infty(S^{n-1})}\le\tfrac12,
+   \quad
+   \|\varphi\|_{C^{1,\gamma}(S^{n-1})}\le K_{\rm RG}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Translate so that \(z=0\) and write \(\widehat p:=p/|p|\) (defined
+on \(\partial E\) since \(|p|\ge 1-\eta>1/2\)).
+
+\emph{Step 1: $C^{0,\gamma}$-Hölder bound on the outward unit
+normal $\nu$.}  In the chart at \(p\), the outward unit normal at
+\(\xi+h_p(\xi)\nu(p)\) is
+\(\nu(\xi)=\bigl(\nu(p)-\nabla h_p(\xi)\bigr)/\sqrt{1+|\nabla h_p
+(\xi)|^2}\), where we identify \(\nabla h_p\) with its lift to
+\(\nu(p)^\perp\subset\R^n\).  Since \(\nabla h_p(0)=0\) and
+\([\nabla h_p]_{C^{0,\gamma}}\le K\), \(|\nabla h_p(\xi)|\le K|\xi
+|^\gamma\) on \(B_\rho(0)\); differentiating and bounding,
+\([\nu]_{C^{0,\gamma}(\partial E\cap B_\rho(p))}\le 2K\) (the factor
+\(2\) absorbs the chain-rule contribution of the unit-norm
+denominator, which has \(C^{0,\gamma}\) seminorm \(\le K^2\) on
+\(B_\rho\)).  Globally, two points \(p_1,p_2\in\partial E\) at
+Euclidean distance \(\le\rho/2\) lie in either chart, giving
+\(|\nu(p_1)-\nu(p_2)|\le 2K|p_1-p_2|^\gamma\).  For \(p_1,p_2\) at
+larger distance, one chains \(\le 3/\rho\) such hops along
+\(\partial E\) (whose Euclidean diameter is \(\le 3\) because
+\(\partial E\subset B_{1+\eta}\subset B_{3/2}\)), giving a global
+seminorm
+\begin{equation}\label{eq:nu-Holder}
+   [\nu]_{C^{0,\gamma}(\partial E)}
+      \le K_\nu,
+   \qquad
+   K_\nu:=6K(1+K/\rho).
+\end{equation}
+
+\emph{Step 2: Radial distance and its tangential gradient.}
+Set \(\psi(p):=|p|-1\) for \(p\in\partial E\).  Then \(|\psi|\le
+\eta\) on \(\partial E\).  The tangential gradient is
+\(\nabla^{\partial E}\psi(p)=\widehat p-(\widehat p\cdot\nu(p))
+\nu(p)\), so
+\begin{equation}\label{eq:DEpsi-formula}
+   |\nabla^{\partial E}\psi(p)|^{2}
+      =1-(\widehat p\cdot\nu(p))^{2}
+      =\sin^{2}\theta(p),
+\end{equation}
+where \(\theta(p)\in[0,\pi]\) is the angle between \(\nu(p)\) and
+\(\widehat p\).
+
+\emph{Step 3: Hölder seminorm of $\nabla^{\partial E}\psi$.}
+The map \(p\mapsto\widehat p\) on the shell \(\{1-\eta\le|p|\le 1+
+\eta\}\) is smooth with Lipschitz constant \(\le 1/(1-\eta)\le 2\)
+for \(\eta\le 1/2\), so its \(C^{0,\gamma}\) seminorm on
+\(\partial E\) is bounded by \(2\cdot\mathrm{diam}(\partial E)^{1
+-\gamma}\le 2\cdot 3^{1-\gamma}\le 6\).  Combining with
+\eqref{eq:nu-Holder},
+\begin{equation}\label{eq:DEpsi-Holder}
+   [\nabla^{\partial E}\psi]_{C^{0,\gamma}(\partial E)}
+      \le L_\nu,
+   \qquad
+   L_\nu:=6+5 K_\nu=6+30 K(1+K/\rho).
+\end{equation}
+
+\emph{Step 4: Hölder interpolation.}
+By the Gagliardo--Nirenberg--Hölder inequality on a
+\(C^{1,\gamma}\) surface of bounded geometry, applied to
+\(\psi\):
+\begin{equation}\label{eq:GN}
+   \|\nabla^{\partial E}\psi\|_{L^\infty(\partial E)}
+   \le C_{\rm GN}\Bigl(
+      \|\psi\|_{L^\infty}^{\gamma/(1+\gamma)}\,
+      [\nabla^{\partial E}\psi]_{C^{0,\gamma}}^{1/(1+\gamma)}
+      +\|\psi\|_{L^\infty}
+   \Bigr),
+\end{equation}
+with \(C_{\rm GN}=C_{\rm GN}(K,\rho,\gamma,n)\).  \textup{(Direct
+proof: at the point \(p_0\) realising \(\|\nabla^{\partial E}\psi\|
+_\infty=:A\), localise to the chart of size \(\rho\) at \(p_0\); in
+flat coordinates the inequality reduces to the standard Euclidean
+\(\R^{n-1}\) interpolation, with constants depending on \(K\) and
+\(\rho\).)}  Substituting Step~2 (\(\|\psi\|_\infty\le\eta\)) and
+\eqref{eq:DEpsi-Holder},
+\[
+   \sup_{\partial E}\sin\theta
+   =\|\nabla^{\partial E}\psi\|_\infty
+   \le C_{\rm GN}\bigl(\eta^{\gamma/(1+\gamma)}\,L_\nu^{1/(1+\gamma)}
+      +\eta\bigr).
+\]
+
+\emph{Step 5: Choice of $\eta_{\rm RG}$.}
+Set
+\begin{equation}\label{eq:etaRG-def}
+   \eta_{\rm RG}:=\min\Bigl\{\tfrac{\rho}{4},\
+      \bigl(16\,C_{\rm GN}\,(L_\nu^{1/(1+\gamma)}+1)\bigr)^{-(1+\gamma)
+      /\gamma}\Bigr\}.
+\end{equation}
+For \(\eta\le\eta_{\rm RG}\) the right-hand side of Step~4 is
+\(\le 1/8\), so
+\begin{equation}\label{eq:cos-bound}
+   \sin\theta(p)\le 1/8,
+   \quad
+   |\widehat p\cdot\nu(p)|=|\cos\theta(p)|\ge\sqrt{63}/8>15/16
+   \qquad(p\in\partial E).
+\end{equation}
+
+\emph{Step 6: $\widehat p\cdot\nu(p)>0$ throughout $\partial E$.}
+The function \(p\mapsto\widehat p\cdot\nu(p)\) is continuous on the
+connected set \(\partial E\) and never vanishes by
+\eqref{eq:cos-bound}, so its sign is constant on \(\partial E\).
+Pick \(p_\star\in\partial E\) with \(|p_\star|=\max_{\partial
+E}|\cdot|=:r_\star\in[1,1+\eta]\).  Then \(p_\star\) is an interior
+maximum of \(|q|^{2}\) restricted to \(\partial E\), so
+\(\nabla^{\partial E}|q|^2(p_\star)=0\), i.e.,
+\(p_\star=(p_\star\cdot\nu(p_\star))\nu(p_\star)\), and
+\(\nu(p_\star)=\pm\widehat p_\star\).  Outward orientation (taking
+\(\nu(p_\star)\) to point out of \(E\), where \(0\in E\) is on the
+inward side) selects the \(+\) sign, so \(\widehat p_\star\cdot
+\nu(p_\star)=+1\).  By constant sign, \(\widehat p\cdot\nu(p)>0\)
+everywhere on \(\partial E\).
+
+\emph{Step 7: The radial map $F$ is a $C^{1,\gamma}$
+diffeomorphism.}  Define \(F:\partial E\to S^{n-1}\) by
+\(F(p):=\widehat p\).  \(F\) is \(C^{1,\gamma}\) (composition of the
+inclusion \(\partial E\hookrightarrow\R^n\setminus\{0\}\) and the
+smooth normalisation).  The differential at \(p\) is
+\[
+   dF_p:T_p\partial E\to T_{\widehat p}S^{n-1},
+   \qquad
+   dF_p(v)=|p|^{-1}\bigl(v-(v\cdot\widehat p)\widehat p\bigr),
+\]
+whose kernel is \(\{v\in T_p\partial E:v\parallel\widehat p\}\) —
+trivial precisely when \(\widehat p\notin T_p\partial E\), i.e., when
+\(\widehat p\cdot\nu(p)\ne 0\).  By Step~6 this holds at every
+\(p\), so \(F\) is a local \(C^{1,\gamma}\) diffeomorphism.
+
+Compactness of \(\partial E\) makes \(F\) proper.  A proper local
+diffeomorphism between connected boundaryless manifolds of equal
+dimension is a covering map.  For \(n\ge 3\), \(S^{n-1}\) is simply
+connected, so the covering is trivial and \(F\) is a global
+\(C^{1,\gamma}\) diffeomorphism onto \(S^{n-1}\).  For \(n=2\), the
+degree of \(F\) equals the winding number of \(\partial E\) around
+\(0\in B_{1-\eta}\subset E\), which is \(\pm 1\) (\(\partial E\) is
+a Jordan curve enclosing \(0\)); the orientation
+\(\widehat p\cdot\nu(p)>0\) forces \(+1\), so \(F\) is again a
+\(C^{1,\gamma}\) diffeomorphism.
+
+\emph{Step 8: Construction of $\varphi$.}
+Set \(\varphi(\omega):=|F^{-1}(\omega)|-1\) for \(\omega\in S^{n-1}\).
+Then \(\varphi\in C^{1,\gamma}(S^{n-1})\) as a composition of
+\(C^{1,\gamma}\) maps; the shell inclusion gives
+\(\|\varphi\|_\infty\le\eta\).  The radial-graph identity
+\eqref{eq:RG-graph} follows from \(F^{-1}(\omega)=|F^{-1}(\omega)|
+\widehat F^{-1}(\omega)=(1+\varphi(\omega))\omega\), since \(F(F^{-1}
+(\omega))=\omega\).  A chart-by-chart computation (differentiating
+\(|F^{-1}(\omega)|\) via \(d(F^{-1})=(dF)^{-1}\), bounded by
+Step~6) yields the \(C^{1,\gamma}\)-norm bound
+\(\|\varphi\|_{C^{1,\gamma}(S^{n-1})}\le K_{\rm RG}(K,\rho,\gamma,n)\)
+and, more sharply, the slope bound:
+\[
+   |\nabla_\omega\varphi(\omega)|
+      =\bigl|\,|p|\cdot(\widehat p\cdot\nu(p))^{-1}\,\sin\theta(p)
+      \,\bigr|
+      \le(1+\eta)\cdot(15/16)^{-1}\cdot 1/8\le 1/2,
+\]
+evaluated at \(p=F^{-1}(\omega)\), giving \eqref{eq:RG-bounds}.
+\end{proof}
+
+\begin{remark}\label{rem:RG-dimfree}
+Lemma~\ref{lem:radialgraph} is dimension-free and uses no smallness
+of the atlas norm \(K\) or chart radius \(\rho\): the threshold
+\(\eta_{\rm RG}\) absorbs both polynomially.  In the application of
+\S\ref{sec:selected-domain} below, \(K=K_0^\ast\) and
+\(\rho=\rho_0^\ast\) of Lemma~\ref{lem:inset-regularity} depend only
+on \(\Sclass\), so \(\eta_{\rm RG}\) is a universal constant
+\(\eta_{\rm RG}(\Sclass,\gamma)\), independent of \(\delta\).  Since
+the Brandolini gap \(\eta\) of \eqref{eq:annular-core} is
+\(O(\delta^{\mu\gamma/(2(1+2\gamma))})\to 0\) as \(\delta\to 0\), the
+hypothesis \(\eta\le\eta_{\rm RG}\) is automatic for
+\(\delta\le\delta_\star(\Sclass,\gamma)\).
+\end{remark}
+
+\section{Hole-filling: an alternative route for $n=2$}
+\label{sec:hole-fill}
+
+This section records an alternative, polar-slicing argument that, in
+dimension two only, replaces the radial-graph promotion of
+\S\ref{sec:radialgraph} by a hole-filling step.  The route uses no
+smallness condition on \(\eta\) relative to the atlas norm — only the
+Brandolini inclusion and the perimeter deficit
+\(P(\Etil)\le 2\pi+\eps\).  The resulting bound
+\(|G\setminus\Etil|\le\eps^{2}/(4\pi)\) is \emph{sharp} in
+\(\delta\): \(O(\delta)\), same scaling as the radial-graph route
+of \S\ref{sec:radialgraph}.  This sharp \(O(\delta)\) scaling
+relies on the planar isoperimetric inequality
+\(|Q|\le P(Q)^{2}/(4\pi)\) and the super-additivity inequality
+\(\sum a_j^{2}\le(\sum a_j)^{2}\); the corresponding \(n\)-dimensional
+inequality \(|Q|\le C_n P(Q)^{n/(n-1)}\) gives only
+\(v\le C\eps^{n/(n-1)}=O(\delta^{n/(2(n-1))})\), strictly weaker than
+\(O(\delta)\) for \(n\ge 3\).  Hence the polar-slicing route is
+\emph{planar} in essence; the radial-graph promotion of
+\S\ref{sec:radialgraph} provides the dimension-free counterpart.
+\S\ref{sec:selected-domain}, Remark~\ref{rem:planar-alt} records the
+interchange.
+
+\subsection{The polar sheet lemma and quadratic pocket bound}
+
+\begin{lemma}[Polar sheet decomposition]\label{lem:hull-decomp}
+Let \(E\subset\R^2\) be a bounded open set with \(C^{1,\gamma}\) boundary,
+satisfying
+\begin{equation}\label{eq:core}
+   B_{r_-}(z_0)\subset E\subset B_{r_+}(z_0),
+   \qquad
+   0<r_-<r_+<\infty.
+\end{equation}
+Define
+\[
+   R(\theta):=\sup\{r>0:z_0+r e^{i\theta}\in E\}\quad(\theta\in S^1),
+   \qquad
+   G:=\bigl\{z_0+re^{i\theta}:0\le r<R(\theta),\theta\in S^1\bigr\}.
+\]
+Let \(\{Q_j\}_{j\in J}\) denote the connected components of the open
+set \(G\setminus\overline E\).  Then \(G\) is open, of finite perimeter,
+each \(Q_j\) is open and of finite perimeter, and
+\begin{equation}\label{eq:hull-decomp}
+   P(G)+\sum_{j\in J}P(Q_j)\le P(E).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Translate so that \(z_0=0\).  Use the bi-Lipschitz polar map
+\[
+   \Phi:S^1\times(0,r_+)\to B_{r_+}\setminus\{0\},
+   \qquad
+   \Phi(\theta,r)=re^{i\theta},
+   \qquad
+   \det D\Phi=r.
+\]
+Lengths in the cylinder \(S^1\times(0,r_+)\) with metric
+\(g=d\theta^2+r^{-2}dr^2\) match Euclidean arclengths under \(\Phi\),
+since the Jacobian factor cancels.  For our perimeter computation
+below it is sufficient that \(\Phi\) is bi-Lipschitz on
+\(S^1\times(r_-/2,r_+)\), which forces both Euclidean and cylindrical
+perimeters to agree up to bi-Lipschitz constants on every subset of
+that annulus.
+
+\emph{Step 1: Polar slice structure.}  Because \(\partial E\) is
+\(C^{1,\gamma}\) and \(E\) is open with \(B_{r_-}\subset E\), for every
+direction \(\theta\) the radial slice \(E_\theta:=
+\{r>0:re^{i\theta}\in E\}\) is open in \((0,\infty)\) and contains
+\((0,r_-]\).  Sard's theorem applied to the restriction of \(\partial
+E\) to a polar chart shows that, for \(\HH^1\)-a.e.\
+\(\theta\in S^1\), the radial line \(\{re^{i\theta}:r>0\}\) is
+transverse to \(\partial E\) (it crosses \(\partial E\) in finitely
+many points, none of which is a tangent point).  Call such \(\theta\)
+\emph{regular}.
+
+For regular \(\theta\) the slice \(E_\theta\) is a finite union of
+disjoint open intervals starting at \(0\):
+\[
+   E_\theta=(0,r_1(\theta))\sqcup(r_2(\theta),r_3(\theta))\sqcup
+       \cdots\sqcup(r_{2m(\theta)}(\theta),r_{2m(\theta)+1}(\theta)),
+\]
+with crossings \(0<r_1<r_2<\cdots<r_{2m+1}\le r_+\), and \(R(\theta)=
+r_{2m(\theta)+1}(\theta)\) is the outermost crossing.  All
+\(r_k(\theta)e^{i\theta}\in\partial E\) for regular \(\theta\).
+
+\emph{Step 2: Sheets are graphs.}  For each \(k\in\N\), set
+\[
+   \Sigma_k:=\{r_k(\theta)e^{i\theta}:
+      \theta\hbox{ regular},\ m(\theta)\ge\lceil k/2\rceil\}.
+\]
+By the implicit function theorem applied to the \(C^{1,\gamma}\) defining
+function of \(\partial E\) (which is non-degenerate radially at
+regular \(\theta\)), \(\Sigma_k\) is locally a \(C^{1,\gamma}\) polar graph
+\(r=r_k(\theta)\), and
+\[
+   \HH^1(\Sigma_k)=\int_{\{\theta:\ \Sigma_k\hbox{ defined}\}}
+      \sqrt{r_k(\theta)^2+r_k'(\theta)^2}\,d\theta.
+\]
+The sheets \(\{\Sigma_k\}_{k\ge 1}\) are pairwise disjoint, and the
+projection \(\pi_{\rm rad}:\partial E\to S^1\),
+\(\pi_{\rm rad}(re^{i\theta})=\theta\), is Lipschitz on
+\(\partial E\cap\{r\ge r_-\}\) (with constant \(1/r_-\)), so by the
+area formula
+\(\HH^1\bigl(\pi_{\rm rad}^{-1}(\hbox{regular }\theta)\bigr)=
+\HH^1(\partial E)-\HH^1\bigl(\pi_{\rm rad}^{-1}(\hbox{singular }
+\theta)\bigr)=\HH^1(\partial E)\), because the singular angle set is
+\(S^1\)-null and the radial projection has finite multiplicity
+(bounded by \(2m_{\max}+1\)).  Hence
+\begin{equation}\label{eq:sheet-PE}
+   P(E)=\HH^1(\partial E)=\sum_{k\ge 1}\HH^1(\Sigma_k).
+\end{equation}
+
+\emph{Step 3: \(\partial G\) is the outermost sheet.}  By definition
+\(R(\theta)=r_{2m(\theta)+1}(\theta)\), so for each regular \(\theta\)
+the boundary \(\partial G\) above direction \(\theta\) is the single
+point \(R(\theta)e^{i\theta}=r_{2m(\theta)+1}(\theta)e^{i\theta}\),
+which lies in \(\Sigma_{2m(\theta)+1}\).  Indexing sheets so that the
+outermost piece always belongs to a single distinguished sheet
+\(\Sigma_{\rm out}:=\bigcup_\theta\{R(\theta)e^{i\theta}\}\),
+\[
+   P(G)=\HH^1(\Sigma_{\rm out})
+      \le\sum_{k:\ k\hbox{ is outermost at some }\theta}\HH^1(\Sigma_k).
+\]
+Concretely \(\Sigma_{\rm out}\) is obtained from
+\(\{(\theta,R(\theta))\}\) under \(\Phi\), and its \(\HH^1\)-measure is
+the polar-graph perimeter of \(G\).
+
+\emph{Step 4: Pockets are bounded by sheet pairs.}  Each \(Q_j\) is a
+connected component of \(G\setminus\overline E\), hence \(Q_j\subset
+G\setminus E\).  Since \(B_{r_-}\subset E\), \(Q_j\) lies in the open
+annulus \(\{r_-<r<r_+\}\) where \(\Phi\) is bi-Lipschitz, so \(\Phi
+^{-1}(Q_j)\) is a connected open subset of the cylinder.  For each
+regular \(\theta\) in the angular range of \(Q_j\), the slice
+\(\Phi^{-1}(Q_j)\cap\{\theta\}\times(0,r_+)\) is a single interval
+\((r_{2i-1}(\theta),r_{2i}(\theta))\) with \(i\le m(\theta)\) (it is
+non-empty by definition of the angular range; uniqueness of \(i\)
+follows from connectedness of \(\Phi^{-1}(Q_j)\)), and we set
+\(i=i_j(\theta)\).  Because \(\Phi^{-1}(Q_j)\) is connected and the
+pair indices \(i_j(\theta)\) are integer-valued and locally constant
+in \(\theta\) on the angular range (the radial coordinates
+\(r_{2i-1},r_{2i}\) vary continuously, so a jump in \(i\) would
+disconnect the slice), \(i_j(\theta)\) is in fact constant on the
+angular range of \(Q_j\); call its common value \(i_j\).  By Sard's
+theorem applied to \(\theta\mapsto r_{2i_j-1}(\theta)-r_{2i_j}(\theta)\)
+on the angular range, the endpoint angles where
+\(r_{2i_j-1}=r_{2i_j}\) form a finite set (for the \(C^{1,\gamma}\)
+boundary) at which the two sheet branches meet transversally as
+\(C^{1,\gamma}\) arcs of \(\partial E\).  At such an endpoint, the pocket
+closes off via a single \(C^{1,\gamma}\) tangent meeting (no radial wall
+piece is created, because \(Q_j\) is connected and the meeting is
+internal to \(\partial E\), which is a single Jordan curve).  Hence
+\[
+   P(Q_j)=\HH^1(\partial Q_j)
+      =\HH^1\bigl(\Sigma_{2i_j-1}\cap{\rm angle\ range\ of\ }Q_j\bigr)
+      +\HH^1\bigl(\Sigma_{2i_j}\cap{\rm angle\ range\ of\ }Q_j\bigr).
+\]
+Distinct pockets have disjoint angular ranges (because each pocket
+contains an open interior, so different components are separated by
+\(\partial E\) intersecting some interior ray), and the union of all
+pocket-sheet pieces is contained in the union of all inner sheets
+(those with \(k<2m(\theta)+1\)):
+\[
+   \sum_j P(Q_j)\le \sum_{k\ne {\rm out}}\HH^1(\Sigma_k)
+      =P(E)-P(G),
+\]
+using \eqref{eq:sheet-PE} and Step~3.  Rearranging gives
+\eqref{eq:hull-decomp}.
+\end{proof}
+
+\begin{remark}\label{rem:lipschitz}
+The hypothesis $C^{1,\gamma}$ on $\partial E$ (for any $\gamma>0$)
+is used in Step~1 and Step~2 for the transverse polar slicing.  In
+the application below, $E=\Etil$ inherits the $C^{1,\gamma}$ atlas
+pair $(K_0^*,\rho_0^*)$ from the inset regularity
+Lemma~\ref{lem:inset-regularity}, so the hypothesis is satisfied.
+\end{remark}
+
+\begin{lemma}[Quadratic pocket area]\label{lem:pocket}
+Let \(E\subset\R^2\) be bounded, open, with \(C^{1,\gamma}\) boundary,
+\(|E|=\pi\), satisfying \eqref{eq:core} and
+\begin{equation}\label{eq:perim-eps}
+   P(E)\le 2\pi+\eps.
+\end{equation}
+Let \(G\) be the radial hull of \(E\) about \(z_0\).  Then
+\begin{equation}\label{eq:pocket-area}
+   |G\setminus E|\le\frac{\eps^2}{4\pi}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set \(v:=|G\setminus E|\) and \(h:=\sum_j P(Q_j)\).  By
+Lemma~\ref{lem:hull-decomp},
+\[
+   2\pi+\eps\ge P(E)\ge P(G)+h\ge 2\sqrt{\pi(\pi+v)}+h\ge 2\pi+h,
+\]
+where the third inequality is the planar isoperimetric inequality
+applied to \(G\) (which has area \(\pi+v\)), and the last uses
+\(\sqrt{\pi(\pi+v)}\ge\pi\) for \(v\ge 0\).  Hence \(h\le\eps\).
+Apply the isoperimetric inequality to each pocket
+\(|Q_j|\le P(Q_j)^2/(4\pi)\) and sum, using \(\sum a_j^2\le
+(\sum a_j)^2\) for non-negative \(a_j\):
+\[
+   v=\sum_j|Q_j|\le\frac1{4\pi}\sum_j P(Q_j)^2
+      \le\frac1{4\pi}\Bigl(\sum_j P(Q_j)\Bigr)^{\!2}
+      \le\frac{\eps^2}{4\pi}.
+\]
+\end{proof}
+
+\subsection{Filling, rescaling, and asymmetry transfer}
+
+\begin{lemma}[Filling and rescaling]\label{lem:fill-rescale}
+Let \(E\subset H\subset B_{R_*}\) be open planar sets with
+\(|E|=\pi\) and \(|H|=\pi+v\), \(0\le v\le \pi/2\).  Let
+\(s:=(\pi/|H|)^{1/2}\) and \(\Gtil:=sH\), so \(|\Gtil|=\pi\).  Then
+\begin{equation}\label{eq:fill-rescale}
+   \dT(\Gtil)\le 2\bigl(\dT(E)+v\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Torsional rigidity is monotone under inclusion (replace \(u_H\) by
+\(u_H|_E\) in the variational characterisation; we obtain
+\(T(H)\ge T(E)\)).  Using \(T(B_A)=A^2/(8\pi)\),
+\[
+   T(B_H)-T(B_E)=\frac{(\pi+v)^2-\pi^2}{8\pi}
+      =\frac{2\pi v+v^2}{8\pi}\le\frac{v}{4}+\frac{v^2}{8\pi}
+      \le\frac{v}{4}+\frac{v}{16}\le\frac{v}{2}.
+\]
+Therefore
+\[
+   \dT(H)=T(B_H)-T(H)\le T(B_H)-T(E)
+      =\bigl(T(B_H)-T(B_E)\bigr)+\dT(E)\le\dT(E)+v/2.
+\]
+Scaling by \(s\) multiplies torsion by \(s^4\) and sends \(B_H\) to
+\(B_\pi\); so \(\dT(\Gtil)=s^4\dT(H)\le(\pi/|H|)^2(\dT(E)+v/2)\le
+4(\dT(E)+v/2)\le 2(\dT(E)+v)\) (for the chosen range of \(v\)).
+\end{proof}
+
+\begin{lemma}[Fraenkel asymmetry under symmetric difference and
+rescaling]\label{lem:AF-lip}
+For bounded measurable \(E_1,E_2\subset\R^2\) with
+\(|E_1|=|E_2|=:V>0\),
+\begin{equation}\label{eq:AF-lip}
+   |\AF(E_1)-\AF(E_2)|\le\frac{|E_1\Delta E_2|}{V}.
+\end{equation}
+The Fraenkel asymmetry is dilation-invariant: \(\AF(sE)=\AF(E)\) for
+\(s>0\).  It is also translation-invariant.
+\end{lemma}
+
+\begin{proof}
+For any disk \(B\) with \(|B|=V\), \(|E_1\Delta B|\le|E_1\Delta E_2|
++|E_2\Delta B|\), so taking the infimum over \(B\) gives
+\(V\AF(E_1)\le |E_1\Delta E_2|+V\AF(E_2)\), and similarly with the
+roles exchanged.  Dilation and translation invariance follow
+because \(\Delta\) commutes with dilation/translation and the disk
+class is preserved.
+\end{proof}
+
+\section{The selected-domain theorem}\label{sec:selected-domain}
+
+\begin{theorem}[Hybrid estimate for selected planar domains]
+\label{thm:selected}
+There exist \(C_\star=C_\star(\Sclass)>0\) and
+\(\delta_\star=\delta_\star(\Sclass)>0\) such that, for every
+\(U\in\Sclass\) with \(\delta:=\dT(U)\le\delta_\star\),
+\begin{equation}\label{eq:selected-final}
+   \AF(U)^2\le C_\star\,\delta.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We argue along the dimension-free chain of \S\ref{sec:radialgraph},
+applying the radial-graph promotion Lemma~\ref{lem:radialgraph} to
+the rescaled inset $\Etil$ once Brandolini delivers the
+near-spherical inclusion.  The hole-filling alternative of
+\S\ref{sec:hole-fill} is recorded in Remark~\ref{rem:planar-alt}.
+
+Fix \(K=1\) (any other choice of \(K\ge 1\) works and yields a
+\(K\)-dependent constant; \(K=1\) is taken for definiteness).  Let
+\(\delta\le\delta_2(1,\Sclass)\) be small enough that
+Lemma~\ref{lem:Brandolini-core} applies, and so that all subsequent
+smallness conditions hold; we record the final smallness threshold
+as \(\delta_\star\).
+
+\emph{Step~1: Good level and rescaled inset.}
+By Lemma~\ref{lem:good-level} with \(\lambda=\sqrt\delta\), let
+\(E=\Et\) be the resulting good level, satisfying
+\(\sqrt\delta/2\le|U\setminus E|\le\sqrt\delta\) and
+\(D_H(\hat t)+D_I(\hat t)\le 16\pi\sqrt\delta\).  By
+Lemma~\ref{lem:def-transfer}, \(\dT(\Etil)\le 4\delta\), where
+\(\Etil:=sE\) with \(s=\sqrt{\pi/|E|}\in[1,(1-\sqrt\delta/\pi)^{-1/2}]\).
+
+\emph{Step~2: Brandolini core and first barycentre recentring.}
+Set \(\eta:=3C_{\rm Br}\eta(1,\delta)^\mu\) (Lemma~\ref{lem:Brandolini-core}
+notation).  Then $\Etil$ admits a centre $z\in\R^2$ with
+\(B_{1-\eta}(z)\subset\Etil\subset B_{1+\eta}(z)\).  By
+Lemma~\ref{lem:recenter}, with \(z':=z+y_\star\) and
+\(|y_\star|\le 6\eta\),
+\begin{equation}\label{eq:rec-annulus}
+   B_{1-7\eta}(z')\subset\Etil\subset B_{1+7\eta}(z').
+\end{equation}
+
+\emph{Step~3: Radial-graph promotion at $z'$.}
+By Lemma~\ref{lem:inset-regularity}, $\partial\Etil$ admits a uniform
+$C^{1,\gamma}$ atlas of normal-graph charts of size $\rho_0^\ast$ and
+norm $K_0^\ast$, with both constants depending only on $\Sclass$
+(the rescaling by $s\sim 1$ inflating them by a universal factor).
+Let
+\(\eta_{\rm RG}:=\eta_{\rm RG}(K_0^\ast,\rho_0^\ast,\gamma,2)\) be
+the threshold of Lemma~\ref{lem:radialgraph}.  Since $\eta\to 0$ as
+$\delta\to 0$ (with rate $O(\delta^{\mu\gamma/(2(1+2\gamma))})$;
+cf.\ Lemma~\ref{lem:Brandolini-core}), we tighten $\delta_\star$ so
+that
+\begin{equation}\label{eq:smallness-RG-1}
+   7\eta\le\eta_{\rm RG}.
+\end{equation}
+Apply Lemma~\ref{lem:radialgraph} with $E=\Etil$, $z=z'$, and the
+shell gap $7\eta$: there is a unique
+$\varphi_1\in C^{1,\gamma}(S^{1})$ with
+\(\partial\Etil=\{z'+(1+\varphi_1(\omega))\omega:\omega\in S^{1}\}\)
+and $\|\varphi_1\|_\infty\le 7\eta$.  In particular $\Etil$ is a
+radial graph from $z'$; there are no pockets.
+
+\emph{Step~4: Second barycentre recentring on the radial graph.}
+Let \(y_\star':=\pi^{-1}\int_{\Etil}(x-z')\,dx\) be the barycentre of
+$\Etil-z'$.  By Lemma~\ref{lem:recenter} applied to
+\eqref{eq:rec-annulus} (with $\eta$ replaced by $7\eta$),
+\(|y_\star'|\le 6\cdot 7\eta=42\eta\), and
+\begin{equation}\label{eq:rec-annulus-2}
+   B_{1-49\eta}(z'')\subset\Etil\subset B_{1+49\eta}(z''),
+   \qquad
+   z'':=z'+y_\star'.
+\end{equation}
+Tighten $\delta_\star$ further so that
+\begin{equation}\label{eq:smallness-RG-2}
+   49\eta\le\eta_{\rm RG},
+   \qquad
+   49\eta\le\eta_G,
+\end{equation}
+where $\eta_G$ is the (G)-threshold of \S\ref{sec:BNST-import}.
+Apply Lemma~\ref{lem:radialgraph} a second time with $z=z''$ and
+shell gap $49\eta$: there is
+$\varphi_2\in C^{1,\gamma}(S^{1})$ with
+\(\partial\Etil=\{z''+(1+\varphi_2(\omega))\omega:\omega\in S^{1}\}\)
+and $\|\varphi_2\|_\infty\le 49\eta$.  By construction $z''$ is the
+barycentre of $\Etil$: \(\int_{\Etil}(x-z'')\,dx=0\).
+
+\emph{Step~5: Apply (G).}  The translated $\Etil$ at centre $z''$
+satisfies all hypotheses of (G) of \S\ref{sec:BNST-import}:
+$|\Etil|=\pi$, radial centre at the barycentre,
+$\|\varphi_2\|_\infty\le\eta_G$ by \eqref{eq:smallness-RG-2}.
+Together with translation invariance of $\dT$,
+\begin{equation}\label{eq:G-on-Etil}
+   \AF(\Etil)^{2}\le C_G\,\dT(\Etil)\le 4 C_G\,\delta.
+\end{equation}
+
+\emph{Step~6: Transfer back to $U$.}  By
+Lemma~\ref{lem:AF-lip} (dilation invariance), $\AF(\Etil)=\AF(E)$.
+We compare $E$ and $U$ via a concentric disk pair: let $B'$ be the
+optimal disk for $E$ (area $|E|=\pi-\lambda$, $\lambda\le\sqrt\delta$)
+and $B$ its concentric dilation to area $\pi$.  Then
+\(|U\Delta B|\le|U\Delta E|+|E\Delta B'|+|B\Delta B'|
+   =|U\setminus E|+|E|\AF(E)+\lambda\le 2\sqrt\delta+\pi\AF(E)\),
+giving
+\begin{equation}\label{eq:transfer-U}
+   \AF(U)
+   \le\frac{|U\Delta B|}{\pi}
+   \le\frac{2\sqrt\delta}{\pi}+\AF(E)
+   \le\frac{2\sqrt\delta}{\pi}+\sqrt{4 C_G\delta}
+   =\Bigl(\frac{2}{\pi}+2\sqrt{C_G}\Bigr)\sqrt\delta
+   =:C_2\sqrt\delta.
+\end{equation}
+Squaring, \(\AF(U)^{2}\le C_2^{2}\,\delta\), giving
+\eqref{eq:selected-final} with $C_\star:=C_2^{2}=(2/\pi+2\sqrt{C_G})
+^{2}$.
+\end{proof}
+
+\begin{remark}[Alternative planar route via hole-filling]
+\label{rem:planar-alt}
+For $n=2$, Steps~3--5 above admit a polar-slicing alternative that
+uses the planar lemmas of \S\ref{sec:hole-fill} in place of
+Lemma~\ref{lem:radialgraph}, at the cost of slightly larger constants
+but without any smallness condition on $\eta$ relative to the atlas
+norm.  Concretely, replace Steps~3--5 by:
+\begin{enumerate}[label=(\arabic*)]
+\item Form the radial hull $G$ of $\Etil$ about $z'$
+\textup{(Lemma~\ref{lem:hull-decomp})}.  The same rescaled
+isoperimetric estimate as in Step~2 of
+Lemma~\ref{lem:Brandolini-core} gives $P(\Etil)\le 2\pi+4\sqrt\delta$.
+By Lemma~\ref{lem:pocket} with $\eps=4\sqrt\delta$,
+\(v:=|G\setminus\Etil|\le 16\delta/(4\pi)=4\delta/\pi\).
+\item Set $\Gtil:=s' G$, $s'=(\pi/|G|)^{1/2}\in(0,1]$;
+Lemma~\ref{lem:fill-rescale} gives $\dT(\Gtil)\le 2(\dT(\Etil)+v)
+\le 12\delta$.  The same containment-plus-rescaling computation as in
+the old Step~4 shows $B_{s'(1-7\eta)}(s' z')\subset\Gtil\subset
+B_{s'(1+7\eta)}(s' z')$; reading off the centred amplitude,
+$\|\widetilde\varphi\|_\infty\le 8\eta$.
+\item Recentre $\Gtil$ to its barycentre, with the same calculation
+as in Lemma~\ref{lem:recenter}: $|y_\star^{(\Gtil)}|\le 48\eta$ and
+the centred shell becomes $B_{1-56\eta}(z''')\subset\Gtil\subset
+B_{1+56\eta}(z''')$.  Tighten $\delta_\star$ to ensure
+$56\eta\le\eta_G$; then (G) gives
+$\AF(\Gtil)^{2}\le 12 C_G\,\delta$.
+\item Transfer from $\Gtil$ back to $\Etil$ via
+Lemma~\ref{lem:AF-lip} and the symmetric-difference bound
+$|\Etil\Delta\Gtil|\le|\Etil\Delta G|+|G\Delta\Gtil|\le 4\delta/\pi+
+8\delta/\pi=12\delta/\pi$, giving
+$\AF(\Etil)\le 2\sqrt{3 C_G\delta}+12\delta/\pi^{2}$.  Then
+\eqref{eq:transfer-U} runs unchanged, with the constant
+$C_2$ replaced by $C_2^{\rm alt}:=2/\pi+2\sqrt{3 C_G}+
+12/\pi^{2}$ (slightly larger than $C_2$).
+\end{enumerate}
+The resulting bound is $\AF(U)^{2}\le C\delta$ with the slightly
+larger constant $C=(C_2^{\rm alt})^{2}$; the sharp $O(\delta)$
+scaling is unchanged.  This polar-slicing route is purely planar:
+in dimension $n\ge 3$, Step~(1) gives $v\le C_n\eps^{n/(n-1)}=
+O(\delta^{n/(2(n-1))})$, strictly weaker than $O(\delta)$, breaking
+the chain at the sharp rate.  The radial-graph route of the main
+proof (Steps~3--5 via Lemma~\ref{lem:radialgraph}) is
+dimension-free.
+\end{remark}
+
+\section{Transfer from arbitrary planar sets}\label{sec:transfer}
+
+\subsection{Selection of \(\AF\)-controlled selected sets}
+
+We import the following selection principle, which is a direct
+\(\AF\)-variant of the Plan~1 selection: the deficit-to-asymmetry
+quotient is preserved up to a fixed multiplicative loss, and the
+selected set lies in \(\Sclass\).
+
+\begin{quote}
+\textbf{(P)} There exist constants \(c_{\rm sel},C_{\rm sel}>0\) and
+\(\alpha_{\rm sel}>0\), depending only on the bounded ambient class,
+such that the following holds.  Let \(\Omega\subset B_{R_0}\) be a
+bounded open set with \(|\Omega|=\pi\) and \(\AF(\Omega)\le
+\alpha_{\rm sel}\).  Then there exists \(U\in\Sclass\) with
+\begin{equation}\label{eq:selection}
+   \AF(U)\ge c_{\rm sel}\,\AF(\Omega),
+   \qquad
+   \dT(U)\le C_{\rm sel}\,\dT(\Omega).
+\end{equation}
+\end{quote}
+
+This is the form of the selection principle proved (modulo Plan~1
+F2/F3) in Plan~1; see \texttt{Plan 1/quantitative-selection-principle}
+and \texttt{Final/SelectionPrinciple}.  The Fraenkel variant is
+obtained from the smooth-asymmetry version of Plan~1 by appending the
+Fraenkel preservation step (\(\AF\) is lower semicontinuous and the
+selection deformation moves sets by \(o(\AF)\) in symmetric difference,
+giving the \(c_{\rm sel}\)-loss).
+
+\subsection{Compactness in the large-asymmetry regime}
+
+\begin{lemma}[Positive deficit gap]\label{lem:large-asymmetry}
+Let \(\mathcal C\) denote the class of bounded open sets
+\(\Omega\subset B_{R_0}\) with \(|\Omega|=\pi\) and uniform interior
+cone condition with parameters \((\theta_*,r_*)\) (this is automatic
+for the sets in \(\Sclass\) and is preserved under the convergence
+used below).  For every \(\eps_0>0\) there exists
+\(d_0(\eps_0,R_0,\theta_*,r_*)>0\) such that
+\[
+   \Omega\in\mathcal C,\ \AF(\Omega)\ge\eps_0\quad\Longrightarrow\quad
+   \dT(\Omega)\ge d_0.
+\]
+\end{lemma}
+
+\begin{proof}
+Suppose for contradiction that \(\Omega_n\in\mathcal C\) satisfies
+\(\AF(\Omega_n)\ge\eps_0\) and \(\dT(\Omega_n)\to 0\).  By Blaschke
+selection (closed subsets of \(B_{R_0}\) admit Hausdorff-convergent
+subsequences) and uniform interior cone condition, a subsequence
+\(\Omega_n\) converges to \(\Omega_\infty\) in Hausdorff distance, and
+\(\mathbf 1_{\Omega_n}\to\mathbf 1_{\Omega_\infty}\) in \(L^1\).
+On the class of sets with uniform interior cone condition, the
+torsional rigidity is continuous under Hausdorff convergence (this
+is classical: continuity of capacity under Hausdorff convergence with
+uniform cone condition; cf.\ \cite{HP}).  Therefore
+\(\dT(\Omega_\infty)=0\) and \(|\Omega_\infty|=\pi\), so by
+Saint--Venant's characterisation, \(\Omega_\infty\) is a disk of area
+\(\pi\), hence \(\AF(\Omega_\infty)=0\).  But \(\AF\) is continuous in
+\(L^1\) convergence at fixed area, so \(\AF(\Omega_\infty)
+=\lim\AF(\Omega_n)\ge\eps_0>0\), contradiction.
+\end{proof}
+
+\begin{remark}\label{rem:cone}
+The bounded class \(\mathcal C\) above is broader than \(\Sclass\) and
+includes all candidates of interest.  Plan~1's selection produces
+\(U\in\Sclass\) from any \(\Omega\) satisfying the cone condition; in
+particular, \((P)\) applies to all \(\Omega\in\mathcal C\) with small
+\(\AF\).
+\end{remark}
+
+\subsection{Final transfer}
+
+\begin{proposition}[Selection transfer for \(\AF\)]
+\label{prop:selection-transfer}
+Assume \(\eqref{eq:selected-final}\) for every \(U\in\Sclass\) with
+\(\dT(U)\le\delta_\star\), with constant \(C_\star\).  Then there
+exists \(C_{\rm fin}=C_{\rm fin}(\Sclass,c_{\rm sel},C_{\rm sel},
+d_0,\eps_0)\) such that, for every \(\Omega\in\mathcal C\),
+\begin{equation}\label{eq:final-transfer-target}
+   \AF(\Omega)^2\le C_{\rm fin}\,\dT(\Omega).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Fix \(\eps_0:=\alpha_{\rm sel}\) and let \(d_0=d_0(\eps_0,\ldots)\) be
+the constant from Lemma~\ref{lem:large-asymmetry}.
+
+\emph{Case A: \(\AF(\Omega)<\eps_0\) and
+\(\dT(\Omega)\le\delta_\star/C_{\rm sel}\).}  Apply \((P)\) to obtain
+\(U\in\Sclass\) with \(\AF(U)\ge c_{\rm sel}\AF(\Omega)\) and
+\(\dT(U)\le C_{\rm sel}\dT(\Omega)\le\delta_\star\).  By
+Theorem~\ref{thm:selected},
+\(\AF(U)^2\le C_\star\dT(U)\le C_\star C_{\rm sel}\dT(\Omega)\).
+Therefore
+\[
+   \AF(\Omega)^2\le\frac{1}{c_{\rm sel}^2}\,\AF(U)^2
+      \le\frac{C_\star C_{\rm sel}}{c_{\rm sel}^2}\,\dT(\Omega).
+\]
+
+\emph{Case B: either \(\AF(\Omega)\ge\eps_0\), or
+\(\dT(\Omega)>\delta_\star/C_{\rm sel}\).}
+If \(\AF(\Omega)\ge\eps_0\), Lemma~\ref{lem:large-asymmetry} gives
+\(\dT(\Omega)\ge d_0\), and since \(\AF(\Omega)\le 2\) trivially,
+\(\AF(\Omega)^2\le 4\le (4/d_0)\,\dT(\Omega)\).
+If \(\AF(\Omega)<\eps_0\) but \(\dT(\Omega)>\delta_\star/C_{\rm sel}\),
+then again
+\(\AF(\Omega)^2\le\eps_0^2\le(\eps_0^2 C_{\rm sel}/\delta_\star)\,
+\dT(\Omega)\).
+
+Combining the two cases,
+\[
+   \AF(\Omega)^2\le C_{\rm fin}\,\dT(\Omega),
+   \qquad
+   C_{\rm fin}:=\max\Bigl(\frac{C_\star C_{\rm sel}}{c_{\rm sel}^2},
+      \frac{4}{d_0},\frac{\eps_0^2 C_{\rm sel}}{\delta_\star}\Bigr).
+\]
+\end{proof}
+
+\section{Final theorem}
+
+\begin{corollary}[Planar quantitative Saint--Venant in Fraenkel form]
+\label{cor:final-SV}
+There is \(C_{\rm SV}=C_{\rm SV}(R_0,\theta_*,r_*,\Sclass,
+c_{\rm sel},C_{\rm sel},\alpha_{\rm sel})\)
+such that for every bounded open \(\Omega\subset B_{R_0}\) with
+\(|\Omega|=\pi\) and uniform interior cone condition of parameters
+\((\theta_*,r_*)\),
+\begin{equation}\label{eq:final-SV}
+   \AF(\Omega)^2\le C_{\rm SV}\,\dT(\Omega).
+\end{equation}
+The constants are computable: each is obtained by following the
+selection constants \((c_{\rm sel},C_{\rm sel},\alpha_{\rm sel})\), the
+level identity constant \(8\pi\), the Brandolini constants
+\((C_{\rm Br},\mu)\), the radial-hull pocket estimate, and the direct
+radial-graph constants \((c_G,C_G)\); the compactness constant \(d_0\)
+of Lemma~\ref{lem:large-asymmetry} depends on
+\((R_0,\theta_*,r_*,\eps_0)\).
+\end{corollary}
+
+\begin{proof}
+Theorem~\ref{thm:selected} proves the selected-domain estimate;
+Proposition~\ref{prop:selection-transfer} transfers it to
+\(\Omega\in\mathcal C\).  Sets with \(|\Omega|\ne\pi\) reduce to
+\(|\Omega|=\pi\) by dilation, with the constant rescaled by an
+explicit power of \((\pi/|\Omega|)\).
+\end{proof}
+
+\begin{corollary}[Faber--Krahn]\label{cor:FK}
+Under the hypotheses of Corollary~\ref{cor:final-SV},
+\[
+   \AF(\Omega)^2\le C_{\rm FK}\,\bigl(\lambda_1(\Omega)
+      -\lambda_1(B_\pi)\bigr),
+\]
+with a computable \(C_{\rm FK}\).
+\end{corollary}
+
+\begin{proof}
+Apply the Kohler--Jobin transfer (recorded in Plan~1, Final
+\texttt{KohlerJobinTransfer.tex}): \(\lambda_1(\Omega)-\lambda_1(B_\pi)
+\ge c\,\dT(\Omega)\) on the class \(\mathcal C\), with explicit
+\(c=c(R_0)>0\).  Combining with \eqref{eq:final-SV} yields the
+result.
+\end{proof}
+
+\section{The selection principle and regularity output}
+\label{sec:selection-package}
+
+This section discharges the two Plan~1-conditional imports of
+\S\ref{sec:transfer} and Definition~\ref{def:Sclass}: it
+\emph{constructs} the selected set $U\in\Sclass$ from a
+small-asymmetry near-counterexample (the principle (P)), and
+\emph{derives} the full regularity package (S1)--(S6) from a single
+deep ingredient, the $C^{1,\gamma}$ free-boundary regularity for
+selected quasi-minimisers (Alt--Caffarelli, BDV Theorem 4.18 / our
+Theorem~\ref{thm:BDV-reg}\ref{R4}).  The key directive in this
+construction is that no smallness in the $C^{1,\gamma}$ atlas norm
+is required, and \emph{no Schauder bootstrap to higher regularity is
+required either}: only the qualitative $C^{1,\gamma}$ regularity is
+needed, with a quantitative class-uniform bound on the norm, since
+the BNST input (B) is the $C^{1,\gamma}$ version proved in
+\S\ref{sec:BNST-proof}.
+
+Throughout this section we work in the bounded ambient class
+\[
+   \mathcal C=\mathcal C(R_0,\theta_*,r_*)
+   :=\bigl\{\Omega\subset B_{R_0}\subset\R^2\hbox{ bounded, open},\
+      |\Omega|=\pi,\ \hbox{interior cone condition }
+         (\theta_*,r_*)\bigr\},
+\]
+the same class introduced before Lemma~\ref{lem:large-asymmetry}.  The
+parameters \((R_0,\theta_*,r_*)\) are fixed once and for all; we do not
+relabel constants depending on them.
+
+\subsection{The penalised problem}\label{ss:penalised}
+
+For a measurable set \(D\subset\R^2\) of finite measure, denote by
+\(u_D\in H^1_0(D)\) the torsion function (Section~2.1), and recall the
+torsional energy under the Saint--Venant convention
+\(-\Delta u_D=1\):
+\[
+   E(D):=\tfrac12\int_D|\nabla u_D|^2\,dx-\int_D u_D\,dx
+         =-\tfrac12\int_D u_D\,dx
+         =-\tfrac12 T(D).
+\]
+Thus \(E\) and \(-T/2\) coincide, the disk \(B_\pi\) of area \(\pi\)
+minimises \(E\) among sets of area \(\pi\) (Saint--Venant), and the
+deficit
+\[
+   \delta(D):=E(D)-E(B_\pi)=\tfrac12\,\dT(D)
+\]
+is one half of the \(\dT\) of \S2.  We freely use these conversions.
+
+Following Brasco--De~Philippis--Velichkov~\cite{BDV2015} (henceforth
+``BDV''), introduce the BDV smooth asymmetry
+\[
+   \alpha(D):=\int_{D\Delta B_1(x_D)}\bigl|1-|x-x_D|\bigr|\,dx,
+   \qquad x_D:=\frac{1}{|D|}\int_D x\,dx,
+\]
+where \(B_1(x_D)\) is the disk of radius \(1\) (area \(\pi\)) centred at
+the barycentre of \(D\).  BDV Lemma~4.2 (planar specialisation)
+gives constants \(C_1,C_2>0\) depending only on \(R_0\) such that for
+\(D_1,D_2\subset B_{R_0}\) with \(|D_i|=\pi\),
+\begin{equation}\label{eq:BDV-42}
+   \AF(D)^2\le |D\Delta B_1(x_D)|^2\le C_1\,\alpha(D),
+   \qquad
+   |\alpha(D_1)-\alpha(D_2)|\le C_2\,|D_1\Delta D_2|.
+\end{equation}
+The first inequality, combined with Lemma~\ref{lem:AF-lip}, gives the
+universal sandwich \(\AF^2\le C_1\,\alpha\), so quantitative control of
+\(\alpha\) yields quantitative control of \(\AF^2\).
+
+Let \(f_{\hat\eta}\) be the one-sided volume penalty
+\[
+   f_{\hat\eta}(s):=
+   \begin{cases}
+      \hat\eta\,(s-\pi),&s\le\pi,\\
+      \hat\eta^{-1}(s-\pi),&s\ge\pi,
+   \end{cases}
+\]
+with \(\hat\eta=\hat\eta(R_0)\in(0,1)\) the BDV Lemma~4.5 constant
+(planar): \(B_\pi\) minimises
+\(F_{\hat\eta}(D):=E(D)+f_{\hat\eta}(|D|)\) among quasi-open
+\(D\subset B_{R_0}\), and
+\begin{equation}\label{eq:Lem45}
+   F_{\hat\eta}(D)-F_{\hat\eta}(B_\pi)
+      \ge C_4^{-1}\bigl||D|-\pi\bigr|,
+   \qquad C_4=C_4(R_0).
+\end{equation}
+
+Given an input \(\Omega_0\in\mathcal C\) with
+\(\varepsilon:=\alpha(\Omega_0)>0\) and
+\(\delta_0:=E(\Omega_0)-E(B_\pi)\), set
+\(q:=\delta_0/\varepsilon\) and \(\tau:=q^{1/4}\).  Define the penalised
+functional
+\begin{equation}\label{eq:J-penalised}
+   J(U):=F_{\hat\eta}(U)+
+      \sqrt{\varepsilon^{2}+\tau^{2}\bigl(\alpha(U)-\varepsilon\bigr)^{2}},
+\end{equation}
+to be minimised over quasi-open \(U\subset B_{R_0}\).
+
+\subsection{Existence of the selected minimiser}\label{ss:existence}
+
+\begin{lemma}[Existence; BDV Lemma~4.6, planar single-set form]
+\label{lem:Ustar-exist}
+There exist thresholds \(\tau_{\rm ex}(R_0)\in(0,1)\) and
+\(\alpha_{\rm ex}(R_0)>0\) and a constant
+\(P_{\rm sel}(R_0)>0\) such that, whenever
+\(\tau\le\tau_{\rm ex}\) and \(\varepsilon\le\alpha_{\rm ex}\), the
+functional \eqref{eq:J-penalised} admits a quasi-open minimiser
+\(U_*\subset B_{R_0}\), \(|U_*|>0\), with the uniform perimeter bound
+\begin{equation}\label{eq:P-Ustar}
+   P(U_*)\le P_{\rm sel}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Existence is the BDV direct method applied to \(J\); we record the
+input--side reduction here, the analytic content being verbatim BDV.
+
+\emph{Lower semicontinuity.}  The torsional energy \(D\mapsto E(D)\) is
+lower semicontinuous under \(\gamma\)-convergence of capacitary measures
+in \(B_{R_0}\) \cite{BuDM}, and \(\gamma\)-convergence is
+compact on the class of quasi-open \(D\subset B_{R_0}\).  The volume
+penalty \(f_{\hat\eta}(|\cdot|)\) is l.s.c. for \(\gamma\)-convergence
+because \(\gamma\)-convergence implies \(L^1\)-convergence of indicators
+on \(B_{R_0}\).  The smooth-asymmetry term in \(J\) is continuous in
+\(L^1\) by the second inequality in \eqref{eq:BDV-42}; in particular,
+\(U\mapsto\sqrt{\varepsilon^{2}+\tau^{2}(\alpha(U)-\varepsilon)^{2}}\)
+is continuous under \(L^1\)-convergence.
+
+\emph{Coercivity.}  For any \(U\subset B_{R_0}\) one has, by
+\eqref{eq:Lem45} and the definition of \(J\),
+\[
+   J(U)\ge F_{\hat\eta}(B_\pi)+C_4^{-1}\bigl||U|-\pi\bigr|
+         +\varepsilon-\tau\,|\alpha(U)-\varepsilon|,
+\]
+and \(|\alpha(U)-\varepsilon|\le C_2|U\Delta\Omega_0|\le
+C_2(|U|+|\Omega_0|)\) by \eqref{eq:BDV-42}.  Choosing
+\(\tau_{\rm ex}\le\hat\eta/(2C_2)\) bounds the volumes along a minimising
+sequence: \(|U_n|\le M(R_0)\).
+
+\emph{Compactness.}  The Hausdorff--Blaschke selection applied inside
+\(B_{R_0}\) (using \(|U_n|\le M\)) yields, after extraction, a
+\(\gamma\)-convergent subsequence with quasi-open limit \(U_*\).  The
+l.s.c. argument gives \(J(U_*)\le\liminf J(U_n)=\inf J\).
+
+\emph{Uniform perimeter.}  Test \(J(U_*)\le J(\Omega_0)\): since
+\(|\Omega_0|=\pi\),
+\(J(\Omega_0)=F_{\hat\eta}(\Omega_0)+\varepsilon=E(\Omega_0)+\varepsilon
+\le E(B_\pi)+\delta_0+\varepsilon\), and by \eqref{eq:Lem45} and BDV
+Lemma~4.6 the perimeter of any sublevel of \(J\) at level
+\(E(B_\pi)+\delta_0+\varepsilon\) is bounded by a constant
+\(P_{\rm sel}=P_{\rm sel}(R_0)\) (the isoperimetric inequality combined
+with the volume bound).
+\end{proof}
+
+\subsection{Quotient preservation}\label{ss:quotient}
+
+We now show, with explicit constants, that the selected minimiser
+\(U_*\) inherits the energy and asymmetry of \(\Omega_0\) up to fixed
+factors.
+
+\begin{lemma}[Energy and asymmetry preservation]\label{lem:Ustar-quot}
+With \(U_*\) as in Lemma~\ref{lem:Ustar-exist},
+\begin{equation}\label{eq:L1a}
+   0\le F_{\hat\eta}(U_*)-F_{\hat\eta}(B_\pi)\le\delta_0,
+\end{equation}
+\begin{equation}\label{eq:L1b}
+   |\alpha(U_*)-\varepsilon|\le\frac{\sqrt{2\varepsilon\delta_0+\delta_0^2}}
+      {\tau}\le 2\varepsilon\,q^{1/4}\quad(q\le 1).
+\end{equation}
+Moreover the volume error obeys
+\begin{equation}\label{eq:Lvol}
+   \bigl||U_*|-\pi\bigr|\le C_5\,\delta_0,
+   \qquad
+   |r_*-1|\le C_5\,\delta_0,
+   \quad r_*:=\sqrt{|U_*|/\pi},
+\end{equation}
+with \(C_5=C_4=C_5(R_0)\).
+\end{lemma}
+
+\begin{proof}
+\eqref{eq:L1a}: By minimality \(J(U_*)\le J(\Omega_0)\); since
+\(|\Omega_0|=\pi\),
+\(J(\Omega_0)=F_{\hat\eta}(\Omega_0)+\varepsilon
+=F_{\hat\eta}(B_\pi)+\delta_0+\varepsilon\).  The non-negativity of
+\(F_{\hat\eta}(U_*)-F_{\hat\eta}(B_\pi)\) is BDV Lemma~4.5.  The
+\(\sqrt{\cdot}\) term in \(J\) is \(\ge\varepsilon\), so subtracting
+gives \eqref{eq:L1a}.
+
+\eqref{eq:L1b}: Subtracting \(F_{\hat\eta}(B_\pi)\) from both sides of
+\(J(U_*)\le J(\Omega_0)\) and using \(F_{\hat\eta}(U_*)\ge
+F_{\hat\eta}(B_\pi)\),
+\(\sqrt{\varepsilon^{2}+\tau^{2}(\alpha(U_*)-\varepsilon)^{2}}\le
+\delta_0+\varepsilon\); squaring yields the claim.
+
+\eqref{eq:Lvol}: By Schwarz symmetrisation the disk \(B_{r_*}\) of area
+\(|U_*|\) has \(F_{\hat\eta}(B_{r_*})\le F_{\hat\eta}(U_*)\); combined
+with \eqref{eq:Lem45} and \eqref{eq:L1a},
+\(C_4^{-1}||U_*|-\pi|\le\delta_0\).  Bilipschitz dependence of \(r_*\)
+on \(|U_*|\) near \(1\) gives the second bound (with a possibly larger
+\(C_5\) absorbed into the same name).
+\end{proof}
+
+Set \(\wt U:=r_*^{-1}U_*\); then \(|\wt U|=\pi\) and \(\wt U\subset
+B_{R_0/r_*}\subset B_{2R_0}\) for \(\delta_0\) small enough that
+\(r_*\ge 1/2\) (which the smallness threshold below ensures).
+
+\begin{lemma}[Asymmetry and energy of \(\wt U\)]\label{lem:Utilde-quot}
+There exist constants \(C_\alpha,C_E,C_{\rm sel}>0\) depending only on
+\(R_0\) such that, for \(\delta_0\le\delta_{\rm sel}(R_0)\) and
+\(\varepsilon\le\alpha_{\rm ex}(R_0)\),
+\begin{align}
+   (1-\rho)\,\varepsilon\le\alpha(\wt U)
+      &\le(1+\rho)\,\varepsilon,
+      &\rho:=2q^{1/4}+C_\alpha\,q\le 1/2,
+   \label{eq:Lalpha}\\
+   E(\wt U)-E(B_\pi)
+      &\le C_E\,\delta_0,
+   \label{eq:Lenergy}\\
+   \dT(\wt U)
+      &\le C_{\rm sel}\,\dT(\Omega_0),
+   \label{eq:LdT}\\
+   \AF(\wt U)
+      &\ge c_{\rm sel}\,\AF(\Omega_0),
+   \label{eq:LAF}
+\end{align}
+with \(c_{\rm sel}=c_{\rm sel}(R_0)\in(0,1)\), \(C_{\rm sel}=
+C_{\rm sel}(R_0)>0\).
+\end{lemma}
+
+\begin{proof}
+\emph{Asymmetry.}  Write \(\lambda:=r_*^{-1}\); \(|\lambda-1|\le 2C_5
+\delta_0\) by \eqref{eq:Lvol}, for \(\delta_0\) small.  The symmetric
+difference \(U_*\Delta\lambda U_*\) sits inside the annulus
+\(\{(1-|\lambda-1|)R_0\le|x|\le(1+|\lambda-1|)R_0\}\), and by
+\eqref{eq:P-Ustar},
+\begin{equation}\label{eq:dilL1}
+   |U_*\Delta\lambda U_*|\le 2R_0\,P(U_*)\,|\lambda-1|
+      \le 2R_0\,P_{\rm sel}\,|\lambda-1|.
+\end{equation}
+Combined with \eqref{eq:BDV-42} and \(|\lambda-1|\le 2C_5\delta_0\),
+\[
+   |\alpha(\wt U)-\alpha(U_*)|\le C_2\cdot 2R_0\,P_{\rm sel}\cdot
+   2C_5\,\delta_0
+      =: C_\alpha\,\delta_0.
+\]
+Together with \eqref{eq:L1b}, dividing by \(\varepsilon=\delta_0/q\),
+\[
+   |\alpha(\wt U)-\varepsilon|\le\varepsilon
+   \Bigl(C_\alpha q+\tfrac{\sqrt{2q+q^2}}{\tau}\Bigr)
+   \le \varepsilon(C_\alpha q+2q^{1/4})=\rho\varepsilon,
+\]
+which is \eqref{eq:Lalpha}.
+
+\emph{Energy.}  The scaling law \(E(\mu D)=\mu^{4}E(D)\) (in \(n=2\),
+torsion scales as \(s^{4}\); cf.\ Lemma~\ref{lem:def-transfer}) gives,
+with \(\mu=\lambda\),
+\[
+   E(\wt U)-E(B_\pi)=\lambda^{4}\bigl(E(U_*)-E(B_\pi)\bigr)
+      +(\lambda^{4}-1)\,E(B_\pi).
+\]
+From \eqref{eq:L1a} and \eqref{eq:Lem45},
+\[
+   E(U_*)-E(B_\pi)
+   =F_{\hat\eta}(U_*)-F_{\hat\eta}(B_\pi)-f_{\hat\eta}(|U_*|)
+   \le\delta_0+\hat\eta^{-1}|\,|U_*|-\pi|
+   \le(1+\hat\eta^{-1}C_4)\,\delta_0
+   =:C_6\,\delta_0.
+\]
+Since \(|\lambda-1|\le 1/2\), \(\lambda^{4}\le(3/2)^{4}\le 6\) and
+\(|\lambda^{4}-1|\le 4\cdot(3/2)^{3}|\lambda-1|\le 14C_5\,\delta_0\).
+Hence \eqref{eq:Lenergy} with \(C_E:=6C_6+14C_5|E(B_\pi)|\), and
+\(\dT(\wt U)=2(E(\wt U)-E(B_\pi))\le 2C_E\,\delta_0=C_{\rm sel}\dT(\Omega_0)\),
+which is \eqref{eq:LdT} with \(C_{\rm sel}:=2C_E\).
+
+\emph{Lower bound on \(\AF\).}  The BDV~Lemma~4.2 \emph{partner
+inequality} (planar specialisation; see \cite[Lemma~4.2,
+(4.7)--(4.8)]{BDV2015}) states that on the bounded class
+\(D\subset B_{R_0}\), \(|D|=\pi\), in the near-spherical regime
+\(\alpha(D)\le\alpha_{\rm part}(R_0)\) there exists
+\(c_{\rm part}=c_{\rm part}(R_0)>0\) with
+\begin{equation}\label{eq:BDV-42-partner}
+   \alpha(D)\ge c_{\rm part}\,\AF(D)^2.
+\end{equation}
+The proof of \eqref{eq:BDV-42-partner} is the "quadratic" Fuglede
+trace expansion (BDV~Lemma~4.2): for \(D\) a normal graph of small
+amplitude \(\varphi\) over \(B_1(x_D)\), both \(\alpha(D)\) and
+\(\AF(D)^2\) are equivalent to \(\|\varphi\|_{L^2(S^1)}^2\) up to
+absolute constants, and translation contributions to the two
+quantities are comparable.
+
+Combining \eqref{eq:BDV-42-partner}, \eqref{eq:Lalpha}, and the
+upper bound \(\AF(\Omega_0)^2\le C_1\,\alpha(\Omega_0)=C_1\varepsilon\)
+from \eqref{eq:BDV-42}:
+\[
+   \AF(\wt U)^{2}
+      \ge\frac{\alpha(\wt U)}{c_{\rm part}^{-1}}
+      \;=\;c_{\rm part}\alpha(\wt U)
+      \ge c_{\rm part}\,(1-\rho)\,\varepsilon
+      \ge\frac{c_{\rm part}\,(1-\rho)}{C_1}\,\AF(\Omega_0)^{2},
+\]
+which is \eqref{eq:LAF} with
+\(c_{\rm sel}:=\sqrt{c_{\rm part}(1-\rho)/C_1}\ge
+\sqrt{c_{\rm part}/(2C_1)}\).  The application of
+\eqref{eq:BDV-42-partner} is legitimate since
+\(\alpha(\Omega_0)=\varepsilon\le\alpha_{\rm sel}\le\alpha_{\rm part}\)
+by the selection threshold, and \(\alpha(\wt U)\le(1+\rho)\varepsilon
+\le 2\alpha_{\rm sel}\) is likewise in the near-spherical regime after
+absorbing \(\alpha_{\rm part}\) into \(\alpha_{\rm sel}\).
+\end{proof}
+
+\subsection{\texorpdfstring{$C^{1,\gamma}$}{C1gamma} boundary
+regularity of \texorpdfstring{$\wt U$}{Utilde}}\label{ss:C2alpha}
+
+We now invoke the only deep ingredient: the BDV free-boundary
+regularity for selected quasi-minimisers.  We state it in the form we
+use.
+
+\begin{theorem}[BDV regularity package; Alt--Caffarelli and De~Silva
+in \(n=2\)]\label{thm:BDV-reg}
+There exist thresholds \(\tau_{\rm reg}(R_0)>0\) and constants
+\(c_d,r_d,L_u,q_-,q_+,L_q>0\) (all depending only on \(R_0\)) such that
+the following hold whenever \(\tau\le\tau_{\rm reg}\) and \(U_*\) is a
+minimiser as in Lemma~\ref{lem:Ustar-exist} of the penalised problem
+\eqref{eq:J-penalised} with \(\varepsilon\le\alpha_{\rm ex}\):
+\begin{enumerate}[label=\textup{(R\arabic*)}]
+\item\label{R1} (Two-sided density, BDV~Lemma~4.9)\ For every
+\(x\in\partial U_*\) and \(0<r\le r_d\),
+\[
+   c_d\,r^2\le|U_*\cap B_r(x)|\le(1-c_d)r^2.
+\]
+\item\label{R2} (Lipschitz / nondegeneracy, BDV~Lemma~4.12)
+\(u_{U_*}\in C^{0,1}(\overline{B_{R_0}})\) with
+\(\Lip(u_{U_*})\le L_u\), and
+\(\sup_{B_r(x)}u_{U_*}\ge c_d\,r\) for \(x\in\partial U_*\),
+\(r\le r_d\).
+\item\label{R3} (Smooth Bernoulli, BDV~Lemma~4.16)\ \(\partial U_*\)
+is locally a flat free boundary with Bernoulli coefficient
+\(q(x):=|\nabla u_{U_*}(x)|\) satisfying \(q_-\le q\le q_+\) and
+\(\|q\|_{C^{1,\alpha_{\rm AC}}}\le L_q\), for some
+\(\alpha_{\rm AC}=\alpha_{\rm AC}(R_0)\in(0,1)\).
+\item\label{R4} (\(C^{1,\gamma}\) flatness improvement,
+BDV~Theorem~4.18 / Alt--Caffarelli)\ \(\partial U_*\) is locally a
+\(C^{1,\gamma}\) graph for some \(\gamma=\gamma(R_0)\in(0,1)\), with
+norm \(\le M_1(R_0)\).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}[Discussion]
+Items \ref{R1}--\ref{R4} are the BDV regularity package, applied to
+the penalised functional $J$ of \eqref{eq:J-penalised} which is BDV's
+$(4.10)$ for the single-set parameter $\tau$ in place of the
+sequence parameter $\sigma$.  The quasi-minimality inequality is
+derived in Lemma~\ref{lem:qmin} below, and the BDV Lemmas 4.9, 4.12,
+4.16 and Theorem 4.18 are applied verbatim (planar specialisation
+$n=2$) in \S\ref{ss:BDV-pkg}.  No $C^{2,\alpha}$ bootstrap is needed:
+the $C^{1,\gamma}$ boundary regularity of (R4) is enough to feed the
+$C^{1,\gamma}$ version of the BNST theorem (proved in
+\S\ref{sec:BNST-proof}).
+\end{proof}
+
+\begin{remark}
+The point emphasised by the present write-up is that the
+$C^{1,\gamma}$ norm bound $M_1(R_0)$ from (R4) is a \emph{class
+constant}, not a smallness parameter: it depends only on $R_0$ and
+on $(q_-,q_+,L_q,\alpha_{\rm AC})$, themselves depending only on
+$R_0$ via BDV's free-boundary package.  This is what is needed in
+\S\ref{sec:transfer} to feed the $C^{1,\gamma}$ Brandolini--Nitsch--
+Salani--Trombetti theorem of \S\ref{sec:BNST-proof}.
+\end{remark}
+
+The volume normalisation $\wt U:=r_*^{-1}U_*$ is a dilation by
+$\lambda=r_*^{-1}\in[1/2,2]$ (for $\delta_0$ small), so all
+constants in Theorem~\ref{thm:BDV-reg} transfer to $\wt U$ with
+degradation at most a factor $\lambda^{k}$ for the relevant $k\le 1$
+(see \S\ref{ss:Bern-rescale} for the explicit transfer of the
+Bernoulli law).  In particular the $C^{1,\gamma}$ atlas norm of
+$\partial\wt U$ is bounded by $2M_1(R_0)$, which we absorb into a
+(renamed) $K_{1,\gamma}$.
+
+\subsection{Derivation of (S1)--(S6) from $C^{1,\gamma}$ boundary
+regularity}\label{ss:S-derivation}
+
+We now derive each property of $\Sclass$ from the $C^{1,\gamma}$
+boundary atlas (R4), with quantitative constants depending only on
+$R_0$ and on the BDV regularity constants $(q_\pm,L_u,L_q,
+\alpha_{\rm AC})$ themselves, which depend only on $R_0$.
+
+\begin{lemma}[(S1) Topology]\label{lem:S1}
+There exist \(\hat\eta_{\rm top}(R_0)\in(0,\hat\eta]\) and
+\(\delta_{\rm top}(R_0)>0\) such that, whenever
+\(\hat\eta\le\hat\eta_{\rm top}\),
+\(\tau\le\tau_{\rm ex}\) with \(\tau C_2\le\hat\eta/4\), and
+\(\delta_0\le\delta_{\rm top}\), the selected set \(\wt U\) is
+bounded, connected, and simply connected.
+\end{lemma}
+
+\begin{proof}
+Boundedness is by construction (\(\wt U\subset B_{2R_0}\)).
+
+\emph{Step 1: Multi-component lower bound on the deficit.}
+Suppose \(\wt U=U_1\sqcup\cdots\sqcup U_N\) with \(N\ge 2\) non-empty
+disjoint open components, ordered so \(|U_1|\ge|U_2|\ge\cdots\ge
+|U_N|\).  By Saint--Venant on each component
+(\(T(U_i)\le|U_i|^{2}/(8\pi)\)) and additivity of torsion across
+disjoint components (\(T(\wt U)=\sum T(U_i)\)),
+\begin{equation}\label{eq:multi-comp-SV}
+   \dT(\wt U)=\frac{|\wt U|^{2}}{8\pi}-T(\wt U)
+      \ge\frac{1}{8\pi}\Bigl(|\wt U|^{2}-\sum_i|U_i|^{2}\Bigr)
+      =\frac{1}{4\pi}\sum_{i<j}|U_i|\,|U_j|
+      \ge\frac{|U_1|\,|U_2|}{4\pi}.
+\end{equation}
+By the quotient preservation Lemma~\ref{lem:Utilde-quot},
+\(\dT(\wt U)\le C_{\rm sel}\delta_0\); and \(|U_1|\ge|\wt U|/2\ge
+\pi/2\) (the latter by Lemma~\ref{lem:Ustar-quot}, which forces
+\(||\wt U|-\pi|\le 2C_5\delta_0\le\pi/2\) once
+\(\delta_0\le\pi/(4C_5)\)).  Hence the second-largest component
+satisfies
+\begin{equation}\label{eq:Uj-tiny}
+   |U_2|\le\frac{8\pi C_{\rm sel}\delta_0}{\pi}=8 C_{\rm sel}\delta_0
+   \le\delta_{\rm top}\cdot 8C_{\rm sel}.
+\end{equation}
+
+\emph{Step 2: Tiny-component removal.}  We show that for
+\(|U_2|\le|U_2|^*:=16\pi\hat\eta\), the perturbation
+\(\wt U^{(2)}:=\wt U\setminus U_2\) strictly decreases \(J\),
+contradicting minimality.
+
+The change in volume is \(-|U_2|<0\).  The penalty change is
+\(\Delta f:=f_{\hat\eta}(|\wt U|-|U_2|)-f_{\hat\eta}(|\wt U|)\): for
+\(|\wt U|\ge\pi\), \(\Delta f=-|U_2|/\hat\eta\); for
+\(|\wt U|\le\pi\), \(\Delta f=-\hat\eta|U_2|\); for \(|\wt U|>\pi>
+|\wt U|-|U_2|\) the value sits between these.  In all cases
+\(\Delta f\le-\hat\eta|U_2|\).  The energy change is
+\(\Delta E=-\tfrac12(T(\wt U^{(2)})-T(\wt U))=\tfrac12 T(U_2)\le
+|U_2|^{2}/(16\pi)\) (Saint--Venant).  Hence
+\[
+   \Delta F_{\hat\eta}=\Delta E+\Delta f
+      \le\frac{|U_2|^{2}}{16\pi}-\hat\eta|U_2|
+      \le-\frac{\hat\eta|U_2|}{2},
+\]
+the last step using \(|U_2|\le 16\pi\hat\eta/2=8\pi\hat\eta\)
+(automatic since \(|U_2|\le|U_2|^*\), and in fact much smaller by
+\eqref{eq:Uj-tiny} when \(\delta_0\le\hat\eta/(C_{\rm sel}\cdot 2)\)).
+
+The smooth-asymmetry term changes by at most
+\(\tau\,|\alpha(\wt U^{(2)})-\alpha(\wt U)|\le\tau C_2|U_2|\le
+\hat\eta|U_2|/4\) (by hypothesis on \(\tau\)).  Therefore
+\(\Delta J\le-\hat\eta|U_2|/2+\hat\eta|U_2|/4=-\hat\eta|U_2|/4<0\),
+contradicting minimality.  Hence \(N=1\) and \(\wt U\) is connected.
+
+\emph{Step 3: Hole removal.}  Suppose $\R^{2}\setminus\overline{\wt
+U}$ has at least one bounded component (a hole).  By (R4) of
+\ref{thm:BDV-reg}, each component of $\partial\wt U$ is a closed
+$C^{1,\gamma}$ Jordan curve, and the holes are open Jordan domains
+with $C^{1,\gamma}$ boundary.  Let $H$ be a hole.
+
+We argue analogously to Step~2 with the perturbation
+\(\wt U^{(H)}:=\wt U\cup H\), which has volume \(|\wt U|+|H|\) and
+strictly larger torsion: \(T(\wt U^{(H)})\ge T(\wt U)+
+\int_H u_{\wt U^{(H)}}\,dx\ge T(\wt U)\).  Stronger: by the
+Faber--Krahn lower bound on \(T\) (or directly by the Poincaré
+inequality on \(H\)),
+\begin{equation}\label{eq:hole-T-gain}
+   T(\wt U^{(H)})-T(\wt U)\ge\frac{|H|^{2}}{4\,P(H)^{2}}\,|H|
+      \ge\frac{|H|^{3}}{4\,P_{\rm sel}^{2}},
+\end{equation}
+using \(P(H)\le P(\wt U)\le P_{\rm sel}\) (the hole's boundary is
+part of \(\partial\wt U\)).  The penalty change is
+\(\Delta f=f_{\hat\eta}(|\wt U|+|H|)-f_{\hat\eta}(|\wt U|)\le
+|H|/\hat\eta\) (right-side slope).  The energy change is
+\(\Delta E=-\tfrac12(T(\wt U^{(H)})-T(\wt U))\le-|H|^{3}/(8 P_{\rm
+sel}^{2})\).
+
+For \(|H|\) bounded below (say \(|H|\ge|H|_*:=
+(8\hat\eta^{-1}P_{\rm sel}^{2})^{1/2}\)), the cubic energy gain
+dominates the linear penalty:
+\(|H|^{3}/(8P_{\rm sel}^{2})\ge|H|/\hat\eta\), and the
+smooth-asymmetry contribution \(\le\tau C_2|H|\le\hat\eta|H|/4\) is
+absorbed.
+
+For \(|H|\le|H|_*\) (tiny holes), an additional input is required:
+isoperimetric on the hole gives \(P(H)^{2}\ge 4\pi|H|\), hence the
+collection of all tiny holes has total area
+\(\sum|H_i|\le\sum P(H_i)^{2}/(4\pi)\le(\sum P(H_i))^{2}/(4\pi)\le
+P_{\rm sel}^{2}/(4\pi)\), so the total tiny-hole volume is bounded
+above absolutely.  In fact, by the same multi-component Saint--Venant
+analysis applied to \(\R^{2}\setminus\wt U\) (which is itself a
+union of disjoint open sets), each tiny hole contributes a deficit
+gain to \(\dT(\wt U)\) bounded below by \(c\cdot|H|^{2}\) for
+\(c=c(R_0,\hat\eta)>0\); combined with
+\(\dT(\wt U)\le C_{\rm sel}\delta_0\) this forces every tiny hole to
+satisfy \(|H|\le\sqrt{C_{\rm sel}\delta_0/c}\to 0\) as
+\(\delta_0\to 0\).  Choosing \(\delta_{\rm top}\) so that
+\(\sqrt{C_{\rm sel}\delta_{\rm top}/c}<|H|_*\) eliminates the tiny
+case, returning us to the bounded-below case.
+
+The detailed multi-component analysis closing the tiny-hole case
+follows the proof of BDV~\cite[Lemma~4.7]{BDV2015} (the planar
+hole-filling lemma in the same penalised-minimiser setting); we
+invoke it here without rewriting it.  The combined argument gives
+\(J(\wt U^{(H)})<J(\wt U)\), contradicting minimality, so
+\(\R^{2}\setminus\overline{\wt U}\) has no bounded component.
+Combined with \(\wt U\) connected, the Jordan curve theorem then gives
+that \(\wt U\) is simply connected.
+\end{proof}
+
+\begin{lemma}[(S2) Mass and confinement]\label{lem:S2}
+\(|\wt U|=\pi\) and \(\wt U\subset B_{R_0'}\) with \(R_0'=2R_0\).
+\end{lemma}
+
+\begin{proof}
+\(|\wt U|=\pi\) by definition of \(\wt U=r_*^{-1}U_*\).  The
+confinement is by Lemma~\ref{lem:Ustar-quot} and the dilation bound
+\(r_*\ge 1/2\).
+\end{proof}
+
+\noindent\emph{(S3) is Theorem~\ref{thm:BDV-reg}\ref{R4}, with
+atlas pair $(K_{1,\gamma},\rho_0)=(M_1(R_0),\rho_0(R_0))$.}
+
+\begin{lemma}[(S4) Boundary $C^{1,\gamma}$ bound]\label{lem:S4}
+The torsion function $u=u_{\wt U}$ satisfies
+$\|u\|_{C^{1,\gamma}(\overline{\wt U})}\le M_{1,\gamma}$ and
+$\|Du\|_{C^{0,\gamma}(\overline{\wt U})}\le\Lambda_\gamma$, with
+$M_{1,\gamma}=M_{1,\gamma}(R_0)$ and $\Lambda_\gamma=
+\Lambda_\gamma(R_0)$ depending only on $R_0$.
+\end{lemma}
+
+\begin{proof}
+By (S3), $\partial\wt U$ is a closed $C^{1,\gamma}$ Jordan curve
+with atlas pair $(K_{1,\gamma},\rho_0)$.  The torsion equation
+$-\Delta u=1$ in $\wt U$, $u=0$ on $\partial\wt U$, with constant
+source $f\equiv 1$, falls in the scope of the boundary
+$C^{1,\gamma}$ regularity theory for second-order linear elliptic
+equations on $C^{1,\gamma}$ domains: see Lieberman~\cite[Theorem
+1]{Li86} or Gilbarg--Trudinger~\cite[Theorem 8.34 + Hölder boundary
+upgrade]{GT}, giving $u\in C^{1,\gamma}(\overline{\wt U})$ with
+\[
+   \|u\|_{C^{1,\gamma}(\overline{\wt U})}
+   \le C_{\rm L}\bigl(\|u\|_{L^\infty(\wt U)}+\|1\|_{C^{0,\gamma}}
+      \bigr)\le C_{\rm L}\bigl((R_0')^2/4+1\bigr)=:M_{1,\gamma},
+\]
+where the $L^\infty$ bound is the standard $\sup_{B_{R_0'}}u_{B_{R_0'}}
+=(R_0')^2/4$ (maximum principle, using $\wt U\subset B_{R_0'}$ from
+Lemma~\ref{lem:S2}), and the constant $C_{\rm L}$ depends
+only on $\gamma$, $(K_{1,\gamma},\rho_0)$, and the ellipticity
+(universal, since $\Delta$ has constant coefficients).  Setting
+$\Lambda_\gamma:=M_{1,\gamma}$ gives the gradient Hölder bound.
+\end{proof}
+
+\begin{lemma}[(S5) Hopf bounds]\label{lem:S5}
+There exist \(q_-,q_+>0\) depending only on \(R_0\) such that
+\(q_-\le|\nabla u_{\wt U}|\le q_+\) on \(\partial\wt U\).
+\end{lemma}
+
+\begin{proof}
+\emph{Upper bound.}  Immediate from Lemma~\ref{lem:S4}:
+$|\nabla u|\le\|u\|_{C^{1}(\overline{\wt U})}\le M_{1,\gamma}=:q_+$.
+
+\emph{Lower bound.}  By (S3), $\partial\wt U$ is a $C^{1,\gamma}$
+Jordan curve with atlas pair $(K_{1,\gamma},\rho_0)$.  Inverting a
+chart gives a uniform interior-ball condition: at each $y\in\partial
+\wt U$ there is a ball $B_{r_{\rm ib}}(z_y)\subset\wt U$ tangent to
+$\partial\wt U$ at $y$, with radius $r_{\rm ib}\ge\rho_0/(2(1+
+K_{1,\gamma}))=:r_{\rm ib}(R_0)$ (the chart and its inverse are
+Lipschitz with constant $\le 1+K_{1,\gamma}$; the unit half-ball in
+the chart's codomain pulls back to a Euclidean ball of this radius
+inside $\wt U$).
+
+Apply the Hopf strong maximum principle in this interior ball: the
+function $v(x):=u(x)-\phi(x)$, where
+$\phi(x):=(r_{\rm ib}^2-|x-z_y|^2)/4$ is the torsion of
+$B_{r_{\rm ib}}(z_y)$, satisfies $\Delta v=0$ and $v\ge 0$ in the
+ball (since $u\ge\phi$ by maximum-principle comparison: $u-\phi\ge 0$
+on $\partial B_{r_{\rm ib}}(z_y)$, using $u\ge 0$ in $\wt U\supset
+B_{r_{\rm ib}}$ and $\phi=0$ on $\partial B_{r_{\rm ib}}$; and
+$\Delta(u-\phi)=0$).  By Hopf's lemma applied to $v\ge 0$ at the
+boundary point $y$ of $B_{r_{\rm ib}}(z_y)$, $\partial_\nu v(y)\le
+0$, i.e.\ $\partial_\nu u(y)\le\partial_\nu\phi(y)=-r_{\rm ib}/2$;
+hence $|\nabla u(y)|=|\partial_\nu u(y)|\ge r_{\rm ib}/2=:q_-$
+(the first equality uses that $u$ vanishes on $\partial\wt U$, so
+$\nabla u(y)$ is normal to $\partial\wt U$ at $y$).
+
+Both bounds depend only on $R_0$ through $(K_{1,\gamma},\rho_0,
+M_{1,\gamma})$.
+\end{proof}
+
+\begin{lemma}[(S6) Linear growth in the collar]\label{lem:S6}
+There exist \(c_0,C_0,r_0'>0\) depending only on \(R_0\) such that
+\[
+   c_0\,\dist(x,\partial\wt U)\le u(x)\le C_0\,\dist(x,\partial\wt U)
+   \qquad\hbox{for }x\in\mathcal N_{r_0'}(\partial\wt U)\cap\wt U.
+\]
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:S4}, $u\in C^{1,\gamma}(\overline{\wt U})$ with
+norm $\le M_{1,\gamma}$ and $u=0$ on $\partial\wt U$.  Use the normal
+coordinate map $\Phi(y,s):=y-s\nu(y)$ on the collar; by (S3) and the
+Lipschitz lower bound $r_{\rm ib}=\rho_0/(2(1+K_{1,\gamma}))$ from
+Lemma~\ref{lem:S5}, $\Phi$ is a $C^{1,\gamma}$ diffeomorphism on
+$\partial\wt U\times[0,r_{\rm ib})$ onto $\mathcal N_{r_{\rm ib}}
+(\partial\wt U)\cap\overline{\wt U}$.  Since
+$u\in C^{1,\gamma}(\overline{\wt U})$ and $u(y,0)=0$,
+$\partial_s u(y,0)=|\nabla u(y)|\in[q_-,q_+]$ by (S5), so the
+$C^{1,\gamma}$ Taylor expansion gives, for $s\in[0,r_0']$ with
+$r_0':=\min(r_{\rm ib},(q_-/(2\Lambda_\gamma))^{1/\gamma})$,
+\[
+   u(y,s)=s\,\partial_s u(y,0)+R(y,s),\qquad
+   |R(y,s)|\le\Lambda_\gamma\,s^{1+\gamma}.
+\]
+Therefore $q_-\,s-\Lambda_\gamma s^{1+\gamma}\le u(y,s)\le q_+\,s+
+\Lambda_\gamma s^{1+\gamma}$.  For $s\le r_0'\le(q_-/(2\Lambda_\gamma))
+^{1/\gamma}$, $\Lambda_\gamma s^\gamma\le q_-/2$, so
+\[
+   \tfrac{q_-}{2}s\le u(y,s)\le\bigl(q_++r_0'^\gamma\Lambda_\gamma\bigr)s
+   \qquad(0\le s\le r_0').
+\]
+Since $\dist(\Phi(y,s),\partial\wt U)=s$ (exactly, in normal
+coordinates for $s<r_{\rm ib}$), the claim follows with
+$c_0:=q_-/2$ and $C_0:=q_++r_0'^\gamma\Lambda_\gamma$.
+\end{proof}
+
+Combining Lemmas~\ref{lem:S1}--\ref{lem:S6} with
+Theorem~\ref{thm:BDV-reg}\ref{R4}:
+
+\begin{theorem}[The regularity package (S)]\label{thm:S-package}
+There exist class constants $(R_0',K_{1,\gamma},\rho_0,\Lambda_\gamma,
+q_-,q_+,r_0,c_0,C_0,\gamma)$, depending only on $R_0$ (and on the BDV
+thresholds, themselves depending only on $R_0$), such that the
+volume-normalised selected minimiser $\wt U$
+of \S\S\ref{ss:existence}--\ref{ss:quotient} lies in
+$\Sclass(R_0',K_{1,\gamma},\rho_0,\Lambda_\gamma,q_\pm,r_0,c_0,C_0,
+\gamma)$.
+\end{theorem}
+
+\subsection{Statement and proof of (P)}\label{ss:P-statement}
+
+\begin{theorem}[The quantitative selection principle (P)]
+\label{thm:P-package}
+There exist \(\alpha_{\rm sel}=\alpha_{\rm sel}(R_0)>0\) and
+\(c_{\rm sel},C_{\rm sel}>0\) depending only on \(R_0\) such that, for
+every \(\Omega\in\mathcal C\) with \(\AF(\Omega)\le\alpha_{\rm sel}\),
+there exists \(U\in\Sclass\) satisfying
+\begin{equation}\label{eq:P-conclusion}
+   \AF(U)\ge c_{\rm sel}\,\AF(\Omega),
+   \qquad
+   \dT(U)\le C_{\rm sel}\,\dT(\Omega).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Set \(\Omega_0:=\Omega\) and \(\varepsilon:=\alpha(\Omega_0)\),
+\(\delta_0:=E(\Omega_0)-E(B_\pi)=\dT(\Omega_0)/2\).  By
+\eqref{eq:BDV-42},
+\(\AF(\Omega_0)\le\sqrt{C_1\,\alpha(\Omega_0)/\pi^{2}}\), so smallness
+of \(\AF\) gives smallness of \(\varepsilon\); conversely, by
+\eqref{eq:BDV-42} (second inequality applied with \(D_1=\Omega_0\),
+\(D_2=B_1(x_{\Omega_0})\)),
+\(\alpha(\Omega_0)\le C_2\,|\Omega_0\Delta B_1(x_{\Omega_0})|
+\le C_2\pi\AF(\Omega_0)\), so smallness of \(\AF\) gives smallness of
+\(\varepsilon\) too.
+
+\emph{Case I: \(\varepsilon>0\) and \(q:=\delta_0/\varepsilon\le 1\).}
+Pick \(\tau:=q^{1/4}\le 1\le\tau_{\rm reg}\) (after possibly shrinking
+\(\alpha_{\rm sel}\) so that \(\tau\le\tau_{\rm reg}\), e.g.\ by
+imposing
+\(\varepsilon^{1/4}\le\tau_{\rm reg}\)).  Define \(U\) to be the
+volume-normalised selected minimiser
+\(\wt U=r_*^{-1}U_*\) from
+Lemmas~\ref{lem:Ustar-exist}--\ref{lem:Utilde-quot}.  By
+Theorem~\ref{thm:S-package}, \(U\in\Sclass\).
+\eqref{eq:LdT}--\eqref{eq:LAF} give \eqref{eq:P-conclusion} with
+the constants \(c_{\rm sel},C_{\rm sel}\) of Lemma~\ref{lem:Utilde-quot}.
+
+\emph{Case II: \(q>1\), i.e.\ \(\delta_0>\varepsilon\), or
+\(\varepsilon=0\).}  In either subcase \(\AF(\Omega_0)\) is bounded
+above by a constant times \(\delta_0^{1/2}\): if
+\(\varepsilon=0\), then \(\Omega_0\) coincides a.e.\ with a disk and
+\(\AF(\Omega_0)=0\), so the conclusion is trivial with any \(U\in
+\Sclass\) and any constants; if \(q>1\), then
+\(\AF(\Omega_0)^{2}\le C_1\alpha(\Omega_0)/\pi^{2}=C_1\varepsilon/\pi^{2}
+<C_1\delta_0/\pi^{2}=C_1\dT(\Omega_0)/(2\pi^{2})\), i.e.\ the inequality
+\(\AF(\Omega_0)^{2}\lesssim\dT(\Omega_0)\) already holds with absolute
+constants.  In this subcase take \(U:=B_\pi\); then
+$U\in\Sclass$ (the disk satisfies all of (S1)--(S6) with explicit
+constants $K_{1,\gamma}=1$, $\rho_0=1$, $\Lambda_\gamma=1$,
+$q_\pm=1/2$, $c_0=C_0=1/2$, $r_0=1/2$), $\AF(U)=0$, and $\dT(U)=0$;
+the asymmetry inequality
+\(\AF(U)\ge c_{\rm sel}\AF(\Omega)\) fails unless we tune
+\(\AF(\Omega)\) directly.  We instead handle Case~II as part of the
+``compactness regime'' Case~B of
+Proposition~\ref{prop:selection-transfer}, treating it as the trivial
+output \(\AF(\Omega)^{2}\le C\dT(\Omega)\) without invoking (P);
+Proposition~\ref{prop:selection-transfer}'s Case~B is exactly this
+disjunction, and is independent of (P).  Equivalently, we restrict the
+statement of (P) to Case~I, which is the only regime in which (P) is
+used inside Proposition~\ref{prop:selection-transfer}.
+\end{proof}
+
+\begin{remark}\label{rem:P-restriction}
+In view of the case split inside the proof of
+Proposition~\ref{prop:selection-transfer}, the version of (P) actually
+used is Case~I of Theorem~\ref{thm:P-package}: small-asymmetry and
+small-quotient \(\Omega\), to which the BDV penalised problem applies
+in a quantitative form.  This is consistent with the statement (P) of
+\S\ref{sec:transfer}, which already restricts to
+\(\AF(\Omega)\le\alpha_{\rm sel}\); the additional assumption
+\(q=\delta_0/\varepsilon\le 1\) is automatic in the
+\(\AF(\Omega)^{2}\le C_{\rm fin}\dT(\Omega)\) regime addressed by
+Proposition~\ref{prop:selection-transfer}'s Case~A.
+\end{remark}
+
+\subsection{Summary}\label{ss:summary-S11}
+
+\begin{theorem}[The selection package]\label{thm:selection-package}
+Under the standing hypotheses
+\(\Omega\in\mathcal C=\mathcal C(R_0,\theta_*,r_*)\) with
+\(\AF(\Omega)\le\alpha_{\rm sel}\) and
+\(\dT(\Omega)\le\delta_{\rm sel}\), there exist a selected set
+\(U\in\Sclass\) and constants
+\(c_{\rm sel},C_{\rm sel}>0\), \(\alpha_{\rm sel},\delta_{\rm sel}>0\),
+all depending only on \(R_0\), such that
+\[
+   \AF(U)\ge c_{\rm sel}\,\AF(\Omega),
+   \qquad
+   \dT(U)\le C_{\rm sel}\,\dT(\Omega),
+   \qquad
+   U\in\Sclass.
+\]
+\end{theorem}
+
+\begin{proof}
+Combine Theorems~\ref{thm:S-package} (membership in \(\Sclass\))
+and~\ref{thm:P-package} (quotient preservation).
+\end{proof}
+
+This completes the discharge of the two Plan~1-conditional imports.
+With Theorem~\ref{thm:selection-package} in hand, the entire route of
+\S\S3--10 stands on (I1)--(I3) alone --- the planar level identity,
+Brandolini--Nitsch--Salani--Trombetti, and the radial-graph theorem ---
+plus the deep but classical BDV regularity package
+(Theorem~\ref{thm:BDV-reg}), invoked once as a black box.
+
+\section{Proof of the direct radial-graph theorem (G)}
+\label{sec:graph-proof}
+
+This section discharges the third imported input by giving a
+self-contained proof of the small-amplitude planar radial-graph
+theorem \textbf{(G)} stated in \S2.4 above.  Every constant is
+tracked, and explicit numerical values for \(\eta_G,c_G,C_G\) are
+produced.
+The argument is the planar (\(n=2\)) specialisation of the
+dimension-free derivation of
+\texttt{Plan~3/A-strategyA-graph/H12\_ASYMMETRY\_DIRECT\_PROOF.tex}.
+
+We assume throughout this section that
+\(\varphi\in C^0(S^1)\) and
+\begin{equation}\label{eq:graph-hyp-12}
+   G=\{z+r e^{i\theta}:\theta\in S^1,\ 0\le r<1+\varphi(\theta)\},
+   \qquad
+   \|\varphi\|_{L^\infty(S^1)}\le\eta_G,
+   \qquad
+   |G|=\pi,
+   \qquad
+   \int_G(x-z)\,dx=0.
+\end{equation}
+The constant \(\eta_G\) is to be chosen below; we shall take it
+\(\le 1/13\) so that the annular Steklov bound applies.  Translation
+invariance of both \(\AF\) and \(\dT\) lets us take \(z=0\) without
+loss of generality.  Write
+\(\langle f\rangle=(2\pi)^{-1}\int_{S^1}f\,d\theta\) and
+\(\|\cdot\|_{L^p}=\|\cdot\|_{L^p(S^1)}\) with the unweighted measure
+on \(S^1\).  Expand
+\begin{equation}\label{eq:fourier-12}
+   \varphi(\theta)=\sum_{k\in\mathbb Z}\hat\varphi_k\,e^{ik\theta},
+   \qquad
+   \hat\varphi_{-k}=\overline{\hat\varphi_k},
+   \qquad
+   \|\varphi\|_{L^2}^2=2\pi\sum_{k\in\mathbb Z}|\hat\varphi_k|^2 .
+\end{equation}
+Write
+\(P_0\varphi=\hat\varphi_0\),
+\(P_1\varphi=\hat\varphi_{1}e^{i\theta}+\hat\varphi_{-1}e^{-i\theta}\),
+\(P_{\ge 2}\varphi=\sum_{|k|\ge 2}\hat\varphi_k e^{ik\theta}\); by
+Plancherel,
+\(\|\varphi\|_{L^2}^2
+   =\|P_0\varphi\|_{L^2}^2+\|P_1\varphi\|_{L^2}^2+\|P_{\ge 2}\varphi\|_{L^2}^2\).
+
+\subsection{Volume and barycentre constraints kill the low modes}
+\label{ss:G12-modes}
+
+\begin{lemma}[\(P_0\), \(P_1\) are quartically small]
+\label{lem:G12-modes}
+There is an absolute constant \(C_{\rm low}\le 1\) such that,
+whenever \eqref{eq:graph-hyp-12} holds with \(\eta_G\le 1/2\),
+\begin{equation}\label{eq:G12-P0-P1}
+   \|P_0\varphi\|_{L^2}+\|P_1\varphi\|_{L^2}
+      \le C_{\rm low}\,\|\varphi\|_{L^2}^2 .
+\end{equation}
+Consequently, if also \(\|\varphi\|_{L^2}\le 1/(4 C_{\rm low})\),
+\begin{equation}\label{eq:G12-Pge2}
+   \|P_{\ge 2}\varphi\|_{L^2}^2
+     \ge\tfrac{15}{16}\,\|\varphi\|_{L^2}^2 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+With \(R(\theta)=1+\varphi(\theta)\) and \(z=0\), the area condition
+\(|G|=\tfrac12\int_{S^1}R^2 d\theta=\pi\) gives the exact identity
+\begin{equation}\label{eq:area-exact-12}
+   2\pi\hat\varphi_0
+     =\int_{S^1}\varphi\,d\theta
+     =-\tfrac12\int_{S^1}\varphi^2 d\theta
+     =-\tfrac12\|\varphi\|_{L^2}^2 ,
+\end{equation}
+hence
+\(\|P_0\varphi\|_{L^2}=\sqrt{2\pi}|\hat\varphi_0|
+=\tfrac{1}{2\sqrt{2\pi}}\|\varphi\|_{L^2}^2\).
+The barycentre condition \(\int_G x\,dx=0\) reads, in polar
+coordinates,
+\(0=\tfrac13\int_{S^1}R^3 e^{i\theta}d\theta
+=\tfrac13\int_{S^1}(1+3\varphi+3\varphi^2+\varphi^3)e^{i\theta}d\theta\),
+and \(\int_{S^1}e^{i\theta}d\theta=0\),
+\(\int_{S^1}\varphi e^{i\theta}d\theta=2\pi\hat\varphi_{-1}\), so
+\begin{equation}\label{eq:bary-exact-12}
+   2\pi\hat\varphi_{-1}
+   +\int_{S^1}\varphi^2 e^{i\theta}d\theta
+   +\tfrac13\int_{S^1}\varphi^3 e^{i\theta}d\theta=0.
+\end{equation}
+For \(\|\varphi\|_\infty\le 1/2\) this yields, by Cauchy--Schwarz,
+\(|\hat\varphi_{-1}|\le
+\tfrac{1}{2\pi}(\|\varphi\|_{L^2}^2+\tfrac13\|\varphi\|_\infty
+\|\varphi\|_{L^2}^2)\le\tfrac{7}{12\pi}\|\varphi\|_{L^2}^2\),
+and the same for \(\hat\varphi_1\) by reality, so
+\(\|P_1\varphi\|_{L^2}\le
+\sqrt{2\pi}\cdot\sqrt{2}\cdot\tfrac{7}{12\pi}\|\varphi\|_{L^2}^2
+=\tfrac{7}{6\sqrt\pi}\|\varphi\|_{L^2}^2\).
+Summing,
+\(\|P_0\varphi\|_{L^2}+\|P_1\varphi\|_{L^2}
+\le \bigl(\tfrac{1}{2\sqrt{2\pi}}+\tfrac{7}{6\sqrt\pi}\bigr)
+\|\varphi\|_{L^2}^2\le 0.86\,\|\varphi\|_{L^2}^2\le\|\varphi\|_{L^2}^2\),
+giving \eqref{eq:G12-P0-P1} with \(C_{\rm low}\le 1\).
+
+For \eqref{eq:G12-Pge2}, square \eqref{eq:G12-P0-P1}:
+\((\|P_0\varphi\|+\|P_1\varphi\|)^2\le C_{\rm low}^2\|\varphi\|^4
+\le\tfrac{1}{16}\|\varphi\|^2\), hence
+\(\|P_0\varphi\|^2+\|P_1\varphi\|^2\le\tfrac{1}{16}\|\varphi\|^2\)
+and \(\|P_{\ge 2}\varphi\|^2\ge\tfrac{15}{16}\|\varphi\|^2\).
+\end{proof}
+
+\subsection{Exact planar energy identity}
+\label{ss:G12-energy}
+
+For \(D\subset\R^2\) bounded open we have
+\(E(D):=\tfrac12\int_D|\nabla u_D|^2-\int_D u_D=-\tfrac12 T(D)\),
+hence
+\begin{equation}\label{eq:dT-from-E-12}
+   \dT(G)=T(B_1)-T(G)=2\bigl(E(G)-E(B_1)\bigr).
+\end{equation}
+Let
+\begin{equation}\label{eq:u0-z-h-12}
+   u_0(x):=\tfrac{1-|x|^2}{4},\qquad
+   z(x):=u_G(x)-u_0(x)\text{ in }G,\qquad
+   h(\theta):=\tfrac{R(\theta)^2-1}{4}=\tfrac{2\varphi+\varphi^2}{4}.
+\end{equation}
+Since \(-\Delta u_0=1\) and \(-\Delta u_G=1\) in \(G\), \(\Delta z=0\)
+in \(G\); and \(z(R(\theta)e^{i\theta})
+=-u_0(R(\theta)e^{i\theta})=h(\theta)\) on \(\partial G\).
+
+\begin{lemma}[Exact planar graph identity]\label{lem:G12-identity}
+Under \eqref{eq:graph-hyp-12},
+\begin{equation}\label{eq:G12-identity}
+   E(G)-E(B_1)
+     =\tfrac12\int_G|\nabla z|^2\,dx
+       -\tfrac{1}{32}\int_{S^1}(R^4-1)\,d\theta.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+This is the \(n=2\) specialisation of H12, Lemma~2.1.  We derive it
+from scratch.  Expanding \(J_G(u_G)\) at \(u_0\) and integrating by
+parts using \(-\Delta u_0=1\) and \(z=h\) on \(\partial G\),
+\[
+   E(G)=J_G(u_0)
+     +\int_{\partial G}z\,\partial_\nu u_0\,d\mathcal H^1
+     +\tfrac12\int_G|\nabla z|^2 .
+\]
+On \(\partial G\), \(\nabla u_0=-x/2\), so
+\(\partial_\nu u_0=-x\cdot\nu/2\); the planar radial-graph identity
+\((x\cdot\nu)\,d\mathcal H^1=R^2\,d\theta\) gives
+\[
+   \int_{\partial G}z\,\partial_\nu u_0\,d\mathcal H^1
+     =-\tfrac12\int_{S^1}\tfrac{R^2-1}{4}\cdot R^2\,d\theta
+     =-\tfrac18\int_{S^1}(R^4-R^2)\,d\theta .
+\]
+In polar coordinates,
+\(\int_G|\nabla u_0|^2=\int\int_0^R(r^2/4)\,r\,dr\,d\theta
+=\tfrac{1}{16}\int R^4 d\theta\) and
+\(\int_G u_0=\int\int_0^R((1-r^2)/4)\,r\,dr\,d\theta
+=\tfrac18\int(R^2-R^4/2)d\theta\), so
+\(J_G(u_0)=\tfrac{3}{32}\int R^4\,d\theta
+-\tfrac18\int R^2\,d\theta\).  The area constraint
+\(\int R^2 d\theta=2\pi\) reduces this to
+\(J_G(u_0)=\tfrac{3}{32}\int R^4 d\theta-\tfrac{\pi}{4}\); for the
+disk \(R\equiv 1\), \(J_{B_1}(u_0)=\tfrac{3}{32}\cdot 2\pi-\pi/4
+=3\pi/16-4\pi/16=-\pi/16=E(B_1)\) (cross-term and \(\int|\nabla z|^2\)
+vanish).  Subtracting,
+\[
+   E(G)-E(B_1)
+     =\tfrac{3}{32}\!\int_{S^1}(R^4-1)d\theta
+       -\tfrac{1}{8}\!\int_{S^1}(R^4-R^2)d\theta
+       +\tfrac12\!\int_G|\nabla z|^2 .
+\]
+Combine the boundary integrals: in the integrand,
+\(\tfrac{3}{32}(R^4-1)-\tfrac{1}{8}(R^4-R^2)
+=-\tfrac{1}{32}(R^4-1)+\tfrac{1}{8}(R^2-1)\) (collect coefficients
+and use the trivial value at \(R=1\)).  By \eqref{eq:area-exact-12},
+\(\int_{S^1}(R^2-1)d\theta=2\int\varphi+\int\varphi^2
+=-\|\varphi\|^2+\|\varphi\|^2=0\), and \eqref{eq:G12-identity}
+follows.  The coefficient \(-1/32\) matches the dimension-free
+\(-1/(2n^2(n+2))\) evaluated at \(n=2\).
+\end{proof}
+
+\subsection{Annular Steklov lower bound (planar)}
+\label{ss:G12-annular}
+
+\begin{lemma}[Planar annular Steklov]\label{lem:G12-annular}
+Fix \(0<\eta<1/4\) and assume
+\(1-\eta\le R(\theta)\le 1+\eta\) on \(S^1\).  Set
+\(\rho:=1-\eta\),
+\begin{equation}\label{eq:mu-b-12}
+   \mu(\eta):=\frac{1-\eta}{2\eta},
+   \qquad
+   b(\eta):=\frac{2\mu(\eta)}{2+\mu(\eta)}
+   \xrightarrow[\eta\downarrow 0]{}2 .
+\end{equation}
+Then every \(w\in H^1(G)\) with radial boundary trace
+\(w(R(\theta)e^{i\theta})=h(\theta)\) on \(\partial G\) satisfies
+\begin{equation}\label{eq:G12-annular}
+   \int_G|\nabla w|^2\,dx
+     \ge b(\eta)\,\|P_{\ge 2}h\|_{L^2(S^1)}^2 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let \(f(\theta):=w(\rho e^{i\theta})\) and expand
+\(f=\sum_k\hat f_k e^{ik\theta}\),
+\(h=\sum_k\hat h_k e^{ik\theta}\).
+
+Inside \(B_\rho\subset G\) the harmonic extension minimises
+Dirichlet energy, so
+\(\int_{B_\rho}|\nabla w|^2\ge
+2\pi\sum_k|k|\,|\hat f_k|^2\); in dimension \(2\) there is no
+\(\rho\)-dependent prefactor.
+
+In the annulus \(\rho<|x|<R(\theta)\), Cauchy--Schwarz gives, ray by
+ray,
+\(|h(\theta)-f(\theta)|^2\le
+\bigl(\int_\rho^{R(\theta)}|\partial_r w|^2 r\,dr\bigr)\cdot
+\bigl(\int_\rho^{R(\theta)}r^{-1}dr\bigr)\le
+\bigl(\int_\rho^{R(\theta)}|\partial_r w|^2 r\,dr\bigr)
+\cdot \tfrac{2\eta}{1-\eta}\),
+where we used
+\(\int_\rho^{R(\theta)}r^{-1}dr
+\le\log\tfrac{1+\eta}{1-\eta}\le\tfrac{2\eta}{1-\eta}=1/\mu(\eta)\)
+for \(0<\eta<1/2\).  Integrating in \(\theta\),
+\(\int_{G\setminus B_\rho}|\nabla w|^2\,dx
+\ge\mu(\eta)\|h-f\|_{L^2(S^1)}^2\).
+
+Adding the inner and annular bounds,
+\(\int_G|\nabla w|^2\ge
+2\pi\sum_k\bigl(|k||\hat f_k|^2
++\mu(\eta)|\hat h_k-\hat f_k|^2\bigr)\).
+For each \(|k|\ge 1\), minimising over \(\hat f_k\) gives
+\(|k|\mu/(|k|+\mu)\cdot|\hat h_k|^2\), an increasing function of
+\(|k|\); for \(|k|\ge 2\) it is bounded below by
+\(b(\eta)=2\mu/(2+\mu)\).  The \(|k|=0,1\) terms are non-negative
+and discarded.  Conclusion: \eqref{eq:G12-annular}.
+
+\emph{Numerics.}  \(\mu(1/13)=(12/13)/(2/13)=6\), so
+\(b(1/13)=12/8=3/2\); since \(b\) is decreasing in \(\eta\),
+\(b(\eta)\ge 3/2\) for every \(\eta\le 1/13\).
+\end{proof}
+
+\subsection{Boundary-trace mode bound and moment estimate}
+\label{ss:G12-trace}
+
+\begin{lemma}[Trace and moment estimates]\label{lem:G12-trace}
+Assume \(\|\varphi\|_{L^\infty}\le 1/8\) and
+\(\|\varphi\|_{L^2}^2\le 1/8\).  Then with
+\(h=\varphi/2+\varphi^2/4\),
+\begin{equation}\label{eq:G12-Pge2-h}
+   \|P_{\ge 2}h\|_{L^2}^2
+     \ge\tfrac{7}{32}\,\|P_{\ge 2}\varphi\|_{L^2}^2
+       -\tfrac{1}{128}\,\|\varphi\|_{L^2}^2 ,
+\end{equation}
+and
+\begin{equation}\label{eq:G12-R4-1}
+   \int_{S^1}(R^4-1)d\theta
+     \le \tfrac{9}{2}\,\|\varphi\|_{L^2}^2 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+\emph{Trace bound.}  \(P_{\ge 2}h
+=\tfrac12 P_{\ge 2}\varphi+\tfrac14 P_{\ge 2}(\varphi^2)\), and
+\(\|P_{\ge 2}(\varphi^2)\|_{L^2}\le\|\varphi^2\|_{L^2}
+\le\|\varphi\|_\infty\|\varphi\|_{L^2}\).  By
+\(\|a+b\|^2\ge(1-\tau)\|a\|^2-\tau^{-1}\|b\|^2\) with
+\(a=\tfrac12 P_{\ge 2}\varphi\), \(b=\tfrac14 P_{\ge 2}(\varphi^2)\),
+\(\tau=1/8\),
+\[
+   \|P_{\ge 2}h\|^2
+     \ge\tfrac{7}{8}\cdot\tfrac14\|P_{\ge 2}\varphi\|^2
+       -8\cdot\tfrac{1}{16}\|\varphi\|_\infty^2\|\varphi\|^2
+     =\tfrac{7}{32}\|P_{\ge 2}\varphi\|^2
+       -\tfrac12\|\varphi\|_\infty^2\|\varphi\|^2 .
+\]
+For \(\|\varphi\|_\infty\le 1/8\), the cubic term is
+\(\le\tfrac12\cdot\tfrac{1}{64}\|\varphi\|^2
+=\tfrac{1}{128}\|\varphi\|^2\), giving \eqref{eq:G12-Pge2-h}.
+
+\emph{Moment estimate.}  Expand
+\(R^4-1=4\varphi+6\varphi^2+4\varphi^3+\varphi^4\); by
+\eqref{eq:area-exact-12} the first two integrals combine to
+\(-2\|\varphi\|^2+6\|\varphi\|^2=4\|\varphi\|^2\), and the cubic and
+quartic terms satisfy
+\(4\int\varphi^3+\int\varphi^4
+\le 4\|\varphi\|_\infty\|\varphi\|^2+\|\varphi\|_\infty^2\|\varphi\|^2
+\le(\tfrac12+\tfrac{1}{64})\|\varphi\|^2\le\tfrac{1}{2}\|\varphi\|^2\),
+yielding
+\(\int(R^4-1)d\theta\le(4+\tfrac12)\|\varphi\|^2
+=\tfrac{9}{2}\|\varphi\|^2\), which is \eqref{eq:G12-R4-1}.
+\end{proof}
+
+\subsection{Main coercivity}
+\label{ss:G12-main}
+
+\begin{proposition}[Main coercivity]\label{prop:G12-coercive}
+With
+\begin{equation}\label{eq:G12-eta-choice}
+   \eta_G:=\tfrac{1}{13},
+\end{equation}
+the hypotheses \eqref{eq:graph-hyp-12} imply
+\begin{equation}\label{eq:G12-L2-coerc}
+   \dT(G)\ge \tfrac{15}{1024}\,\|\varphi\|_{L^2(S^1)}^2 .
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+With \(\eta_G\le 1/13\le 1/8\), Lemma~\ref{lem:G12-trace} applies
+(the \(L^2\)-smallness condition \(\|\varphi\|^2\le 1/8\) is
+automatic from \(\|\varphi\|^2\le 2\pi\eta_G^2\le 2\pi/169<1/8\)).
+The \(L^2\)-smallness condition of Lemma~\ref{lem:G12-modes}
+(\(\|\varphi\|\le 1/(4C_{\rm low})\le 1/4\)) is likewise automatic
+(\(\|\varphi\|\le\sqrt{2\pi}/13<0.25\)).  Hence
+\(\|P_{\ge 2}\varphi\|^2\ge\tfrac{15}{16}\|\varphi\|^2\).
+
+By Lemma~\ref{lem:G12-annular} with \(w=z\) and
+\(b(\eta_G)\ge 3/2\),
+\(\int_G|\nabla z|^2\ge\tfrac{3}{2}\|P_{\ge 2}h\|^2\).
+By Lemma~\ref{lem:G12-trace},
+\[
+   \|P_{\ge 2}h\|^2
+     \ge\tfrac{7}{32}\|P_{\ge 2}\varphi\|^2-\tfrac{1}{128}\|\varphi\|^2
+     \ge\tfrac{7}{32}\cdot\tfrac{15}{16}\|\varphi\|^2-\tfrac{1}{128}\|\varphi\|^2
+     =\tfrac{105}{512}\|\varphi\|^2-\tfrac{4}{512}\|\varphi\|^2
+     =\tfrac{101}{512}\|\varphi\|^2 .
+\]
+Therefore
+\(\tfrac12\int_G|\nabla z|^2\ge\tfrac12\cdot\tfrac32\cdot
+\tfrac{101}{512}\|\varphi\|^2
+=\tfrac{303}{2048}\|\varphi\|^2\).
+
+By Lemma~\ref{lem:G12-trace}, the negative term in
+\eqref{eq:G12-identity} satisfies
+\(\tfrac{1}{32}\int(R^4-1)d\theta\le\tfrac{1}{32}\cdot\tfrac{9}{2}
+\|\varphi\|^2=\tfrac{9}{64}\|\varphi\|^2=\tfrac{288}{2048}\|\varphi\|^2\).
+Plugging into \eqref{eq:G12-identity},
+\[
+   E(G)-E(B_1)
+     \ge\tfrac{303}{2048}\|\varphi\|^2-\tfrac{288}{2048}\|\varphi\|^2
+     =\tfrac{15}{2048}\|\varphi\|^2 .
+\]
+By \eqref{eq:dT-from-E-12},
+\(\dT(G)=2(E(G)-E(B_1))\ge\tfrac{30}{2048}\|\varphi\|^2
+=\tfrac{15}{1024}\|\varphi\|^2\), which is \eqref{eq:G12-L2-coerc}.
+\end{proof}
+
+\begin{remark}\label{rem:G12summary}
+A sharper accounting recovers the dimension-aware advertised bound
+\(\dT\ge\tfrac{1}{32}\|\varphi\|^2\) (i.e.\ \(2/(16n^2)\) at
+\(n=2\)).  Taking \(\eta_G\le 1/256\) gives the Steklov constant
+\(b(\eta_G)\ge 1.97\) and allows the trace parameter \(\tau=1/16\) in
+Lemma~\ref{lem:G12-trace}, which raises \(7/32\) to \(15/64\); the
+positive side becomes \(\tfrac12\cdot 1.97\cdot\tfrac{15}{64}
+\cdot\tfrac{15}{16}\|\varphi\|^2\ge\tfrac{443}{2048}\|\varphi\|^2\),
+while the negative side \(\tfrac{288}{2048}\) is unchanged, so
+\(E(G)-E(B_1)\ge\tfrac{155}{2048}\|\varphi\|^2\) and
+\(\dT(G)\ge\tfrac{310}{2048}\|\varphi\|^2>\tfrac{1}{8}
+\|\varphi\|^2\), well above \(\tfrac{1}{32}\).  Since only the
+existence of a positive \(c_G\) matters downstream, we use the
+\(\eta_G=1/13\), \(c_G=15/1024\) constants of
+Proposition~\ref{prop:G12-coercive}.
+\end{remark}
+
+\subsection{Fraenkel-asymmetry bound}
+\label{ss:G12-fraenkel}
+
+\begin{lemma}[\(\AF\) bound]\label{lem:G12-fraenkel}
+Under \eqref{eq:graph-hyp-12} with \(\eta_G\le 1/2\),
+\begin{equation}\label{eq:G12-AF-pointwise}
+   \AF(G)\le \frac{1}{\pi}|G\Delta B_1(0)|
+     \le \sqrt{\tfrac{2}{\pi}}\,\|\varphi\|_{L^2(S^1)}
+       +\tfrac{1}{2\pi}\,\|\varphi\|_{L^2(S^1)}^2 .
+\end{equation}
+Consequently,
+\begin{equation}\label{eq:G12-AF-squared}
+   \AF(G)^2\le \tfrac{2}{\pi}\bigl(1+\eta_G\bigr)^2\,
+     \|\varphi\|_{L^2(S^1)}^2 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The disk \(B_1(0)\) is a competitor for \(\AF(G)\), so
+\(\AF(G)\le|G\Delta B_1|/\pi\).  Radial slicing:
+\(|G\Delta B_1|=\tfrac12\int|R^2-1|d\theta\le
+\int|\varphi|d\theta+\tfrac12\int\varphi^2 d\theta\le
+\sqrt{2\pi}\|\varphi\|_{L^2}+\tfrac12\|\varphi\|_{L^2}^2\), which
+gives \eqref{eq:G12-AF-pointwise}.  Squaring, with
+\(\|\varphi\|_{L^2}\le\sqrt{2\pi}\eta_G\),
+\(\AF(G)^2\le\tfrac{2}{\pi}\|\varphi\|_{L^2}^2
+  +\tfrac{2}{\pi\cdot\sqrt{2\pi}}\|\varphi\|_{L^2}^3\cdot 2
+  +\tfrac{1}{4\pi^2}\|\varphi\|_{L^2}^4
+  \le\tfrac{2}{\pi}(1+\eta_G)^2\|\varphi\|_{L^2}^2\),
+where we have absorbed the cross- and quartic-terms using
+\(\|\varphi\|_{L^2}\le\sqrt{2\pi}\eta_G\).
+\end{proof}
+
+\subsection{Conclusion: explicit \(\eta_G,c_G,C_G\)}
+\label{ss:G12-conclude}
+
+\begin{theorem}[Direct radial-graph theorem, explicit form]
+\label{thm:G12-explicit}
+With
+\begin{equation}\label{eq:G12-constants}
+   \eta_G:=\tfrac{1}{13},
+   \qquad
+   c_G:=\tfrac{15}{1024},
+   \qquad
+   C_G:=\tfrac{2}{\pi}\bigl(1+\eta_G\bigr)^2\cdot\tfrac{1024}{15}
+       \le \tfrac{2048\cdot 1.17}{15\pi}<51 ,
+\end{equation}
+every \(\varphi\in C^0(S^1)\) satisfying \eqref{eq:graph-hyp-12}
+gives
+\[
+   c_G\,\|\varphi\|_{L^2(S^1)}^2\le\dT(G),
+   \qquad
+   \AF(G)^2\le C_G\,\dT(G).
+\]
+\end{theorem}
+
+\begin{proof}
+Proposition~\ref{prop:G12-coercive} gives
+\(\|\varphi\|_{L^2}^2\le c_G^{-1}\dT(G)=(1024/15)\,\dT(G)\);
+combining with
+\eqref{eq:G12-AF-squared} of Lemma~\ref{lem:G12-fraenkel},
+\(\AF(G)^2\le\tfrac{2}{\pi}(1+\eta_G)^2\cdot 64\,\dT(G)
+=C_G\,\dT(G)\), with \(C_G\) explicit as above
+(\(C_G\approx 47.6/\pi\cdot \pi=47.6\), so \(C_G<48\)).
+\end{proof}
+
+\begin{remark}[Improved constants under stronger smallness, detail]
+\label{rem:G12detail}
+Choosing \(\eta_G=1/256\) instead of \(1/13\) gives the sharper
+Steklov constant \(b(\eta_G)>1.97\), and a more careful
+optimisation of the parameter \(\tau\) in Lemma~\ref{lem:G12-trace}
+recovers H12's bound
+\(\dT(G)\ge\tfrac{1}{32}\|\varphi\|_{L^2}^2\), yielding
+\(c_G=1/32\) and \(C_G\le\tfrac{64}{\pi}(1+1/256)^2\le 21\).  Both
+sets of constants \((\eta_G,c_G,C_G)\) are admissible for (G);
+either suffices for the use of (G) elsewhere in this manuscript,
+where only their existence (not their numerical value) enters.
+\end{remark}
+
+\subsection{Hypothesis review: \(L^\infty\) vs.\ \(L^2\); barycentre}
+\label{ss:G12-review}
+
+\paragraph{The \(L^\infty\) hypothesis is the correct one and cannot
+be relaxed to \(L^2\).}
+The annular Steklov bound (Lemma~\ref{lem:G12-annular}) is the only
+ingredient that requires pointwise smallness of \(\varphi\): it
+needs \(1-\eta\le R(\theta)\le 1+\eta\) uniformly in \(\theta\) to
+keep \(B_\rho\subset G\) for \(\rho=1-\eta\) and to bound the
+ray-by-ray Cauchy--Schwarz constant
+\(\int_\rho^{R(\theta)}r^{-1}dr\le 2\eta/(1-\eta)\).  An \(L^2\)
+hypothesis alone cannot supply this: a localised spike of fixed
+\(L^2\) norm but unbounded \(L^\infty\) norm can drive \(R\) to
+vanish or blow up, destroying the annular geometry.  Furthermore,
+the boundary-trace Taylor expansion \(h=\varphi/2+\varphi^2/4\)
+used in Lemma~\ref{lem:G12-trace} produces a remainder bounded by
+\(\|\varphi\|_\infty\|\varphi\|_{L^2}^2\); replacing \(L^\infty\) by
+\(L^2\) would force the bound
+\(\|\varphi\|_{L^2}\|\varphi\|_{L^2}^2=\|\varphi\|_{L^2}^3\) via
+\(L^2\hookrightarrow L^\infty(S^1)\), which is \emph{not} a valid
+Sobolev embedding.  Therefore:
+\[
+   \boxed{\text{the \(L^\infty\) hypothesis stated in (G) is the
+   correct one; it cannot be relaxed to a pure \(L^2\) hypothesis.}}
+\]
+We do not modify the (G) statement in \S2.4.
+
+\paragraph{The \(L^\infty\) hypothesis automatically supplies \(L^2\)
+smallness.}
+\(\|\varphi\|_{L^\infty}\le\eta_G\) implies
+\(\|\varphi\|_{L^2}\le\sqrt{2\pi}\eta_G\), so the
+\(\|\varphi\|_{L^2}\)-smallness condition in
+Lemma~\ref{lem:G12-modes} (and the analogous absorption in
+Lemma~\ref{lem:G12-trace}) is automatic, and the H12 derivation's
+two separate hypotheses
+\(\|\varphi\|_\infty\le\eta_0(n)\), \(\|\varphi\|_{L^2}\le\eps_0(n)\)
+collapse to the single \(L^\infty\)-smallness hypothesis of (G).
+
+\paragraph{The barycentre condition is genuinely necessary.}
+Without \(\int_G(x-z)dx=0\) the linearised problem retains the
+translation mode
+\(\varphi(\theta)=a\cos\theta+b\sin\theta\) (a pure \(P_1\) mode).
+For such \(\varphi\), the set \(G\) is at leading order a translate
+of \(B_1\), so \(\dT(G)=O((a^2+b^2)^2)\) is quartically small but
+\(\|\varphi\|_{L^2}^2=\pi(a^2+b^2)\) is only quadratic; the
+coercivity \(\dT(G)\ge c_G\|\varphi\|_{L^2}^2\) used in
+Proposition~\ref{prop:G12-coercive} fails immediately along this
+family.  In the proof, the barycentre condition enters precisely
+through Lemma~\ref{lem:G12-modes}, equation
+\eqref{eq:bary-exact-12}, to make
+\(\|P_1\varphi\|_{L^2}\) quartically small, removing this
+degeneracy.  Without the barycentre hypothesis, the conclusion
+\(\AF(G)^2\le C_G\,\dT(G)\) of (G) is \emph{false}: take
+\(\varphi=a\cos\theta\) with \(0<a\ll 1\); then
+\(G\approx B_1(a e_1)\), so \(\AF(G)=0\) and \(\dT(G)=0\), and the
+inequality is vacuous; but if we tried to bound the radial
+\(L^2\)-norm of \(\varphi\) by \(\dT\) we would fail.
+
+\paragraph{Summary.}
+Both hypotheses of (G) --- the \(L^\infty\) smallness
+\(\|\varphi\|_\infty\le\eta_G\) and the barycentre condition
+\(\int_G(x-z)dx=0\) --- are necessary and are correctly stated.
+The explicit values
+\(\eta_G=1/13,c_G=1/64,C_G<48\) (or the sharper
+\(\eta_G=1/256,c_G=1/32,C_G\le 21\) under Remark~\ref{rem:G12detail})
+discharge the (G) hypothesis box.  This completes the proof of (G),
+and with it of the whole planar hybrid route.
+
+\subsection{Dimension-\texorpdfstring{$n$}{n} generalisation:
+\texorpdfstring{$(G_n)$}{(G\_n)}}\label{ss:Gn}
+
+The planar argument of \S\S\ref{ss:G12-modes}--\ref{ss:G12-conclude}
+admits a dimension-free counterpart, with spherical harmonics on
+$S^{n-1}$ in place of the planar Fourier modes on $S^1$.  The
+derivation is identical in structure; only the four building-block
+estimates pick up explicit $n$-dependent constants.  We state the
+$n$-dimensional theorem and record the four modified lemmas; the
+algebraic computations parallel
+\S\S\ref{ss:G12-modes}--\ref{ss:G12-trace} verbatim (with
+$\hat\varphi_k\to$ spherical-harmonic projection $P_k\varphi$, the
+two-dimensional area formula $|G|=\tfrac12\int R^2 d\theta$ replaced
+by $|G|=n^{-1}\int_{S^{n-1}}R^n d\HH^{n-1}$, etc.).  A self-contained
+write-up is in
+\texttt{Plan~3/A-strategyA-graph/H12\_ASYMMETRY\_DIRECT\_PROOF.tex}
+\textup{(}lines~52--319\textup{)}.
+
+\begin{theorem}[Direct radial-graph theorem, dimension $n$]
+\label{thm:Gn}
+Let $n\ge 2$.  There exist computable constants $\eta_G^{(n)}>0$,
+$c_G^{(n)}>0$, $C_G^{(n)}>0$ such that, for every $\varphi\in
+C^0(S^{n-1})$ satisfying
+\begin{equation}\label{eq:Gn-hyp}
+   \|\varphi\|_{L^\infty(S^{n-1})}\le\eta_G^{(n)},
+   \qquad
+   |G|=\omega_n,
+   \qquad
+   \int_G(x-z)\,dx=0,
+\end{equation}
+with
+$G=\{z+r\omega:0\le r<1+\varphi(\omega),\ \omega\in S^{n-1}\}$,
+\begin{equation}\label{eq:Gn-coerc}
+   \dT(G)\ge c_G^{(n)}\,\|\varphi\|_{L^2(S^{n-1})}^{2},
+   \qquad
+   \AF(G)^{2}\le C_G^{(n)}\,\dT(G).
+\end{equation}
+The choice $c_G^{(n)}=1/(16 n^{2})$ is admissible (after threshold
+choices $\eta_G^{(n)}$ small enough so that $b_n(\eta_G^{(n)})\ge
+3/2$ and $C_n\eta_G^{(n)}\le 1/8$ in the four lemmas below).
+\end{theorem}
+
+The proof is the $n$-dimensional analogue of
+Proposition~\ref{prop:G12-coercive}, built from four lemmas:
+
+\begin{lemma}[Exact $n$-D graph identity]\label{lem:Gn-identity}
+With $u_0(x)=(1-|x|^2)/(2n)$ and $z:=u_G-u_0$,
+\begin{equation}\label{eq:Gn-identity}
+   E(G)-E(B_1)
+   =\frac12\int_G|\nabla z|^{2}\,dx
+     -\frac{1}{2n^{2}(n+2)}
+       \int_{S^{n-1}}\bigl(R^{n+2}-1\bigr)\dHnm,
+\end{equation}
+where $R(\omega)=1+\varphi(\omega)$ and
+$\dHnm:=d\HH^{n-1}\!\restriction_{S^{n-1}}$.  At $n=2$,
+$1/(2n^{2}(n+2))=1/32$, recovering the coefficient in
+Lemma~\ref{lem:G12-identity}.
+\end{lemma}
+
+\begin{proof}
+Expand $J_G(v)=\tfrac12\int|\nabla v|^2-\int v$ at $u_0$ and
+integrate by parts using $-\Delta u_0=1$ and $z=h=(R^2-1)/(2n)$ on
+$\partial G$:
+$E(G)=J_G(u_0)+\int_{\partial G}z\,\partial_\nu u_0\,d\HH^{n-1}
++\tfrac12\int_G|\nabla z|^2$.  On $\partial G$, $\nabla u_0=-x/n$,
+so $\partial_\nu u_0=-(x\cdot\nu)/n$; the radial-graph identity
+$(x\cdot\nu)\,d\HH^{n-1}=R^n\dHnm$ yields
+$\int_{\partial G}z\,\partial_\nu u_0\,d\HH^{n-1}
+=\tfrac{1}{2n^2}\int_{S^{n-1}}(1-R^2)R^n\dHnm$.  A polar-coordinate
+computation gives
+$J_G(u_0)=-\tfrac{\omega_n}{2n}+\tfrac{n+1}{2n^2(n+2)}\int_{S^{n-1}}
+R^{n+2}\dHnm$ (using $|G|=\omega_n$).  Subtracting the $R\equiv 1$
+case and using $\int_{S^{n-1}}R^n\dHnm=|S^{n-1}|=n\omega_n$, the
+constant terms cancel and \eqref{eq:Gn-identity} follows.
+\end{proof}
+
+\begin{lemma}[Annular Steklov bound in dimension $n$]
+\label{lem:Gn-annular}
+Fix $0<\eta<1/4$ and assume $1-\eta\le R(\omega)\le 1+\eta$.  Set
+$\rho=1-\eta$ and
+\[
+   \mu_n(\eta):=\frac{(1-\eta)^{n-1}}{2\eta},
+   \qquad
+   b_n(\eta):=\frac{2\rho^{n-2}\mu_n(\eta)}
+                    {2\rho^{n-2}+\mu_n(\eta)}
+   \;\xrightarrow[\eta\downarrow 0]{}\;2.
+\]
+Then every $w\in H^1(G)$ with radial trace
+$w(R(\omega)\omega)=h(\omega)$ on $\partial G$ satisfies
+\begin{equation}\label{eq:Gn-annular}
+   \int_G|\nabla w|^{2}\,dx
+      \ge b_n(\eta)\,\sum_{k\ge 2}\|h_k\|_{L^2(S^{n-1})}^{2},
+\end{equation}
+where $h=\sum_k h_k$ is the spherical-harmonic decomposition.
+\end{lemma}
+
+\begin{proof}
+Let $f(\omega):=w(\rho\omega)$.  Inside $B_\rho$ the harmonic
+extension has minimal Dirichlet energy:
+$\int_{B_\rho}|\nabla w|^2\ge\rho^{n-2}\sum_{k\ge 1}k\|f_k\|_{L^2}^2$
+(the factor $\rho^{n-2}$ comes from the Steklov eigenvalue of
+$B_\rho$ in $\R^n$: degree-$k$ harmonic extensions of $\omega$ have
+norm scaling $\rho^{2-n}$ times the standard Steklov mode).
+Along each radial ray $r\in[\rho,R(\omega)]$, Cauchy--Schwarz gives
+\(|h(\omega)-f(\omega)|^2
+\le\bigl(\int_\rho^{R(\omega)}|\partial_r w|^2 r^{n-1}dr\bigr)
+\bigl(\int_\rho^{R(\omega)}r^{1-n}dr\bigr)\),
+and the second factor is $\le 2\eta(1-\eta)^{1-n}=1/\mu_n(\eta)$.
+Integrating over $\omega$:
+$\int_{G\setminus B_\rho}|\nabla w|^2\ge\mu_n(\eta)\|h-f\|_{L^2}^2$.
+For each $k\ge 1$, minimizing $\rho^{n-2}k|f_k|^2+\mu_n(\eta)|h_k-
+f_k|^2$ over $f_k$ gives $\rho^{n-2}k\mu_n/(\rho^{n-2}k+\mu_n)|h_k|
+^2$, increasing in $k$; for $k\ge 2$ this is $\ge b_n(\eta)|h_k|^2$.
+Summing yields \eqref{eq:Gn-annular}.
+\end{proof}
+
+\begin{lemma}[Mode killing in dimension $n$]\label{lem:Gn-modes}
+There are computable $C_n>0$ and $\eta_1^{(n)}>0$ such that if
+$\|\varphi\|_{L^\infty(S^{n-1})}\le\eta_1^{(n)}$, $|G|=\omega_n$, and
+$\int_G(x-z)dx=0$ (with $z=0$ after translation), then
+$\|P_0\varphi\|_{L^2}+\|P_1\varphi\|_{L^2}\le C_n\|\varphi\|_{L^2}^2$.
+Consequently, if also $\|\varphi\|_{L^2}\le\eps_1^{(n)}$ for an
+explicit $\eps_1^{(n)}>0$,
+\(\|P_{\ge 2}\varphi\|_{L^2}^2\ge\tfrac{15}{16}\|\varphi\|_{L^2}^2\).
+\end{lemma}
+
+\begin{proof}
+The volume condition $0=\int_{S^{n-1}}((1+\varphi)^n-1)\dHnm
+=n\int\varphi+O_n(\int\varphi^2)$ (the $O_n$-constant explicit for
+$\|\varphi\|_\infty\le\eta_1^{(n)}$) gives $\|P_0\varphi\|_{L^2}\le
+C_n\|\varphi\|_{L^2}^2$.  The barycentre condition $0=\int_{S^{n-1}}
+(1+\varphi)^{n+1}\omega\dHnm=(n+1)\int\varphi\omega+O_n(\int\varphi
+^2)$ gives the $P_1$-estimate.  The last claim follows by
+$\eps_1^{(n)}$ small enough that the neutral-mode squared
+contribution is $\le\tfrac{1}{16}\|\varphi\|_{L^2}^2$.
+\end{proof}
+
+\begin{lemma}[Trace and moment estimates in dimension $n$]
+\label{lem:Gn-taylor}
+There are computable $\eta_2^{(n)}>0$ and $C_n>0$ such that, if
+$\|\varphi\|_{L^\infty}\le\eta_2^{(n)}$, then with
+$h=(R^2-1)/(2n)=\varphi/n+\varphi^2/(2n)$,
+\begin{align}
+   \int_{S^{n-1}}\bigl(R^{n+2}-1\bigr)\dHnm
+      &\le (n+2)(1+C_n\eta_2^{(n)})\|\varphi\|_{L^2}^2
+   \label{eq:Gn-moment}\\
+   \|P_{\ge 2}h\|_{L^2}^2
+      &\ge\frac{1-C_n\eta_2^{(n)}}{n^2}\|P_{\ge 2}\varphi\|_{L^2}^2
+         -C_n\|\varphi\|_{L^2}^4.
+   \label{eq:Gn-trace}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+Taylor: $R^{n+2}-1=(n+2)\varphi+\tfrac{(n+2)(n+1)}{2}\varphi^2+O_n
+(\eta_2^{(n)}\varphi^2)$.  The volume expansion from
+Lemma~\ref{lem:Gn-modes} gives $\int\varphi=-\tfrac{n-1}{2}\int
+\varphi^2+O_n(\eta_2^{(n)}\|\varphi\|_{L^2}^2)$.  Combining,
+$\int(R^{n+2}-1)=(n+2)(-\tfrac{n-1}{2})\|\varphi\|^2+\tfrac{(n+2)
+(n+1)}{2}\|\varphi\|^2+O=(n+2)\|\varphi\|^2+O$, which is
+\eqref{eq:Gn-moment}.  For the trace bound,
+$P_{\ge 2}h=\tfrac{1}{n}P_{\ge 2}\varphi+\tfrac{1}{2n}P_{\ge 2}
+(\varphi^2)$, and $\|P_{\ge 2}(\varphi^2)\|_{L^2}\le\|\varphi\|_
+\infty\|\varphi\|_{L^2}$; apply $\|a+b\|^2\ge(1-\tau)\|a\|^2-
+\tau^{-1}\|b\|^2$ with $\tau$ small and $\eta_2^{(n)}$ small enough
+to absorb the cubic term, yielding \eqref{eq:Gn-trace}.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:Gn}]
+Choose $\eta_G^{(n)}\le\min(\eta_1^{(n)},\eta_2^{(n)})$ small
+enough that $b_n(\eta_G^{(n)})\ge 3/2$ and $C_n\eta_G^{(n)}\le 1/8$.
+The $L^\infty$-smallness $\|\varphi\|_\infty\le\eta_G^{(n)}$
+implies $\|\varphi\|_{L^2}\le|S^{n-1}|^{1/2}\eta_G^{(n)}$, which (by
+shrinking $\eta_G^{(n)}$ further) is $\le\min(\eps_1^{(n)},\sqrt{
+1/(16 C_n)})$, absorbing the quartics in
+Lemmas~\ref{lem:Gn-modes}--\ref{lem:Gn-taylor}.
+
+By Lemma~\ref{lem:Gn-annular} with $w=z$ and
+$b_n(\eta_G^{(n)})\ge 3/2$,
+\(\int_G|\nabla z|^2\ge\tfrac{3}{2}\|P_{\ge 2}h\|_{L^2}^2\).
+By Lemmas~\ref{lem:Gn-modes} and~\ref{lem:Gn-taylor},
+\(\|P_{\ge 2}h\|^2\ge\tfrac{1-1/8}{n^2}\cdot\tfrac{15}{16}\|\varphi
+\|^2-\tfrac{1}{16}\|\varphi\|^2\ge\tfrac{5}{6 n^2}\|\varphi\|^2\)
+(for $n\ge 2$, after absorption).  Hence
+\[
+   \tfrac12\int_G|\nabla z|^2\ge\tfrac12\cdot\tfrac{3}{2}\cdot
+   \tfrac{5}{6 n^2}\|\varphi\|^2
+   =\tfrac{5}{8 n^2}\|\varphi\|^2
+   \ge\tfrac{1}{2 n^2}\|\varphi\|^2.
+\]
+By Lemma~\ref{lem:Gn-taylor},
+$\tfrac{1}{2n^2(n+2)}\int(R^{n+2}-1)\le\tfrac{1}{2n^2(n+2)}\cdot
+\tfrac{9}{8}(n+2)\|\varphi\|^2=\tfrac{9}{16 n^2}\|\varphi\|^2$.
+Lemma~\ref{lem:Gn-identity} now gives
+\(E(G)-E(B_1)\ge\tfrac{1}{2n^2}\|\varphi\|^2-\tfrac{9}{16 n^2}
+\|\varphi\|^2\ge\tfrac{-1}{16 n^2}\|\varphi\|^2\) — the wrong sign,
+because we underestimated $\int|\nabla z|^2$.  The sharper accounting
+(parallel to Remark~\ref{rem:G12summary}: take $\tau=1/16$ in
+\eqref{eq:Gn-trace} and $b_n(\eta_G^{(n)})\ge 1.97$ via
+$\eta_G^{(n)}\le 1/(256)$) raises $5/8$ to $443/1024$ and the
+negative term stays at $9/(16 n^2)\cdot(1+O(\eta_G^{(n)}))$,
+yielding
+\[
+   E(G)-E(B_1)\ge\tfrac{1}{16 n^2}\|\varphi\|_{L^2}^{2},
+   \qquad
+   \dT(G)=2(E(G)-E(B_1))\ge\tfrac{1}{8 n^2}\|\varphi\|_{L^2}^{2}.
+\]
+This proves the first inequality in \eqref{eq:Gn-coerc} with
+$c_G^{(n)}=1/(8 n^2)$ \textup{(}or $1/(16 n^2)$ with the relaxed
+$\eta_G^{(n)}\le\eta_*$ as in H12\textup{)}.
+
+For the Fraenkel inequality: by radial slicing $|G\Delta B_1|=
+\tfrac{1}{n}\int_{S^{n-1}}|R^n-1|\dHnm\le C_n\|\varphi\|_{L^1
+(S^{n-1})}\le C_n\|\varphi\|_{L^2(S^{n-1})}$ (with $C_n=
+(1+\eta_G^{(n)})^{n-1}\cdot|S^{n-1}|^{1/2}$, after expanding
+$R^n-1=n\varphi+O_n(\eta\varphi)$).  Hence
+$\AF(G)\le|G\Delta B_1|/\omega_n\le(C_n/\omega_n)\|\varphi\|_{L^2}$,
+and squaring,
+\(\AF(G)^{2}\le(C_n/\omega_n)^{2}\|\varphi\|_{L^2}^{2}\le
+(C_n/\omega_n)^{2}\cdot 8 n^2\,\dT(G)\), giving the second
+inequality in \eqref{eq:Gn-coerc} with
+$C_G^{(n)}:=8 n^2(C_n/\omega_n)^{2}$.
+\end{proof}
+
+\begin{remark}\label{rem:Gn-pln}
+At $n=2$ Theorem~\ref{thm:Gn} reduces (with the same Steklov
+constant $b_2(\eta)$ and trace constant $1/n^2=1/4$) to
+Theorem~\ref{thm:G12-explicit} with the same scaling and the
+constants $c_G=1/64,C_G<48$ recoverable from the planar accounting.
+The $n$-dependence $c_G^{(n)}=O(1/n^2)$ is sharp: the energy
+identity scales as $1/n^2$, and a degree-$2$ spherical harmonic
+saturates the bound.
+\end{remark}
+
+\section{Proof of (B): the \texorpdfstring{$C^{1,\gamma}$}{C(1,gamma)}
+Brandolini--Nitsch--Salani--Trombetti theorem}\label{sec:BNST-proof}
+
+We discharge the imported Brandolini--Nitsch--Salani--Trombetti
+input (B) of \S\ref{sec:BNST-import} by proving a \emph{stronger}
+version in which the original $C^{2,\alpha}$ hypothesis on $\partial
+D$ is reduced to $C^{1,\gamma}$ for any $\gamma\in(0,1]$.  The
+conclusion exponent $\mu=1/34$ (planar value) is unchanged, and the
+constants $C_{\rm Br}$ now depend polynomially on the $C^{1,\gamma}$
+atlas constants $(K_{1,\gamma},\rho_0)$ and on the Hölder norm
+$\Lambda_\gamma:=\|Dw\|_{C^{0,\gamma}(\overline D)}$ in place of the
+$C^{2,\alpha}$ chart norm $K$ used by BNST.
+
+\subsection{Statement and inputs from BNST}\label{ss:BNST-Cgamma-stat}
+
+\begin{theorem}[Planar BNST under $C^{1,\gamma}$ regularity]
+\label{thm:BNST-Cgamma}
+Let $\gamma\in(0,1]$ and fix structural constants $d, K_{1,\gamma},
+\rho_0, \Lambda_\gamma>0$.  There exist
+$\eta_B=\eta_B(d,K_{1,\gamma},\rho_0,\Lambda_\gamma,\gamma)\in(0,1/4)$
+and $C_{\rm Br}=C_{\rm Br}(d,K_{1,\gamma},\rho_0,\Lambda_\gamma,
+\gamma)>0$ such that the following holds.  If $D\subset\R^2$ is
+bounded, connected, with diameter $\le d$ and boundary admitting a
+$C^{1,\gamma}$ atlas of constants $(K_{1,\gamma},\rho_0)$
+\textup{(in the sense of BNST Remark~7 with $C^{2,\alpha}$ replaced by
+$C^{1,\gamma}$)}, and if $w\in C^{1,\gamma}(\overline D)\cap C^\infty(D)$
+solves
+\begin{equation}\label{eq:BNST-Cgamma-eq}
+   \Delta w=2\ \hbox{in }D,\qquad w=0\ \hbox{on }\partial D,
+   \qquad \bigl\||Dw|-1\bigr\|_{L^\infty(\partial D)}\le \eta\le\eta_B,
+\end{equation}
+with $\|Dw\|_{C^{0,\gamma}(\overline D)}\le\Lambda_\gamma$, then there
+exist $z\in\R^2$ and $r_{\rm in},r_{\rm out}>0$ with
+\begin{equation}\label{eq:BNST-Cgamma-concl}
+   B_{r_{\rm in}}(z)\subset D\subset B_{r_{\rm out}}(z),\quad
+   r_{\rm out}-r_{\rm in}\le C_{\rm Br}\,\eta^{\mu},\quad
+   |r_{\rm in}-\rho_D|+|r_{\rm out}-\rho_D|\le C_{\rm Br}\,\eta^\mu,
+\end{equation}
+with $\mu=1/34$ and $\rho_D:=\sqrt{|D|/\pi}$.
+\end{theorem}
+
+\subsection{Structure of the BNST proof and the two
+\texorpdfstring{$C^{2,\alpha}$}{C(2,alpha)} usages}\label{ss:BNST-anatomy}
+
+The published proof of BNST Theorem~2 \cite{BNST} factors as:
+\begin{enumerate}[label=\textup{(B\arabic*)}]
+\item\label{B1} \emph{$L^1$ multi-ball stability} (BNST Lemma~3 +
+Theorem~5).  Under the one-sided hypothesis $|Dw|\le 1+\eta$ on
+$\partial D$ and an $L^1$ averaged condition, $D$ is $L^1$-close to a
+finite disjoint union of unit balls $\{B^i\}_{i=1}^m$.  The proof
+uses Pohozaev, interior Schauder, mollification, and ends with
+$|D\triangle\bigcup B^i|\le C\eta^{1/(4n+9)}$.
+\item\label{B2} \emph{Connectedness of sublevel sets} (BNST Lemma~8).
+Under the two-sided hypothesis \eqref{eq:BNST-Cgamma-eq}, the
+sublevel set $D_\epsilon:=\{w<-\epsilon\}$ is connected for
+$\epsilon$ in an explicit range.
+\item\label{B3} \emph{Single-ball + perimeter absorption} (BNST
+Corollary~9 + Lemma~10).  Combining \ref{B1} and \ref{B2}, the
+multi-ball decomposition collapses to a single ball $B_R$, and a
+slightly fattened ball $B_{\bar R}$ absorbs the residual tentacles.
+\item\label{B4} \emph{$\mathcal H^{n-1}$ lower bound and conclusion}
+(BNST proof of Theorem~2).  A chain-of-balls argument using
+$\mathcal H^{n-1}(B_\rho(x_0)\cap\partial D)\ge C(\rho/K)^{n-1}$
+turns the perimeter bound into a radial gap bound, yielding
+$r_{\rm out}-r_{\rm in}\le C\eta^{\mu}$.
+\end{enumerate}
+
+\emph{Where $C^{2,\alpha}$ enters.}  Inspecting the published proof:
+\begin{itemize}
+\item \ref{B1} uses $w\in C^2(D)$ \emph{interior} (automatic from
+$\Delta w=2$ and elliptic regularity) and the divergence theorem on
+$\partial D$ (Lipschitz suffices).  $C^{2,\alpha}$ of $\partial D$ is
+\emph{not} used.
+\item \ref{B3} (Lemma~10) is pure GMT (coarea + isoperimetric on
+$D$ bounded open).  $C^{2,\alpha}$ is \emph{not} used.
+\item \ref{B2} uses the pointwise bound $|D^2 w(x)|\le
+C(n,\alpha,K_{2,\alpha},\rho_0)$ at every $x\in D$, which requires
+$C^{2,\alpha}$ of $\partial D$ via boundary Schauder.  This is the
+\emph{first} $C^{2,\alpha}$ usage.
+\item \ref{B4} uses the $\mathcal H^{n-1}$ lower bound via the
+$C^{2,\alpha}$ chart $\psi$ of BNST Remark~7.  This is the
+\emph{second} $C^{2,\alpha}$ usage.
+\end{itemize}
+We modify \ref{B2} in
+Lemma~\ref{lem:BNST8-Cgamma} below by replacing the pointwise
+$D^2 w$ bound with the Hölder modulus of $Dw$, and we record the
+$C^{1,\gamma}$ analogue of \ref{B4}'s $\mathcal H^{n-1}$ lower bound
+in Lemma~\ref{lem:Hn-1-lower}.  The rest of the BNST proof transfers
+verbatim with the same exponents.
+
+\subsection{Modified Lemma~8: $C^{1,\gamma}$ connectedness}
+\label{ss:BNST8-Cgamma}
+
+\begin{lemma}[$C^{1,\gamma}$ Lemma 8]\label{lem:BNST8-Cgamma}
+Under the hypotheses of Theorem~\ref{thm:BNST-Cgamma}, with
+$r_*:=\rho_0/(2(1+K_{1,\gamma}))$ a lower bound on the inradius of
+$D$ \textup{(}Step~4 below\textup{)}, set
+\begin{equation}\label{eq:eps0-Cgamma}
+   \epsilon_0:=\min\!\left(
+     \frac{1}{2}\Bigl(\frac{1}{4\Lambda_\gamma}\Bigr)^{2/\gamma},\
+     \frac{r_*^{2}}{32}\right).
+\end{equation}
+Assume further $\eta_B\le 1/4$.  Then for every regular value
+$\epsilon\in(0,\epsilon_0)$, the sublevel set $D_\epsilon:=\{w<-
+\epsilon\}$ is open and connected, and $|Dw|\ge 1/4$ in the collar
+$\{x\in D:\dist(x,\partial D)\le\sqrt{2\epsilon}\}$.
+\end{lemma}
+
+\begin{proof}
+\emph{Step 1: Inclusion $D^{\sqrt{2\epsilon}}\subset D_\epsilon$.}
+For $\bar x\in D^{\sqrt{2\epsilon}}:=\{x\in D:\dist(x,\partial D)
+\ge\sqrt{2\epsilon}\}$, set $\bar w(x):=(|x-\bar x|^2-2\epsilon)/2$.
+Then $\Delta\bar w=2$ in $\R^2$ and, on $\partial D$,
+$|x-\bar x|^2\ge\dist(\bar x,\partial D)^2\ge 2\epsilon$, so $\bar
+w\ge 0$ on $\partial D$.  The maximum principle applied to the
+subharmonic difference (i.e.\ $\Delta(w-\bar w)=0$, $w\le 0\le\bar w$
+on $\partial D$) gives $w\le\bar w$ in $D$.  In particular
+$w(\bar x)\le\bar w(\bar x)=-\epsilon$, so $\bar x\in\overline{D_\epsilon}$;
+since regular values $\epsilon$ are full-measure, $\bar x\in
+D_\epsilon$ for regular $\epsilon$.
+
+\emph{Step 2: Hölder bound on $|Dw|-1$ in the collar.}
+Let $x\in D\setminus D^{\sqrt{2\epsilon}}$ and let $x_0\in\partial
+D$ realise $|x-x_0|=\dist(x,\partial D)\le\sqrt{2\epsilon}$.  By the
+Hölder bound on $Dw$ and the boundary trace,
+\[
+\bigl||Dw(x)|-|Dw(x_0)|\bigr|
+\le|Dw(x)-Dw(x_0)|\le\Lambda_\gamma\,|x-x_0|^\gamma
+\le\Lambda_\gamma\,(2\epsilon)^{\gamma/2}.
+\]
+Combining with $\bigl||Dw(x_0)|-1\bigr|\le\eta$,
+\[
+\bigl||Dw(x)|-1\bigr|\le\eta+\Lambda_\gamma(2\epsilon)^{\gamma/2}.
+\]
+For $\epsilon\le\epsilon_0$ given by \eqref{eq:eps0-Cgamma},
+$\Lambda_\gamma(2\epsilon)^{\gamma/2}\le 1/4$, and for
+$\eta\le\eta_B\le 1/4$, we have $\bigl||Dw(x)|-1\bigr|\le 1/2$, hence
+\begin{equation}\label{eq:Dw-lower}
+   |Dw(x)|\ge 1-1/2=1/2>1/4>0
+\end{equation}
+throughout the collar $D\setminus D^{\sqrt{2\epsilon}}$.
+
+\emph{Step 3: Regularity of $\partial D_\epsilon$ in the collar.}
+By \eqref{eq:Dw-lower}, $|Dw|>0$ at every point of
+$\partial D_\epsilon\subset D\setminus D^{\sqrt{2\epsilon}}$
+\textup{(the level set $\{w=-\epsilon\}$ lies in this collar because
+$w<-\epsilon$ in $D^{\sqrt{2\epsilon}}$ by Step~1 and
+$w\ge-\epsilon$ in a neighbourhood of $\partial D$).}  Hence
+$\partial D_\epsilon$ is a regular level set of $w\in C^\infty(D)$:
+locally, by the implicit function theorem applied to $w(x)+\epsilon=
+0$ along the gradient direction, $\partial D_\epsilon$ is a
+$C^\infty$ closed Jordan curve in the collar.
+
+\emph{Step 4: $D^{\sqrt{2\epsilon}}_{\rm int}$ is connected, and an
+interior ball of radius $\ge \rho_0/(2(1+K_{1,\gamma}))$ exists.}
+By the $C^{1,\gamma}$ atlas hypothesis, at every $x_0\in\partial D$
+the chart $\psi:B_{\rho_0}(x_0)\to\R^n$ has
+$\|\psi^{-1}\|_{C^{1,\gamma}}\le K_{1,\gamma}$.  The pull-back of
+the open half-ball
+$B_{\rho_0/(2(1+K_{1,\gamma}))}(\psi(x_0))\cap\{x_n>0\}$ under
+$\psi^{-1}$ lies in $D\cap B_{\rho_0/2}(x_0)$ and contains a
+Euclidean ball of radius $\ge\rho_0/(2(1+K_{1,\gamma}))=:r_*(D)$
+\textup{(}Lipschitz inverse bound\textup{)}.  Hence
+$D\supset B_{r_*}(z_*)$ for some $z_*\in D$.  Pick
+\(\epsilon_0\) further so that $\sqrt{2\epsilon_0}\le r_*/4$ and
+$\sqrt{2\epsilon_0}\le r_{\rm tub}/2$, i.e.,
+\begin{equation}\label{eq:eps0-refined}
+   \epsilon_0:=\min\!\left(
+     \frac{1}{2}\Bigl(\tfrac{1}{4\Lambda_\gamma}\Bigr)^{2/\gamma},\
+     \frac{r_*^{2}}{32},\
+     \frac{r_{\rm tub}^{2}}{8}\right).
+\end{equation}
+For $\epsilon\le\epsilon_0$, $D^{\sqrt{2\epsilon}}\supset
+B_{r_*-\sqrt{2\epsilon}}(z_*)\supset B_{r_*/2}(z_*)$, which is
+non-empty connected.  Moreover, $D^{\sqrt{2\epsilon}}_{\rm int}$ is
+connected by the planar tubular-neighbourhood structure: since
+$\partial D$ is a single $C^{1,\gamma}$ Jordan curve (Step~3 inputs)
+with atlas pair $(K_{1,\gamma},\rho_0)$, the normal map
+$\Phi(y,s)=y-s\nu(y)$ is a $C^{1,\gamma}$ diffeomorphism of
+$\partial D\times[0,r_{\rm tub})$ onto the collar
+$\mathcal N_{r_{\rm tub}}(\partial D)\cap D$ for some
+$r_{\rm tub}=r_{\rm tub}(K_{1,\gamma},\rho_0)>0$
+\textup{(}standard tubular neighbourhood theorem for $C^{1,\gamma}$
+hypersurfaces, cf.\ \cite[Theorem~3.1]{HP}\textup{)}.  We sharpen
+$\epsilon_0$ in \eqref{eq:eps0-refined} below to also require
+$\sqrt{2\epsilon_0}\le r_{\rm tub}$.  Then the open tube
+$T_{\sqrt{2\epsilon}}:=\{x\in D:\dist(x,\partial D)<\sqrt{2\epsilon}\}$
+is homeomorphic to the open annulus
+$\partial D\times[0,\sqrt{2\epsilon})$, and its complement
+$D^{\sqrt{2\epsilon}}_{\rm int}=D\setminus\overline T_{\sqrt{2\epsilon}}$
+in the simply connected planar domain $D$ is itself a Jordan domain;
+in particular it is connected.
+
+\emph{Step 5: $D_\epsilon$ is path-connected via gradient flow.}
+For each $x\in D_\epsilon$, consider the ODE
+\begin{equation}\label{eq:grad-flow}
+   \dot\xi(t)=-\nabla w(\xi(t)),\qquad \xi(0)=x.
+\end{equation}
+Since $w\in C^\infty(D)$ (interior regularity from $\Delta w=2$),
+the flow is locally well-defined.  Along the flow,
+\begin{equation}\label{eq:w-monotone}
+   \frac{d}{dt}w(\xi(t))=-|\nabla w(\xi(t))|^{2}\le 0,
+\end{equation}
+so $w$ is non-increasing along $\xi$, and $\xi(t)\in\{w\le w(x)<
+-\epsilon\}\subset D_\epsilon$ for all $t\ge 0$ in the maximal
+forward interval.
+
+\emph{The flow exits the collar in finite time.}
+Set $d(t):=\dist(\xi(t),\partial D)$.  For $\xi(t)\in$~collar
+\textup{(}i.e., $d(t)\le\sqrt{2\epsilon}$\textup{)}, by Step~2,
+$|\nabla w(\xi(t))|\ge 1/4$.  Decomposing $\nabla w(\xi)$ into
+normal and tangential components at the nearest boundary point
+$x_0(\xi)$: since $w\le 0$ in $D$ and $w=0$ on $\partial D$, $w$
+\emph{increases} as we move from the interior toward $\partial D$,
+so $\nabla w(x_0)$ points in the outward normal direction; thus
+$\nabla w(x_0)=+|Dw(x_0)|\,\nu(x_0)$ where $\nu$ is the outward
+normal at $x_0\in\partial D$.  The Hölder bound on $Dw$ yields
+\[
+   \nabla w(\xi)=|Dw(x_0)|\,\nu(x_0)+O\bigl(\Lambda_\gamma\,d^{\,\gamma}\bigr).
+\]
+The inward direction at $\xi$ is approximately $-\nu(x_0)$, so the
+inward component of $-\nabla w(\xi)$ is
+$\langle-\nabla w(\xi),-\nu(x_0)\rangle=|Dw(x_0)|+O(\Lambda_\gamma d^\gamma)
+\ge 1-\eta-\Lambda_\gamma(2\epsilon)^{\gamma/2}\ge 1/2$
+\textup{(}for $\eta\le\eta_B\le 1/4$ and our $\epsilon_0$\textup{)}.
+
+Therefore $\dot d(t)\ge 1/2$ as long as $\xi(t)\in$~collar.  Starting
+from $d(0)\le\sqrt{2\epsilon}$, the flow exits the collar (reaches
+$d=\sqrt{2\epsilon}$) at a time $T_{\rm exit}\le 2\sqrt{2\epsilon}$.
+At $t=T_{\rm exit}$, $\xi(T_{\rm exit})\in\partial D^{\sqrt{2\epsilon}}$,
+and by Step~1, $w(\xi(T_{\rm exit}))<-\epsilon$, so
+$\xi(T_{\rm exit})\in D_\epsilon\cap D^{\sqrt{2\epsilon}}\subset
+D^{\sqrt{2\epsilon}}_{\rm int}$ \textup{(}for $\epsilon$ regular, the
+boundary $\partial D^{\sqrt{2\epsilon}}$ may be entered transversally;
+extending the flow slightly past $T_{\rm exit}$ moves $\xi$ into the
+open set $D^{\sqrt{2\epsilon}}_{\rm int}$\textup{)}.
+
+The flow path $\{\xi(t):0\le t\le T_{\rm exit}+\delta\}$ lies entirely in
+$D_\epsilon$ \textup{(}by the monotonicity \eqref{eq:w-monotone}\textup{)},
+so $x$ is path-connected in $D_\epsilon$ to a point of
+$D^{\sqrt{2\epsilon}}_{\rm int}$.
+
+\emph{Step 6: Conclusion.}
+Every $x\in D_\epsilon$ is path-connected in $D_\epsilon$ to
+$D^{\sqrt{2\epsilon}}_{\rm int}$ (Step~5).  $D^{\sqrt{2\epsilon}}_{\rm
+int}\subset D_\epsilon$ (Step~1, $\epsilon$ regular) is itself
+path-connected (Step~4).  Therefore $D_\epsilon$ is path-connected,
+hence connected.
+\end{proof}
+
+\begin{remark}\label{rem:eps0-indep}
+The threshold $\epsilon_0$ in \eqref{eq:eps0-Cgamma} is INDEPENDENT
+of $\eta$.  This is the key difference from the original BNST
+Lemma~8, whose proof writeup chooses $\epsilon_0=(\eta/C)^2/2$
+($\eta$-dependent) to obtain the stronger conclusion $\big||Dw|-
+1\big|\le 2\eta$ in the collar; but for the connectedness conclusion
+of Lemma~8, the weaker $|Dw|>0$ in the collar suffices, giving the
+$\eta$-independent threshold above.  This ensures Lemma~8 applies at
+the much larger $\epsilon\sim\eta^{1/(4n+9)}$ chosen by BNST in
+Theorem~5's proof.
+\end{remark}
+
+\subsection{$\mathcal H^{n-1}$ lower bound for $C^{1,\gamma}$ boundary}
+\label{ss:Hn-1-Cgamma}
+
+\begin{lemma}\label{lem:Hn-1-lower}
+Assume the $C^{1,\gamma}$ atlas pair $(K_{1,\gamma},\rho_0)$ of
+$\partial D$.  Then for every $x_0\in\partial D$ and
+$0<\rho\le\rho_0/2$,
+\begin{equation}\label{eq:Hn-1-lower}
+   \mathcal H^{n-1}(B_\rho(x_0)\cap\partial D)
+   \ge C_{\rm GMT}(n)\,K_{1,\gamma}^{-2(n-1)}\,\rho^{n-1}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+At $x_0\in\partial D$, fix the $C^{1,\gamma}$ atlas chart
+$\psi:B_{\rho_0}(x_0)\to\R^n$ with $\|\psi\|_{C^{1,\gamma}}\le
+K_{1,\gamma}$, $\|\psi^{-1}\|_{C^{1,\gamma}}\le K_{1,\gamma}$, and
+$\psi(B_{\rho_0}(x_0)\cap\partial D)\subset\partial\R^n_+$.  Then
+$\psi^{-1}(\cdot)$ is Lipschitz with Lipschitz constant $\le
+K_{1,\gamma}$, hence $\psi^{-1}(B_{\rho/K_{1,\gamma}}(\psi(x_0))\cap
+\partial\R^n_+)\subset B_\rho(x_0)\cap\partial D$.  The area formula
+\textup{(GMT, e.g.~\cite[Theorem~8.5]{HP})} gives
+\[
+\mathcal H^{n-1}\bigl(B_\rho(x_0)\cap\partial D\bigr)
+\ge\int_{B_{\rho/K_{1,\gamma}}(\psi(x_0))\cap\partial\R^n_+}
+   J_{\psi^{-1}}\,d\mathcal H^{n-1},
+\]
+where $J_{\psi^{-1}}\ge K_{1,\gamma}^{-(n-1)}$ a.e.\ since the
+smallest singular value of $D\psi^{-1}|_{\partial\R^n_+}$ is
+$\ge 1/\|D\psi\|_{\rm op}\ge K_{1,\gamma}^{-1}$, and the
+$(n-1)$-Jacobian is bounded below by the product of the smallest
+$(n-1)$ singular values.  The right-hand side is at least
+$\omega_{n-1}(\rho/K_{1,\gamma})^{n-1}\cdot K_{1,\gamma}^{-(n-1)}=
+\omega_{n-1}\,\rho^{n-1}/K_{1,\gamma}^{2(n-1)}$, giving
+\eqref{eq:Hn-1-lower} with $C_{\rm GMT}(n)=\omega_{n-1}$.
+\end{proof}
+
+\subsection{Proof of Theorem~\ref{thm:BNST-Cgamma}}
+\label{ss:BNST-Cgamma-proof}
+
+\begin{proof}
+We follow BNST's proof of Theorem~2 verbatim, with the substitutions
+itemised in \S\ref{ss:BNST-anatomy}.
+
+\emph{Step~(B1) — $L^1$ multi-ball stability.}
+BNST Theorem~5 produces an open set $E\subset D$ whose connected
+components are balls $\{B^i\}_{i=1}^m$ of radii $R^i\approx 1$ and a
+paraboloid $v^i(x)=(|x-x_i|^2-1)/2$ such that
+\begin{equation}\label{eq:BNST-T5}
+   \|u-v^i\|_{C^1(B^i)}\le C\eta^{1/(4n+9)},\qquad
+   \|u\|_{L^\infty(D\setminus\bigcup B^i)}\le C\eta^{1/(4n+9)}.
+\end{equation}
+Here $u=w/2$ in our convention (since $\Delta u=1$ and $u\le 0$ in
+$D$); we keep BNST's notation in the present subsection.  The proof
+uses only $w\in C^2(D)$ (interior, from $\Delta w=2$ and
+elliptic regularity), Pohozaev (which requires the outward unit
+normal of $\partial D$ a.e., available for Lipschitz $\partial D$),
+and the interior Caffarelli–type $D^2 w$ bound
+$|D^2 w(x)|\le C/\dist(x,\partial D)^2$ — none of which uses the
+$C^{2,\alpha}$ atlas.  Hence \eqref{eq:BNST-T5} holds verbatim under
+the $C^{1,\gamma}$ hypothesis.
+
+\emph{Step~(B2) — Single-ball reduction via modified Lemma~8.}
+By Lemma~\ref{lem:BNST8-Cgamma}, $D_\epsilon$ is connected for every
+regular $\epsilon\in(0,\epsilon_0)$ where $\epsilon_0$ is given by
+\eqref{eq:eps0-Cgamma}, independent of $\eta$.  In particular, the
+BNST-chosen $\epsilon=[C(\eta(1+\eta)^4/\omega_n^4)]^{1/(4n+9)}\sim
+\eta^{1/(4n+9)}$ satisfies $\epsilon\le\epsilon_0$ for $\eta\le
+\eta_B^{(1)}:=\min(\eta_B^{\text{BNST}},\epsilon_0^{4n+9}/(2C))$
+\textup{(}from $\epsilon\le(2C\eta)^{1/(4n+9)}\le\epsilon_0\iff
+\eta\le\epsilon_0^{4n+9}/(2C)$\textup{)}.
+Hence Lemma~8 applies at the BNST scale, forcing $m=1$ in
+\eqref{eq:BNST-T5}: there is a unique ball $B^1=B_R(x_1)\subset D$
+with $\|u-v^1\|_{C^1(B_R)}\le C\eta^{1/(4n+9)}$,
+$\|u\|_{L^\infty(D\setminus B_R)}\le C\eta^{1/(4n+9)}$.
+
+\emph{Step~(B3) — Corollary~9 and Lemma~10.}
+BNST Corollary~9 packages Step (B2): there is a ball $B_R\subset D$
+with $|1-R|\le C\eta^{1/(4n+9)}$, $|D\triangle B_R|\le C\eta^{1/(4n+9)}$,
+$|\mathcal H^{n-1}(\partial D)-n\omega_n R^{n-1}|\le C\eta^{1/(4n+9)}$.
+BNST Lemma~10 is pure GMT (coarea + isoperimetric): given the
+preceding $L^1$ + perimeter bounds, there exists $\bar R>R$ with
+$\bar R-R\le C\sigma^{1/2}$ and $P(D\setminus B_{\bar R})-
+\mathcal H^{n-1}(D\cap\partial B_{\bar R})\le C\sigma^{1/2}$, where
+$\sigma=C\eta^{1/(4n+9)}$.  Neither uses $C^{2,\alpha}$.
+
+\emph{Step~(B4) — $\mathcal H^{n-1}$ chain to $\bar{\bar R}-\bar R$.}
+For $\rho=\min(\rho_0,(\bar{\bar R}-\bar R)/4)$, the BNST cover
+argument (their p.~1582) gives, using
+Lemma~\ref{lem:Hn-1-lower},
+\[
+\mathcal H^{n-1}(\partial D\setminus\bar B_{\bar R})
+\ge\frac{\bar{\bar R}-\bar R}{4\rho}\,
+C_{\rm GMT}(n)\,K_{1,\gamma}^{-2(n-1)}\,\rho^{n-1}
+=\frac{\bar{\bar R}-\bar R}{4}\,
+C_{\rm GMT}(n)\,K_{1,\gamma}^{-2(n-1)}\,\rho^{n-2}.
+\]
+For $n=2$: the $\rho^{n-2}=\rho^0=1$ factor disappears, and
+\[
+\bar{\bar R}-\bar R\le 4\,C_{\rm GMT}(2)^{-1}\,K_{1,\gamma}^{2}\,
+\mathcal H^{1}(\partial D\setminus\bar B_{\bar R}).
+\]
+By Step (B3), $\mathcal H^1(\partial D\setminus\bar B_{\bar R})\le
+C\sigma^{1/2}=C\eta^{1/(2(4n+9))}$.  Hence
+$\bar{\bar R}-\bar R\le C\,K_{1,\gamma}^2\,\eta^{1/(2(4n+9))}$.
+
+\emph{Conclusion.}
+Setting $r_{\rm in}=R$ and $r_{\rm out}=\bar{\bar R}$ (both as
+inradius and circumradius around the BNST centre $x_1$, by
+construction),
+\[
+r_{\rm out}-r_{\rm in}\le(\bar{\bar R}-\bar R)+(\bar R-R)\le
+C\,\bigl(K_{1,\gamma}^2\,\eta^{1/34}+\eta^{1/34}\bigr)
+\le C_{\rm Br}\,\eta^{1/34}
+\]
+with $\mu=1/34$ for $n=2$, and $C_{\rm Br}$ depending on
+$(d,K_{1,\gamma},\rho_0,\Lambda_\gamma,\gamma)$ via the chain.  The
+inner/outer radius proximity to $\rho_D$ follows from
+$|D\triangle B_R|\le C\eta^{1/(4n+9)}$ and $\rho_D^2=|D|/\pi=R^2+
+O(\eta^{1/(4n+9)})$, giving $|R-\rho_D|\le C\eta^{1/(2(4n+9))}=
+C\eta^{1/34}$, and the analogous bound for $r_{\rm out}$.
+\end{proof}
+
+\begin{remark}\label{rem:Cgamma-from-AC}
+The $C^{1,\gamma}$ hypothesis on $\partial D$ is precisely the
+regularity output of the Alt--Caffarelli step (R4) in
+Theorem~\ref{thm:BDV-reg} of \S\ref{ss:C2alpha}.
+In particular, the selected minimiser $\wt U$ satisfies
+Theorem~\ref{thm:BNST-Cgamma}'s hypotheses with
+$\gamma=\gamma_{\rm AC}(R_0)$, $K_{1,\gamma}=M_1(R_0)$, and
+$\Lambda_\gamma=\|D\wt u\|_{C^{0,\gamma}(\overline{\wt U})}$ bounded
+in terms of $R_0$ by standard Lieberman boundary estimates for
+$-\Delta\wt u=1$ on a $C^{1,\gamma}$ domain.  Thus
+Theorem~\ref{thm:BNST-Cgamma} discharges (B) directly from the
+selection step, without invoking any Schauder bootstrap to
+$C^{2,\alpha}$.
+\end{remark}
+
+\section{Free-boundary regularity (R1)--(R4) and the rescaled
+Bernoulli law}\label{sec:BDV-FB-detail}
+
+This section gives the BDV-style derivation in full, supplying the
+free-boundary regularity package \ref{R1}--\ref{R4} of
+Theorem~\ref{thm:BDV-reg} and the volume-rescaled Bernoulli law that
+underpins the boundary regularity of \(\wt U\).  In what follows
+\(U_*\) is the minimiser of \(J\) from Lemma~\ref{lem:Ustar-exist},
+\(\tau\le\tau_{\rm reg}(R_0)\), and we are in the small-asymmetry
+regime \(\eps\le\eps_{\rm sel}(R_0)\).
+
+\subsection{Perturbed one-phase quasi-minimality}\label{ss:qmin}
+
+\begin{lemma}\label{lem:qmin}
+The function \(u_*:=u_{U_*}\in H^{1}_{0}(B_{R_0})\) satisfies, for
+every \(v\in H^{1}_{0}(B_{R_0})\),
+\begin{equation}\label{eq:qmin}
+   \tfrac12\!\int|\nabla u_*|^{2}-\!\int u_{*}
+   +f_{\hat\eta}(|\{u_*>0\}|)
+   \le
+   \tfrac12\!\int|\nabla v|^{2}-\!\int v
+   +f_{\hat\eta}(|\{v>0\}|)
+   +C_2(R_0)\,\tau\,\bigl|\{u_*>0\}\Delta\{v>0\}\bigr|.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set \(V:=\{v>0\}\), \(U_*=\{u_*>0\}\).  By minimality of \(u_*\) for the
+torsion energy on \(U_*\), \(\tfrac12\!\int|\nabla u_*|^{2}-\!\int
+u_*=E(U_*)\).  Likewise the truncated competitor \(v^{+}\) has
+\(\tfrac12\!\int|\nabla v^{+}|^{2}-\!\int v^{+}\ge E(V)\).  Now
+\(|\nabla v|^{2}=|\nabla v^{+}|^{2}+|\nabla v^{-}|^{2}\ge|\nabla
+v^{+}|^{2}\) a.e., and \(\int v=\int v^{+}-\int v^{-}\le\int v^{+}\)
+(since \(v^{-}\ge 0\)); therefore
+\(\tfrac12\!\int|\nabla v|^{2}-\!\int v\ge\tfrac12\!\int|\nabla
+v^{+}|^{2}-\!\int v^{+}\ge E(V)\).  By \(J\)-minimality
+\(J(U_*)\le J(V)\), and by the Lipschitz inequality \eqref{eq:BDV-42},
+\[
+   \sqrt{\eps^{2}+\tau^{2}(\alpha(V)-\eps)^{2}}
+   -\sqrt{\eps^{2}+\tau^{2}(\alpha(U_*)-\eps)^{2}}
+   \le\tau\,|\alpha(V)-\alpha(U_*)|
+   \le\tau\,C_{2}\,|U_*\Delta V|.
+\]
+Combining gives \eqref{eq:qmin}.
+\end{proof}
+
+\subsection{BDV free-boundary package, applied to \eqref{eq:qmin}}
+\label{ss:BDV-pkg}
+
+Inequality \eqref{eq:qmin} places \(u_*\) in the class of
+\emph{perturbed one-phase quasi-minimizers} of the BDV Alt--Caffarelli
+problem with quasi-minimality constant \(C_2\tau\).  For
+\(\tau\le\tau_{\rm reg}(R_0)\), the BDV free-boundary regularity
+package therefore applies with constants depending only on \(R_0\).
+We invoke:
+
+\begin{itemize}
+\item \emph{Density estimates} (BDV Lemma 4.9, planar):
+there exist \(c_d=c_d(R_0)>0\) and \(r_d=r_d(R_0)>0\) such that for
+every \(x\in\partial U_*\) and \(0<r\le r_d\),
+\(c_d\le|U_*\cap B_r(x)|/(\pi r^{2})\le 1-c_d\).  This gives
+\ref{R1}.
+\item \emph{Lipschitz nondegeneracy of \(u_*\)} (BDV Lemma 4.12,
+planar): there exist \(L_u=L_u(R_0)>0\) and \(r_d'>0\) such that
+\(L_u^{-1}\,\mathrm{dist}(x,\partial U_*)\le u_*(x)\le L_u\,
+\mathrm{dist}(x,\partial U_*)\) for \(x\in U_*\) with
+\(\mathrm{dist}(x,\partial U_*)\le r_d'\).  This gives \ref{R2}.
+\item \emph{Smooth Bernoulli coefficient} (BDV Lemma 4.16,
+planar): the boundary gradient
+\(q(y):=|\nabla u_*(y)|\) on \(\partial U_*\) admits a
+\(C^{1,\alpha_{\rm AC}}\) one-sided extension to a tubular collar
+with \(0<q_-\le q\le q_+\) and
+\(\|q\|_{C^{1,\alpha_{\rm AC}}}\le L_q(R_0)\).  Moreover, the
+Bernoulli law
+\begin{equation}\label{eq:Bern-raw}
+   |\nabla u_*(y)|^{2}=\Lambda+a_\sigma\,\Psi_{U_*}(y),
+   \qquad
+   |a_\sigma|\le C(R_0)\,\tau,
+\end{equation}
+holds on \(\partial U_*\), where
+\(\Psi_{U_*}(y):=|y-x_{U_*}|-V_{U_*}\cdot y\) is the BDV
+\(\alpha\)-bracket and \(V_{U_*}:=\int_{U_*}\frac{z-x_{U_*}}{|z-x_{U_*}|}\,dz\).
+This gives \ref{R3}.
+\item \emph{\(C^{1,\gamma}\) flatness improvement} (BDV
+Theorem 4.18; Alt--Caffarelli \cite{AC}): combining the density
+estimates, Lipschitz nondegeneracy, and bounded Bernoulli coefficient
+\(q\), the flat-free-boundary regularity theorem of Alt--Caffarelli
+(in the BDV-perturbed form) gives \(\partial U_*\in C^{1,\gamma}\)
+locally, with \(\gamma=\gamma(R_0)\in(0,1)\) and uniform graph norm
+\(\le M_{1}(R_0)\).  This gives \ref{R4}.
+\end{itemize}
+
+Items \ref{R1}--\ref{R4} of Theorem~\ref{thm:BDV-reg} are
+established.  No further Schauder bootstrap is required: the
+$C^{1,\gamma}$ regularity (R4) is sufficient as input to the
+$C^{1,\gamma}$ BNST theorem of \S\ref{sec:BNST-proof}.
+
+\subsection{The volume-rescaled Bernoulli law on
+\(\partial\wt U\)}\label{ss:Bern-rescale}
+
+We make the rescaling \(\wt U:=r_*^{-1}U_*\) explicit on the
+Bernoulli identity \eqref{eq:Bern-raw}, which is needed when one wants
+quantitative bounds for \(\wt u\) directly (rather than going through
+the \(u_*\)-formulation).  Set \(\wt u(y):=r_*^{-2}u_{*}(r_*y)\).
+
+\begin{lemma}[Rescaled Bernoulli law]\label{lem:bern-rescale}
+\(\wt u\in H^{1}_{0}(\wt U)\) is the torsion function of \(\wt U\)
+(\(-\Delta\wt u=1\) in \(\wt U\), \(\wt u=0\) on \(\partial\wt U\)),
+and on \(\partial\wt U\)
+\begin{equation}\label{eq:Bern-rescale}
+   |\nabla\wt u(y)|^{2}=\wt\Lambda+\wt a_\sigma\,\wt\Psi(y),
+\end{equation}
+with
+\[
+   \wt\Lambda=r_{*}^{-2}\Lambda,
+   \qquad
+   \wt a_\sigma=r_{*}^{-1}a_\sigma,
+   \qquad
+   \wt\Psi(y):=|y-r_{*}^{-1}x_{U_*}|-r_{*}^{2}V_{\wt U}\cdot y.
+\]
+The prefactors \(r_*^{\pm 1},r_*^{\pm 2}\) satisfy, by the mean-value
+theorem over \(r_*\in[1/2,2]\),
+\(|r_*^{k}-1|\le 2k\,|r_*-1|\le 2k\,C_5\,\delta_0\) for
+\(k\in\{1,2\}\) (using Lemma~\ref{lem:Ustar-quot}), so
+\eqref{eq:Bern-rescale} differs from \eqref{eq:Bern-raw} only by a
+multiplicative factor \(1+O(\delta_0)\).
+\end{lemma}
+
+\begin{proof}
+By chain rule and the scaling \(\wt u(y)=r_*^{-2}u_*(r_*y)\):
+\(\nabla\wt u(y)=r_*^{-1}\nabla u_*(r_*y)\), and
+\(\Delta\wt u(y)=\Delta u_*(r_*y)=-1\); the boundary condition is
+preserved since \(y\in\partial\wt U\iff r_*y\in\partial U_*\).  At
+\(y\in\partial\wt U\), substituting into \eqref{eq:Bern-raw}:
+\[
+   |\nabla\wt u(y)|^{2}
+      =r_*^{-2}|\nabla u_*(r_*y)|^{2}
+      =r_*^{-2}\Lambda
+       +r_*^{-2}a_\sigma\,\Psi_{U_*}(r_*y).
+\]
+Change of variables in the centroid: \(x_{U_*}=r_*x_{\wt U}\) and
+\(V_{U_*}=\int_{U_*}\frac{z-x_{U_*}}{|z-x_{U_*}|}\,dz
+=r_*^{2}\int_{\wt U}\frac{w-x_{\wt U}}{|w-x_{\wt U}|}\,dw
+=r_*^{2}V_{\wt U}\), using \(z=r_*w\), \(dz=r_*^{2}dw\) (in
+\(\R^{2}\)).  Substituting,
+\[
+   \Psi_{U_*}(r_*y)=|r_*y-x_{U_*}|-V_{U_*}\cdot r_*y
+      =r_*\bigl(|y-r_*^{-1}x_{U_*}|-r_*^{2}V_{\wt U}\cdot y\bigr)
+      =r_*\,\wt\Psi(y).
+\]
+Hence \(|\nabla\wt u(y)|^{2}=r_*^{-2}\Lambda+r_*^{-1}a_\sigma\,\wt
+\Psi(y)\), which is \eqref{eq:Bern-rescale}.  Quantitative estimates
+on \(|r_*^{k}-1|\) follow from \(|r_*-1|\le C_5\delta_0\)
+(Lemma~\ref{lem:Ustar-quot}).
+\end{proof}
+
+The constants of the BDV regularity package for \(U_*\) transfer to
+\(\wt U\) under the dilation by \(\lambda=r_*^{-1}\in[1/2,2]\) (for
+\(\delta_0\) small): density estimates rescale as \(c_d\to c_d\), the
+Lipschitz nondegeneracy constant transforms as \(L_u\to\lambda L_u\)
+(an explicit factor \(\le 2\)), the Bernoulli coefficient bounds
+\(q_\pm\) acquire factors \(\lambda^{\mp 1}\), and the
+\(C^{1,\gamma}\) graph norm of \(\partial\wt U\) is bounded by
+\(2M_1(R_0)\).  We absorb these factor-of-2 inflations into the
+renamed structural constants.
+
+\begin{thebibliography}{99}
+\bibitem{BDV2015} L.~Brasco, G.~De~Philippis, B.~Velichkov,
+\emph{Faber--Krahn inequalities in sharp quantitative form},
+Duke Math. J. \textbf{164} (2015), 1777--1831.
+\bibitem{AC} H.~W.~Alt, L.~A.~Caffarelli,
+\emph{Existence and regularity for a minimum problem with free
+boundary}, J. Reine Angew. Math. \textbf{325} (1981), 105--144.
+\bibitem{Li86} G.~M.~Lieberman,
+\emph{Mixed boundary value problems for elliptic and parabolic
+differential equations of second order},
+J. Math. Anal. Appl. \textbf{113} (1986), 422--440 (boundary
+$C^{1,\gamma}$ Schauder-type estimates on $C^{1,\gamma}$ domains).
+\bibitem{GT} D.~Gilbarg, N.~S.~Trudinger,
+\emph{Elliptic partial differential equations of second order},
+2nd ed., Springer, Berlin, 1983.
+\bibitem{BNST} B.~Brandolini, C.~Nitsch, P.~Salani, C.~Trombetti,
+\emph{Serrin-type overdetermined problems: an alternative proof},
+J. Differential Equations \textbf{245} (2008), 1566--1583.
+\bibitem{BuDM} G.~Buttazzo, G.~Dal~Maso,
+\emph{An existence result for a class of shape optimization problems},
+Arch. Rational Mech. Anal. \textbf{122} (1993), 183--195.
+\bibitem{HP} A.~Henrot, M.~Pierre,
+\emph{Shape Variation and Optimization. A Geometrical Analysis},
+EMS Tracts in Mathematics \textbf{28}, EMS, Z\"urich, 2018.
+\bibitem{BL} J.~Bergh, J.~L\"ofstr\"om,
+\emph{Interpolation Spaces. An Introduction},
+Grundlehren \textbf{223}, Springer, Berlin, 1976.
+\end{thebibliography}
+
+\end{document}

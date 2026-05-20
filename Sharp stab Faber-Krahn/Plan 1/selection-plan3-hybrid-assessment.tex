@@ -1,0 +1,253 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\dT}{\delta_T}
+\newcommand{\al}{\alpha}
+\newcommand{\Et}{E_{\hat t}}
+\newcommand{\dH}{\,d\mathcal H^{N-1}}
+
+\title{Assessment of a Selection--Plan 3 Hybrid Graph Entry}
+\author{}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\section{The Proposed Replacement}
+
+The proposed route is:
+\[
+\hbox{selection}
+\Rightarrow
+\hbox{controlled class}
+\Rightarrow
+\hbox{Plan 3 good inset level } \Et
+\Rightarrow
+L^2\hbox{-Serrin}
+\Rightarrow
+L^\infty\hbox{-Serrin}
+\Rightarrow
+\hbox{Brandolini annulus}
+\Rightarrow
+L^\infty\hbox{ radial graph.}
+\]
+The conclusion of this check is mixed.  The first half is genuinely useful:
+selection turns the weighted \(D_H\) variance into honest unweighted \(L^2\)
+Serrin control on the stopped level, and the inward cut preserves the bad
+quotient/asymmetry.  The weak point is the \(L^2\to L^\infty\) upgrade.  It is
+not a consequence of Lipschitz boundary geometry alone.
+
+\section{What Selection Gives}
+
+Let \(U\) be the selected minimizer from Plan 1, with torsion function \(u\).
+The BDV/selection regularity package gives a uniform Lipschitz bound for the
+potential:
+\[
+   \|\nabla u\|_{L^\infty(U)}\le L_*(N,R).
+   \tag{2.1}\label{eq:lipu}
+\]
+It also gives density and nondegeneracy.  Before the flatness/graph-entry
+step, it does \emph{not} give a global Lipschitz parametrization of
+\(\partial U\).  Thus the statement that selection reduces to Lipschitz
+boundary is stronger than the current Plan 1 selection lemma.  If one assumes
+a uniform Lipschitz boundary class separately, the discussion below is
+conditional on that assumption.
+
+\section{Chebyshev Level Gives Honest \(L^2\)}
+
+Apply the Plan 3 volume-variable Chebyshev selection inside \(U\).  For every
+fixed small \(\theta>0\), there is a regular level
+\[
+   E=\Et:=\{u>\hat t\}
+\]
+such that
+\[
+   |U\setminus E|\le C_\theta \dT(U),
+   \qquad
+   D_H(\hat t)\le C\theta.
+   \tag{3.1}\label{eq:good-level}
+\]
+On this level the exact identity gives, with \(f=|\nabla u|\) and
+\(\bar f=|E|/P(E)\),
+\[
+   \int_{\partial E}\frac{(f-\bar f)^2}{f}\,\dH
+      =
+      \frac{|E|}{P(E)^2}D_H(\hat t).
+   \tag{3.2}
+\]
+Using \eqref{eq:lipu},
+\[
+\begin{aligned}
+   \int_{\partial E}(f-\bar f)^2\,\dH
+      &=
+      \int_{\partial E}
+      f\,\frac{(f-\bar f)^2}{f}\,\dH  \\
+      &\le L_*(N,R)
+      \int_{\partial E}\frac{(f-\bar f)^2}{f}\,\dH
+      \le C(N,R)\theta.
+\end{aligned}
+\tag{3.3}\label{eq:l2serrin}
+\]
+This is the positive part of the hybrid route: selection removes the
+upper-gradient tail obstruction that raw \(D_H\) had.
+
+\section{The Inward Cut Preserves Asymmetry}
+
+Let
+\[
+   q:=\frac{E(U)-E(B)}{\alpha(U)}.
+\]
+Since \(\dT(U)=q\,\alpha(U)\), \eqref{eq:good-level} gives
+\[
+   |U\setminus E|\le C_\theta q\,\alpha(U).
+\]
+The smooth asymmetry \(\alpha\) is \(L^1\)-Lipschitz on bounded sets.  After
+volume normalization of \(E\),
+\[
+   \alpha(E^\sharp)
+      \ge
+      \alpha(U)-C|U\setminus E|-C|\ |E|-|U|\ |
+      \ge
+      (1-C_\theta q)\alpha(U).
+   \tag{4.1}\label{eq:asym-preserve}
+\]
+Thus in the selection contradiction regime \(q\ll\theta\), the inset level
+keeps the asymmetry comparable to that of \(U\).  This part of the proposed
+route is sound.
+
+\section{The Missing \(L^2\to L^\infty\) Upgrade}
+
+To use a Brandolini/Serrin annulus theorem one wants
+\[
+   \|\,|\nabla u|-\bar f\,\|_{L^\infty(\partial E)}
+      \le \varepsilon_B
+   \tag{5.1}\label{eq:linftyserrin}
+\]
+with \(\varepsilon_B\ll1\).  The \(L^2\) estimate
+\eqref{eq:l2serrin} implies this only if one has a uniform modulus of
+continuity for \(f=|\nabla u|\) on \(\partial E\).  For instance, if
+\[
+   [f]_{C^\gamma(\partial E)}\le M
+   \tag{5.2}\label{eq:holder}
+\]
+and \(\partial E\) has uniformly controlled \((N-1)\)-dimensional geometry,
+then interpolation gives
+\[
+   \|f-\bar f\|_{L^\infty(\partial E)}
+      \le
+      C\,M^{\frac{N-1}{N-1+2\gamma}}\,
+      \|f-\bar f\|_{L^2(\partial E)}^{\frac{2\gamma}{N-1+2\gamma}}.
+   \tag{5.3}\label{eq:interp}
+\]
+Then choosing \(\theta\) small enough would give \eqref{eq:linftyserrin}.
+
+The problem is that \eqref{eq:holder} is not implied by a uniform Lipschitz
+boundary.  Lipschitz domains do not give uniform continuity of \(\nabla u\) up
+to the boundary.  For the inset level \(\partial E\), qualitative analyticity
+is free because the level is inside \(U\), but the quantitative constants
+depend on
+\[
+   \operatorname{dist}(\partial E,\partial U)
+   \quad\hbox{and}\quad
+   \inf_{\partial E}|\nabla u|.
+\]
+The stopped level is only \(O_\theta(\dT)\) from the boundary in measure, and
+the physical distance can go to zero.  Also \(D_H\) controls the
+low-gradient set only in measure:
+\[
+   \mathcal H^{N-1}\{|\nabla u|\le s\}
+      \lesssim D_H\,s,
+\]
+not pointwise.  Hence it does not give a uniform lower bound for
+\(|\nabla u|\) on the entire level.
+
+Therefore the implication
+\[
+   \hbox{selected Lipschitz class}+D_H(\hat t)\ll1
+   \Longrightarrow
+   \|\,|\nabla u|-\bar f\,\|_{L^\infty(\partial E)}\ll1
+\]
+is currently unproved and is false as a general Lipschitz-domain principle.
+It becomes true if one adds a uniform \(C^\gamma\) modulus for the boundary
+gradient on \(\partial E\), but that is essentially a free-boundary regularity
+input.
+
+\section{Inset Boundary Regularity}
+
+For a regular value \(\hat t\), \(\partial E=\{u=\hat t\}\) is a smooth
+embedded hypersurface.  This is qualitative.  A quantitative Lipschitz
+constant follows from the implicit function theorem with constants depending
+on
+\[
+   \frac{\|D^2u\|_{L^\infty(\hbox{collar})}}
+        {\inf_{\partial E}|\nabla u|}.
+\]
+Neither term is uniformly controlled by \eqref{eq:lipu} and \(D_H(\hat t)\ll1\).
+Thus ``the inset boundary is Lipschitz'' is true with constants depending on
+the selected level, but not with the uniform constants needed for a proof.
+
+\section{Brandolini Annulus and Graph Entry}
+
+Assume conditionally that \eqref{eq:linftyserrin} is obtained and that
+\(\partial E\) lies in the geometric class required by a Brandolini-type
+stability theorem.  Then one gets a thin annulus:
+\[
+   B_{r_i}(z)\subset E\subset B_{r_e}(z),
+   \qquad
+   r_e-r_i\le \eta_B.
+   \tag{7.1}
+\]
+This gives Hausdorff closeness to a ball.  It does not by itself give a radial
+graph.  A set may contain \(B_{r_i}(z)\), be contained in \(B_{r_e}(z)\), and
+still have overhangs or extra components in the thin shell.  One still needs a
+one-crossing/star-shapedness theorem, or an \(O(\eta_B)\)-cost radialization.
+
+\section{Conditional Version That Would Work}
+
+The proposed route becomes correct under the following additional hypotheses:
+
+\begin{enumerate}[label=\arabic*.]
+\item the selected/inset level belongs to a uniform geometric class for which
+\(|\nabla u|\) has a \(C^\gamma\) modulus bounded by \(M(N,R)\);
+\item Brandolini's annulus theorem applies to that class;
+\item thin annulus plus selected topology implies one radial crossing, or an
+annulus-to-radialization theorem is available.
+\end{enumerate}
+
+Under these assumptions, choose \(\theta\) below the interpolation and
+Brandolini thresholds.  Chebyshev gives \eqref{eq:l2serrin}; interpolation
+gives \eqref{eq:linftyserrin}; Brandolini gives the annulus; the final
+one-crossing/radialization input gives a small \(L^\infty\) radial graph.
+Equation \eqref{eq:asym-preserve} and the superlevel torsion transfer preserve
+the bad quotient.
+
+\section{Verdict}
+
+The hybrid has a useful core:
+\[
+   \hbox{selection's Lipschitz bound for }u
+   +D_H\hbox{ on a Chebyshev level}
+   \Longrightarrow
+   L^2\hbox{-Serrin on that level.}
+\]
+It also preserves asymmetry in the selection contradiction regime.
+
+But it does not yet replace the Alt--Caffarelli graph-entry machinery.  The
+serious missing theorem is a uniform \(L^2\to L^\infty\) Serrin upgrade on the
+inset level.  Merely assuming Lipschitz boundary is not enough; one needs a
+uniform modulus of continuity for the boundary gradient, which is effectively
+regularity/flatness information.  A second, smaller missing theorem is the
+annulus-to-radial-graph or annulus-to-radialization step.
+
+Thus the best current formulation is not a complete replacement for Plan 1,
+but a narrowed target: prove just enough regularity of the \emph{inset level}
+to make the interpolation estimate \eqref{eq:interp} valid, instead of proving
+global graph regularity of \(\partial U\) directly.
+
+\end{document}

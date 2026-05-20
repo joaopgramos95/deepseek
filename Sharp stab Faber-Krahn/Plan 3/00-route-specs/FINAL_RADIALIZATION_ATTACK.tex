@@ -1,0 +1,330 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Om}{\Omega}
+\newcommand{\Et}{E_{\hat t}}
+\newcommand{\dT}{\delta_T}
+\newcommand{\DI}{D_I}
+\newcommand{\DHo}{D_H}
+\newcommand{\A}{\mathcal A}
+\newcommand{\HH}{\mathcal H}
+
+\title{Attack on the Final Planar Radialization Step}
+\author{}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\section{Setup and target}
+
+Let \(E=\Et\subset\R^2\) be the \(\sqrt\delta\)-stopped level.  Normalize
+\(|E|=\pi+O(\sqrt\delta)\), and write after harmless rescaling
+\[
+   |E|=\pi.
+\]
+The available inputs are
+\[
+   \dT(E)\le C\delta,
+   \qquad
+   \DI(E)\le \varepsilon,
+   \qquad
+   \DHo(E)\le \varepsilon,
+   \qquad
+   \varepsilon=C_K\sqrt\delta,
+   \tag{1.1}\label{eq:inputs}
+\]
+and, from the selected-class interpolation,
+\[
+   \bigl\||\nabla u_E|-c_E\bigr\|_{L^\infty(\partial E)}
+      \le \eta_K,
+   \qquad
+   \eta_K\to0 \quad(K\to\infty).
+   \tag{1.2}\label{eq:serrin}
+\]
+We also use the uniform Lipschitz character of the stopped level, with
+constant \(L\), and a bounded ambient diameter.
+
+The needed conclusion is a small-amplitude radial graph \(G\) such that
+\[
+   |E\Delta G|\le C_K\sqrt\delta,
+   \qquad
+   \dT(G)\le C_K\delta .
+   \tag{1.3}\label{eq:target}
+\]
+Once \eqref{eq:target} holds, the direct radial-graph theorem gives
+\(\A(G)^2\le C\dT(G)\le C_K\delta\), and the transfer back to \(E\) and then
+to \(U\) closes the desired estimate.
+
+\section{Do not convexify everything}
+
+The previous convex-envelope idea is useful but too crude if applied to all
+of \(E\).  A wide shallow radial indentation can have area \(O(\sqrt\delta)\)
+and perimeter excess \(O(\sqrt\delta)\), while already being a perfectly good
+radial graph.  Convexifying it would create a volume error too large for the
+torsion-deficit bookkeeping.
+
+Therefore the repair should fill only the genuinely non-radial pockets:
+holes, satellites, folds, same-ray missing intervals, and overhangs.  Radial
+indentations with one crossing per ray should be left untouched.
+
+\section{Components are ruled out by Serrin, not just by \(D_I\)}
+
+The \(D_I\) estimate already gives satellite area \(O(\varepsilon^2)\).
+In the selected Serrin situation one can say more.
+
+\begin{lemma}[No small Serrin components]\label{lem:no-small-components}
+Assume \(|E|=\pi\), \(P(E)\le2\pi+C\varepsilon\), and
+\[
+   c_0\le |\nabla u_E|\le c_1
+   \quad\hbox{on }\partial E
+\]
+with \(c_0\) sufficiently close to \(1/2\).  Then, for \(\varepsilon\) small,
+\(E\) has only one connected component.
+\end{lemma}
+
+\begin{proof}
+On every connected component \(E_j\), the restriction of \(u_E\) is the
+torsion function of \(E_j\).  The divergence theorem gives
+\[
+   |E_j|=\int_{\partial E_j}|\nabla u_E|\,d\mathcal H^1
+      \ge c_0 P(E_j).
+   \tag{3.1}
+\]
+The planar isoperimetric inequality gives
+\[
+   P(E_j)\ge 2\sqrt{\pi |E_j|}.
+\]
+If \(|E_j|>0\), then
+\[
+   |E_j|^{1/2}\ge 2c_0\sqrt\pi .
+\]
+For \(c_0\) close to \(1/2\), each nontrivial component has area close to
+\(\pi\).  Since the total area is \(\pi\), there can be only one component
+for \(\varepsilon\) and \(\eta_K\) small.
+\end{proof}
+
+\begin{remark}
+This is a useful improvement over pure \(D_I\).  Tiny satellites are allowed
+by small perimeter deficit, but they are incompatible with a pointwise Serrin
+lower bound at the ball scale.
+\end{remark}
+
+\section{Closed holes are harmless}
+
+Let \(p_h\) be the total perimeter of bounded hole boundaries.  Since holes
+contribute to \(P(E)-2\pi\), \(p_h\le C\varepsilon\).  By the planar
+isoperimetric inequality,
+\[
+   |H_{\rm holes}|
+      \le \frac{p_h^2}{4\pi}
+      \le C\varepsilon^2
+      \le C_K\delta .
+   \tag{4.1}\label{eq:holes-area}
+\]
+Filling them changes the volume by \(O(\delta)\).  The monotone
+fill-and-rescale lemma from the earlier planar radialization note then gives
+\[
+   \dT(E_{\rm filled}^{\sharp})
+      \le C(\dT(E)+|H_{\rm holes}|)
+      \le C_K\delta .
+   \tag{4.2}\label{eq:holes-fill}
+\]
+
+\section{The planar GMT pocket lemma}
+
+Choose the eventual center \(z\) from the Brandolini/Plan-2 same-center
+package.  The geometric input needed at this stage is not merely that
+\(\partial E\) is Lipschitz.  One also needs the already advertised annular
+core information, namely
+\[
+   B_{r_-}(z)\subset E\subset B_{r_+}(z),
+   \qquad
+   r_-=1-\eta,\quad r_+=1+\eta,
+   \tag{5.1}\label{eq:core-annulus}
+\]
+with \(\eta\) smaller than the fixed graph-entry threshold.  Closed holes may
+first be filled by Section~4; this changes area by \(O(\varepsilon^2)\), so
+it is harmless for the present estimate.
+
+For a.e. \(\theta\in S^1\), write
+\[
+   E_\theta=\{r>0:z+re^{i\theta}\in E\}.
+\]
+Since \(B_{r_-}(z)\subset E\), the slice \(E_\theta\) starts at the origin.
+Define the radial hull
+\[
+   R(\theta):=\operatorname*{ess\,sup} E_\theta,
+   \qquad
+   G:=\{z+re^{i\theta}:0<r<R(\theta)\}.
+   \tag{5.2}\label{eq:radial-hull}
+\]
+Thus one-crossing radial indentations are left unchanged.  The set
+\(G\setminus E\) consists exactly of same-ray gaps lying behind some outer
+piece of \(E\).
+
+\begin{lemma}[Radial-hull boundary decomposition]\label{lem:hull-decomp}
+Let \(E\subset\R^2\) be a bounded connected Lipschitz domain satisfying
+\eqref{eq:core-annulus}.  Let \(G\) be defined by \eqref{eq:radial-hull}, and
+let \(\{Q_j\}\) be the connected components of \(G\setminus E\).  Then \(G\)
+has finite perimeter and
+\[
+   P(G)+\sum_j P(Q_j)\le P(E).
+   \tag{5.3}\label{eq:decomposition}
+\]
+\end{lemma}
+
+\begin{proof}
+Translate \(z\) to the origin.  The polar map
+\[
+   \Phi:S^1\times(r_-,r_+)\to B_{r_+}\setminus \overline{B_{r_-}},
+   \qquad
+   \Phi(\theta,r)=re^{i\theta},
+\]
+is bi-Lipschitz, so rectifiability and perimeter identities may be checked in
+the cylinder.  For a.e. \(\theta\), the one-dimensional slice \(E_\theta\) is
+a finite-perimeter subset of \((0,\infty)\), and because of the core inclusion
+its reduced boundary consists of an odd ordered family
+\[
+   r_1(\theta)<r_2(\theta)<\cdots<r_{2m(\theta)+1}(\theta).
+\]
+The outer endpoint \(r_{2m+1}(\theta)\) is \(R(\theta)\); the earlier
+endpoints are precisely the two sides of the radial gaps that form
+\(G\setminus E\).
+
+We now apply the area formula, equivalently the BV graph-perimeter formula, to
+the countably many polar sheets of \(\partial E\).  On a smooth sheet
+\(\theta\mapsto r(\theta)\), the Euclidean length element is
+\[
+   ds=\sqrt{r^2\,d\theta^2+dr^2}.
+\]
+The same formula, with the usual vertical jump contribution, holds for BV
+polar graphs.  The perimeter of \(G\) is obtained by selecting, for each
+\(\theta\), the outermost endpoint \(R(\theta)\).  If this selected endpoint
+jumps, the vertical jump segment in \(\partial G\) is exactly the jump term of
+the corresponding outer sheet in the BV graph formula.
+
+The components \(Q_j\) are the gaps between consecutive endpoint functions
+\(r_{2i-1}(\theta)\) and \(r_{2i}(\theta)\).  Their perimeter is bounded by
+the BV graph perimeters of these two endpoint sheets, including the vertical
+jump terms at the angles where the gap opens or closes.  Consequently the
+perimeter of \(G\), plus the perimeters of all pockets \(Q_j\), is bounded by
+the sum of the polar graph perimeters of all sheets of \(\partial E\).  By the
+area formula in the bi-Lipschitz polar chart, this sum is \(P(E)\), giving
+\eqref{eq:decomposition}.
+\end{proof}
+
+\begin{theorem}[Lipschitz pocket lemma]\label{thm:pocket}
+Let \(E\subset\R^2\) be a bounded connected Lipschitz domain with \(|E|=\pi\),
+\[
+   P(E)\le2\pi+\varepsilon,
+\]
+and assume the annular core condition \eqref{eq:core-annulus}.  Let \(G\) be
+the radial hull \eqref{eq:radial-hull}.  Then \(G\) is a radial graph,
+\[
+   |G\setminus E|\le \frac{\varepsilon^2}{4\pi}.
+   \tag{5.4}\label{eq:pocket-area}
+\]
+In particular, if \(\varepsilon=C_K\sqrt\delta\), then
+\[
+   |G\setminus E|\le C_K\delta .
+   \tag{5.5}
+\]
+\end{theorem}
+
+\begin{proof}
+Write
+\[
+   v:=|G\setminus E|,\qquad h:=\sum_jP(Q_j).
+\]
+Since \(E\subset G\), \(|G|=\pi+v\).  By Lemma~\ref{lem:hull-decomp} and the
+isoperimetric inequality applied to \(G\),
+\[
+   2\pi+\varepsilon
+      \ge P(E)
+      \ge P(G)+h
+      \ge 2\sqrt{\pi(\pi+v)}+h
+      \ge 2\pi+h .
+   \tag{5.6}
+\]
+Thus \(h\le\varepsilon\).  Applying the planar isoperimetric inequality to
+each pocket \(Q_j\) gives
+\[
+   |Q_j|\le \frac{P(Q_j)^2}{4\pi}.
+\]
+Summing over \(j\),
+\[
+   v
+      =\sum_j |Q_j|
+      \le \frac1{4\pi}\sum_jP(Q_j)^2
+      \le \frac1{4\pi}\Bigl(\sum_jP(Q_j)\Bigr)^2
+      \le \frac{\varepsilon^2}{4\pi}.
+\]
+This proves \eqref{eq:pocket-area}.  The inclusion
+\eqref{eq:core-annulus} also gives
+\[
+   B_{r_-}(z)\subset G\subset B_{r_+}(z),
+\]
+so after the harmless area normalization \(G\) is a small-amplitude radial
+graph whenever \(\eta\) is small.
+\end{proof}
+
+\begin{remark}
+The theorem is deliberately about the radial hull, not the convex hull.  A
+wide shallow one-crossing indentation has no same-ray gap and is not filled.
+Thus the argument avoids the earlier \(O(\sqrt\delta)\)-volume loss.
+\end{remark}
+
+\section{Closure using the pocket lemma}
+
+Fill the closed holes from Section~4 and then take the radial hull
+\eqref{eq:radial-hull}.  Call the result \(G\).  The total filled volume is
+\[
+   |G\setminus E|\le C_K\delta .
+   \tag{6.1}
+\]
+The monotone fill-and-rescale lemma yields
+\[
+   \dT(G^\sharp)
+      \le C\bigl(\dT(E)+|G\setminus E|\bigr)
+      \le C_K\delta .
+   \tag{6.2}
+\]
+The annular amplitude required by the direct radial-graph theorem is exactly
+\eqref{eq:core-annulus}.  Therefore \(G^\sharp\) satisfies
+\eqref{eq:target}, and the direct radial-graph theorem gives
+\[
+   \A(G^\sharp)^2\le C\,\dT(G^\sharp)\le C_K\delta .
+   \tag{6.3}
+\]
+Since \(|E\Delta G^\sharp|\le C_K\sqrt\delta\) after area normalization, the
+usual transfer gives \(\A(E)\le C_K\sqrt\delta\), and then Step 5 transfers
+the estimate back to \(U\).
+
+\section{What remains outside this GMT step}
+
+The GMT pocket step is proved above for Lipschitz boundaries.  The remaining
+non-GMT inputs needed before applying it are:
+
+\begin{enumerate}[label=\arabic*.]
+\item the \(\sqrt\delta\)-stopped level;
+\item exact deficit transfer \(\dT(E)\le C\delta\);
+\item pointwise Serrin control on \(\partial E\);
+\item no small components from the Serrin lower bound;
+\item the annular core condition \eqref{eq:core-annulus} with the same center.
+\end{enumerate}
+
+Thus the old ``pocket area'' obstruction is no longer the bottleneck: once the
+level is known to have the fixed annular core, radializing its same-ray gaps
+costs \(O((P(E)-2\pi)^2)=O_K(\delta)\), which is the required torsion scale.
+
+\end{document}

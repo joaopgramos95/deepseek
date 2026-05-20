@@ -1,0 +1,358 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Sph}{\mathbb S}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\cA}{\mathcal A}
+\newcommand{\dH}{\,d\mathcal H}
+
+\title{Plan 3 Single-Level Recheck and the Planar Annular Bridge}
+\author{}
+\date{May 18, 2026}
+
+\begin{document}
+\maketitle
+
+\section{Outcome}
+
+The sound Plan 3 information is more useful than the old graph route, but it
+does not yet close a new proof.
+
+\begin{itemize}
+\item The Chebyshev good-level extraction, the deficit transfer
+from \(\Om\) to \(E_{\hat t}\), and the final superlevel-to-domain
+Fraenkel transfer are sound quantitative steps.
+\item The recently proved small-amplitude radial-graph theorem is also sound:
+for star-shaped radial graphs in a thin annulus it gives
+\[
+   E(D)-E(B)\ge c_n\|R-1\|_{L^2(\Sph^{n-1})}^2\ge c_n'\cA(D)^2
+\]
+with no slope, curvature, \(C^1\), or perimeter assumption.
+\item The single-level Hessian/Weinberger ``Chain B'' currently recorded in
+\texttt{proof-step2.md} and \texttt{verify-chainB.md} is not sound.  The
+exact false point is the unweighted Hessian domination
+\[
+   \delta_T(D)\ge c_n |D|^{-1}\int_D \left|D^2u_D+\frac1n I\right|^2 .
+\]
+This has the wrong derivative count and fails on smooth nearly spherical
+high-frequency perturbations.
+\item In dimension \(2\), the most promising non-Plan-1 route is therefore:
+good level \(\Rightarrow\) centered small annular containment, followed by a
+new annular-set stability theorem modulo translations.  Neither implication
+is currently proved in the repo.  The first is only recorded as a
+reconstructed status note; the second is not present at all.
+\end{itemize}
+
+\section{The precise overclaim: unweighted Hessian control}
+
+The claimed Chain B uses the following statement, labelled \((T)\) in
+\texttt{Plan 3/C-assembled-proof-steps/proof-step2.md}:
+\[
+   \delta_T(D)\gtrsim_n |D|^{-1}\int_D
+       \left|D^2u_D+\frac1n I\right|^2 .
+   \tag{T}
+\]
+The verification note \texttt{Plan 3/B-routeB-weinberger/verify-chainB.md}
+then treats this as a regularity-free Weinberger quantitative inequality.
+This is the point where compactness/regularity was not eliminated; a much
+stronger and false Hessian statement was substituted for the actual
+Saint--Venant deficit.
+
+\begin{proposition}[High-frequency obstruction to \((T)\)]
+There is no dimensional \(c_n>0\) such that \((T)\) holds for all smooth
+volume-normalized near-balls.
+\end{proposition}
+
+\begin{proof}
+Let \(Y_k\) be an \(L^2(\Sph^{n-1})\)-normalized spherical harmonic of degree
+\(k\ge2\).  Consider the smooth radial graph
+\[
+   D_{\eps,k}=\{r< R_{\eps,k}(\theta)\},\qquad
+   R_{\eps,k}=1+\eps Y_k+O_k(\eps^2),
+\]
+where the \(O_k(\eps^2)\) constant mode enforces volume and no first-mode
+correction is needed because \(k\ge2\).  The expansion below is obtained by
+the elementary ball linearization, equivalently by the exact radial-graph
+identity in \texttt{H12\_ASYMMETRY\_DIRECT\_PROOF.tex}; no BDV theorem is
+being used.
+
+Set
+\[
+   H_k(r,\theta)=r^kY_k(\theta).
+\]
+The first variation of \(u_D-u_B\) is \(\eps H_k/n\).  The torsion deficit
+has the Steklov, half-derivative scale
+\[
+   \delta_T(D_{\eps,k})
+      = \frac{\eps^2}{2n^2}(k-1)+O_k(\eps^3).
+   \tag{2.1}
+\]
+Indeed the harmonic energy contributes
+\(\frac12(\eps^2/n^2)\int_{B_1}|\nabla H_k|^2
+=\frac{\eps^2}{2n^2}k\), while the volume correction in the moment term
+contributes \(-\eps^2/(2n^2)\).
+
+By contrast, the unweighted Hessian defect has two more powers of frequency.
+Using
+\[
+   \Delta |\nabla H_k|^2=2|D^2H_k|^2,
+\]
+and
+\[
+   |\nabla H_k|^2\big|_{\partial B_1}
+      = k^2Y_k^2+|\nabla_\tau Y_k|^2,\qquad
+   \int_{\Sph^{n-1}}|\nabla_\tau Y_k|^2
+      = k(k+n-2),
+\]
+we get
+\[
+   \int_{B_1}|D^2H_k|^2
+       = (k-1)\bigl(k^2+k(k+n-2)\bigr)
+       = (k-1)k(2k+n-2).
+   \tag{2.2}
+\]
+Therefore
+\[
+   \int_{D_{\eps,k}}\left|D^2u_{D_{\eps,k}}+\frac1nI\right|^2
+      = \frac{\eps^2}{n^2}(k-1)k(2k+n-2)+O_k(\eps^3).
+   \tag{2.3}
+\]
+Taking \(\eps\downarrow0\) for fixed \(k\), then \(k\to\infty\), gives
+\[
+   \frac{\delta_T(D_{\eps,k})}
+        {\int_{D_{\eps,k}}|D^2u_{D_{\eps,k}}+\frac1nI|^2}
+      \longrightarrow
+      \frac{1}{2k(2k+n-2)}\longrightarrow0.
+\]
+Thus no dimensional lower bound \((T)\) can be true.
+\end{proof}
+
+The weighted Hessian variant is also false at the sharp scale, but less
+violently: \(\int_{B_1}u_B|D^2H_k|^2=k(k-1)/n\), so it sees an \(H^1\)
+boundary scale.  The unweighted Chain B sees an even stronger scale and
+therefore cannot be the missing Plan 3 closure.
+
+\section{What remains sound}
+
+The following pieces survive this recheck.
+
+\begin{enumerate}
+\item \textbf{Step 1.}  The good-level extraction gives a Sard-regular
+level \(E_{\hat t}\) with small \(D_H\)-integrand and
+\[
+   |\Om\setminus E_{\hat t}|\le C_{n,\theta}\,\delta_T(\Om).
+\]
+The important patch is that the argument is made in the volume variable
+\(s=m(t)\), where the layer size is exactly linear.
+
+\item \textbf{Step 3.}  The function \(u_\Om-\hat t\) is exactly the torsion
+function of \(E_{\hat t}\).  The profile computation gives
+\[
+   \delta_T(E_{\hat t})\le
+   \frac{1}{1-|\Om\setminus E_{\hat t}|/|\Om|}\,\delta_T(\Om),
+\]
+hence \(\delta_T(E_{\hat t})\le 2\delta_T(\Om)\) in the small-deficit
+regime.
+
+\item \textbf{Step 5.}  For \(E_{\hat t}\subset \Om\),
+\[
+   \cA(\Om)\le \cA(E_{\hat t})+
+       2\frac{|\Om\setminus E_{\hat t}|}{|\Om|}.
+\]
+After squaring, the transfer error is \(O(\delta_T(\Om)^2)\).
+
+\item \textbf{Small-amplitude radial graphs.}  The direct radial-graph proof
+closes the desired \(A^2\) theorem in a thin annulus for genuine radial
+graphs.  This is stronger than the old graph route in one direction: it
+does not need any slope or curvature bound.  It still needs one radial
+crossing per direction.
+\end{enumerate}
+
+\section{The planar route that is still plausible}
+
+The \(n=2\) note \texttt{n2-graph-route-OBSTRUCTED.md} records the right
+positive target: near-Serrin data on a planar level should perhaps give only
+\(L^\infty\)/inner--outer radius control, not \(C^1\), \(H^1\), or curvature
+control.  But this is a reconstructed verdict, not a written proof in the
+repo.  With the new radial-graph theorem, such a weak conclusion would no
+longer be obviously too weak.  The graph theorem only needs small amplitude,
+not small slope.
+
+There are therefore two separate missing statements.  First, one needs the
+annular entry lemma.
+
+\begin{conjecture}[Planar annular entry from the good level]
+Let \(E_{\hat t}\subset\R^2\) be the Sard-regular level obtained by the
+Plan 3 Step 1 extraction, with normalized area and \(D_H(\hat t)\le\theta\).
+There exist a center \(x_0\) and a modulus \(\eta(\theta)\to0\), with
+computable constants, such that
+\[
+   B_{1-\eta(\theta)}(x_0)\subset E_{\hat t}
+      \subset B_{1+\eta(\theta)}(x_0).
+   \tag{AE}
+\]
+\end{conjecture}
+
+This would be weaker than graph entry and is exactly why dimension \(2\) is
+still worth pursuing.  But (AE) is not proved in the current notes.
+
+There is one neutral-mode warning before formulating the second statement:
+the fixed-center inequality
+\[
+   E(D)-E(B_1)\ge c\,|D\Delta B_1|^2
+\]
+is false under only \(B_{1-\eta}\subset D\subset B_{1+\eta}\).  A translated
+disk \(D=B_1(a)\), \(0<|a|\le\eta\), satisfies the annular containment and
+has \(E(D)=E(B_1)\), but \(|D\Delta B_1|>0\).  The bridge must either impose
+a centering condition eliminating the first Fourier mode, or state the
+right side with the Fraenkel infimum over translated balls.
+
+Second, even if (AE) were available with the correct center, annular
+containment is not the same as being a radial graph.  A level set may have
+several crossings on one ray, holes/fjords inside the annulus, or same-ray
+cancellation between an inward missing piece and an outward excess piece.
+Thus the second missing statement is the following.
+
+\begin{conjecture}[Planar annular bridge, centered form]
+There exist computable constants \(\eta_0,c_0>0\) such that, if
+\[
+   |D|=\pi,\qquad B_{1-\eta}\subset D\subset B_{1+\eta},
+   \qquad \int_D x\,dx=0,\qquad 0<\eta\le\eta_0,
+\]
+then
+\[
+   E(D)-E(B_1)\ge c_0\,|D\Delta B_1|^2 .
+   \tag{AB}
+\]
+Equivalently, in translation-invariant language, one may replace the
+right-hand side by \(c_0\inf_a |D\Delta B_1(a)|^2\), provided the annular
+entry lemma also supplies a compatible center.
+\end{conjecture}
+
+If both (AE) and (AB) are proved with compatible centers, the planar
+single-level route closes without BDV: Step 1 picks \(E_{\hat t}\) with a
+small \(D_H\)-level; the planar annular-entry lemma gives
+\[
+   B_{1-\eta(\theta)}\subset E_{\hat t}^{\sharp}\subset B_{1+\eta(\theta)},
+   \qquad \eta(\theta)\lesssim \theta^{1/2};
+\]
+choose the fixed \(\theta\) so that \(\eta(\theta)\le\eta_0\); Step 3 gives
+\(\delta_T(E_{\hat t})\le C\delta_T(\Om)\); (AB) gives
+\(\cA(E_{\hat t})^2\le C\delta_T(E_{\hat t})\); Step 5 transfers this back
+to \(\Om\).
+
+\section{Attempted proof of the annular bridge}
+
+There is a clean identity for arbitrary planar annular sets which identifies
+the real issue.  Let \(D\subset\R^2\) be smooth, \(|D|=\pi\), and
+\[
+   u_0(x)=\frac{1-|x|^2}{4},\qquad z=u_D-u_0.
+\]
+Then \(z\) is harmonic in \(D\) and \(z=-u_0\) on \(\partial D\).  Expanding
+the torsion energy around \(u_0\) gives
+\[
+   E(D)-E(B_1)
+     = \frac12\int_D|\nabla z|^2\,dx
+       -\frac18\left(\int_D |x|^2\,dx-\int_{B_1}|x|^2\,dx\right).
+   \tag{4.1}
+\]
+For \(B_{1-\eta}\subset D\subset B_{1+\eta}\), the moment term is
+\[
+   M_2(D):=
+   \int_{D\setminus B_1}(|x|^2-1)\,dx
+   +\int_{B_1\setminus D}(1-|x|^2)\,dx \ge0,
+\]
+so (4.1) reads
+\[
+   E(D)-E(B_1)=\frac12\int_D|\nabla z|^2-\frac18 M_2(D).
+   \tag{4.2}
+\]
+
+The geometric side is also clean once the translation mode has been fixed.
+With
+\[
+   M_1(D):=\int_{D\Delta B_1}\bigl||x|-1\bigr|\,dx,
+\]
+the annular bounds imply \(M_2(D)\simeq M_1(D)\).  The slice
+Cauchy--Schwarz inequality already present in Plan 2 gives, in this centered
+annular cap,
+\[
+   |D\Delta B_1|^2 \le C\,M_1(D)
+   \tag{4.3}
+\]
+with a computable absolute constant when \(\eta\le\eta_0\).
+Thus a very natural sufficient estimate for (AB) is
+\[
+   E(D)-E(B_1)\ge c\,M_1(D).
+   \tag{4.4}
+\]
+
+For radial graphs, (4.4) is exactly what the direct graph proof establishes
+after removing the neutral volume and translation modes.  For general
+annular sets, (4.4) is not yet proved in the repo.  The missing analytic
+lemma is a capacitary radial-moment coercivity estimate:
+\[
+   \int_D|\nabla z|^2
+      \ge \left(\frac14+c\right)M_2(D)
+        \quad\hbox{modulo the volume and translation neutral modes.}
+   \tag{4.5}
+\]
+
+The hard part is not high frequency by itself, nor translation.  Translation
+is the first harmonic and must be quotiented out or fixed by centering.
+High-frequency radial corrugations are already handled by the slope-free
+radial-graph theorem.  The hard part is multi-crossing geometry in the
+centered annulus:
+\begin{itemize}
+\item the net signed radial displacement on each ray should be controlled by
+the same Steklov spectral gap as in the graph proof;
+\item same-ray cancellations, where \(D\) has both an inner missing piece
+and an outer excess piece on the same direction, should cost local radial
+capacity, plausibly linearly in their cancelled volume;
+\item no file in Plan 2 or Plan 3 currently proves this capacitary
+decomposition for the torsion energy.
+\end{itemize}
+
+Plan 2's slice-rearrangement material supplies the same-center geometric
+technology behind \((4.3)\): per-ray good/bad decompositions, bad-ray
+multiplicity absorption, oriented radial trace, and estimates of the form
+\(|E\Delta B(z)|^2\le C\Pi(E,z)\) under an annular cap.  It does not supply a
+single-domain torsion lower bound converting \(E(D)-E(B)\) into one of those
+same-center annular defects.  That is the precise remaining bridge.
+
+\section{Soundness verdict}
+
+\begin{itemize}
+\item \textbf{Overclaim found.}  Chain B's unweighted Hessian inequality
+\((T)\) is false.  The false claim is in the transition
+\[
+   \delta_T(D)\quad\Longrightarrow\quad
+   \int_D|D^2u_D+\tfrac1n I|^2,
+\]
+not in Step 1, Step 3, or Step 5.
+\item \textbf{Underclaim corrected.}  Lack of \(C^1/H^1\)/curvature control
+is not by itself fatal in dimension \(2\).  The new radial-graph theorem
+shows that small annular amplitude can be enough if one can first prove
+single-crossing, or replace single-crossing by an annular-set theorem.
+\item \textbf{Centering caveat.}  Any annular theorem must remove the
+translation mode.  The fixed-center bound by \(|D\Delta B_1|^2\) is false
+without barycenter/optimal-center normalization, as translated disks show.
+\item \textbf{Best non-Plan-1 targets.}  Prove the planar annular entry
+(AE), then prove the planar annular bridge (AB), or the stronger
+radial-moment coercivity (4.4).  This would use the correct
+\(H^{1/2}\)/Fraenkel scale and would not rely on BDV.
+\item \textbf{What not to pursue.}  Do not try to close Plan 3 through a
+single-level Hessian square function, weighted or unweighted.  Its spectral
+order is too high.
+\end{itemize}
+
+\end{document}

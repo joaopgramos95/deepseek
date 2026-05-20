@@ -1,0 +1,297 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\R}{\mathbb R}
+\newcommand{\T}{\mathcal T}
+\newcommand{\A}{\mathcal A}
+\newcommand{\dT}{\delta_T}
+\newcommand{\HH}{\mathcal H}
+
+\title{Hybrid Level-Flow Graph Entry: Repair Attempt and Exact Remaining Gap}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{The intended hybrid}
+
+The target route is not a pure Plan 3 single-level route.  It is:
+\[
+   \hbox{move inward along torsion levels}
+   \quad\Longrightarrow\quad
+   \hbox{discard an }O(\dT(\Om))\hbox{ layer}
+   \quad\Longrightarrow\quad
+   \hbox{enter the small }L^\infty\hbox{ radial-graph class}
+\]
+and then use the existing small-amplitude radial-graph theorem plus the
+superlevel transfer.
+
+Let \(u=u_\Om\), \(E_t=\{u>t\}\), and normalize \(|\Om|=\pi\) in
+dimension two.  The exact theorem one would like is:
+
+\begin{conjecture}[Planar \(O(\dT)\) graph-entry level]
+\label{conj:entry}
+There are computable dimensional constants \(\delta_0,\eta_0,C>0\) such
+that if \(\Om\subset\R^2\) is open, \(|\Om|=\pi\), and
+\(\dT(\Om)\le\delta_0\), then there is a regular level \(E_{\hat t}\) and a
+center \(z\) such that
+\[
+   |\Om\setminus E_{\hat t}|\le C\dT(\Om),
+\]
+and, after translating by \(z\) and rescaling to area \(\pi\),
+\[
+   E_{\hat t}^{\#}
+      =\{re^{i\theta}:0<r<1+\varphi(\theta)\},
+   \qquad
+   \|\varphi\|_{L^\infty(S^1)}\le\eta_0 .
+\]
+\end{conjecture}
+
+If Conjecture~\ref{conj:entry} is true, the rest is already present in
+the repo.  Step 3 gives
+\[
+   \dT(E_{\hat t})\le (1-C\dT(\Om))^{-1}\dT(\Om)\le 2\dT(\Om),
+\]
+the direct radial-graph theorem
+\texttt{H12\_ASYMMETRY\_DIRECT\_PROOF.tex} gives
+\[
+   \A(E_{\hat t})^2\le C\dT(E_{\hat t}),
+\]
+and Step 5 gives
+\[
+   \A(\Om)\le \A(E_{\hat t})+
+      2\frac{|\Om\setminus E_{\hat t}|}{|\Om|}.
+\]
+Thus \(\A(\Om)^2\le C\dT(\Om)\).  This closure uses no BDV theorem.
+
+\section{What the repo supplies}
+
+The following ingredients are usable.
+
+\begin{enumerate}
+\item \textbf{Good near-boundary level.}  The corrected Step 1
+\texttt{proof-step1.md} works in the volume variable and gives a
+regular level with
+\[
+   |\Om\setminus E_{\hat t}|\le C_\theta \dT(\Om),
+   \qquad
+   D_H(\hat t)\le C\theta ,
+\]
+for fixed absolute \(\theta>0\).  The same Markov selection can be made
+for \(D_H+D_I\) at the same fixed scale.  The output is a small layer
+and a small weighted Cauchy--Schwarz defect, not a pointwise gradient
+floor or a graph.
+
+\item \textbf{Exact superlevel deficit transfer.}  Step 3 is sound:
+\(u-\hat t\) is exactly the torsion function of \(E_{\hat t}\), and the
+profile computation gives the displayed bound on \(\dT(E_{\hat t})\).
+
+\item \textbf{Transfer back.}  Step 5 is a purely measure-theoretic
+triangle inequality for Fraenkel asymmetry and is sound.
+
+\item \textbf{Small-amplitude radial graphs.}  The direct radial-graph
+proof is the right final theorem: it requires a genuine one-crossing
+radial graph and small \(L^\infty\) amplitude, but no slope bound.
+
+\item \textbf{Plan 2 slicing technology.}  The Maggi radial slicing
+identity and the bad-ray multiplicity absorption in
+\texttt{wave2-A-radial-l2-trace.md} are useful.  In a fixed annular
+bracket, the number of extra crossings on rays is linearly charged by
+perimeter excess.  This is a real tool, but it controls the measure of
+bad rays; it does not make the bad-ray set empty.
+
+\item \textbf{Self-truncated velocity.}  The note
+\texttt{WIP\_TrimmedVelocityRepair.tex} correctly extracts from
+\(D_H\) that low-gradient portions of a good level are paid for by the
+\(1/|\nabla u|\) weight.  This is the right mechanism for active thin
+outward fingers in dimension two.
+\end{enumerate}
+
+The following cannot be used as load-bearing facts.
+
+\begin{enumerate}
+\item The old unweighted Hessian Chain B is false.  The high-frequency
+near-ball computation in \texttt{PLAN3\_N2\_SINGLE\_LEVEL\_RECHECK.tex}
+shows that no dimensional inequality
+\[
+   \dT(D)\ge c |D|^{-1}\int_D |D^2u_D+I/2|^2
+\]
+can hold on all smooth near-balls.
+
+\item The Plan 2 endpoint metric trace is not a literal graph-entry
+theorem.  Even where it gives \(d_{\mathcal X}(E_\rho,B_\rho)^2\le
+C\dT\), this is \(L^1\)-modulo-translation control, not a one-crossing
+\(L^\infty\) radial parametrization.
+
+\item The WIP same-centre FJ package is useful for centering and normal
+oscillation, but it is not a proof of Conjecture~\ref{conj:entry}.
+It still tolerates small bad-ray sets and imports isoperimetric
+near-spherical/selection facts, not torsion graph entry.
+\end{enumerate}
+
+\section{A better replacement for literal graph entry}
+
+The correct repair target is slightly weaker than
+Conjecture~\ref{conj:entry} and appears more realistic.
+
+\begin{conjecture}[Planar \(O(\dT)\) radialization lemma]
+\label{conj:radialize}
+Let \(E=E_{\hat t}\) be the Step-1 regular level in dimension two.
+There exists a set \(G\), after a translation and a rescaling, such that
+\[
+   G=\{re^{i\theta}:0<r<1+\varphi(\theta)\},
+   \qquad
+   \|\varphi\|_{L^\infty}\le\eta_0,
+\]
+and
+\[
+   |E\Delta G|\le C\dT(\Om),
+   \qquad
+   \dT(G)\le C\dT(\Om).
+   \tag{R}
+\]
+\end{conjecture}
+
+This is enough.  The graph theorem gives \(\A(G)^2\le C\dT(G)\le
+C\dT(\Om)\), while
+\[
+   \A(E)\le \A(G)+C|E\Delta G|
+\]
+and Step 5 transfers from \(E\) to \(\Om\).  Notice the important
+point: the repair volume in (R) must be \(O(\dT)\), not merely
+\(O(\sqrt{\dT})\), unless one has a separate monotonicity argument
+showing that the repair does not increase the deficit beyond
+\(C\dT\).
+
+Conjecture~\ref{conj:radialize} is the most promising form of the
+missing piece because it allows filling tiny holes or deleting tiny
+loops.  Literal graph entry for the actual level is too rigid: a tiny
+central hole already destroys one-crossing radiality on every ray, even
+though its volume may be much smaller than the torsion deficit.
+
+\section{Attempt to prove the radialization lemma}
+
+The natural decomposition is along rays from a same center \(z\), using
+Plan 2's slicing notation.  For a.e. angle \(\theta\), write
+\[
+   E_\theta=\{r>0:z+r e^{i\theta}\in E\},
+   \qquad
+   \partial^*E_\theta=\{r_{\theta,1}<\cdots<r_{\theta,N(\theta)}\}.
+\]
+Good rays have \(N(\theta)=1\); bad rays have \(N(\theta)\ge2\).
+
+\subsection{Good rays}
+
+On good rays the radial graph candidate is clear: keep the first
+crossing \(r_{\theta,1}\).  The Plan 2 direct \(T_1\) slicing bound
+controls the angular \(L^1\) radial mismatch by the symmetric difference
+and perimeter excess.  This is useful for metric/Fraenkel closure, but
+it is not \(L^\infty\) control.  To obtain small amplitude one still
+needs an annular containment theorem:
+\[
+   B_{1-\eta}(z)\subset E \subset B_{1+\eta}(z),
+   \qquad \eta\ll1.
+   \tag{A}
+\]
+For the Step-1 level, (A) is not proved in the repo.  FMP gives
+measure closeness at the right square-root rate when a pointwise
+isoperimetric deficit is known; it does not give Hausdorff annular
+containment for arbitrary finite-perimeter levels.  In dimension two,
+one expects fixed-depth inward slits to cost torsion through capacity
+or perimeter, but that statement is not currently proved.
+
+\subsection{Bad rays}
+
+The Plan 2 bad-ray estimate is genuinely helpful:
+\[
+   \int_{S^1} (N(\theta)-1)\,d\theta
+      \le C\,\bigl(P(E)-P(B)\bigr)
+\]
+inside an annular bracket.  Thus multiplicity is small in angular
+measure when the isoperimetric deficit of the level is small.
+
+This still falls short of Conjecture~\ref{conj:radialize}.  First, the
+Step-1 \(O(\dT)\)-layer selection only gives \(D_I\) small at a fixed
+absolute threshold if one keeps the layer \(O(\dT)\).  It does not give
+\(D_I(E_{\hat t})=O(\dT)\).  Second, even an \(O(\dT)\) angular measure
+bound would not by itself give a graph; it would only say that the
+non-graph rays form a small set.  One must also repair those rays and
+prove both parts of (R): small symmetric-difference cost and no loss in
+the torsion deficit.
+
+\subsection{Outward fingers}
+
+Here dimension two is favorable.  On a thin outward tube of width \(w\)
+and length \(L\), active tube levels have
+\[
+   D_H(t)\simeq \frac{L}{w}.
+\]
+Thus a Step-1 level with \(D_H\le\theta\) cannot carry a long thin
+active finger unless \(L\lesssim \theta w\).  In particular, the volume
+of such a finger is \(wL\lesssim \theta w^2\), and the extra layer
+needed to clear the tube is of the same \(w^2\) order.  This is exactly
+where \(n=2\) differs from higher dimensions.
+
+This model computation is strong evidence that outward fingers can be
+radialized at \(O(\dT)\) cost, but the repo does not contain the
+general geometric lemma turning this model into a proof for arbitrary
+bad components of an analytic torsion level.
+
+\subsection{Inward fjords and holes}
+
+Moving inward cannot fill a missing fjord or a hole.  Therefore a
+literal superlevel graph-entry theorem must prove that no fixed-depth
+inward defect remains.  The realistic statement is instead that the
+defect can be filled at \(O(\dT)\) cost while preserving
+\(\dT(G)\le C\dT(\Om)\).
+
+The expected two-dimensional tool is capacity/modulus.  A slit or fjord
+of fixed radial depth should force a definite torsion loss, uniformly in
+its width, while a small hole of radius \(r\) has torsion cost of order
+\(1/|\log r|\), much larger than its area \(r^2\).  This would imply
+that the area to be filled is \(O(\dT)\), often much smaller.
+
+But this is still a theorem to prove.  The current repo only formulates
+this capacity idea; it does not provide the needed quantitative
+decomposition for arbitrary same-ray cancellations.
+
+\section{Outcome}
+
+The remaining puzzle piece has not been proved by the existing notes.
+The repo does contain the right components, but they stop one step
+short of the needed theorem.
+
+The cleanest route forward is:
+
+\begin{enumerate}
+\item Prove a planar annular-entry/capacity lemma: every fixed-depth
+inward fjord or hole in a near-optimal torsion level costs a computable
+positive amount of \(\dT\); quantitatively, the total volume that must
+be filled to obtain annular containment is \(O(\dT)\).
+
+\item Prove a planar bad-ray radialization lemma in a thin annulus:
+using Maggi slicing and the Plan 2 multiplicity absorption, the total
+volume of same-ray multi-crossing/cancellation that must be modified is
+\(O(\dT)\), and the modification satisfies \(\dT(G)\le C\dT(E)\).
+
+\item Feed the resulting radial graph \(G\) into
+\texttt{H12\_ASYMMETRY\_DIRECT\_PROOF.tex} and transfer back.
+\end{enumerate}
+
+This is still promising, but it is not closed.  The underclaim in the
+older notes was thinking that annular or metric \(L^1\) control is too
+weak to be useful; it is useful if one allows \(O(\dT)\) radialization.
+The overclaim would be saying that the repo already proves this
+radialization.  It does not.  The missing theorem is exactly the
+capacity-plus-bad-ray radialization lemma above.
+
+\end{document}

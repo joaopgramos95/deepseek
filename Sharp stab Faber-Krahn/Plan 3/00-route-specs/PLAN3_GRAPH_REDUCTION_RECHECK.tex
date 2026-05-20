@@ -1,0 +1,299 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\dT}{\delta_T}
+\newcommand{\A}{\mathcal A}
+\newcommand{\Sph}{\mathbb S}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Ht}{\widehat t}
+\newcommand{\Et}{E_{\widehat t}}
+
+\title{Plan 3 Graph-Reduction Recheck}
+\author{}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\section{Purpose}
+
+I rechecked the Plan 3 material for the specific claim that the reduction from
+a good torsion level to a radial graph is already closed.  The conclusion is
+negative in the literal sense: the repo contains several real ingredients for
+such a reduction, but no complete proof that the stopped level is, or can be
+repaired at \(O(\dT)\) cost into, a small \(L^\infty\) radial graph.
+
+The closest-looking closures are:
+\begin{enumerate}[label=\arabic*.]
+\item \texttt{C-assembled-proof-steps/proof-step2.md}, especially Sections
+7--9, plus \texttt{B-routeB-weinberger/verify-chainB.md};
+\item \texttt{C-assembled-proof-steps/proof-step4.md}, which explains how an
+\(L^\infty\) Serrin output would enter the graph theorem;
+\item \texttt{A-strategyA-graph/expA-anygraph-monotonicity.md} and the
+Strategy B notes;
+\item \texttt{B-routeB-weinberger/tentacle-model.md};
+\item the Plan 2 metric/interval route, which replaces graph coordinates by
+an \(L^1\)-modulo-translations metric trace.
+\end{enumerate}
+
+None of these proves the desired graph-entry or radialization theorem as
+written.
+
+\section{The strongest apparent closure: Chain B}
+
+The text in \texttt{proof-step2.md} says that the graph substatement is
+unnecessary.  It proposes the chain
+\[
+   \dT(D)
+      \gtrsim |D|^{-1}
+      \int_D \left|D^2u_D+\frac1nI\right|^2
+      \quad\Longrightarrow\quad
+   \A(D)^2
+      \lesssim
+      \int_D \left|D^2u_D+\frac1nI\right|^2,
+\]
+for \(D=\Et\).  This would indeed bypass graph entry.  The problem is that
+the first inequality is false, even on smooth volume-normalized near-balls.
+
+Let \(Y_k\) be an \(L^2(\Sph^{n-1})\)-normalized spherical harmonic of degree
+\(k\ge 2\) and
+\[
+   D_{\varepsilon,k}
+      =\{r<1+\varepsilon Y_k+O_k(\varepsilon^2)\},
+\]
+with the \(O_k(\varepsilon^2)\) constant mode enforcing volume.  The elementary
+ball linearization gives
+\[
+   \dT(D_{\varepsilon,k})
+      =
+      \frac{\varepsilon^2}{2n^2}(k-1)+O_k(\varepsilon^3),
+\]
+whereas
+\[
+   \int_{D_{\varepsilon,k}}
+      \left|D^2u_{D_{\varepsilon,k}}+\frac1nI\right|^2
+      =
+      \frac{\varepsilon^2}{n^2}(k-1)k(2k+n-2)+O_k(\varepsilon^3).
+\]
+Thus
+\[
+   \frac{\dT(D_{\varepsilon,k})}
+        {\int_{D_{\varepsilon,k}}|D^2u_{D_{\varepsilon,k}}+I/n|^2}
+      \to
+      \frac{1}{2k(2k+n-2)}
+      \to 0.
+\]
+This is the calculation recorded in
+\texttt{PLAN3\_N2\_SINGLE\_LEVEL\_RECHECK.tex}.  It kills the unweighted
+Hessian coercivity used by Chain B.  Since the counterexamples are smooth
+small radial graphs, the failure is not caused by tentacles, disconnectedness,
+or rough boundary.
+
+\section{Why the auxiliary \(H^2\)-to-geometry text does not repair this}
+
+Even if a small unweighted \(H^2\) defect were somehow available, the
+conversion argument in \texttt{proof-step2.md} Section 7 is not a proved
+graph-reduction theorem.
+
+The proof asserts that after removing a bad set \(Z\), the remaining domain is
+a uniformly John/Lipschitz union foliated by nondegenerate levels, and that
+local harmonic estimates can be chained to one constant vector.  The inputs
+cited there are:
+\[
+   \mathcal H^{n-1}\{|\nabla u|\le s\}\lesssim D_H\,s
+\]
+and a model tube estimate saying that the unweighted Hessian defect sees thin
+tubes.  These inputs do not imply a uniform John constant, a single connected
+bulk component, or a quantitative no-fjord/no-hole statement.  A small-volume
+exceptional set can still disconnect the bulk or leave same-ray multiple
+crossings.
+
+The final step also asserts that \(H^1(D)\)-closeness of \(u_D\) to a radial
+quadratic implies \(L^1\)-closeness of \(D\) to a ball by a coarea/trace
+argument.  That implication needs quantitative nondegeneracy in a full collar
+around the zero level, not merely small surface measure of a low-gradient set
+on the level.  In particular, it does not give a star-shaped graph.
+
+Therefore the parenthetical line in \texttt{proof-step2.md} saying that
+``\(H^2\) defect plus volume exclusion gives a genuine star-shaped graph with
+small \(H^{1/2}\) norm'' is an assertion, not a proof.  It is also not
+load-bearing once Chain B is removed.
+
+\section{The Step 4 graph passage assumes the missing input}
+
+\texttt{proof-step4.md} correctly says that if Step 2 produced a smooth
+closed level with pointwise Serrin control, nondegeneracy, and genuine
+star-shaped graph structure, then the implicit-function/overdetermined map
+would put it in a perturbative graph framework.  But this is conditional on
+the missing Step-2 output:
+\[
+   \bigl\||\nabla u|-c\bigr\|_{L^\infty(\Sigma_{\Ht})}\ll1
+   \quad\hbox{and}\quad
+   \Sigma_{\Ht}\hbox{ is a small graph.}
+\]
+The corrected Step 1 gives a good level with an \(O(\dT)\) removed layer and
+integrated \(D_H+D_I\) control.  It does not give this pointwise Serrin bound,
+a uniform gradient floor, a \(C^1\) graph, or one radial crossing.  Thus Step 4
+is a valid downstream block, not a graph-entry proof.
+
+\section{Any-graph/Strategy B does not supply the reduction}
+
+\texttt{expA-anygraph-monotonicity.md} contains a useful warning: the naive
+radial homotopy monotonicity proof fails because higher-order shape terms have
+no sign on finite non-small graphs.  It also points to a Pohozaev/\(P\)-function
+route for star-shaped graph domains.
+
+That route cannot be used as written for the present reduction.  First, it
+assumes star-shaped graph geometry, which is exactly what we are trying to
+derive.  Second, its advertised estimate
+\[
+   \dT(D)\gtrsim \int_D |D^2u_D+I/n|^2
+\]
+is the same unweighted Hessian coercivity contradicted by the high-frequency
+near-ball calculation above.  Taking \(\varepsilon\ll k^{-1}\) keeps
+\(D_{\varepsilon,k}\) star-shaped with small \(C^1\) norm, while the ratio of
+\(\dT\) to the Hessian defect still tends to zero as \(k\to\infty\).
+
+\section{What the \(n=2\) tentacle computation really gives}
+
+\texttt{tentacle-model.md} is genuinely useful.  It shows that the specific
+``move inward to escape an outward thin tentacle'' bookkeeping is favorable in
+dimension two.  For a tube of width \(w\) and length \(L\),
+\[
+   \dT \simeq wL,
+   \qquad
+   \hbox{escape layer}\simeq w^2,
+\]
+so in \(n=2\) the layer is paid for when \(L\gg w\).  This removes one serious
+model obstruction.
+
+But it is not a graph-entry theorem.  It does not prove an arbitrary-geometry
+decomposition of every outward non-graph component of an analytic torsion
+level into chargeable fingers.  It also says nothing by itself about inward
+fjords, holes, or same-ray multiple crossings.
+
+\section{What Plan 2 contributes}
+
+The Plan 2 radial slicing and metric-trace machinery is the strongest
+replacement for graph geometry in the repo.  It gives:
+\begin{enumerate}[label=\arabic*.]
+\item finite-perimeter level identities with exact \(D_H+D_I\);
+\item same-center isoperimetric/radial trace control in \(L^1\)-type metrics;
+\item bad-ray multiplicity absorption once an annular bracket is known;
+\item a plausible interval route at the correct \(H^{1/2}\) scale.
+\end{enumerate}
+
+This is not the same as graph entry.  It allows a small set of bad rays and
+works in \(L^1\)/metric distance, whereas the Plan 3 graph theorem needs a
+single-valued \(L^\infty\) radial graph or an \(O(\dT)\)-cost repair to one.
+
+Moreover the current Plan 2 interval route still records an explicit remaining
+conditional input.  In \texttt{WIP\_WeightedMetricTrace.tex} the bad-level
+kinetic hypothesis asks for
+\[
+   \int_{B_I}|\dot F_\rho|_{\mathcal X}^2\,d\mu\le C\dT,
+   \qquad
+   \int_{B_{\tau_0}}|\dot F_\rho|_{\mathcal X}^2\,d\rho\le C\dT.
+\]
+The patch note \texttt{PLAN2\_INTERVAL\_ROUTE\_BAD\_KINETIC\_PATCH.md}
+closes the bad-\(I\) part and the slow-profile part on \(G_I\), but leaves
+\[
+   \int_{B_{\tau_0}\cap B_I}|\dot F_\rho|_{\mathcal X}^2\,d\rho
+      \le C\dT
+\]
+open.  Equivalently, with the crude deformation bound, it would suffice to
+prove
+\[
+   \int_{B_{\tau_0}\cap B_I}D_I(t(\rho))\,d\rho\le C\dT.
+\]
+The existing identities control only the weighted integral
+\(\int D_I(t(\rho))w(\rho)\,d\rho\), and on \(B_{\tau_0}\) the weight
+\(w=-t'(\rho)\) is small.  Thus the interval route is promising, but it does
+not close the Plan 3 graph reduction.
+
+\section{What survives for the hybrid Plan 3 route}
+
+The following pieces are sound and should be retained.
+
+\begin{enumerate}[label=\arabic*.]
+\item The corrected Step 1 good-level extraction: one can stop at a regular
+near-boundary level with \(O(\dT)\) removed volume and integrated
+\(D_H+D_I\) control.
+\item The superlevel torsion transfer and the final symmetric-difference
+transfer back to \(\Om\).
+\item The low-gradient surface estimate
+\[
+   \mathcal H^{n-1}(\{|\nabla u|\le s\}\cap\Sigma_{\Ht})
+      \lesssim D_H(\Ht)\,s.
+\]
+It is a real quantitative fact, but it is only measure control.
+\item The direct radial-graph theorem in
+\texttt{H12\_ASYMMETRY\_DIRECT\_PROOF.tex}: if a domain is a genuine
+small-amplitude radial graph, no slope or curvature bound is needed to get
+\(\A^2\lesssim \dT\).
+\item The \(n=2\) outward-tentacle model: outward fingers should be chargeable
+at the correct \(O(\dT)\) scale in dimension two.
+\item The capacity identity in
+\texttt{PLANAR\_RADIALIZATION\_PROOF\_ATTEMPT.tex}: if an inward missing set
+lies at positive torsion height in the filled comparison domain, then filling
+it has a torsion cost at least \(a^2\operatorname{cap}(K)\).
+\end{enumerate}
+
+These pieces strongly suggest the right missing theorem, but they do not prove
+it.
+
+\section{The exact remaining graph-reduction theorem}
+
+The honest target is the \(O(\dT)\) radialization lemma:
+
+\medskip
+\noindent
+\textbf{Planar radialization lemma.}
+Let \(n=2\), let \(E=\Et\) be the corrected Step-1 good level, and assume
+\(\dT(\Om)\) is small in the bounded normalized class.  Then, after translation
+and rescaling, there is a set
+\[
+   G=\{re^{i\theta}:0<r<1+\varphi(\theta)\},
+   \qquad
+   \|\varphi\|_{L^\infty}\le \eta_0,
+\]
+such that
+\[
+   |E\Delta G|\le C\dT(\Om),
+   \qquad
+   \dT(G)\le C\dT(\Om).
+\]
+
+If this lemma is proved, the existing radial-graph theorem gives
+\(\A(G)^2\le C\dT(G)\), the \(O(\dT)\) repair gives
+\(\A(E)^2\le C\dT(\Om)\), and Step 5 transfers back to \(\Om\).
+
+The missing proof should split into three pieces:
+\begin{enumerate}[label=\arabic*.]
+\item an annular/core theorem putting the good level in a fixed thin annulus
+and giving positive torsion height on the pieces to be filled;
+\item a planar capacity/modulus fill lemma for inward fjords, holes, and
+same-ray missing intervals;
+\item an arbitrary-geometry outward pruning and bad-ray radialization lemma,
+using the \(n=2\) \(D_H\)-tentacle scaling plus Plan 2 bad-ray multiplicity.
+\end{enumerate}
+
+\section{Verdict}
+
+I think the memory is pointing to real material, but it closes less than the
+literal graph-reduction step.  The repo already contains:
+\[
+   \hbox{good level}
+   + \hbox{metric/radial \(L^1\) controls}
+   + \hbox{\(n=2\) outward-tentacle bookkeeping}
+   + \hbox{capacity mechanism for fillable inward defects}.
+\]
+What it does not contain is the theorem that turns these into either a genuine
+small \(L^\infty\) radial graph or an \(O(\dT)\)-cost radialized replacement.
+The apparent closures in Plan 3 use a false Hessian inequality, assume the
+graph entry, or prove only model/metric statements.
+
+\end{document}

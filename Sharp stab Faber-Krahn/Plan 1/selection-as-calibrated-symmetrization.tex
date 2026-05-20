@@ -1,0 +1,306 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\R}{\mathbb R}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\dH}{\,d\mathcal H^{N-1}}
+
+\title{Selection as Calibrated Symmetrization}
+\author{}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\section{Point of the note}
+
+The selection principle in Plan 1 looks like a penalized minimization, but it
+has a useful geometric interpretation.  It is an implicit, constrained
+symmetrization step:
+
+\[
+   \hbox{replace } \Omega_0
+   \hbox{ by the best torsion-energy representative with essentially the same }
+   \alpha\hbox{-asymmetry.}
+\]
+
+It is not Schwarz or Steiner symmetrization.  Those flows drive the asymmetry
+to zero, while the selection principle must preserve enough asymmetry to keep
+a near-counterexample alive.  The correct object is therefore a
+\emph{calibrated symmetrization}: decrease the torsion deficit and volume
+error, but constrain the smooth asymmetry level.
+
+This point of view also explains why the perturbing functional can be taken to
+be Lipschitz, with uniformly bounded boundary Lipschitz constant.
+
+\section{The selected resolvent}
+
+Let \(\Omega_0\subset B_R\), \(\abs{\Omega_0}=\abs{B_1}\), and set
+\[
+   \varepsilon:=\alpha(\Omega_0),
+   \qquad
+   \delta:=E(\Omega_0)-E(B_1),
+   \qquad
+   q:=\delta/\varepsilon.
+\]
+Recall the BDV smooth asymmetry
+\[
+   \alpha(U)
+      =
+      \int_{U\Delta B_1(x_U)}
+        \bigl|1-\abs{x-x_U}\bigr|\,dx,
+\]
+where \(x_U\) is the barycenter.  On bounded sets,
+\[
+   \abs{\alpha(U)-\alpha(V)}
+      \le C_R\abs{U\Delta V}.
+   \tag{2.1}\label{eq:alpha-l1-lip}
+\]
+
+For a parameter \(\tau\ll1\), define
+\[
+   \Phi_{\varepsilon,\tau}(s)
+      :=
+      \sqrt{\varepsilon^2+\tau^2(s-\varepsilon)^2}.
+\]
+Then
+\[
+   0\le \Phi_{\varepsilon,\tau}'(s)\le \tau
+   \quad\hbox{in absolute value.}
+   \tag{2.2}\label{eq:phi-slope}
+\]
+
+The selected set is
+\[
+   S_{\tau}(\Omega_0)
+      \in
+      \operatorname*{argmin}_{U\subset B_R}
+      \left\{
+      E(U)+f_{\hat\eta}(\abs U)
+      +\Phi_{\varepsilon,\tau}(\alpha(U))
+      \right\}.
+   \tag{2.3}
+\]
+This is exactly the Plan 1/BDV penalized minimizer, with the sequence parameter
+replaced by the single parameter \(\tau\).
+
+\begin{proposition}[Calibrated symmetrization properties]\label{prop:cal}
+Let \(U=S_\tau(\Omega_0)\), and let
+\[
+   F_{\hat\eta}(U):=E(U)+f_{\hat\eta}(\abs U).
+\]
+Then
+\[
+   F_{\hat\eta}(U)\le F_{\hat\eta}(\Omega_0).
+   \tag{2.4}\label{eq:energy-improve}
+\]
+Moreover
+\[
+   \frac{\abs{\alpha(U)-\varepsilon}}{\varepsilon}
+      \le
+      \frac{\sqrt{2q+q^2}}{\tau}
+      +O_R(q),
+   \tag{2.5}\label{eq:alpha-preserve}
+\]
+with the harmless \(O_R(q)\) coming from the usual volume-penalty
+normalization.
+\end{proposition}
+
+\begin{proof}
+Minimality gives
+\[
+   F_{\hat\eta}(U)+\Phi_{\varepsilon,\tau}(\alpha(U))
+      \le
+   F_{\hat\eta}(\Omega_0)+\Phi_{\varepsilon,\tau}(\varepsilon)
+      =
+   F_{\hat\eta}(\Omega_0)+\varepsilon.
+\]
+Since \(\Phi_{\varepsilon,\tau}\ge\varepsilon\), this implies
+\eqref{eq:energy-improve}.  Also, using the lower bound
+\(F_{\hat\eta}(U)\ge F_{\hat\eta}(B_1)-O_R(\delta)\) supplied by the BDV
+volume-penalty lemma, the same inequality gives
+\[
+   \sqrt{\varepsilon^2+\tau^2(\alpha(U)-\varepsilon)^2}
+      \le
+   \varepsilon+\delta+O_R(\delta\varepsilon).
+\]
+Squaring and dividing by \(\varepsilon^2\) gives
+\eqref{eq:alpha-preserve}.
+\end{proof}
+
+Thus the map \(S_\tau\) really is an improvement step: it lowers the
+volume-penalized torsion energy, while the soft constraint prevents the
+asymmetry from collapsing.  With the canonical choice \(\tau=q^{1/4}\), the
+relative asymmetry loss is \(O(q^{1/4})\).
+
+\section{The flow behind the minimization}
+
+For a smooth deformation with normal velocity \(V\), the torsion energy has
+the shape derivative
+\[
+   E'(U)[V]
+      =
+      -\frac12\int_{\partial U}\abs{\nabla u_U}^2 V\,\dH.
+   \tag{3.1}
+\]
+The volume term contributes \(f_{\hat\eta}'(\abs U)\int_{\partial U}V\,\dH\).
+The smooth asymmetry has first variation
+\[
+   \alpha'(U)[V]
+      =
+      \int_{\partial U}\Psi_U V\,\dH,
+   \tag{3.2}
+\]
+where, up to an additive constant absorbed into the volume multiplier,
+\[
+   A_U:=\frac1{\abs U}
+      \int_U\frac{z-x_U}{\abs{z-x_U}}\,dz,
+   \qquad
+   \Psi_U(x):=\abs{x-x_U}-A_U\cdot(x-x_U).
+   \tag{3.3}
+\]
+Since \(\abs{A_U}\le1\), the bracket is globally Lipschitz:
+\[
+   \operatorname{Lip}(\Psi_U)\le 2.
+   \tag{3.4}
+\]
+
+At a smooth selected minimizer, stationarity gives the Bernoulli law
+\[
+   \abs{\nabla u_U(x)}^2
+      =
+      \Lambda
+      +
+      a\,\Psi_U(x),
+   \qquad x\in\partial U,
+   \tag{3.5}\label{eq:bernoulli-law}
+\]
+where
+\[
+   a=2\Phi_{\varepsilon,\tau}'(\alpha(U)),
+   \qquad
+   \abs a\le 2\tau,
+   \tag{3.6}
+\]
+up to the harmless convention-dependent factor \(2\).  Hence the boundary
+coefficient in \eqref{eq:bernoulli-law} has a Lipschitz constant bounded by
+\(C\tau\).
+Once the free boundary lies in a fixed annulus around the selected center,
+\(\Psi_U\) has \(C^k\) bounds depending only on \(N,R,k\), because the only
+nonlinear term is \(\abs{x-x_U}\).
+
+This is the flow interpretation: the formal normal velocity
+\[
+   V
+      =
+      \frac12\abs{\nabla u_U}^2
+      -f_{\hat\eta}'(\abs U)
+      -\Phi_{\varepsilon,\tau}'(\alpha(U))\Psi_U
+   \tag{3.7}
+\]
+is a constrained torsion-symmetrizing descent.  The selected minimizer is a
+stationary point of this descent.  The direct minimization is an implicit
+Euler/resolvent version of the flow, and it avoids having to construct the
+flow itself.
+
+\section{Local replacement version}
+
+The same idea can be phrased without global minimization.  Given a current
+positivity set \(U=\{u>0\}\), choose a ball \(B\subset B_R\), keep \(u\) fixed
+outside \(B\), and replace \(u\) inside \(B\) by a competitor \(v\) that lowers
+\[
+   \frac12\int\abs{\nabla v}^2-\int v
+      + f_{\hat\eta}(\abs{\{v>0\}})
+      + \Phi_{\varepsilon,\tau}(\alpha(\{v>0\})).
+\]
+Because of \eqref{eq:alpha-l1-lip}--\eqref{eq:phi-slope}, the last term
+changes by at most
+\[
+   C_R\tau\,
+   \abs{\{u>0\}\Delta\{v>0\}}.
+   \tag{4.1}
+\]
+Therefore any limit of a descent-by-local-replacements procedure satisfies the
+one-phase quasi-minimality inequality
+\[
+\begin{aligned}
+   \frac12\int\abs{\nabla u}^2-\int u
+      + f_{\hat\eta}(\abs{\{u>0\}})
+   \le{}&
+   \frac12\int\abs{\nabla v}^2-\int v
+      + f_{\hat\eta}(\abs{\{v>0\}}) \\
+   &+ C_R\tau\,
+      \abs{\{u>0\}\Delta\{v>0\}}.
+\end{aligned}
+\tag{4.2}
+\]
+This is precisely the Alt--Caffarelli/BDV input used for density,
+nondegeneracy, Lipschitz control of \(u\), and eventual free-boundary
+regularity.  In this local form the selection step looks like a smoothing
+algorithm: keep making torsion-improving replacements, but charge any
+asymmetry drift by a uniformly Lipschitz cost.
+
+\section{What this does and does not replace}
+
+\begin{enumerate}[label=\arabic*.]
+\item It does replace the vague compactness language by a concrete
+``symmetrizing resolvent'':
+\[
+   \Omega_0\mapsto S_\tau(\Omega_0).
+\]
+The map lowers volume-penalized torsion energy and keeps the smooth asymmetry
+within a controlled factor.
+
+\item It explains why the extra functional can be chosen with bounded
+Lipschitz constant.  The scalar penalty has slope at most \(\tau\), and the
+asymmetry bracket has globally bounded Lipschitz norm on \(B_R\).  On the
+eventual annular collar the bracket has all \(C^k\) bounds needed for the
+Schauder bootstrap.
+
+\item It is not a literal Schwarz/Steiner symmetrization.  Such
+symmetrizations improve the energy by moving toward the ball, but they also
+erase the asymmetry.  Selection must improve the set while keeping it at the
+same asymmetry level, because otherwise a near-counterexample disappears.
+
+\item It does not by itself prove graph entry.  It gives a regular
+quasi-minimizer with a controlled Bernoulli coefficient.  The later Plan 1
+steps still need density, Hausdorff-to-flatness, and patching to a global
+graph.
+\end{enumerate}
+
+\section{Practical takeaway}
+
+The underlying structure of the Plan 1 selection step is:
+\[
+   \boxed{
+   \hbox{torsion symmetrization constrained to the asymmetry level of the input}
+   }
+\]
+implemented by an implicit variational step.  For the purpose of regularity,
+the only property of the asymmetry constraint that matters is
+\[
+   \abs{\Phi_{\varepsilon,\tau}(\alpha(U))
+       -\Phi_{\varepsilon,\tau}(\alpha(V))}
+      \le C_R\tau\abs{U\Delta V},
+\]
+and, at a smooth boundary,
+\[
+   \abs{\nabla u_U}^2=\Lambda+a\Psi_U,
+   \qquad
+   \abs a\le C\tau,
+   \qquad
+   \operatorname{Lip}(\Psi_U)\le C.
+\]
+So yes: after selection, one may treat the added functional as a Lipschitz
+boundary forcing with bounded Lipschitz constant.  The penalized minimization
+is the rigorous surrogate for the desired smoothing/flow-like symmetrization.
+
+\end{document}

@@ -1,0 +1,302 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Om}{\Omega}
+\newcommand{\dT}{\delta_T}
+\newcommand{\A}{\mathcal A}
+\newcommand{\capr}{\operatorname{cap}}
+\newcommand{\HH}{\mathcal H}
+
+\title{Planar Radialization Lemma: Proof Attempt}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Purpose}
+
+The hybrid route would be closed by the following statement.
+
+\begin{conjecture}[Planar radialization at torsion scale]
+\label{conj:rad}
+Let \(E=E_{\hat t}\subset\R^2\) be the regular good level obtained from
+the corrected Step 1, normalized by \(|E|=\pi\), with
+\[
+   |\Omega\setminus E|\le C\dT(\Omega),
+   \qquad
+   \dT(E)\le C\dT(\Omega).
+\]
+Then there exists a small-amplitude radial graph \(G\), after a
+translation and area normalization, such that
+\[
+   |E\Delta G|\le C\dT(\Omega),
+   \qquad
+   \dT(G)\le C\dT(\Omega).
+   \tag{R}
+\]
+\end{conjecture}
+
+If true, Conjecture~\ref{conj:rad} closes the \(n=2\) hybrid route:
+the existing small-amplitude radial-graph theorem gives
+\(\A(G)^2\le C\dT(G)\), the symmetric-difference estimate transfers this
+to \(E\), and Step 5 transfers from \(E\) to \(\Omega\).
+
+This note tries to prove Conjecture~\ref{conj:rad}.  The outcome is
+partial: two needed analytic pieces are proved below, and the proof is
+reduced to two explicit geometric lemmas.  I do not see a way to remove
+those lemmas using only the current repo.
+
+\section{A capacity identity that is genuinely useful}
+
+Let
+\[
+   T(D):=\int_D u_D\,dx=\int_D|\nabla u_D|^2\,dx
+\]
+be the torsional rigidity, where \(-\Delta u_D=1\) in \(D\) and
+\(u_D\in H^1_0(D)\).
+
+\begin{lemma}[Exact torsion loss under an internal obstacle]
+\label{lem:caploss}
+Let \(D\subset\R^2\) be open with finite measure and let
+\(K\Subset D\) be compact.  Put \(D_K:=D\setminus K\).  Then
+\[
+   T(D)-T(D_K)
+      =\int_D |\nabla(u_D-u_{D_K})|^2\,dx .
+   \tag{2.1}
+\]
+Consequently, if \(u_D\ge a>0\) quasi-everywhere on \(K\), then
+\[
+   T(D)-T(D_K)\ge a^2\,\capr_D(K),
+   \tag{2.2}
+\]
+where \(\capr_D(K)\) is the relative condenser capacity of \(K\) in \(D\).
+\end{lemma}
+
+\begin{proof}
+Let
+\[
+   J_D(v)=\frac12\int_D|\nabla v|^2\,dx-\int_D v\,dx .
+\]
+The minimizer of \(J_D\) over \(H^1_0(D)\) is \(u_D\), and
+\(J_D(u_D)=-T(D)/2\).  Since \(u_{D_K}\in H^1_0(D)\), and since
+\(J_D(u_{D_K})=J_{D_K}(u_{D_K})=-T(D_K)/2\), strict convexity around
+the minimizer gives
+\[
+   J_D(u_{D_K})-J_D(u_D)
+      =\frac12\int_D|\nabla(u_D-u_{D_K})|^2\,dx .
+\]
+This proves (2.1).
+
+For (2.2), \(h:=u_D-u_{D_K}\) is admissible for the condenser problem
+after division by \(a\): it is in \(H^1_0(D)\) and satisfies
+\(h\ge a\) quasi-everywhere on \(K\).  Hence
+\[
+   \int_D|\nabla h|^2\,dx\ge a^2\capr_D(K).
+\]
+\end{proof}
+
+This is the right mechanism for inward fjords.  If a missing piece \(K\)
+sits a fixed positive torsion height inside the filled set, then
+removing it has a capacity cost.  In the plane, capacity is much larger
+than area for tiny holes, so a small torsion deficit forces the area
+that must be filled to be small.
+
+\section{Filling is compatible with the torsion deficit}
+
+The next observation removes a previous worry: if the repair is mostly
+``fill holes'', then the torsion deficit of the repaired set remains
+controlled after rescaling.
+
+\begin{lemma}[Monotone filling and area rescaling]
+\label{lem:fillscale}
+Let \(E\subset H\subset B_R\) be open planar sets with
+\[
+   |E|=\pi,\qquad |H|=\pi+v,\qquad 0\le v\le v_0(R).
+\]
+Let \(s=(\pi/|H|)^{1/2}\) and \(G=sH\), so \(|G|=\pi\).  Then
+\[
+   \dT(G)\le C_R\bigl(\dT(E)+v\bigr),
+   \tag{3.1}
+\]
+where \(\dT(D)=T(B_{|D|})-T(D)\), up to the fixed harmless normalization
+used in the repo.
+\end{lemma}
+
+\begin{proof}
+By monotonicity, \(T(H)\ge T(E)\).  Also
+\[
+   T(B_{|H|})-T(E)
+      =\bigl(T(B_{|H|})-T(B_\pi)\bigr)+\bigl(T(B_\pi)-T(E)\bigr)
+      \le C v+\dT(E),
+\]
+because in dimension two \(T(B_r)=\pi r^4/8\), while
+\(|B_r|=\pi r^2\), so \(T(B_{|H|})\) is \(C^1\) in the area near
+\(\pi\).  Therefore
+\[
+   T(B_{|H|})-T(H)\le C v+\dT(E).
+\]
+Scaling by \(s\) multiplies torsional rigidity by \(s^4\), and it sends
+the equal-volume ball for \(H\) to \(B_\pi\).  Thus
+\[
+   \dT(G)=s^4\bigl(T(B_{|H|})-T(H)\bigr)
+      \le C_R(\dT(E)+v).
+\]
+\end{proof}
+
+Thus a proof of Conjecture~\ref{conj:rad} can focus on producing a
+small-amplitude radial graph hull \(H\supset E'\), where \(E'\) is \(E\)
+after deleting only low-torsion outward debris, with total fill/delete
+volume \(O(\dT(E))\).
+
+\section{What would close the proof}
+
+The previous lemmas show that the radialization proof would follow from
+two geometric statements.
+
+\begin{conjecture}[Planar core/capacity fill lemma]
+\label{conj:corefill}
+Let \(E=E_{\hat t}\) be the Step-1 good level in dimension two, with
+\(\dT(E)\le\delta\) and \(D_H(\hat t)+D_I(\hat t)\le\theta\), where
+\(\theta\) is a sufficiently small dimensional constant.  After choosing
+the same center supplied by the Plan 2/FJ slicing package, let
+\[
+   K_{\rm in}
+\]
+be the union of inward fjords, holes, and same-ray missing intervals
+that must be filled to obtain a star-shaped set inside a fixed annulus.
+Then
+\[
+   |K_{\rm in}|\le C\delta .
+   \tag{4.1}
+\]
+\end{conjecture}
+
+\begin{conjecture}[Planar outward pruning lemma]
+\label{conj:outprune}
+Under the same hypotheses, let \(K_{\rm out}\subset E\) be the outward
+debris that prevents the radial hull from having small \(L^\infty\)
+amplitude: remote small components, active thin outward fingers, and
+same-ray excess intervals beyond the annular graph radius.  Then one
+can choose \(K_{\rm out}\) so that
+\[
+   |K_{\rm out}|\le C\delta,
+   \qquad
+   T(E)-T(E\setminus K_{\rm out})\le C\delta .
+   \tag{4.2}
+\]
+\end{conjecture}
+
+Assuming Conjectures~\ref{conj:corefill} and~\ref{conj:outprune}, the
+proof of Conjecture~\ref{conj:rad} is short.  Set
+\[
+   E':=E\setminus K_{\rm out},\qquad
+   H:=E'\cup K_{\rm in},
+\]
+where \(K_{\rm in}\) is chosen so that \(H\) is a small-amplitude radial
+graph hull.  Then
+\[
+   |E\Delta H|\le |K_{\rm out}|+|K_{\rm in}|\le C\delta .
+\]
+By Conjecture~\ref{conj:outprune},
+\[
+   \dT(E')\le C\dT(E),
+\]
+and by monotonicity plus Lemma~\ref{lem:fillscale}, the area-normalized
+copy \(G\) of \(H\) satisfies
+\[
+   \dT(G)\le C(\dT(E')+|K_{\rm in}|)\le C\delta .
+\]
+This gives (R).
+
+\section{How far the repo gets toward the two conjectures}
+
+\subsection{Inward defects}
+
+Lemma~\ref{lem:caploss} is a real proof ingredient for
+Conjecture~\ref{conj:corefill}.  If an inward defect \(K\) lies where
+the filled torsion function is bounded below by \(a\), then it costs at
+least \(a^2\capr(K)\).  In a disk, a fixed-depth slit has a fixed
+positive relative capacity; a tiny hole has capacity comparable to
+\(1/|\log r|\), much larger than its area.  Therefore small torsion
+deficit should force the total area of fillable inward defects to be
+\(O(\delta)\), often much smaller.
+
+The missing point is not the capacity computation.  It is the
+\emph{core lower bound}: one must know that the missing intervals to be
+filled lie at positive torsion height in the filled comparison set.
+Equivalently, one needs a coarse annular/core theorem before applying
+capacity.  The current repo has measure and \(L^1\)-radial trace
+control, but not this pointwise core statement.
+
+\subsection{Outward defects}
+
+The model outward finger estimate is favorable in dimension two.  A
+thin tube of width \(w\) and length \(L\) has active-level
+\[
+   D_H\simeq L/w .
+\]
+Thus \(D_H\le\theta\) forces \(L\lesssim\theta w\), and the tube volume
+\(wL\) and clearing layer \(w^2\) are of the same controlled order.
+This is exactly the mechanism recorded in the Plan 3 tentacle notes.
+
+What is missing is the arbitrary-geometry version: a theorem that
+decomposes every outward non-graph part of an analytic torsion level
+into such tube/finger pieces, charges them either to \(D_H\) or to
+\(\dT(E)\), and proves the torsion loss after pruning is \(O(\delta)\).
+Plan 2's bad-ray multiplicity estimate controls the angular measure of
+extra crossings once an annular bracket is known, but it does not by
+itself prove the pruning estimate (4.2).
+
+\section{Failed shortcuts}
+
+\subsection{Metric \(L^1\) closeness is insufficient}
+
+The Plan 2 endpoint metric trace and the oriented radial trace control
+are useful but insufficient for graph entry.  They allow a small set of
+bad rays.  A literal \(L^\infty\) radial graph requires removing or
+filling all bad rays, and the cost of doing so must be \(O(\delta)\), not
+just \(o(1)\).
+
+\subsection{Small isoperimetric deficit is insufficient at the needed rate}
+
+Small \(D_I\) gives the right qualitative picture and Plan 2's bad-ray
+absorption, but the Step-1 extraction at an \(O(\delta)\) layer only
+gives \(D_I\le\theta\) for fixed \(\theta\), not \(D_I=O(\delta)\).
+Thus \(D_I\) alone can put the level into a fixed thin annulus, but it
+cannot pay for the \(O(\delta)\)-volume repair.
+
+\subsection{The unweighted Hessian route remains false}
+
+The shortcut
+\[
+   \dT(D)\ge c\int_D |D^2u_D+I/2|^2
+\]
+would imply all of the needed compactness at once, but it is false on
+high-frequency smooth near-balls.  It must not be used.
+
+\section{Verdict}
+
+I cannot close Conjecture~\ref{conj:rad} from the existing repo
+ingredients.  The proof has been reduced to two concrete lemmas:
+
+\begin{enumerate}
+\item a planar core/capacity fill lemma for inward fjords and holes;
+\item a planar outward pruning lemma for non-graph outward debris.
+\end{enumerate}
+
+The capacity identity, Lemma~\ref{lem:caploss}, and the fill-rescale
+lemma, Lemma~\ref{lem:fillscale}, are rigorous and should be retained.
+They show that the intended radialization is not the wrong target.
+However, the repo does not yet contain the geometric decomposition
+needed to apply them to an arbitrary Step-1 torsion level.
+
+\end{document}

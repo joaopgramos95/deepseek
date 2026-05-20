@@ -1,0 +1,597 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\dT}{\delta_T}
+\newcommand{\al}{\alpha}
+\newcommand{\Et}{E_{\hat t}}
+\newcommand{\dH}{\,d\mathcal H^1}
+
+\title{Pushing the Selection--Plan 3 Hybrid}
+\author{}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\section{Purpose}
+
+This note tries to prove the hybrid replacement for Plan 1 graph entry:
+use selection to get a controlled class, go to a Plan 3 good level, upgrade
+\(D_H\) to \(L^2\)-Serrin and then to \(L^\infty\)-Serrin, apply a
+Brandolini-type annulus theorem, and conclude graph entry.
+
+The positive result is a rigorous quantitative interpolation lemma in
+dimension two.  The scale tradeoff is:
+the layer depth needed to get \(L^\infty\)-Serrin smallness is generally too
+large to preserve the selected asymmetry unless one knows the stronger
+relation
+\[
+   \dT(U)\ll \al(U)^2.
+\]
+This first looked like an obstruction.  But in a contradiction proof of
+\(\al(U)\lesssim \dT(U)^{1/2}\), the bad alternative is exactly
+\(\al(U)\gg \dT(U)^{1/2}\), hence exactly \(\dT(U)\ll\al(U)^2\).  Thus the
+scale tradeoff is not the remaining obstruction.  The remaining obstruction
+is the geometric entry theorem: \(L^\infty\)-Serrin smallness on the chosen
+level must put that level into the small radial-graph class, without using
+BDV as a black box.
+
+\section{Standing Optimistic Hypotheses}
+
+Let \(U\subset B_R\subset\mathbb R^2\) be a selected minimizer, normalized
+near the unit disk, and let \(u\) be its torsion function.  Write
+\[
+   \delta:=\dT(U),\qquad a:=\al(U),\qquad q:=\delta/a.
+\]
+
+To give the hybrid the best possible chance, assume the following uniform
+geometric estimates, all with constants depending only on the selected class:
+
+\begin{enumerate}[label=(H\arabic*)]
+\item \textbf{Lipschitz potential and linear boundary growth.}
+There are \(0<c_0<L_0<\infty\) such that near \(\partial U\),
+\[
+   c_0\,{\rm dist}(x,\partial U)\le u(x)\le
+   L_0\,{\rm dist}(x,\partial U),
+   \qquad
+   |\nabla u(x)|\le L_0.
+   \tag{2.1}\label{eq:growth}
+\]
+\item \textbf{Tubular layer bound.}
+\[
+   |\{x\in U:{\rm dist}(x,\partial U)\le r\}|
+      \le P_0 r
+   \quad\hbox{for }0<r<r_0.
+   \tag{2.2}\label{eq:tube}
+\]
+\item \textbf{Level-set lower density.}
+For every regular level \(\Sigma_t=\{u=t\}\) considered below, every
+\(x\in\Sigma_t\), and every \(0<r<r_0\),
+\[
+   \mathcal H^1(\Sigma_t\cap B_r(x))\ge c_1 r.
+   \tag{2.3}\label{eq:ahlfors}
+\]
+\end{enumerate}
+
+\begin{remark}
+These hypotheses are stronger than what the selection step alone currently
+proves before graph entry.  They are included to isolate the numerical
+obstruction even under favorable assumptions.
+\end{remark}
+
+\begin{theorem}[Conditional hybrid estimate]\label{thm:conditional-hybrid}
+Assume (H1)--(H3) and the Plan 3 volume-variable identity
+\[
+   \int_0^{|U|}D_H(v(s))\,ds\le C\delta.
+\]
+Then, for every \(0<\lambda<\lambda_0\), there is a regular level
+\(\Sigma_{\hat t}=\partial E_{\hat t}\) such that
+\[
+   \lambda/2\le |U\setminus E_{\hat t}|\le \lambda,
+   \qquad
+   D_H(\hat t)\le C\delta/\lambda,
+\]
+and
+\[
+   {\rm dist}(\Sigma_{\hat t},\partial U)\ge c\lambda.
+\]
+Writing \(f=|\nabla u|\) on \(\Sigma_{\hat t}\) and
+\(\bar f=|E_{\hat t}|/P(E_{\hat t})\), one has
+\[
+   \int_{\Sigma_{\hat t}}(f-\bar f)^2\,d\mathcal H^1
+      \le C\frac{\delta}{\lambda}
+\]
+and
+\[
+   \|f-\bar f\|_{L^\infty(\Sigma_{\hat t})}
+      \le
+      C\left[
+        \left(\frac{\delta}{\lambda^2}\right)^{1/3}
+        +\left(\frac{\delta}{\lambda}\right)^{1/2}
+      \right].
+\]
+In particular, for \(\delta,\lambda\le1\),
+\[
+   \|f-\bar f\|_{L^\infty(\Sigma_{\hat t})}
+      \le C\left(\frac{\delta}{\lambda^2}\right)^{1/3}.
+\]
+Consequently, this mechanism can simultaneously give fixed small
+\(L^\infty\)-Serrin oscillation and preserve a fixed fraction of the
+selected asymmetry only in the stronger regime
+\[
+   \delta\le C\alpha(U)^2.
+\]
+This stronger regime is automatically available in the bad alternative of
+the desired estimate \(\alpha(U)\le C\sqrt\delta\).
+\end{theorem}
+
+The proof is the chain of estimates in Sections 3--7.
+
+\section{A Good Level in a Prescribed Layer}
+
+Let
+\[
+   \mu(t):=|U\setminus E_t|,\qquad E_t:=\{u>t\}.
+\]
+The Plan 3 volume-variable identity gives
+\[
+   \int_0^{|U|} D_H(v(s))\,ds \le C\delta
+\]
+in the normalized two-dimensional regime, up to harmless constants.  Hence,
+for any layer depth \(0<\lambda<\lambda_0\), there is a regular level
+\(\hat t\) with
+\[
+   \lambda/2\le \mu(\hat t)\le\lambda,
+   \qquad
+   D_H(\hat t)\le C\frac{\delta}{\lambda}.
+   \tag{3.1}\label{eq:good-level-lambda}
+\]
+Indeed, average over the volume slab
+\(\{s: |U|-\lambda\le s\le |U|-\lambda/2\}\), whose length is \(\lambda/2\),
+and intersect with regular values.
+
+The layer bound \eqref{eq:tube} and the lower growth in \eqref{eq:growth}
+give
+\[
+   \mu(t)
+      =
+      |\{0<u\le t\}|
+      \le
+      |\{{\rm dist}(x,\partial U)\le t/c_0\}|
+      \le
+      C t.
+\]
+Thus \(\mu(\hat t)\ge\lambda/2\) implies
+\[
+   \hat t\ge c\lambda.
+   \tag{3.2}\label{eq:t-lower}
+\]
+The upper Lipschitz bound in \eqref{eq:growth} then implies every point of
+\(\Sigma_{\hat t}\) lies at distance at least
+\[
+   d_\lambda:=c\lambda
+   \tag{3.3}\label{eq:dist-lower}
+\]
+from \(\partial U\).
+
+\section{\(D_H\) Gives \(L^2\)-Serrin}
+
+On \(\Sigma_{\hat t}\), set \(f=|\nabla u|\) and
+\(\bar f=|E_{\hat t}|/P(E_{\hat t})\).  The exact identity gives
+\[
+   \int_{\Sigma_{\hat t}}\frac{(f-\bar f)^2}{f}\,\dH
+      =
+      \frac{|E_{\hat t}|}{P(E_{\hat t})^2}D_H(\hat t).
+\]
+Using \(|\nabla u|\le L_0\) and the uniform perimeter/area bounds in the
+selected class,
+\[
+   \int_{\Sigma_{\hat t}}(f-\bar f)^2\,\dH
+      \le C D_H(\hat t)
+      \le C\frac{\delta}{\lambda}.
+   \tag{4.1}\label{eq:l2-lambda}
+\]
+
+\section{Interior Regularity Gives a Lipschitz Modulus on the Level}
+
+Since \(\Sigma_{\hat t}\) is at distance \(d_\lambda\ge c\lambda\) from
+\(\partial U\), interior estimates apply.  Moreover, by the upper growth in
+\eqref{eq:growth}, in balls of radius comparable to \(d_\lambda\) around
+\(\Sigma_{\hat t}\) one has \(\sup u\le C d_\lambda\).  Standard interior
+estimates for \(-\Delta u=1\) therefore give
+\[
+   \|D^2u\|_{L^\infty(\hbox{a }c\lambda\hbox{-collar of }\Sigma_{\hat t})}
+      \le \frac{C}{\lambda}.
+   \tag{5.1}\label{eq:hessian}
+\]
+Consequently
+\[
+   {\rm Lip}_{\Sigma_{\hat t}}(|\nabla u|)
+      \le \frac{C}{\lambda}.
+   \tag{5.2}\label{eq:f-lip}
+\]
+
+\section{The \(L^2\to L^\infty\) Upgrade in Dimension Two}
+
+\begin{lemma}[Level interpolation]\label{lem:interp}
+Let \(\Sigma\) be a regular level satisfying the lower density
+\eqref{eq:ahlfors}.  If \(g\) is Lipschitz on \(\Sigma\), with
+\[
+   \int_\Sigma g^2\,d\mathcal H^1\le B,
+   \qquad
+   {\rm Lip}_\Sigma(g)\le M,
+\]
+then
+\[
+   \|g\|_{L^\infty(\Sigma)}
+      \le C(c_1,r_0)\left((BM)^{1/3}+B^{1/2}\right).
+\]
+In particular, if \(0<B\le B_0\), \(0<M\), and \(BM\ge B^{3/2}\), then
+\[
+   \|g\|_{L^\infty(\Sigma)}
+      \le C(c_1,r_0,B_0)\,(BM)^{1/3}.
+\]
+\end{lemma}
+
+\begin{proof}
+Let \(A=\|g\|_{L^\infty(\Sigma)}\), attained up to approximation at a point
+\(x\in\Sigma\).  If \(M=0\), then \(g\) is constant on each connected
+component of \(\Sigma\), and the lower density at one point gives
+\(B\ge c_1r_0 A^2\) after replacing \(r_0\) by a smaller dimensional radius
+if necessary.  Hence \(A\le C B^{1/2}\).
+
+Assume now \(M>0\), and set \(r=A/(2M)\).  If \(r\le r_0\), then
+\(|g|\ge A/2\) on \(\Sigma\cap B_r(x)\), and \eqref{eq:ahlfors} gives
+\[
+   B\ge \int_{\Sigma\cap B_r(x)}g^2\,d\mathcal H^1
+      \ge \frac{A^2}{4}\,c_1 r
+      =
+      c\,\frac{A^3}{M}.
+\]
+Hence \(A\le C(BM)^{1/3}\).  If \(r>r_0\), then the same argument with
+\(r_0\) gives \(B\ge cA^2r_0\), hence \(A\le C B^{1/2}\).
+\end{proof}
+
+Apply Lemma~\ref{lem:interp} to
+\[
+   g=f-\bar f.
+\]
+By \eqref{eq:l2-lambda} and \eqref{eq:f-lip},
+\[
+   B\le C\frac{\delta}{\lambda},
+   \qquad
+   M\le C\frac1\lambda.
+\]
+Therefore
+\[
+   \|\,|\nabla u|-\bar f\,\|_{L^\infty(\Sigma_{\hat t})}
+      \le
+      C\left[
+        \left(\frac{\delta}{\lambda^2}\right)^{1/3}
+        +\left(\frac{\delta}{\lambda}\right)^{1/2}
+      \right].
+   \tag{6.1a}\label{eq:linfty-lambda-full}
+\]
+In the regime relevant to near-balls, \(\delta,\lambda\le1\), the second
+term is dominated by the first:
+\[
+   \left(\frac{\delta}{\lambda}\right)^{1/2}
+      \le
+   \left(\frac{\delta}{\lambda^2}\right)^{1/3}.
+\]
+Thus
+\[
+   \|\,|\nabla u|-\bar f\,\|_{L^\infty(\Sigma_{\hat t})}
+      \le
+      C\left(\frac{\delta}{\lambda^2}\right)^{1/3}.
+   \tag{6.1b}\label{eq:linfty-lambda}
+\]
+This is the strongest rigorous estimate obtainable from the proposed
+mechanism, even under the optimistic hypotheses above.
+
+\section{The Layer-Depth Tradeoff}
+
+To make the \(L^\infty\)-Serrin oscillation smaller than a prescribed
+\(\varepsilon_B\), \eqref{eq:linfty-lambda} requires
+\[
+   \lambda
+      \ge
+      C\varepsilon_B^{-3/2}\sqrt{\delta}.
+   \tag{7.1}\label{eq:lambda-linf}
+\]
+This is exactly the \(\sqrt\delta\)-scale found in the Plan 3 push.
+
+But preserving the selected asymmetry requires a much smaller layer.  Since
+\(\alpha\) is \(L^1\)-Lipschitz on bounded sets,
+\[
+   \alpha(E_{\hat t}^{\sharp})
+      \ge
+      \alpha(U)-C|U\setminus E_{\hat t}|
+      \ge
+      a-C\lambda.
+   \tag{7.2}\label{eq:alpha-layer}
+\]
+Thus to keep, say,
+\[
+   \alpha(E_{\hat t}^{\sharp})\ge\frac12\alpha(U),
+\]
+one needs
+\[
+   \lambda\le c a.
+   \tag{7.3}\label{eq:lambda-alpha}
+\]
+
+Combining \eqref{eq:lambda-linf} and \eqref{eq:lambda-alpha}, the route can
+simultaneously produce \(L^\infty\)-Serrin smallness and preserve asymmetry
+only if
+\[
+   \sqrt{\delta}\le C a,
+   \qquad\hbox{equivalently}\qquad
+   \delta\le C a^2.
+   \tag{7.4}\label{eq:delta-alpha2}
+\]
+In terms of \(q=\delta/a\), this is
+\[
+   q\le C a.
+   \tag{7.5}
+\]
+
+\section{The Correct Contradiction Split}
+
+The desired conclusion is
+\[
+   a=\alpha(U)\le C_*\sqrt\delta.
+\]
+Fix a large constant \(M\), to be chosen from the constants below.  If
+\[
+   a\le M\sqrt\delta,
+\]
+there is nothing to prove.  Otherwise assume
+\[
+   a>M\sqrt\delta.
+   \tag{8.1}\label{eq:bad-alt}
+\]
+Choose
+\[
+   \lambda=K\sqrt\delta,
+   \tag{8.2}\label{eq:lambda-sqrt}
+\]
+with \(K\) large enough that \eqref{eq:linfty-lambda} gives
+\[
+   \|\,|\nabla u|-\bar f\,\|_{L^\infty(\partial E_{\hat t})}
+      \le \varepsilon_B.
+   \tag{8.3}\label{eq:linfty-small}
+\]
+Indeed
+\[
+   \left(\frac{\delta}{\lambda^2}\right)^{1/3}
+      =
+   K^{-2/3}.
+\]
+Thus \(K\ge C\varepsilon_B^{-3/2}\) suffices.
+
+The same choice is still small relative to the selected asymmetry in the bad
+alternative: if \(M\ge 4CK\), then
+\[
+   \lambda=K\sqrt\delta\le \frac{K}{M}a\le \frac{a}{4C},
+\]
+and therefore
+\[
+   \alpha(E_{\hat t}^{\sharp})
+      \ge a-C\lambda
+      \ge \frac34 a.
+   \tag{8.4}\label{eq:alpha-preserved-bad}
+\]
+This lower bound is not actually needed for the final transfer, but it shows
+that the selected badness has not been destroyed by the inset.
+
+The Plan 3 profile transfer for superlevel sets gives, for every small
+\(\lambda\) and not only for \(\lambda=O(\delta)\),
+\[
+   \dT(E_{\hat t})
+      \le
+   \frac{1}{1-\lambda/|U|}\,\dT(U)
+      \le
+   2\delta
+   \tag{8.5}\label{eq:deficit-transfer-sqrt}
+\]
+after taking \(\delta\) small enough that \(\lambda\le |U|/2\).  This is the
+exact profile computation using \(u-\hat t=u_{E_{\hat t}}\); it is not a
+monotonicity assertion.
+
+Now assume the remaining geometric entry statement:
+
+\begin{quote}
+\emph{If a regular superlevel set \(E_{\hat t}\) in the selected planar
+class satisfies \eqref{eq:linfty-small}, then after translation and volume
+normalization it belongs to the small-amplitude radial graph class to which
+the direct graph theorem applies.}
+\end{quote}
+
+Then the direct radial-graph theorem gives
+\[
+   \alpha(E_{\hat t})^2
+      \le
+   C_G\,\dT(E_{\hat t})
+      \le
+   C_G'\delta.
+   \tag{8.6}\label{eq:graph-final}
+\]
+Finally the elementary superlevel transfer gives
+\[
+   \alpha(U)
+      \le
+   \alpha(E_{\hat t})+C|U\setminus E_{\hat t}|
+      \le
+   C\sqrt\delta + CK\sqrt\delta
+      \le
+   C_*\sqrt\delta.
+   \tag{8.7}\label{eq:transfer-final}
+\]
+Choosing \(M>C_*\) contradicts the bad alternative
+\eqref{eq:bad-alt}.  Therefore \(a\le M\sqrt\delta\).
+
+\section{Checking the Selected-Regularity Route to Brandolini}
+
+The geometric entry statement in the previous section is supplied if the
+selection step is used with its full regularity output, not merely with the
+coarse Lipschitz/density bounds (H1)--(H3).  The needed input is:
+
+\begin{quote}
+\textbf{(SR)} The selected planar minimizer \(U\) has a uniformly controlled
+\(C^{2,\alpha}\) boundary in a fixed atlas, the torsion function has a
+uniform \(C^{2,\alpha}\) norm up to the boundary, and
+\[
+   0<q_-\le |\nabla u|\le q_+
+   \quad\hbox{on }\partial U,
+   \tag{9.1}\label{eq:sr-hopf}
+\]
+with all constants depending only on the selected class.
+\end{quote}
+
+This is exactly the kind of output provided by the Plan~1 graph-entry plus
+Schauder bootstrap package: after the selected set is known to be a
+\(C^{1,\gamma}\) graph, the selected Bernoulli law and the uniform Schauder
+bootstrap give \(C^{m,\gamma}\) bounds, in particular \(C^{2,\alpha}\), with
+constants depending only on the selected class.
+
+\begin{lemma}[Inset regularity inherited from the selected boundary]
+\label{lem:inset-regularity}
+Assume \emph{(SR)}.  Then there are \(t_0>0\) and constants
+\(\rho_0,K_0,d_0\), depending only on \emph{(SR)}, such that every regular
+level \(E_t=\{u>t\}\), \(0<t<t_0\), is connected and has \(C^{2,\alpha}\)
+boundary in the sense of Brandolini's Definition~6, with atlas constants
+\((\rho_0,K_0)\) and diameter at most \(d_0\).
+\end{lemma}
+
+\begin{proof}
+By \eqref{eq:sr-hopf} and the \(C^{1}\)-continuity of \(\nabla u\) up to
+\(\partial U\), after shrinking a fixed tubular collar one has
+\[
+   |\nabla u|\ge q_-/2.
+   \tag{9.2}
+\]
+In normal coordinates \(x=y-s\nu_U(y)\), \(y\in\partial U\), the map
+\((y,s)\mapsto u(y-s\nu_U(y))\) is \(C^{2,\alpha}\), has
+\(\partial_s u\le -q_-/2\), and has uniformly bounded \(C^{2,\alpha}\) norm.
+The quantitative implicit function theorem therefore gives, for
+\(0<t<t_0\), a \(C^{2,\alpha}\) function \(s_t(y)\) with uniformly bounded
+\(C^{2,\alpha}\) norm such that
+\[
+   \partial E_t=\{y-s_t(y)\nu_U(y):y\in\partial U\}.
+   \tag{9.3}
+\]
+The uniform atlas constants follow from the corresponding constants for
+\(\partial U\), the tubular radius, and the implicit-function constants.
+The small selected graph class contains a fixed inner ball, and the linear
+boundary growth gives \(E_t\) a slightly smaller fixed inner ball for
+\(t<t_0\); hence these near-boundary levels are connected.  The diameter
+bound is inherited from \(U\subset B_R\).
+\end{proof}
+
+\begin{lemma}[Brandolini annulus for the stopped level]
+\label{lem:brandolini-annulus-selected}
+Assume \emph{(SR)} and choose the stopped level in the bad alternative with
+\(\lambda=K\sqrt\delta\).  After volume normalization of \(E_{\hat t}\), there
+are a center \(z\) and a modulus \(\eta(K,\delta)\) such that
+\[
+   B_{1-\eta(K,\delta)}(z)
+      \subset E_{\hat t}^{\sharp}
+      \subset B_{1+\eta(K,\delta)}(z),
+   \tag{9.4}\label{eq:selected-annulus}
+\]
+where
+\[
+   \eta(K,\delta)
+      \le
+      C_{\rm Br}\left(K^{-2/3}+C_K\sqrt\delta\right)^\mu
+      +C_K\sqrt\delta.
+   \tag{9.5}\label{eq:eta-K}
+\]
+Here \(\mu>0\) is Brandolini's dimensional exponent and
+\(C_{\rm Br}\) depends only on the selected regularity constants from
+\emph{(SR)}.
+\end{lemma}
+
+\begin{proof}
+Set \(v=u-\hat t=u_{E_{\hat t}}\).  In dimension two, \(w=-2v\) satisfies
+\(\Delta w=2\) in \(E_{\hat t}\) and \(w=0\) on \(\partial E_{\hat t}\).
+By \eqref{eq:linfty-small},
+\[
+   \bigl\||\nabla v|-\bar f\bigr\|_{L^\infty(\partial E_{\hat t})}
+      \le C K^{-2/3}.
+   \tag{9.6}\label{eq:level-linf}
+\]
+The flux identity gives
+\[
+   \bar f=\frac{|E_{\hat t}|}{P(E_{\hat t})}.
+   \tag{9.7}
+\]
+Since the good level has \(|E_{\hat t}|=\pi+O_K(\sqrt\delta)\) and
+\(P(E_{\hat t})=2\pi+O_K(\sqrt\delta)\), we have
+\[
+   \left|\bar f-\frac12\right|\le C_K\sqrt\delta.
+   \tag{9.8}\label{eq:fbar-half}
+\]
+Since \(|Dw|=2|\nabla v|\), \eqref{eq:level-linf} and
+\eqref{eq:fbar-half} give
+\[
+   \bigl\||Dw|-1\bigr\|_{L^\infty(\partial E_{\hat t})}
+      \le C\left(K^{-2/3}+C_K\sqrt\delta\right).
+   \tag{9.9}
+\]
+Lemma~\ref{lem:inset-regularity} supplies connectedness, diameter control,
+and the uniform \(C^{2,\alpha}\) atlas constants required in Brandolini's
+Theorem~2.  Therefore Brandolini gives concentric inner and outer balls for
+\(E_{\hat t}\) with gap bounded by the first term in \eqref{eq:eta-K}.  The
+final area normalization changes all radii by \(1+O_K(\sqrt\delta)\), which
+adds the last term in \eqref{eq:eta-K}.
+\end{proof}
+
+Thus the annular core needed by the Plan~3 radial-hull pocket lemma is indeed
+available from the selection regularity route: first choose \(K\) so large
+that the \(K^{-2/3}\) contribution is below the Brandolini/graph threshold,
+and then choose \(\delta\) so small that the \(C_K\sqrt\delta\) errors are
+smaller than the same threshold.
+
+\begin{remark}
+This check does not use BDV's final stability theorem as a black box.  It uses
+only the selected-minimizer regularity package and Brandolini's Serrin
+stability theorem.  If the available selection output were only Lipschitz
+boundary, density, and bounded \(|\nabla u|\), then the argument would fail
+exactly at Lemma~\ref{lem:inset-regularity}: Brandolini's Theorem~2 has a
+constant depending on the \(C^{2,\alpha}\) atlas of the domain.
+\end{remark}
+
+\section{Verdict}
+
+The user's split patches the scale objection.  The estimate
+\[
+   \|\,|\nabla u|-\bar f\,\|_{L^\infty(\partial E_{\hat t})}
+      \le
+      C\left(\frac{\delta}{\lambda^2}\right)^{1/3}
+\]
+forces the \(\sqrt\delta\)-inset scale, but this is compatible with the
+proof by contradiction because the only nontrivial case has
+\(\alpha(U)\gg\sqrt\delta\).
+
+Thus the remaining issue is not a scale theorem.  If the selected regularity
+input \emph{(SR)} is available, Brandolini supplies the same-center annular
+core for the stopped level.  Combined with the Plan~3 radial-hull pocket
+lemma, this gives the required radialization at \(O(\delta)\) fill cost and
+closes the planar hybrid route.
+
+If \emph{(SR)} is weakened to only Lipschitz boundary, density, and bounded
+\(|\nabla u|\), then the proof stops exactly at Brandolini's regularity
+constant: one has no uniform \(C^{2,\alpha}\) atlas for the stopped level.
+
+\end{document}

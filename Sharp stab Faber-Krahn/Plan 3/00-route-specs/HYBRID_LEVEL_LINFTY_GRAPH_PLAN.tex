@@ -1,0 +1,236 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Om}{\Omega}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Sph}{\mathbb S}
+\newcommand{\cA}{\mathcal A}
+\newcommand{\dT}{\delta_T}
+
+\title{Hybrid Level-Flow Route to an \(L^\infty\) Graph}
+\author{}
+\date{May 18, 2026}
+
+\begin{document}
+\maketitle
+
+\section{The Intended Hybrid}
+
+The intended route is not a pure Plan 3 single-level argument and not the
+full Plan 2 foliation argument.  It is the following hybrid.
+
+\begin{enumerate}
+\item Move inward along torsion levels \(E_t=\{u_\Om>t\}\).
+\item Stop at a level \(E_{\hat t}\) for which the discarded layer is still
+sharp:
+\[
+   |\Om\setminus E_{\hat t}|\le C_n\dT(\Om).
+\]
+\item Prove that this level is an \(L^\infty\) radial graph after translation
+and volume normalization:
+\[
+   E_{\hat t}^{\sharp}
+      =\{z+r\theta:0<r<1+\varphi(\theta)\},
+   \qquad
+   \|\varphi\|_{L^\infty(\Sph^1)}\le\eta_0.
+\]
+No \(C^1\), curvature, perimeter, or \(H^1\) control is required.
+\item Apply the direct small-amplitude radial-graph theorem:
+\[
+   \dT(E_{\hat t})\ge c\|\varphi\|_{L^2}^2
+      \ge c'\cA(E_{\hat t})^2 .
+\]
+\item Transfer back using the superlevel set estimate
+\[
+   \cA(\Om)\le \cA(E_{\hat t})+
+      2|\Om\setminus E_{\hat t}|/|\Om|.
+\]
+\end{enumerate}
+
+The point of the direct radial-graph theorem is exactly that Step 3 only has
+to produce a small-amplitude graph.  The usual high-norm graph entry is not
+needed.
+
+\section{The Conditional Assembly}
+
+The following theorem is already enough to close the hybrid in dimension
+\(2\).
+
+\begin{conjecture}[Level-flow \(L^\infty\) graph-entry theorem in \(n=2\)]
+\label{conj:linfty-entry}
+There are computable constants \(\delta_0,\eta_0,C>0\) such that, if
+\(\Om\subset\R^2\), \(|\Om|=\pi\), and \(\dT(\Om)\le\delta_0\), then there
+exists a regular value \(\hat t\) of \(u_\Om\) and a center \(z\in\R^2\) such
+that
+\[
+   |\Om\setminus E_{\hat t}|\le C\dT(\Om),
+\]
+and, after translating by \(z\) and rescaling to area \(\pi\),
+\[
+   E_{\hat t}^{\sharp}
+      =\{r e^{i\theta}:0<r<1+\varphi(\theta)\},
+   \qquad
+   \|\varphi\|_{L^\infty(\Sph^1)}\le\eta_0,
+\]
+with the volume and first moment normalized.
+\end{conjecture}
+
+\begin{proposition}[Conditional closure of the hybrid route]
+Assume Conjecture~\ref{conj:linfty-entry}.  Then the sharp quantitative
+Saint--Venant estimate
+\[
+   \cA(\Om)^2\le C_2\,\dT(\Om)
+\]
+holds in dimension \(2\), with computable constants.
+\end{proposition}
+
+\begin{proof}
+Choose \(E_{\hat t}\) from Conjecture~\ref{conj:linfty-entry}.  Step 3 of
+Plan 3 gives the exact deficit transfer
+\[
+   \dT(E_{\hat t})\le
+     \frac{1}{1-|\Om\setminus E_{\hat t}|/|\Om|}\,\dT(\Om)
+     \le 2\dT(\Om)
+\]
+after reducing \(\delta_0\).  The direct radial-graph theorem applies to
+the normalized graph \(E_{\hat t}^{\sharp}\) and gives
+\[
+   \cA(E_{\hat t})^2=\cA(E_{\hat t}^{\sharp})^2
+      \le C\,\dT(E_{\hat t}^{\sharp})
+      = C\,\dT(E_{\hat t})
+      \le C\,\dT(\Om),
+\]
+where the equality uses scale invariance of the normalized deficit.  Finally,
+Step 5 gives
+\[
+   \cA(\Om)\le \cA(E_{\hat t})+
+        2|\Om\setminus E_{\hat t}|/|\Om|
+     \le C\dT(\Om)^{1/2}+C\dT(\Om).
+\]
+Squaring and reducing \(\delta_0\) gives the claim.
+\end{proof}
+
+\section{What Is Already Proved}
+
+\begin{itemize}
+\item The \(O(\dT)\) layer selection is proved in Plan 3 Step 1, using the
+volume variable \(s=m(t)\).  This avoids the old \(t\)-length gap.
+\item The deficit transfer to \(E_{\hat t}\) is proved in Plan 3 Step 3,
+using the exact identity \(u_\Om-\hat t=u_{E_{\hat t}}\).
+\item The transfer back to \(\Om\) is proved in Plan 3 Step 5.
+\item The small-amplitude radial-graph theorem is proved in
+\texttt{H12\_ASYMMETRY\_DIRECT\_PROOF.tex}.  It needs only
+\(\|\varphi\|_{L^\infty}\) small and \(\|\varphi\|_{L^2}\) small; it does
+not require a slope or curvature bound.
+\end{itemize}
+
+\section{What the Entry Theorem Must Prove}
+
+Conjecture~\ref{conj:linfty-entry} is stronger than mere annular
+containment.  It must prove both:
+\[
+   B_{1-\eta_0}(z)\subset E_{\hat t}^{\sharp}
+      \subset B_{1+\eta_0}(z),
+\]
+and one radial crossing from \(z\) in every direction.  These are separate
+issues.
+
+\subsection{Outward fingers}
+
+The ball-plus-tube model supports the plan in dimension \(2\).  For a tube
+of width \(w\) and length \(L=O(1)\),
+\[
+   \dT(\Om)\simeq wL,
+\]
+while clearing the tube by passing above its cap height costs a ball-shell
+volume of order \(w^2\), plus the tube volume \(wL\).  Since \(w^2\le CwL\)
+in the nontrivial regime, the tube can be cleared within an \(O(\dT)\)
+discarded layer in \(n=2\).  Also, on active tube levels,
+\[
+   D_H(t)\simeq L/w,
+\]
+so those levels are very expensive for the \(D_H\)-identity.  This is the
+main reason the \(n=2\) hybrid remains plausible.
+
+\subsection{Inward fjords and holes}
+
+The harder part is inward geometry.  Since \(E_t\subset\Om\), moving inward
+cannot fill a missing fjord or hole.  Therefore the entry theorem must show
+that a small-deficit planar domain cannot have a fjord penetrating a fixed
+distance into the ball, unless that fjord is already paid for by
+\(\dT(\Om)\) at a fixed scale.
+
+The natural tool is planar capacity/modulus.  A narrow slit of fixed depth
+has positive \(W^{1,2}\)-capacity in the disk, so imposing \(u=0\) on such a
+slit should lower torsional rigidity by a definite amount, independently of
+the slit width.  A quantitative version would imply:
+
+\[
+   \hbox{inward penetration depth}\ge \eta
+      \quad\Longrightarrow\quad
+   \dT(\Om)\ge c(\eta)>0 .
+\]
+
+This would give the inner-radius half of the \(L^\infty\) graph entry after
+choosing the small-deficit threshold below \(c(\eta_0)\).  This capacity
+lemma is not currently proved in the repo.
+
+\subsection{Single crossing}
+
+Annular containment still permits multiple crossings on a ray.  To feed the
+radial-graph theorem one must rule out those crossings, or replace the graph
+theorem by a general annular-set theorem.
+
+For the hybrid as stated, the required lemma is:
+
+\[
+   \hbox{multiple crossings before the \(O(\dT)\) stop}
+      \quad\Longrightarrow\quad
+   \hbox{either large }D_H\hbox{ on a positive level interval}
+   \hbox{ or fixed torsion loss}.
+\]
+
+Plan 2's good-ray/bad-ray slicing machinery is relevant here: bad rays are
+measured by multiplicity and can be absorbed by perimeter-type excesses.  But
+the current repo does not contain the torsion-energy lower bound that turns
+this multiplicity into the \(L^\infty\) graph-entry conclusion.
+
+\section{What Not To Use}
+
+The hybrid should not use the single-level Hessian Chain B.  The false step is
+\[
+   \dT(D)\gtrsim \int_D |D^2u_D+\tfrac1nI|^2,
+\]
+which fails on high-frequency smooth near-balls by the spectral calculation
+recorded in \texttt{PLAN3\_N2\_SINGLE\_LEVEL\_RECHECK.tex}.  The correct
+scale is the radial-graph theorem's \(L^2\)/Fraenkel scale, not an \(H^1\)
+Hessian scale.
+
+\section{Precise Status}
+
+The hybrid route is coherent and sharper than the previous annular-set
+formulation: if the stopped level is truly an \(L^\infty\) radial graph, the
+existing radial-graph theorem finishes the proof.  The missing theorem is
+exactly Conjecture~\ref{conj:linfty-entry}.
+
+The proof of that conjecture should likely split into:
+\begin{enumerate}
+\item a \(D_H\)-integral clearing lemma for outward fingers, using the
+\(n=2\) scaling \(D_H\simeq L/w\) on active tube levels;
+\item a planar capacity/modulus exclusion of inward fjords of fixed depth;
+\item a same-center bad-ray/multiplicity argument to promote annular
+containment to one radial crossing.
+\end{enumerate}
+
+None of these three ingredients is currently written as a proof in the repo.
+The model computations support them in \(n=2\), but they are the actual work
+left by the hybrid plan.
+
+\end{document}

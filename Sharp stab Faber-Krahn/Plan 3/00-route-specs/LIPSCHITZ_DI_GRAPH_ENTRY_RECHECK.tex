@@ -1,0 +1,263 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Om}{\Omega}
+\newcommand{\dT}{\delta_T}
+\newcommand{\DI}{D_I}
+\newcommand{\A}{\mathcal A}
+\newcommand{\HH}{\mathcal H}
+
+\title{Does Lipschitz Boundary plus Small \(D_I\) Give Graph Entry?}
+\author{}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\section{Question}
+
+The proposed input is:
+\[
+   \partial E\hbox{ is Lipschitz},\qquad
+   |\nabla u_E|\hbox{ is bounded},\qquad
+   \DI(E):=P(E)^2-4\pi |E|\ll1 .
+\]
+Can one conclude that \(E\) is a small radial graph over a circle?
+
+The answer is:
+
+\begin{quote}
+\emph{Not literally from these hypotheses alone.  But small \(D_I\) gives a
+strong planar reduction: after discarding satellite components of
+quadratic area, the convex hull of the main component is a small-amplitude
+radial graph.  To prove that the original set itself is a graph, or that it
+can be radialized at the sharp torsion cost, one still needs a no-fold/no-fjord
+lemma.}
+\end{quote}
+
+\section{Relevant Known Results}
+
+The closest standard results have an extra hypothesis beyond Lipschitz
+regularity.
+
+\begin{enumerate}[label=\arabic*.]
+\item \textbf{Bonnesen in the plane.}  For a convex planar set \(K\),
+\[
+   P(K)^2-4\pi |K|\ge \pi^2(R_K-r_K)^2.
+\]
+Thus a convex set with small isoperimetric deficit lies in a thin annulus and
+is a small-amplitude radial graph.
+
+\item \textbf{Fuglede.}  For convex bodies, or for already nearly spherical
+sets whose boundary is a small Lipschitz normal graph over the sphere, the
+isoperimetric deficit controls the graph norm.  This is a stability theorem
+\emph{inside} the convex or graph class; it is not an entry theorem from an
+arbitrary Lipschitz boundary into the graph class.
+
+\item \textbf{Cicalese--Leonardi selection.}  The selection principle for the
+sharp quantitative isoperimetric inequality creates a better competitor with
+quasiminimality/regularity structure.  Again, the regularity comes from the
+selected variational problem, not from small perimeter deficit alone.
+\end{enumerate}
+
+So the available theorem is not ``Lipschitz plus small \(D_I\) implies graph''.
+The available theorem is closer to ``small \(D_I\) plus convexity or
+near-spherical parametrization gives a quantitative graph estimate''.  In our
+setting, convexification is therefore the natural way to use \(D_I\).
+
+\section{Why the literal statement is false}
+
+\begin{example}[Tiny satellite]
+Let \(0<r\ll1\), choose \(R_r=(1-r^2)^{1/2}\), and set
+\[
+   E_r=B_{R_r}(0)\cup B_r(x_0),
+\]
+where the two disks are disjoint and \(x_0\) stays in a fixed bounded region.
+Then \(|E_r|=\pi\) and
+\[
+   P(E_r)=2\pi R_r+2\pi r
+      =2\pi+2\pi r+O(r^2),
+\]
+so
+\[
+   \DI(E_r)=P(E_r)^2-4\pi^2=O(r)\to0 .
+\]
+The boundary is smooth and uniformly Lipschitz in local charts.  The torsion
+gradient is bounded uniformly, since on a disk of radius \(s\) the boundary
+gradient is \(s/2\).  But \(E_r\) is not a radial graph over one circle.
+\end{example}
+
+Thus connectedness or a rule for deleting negligible components is necessary.
+This is not a technicality: small \(D_I\) permits small components, and
+Lipschitz regularity does not remove them.
+
+\begin{remark}
+Even for connected sets, small local Lipschitz constant and small perimeter
+deficit do not by themselves forbid a shallow overhang inside a thin annulus.
+Such a set may have several intersections with a ray while paying only a small
+extra perimeter.  Therefore small \(D_I\) should be expected to give a
+graph envelope or a repair theorem, not literal one-crossing for free.
+\end{remark}
+
+\section{What small \(D_I\) does prove in the plane}
+
+Normalize \(|E|=\pi\) and write
+\[
+   P(E)\le 2\pi+\varepsilon.
+\]
+Here \(\varepsilon\) is equivalent to \(D_I(E)\) in the small regime:
+\[
+   \DI(E)=P(E)^2-4\pi^2
+      =(P(E)-2\pi)(P(E)+2\pi)
+      \simeq 4\pi\varepsilon .
+\]
+
+\begin{lemma}[Satellite components are quadratic]
+\label{lem:sat}
+Let \(E\subset\R^2\) have finite perimeter, \(|E|=\pi\), and
+\(P(E)\le2\pi+\varepsilon\), with \(\varepsilon\) small.  Let \(E_0\) be an
+indecomposable component of largest area.  Then
+\[
+   |E\setminus E_0|\le C\varepsilon^2 .
+\]
+\end{lemma}
+
+\begin{proof}
+Let \(a_j\) be the areas of the indecomposable components, with \(a_0\)
+largest, and set \(v=\sum_{j\ge1}a_j\).  By the planar isoperimetric
+inequality and additivity of perimeter over indecomposable components,
+\[
+   2\pi+\varepsilon
+      \ge P(E)
+      \ge 2\sqrt\pi\left(\sqrt{\pi-v}+\sum_{j\ge1}\sqrt{a_j}\right).
+\]
+Since \(2\sqrt\pi\sqrt{\pi-v}\ge 2\pi-Cv\) for small \(v\),
+\[
+   \sum_{j\ge1}\sqrt{a_j}\le C\varepsilon+Cv.
+\]
+Using \(v\le(\sum_{j\ge1}\sqrt{a_j})^2\) and absorbing for small
+\(\varepsilon\) gives \(v\le C\varepsilon^2\).
+\end{proof}
+
+\begin{lemma}[Convex graph envelope]
+\label{lem:convex-envelope}
+Let \(F\subset\R^2\) be the largest component from
+Lemma~\ref{lem:sat}, and assume \(F\) is a continuum.  Let
+\[
+   K=\operatorname{co}(F).
+\]
+Then \(P(K)\le P(F)\le2\pi+C\varepsilon\), and after translating and
+rescaling \(K\) to area \(\pi\), one has
+\[
+   K^\sharp=\{z+re^{i\theta}:0<r<1+\varphi_K(\theta)\},
+   \qquad
+   \|\varphi_K\|_{L^\infty}\le C\sqrt{\varepsilon}.
+\]
+\end{lemma}
+
+\begin{proof}
+For planar continua, perimeter does not increase under convexification:
+\[
+   P(\operatorname{co}(F))\le P(F).
+\]
+The area of \(K\) is bounded and close to \(\pi\) up to a harmless
+\(O(\varepsilon)\) error in the small-deficit regime.  Bonnesen's inequality
+for convex planar sets gives
+\[
+   P(K)^2-4\pi |K|
+      \ge \pi^2\,(R_K-r_K)^2,
+\]
+where \(R_K\) and \(r_K\) are the circumradius and inradius of \(K\) with
+respect to a suitable center.  Since the left side is \(O(\varepsilon)\),
+\[
+   R_K-r_K\le C\sqrt\varepsilon .
+\]
+After area normalization, this is exactly containment in an annulus of
+thickness \(C\sqrt\varepsilon\).  A convex body containing the center as an
+interior point is a radial graph, and the annular bound gives the stated
+\(L^\infty\) amplitude estimate.
+\end{proof}
+
+\section{Where Lipschitz and \(|\nabla u|\) help}
+
+The previous two lemmas did not use Lipschitz boundary or the gradient bound.
+Those hypotheses are still useful, but they play a different role.
+
+\begin{enumerate}[label=\arabic*.]
+\item A uniform Lipschitz boundary gives local finite-overlap charts and
+prevents arbitrarily wild fractal boundary behavior.
+\item A uniform bound for \(|\nabla u_E|\) prevents high-gradient boundary
+defects, such as tiny holes for the torsion problem.
+\item In the selected-level setting, the stronger estimate
+\[
+   \bigl\||\nabla u_E|-c\bigr\|_{L^\infty(\partial E)}\ll1
+\]
+is much more powerful than mere boundedness.  It rules out small components
+and low-gradient tentacles that small \(D_I\) alone permits.
+\end{enumerate}
+
+But these hypotheses still do not give the missing radial projection
+injectivity.  Local Lipschitz graphs can fold relative to the radial
+projection.
+
+\section{Correct theorem to prove}
+
+The useful replacement for literal graph entry is the following.
+
+\begin{proposition}[What the current inputs reduce to]
+Assume the stopped planar level \(E\) satisfies
+\[
+   |E|=\pi,\qquad
+   P(E)\le2\pi+\varepsilon,\qquad
+   \partial E\hbox{ uniformly Lipschitz},
+\]
+and has the selected-level torsion bounds
+\[
+   \|\nabla u_E\|_{L^\infty}\le L,\qquad
+   \bigl\||\nabla u_E|-c\bigr\|_{L^\infty(\partial E)}\le\eta.
+\]
+Then small \(D_I\) gives, quantitatively, a small-amplitude convex radial
+graph envelope \(K^\sharp\) for the main component of \(E\), after deleting
+satellites of area \(O(\varepsilon^2)\).
+\end{proposition}
+
+What remains to close the hybrid route is the sharp radialization estimate
+\[
+   |E\Delta G|\le C\sqrt{\delta},
+   \qquad
+   \dT(G)\le C\delta,
+\]
+where \(G\) is a small-amplitude radial graph.  The new work is to prove that
+the parts of \(K\setminus E\) and \(E\setminus K\) coming from folds, fjords,
+and outward fingers can be filled or pruned at this torsion cost.  This is
+where the \(D_H\) thin-finger estimate and the capacity/no-fjord mechanism
+must enter.
+
+\section{Verdict}
+
+There is a standard route from small \(D_I\) to a graph envelope:
+component cleanup, convex hull, and Bonnesen.  It is fully quantitative in
+dimension two and gives an \(L^\infty\) radial graph after convexification.
+
+There is not, however, a theorem saying that a uniformly Lipschitz set with
+bounded torsion gradient and small \(D_I\) is itself a radial graph.  The
+literal statement is false without at least deleting negligible components,
+and for connected sets it still needs a no-fold/no-fjord argument.  Thus the
+right next lemma is not ``\(D_I\) small implies graph''; it is:
+\[
+   \hbox{convex graph envelope}
+   +\hbox{Serrin/}D_H\hbox{ control}
+   \Longrightarrow
+   \hbox{sharp radialization}.
+\]
+
+\end{document}
