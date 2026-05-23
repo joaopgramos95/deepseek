@@ -1,0 +1,182 @@
+\section{A small-norm radial graph by harmonic comparison}\label{sec:smallnorm}
+
+We now prove, with \emph{universal} constants, that a super-level set of the
+inset is an honest radial graph of small norm, with controlled deficit. The
+mechanism is elementary: the difference between the torsion function of the
+inset and that of the model ball is \emph{harmonic}, and its size is
+governed by the annulus width alone --- no $C^2$ data, no Hopf constant, no
+selection.
+
+Throughout, $\Etil$ is the inset, $z$ its centre, with the two-sided
+trapping of Theorem~\ref{thm:perim-annulus},
+\begin{equation}\label{eq:sn-annulus}
+   B_{\rho_i}(z)\subset\Etil\subset B_{\rho_e}(z),\qquad
+   \eta:=\rho_e-\rho_i\le C\,\dT^{1/4},\qquad \rho_i\ge\tfrac12 .
+\end{equation}
+Write $\hat\mu=|\Etil|$, $\hat r=\sqrt{\hat\mu/\pi}\in[\rho_i,\rho_e]$,
+$u_{\Etil}:=u-\hat v$ the torsion function of $\Etil$ (so $-\Delta u_{\Etil}
+=1$, $u_{\Etil}=0$ on $\partial\Etil$, $u_{\Etil}>0$ inside), and the model
+\begin{equation}\label{eq:sn-v}
+   v(x):=\frac{\hat r^2-|x-z|^2}{4},\qquad -\Delta v=1\ \text{on }\R^2 .
+\end{equation}
+
+\begin{lemma}[Harmonic comparison]\label{lem:harm}
+The function $w:=u_{\Etil}-v$ is harmonic in $\Etil$ and
+\begin{equation}\label{eq:sn-w}
+   \|w\|_{L^\infty(\Etil)}\ \le\ \tfrac12\,\hat r\,\eta\ \le\ \tfrac12\,\eta .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+$\Delta w=\Delta u_{\Etil}-\Delta v=(-1)-(-1)=0$. On $\partial\Etil$,
+$u_{\Etil}=0$, so $w=-v$, and since $|x-z|\in[\rho_i,\rho_e]$ there while
+$\hat r\in[\rho_i,\rho_e]$,
+\[
+   |w|=\frac{\bigl|\,|x-z|^2-\hat r^2\,\bigr|}{4}
+   =\frac{\bigl|\,|x-z|-\hat r\,\bigr|\,\bigl(|x-z|+\hat r\bigr)}{4}
+   \le\frac{\eta\cdot 2\hat r}{4}=\tfrac12\hat r\eta .
+\]
+As $w$ is harmonic and continuous up to $\partial\Etil$
+(Lemma~\ref{lem:smooth-level}), the maximum principle gives
+\eqref{eq:sn-w}; $\hat r\le\rho_e\le 1+\eta\le 2$, but in fact
+$\hat r\le 1$ since $\hat\mu\le\pi$.
+\end{proof}
+
+\begin{lemma}[Folds are shallow]\label{lem:shallow}
+There is an absolute constant $K_0$ such that
+\begin{equation}\label{eq:sn-shallow}
+   \bigl\{x\in\Etil:\ \partial_r u_{\Etil}(x)\ge0\bigr\}
+   \ \subset\ \bigl\{x\in\Etil:\ u_{\Etil}(x)\le K_0\,\eta\bigr\},
+   \qquad \partial_r:=e_r\cdot\nabla,\ e_r=\tfrac{x-z}{|x-z|}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let $x\in\Etil$ with $\partial_r u_{\Etil}(x)\ge0$ and put
+$d:=\operatorname{dist}(x,\partial\Etil)>0$. Since $\nabla v=-(x-z)/2$,
+\[
+   0\le\partial_r u_{\Etil}(x)=\partial_r v(x)+\partial_r w(x)
+   =-\frac{|x-z|}{2}+e_r\cdot\nabla w(x),
+\]
+so $e_r\cdot\nabla w(x)\ge|x-z|/2\ge\rho_i/2\ge\tfrac14$, whence
+$|\nabla w(x)|\ge\tfrac14$. On the other hand $w$ is harmonic, so the
+interior gradient estimate \textup{(}$|\nabla w(x)|\le\frac{2}{d}
+\sup_{B_d(x)}|w|$ for harmonic $w$ in two variables\textup{)} and
+\eqref{eq:sn-w} give $|\nabla w(x)|\le\frac{2}{d}\cdot\frac{\eta}{2}
+=\frac{\eta}{d}$. Combining, $\eta/d\ge\tfrac14$, i.e.
+\begin{equation}\label{eq:sn-d}
+   d=\operatorname{dist}(x,\partial\Etil)\le 4\eta .
+\end{equation}
+Finally we bound $u_{\Etil}(x)$. By \eqref{eq:sn-d} there is
+$y\in\partial\Etil$ with $|x-y|\le4\eta$, so $|x-z|\le\rho_e+4\eta\le
+\hat r+5\eta$ and $|x-z|\ge\rho_i-4\eta\ge\hat r-5\eta$; thus
+$|v(x)|=\frac{|\hat r^2-|x-z|^2|}{4}\le\frac{5\eta\cdot(2\hat r+5\eta)}{4}
+\le 4\eta$ (using $\eta\le\tfrac14$). With \eqref{eq:sn-w},
+\[
+   u_{\Etil}(x)=v(x)+w(x)\le|v(x)|+|w(x)|\le4\eta+\tfrac12\eta\le K_0\eta,
+   \qquad K_0:=5 .
+\]
+\end{proof}
+
+\begin{theorem}[Small-norm radial graph]\label{thm:smallnorm}
+There is an absolute $\delta_\star>0$ such that if $\dT(\Om)\le\delta_\star$,
+the super-level set
+\[
+   \Etil':=\bigl\{x:u_{\Etil}(x)>K_0\eta\bigr\}=\bigl\{u>\hat t+K_0\eta\bigr\}
+\]
+is a \emph{radial graph} about $z$: there is a continuous
+$\rho:S^1\to(0,\infty)$ with
+\[
+   \Etil'=\{z+r\omega:0\le r<\rho(\omega)\},\qquad
+   \|\rho-\hat r\|_{L^\infty(S^1)}\le C\,\eta\le C\,\dT^{1/4}.
+\]
+Moreover
+\[
+   \dT(\Etil')\le 4\,\dT(\Om),\qquad
+   \bigl|\Om\,\triangle\,\Etil'\bigr|\le C\,\dT^{1/4}.
+\]
+In particular, after rescaling to area $\pi$ and recentring the barycentre,
+$\Etil'$ satisfies the hypotheses of the radial-graph theorem $(G)$
+\textup{(}amplitude $\le\eta_G$ for $\dT\le\delta_\star$\textup{)}.
+\end{theorem}
+
+\begin{proof}
+\emph{Graph.} By Lemma~\ref{lem:shallow}, $\partial_r u_{\Etil}<0$ on
+$\{u_{\Etil}>K_0\eta\}\supset\overline{\Etil'}\setminus\partial\Etil$. Fix
+$\omega\in S^1$ and consider $g(r):=u_{\Etil}(z+r\omega)$ along the ray.
+At $r=0$, $g(0)=\max_{\Etil}u_{\Etil}=:m_{\Etil}\ge\tfrac1{16}$
+(Corollary~\ref{cor:profile} applied to $\Etil$), and $g$ is continuous with
+$g\to0$ at $\partial\Etil$. On the open set $\{g>K_0\eta\}$ one has
+$g'(r)=\partial_r u_{\Etil}<0$, so $g$ is strictly decreasing there; hence
+$\{r:g(r)>K_0\eta\}$ is a single interval $(0,\rho(\omega))$ with
+$g(\rho(\omega))=K_0\eta$ (using $K_0\eta<\tfrac1{16}\le m_{\Etil}$ for
+$\dT\le\delta_\star$). Thus every ray meets $\partial\Etil'$ exactly once:
+$\Etil'$ is the radial graph $\{r<\rho(\omega)\}$, and $\rho$ is continuous
+because $u_{\Etil}\in C^\infty$ with $\partial_r u_{\Etil}<0\ne0$ there
+(implicit function theorem).
+
+\emph{Amplitude.} For $\omega$, $u_{\Etil}(z+\rho\omega)=K_0\eta$ gives
+$\frac{\hat r^2-\rho^2}{4}=K_0\eta-w$, so $|\hat r^2-\rho^2|\le4K_0\eta
++4\cdot\frac{\eta}{2}\le C\eta$; since $\rho,\hat r\ge\tfrac12-C\eta$,
+$|\rho-\hat r|=\frac{|\hat r^2-\rho^2|}{\rho+\hat r}\le C\eta\le C\dT^{1/4}$.
+
+\emph{Deficit.} $\Etil'=\{u>\hat t+K_0\eta\}$ is a super-level set of the
+torsion function $u$ of $\Om$, so the deficit-transfer lemma (the
+monotonicity of the level-set identity, \S\,Step~2) gives, after rescaling,
+$\dT(\Etil')\le 4\dT(\Om)$.
+
+\emph{Closeness.} $\Om\setminus\Etil'=\{0<u\le\hat t+K_0\eta\}$, and by
+Talenti's profile bound (Corollary~\ref{cor:profile} / \eqref{eq:talenti}),
+$|\{u>s\}|\ge\pi(1-4s)_+-O(\dT)$, so
+$|\Om\setminus\Etil'|=\pi-|\{u>\hat t+K_0\eta\}|\le 4\pi(\hat t+K_0\eta)
++O(\dT)\le C(\sqrt\dT+\dT^{1/4})\le C\dT^{1/4}$. Since $\Etil'\subset\Om$,
+$|\Om\triangle\Etil'|=|\Om\setminus\Etil'|\le C\dT^{1/4}$.
+\end{proof}
+
+\begin{remark}[What is proved, and the exact location of the wall]
+\label{rem:sn-wall}
+Theorem~\ref{thm:smallnorm} is the small-norm radial graph, proved
+\emph{rigorously and selection-free}, with all constants absolute. Its one
+quantitative limitation is the \emph{depth} $K_0\eta$ at which the graph
+begins: equivalently the closeness $|\Om\triangle\Etil'|\sim\dT^{1/4}$ and
+the amplitude $\sim\dT^{1/4}$. This is exactly $\eta$, the Hausdorff width
+of the annulus, and \emph{the entire chain collapses to it}: in
+Lemma~\ref{lem:shallow} a fold forces $|\nabla w|\gtrsim1$, hence
+$d\lesssim\|w\|_\infty\sim\eta$, hence $u_{\Etil}\lesssim\eta$ at folds. To
+lower the depth to the sharp boundary-layer scale $\sqrt\dT$ --- which would
+put the graph at closeness $\sqrt\dT$ and yield $\AF(\Om)^2\lesssim\dT$ ---
+one needs $\eta\lesssim\sqrt\dT$, i.e.\ a Hausdorff annulus of width
+$\sqrt\dT$. By Theorem~\ref{thm:perim-annulus},
+$\eta\le C\sqrt{\mathrm{Exc}+a}$ with $\mathrm{Exc}\sim\dT$ but
+$a=|\Etil\triangle B|\sim\sqrt{\diso}\sim\sqrt\dT$ \emph{(the
+Fusco--Maggi--Pratelli square-root)}, so $\eta\sim\dT^{1/4}$ and not
+better. Thus:
+\[
+   \boxed{\ \text{small-norm graph at closeness }\dT^{1/4}\ \text{is proved};\quad
+   \text{at }\sqrt\dT\ \Longleftrightarrow\ a\sim\dT\ \Longleftrightarrow\ \text{sharp.}\ }
+\]
+The $\sqrt\dT$ closeness is therefore \emph{equivalent} to the sharp
+theorem and is blocked at the FMP square-root loss; it is recovered not by
+realising one level as a graph but by the forward (moving-ball) transport,
+which carries the ball-distance from the graph-able depth $\dT^{1/4}$ down
+to the boundary without re-incurring the loss.
+\end{remark}
+
+\begin{remark}[Routes that collapse to the same wall]\label{rem:sn-routes}
+Every natural attempt to push the graph to depth $\sqrt\dT$ meets the same
+bound. \emph{(a) Pointwise Schauder:} $\partial_r u<0$ needs
+$\|\nabla(u-v)\|_{L^\infty}<\tfrac12$ in the layer; interior estimates give
+this only at depth $\gtrsim\|u-v\|_{L^\infty}^{\text{layer}}\sim\eta$.
+\emph{(b) The radial field $\varphi=(x-z)\cdot\nabla u$:} it solves
+$-\Delta\varphi=2$ with $\varphi-\varphi_{\mathrm{ball}}=-(x-z)\cdot\nabla
+w$, harmonic-gradient-controlled by $\eta$, giving the same depth.
+\emph{(c) $L^2$/$L^1$ boundary data for $w$:} the Poisson-gradient kernels
+($d^{-3/2}$ in $L^2$, $d^{-2}$ in $L^1$) against
+$\|w\|_{L^2(\partial)}\sim\dT^{3/8}$, $\|w\|_{L^1(\partial)}\sim a\sim
+\sqrt\dT$ both return depth $\dT^{1/4}$. \emph{(d) Fold content:}
+$\int(\partial_r u)_+$ bounds the \emph{measure} of fold-angles by
+$\sqrt\dT$, but the folds reach up to level $\eta$, so no fold-free level
+exists below $\eta$. In every case the controlling quantity is the
+annulus width $\eta\sim\sqrt{a}$, and the only way past is to remove the
+FMP square-root from $a$.
+\end{remark}

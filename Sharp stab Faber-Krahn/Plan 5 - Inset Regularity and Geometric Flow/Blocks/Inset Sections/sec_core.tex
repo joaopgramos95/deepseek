@@ -1,0 +1,351 @@
+\section{The level-set deficit identity}\label{sec:identity}
+
+We now exploit the torsion equation quantitatively. Throughout,
+$\Om\subset\R^2$ is bounded open and regular for the Dirichlet problem,
+$|\Om|=\pi$, $u$ is its torsion function (Section~\ref{sec:smooth}), and
+\[
+   T(\Om):=\int_\Om u\,dx=\int_\Om|\nabla u|^2\,dx,
+   \qquad
+   \dT:=\dT(\Om):=T(B_1)-T(\Om)=\frac{\pi}{8}-T(\Om)\ \ge\ 0 ,
+\]
+where $B_1$ is the unit disk, $T(B_1)=\pi/8$, and the inequality $\dT\ge0$
+is the Saint--Venant inequality (a special case of
+Theorem~\ref{thm:fmp}-type rigidity, or of Talenti's theorem below). The
+two equalities defining $T(\Om)$ hold because, testing
+$-\Delta u=1$ against $u$, $\int_\Om|\nabla u|^2=\int_\Om u$.
+
+For a regular value $v\in(0,m)$ ($m=\max_\Om u$) we abbreviate, using the
+notation of Section~\ref{sec:smooth},
+\[
+   \mu(v):=|E_v|,\qquad P(v):=P(E_v)=\HH^1(\{u=v\}).
+\]
+Lemma~\ref{lem:flux} gives the two structural identities
+\begin{equation}\label{eq:flux-coarea}
+   \int_{\{u=v\}}|\nabla u|\,d\HH^1=\mu(v),
+   \qquad
+   \int_{\{u=v\}}\frac{1}{|\nabla u|}\,d\HH^1=-\mu'(v)\quad(\text{a.e. }v).
+\end{equation}
+
+\begin{definition}[The two level deficits]\label{def:deficits}
+For a regular value $v\in(0,m)$ set
+\[
+   D_H(v):=\mu(v)\,\bigl(-\mu'(v)\bigr)-P(v)^2,
+   \qquad
+   D_I(v):=P(v)^2-4\pi\,\mu(v).
+\]
+\end{definition}
+
+\begin{lemma}[Non-negativity]\label{lem:nonneg}
+For a.e.\ $v\in(0,m)$ one has $D_H(v)\ge0$ and $D_I(v)\ge0$. Moreover
+$D_H(v)=0$ if and only if $|\nabla u|$ is constant $\HH^1$-a.e.\ on
+$\{u=v\}$, and $D_I(v)=0$ if and only if $E_v$ is a disk.
+\end{lemma}
+
+\begin{proof}
+$D_I(v)\ge0$ is the planar isoperimetric inequality
+(Theorem~\ref{thm:isoperimetric}) applied to $E_v$, with equality iff $E_v$
+is a disk. For $D_H$, the Cauchy--Schwarz inequality on the measure
+$\HH^1\llcorner\{u=v\}$ gives
+\[
+   P(v)^2=\Bigl(\int_{\{u=v\}}1\,d\HH^1\Bigr)^2
+   \le\Bigl(\int_{\{u=v\}}|\nabla u|\,d\HH^1\Bigr)
+        \Bigl(\int_{\{u=v\}}\tfrac1{|\nabla u|}\,d\HH^1\Bigr)
+   =\mu(v)\bigl(-\mu'(v)\bigr),
+\]
+by \eqref{eq:flux-coarea}; this is $D_H(v)\ge0$, with equality iff
+$|\nabla u|$ and $1/|\nabla u|$ are proportional $\HH^1$-a.e.\ on
+$\{u=v\}$, i.e.\ iff $|\nabla u|$ is $\HH^1$-a.e.\ constant there.
+\end{proof}
+
+\begin{theorem}[Level-set deficit identity]\label{thm:identity}
+With the notation above,
+\begin{equation}\label{eq:identity}
+   \int_0^m\bigl(D_H(v)+D_I(v)\bigr)\,dv\ =\ 4\pi\,\dT(\Om).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+By Definition~\ref{def:deficits} the integrand telescopes: the $P(v)^2$
+terms cancel and
+\begin{equation}\label{eq:DHDI-sum}
+   D_H(v)+D_I(v)=\mu(v)\bigl(-\mu'(v)\bigr)-4\pi\,\mu(v)
+   =-\mu(v)\bigl(\mu'(v)+4\pi\bigr).
+\end{equation}
+We integrate the two terms separately over $(0,m)$. First, $\mu$ is
+absolutely continuous on $(0,m)$: by the second identity in
+\eqref{eq:flux-coarea} and Fubini,
+$\mu(v)=\int_v^m\Phi(\tau)\,d\tau$ with
+$\Phi(\tau)=\int_{\{u=\tau\}}|\nabla u|^{-1}d\HH^1\ge0$ and
+$\int_0^m\Phi\,d\tau=\int_{\{0<u<m\}}1\,dx=|\Om|<\infty$ (coarea,
+Theorem~\ref{thm:coarea}); hence $\Phi\in L^1(0,m)$ and $\mu$ is absolutely
+continuous with $\mu'=-\Phi$ a.e. Therefore $v\mapsto\tfrac12\mu(v)^2$ is
+absolutely continuous with derivative $\mu\mu'$, and
+\[
+   \int_0^m\bigl(-\mu(v)\mu'(v)\bigr)\,dv
+   =-\Bigl[\tfrac12\mu(v)^2\Bigr]_0^m
+   =\tfrac12\mu(0)^2-\tfrac12\mu(m)^2
+   =\tfrac12|\Om|^2,
+\]
+since $\mu(0)=|\{u>0\}|=|\Om|$ (as $u>0$ in $\Om$) and
+$\mu(m)=|\{u>m\}|=0$. Second, by the layer-cake formula,
+\[
+   \int_0^m 4\pi\,\mu(v)\,dv
+   =4\pi\int_0^m|\{u>v\}|\,dv
+   =4\pi\int_\Om u\,dx=4\pi\,T(\Om).
+\]
+Combining with \eqref{eq:DHDI-sum},
+\[
+   \int_0^m\bigl(D_H+D_I\bigr)\,dv
+   =\tfrac12|\Om|^2-4\pi T(\Om)
+   =\tfrac{\pi^2}{2}-4\pi T(\Om)
+   =4\pi\Bigl(\tfrac{\pi}{8}-T(\Om)\Bigr)=4\pi\,\dT,
+\]
+using $|\Om|=\pi$ and $T(B_1)=\pi/8$.
+\end{proof}
+
+\begin{remark}[Interpretation]\label{rem:identity}
+Identity \eqref{eq:identity} writes the Saint--Venant deficit as the
+total, over all levels, of two non-negative geometric defects of the level
+sets: the \emph{Serrin/H\"older defect} $D_H$, which measures the failure
+of $|\nabla u|$ to be constant on $\{u=v\}$, and the \emph{isoperimetric
+defect} $D_I$, which measures the failure of $E_v$ to be a disk. It is the
+engine of everything that follows: if $\dT$ is small, then for most levels
+both defects are small.
+\end{remark}
+
+\section{The volume profile: Talenti's comparison}\label{sec:talenti}
+
+To turn ``most levels'' into a usable statement we need to know the
+\emph{volume} of the level sets, i.e.\ the profile $\mu(v)$. This is
+supplied by Talenti's pointwise comparison theorem.
+
+\begin{theorem}[Talenti]\label{thm:talenti}
+Let $u$ be the torsion function of $\Om$ with $|\Om|=\pi$, and let $u_B$ be
+the torsion function of the disk $B_1$, namely
+$u_B(x)=\tfrac14(1-|x|^2)$. Let $u^\ast$ denote the Schwarz (decreasing
+radial) rearrangement of $u$. Then $u^\ast(x)\le u_B(x)$ for all $x\in
+B_1$; equivalently, in terms of distribution functions,
+\begin{equation}\label{eq:talenti}
+   \mu(v)=|\{u>v\}|\ \le\ |\{u_B>v\}|=\pi\,(1-4v)_+\qquad(v\ge0).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+This is the model case of G.~Talenti, \emph{Elliptic equations and
+rearrangements}, Ann.\ Scuola Norm.\ Sup.\ Pisa Cl.\ Sci.\ (4)
+\textbf{3} (1976), 697--718, Theorem~1: for $-\Delta u=f$ in $\Om$ with
+$u\in H^1_0(\Om)$, one has $u^\ast\le \tilde u$ pointwise, where $\tilde u$
+solves $-\Delta\tilde u=f^\ast$ in the ball $\Om^\ast$ of the same volume
+with zero boundary data. Here $f\equiv1$, $f^\ast\equiv1$, $\Om^\ast=B_1$,
+and $\tilde u=u_B$. The distributional form \eqref{eq:talenti} follows
+because Schwarz rearrangement preserves the distribution function,
+$|\{u>v\}|=|\{u^\ast>v\}|\le|\{u_B>v\}|$, and
+$\{u_B>v\}=\{|x|^2<1-4v\}$ has area $\pi(1-4v)_+$.
+\end{proof}
+
+\begin{corollary}[The maximum and the profile are pinned]\label{cor:profile}
+There is an absolute constant $\delta_\star\in(0,\pi/16]$ such that if
+$\dT(\Om)\le\delta_\star$ then
+\begin{equation}\label{eq:m-pin}
+   \frac{1}{16}\ \le\ m=\max_\Om u\ \le\ \frac14,
+   \qquad
+   \Bigl|m-\tfrac14\Bigr|\le\Bigl(\tfrac{\dT}{2\pi}\Bigr)^{1/2},
+\end{equation}
+and the profile is close to the ball profile in $L^1$:
+\begin{equation}\label{eq:profile-L1}
+   \int_0^m\Bigl(\pi(1-4v)_+-\mu(v)\Bigr)\,dv\ \le\ \dT .
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+The upper bound $m\le\frac14$ is \eqref{eq:talenti} at $v=m$: if $m>\frac14$
+then $\mu(m)\le\pi(1-4m)_+=0$ forces $\mu(m)=0$, consistent, but for
+$v$ slightly below $m$, $\mu(v)>0$ while $\pi(1-4v)_+=0$, contradicting
+\eqref{eq:talenti}; hence $m\le\frac14$. For the lower bound on $m$ and the
+profile estimate, integrate \eqref{eq:talenti}:
+\[
+   T(\Om)=\int_0^m\mu(v)\,dv\ \le\ \int_0^{1/4}\pi(1-4v)\,dv=\frac{\pi}{8},
+\]
+recovering $\dT\ge0$, and more precisely, since
+$\int_0^m\pi(1-4v)\,dv=\pi(m-2m^2)=\tfrac{\pi}{8}-2\pi\bigl(m-\tfrac14\bigr)^2$,
+\[
+   \dT=\frac{\pi}{8}-T(\Om)
+   =\Bigl(\frac\pi8-\!\int_0^m\!\pi(1-4v)\,dv\Bigr)
+     +\!\int_0^m\!\bigl(\pi(1-4v)-\mu(v)\bigr)\,dv
+   =2\pi\bigl(m-\tfrac14\bigr)^2+R,
+\]
+where $R:=\int_0^m(\pi(1-4v)_+-\mu)\,dv\ge0$ by \eqref{eq:talenti}
+(note $\pi(1-4v)_+=\pi(1-4v)$ on $(0,m)$ since $m\le\frac14$). As both
+terms are non-negative and sum to $\dT$, each is $\le\dT$; this gives
+\eqref{eq:profile-L1} and $|m-\frac14|\le(\dT/2\pi)^{1/2}$. Finally
+$|m-\frac14|\le(\delta_\star/2\pi)^{1/2}\le\frac3{16}$ once
+$\delta_\star\le 2\pi(3/16)^2$, so $m\ge\frac14-\frac3{16}=\frac1{16}$.
+\end{proof}
+
+\section{The good inset}\label{sec:goodlevel}
+
+We now select one level set --- the \emph{inset} --- that is simultaneously
+nearly isoperimetric, has nearly constant boundary gradient, and encloses a
+definite area.
+
+\begin{proposition}[Existence of a good inset]\label{prop:goodlevel}
+There are absolute constants $\delta_\star>0$ and $C_0$ such that if
+$\dT(\Om)\le\delta_\star$ there exists a regular value
+$\hat v\in\bigl(\tfrac{m}{4},\tfrac{m}{2}\bigr)$ of $u$ with
+\begin{equation}\label{eq:good}
+   D_H(\hat v)+D_I(\hat v)\ \le\ C_0\,\dT,
+   \qquad
+   \mu(\hat v)\ \ge\ \frac\pi4 .
+\end{equation}
+We call $E_{\hat v}=\{u>\hat v\}$ the \emph{inset} and write
+$\Etil:=E_{\hat v}$, $\hat\mu:=\mu(\hat v)\in[\tfrac\pi4,\pi)$,
+$\hat P:=P(\hat v)$.
+\end{proposition}
+
+\begin{proof}
+Work on the interval $J:=(\tfrac m4,\tfrac m2)$, of length $m/4\ge1/64$ by
+Corollary~\ref{cor:profile}. By Theorem~\ref{thm:identity},
+$\int_J(D_H+D_I)\,dv\le4\pi\dT$, so the set
+\[
+   J_{\rm bad}:=\Bigl\{v\in J:\ D_H(v)+D_I(v)>\tfrac{16\pi\dT}{m}\Bigr\}
+\]
+has measure $|J_{\rm bad}|<\dfrac{4\pi\dT}{16\pi\dT/m}=\dfrac m4=|J|$ by
+Chebyshev's inequality; thus $|J\setminus J_{\rm bad}|>0$. On
+$J\setminus J_{\rm bad}$, $D_H+D_I\le 16\pi\dT/m\le 256\pi\,\dT$ (using
+$m\ge\tfrac1{16}$).
+
+Next we control the volume. By \eqref{eq:talenti}, for $v\in J$ we have
+$\pi(1-4v)\ge\pi(1-4\cdot\tfrac m2)=\pi(1-2m)\ge\pi(1-2\cdot\tfrac14)=\tfrac\pi2$.
+Define
+\[
+   J_{\rm small}:=\Bigl\{v\in J:\ \mu(v)<\tfrac\pi4\Bigr\}
+   \subseteq\Bigl\{v\in J:\ \pi(1-4v)-\mu(v)>\tfrac\pi4\Bigr\}.
+\]
+By Chebyshev applied to \eqref{eq:profile-L1},
+$|J_{\rm small}|\le\dfrac{\int_0^m(\pi(1-4v)-\mu)\,dv}{\pi/4}\le\dfrac{4\dT}{\pi}$.
+Hence
+\[
+   \bigl|J\setminus(J_{\rm bad}\cup J_{\rm small})\bigr|
+   \ \ge\ |J|-|J_{\rm bad}|-|J_{\rm small}|
+   \ >\ \frac m4-\frac m4 \ \cdots
+\]
+this last step needs $|J_{\rm bad}|+|J_{\rm small}|<|J|=m/4$. We have
+$|J_{\rm bad}|<m/4$ but must leave room for $J_{\rm small}$; we instead use
+a slightly smaller threshold. Replace $J_{\rm bad}$ by
+$J_{\rm bad}':=\{v\in J:D_H+D_I>32\pi\dT/m\}$, so by Chebyshev
+$|J_{\rm bad}'|<\tfrac{4\pi\dT}{32\pi\dT/m}=\tfrac m8$. Then
+\[
+   |J_{\rm bad}'|+|J_{\rm small}|<\frac m8+\frac{4\dT}\pi
+   \ \le\ \frac m8+\frac{4\delta_\star}\pi\ <\ \frac m4=|J|
+\]
+provided $\delta_\star\le \pi m/32$, which holds for
+$\delta_\star\le\pi/512$ (as $m\ge1/16$). Therefore
+$J\setminus(J_{\rm bad}'\cup J_{\rm small})$ has positive measure;
+since the critical values form a null set
+(Lemma~\ref{lem:critvals}), we may pick a regular value $\hat v$ in it.
+It satisfies $D_H(\hat v)+D_I(\hat v)\le 32\pi\dT/m\le512\pi\,\dT=:C_0\dT$
+and $\mu(\hat v)\ge\pi/4$.
+\end{proof}
+
+\section{Controlled deficits of the inset}\label{sec:controlled}
+
+We translate \eqref{eq:good} into the three geometric controls used in the
+sequel: small isoperimetric deficit, small (weighted) Serrin deficit, and
+$L^1$-closeness to a disk.
+
+\begin{proposition}[Isoperimetric and Serrin control]\label{prop:controlled}
+Let $\Etil=E_{\hat v}$ be the inset of Proposition~\ref{prop:goodlevel}.
+Then, with $C_0$ as there and absolute constants,
+\begin{align}
+   \diso(\Etil):=\frac{\hat P}{2\sqrt{\pi\hat\mu}}-1
+   &\ \le\ \frac{D_I(\hat v)}{8\pi\hat\mu}\ \le\ \frac{C_0}{2\pi^2}\,\dT,
+   \label{eq:diso-inset}\\[1mm]
+   W(\Etil):=\int_{\{u=\hat v\}}\frac{(|\nabla u|-c)^2}{|\nabla u|}\,d\HH^1
+   &\ =\ \frac{\hat\mu}{\hat P^{2}}\,D_H(\hat v)\ \le\ \frac{C_0}{4\pi}\,\dT,
+   \qquad c:=\frac{\hat\mu}{\hat P}=\frac{|\Etil|}{P(\Etil)}.
+   \label{eq:serrin-inset}
+\end{align}
+\end{proposition}
+
+\begin{proof}
+For \eqref{eq:diso-inset}: $\hat P^2=4\pi\hat\mu+D_I(\hat v)$, so
+$\bigl(1+\diso(\Etil)\bigr)^2=\hat P^2/(4\pi\hat\mu)=1+D_I(\hat
+v)/(4\pi\hat\mu)$, whence (as in Lemma~\ref{lem:deficit-equiv})
+$\diso(\Etil)\le D_I(\hat v)/(8\pi\hat\mu)$. Using
+$\hat\mu\ge\pi/4$ and $D_I(\hat v)\le C_0\dT$ gives the bound.
+
+For \eqref{eq:serrin-inset}: with $c=\hat\mu/\hat P$ and the identities
+\eqref{eq:flux-coarea} (so $\int|\nabla u|=\hat\mu$,
+$\int1/|\nabla u|=-\mu'(\hat v)$, $\int 1=\hat P$),
+\[
+   \int\frac{(|\nabla u|-c)^2}{|\nabla u|}
+   =\int|\nabla u|-2c\hat P+c^2\!\int\frac1{|\nabla u|}
+   =\hat\mu-2c\hat P+c^2(-\mu'(\hat v)).
+\]
+Substituting $c=\hat\mu/\hat P$ gives
+$\hat\mu-2\hat\mu+\frac{\hat\mu^2}{\hat P^2}(-\mu'(\hat v))
+=\frac{\hat\mu}{\hat P^2}\bigl(\hat\mu(-\mu'(\hat v))-\hat P^2\bigr)
+=\frac{\hat\mu}{\hat P^2}D_H(\hat v)$.
+Finally $\hat P^2\ge4\pi\hat\mu$ gives
+$\hat\mu/\hat P^2\le1/(4\pi)$, and $D_H(\hat v)\le C_0\dT$.
+\end{proof}
+
+\begin{corollary}[$L^1$-closeness to a disk]\label{cor:L1}
+There are a point $z\in\R^2$ and absolute constants $C,\delta_\star$ such
+that if $\dT\le\delta_\star$, the inset satisfies
+\begin{equation}\label{eq:L1}
+   \bigl|\Etil\,\triangle\,B_{\hat r}(z)\bigr|\ \le\ C\,\hat\mu\,\sqrt{\dT},
+   \qquad \hat r:=\sqrt{\hat\mu/\pi},
+\end{equation}
+where $B_{\hat r}(z)$ is the disk of area $\hat\mu=|\Etil|$ minimising the
+symmetric difference.
+\end{corollary}
+
+\begin{proof}
+By the sharp quantitative isoperimetric inequality
+(Theorem~\ref{thm:fmp}, $n=2$) and Lemma~\ref{lem:deficit-equiv} applied to
+$\Etil$,
+\[
+   \mathcal A(\Etil)=\min_z\frac{|\Etil\triangle B_{\hat r}(z)|}{\hat\mu}
+   \le C\sqrt{\diso(\Etil)}\le C'\sqrt{\dT}
+\]
+by \eqref{eq:diso-inset}. Multiplying by $\hat\mu$ gives \eqref{eq:L1}.
+\end{proof}
+
+\begin{remark}[Normalisation]\label{rem:normalise}
+Rescaling $\Etil$ by the factor $s:=\sqrt{\pi/\hat\mu}\in(1,2]$ (since
+$\hat\mu\in[\pi/4,\pi)$) produces a set of area $\pi$ to which all the above
+apply verbatim: $\diso$, $\mathcal A$ and the relative quantities below are
+scale-invariant, while perimeters and lengths scale by $s$ and areas by
+$s^2$. We henceforth state the geometric conclusions for the unrescaled
+$\Etil$ and freely pass to the area-$\pi$ normalisation when convenient.
+\end{remark}
+
+\section{Topological regularity: no interior holes}
+\label{sec:topology}
+
+A consequence of the superharmonicity of $u$ ($-\Delta u=1>0$, so
+$\Delta u<0$) and the minimum principle. The inner ball and the trapping
+between two concentric circles are deferred to Section~\ref{sec:trapping},
+where they follow from the smoothness of the inset.
+
+\begin{proposition}[No interior holes]\label{prop:noholes}
+For every $v\in(0,m)$, each connected component of the open set
+$\{x\in\Om:u(x)<v\}$ has its closure meeting $\partial\Om$. Equivalently,
+$\Om\setminus\overline{E_v}$ has no connected component compactly contained
+in $\Om$: the inset $\Etil=E_{\hat v}$ has no interior holes.
+\end{proposition}
+
+\begin{proof}
+Suppose some component $K$ of $\{u<v\}$ satisfied $\overline K\Subset\Om$.
+Then $\overline K$ is compact in $\Om$, $u<v$ in $K$, and $u=v$ on
+$\partial K$ (because $\partial K\subset\{u=v\}$: a boundary point of a
+component of $\{u<v\}$ lying in $\Om$ cannot have $u<v$, as that is an open
+condition placing it in the interior of $K$, nor $u>v$, as $K$ accumulates
+there). Thus $u$ attains on the compact set $\overline K$ an interior
+minimum value $<v=\min_{\partial K}u$. But $-\Delta u=1\ge0$ makes $u$
+superharmonic, so it satisfies the minimum principle
+\cite[Theorem~3.1 and the strong form, Theorem~3.5]{GT1983}:
+$\min_{\overline K}u=\min_{\partial K}u$. This contradiction shows no such
+$K$ exists.
+\end{proof}

@@ -1,0 +1,572 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{problem}[theorem]{Problem}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Om}{\Omega}
+\newcommand{\HH}{\mathcal H}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dT}{\delta_T}
+\newcommand{\AF}{\mathcal A_F}
+\newcommand{\Per}{\mathrm{Per}}
+\newcommand{\esssup}{\operatorname*{ess\,sup}}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+\title{From Two-Sided Density to a Radial Graph:\\
+       what the realization step really needs (and what it does not)}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We isolate the two independent inputs of the ``realization'' step in the
+selection-free route to quantitative Saint--Venant: (A) an
+\emph{inclusion} $B_{r_-}(z)\subset\Om\subset B_{r_+}(z)$, and (B) the
+\emph{realization} of $\Om$ as a radial graph with a \emph{quadratic}
+pocket estimate $|G\setminus\Om|\lesssim(P(\Om)-2\pi)^2$. The first
+version of this note claimed that (B) holds for any set of finite
+perimeter. \textbf{That claim is false}, and we begin by giving the
+explicit counterexample (a ``lollipop'': a wide cap overhanging a thin
+stem), which shows that finite perimeter alone never controls the pocket
+volume quadratically --- not even inside an arbitrarily thin annulus, and
+not even under two-sided density. The correct hypothesis is a purely
+measure-theoretic \emph{no-overhang} condition,
+$\HH^1(\partial^*G\setminus\partial^*E)=0$, which is far weaker than
+$C^{1,\gamma}$ but strictly stronger than finite perimeter. Under
+no-overhang we prove the perimeter decomposition and the sharp quadratic
+pocket bound (Theorem~\ref{thm:realize}); this is the honest GMT form of
+the Plan~4 pocket lemma, and it does retire the $C^{1,\gamma}$ hypothesis
+\emph{provided no-overhang is available}. We then analyse precisely what
+input (A) provides: an annulus gives the trivial linear bound
+$|G\setminus\Om|\lesssim\eta$ unconditionally, while two-sided density
+plus tentacle exclusion removes overhangs whose \emph{necks} sit above
+scale $r_*$, leaving a genuine residual of sub-$r_*$ overhangs. The
+upshot is a clean trisection of the programme into inclusion, no-overhang,
+and the radial-graph theorem, with the residual identified honestly.
+\end{abstract}
+
+\section{The two inputs of realization}
+
+Fix the planar normalisation $|\Om|=\pi$, comparison ball $B=B_1$. The
+goal of the realization step is to replace a (possibly rough) competitor
+$\Om$ by a \emph{radial graph} $G$ with $|G\,\triangle\,\Om|$ controlled
+and $\dT(G)$ controlled, so that the small-amplitude radial-graph theorem
+$(G)$ applies. Two logically separate things are needed:
+
+\begin{enumerate}[label=\textup{(\Alph*)}]
+\item\label{inputA} \emph{Inclusion.} A centre $z$ and radii
+$r_-<r_+$ with
+$B_{r_-}(z)\subset\Om\subset B_{r_+}(z)$.
+\item\label{inputB} \emph{Realization.} From \ref{inputA}, the radial
+hull $G$ (star-shaped envelope from $z$) is a radial graph, and
+$|G\setminus\Om|$ is controlled \emph{quadratically} by the perimeter
+deficit.
+\end{enumerate}
+
+The historical role of selection was to make $\partial\Om$ regular enough
+($C^{1,\gamma}$) that both \ref{inputA} (via BNST) and \ref{inputB} (via
+the polar-slicing pocket lemma, which used Sard and the implicit function
+theorem) could run. The question this note addresses is: \emph{how much
+regularity does \ref{inputB} actually need?} The answer is more subtle
+than ``none'': it needs a no-overhang condition. We first show, by an
+explicit example, why finite perimeter is not enough; then we prove the
+sharp statement under no-overhang; then we examine what (A) supplies.
+
+\section{Input (A): inclusion from density, recalled}
+\label{sec:inclusion}
+
+We recall the mechanism of \texttt{almost\_serrin\_discussion.tex}. Let
+$u$ be the torsion function of $\Om$, $c_\Om=|\Om|/P(\Om)$, and define the
+Serrin and isoperimetric deficits
+\[
+   \eps^2:=\int_{\partial\Om}\bigl(|\nabla u|-c_\Om\bigr)^2\,d\HH^{1},
+   \qquad
+   \delta_{\mathrm{iso}}:=\frac{P(\Om)}{2\sqrt{\pi|\Om|}}-1 .
+\]
+The local flux identity (integrate $-\Delta u=1$ over $\Om\cap B_r(x)$)
+combined with Cauchy--Schwarz against $\eps$ and the relative
+isoperimetric inequality in balls yields the \emph{tentacle-exclusion}
+estimate: for $x\in\partial\Om$,
+\[
+   \eps_r^2\ \gtrsim\ \abs{\Om\cap B_r(x)}^{1/2}
+   \quad\text{when }\abs{\Om\cap B_r(x)}\ll r^2,
+\]
+so small Serrin deficit forbids thin interior tentacles above scale
+$r_*\sim\eps^{2}$; quantitative isoperimetry forbids exterior fjords above
+scale $\delta_{\mathrm{iso}}^{1/4}$. The outcome is the two-sided density
+bound
+\begin{equation}\label{eq:density}
+   c_0\,r^2\ \le\ \abs{\Om\cap B_r(x)}\ \le\ (1-c_0)\,r^2,
+   \qquad x\in\partial\Om,\ \ r\in[r_*,r_0],
+\end{equation}
+with $r_*\sim\eps^{2}+\delta_{\mathrm{iso}}^{1/4}$, and (via an adapted
+Magnanini--Poggesi step) the inclusion
+\begin{equation}\label{eq:annulus}
+   B_{\rho_i}(z)\subset\Om\subset B_{\rho_e}(z),
+   \qquad
+   \rho_e-\rho_i\ \le\ \eta:=C\bigl(\eps^{\theta}+r_*\bigr).
+\end{equation}
+We treat \eqref{eq:density}--\eqref{eq:annulus} as the \emph{output} of
+input (A); its proof is the content of
+\texttt{almost\_serrin\_discussion.tex} (with the open points there). What
+matters below is only that (A) delivers an inclusion with some width
+$\eta$, a finite perimeter $P(\Om)<\infty$ (immediate from
+\eqref{eq:density}, Ahlfors regularity), and the \emph{scale} $r_*$ above
+which density holds.
+
+\section{Why finite perimeter is not enough}
+\label{sec:counterexample}
+
+We work in $\R^2$ with polar coordinates about $0$. For a set $E$ of
+finite perimeter with $B_{r_-}(0)\subset E\subset B_{r_+}(0)$, define the
+radial slices, the profile, and the radial hull
+\begin{equation}\label{eq:hull}
+   E_\theta:=\{r:re^{i\theta}\in E^{(1)}\},\qquad
+   R(\theta):=\esssup E_\theta,\qquad
+   G:=\{re^{i\theta}:0\le r<R(\theta)\},
+\end{equation}
+and the pocket set $Q:=G\setminus E$, with connected components
+$\{Q_j\}_{j\in J}$. The realization step rests on the would-be
+\emph{perimeter decomposition}
+\begin{equation}\label{eq:wrong}
+   P(G)+\sum_{j\in J}P(Q_j)\ \le\ P(E)
+   \qquad(\text{\emph{false} in general}).
+\end{equation}
+We exhibit a finite-perimeter $E$ for which \eqref{eq:wrong} fails by a
+fixed positive amount.
+
+\begin{proposition}[Finite perimeter is insufficient]\label{prop:lollipop}
+Let $0<a<b<R^+$ and $0<w'<w<2\pi$, and set (the ``lollipop'')
+\[
+   E=B_a\ \cup\ \underbrace{\{a\le r\le b,\ |\theta|\le w'/2\}}_{\text{stem }S}
+   \ \cup\ \underbrace{\{b\le r\le R^+,\ |\theta|\le w/2\}}_{\text{cap }C}.
+\]
+Then $E$ has finite perimeter, $B_a\subset E\subset B_{R^+}$, its radial
+hull is $G=\{|\theta|<w/2,\ r<R^+\}\cup\{|\theta|>w/2,\ r<a\}$ with two
+pockets $Q^\pm=\{w'/2<\pm\theta<w/2,\ a<r<b\}$, and
+\begin{equation}\label{eq:excess}
+   P(G)+P(Q^+)+P(Q^-)\ -\ P(E)\ =\ 4\,(b-a)\ >\ 0 .
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Split every reduced boundary into its \emph{radial} part (circular arcs,
+normal $\nu=\pm e_r$) and its \emph{angular} part (radial walls, normal
+$\nu=\pm e_\theta$); all three sets here are polar rectangles, so each
+perimeter splits exactly, $P(F)=P_r(F)+P_\theta(F)$.
+
+\emph{Radial part cancels.} Slicing radially, $P_r(F)=\int_{S^1}\sum_{\rho
+\in\partial^*F_\theta}\rho\,d\theta$. For a.e.\ $\theta$ the outer crossing
+of $G_\theta$ is $R(\theta)$, the crossings of $Q_\theta$ are the inner
+gap endpoints of $E_\theta$, and together they are exactly the crossings of
+$E_\theta$ with the same radii (the slice balance: $\#\partial^*G_\theta+
+\#\partial^*Q_\theta=\#\partial^*E_\theta$, weighted by the radii). Hence
+$P_r(G)+P_r(Q^+)+P_r(Q^-)=P_r(E)$.
+
+\emph{Angular part does not.} Directly:
+\[
+   P_\theta(E)=\underbrace{2(b-a)}_{\text{stem walls }|\theta|=w'/2}
+              +\underbrace{2(R^+-b)}_{\text{cap walls }|\theta|=w/2}
+              =2(R^+-a),
+\]
+\[
+   P_\theta(G)=\underbrace{2(R^+-a)}_{\text{hull walls }|\theta|=w/2,\ a<r<R^+},
+   \qquad
+   P_\theta(Q^+)+P_\theta(Q^-)=\underbrace{4(b-a)}_{\text{walls }|\theta|=w'/2\text{ and }|\theta|=w/2,\ a<r<b}.
+\]
+Subtracting, $P_\theta(G)+P_\theta(Q^+)+P_\theta(Q^-)-P_\theta(E)=
+2(R^+-a)+4(b-a)-2(R^+-a)=4(b-a)$, and adding the (vanishing) radial
+discrepancy gives \eqref{eq:excess}.
+\end{proof}
+
+\begin{remark}[Diagnosis: the overhang]\label{rem:overhang}
+The culprit is the cap wall $\{|\theta|=w/2,\ a<r<b\}$, the lateral face
+of the pocket $Q^\pm$ sitting \emph{underneath} the cap's overhang
+($w>w'$). Both sides of this wall --- the pocket (empty $E$) and the
+exterior (empty $E$) --- have $E$-density $0$, so it lies in neither
+$\partial^*E$. Yet it is charged once to $P(G)$ (a radial wall of the
+hull, where $R$ jumps from $R^+$ to $a$) and once to $P(Q^\pm)$. It is
+double-counted on the left of \eqref{eq:wrong} and absent on the right.
+This is the exact mechanism by which my earlier ``angular part''
+inequality failed.
+\end{remark}
+
+\begin{remark}[Thin annuli and density do not help]\label{rem:thin}
+Two natural rescues both fail.
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item \emph{Thin annulus.} Take $a=1$, $b=1+\tfrac\eta2$, $R^+=1+\eta$, so
+$E$ lies in the annulus $\{1<r<1+\eta\}$ of width $\eta$, while $w$ stays
+order $1$ and $w'\to0$. Then the pocket volume is
+$|Q^+|+|Q^-|\approx(w-w')\,a\,(b-a)\sim\eta$, whereas the perimeter
+deficit is $P(E)-2\pi\sim\eta$, so $(P(E)-2\pi)^2\sim\eta^2\ll\eta\sim
+|G\setminus E|$. The quadratic pocket bound is violated by a factor
+$\eta^{-1}$, \emph{inside an arbitrarily thin annulus}.
+\item \emph{Two-sided density.} The lollipop is a Lipschitz domain; on
+$\partial E$ the density is $\approx\tfrac12$ generically and
+$\approx\tfrac14$ at the finitely many corners, so \eqref{eq:density}
+holds at every boundary point and every scale (down to the corner scale).
+Density does not see the overhang, because the offending wall is not a
+boundary point of $E$ at all.
+\end{enumerate}
+Thus neither the inclusion of (A) nor its density bound is, by itself,
+enough for the quadratic realization. Something must forbid overhangs.
+\end{remark}
+
+\section{Input (B): realization under no overhang}
+\label{sec:realize}
+
+We isolate the exact condition that makes the decomposition true.
+
+\begin{definition}[No overhang]\label{def:noov}
+A set of finite perimeter $E$ with $B_{r_-}(0)\subset E\subset B_{r_+}(0)$
+has \emph{no overhang about $0$} if its radial hull $G$ from \eqref{eq:hull}
+satisfies
+\[
+   \HH^1\bigl(\partial^*G\setminus\partial^*E\bigr)=0 .
+\]
+Equivalently: $\HH^1$-a.e.\ point of the hull boundary is a reduced
+boundary point of $E$ with the same outer normal --- the outer profile of
+$E$ is ``self-supporting,'' $E$ being full immediately beneath each piece
+of $\partial^*G$.
+\end{definition}
+
+No overhang is implied by, but far weaker than, $C^{1,\gamma}$
+star-shapedness; and it is strictly stronger than finite perimeter, the
+lollipop being the obstruction (there $\partial^*G$ contains the cap-wall
+segments $\{|\theta|=w/2,\ a<r<b\}$, which are not in $\partial^*E$).
+
+\begin{lemma}[Slice structure]\label{lem:slice}
+For $\HH^1$-a.e.\ $\theta\in S^1$ the slice $E_\theta$ is a
+one-dimensional set of finite perimeter with
+$(0,r_-]\subset E_\theta\subset(0,r_+]$, with essential boundary the
+finite set $\{r_1<\cdots<r_{2m+1}\}$ ($m=m(\theta)$),
+\[
+   E_\theta=(0,r_1)\cup(r_2,r_3)\cup\cdots\cup(r_{2m},r_{2m+1}),\qquad
+   R(\theta)=r_{2m+1},
+\]
+$G_\theta=(0,R(\theta))$, and the pocket slice
+$Q_\theta=(r_1,r_2)\cup\cdots\cup(r_{2m-1},r_{2m})$. Moreover $R\in
+BV(S^1)$ with values in $[r_-,r_+]$, $G$ is of finite perimeter, and $G$
+is a radial graph about $0$.
+\end{lemma}
+
+\begin{proof}
+By Vol'pert's slicing theorem \cite[Thm.~3.108]{AFP}, for $\HH^1$-a.e.\
+$\theta$ the slice $E_\theta$ is one-dimensional of finite perimeter and
+$\partial^*E_\theta=(\partial^*E)_\theta$; in dimension one a set of finite
+perimeter is, up to a null set, a finite union of disjoint open intervals.
+The inclusion $B_{r_-}\subset E\subset B_{r_+}$ forces
+$(0,r_-]\subset E_\theta\subset(0,r_+]$, so the first interval starts at
+$0$ and the outermost crossing is $R(\theta)=r_{2m+1}$. The interval
+structure gives $G_\theta$, $Q_\theta$. That $R\in BV(S^1)$ is the
+statement that the upper envelope of the $BV$ slice family has bounded
+variation; $G$, the polar subgraph of $R\in BV(S^1)$ with values in
+$[r_-,r_+]$, is then of finite perimeter and is by construction a radial
+graph.
+\end{proof}
+
+\begin{lemma}[Perimeter decomposition under no overhang]\label{lem:perim}
+If $E$ has no overhang about $0$ (Definition~\ref{def:noov}), with hull
+$G$ and pockets $\{Q_j\}_{j\in J}$, then, up to $\HH^1$-null sets,
+$\partial^*G$ and the $\partial^*Q_j$ are pairwise disjoint subsets of
+$\partial^*E$. Consequently
+\begin{equation}\label{eq:perim-dec}
+   P(G)+\sum_{j\in J}P(Q_j)\ \le\ P(E).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Write $G=E\sqcup Q$ mod $\mathcal L^2$-null, with $Q=\bigsqcup_jQ_j$ and
+the $Q_j$ the (essentially disjoint, mutually density-$0$) components of
+the pocket set.
+
+\emph{$\partial^*G\subset\partial^*E$.} This is the no-overhang
+hypothesis.
+
+\emph{Each $\partial^*Q_j\subset\partial^*E$.} Let $x\in\partial^*Q_j$, so
+$Q_j$ has density $\tfrac12$ at $x$. If $x\in\partial^*G$ then
+$x\in\partial^*E$ by no-overhang, so assume $x\notin\partial^*G$. Since
+$Q_j\subset G$, density $\tfrac12$ of $Q_j$ at $x$ forces $G$-density
+$\ge\tfrac12$, hence (as $x\notin\partial^*G$, where $G$ would have density
+$\tfrac12$) $G$ has density $1$ at $x$. The other pockets $Q_k$ ($k\ne j$)
+have density $0$ at $x$ (mutually density-$0$ components). Therefore
+$E=G\setminus Q$ has density $1-\tfrac12-0=\tfrac12$ at $x$, with
+$\nu_E(x)=-\nu_{Q_j}(x)$; thus $x\in\partial^*E$.
+
+\emph{Disjointness.} If $x\in\partial^*G\cap\partial^*Q_j$ then $G$ and
+$Q_j\subset G$ both have density $\tfrac12$, so $E\cap B$ has density $0$
+near $x$: $x$ separates $Q_j$ (inside $G$) from $\R^2\setminus G$ with no
+$E$ in between, i.e.\ $x\in\partial^*G\setminus\partial^*E$, a null set by
+no-overhang. The $\partial^*Q_j$ are mutually $\HH^1$-disjoint as reduced
+boundaries of mutually density-$0$ sets.
+
+\emph{Conclusion.} The sets $\partial^*G,\ \partial^*Q_1,\partial^*Q_2,
+\dots$ are, mod $\HH^1$-null, pairwise disjoint subsets of $\partial^*E$,
+so
+\[
+   P(G)+\sum_jP(Q_j)
+   =\HH^1\!\Big(\partial^*G\sqcup\bigsqcup_j\partial^*Q_j\Big)
+   \le\HH^1(\partial^*E)=P(E). \qedhere
+\]
+\end{proof}
+
+\begin{theorem}[Radial-graph realization under no overhang]\label{thm:realize}
+Let $E\subset\R^2$ have finite perimeter, $|E|=\pi$,
+$B_{r_-}(0)\subset E\subset B_{r_+}(0)$, the perimeter bound $P(E)\le
+2\pi+\eps$, and \emph{no overhang} about $0$. Let $G$ be the radial hull.
+Then:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item $G$ is a radial graph about $0$, $G=\{re^{i\theta}:0\le r<R(\theta)\}$
+with $R\in BV(S^1)$, $r_-\le R\le r_+$;
+\item the pocket volume obeys the sharp quadratic bound
+\begin{equation}\label{eq:pocket}
+   \abs{G\setminus E}\ \le\ \frac{\eps^2}{4\pi}.
+\end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) is Lemma~\ref{lem:slice}. For (ii) set $v:=|G\setminus E|$,
+$h:=\sum_jP(Q_j)$. By planar isoperimetry applied to $G$ (area $\pi+v$),
+$P(G)\ge 2\sqrt{\pi(\pi+v)}\ge2\pi$. Combining with
+Lemma~\ref{lem:perim} and $P(E)\le2\pi+\eps$,
+\[
+   2\pi+\eps\ \ge\ P(E)\ \ge\ P(G)+h\ \ge\ 2\pi+h,
+\]
+so $h\le\eps$. Apply isoperimetry to each pocket, $|Q_j|\le
+P(Q_j)^2/(4\pi)$, and super-additivity $\sum a_j^2\le(\sum a_j)^2$ for
+$a_j\ge0$:
+\[
+   v=\sum_j|Q_j|\le\frac1{4\pi}\sum_jP(Q_j)^2
+   \le\frac1{4\pi}\Big(\sum_jP(Q_j)\Big)^2=\frac{h^2}{4\pi}
+   \le\frac{\eps^2}{4\pi}. \qedhere
+\]
+\end{proof}
+
+\begin{remark}[What survives, what does not]\label{rem:survives}
+The squaring mechanism --- isoperimetry per pocket plus super-additivity ---
+never needed regularity, and indeed needs no overhang only through
+Lemma~\ref{lem:perim}. So the precise content is: \emph{the only place any
+hypothesis beyond finite perimeter enters realization is the perimeter
+decomposition, and there the necessary and (essentially) sufficient
+condition is no-overhang}. The earlier note conflated ``regularity-free''
+with ``hypothesis-free''; the lollipop (Proposition~\ref{prop:lollipop})
+shows the two are different. What is genuinely regularity-free is the
+\emph{passage from no-overhang to the quadratic bound}; what is not free
+is no-overhang itself.
+\end{remark}
+
+\subsection*{An unconditional fallback}
+
+Without any no-overhang hypothesis one still has, from the inclusion alone,
+the trivial linear bound
+\begin{equation}\label{eq:trivial}
+   \abs{G\setminus E}\ \le\ \pi(\rho_e^2-\rho_i^2)\ \le\ 2\pi\rho_e\,\eta ,
+\end{equation}
+since both $E$ and $G$ lie in the annulus $\{\rho_i<r<\rho_e\}$ outside
+$B_{\rho_i}$. This is the bound that holds for the lollipop, and it is the
+only one available there. The whole point of realization is to upgrade
+\eqref{eq:trivial} from $O(\eta)$ to $O(\eta^2)$, and
+Theorem~\ref{thm:realize} does so exactly under no-overhang.
+
+\section{Does input (A) supply no overhang?}
+\label{sec:Agivesnoov}
+
+This is the crux, and the honest answer is: \emph{partially, above scale
+$r_*$}. Two-sided density does not by itself remove overhangs
+(Remark~\ref{rem:thin}(ii)); what removes them is the \emph{tentacle
+exclusion} that produced density in the first place, applied to the
+\emph{neck} of an overhang.
+
+\begin{lemma}[Necks of overhangs are tentacles]\label{lem:neck}
+Suppose $\Om$ satisfies the inclusion \eqref{eq:annulus} and the tentacle
+exclusion estimate of \S\ref{sec:inclusion} at scale $r_*$. Let $Q$ be a
+pocket of the radial hull whose lateral wall is an overhang, i.e.\ a
+component of $\partial^*G\setminus\partial^*\Om$, and let $\ell$ be the
+angular width of $Q$ at its inner radius. If $\ell\ge r_*$ then the cap
+producing the overhang is attached to $\Om\setminus B_{\rho_i}$ through a
+neck of width $\ge c\,r_*$; more precisely, an overhang with neck width
+$w'<c_1 r_*$ is excluded, because the neck region
+$\{a<r<b,\ |\theta-\theta_0|<w'\}$ is an interior tentacle:
+$|\Om\cap B_{r}(x)|\le C\,w'\,r\ll r^2$ for $x$ at the neck and
+$r\in[w',r_*]$, forcing $\eps_r^2\gtrsim r$ and hence Serrin deficit
+$\gtrsim r_*$.
+\end{lemma}
+
+\begin{proof}[Proof sketch]
+An overhang exists only if the cap (full $E$ at $b<r<R^+$, angular width
+$w$) is fed from below through a strictly thinner stem (width $w'<w$): some
+neck must connect the cap to the bulk $\Om\setminus B_{\rho_i}$, else the
+cap is a separate component and contributes a full isoperimetric deficit.
+At a point $x$ on the neck, for scales $w'\le r\le \min(b-a,r_*)$ the slab
+$\Om\cap B_r(x)$ is contained in the stem strip of width $w'$, so
+$|\Om\cap B_r(x)|\le C w' r\le C(w'/r)\,r^2\ll r^2$ once $w'\ll r$. The
+tentacle-exclusion estimate $\eps_r^2\gtrsim|\Om\cap B_r(x)|^{1/2}$ is then
+not the sharp form; rather one uses the perimeter lower bound
+$P(\Om;B_r(x))\ge c\,r$ (two long stem walls of length $\ge r$) against the
+flux identity to get $\eps_r^2\gtrsim r$, so any neck with $w'\ll r$
+present at a scale $r\le r_*$ would force $\eps^2\gtrsim r_*$, contradicting
+smallness once $r$ is taken $\sim r_*$. Hence necks of width $<c_1r_*$ are
+excluded above scale $r_*$.
+\end{proof}
+
+\begin{remark}[The residual is genuine and sub-$r_*$]\label{rem:residual}
+Lemma~\ref{lem:neck} excludes overhangs whose necks live at scales
+$\ge r_*$. It says \emph{nothing} about overhangs entirely below scale
+$r_*$: a cap of radial extent $\le\eta$ sitting on a neck of width
+$<c_1r_*$ at a scale $<r_*$ is invisible to the Serrin deficit. This is the
+unavoidable $\eta$-versus-$r_*$ tension noted before:
+\begin{itemize}[leftmargin=2em]
+\item if $\eta\ge r_*$, all annular features are above scale $r_*$, necks
+are excluded, $\Om$ has no overhang \emph{modulo a sub-$r_*$ remainder},
+and Theorem~\ref{thm:realize} applies with $\eps$ replaced by the
+above-$r_*$ perimeter deficit;
+\item if $\eta<r_*$, the entire annular layer is sub-$r_*$ and tentacle
+exclusion is blind to it; only the trivial bound \eqref{eq:trivial},
+$|G\setminus\Om|\lesssim\eta$, survives.
+\end{itemize}
+Quantitatively, the overhangs that escape control occupy lateral scale
+$<r_*$ within a layer of width $\eta$, so their total volume is at most
+$C\,r_*\cdot(\#\text{necks})\cdot\eta$; bounding the number of disjoint
+sub-$r_*$ necks by $P(\Om)/r_*$ gives the residual pocket bound
+\begin{equation}\label{eq:residual}
+   \abs{G\setminus\Om}\ \le\ \frac{(P(\Om)-2\pi)^2}{4\pi}
+   \ +\ C\,P(\Om)\,\eta\quad(\text{above-}r_*\text{ part}+\text{sub-}r_*\text{ residual}),
+\end{equation}
+in which the first term is the genuine quadratic gain and the second is the
+honest residual.
+\end{remark}
+
+\section{Assembly and an honest accounting}
+
+\begin{corollary}[Selection-free realization, corrected]\label{cor:assembly}
+Let $\Om\subset\R^2$, $|\Om|=\pi$, satisfy input (A): the density
+\eqref{eq:density} and inclusion \eqref{eq:annulus} with width $\eta$ and
+$r_-=\rho_i\ge\tfrac12$, at scale $r_*$. Then $\Om$ has finite perimeter
+and its radial hull $G$ about $z$ is a radial graph of amplitude $\le\eta$,
+with
+\[
+   \abs{G\setminus\Om}\ \le\
+   \begin{cases}
+     \dfrac{(P(\Om)-2\pi)^2}{4\pi}+C\,P(\Om)\,\eta, & \eta\ge r_*\ (\text{no overhang mod sub-}r_*),\\[2ex]
+     2\pi\rho_e\,\eta, & \text{always (trivial)},
+   \end{cases}
+\]
+and in either case $\dT(G)\le 2(\dT(\Om)+|G\setminus\Om|)$. No selection,
+no $C^{1,\gamma}$, and no atlas-norm smallness is used; only the
+no-overhang information extracted from $\eta$ versus $r_*$.
+\end{corollary}
+
+\begin{proof}
+Finite perimeter and the inclusion come from (A). When $\eta\ge r_*$,
+Lemma~\ref{lem:neck} and Remark~\ref{rem:residual} give no-overhang modulo
+a sub-$r_*$ remainder, and Theorem~\ref{thm:realize} applied to the
+no-overhang part yields the first bound \eqref{eq:residual}; the trivial
+bound \eqref{eq:trivial} always holds. The torsion estimate is the planar
+fill--rescale lemma (monotonicity of torsion under inclusion plus the
+disk-torsion formula), unchanged from Plan~4.
+\end{proof}
+
+Feeding $G$ into the radial-graph theorem $(G)$ then yields
+$\AF(\Om)^2\lesssim\dT(\Om)+|G\setminus\Om|+\eta^2$; the realization
+contributes $|G\setminus\Om|$ at whichever of the two rates above is in
+force.
+
+\section{What is sharp, what is not, and the remaining gap}
+
+\paragraph{Realization is quadratic only under no-overhang.} The earlier
+boxed claim --- ``realization is sharp; sharpness of the whole route =
+sharpness of the annulus width $\eta$'' --- was wrong, because it rested on
+the false unconditional decomposition \eqref{eq:wrong}. The corrected
+statement is:
+\[
+   \boxed{\;\text{realization is quadratic } \Longleftrightarrow \text{ no overhang};
+   \quad\text{finite perimeter alone gives only the linear } O(\eta).\;}
+\]
+The quadratic squaring itself (isoperimetry per pocket plus
+super-additivity) remains regularity-free; what it now demands as input is
+the no-overhang condition, not mere finite perimeter.
+
+\paragraph{The rate now has two carriers.} The final exponent is governed
+by \emph{both} the annulus width $\eta=C(\eps^\theta+r_*)$ \emph{and} the
+overhang scale $r_*$:
+\begin{itemize}[leftmargin=2em]
+\item if $\eta\ge r_*$, the quadratic term $(P(\Om)-2\pi)^2$ dominates and
+realization gains a power, but a linear residual $C P(\Om)\eta$ remains
+from sub-$r_*$ overhangs;
+\item if $\eta<r_*$, no quadratic gain is available and
+$|G\setminus\Om|\lesssim\eta$ is the best one can assert.
+\end{itemize}
+At the boundary-layer scales $\eps\sim\dT^{1/4}$,
+$\delta_{\mathrm{iso}}\sim\dT^{1/2}$ one has
+$r_*\sim\eps^2+\delta_{\mathrm{iso}}^{1/4}\sim\dT^{1/8}$ and
+$\eta\sim\dT^{1/8}$, i.e.\ $\eta\approx r_*$: precisely the borderline,
+where the residual $CP(\Om)\eta\sim\dT^{1/8}$ and the would-be quadratic
+term $(P-2\pi)^2\sim\dT$ are not separated favourably. So at the rate that
+(A) currently delivers, realization gives no improvement over the trivial
+$O(\eta)$. An improvement requires (A) to deliver $\eta\gg r_*$, i.e.\ an
+annulus width strictly larger than the density scale --- the opposite of
+what one might expect, and the real obstruction.
+
+\paragraph{The remaining gap, restated honestly.} The programme trisects:
+\begin{itemize}[leftmargin=2em]
+\item \textbf{Quadratic squaring:} \emph{done}, regularity-free, given
+no-overhang (Theorem~\ref{thm:realize}).
+\item \textbf{No-overhang:} reduces to excluding sub-$r_*$ overhangs;
+tentacle exclusion handles necks at scales $\ge r_*$
+(Lemma~\ref{lem:neck}), and the residual \eqref{eq:residual} is honest and
+generally nonzero.
+\item \textbf{Inclusion (A):} the Magnanini--Poggesi oscillation bound
+under density, delivering the annulus width $\eta$ and the scale $r_*$;
+crucially one needs $\eta\gg r_*$ for the quadratic realization to bite.
+\end{itemize}
+
+\paragraph{Why this matters for the original plan.} The original
+obstruction was phrased as ``realization needs $C^{1,\gamma}$, which needs
+selection.'' This note shows the truth is intermediate: realization does
+\emph{not} need $C^{1,\gamma}$, but it does need no-overhang, which finite
+perimeter does not give (Proposition~\ref{prop:lollipop}) and which density
+gives only above scale $r_*$. The selection step bought $C^{1,\gamma}$,
+which trivially implies no-overhang at all scales; the selection-free route
+must instead win no-overhang from the deficits, and the lollipop pinpoints
+exactly the configurations it must rule out. That is a sharper and more
+truthful localisation of the difficulty than the earlier draft, even though
+it is less triumphant: the realization half is regularity-free, but it is
+not deficit-free.
+
+\begin{thebibliography}{9}
+
+\bibitem{AFP} L.~Ambrosio, N.~Fusco, and D.~Pallara, \emph{Functions of
+Bounded Variation and Free Discontinuity Problems}, Oxford Univ.\ Press,
+2000.
+
+\bibitem{MP} R.~Magnanini and G.~Poggesi, \emph{On the stability for
+Alexandrov's Soap Bubble theorem}, J.~Anal.\ Math.\ \textbf{139} (2019),
+179--205.
+
+\bibitem{FMP} N.~Fusco, F.~Maggi, and A.~Pratelli, \emph{The sharp
+quantitative isoperimetric inequality}, Ann.\ of Math.\ \textbf{168}
+(2008), 941--980.
+
+\bibitem{BDV} L.~Brasco, G.~De~Philippis, and B.~Velichkov,
+\emph{Faber--Krahn inequalities in sharp quantitative form}, Duke
+Math.~J.\ \textbf{164} (2015), 1777--1831.
+
+\end{thebibliography}
+
+\end{document}

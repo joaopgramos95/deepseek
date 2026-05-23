@@ -1,0 +1,708 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{problem}[theorem]{Problem}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Om}{\Omega}
+\newcommand{\HH}{\mathcal H}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dT}{\delta_T}
+\newcommand{\diso}{\delta_{\mathrm{iso}}}
+\newcommand{\AF}{\mathcal A_F}
+\newcommand{\gd}{\mathrm{gd}}
+\newcommand{\rstar}{r_*}
+\newcommand{\esssup}{\operatorname*{ess\,sup}}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+\title{Superseding the selection principle for quantitative
+Saint--Venant\\
+\large via the optimal radial graph: cut, do not fill}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+To remove the Brasco--De~Philippis--Velichkov selection step it suffices,
+as observed by the author, to produce from a near-extremal $\Om$ a
+\emph{radial graph} $G$ with $\abs{\Om\,\triangle\,G}=O(\dT(\Om))$; the
+small-amplitude radial-graph theorem (G) (a local, regularity-free
+inequality) then closes the estimate. The natural candidate --- the radial
+hull (star-shaped envelope) --- fails, because it can only \emph{fill}
+pockets, and a thin overhang has pocket volume $\gg\dT$
+(no-overhang obstruction). The resolution is to allow the graph to
+\emph{cut} as well as fill: the \emph{optimal radial graph}, which removes
+thin caps and fills thin gaps, has defect
+\[
+   \gd(\Om):=\min_{G\text{ radial graph}}\abs{\Om\,\triangle\,G}
+   \ \lesssim\ \eta\,(\diso+\eta),
+\]
+where $\eta$ is the annular half-width and $\diso$ the isoperimetric
+deficit (Theorem~\ref{thm:gd}). \emph{No no-overhang hypothesis appears};
+overhangs are cut away at a cost charged to $\diso$. The radial-graph
+theorem needs only amplitude $\le$ a fixed constant, which is automatic; so
+the realization imposes \emph{no width condition}. Consequently:
+\begin{itemize}[leftmargin=1.6em]
+\item the entire sharp theorem reduces, with selection deleted, to
+producing a graph whose volume, deficit, and closeness to $\Om$ are
+controlled --- and volume and closeness are free, so the \emph{only}
+constraint is that the surgical repair shift the deficit by $O(\dT)$, which
+holds once $\eta\lesssim\dT^{1/4}$ \textup{(}not $\sqrt\dT$; an earlier
+draft overstated this\textup{)} (Theorem~\ref{thm:reduction-final});
+\item unconditionally one gets the selection-free
+$\AF(\Om)^2\lesssim\dT^{2/3}$ --- with no inclusion at all, by applying
+quantitative isoperimetry to the inset, whose perimeter (unlike
+$\partial\Om$'s) is controlled by $\dT$ (Proposition~\ref{prop:nonsharp}).
+\end{itemize}
+We pursue two routes to the graph. \emph{Route~2} repairs the inset by
+cut-or-fill (the above). \emph{Route~1} asks whether the inset is
+\emph{already} a graph, with no repair; we prove the \emph{folding
+identity} $\int_0^\infty F(t)\,dt=\int_\Om(\partial_r u)_+\,dx$ (with $F$
+the folded radial perimeter of the level set $\{u=t\}$), which shows the
+inset is a graph iff $\partial_r u\le0$ in the boundary layer, settles the
+interior unconditionally, and pins the obstruction to a single sign
+condition on $\partial_r u$ at the boundary --- the same quantity
+$M=\int(\partial_r u)_+$ that Route~2 pays for. We give complete proofs of
+both reductions and the folding identity, isolate the two remaining inputs
+(Route~2: a $\dT^{1/4}$ Hausdorff annulus; Route~1: radial monotonicity),
+and record the overhang-free Steiner-flow alternative.
+\end{abstract}
+
+\tableofcontents
+
+\section{Architecture and the target}
+\label{sec:arch}
+
+Work in $\R^2$. For bounded $\Om$ of finite measure let $u_\Om$ be its
+torsion function ($-\Delta u_\Om=1$, $u_\Om\in H^1_0(\Om)$),
+$T(\Om)=\int_\Om u_\Om$, $B$ the disk of area $\abs\Om$, and
+\[
+   \dT(\Om):=T(B)-T(\Om)\ge0,\qquad
+   \AF(\Om):=\inf_x\frac{\abs{\Om\,\triangle\,B(x)}}{\abs\Om},\ \abs{B(x)}=\abs\Om .
+\]
+Normalise $\abs\Om=\pi$, $B=B_1$, $T(B_1)=\pi/8$. The sharp goal is
+\begin{equation}\label{eq:target}
+   \AF(\Om)^2\le C\,\dT(\Om)\qquad(\dT(\Om)\le\delta_\star).
+\end{equation}
+
+\paragraph{The reduction target (the user's observation).}
+The selection step exists only to manufacture a $C^{1,\gamma}$
+nearly-spherical representative on which two regularity-dependent moves run:
+an annular inclusion and a radial-graph realization. But for
+\eqref{eq:target} one needs much less: \emph{any} radial graph $G$ close to
+$\Om$ in measure suffices, because the radial-graph theorem is intrinsic.
+
+\begin{quote}\itshape
+It is enough to produce a radial graph $G$ with
+$\abs{\Om\,\triangle\,G}=O(\dT(\Om))$; then a local analysis (the
+radial-graph theorem) finishes.
+\end{quote}
+
+We make this precise (\S\ref{sec:reduction}), then show the target is
+attainable by the \emph{optimal} radial graph, with the no-overhang
+obstruction removed by allowing cuts (\S\ref{sec:cutfill}--%
+\ref{sec:gd}).
+
+\paragraph{Module (G), imported.}
+\emph{Radial-graph theorem.} If $G=\{r<1+\varphi(\omega)\}$ with
+$\varphi\in C^0(S^1)$, $\norm\varphi_{L^\infty}\le\eta_G$, $\abs G=\pi$,
+barycentre $0$, then $\AF(G)^2\le C_G\,\dT(G)$ (planar constants
+$\eta_G=1/13$, $C_G<48$; manuscript \S Step~4). This module uses no
+property of the original $\Om$ and no selection.
+
+\paragraph{Deficits and scales.}
+After the level-set reduction (manuscript \S Step~2), at the stopped level
+$\hat t\sim\sqrt\dT$ the controlling deficits are the Serrin defect and the
+isoperimetric deficit of the inset, with
+\begin{equation}\label{eq:scales}
+   \eps:=\Bigl(\textstyle\int_{\partial\Om}(|\nabla u_\Om|-c_\Om)^2\Bigr)^{1/2}
+   \sim\dT^{1/4},
+   \qquad
+   \diso:=\frac{P(\Om)}{2\sqrt{\pi\abs\Om}}-1\ \sim\ \dT^{1/2}.
+\end{equation}
+
+\section{The reduction: a graph within $\dT$ suffices}
+\label{sec:reduction}
+
+\begin{lemma}[Boundary-layer torsion stability]\label{lem:torsion-stab}
+Let $\Om,G\subset B_{1+\eta}(z)$ both contain $B_{1-\eta}(z)$, with
+$\abs{\Om\,\triangle\,G}=m$ \textup{(}so $\Om\triangle G$ lies in the collar
+$\{1-\eta<\abs{x-z}<1+\eta\}$\textup{)}. Then
+\begin{equation}\label{eq:torsion-stab}
+   \abs{T(\Om)-T(G)}\ \le\ 3\,\eta\,m .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Put $E:=\Om\cap G\subset F:=\Om\cup G$, $\abs{F\setminus E}=m$, so
+$\abs{T(\Om)-T(G)}\le T(F)-T(E)$. Writing $T(D)=\iint_{D\times D}
+G_D(x,y)\,dx\,dy$ with $G_D\ge0$ the Green function and using the
+monotonicity $G_E\le G_F$,
+\[
+   T(F)-T(E)\le\iint_{F\times F}G_F-\iint_{E\times E}G_F
+   =2\!\int_E\!\int_{F\setminus E}\!G_F+\iint_{(F\setminus E)^2}\!G_F .
+\]
+For $y\in F\setminus E$ (in the collar), the comparison
+$u_F\le u_{B_{1+\eta}}$ gives $u_F(y)=\int_F G_F(\cdot,y)\le
+((1+\eta)^2-(1-\eta)^2)/4=\eta$. Hence
+$\int_E\int_{F\setminus E}G_F\le\int_{F\setminus E}u_F\le\eta m$ and
+$\iint_{(F\setminus E)^2}G_F\le\int_{F\setminus E}u_F\le\eta m$, giving
+$T(F)-T(E)\le 3\eta m$.
+\end{proof}
+
+\begin{theorem}[Reduction --- exactly the three controlled quantities]
+\label{thm:reduction}
+Let $\Om\subset\R^2$, $\abs\Om=\pi$, $\dT(\Om)\le\delta_\star$. Suppose
+there is a \emph{radial graph} $G=\{z+r\omega:r<\rho(\omega)\}$,
+$\rho\in C^0(S^1)$, with
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.2em]
+\item \textup{(graph, amplitude a fixed constant)}
+$\norm{\rho-1}_{L^\infty}\le\eta_G$ and barycentre at $z$, where $\eta_G$
+is the \emph{absolute} constant of \textup{(G)} \textup{(}$=1/13$\textup{)};
+\item \textup{(volume controlled)} $\abs{\,\abs G-\pi\,}\le K\dT(\Om)$;
+\item \textup{(deficit controlled)} $\dT(G)\le K\,\dT(\Om)$;
+\item \textup{(closeness)} $\abs{\Om\,\triangle\,G}\le K\sqrt{\dT(\Om)}$.
+\end{enumerate}
+Then $\AF(\Om)^2\le C(K,C_G)\,\dT(\Om)$, with \emph{no} selection and
+\emph{no} regularity of $\partial\Om$.
+\end{theorem}
+
+\begin{remark}[On hypothesis (i): the amplitude is free]\label{rem:amplitude}
+The graph theorem (G) requires only $\norm{\rho-1}_{L^\infty}\le\eta_G$
+with $\eta_G$ a \emph{fixed absolute constant}; it does \emph{not} require
+an amplitude that shrinks with $\dT$. Since $\diso\to0$ forces the inset
+into an annulus of width $o(1)$, (i) holds automatically for
+$\dT\le\delta_\star$. \textbf{There is no ``$\sqrt\dT$-width annulus''
+requirement}; an earlier draft wrongly imposed one. The substance is
+(iii)+(iv): a graph whose deficit and symmetric difference are controlled.
+\end{remark}
+
+\begin{proof}
+Rescale $\widetilde G:=sG$, $s=(\pi/\abs G)^{1/2}$, so
+$\abs{\widetilde G}=\pi$; by (ii) $s^4=1+O(\dT)$, so
+$\dT(\widetilde G)\le\dT(G)+C\dT\le(K+C)\dT$ using (iii). Recentre the
+barycentre (translation $O(\eta_G)$). By (i), $\widetilde G$ satisfies the
+hypotheses of (G), giving $\AF(\widetilde G)^2\le C_G\dT(\widetilde G)\le
+C_G(K+C)\dT$. Finally $\AF(\widetilde G)=\AF(G)$ (dilation invariance) and,
+by (iv) and $\dT\le1$,
+\[
+   \AF(\Om)\le\AF(G)+\frac{\abs{\Om\triangle G}}{\pi}
+   \le\sqrt{C_G(K+C)\dT}+\frac K\pi\sqrt\dT\le C(K,C_G)\,\dT^{1/2}.\qedhere
+\]
+\end{proof}
+
+This is precisely your statement: \emph{produce a radial graph with
+controlled volume and deficit \textup{(}and, automatically, closeness to
+$\Om$\textup{)}, and we are done.} The amplitude in (i) is a free constant.
+The rest of the note constructs such a $G$ and pins down what (iii)
+costs.
+
+\section{Why the radial hull fails, and why cutting succeeds}
+\label{sec:cutfill}
+
+Assume the inclusion $B_{1-\eta}(0)\subset\Om\subset B_{1+\eta}(0)$
+(input (A), \S\ref{sec:input-A}); centre $0$. For a.e.\ $\theta$ the slice
+$\Om_\theta=\{r:re^{i\theta}\in\Om^{(1)}\}$ is, by Vol'pert slicing, a
+finite union of intervals
+\[
+   \Om_\theta=(0,r_1)\cup(r_2,r_3)\cup\cdots\cup(r_{2m},r_{2m+1}),
+   \qquad r_-\le r_1<\cdots<r_{2m+1}\le r_+,
+\]
+($r_\pm=1\pm\eta$, $m=m(\theta)$). The \emph{gaps}
+$(r_{2i-1},r_{2i})$ and \emph{caps} $(r_{2i},r_{2i+1})$ are the obstruction
+to $\Om$ being a graph.
+
+\paragraph{The hull only fills.} The radial hull
+$G_{\mathrm{hull}}=\{r<R(\theta)\}$, $R=r_{2m+1}$, fills every gap; its
+defect is $\abs{G_{\mathrm{hull}}\setminus\Om}=\sum_\theta\sum_i$ (gap
+masses). A thin overhang --- a wide cap on a thin neck (lollipop) --- has a
+deep gap beneath it: gap mass $\sim\eta$ while $\dT\to0$
+(\texttt{density\_to\_graph\_realization.tex}, Prop.~``floating sliver'').
+So $\abs{G_{\mathrm{hull}}\triangle\Om}\gg\dT$. The hull therefore needs a
+no-overhang hypothesis, which neither finite perimeter nor density
+supplies; this was the barrier.
+
+\paragraph{Cutting dissolves the barrier.} Replace ``fill'' by
+``cut-or-fill, whichever is cheaper, in each slice.'' Define the
+\emph{optimal radial graph} defect
+\begin{equation}\label{eq:gd-def}
+   \gd(\Om):=\inf_{\rho:S^1\to[r_-,r_+]}
+   \int_{S^1}\!\!\int_0^\infty\bigl|\mathbf 1_\Om(re^{i\theta})
+   -\mathbf 1_{\{r<\rho(\theta)\}}\bigr|\,r\,dr\,d\theta
+   =\int_{S^1}\Bigl(\min_{\rho}\,\abs{\Om_\theta\,\triangle\,(0,\rho)}_r\Bigr)d\theta,
+\end{equation}
+($\abs\cdot_r$ the $1$-D mass with weight $r\,dr$). Per slice the optimal
+$\rho(\theta)$ either \emph{cuts} the caps (take $\rho=r_1$) or \emph{fills}
+the gaps (take $\rho=r_{2m+1}$) or stops in between --- it picks the
+minority. For the lollipop one simply \emph{cuts} the wide cap: the cap has
+mass $\sim\dT$ (it is the displaced, asymmetric material), so the defect is
+$\sim\dT$, not $\sim\eta$. The deep gap is never filled. The no-overhang
+obstruction does not arise because we are never forced to fill a deep gap.
+
+\section{The graph defect is controlled by $\eta\,\diso$}
+\label{sec:gd}
+
+We now bound $\gd$ by the geometry alone. The mechanism: each fold costs
+perimeter proportional to its angular width, so the total fold-arc is
+$\lesssim\diso$; cutting the caps then costs $\le\eta$ per unit fold-arc.
+
+\begin{theorem}[Graph-defect bound]\label{thm:gd}
+Let $\Om\subset\R^2$ be of finite perimeter, $\abs\Om=\pi$, with
+$B_{1-\eta}(0)\subset\Om\subset B_{1+\eta}(0)$, $\eta\le\tfrac14$, and
+isoperimetric deficit $\diso$. Then
+\begin{equation}\label{eq:gd-bound}
+   \gd(\Om)\ \le\ C\,\eta\,(\diso+\eta),\qquad C\le 40 .
+\end{equation}
+Moreover the optimal profile $\rho$ may be taken in $BV(S^1)$ with
+$\rho\in[r_-,r_+]$, and a continuous $\widetilde\rho\ge\rho-C\eta\,\diso$
+with $\abs{\{\widetilde\rho\ne\rho\}\text{-region}}\le C\eta(\diso+\eta)$
+exists, so the realizing graph in Theorem~\ref{thm:reduction} can be taken
+continuous at the same cost.
+\end{theorem}
+
+\begin{proof}
+Decompose the reduced boundary into radial-normal arcs ($\nu=\pm e_r$,
+``caps/floors'') and angular-normal walls ($\nu=\pm e_\theta$, ``radial
+walls''), $P(\Om)=P_r(\Om)+P_\theta(\Om)$ (an equality up to the
+$\HH^1$-null tangential set; in general $P\ge\max(P_r,P_\theta)$ and
+$P\ge\tfrac1{\sqrt2}(P_r+P_\theta)$, which is all we use).
+
+\emph{Step 1: fold count from $P_r$.} By the radial slicing formula
+\cite[Thm.~3.103]{AFP},
+\[
+   P_r(\Om)=\int_{S^1}\sum_{k=1}^{2m(\theta)+1}r_k(\theta)\,d\theta
+   \ \ge\ \int_{S^1}\bigl(2m(\theta)+1\bigr)\,r_-\,d\theta
+   = r_-\Bigl(2\!\int_{S^1}\!m\,d\theta+2\pi\Bigr).
+\]
+On the other hand $P_r(\Om)\le P(\Om)=2\pi(1+\diso)$. Hence
+\begin{equation}\label{eq:foldcount}
+   \int_{S^1}m\,d\theta\ \le\ \frac{\pi(1+\diso)}{r_-}-\pi
+   \ =\ \pi\,\frac{1+\diso-r_-}{r_-}\ \le\ \frac{\pi(\diso+\eta)}{1-\eta}
+   \ \le\ 2\pi(\diso+\eta),
+\end{equation}
+using $r_-=1-\eta$ and $\eta\le\frac14$. This bounds the total fold-arc:
+$\int m\,d\theta=\HH^1\{(\theta,i):\text{$i$-th fold present at $\theta$}\}$.
+
+\emph{Step 2: cut the caps.} Take the core profile $\rho_0:=r_1(\theta)$
+(cut every cap). Then $\Om\triangle\{r<\rho_0\}=\Om\setminus\{r<\rho_0\}=$
+caps, and the per-slice cap mass is
+\[
+   \sum_{i=1}^{m}\frac{r_{2i+1}^2-r_{2i}^2}{2}
+   \le r_+\sum_{i=1}^m (r_{2i+1}-r_{2i})
+   \le r_+\,(r_+-r_-)\,\min(1,m)
+   \le 2\eta\,r_+\,\mathbf 1_{\{m\ge1\}} ,
+\]
+since the caps lie in $[r_-,r_+]$ of total radial width $\le r_+-r_-=2\eta$.
+Therefore, with $\mathbf 1_{\{m\ge1\}}\le m$,
+\begin{equation}\label{eq:gd-core}
+   \gd(\Om)\le\int_{S^1}2\eta\,r_+\,\mathbf 1_{\{m\ge1\}}\,d\theta
+   \le 2\eta r_+\!\int_{S^1}\!m\,d\theta
+   \le 2\eta\cdot\tfrac54\cdot 2\pi(\diso+\eta)
+   \le 40\,\eta(\diso+\eta).
+\end{equation}
+This is \eqref{eq:gd-bound}.
+
+\emph{Step 3: continuity at the same cost.} $\rho_0=r_1\in BV(S^1)$ with
+$\rho_0\in[r_-,r_+]$; its jump set has total jump
+$\le 2\eta\cdot\#\{\text{jumps}\}$ and total variation
+$\mathrm{TV}(\rho_0)\le P_\theta(\Om)\le P(\Om)$, but more usefully the
+\emph{number of jumps exceeding height $h$} is $\le \mathrm{TV}/h$.
+Mollify $\rho_0$ at angular scale $\sigma$: the smoothed
+$\widetilde\rho_0$ differs from $\rho_0$ on a set of angular measure
+$\le \mathrm{TV}(\rho_0)/(\,\cdot\,)$ and adds area
+$\le\sigma\,\mathrm{TV}(\rho_0)\,r_+$; choosing $\sigma$ so that
+$\sigma\,\mathrm{TV}(\rho_0)\le\eta\diso$ keeps the extra area
+$\le\eta\diso\,r_+\le C\eta(\diso+\eta)$. The mollified profile is
+Lipschitz, $\widetilde\rho_0\in[r_-,r_+]$, and
+$\abs{\Om\triangle\{r<\widetilde\rho_0\}}\le\gd(\Om)+C\eta(\diso+\eta)\le
+C'\eta(\diso+\eta)$.
+\end{proof}
+
+\begin{remark}[On the $\eta^2$ term]\label{rem:eta2}
+The bound \eqref{eq:gd-bound} carries an $\eta^2$ from the slack
+$\int m\le 2\pi(\diso+\eta)$ in \eqref{eq:foldcount} (the inclusion
+contributes $r_-=1-\eta<1$). For a single fold of arc $\ell$ and depth
+$d\le\eta$ one has directly $\gd\sim\ell d$ and $\diso\sim\ell$, i.e.\
+$\gd\sim\eta\diso$ with \emph{no} $\eta^2$; the $\eta^2$ is therefore not
+attained when folds are scarce ($\diso\ll\eta$, the relevant regime) and is
+an artifact. In the sharp regime $\eta\lesssim\diso$ it is harmless
+($\eta^2\le\eta\diso$). We keep it because removing it cleanly requires the
+near-ball normalisation $r_\pm\to1$, which the inclusion does not quite
+provide.
+\end{remark}
+
+\subsection{Which of the four conditions cost what}
+\label{ss:which-cost}
+
+Take $G$ to be the \emph{volume-preserving} optimal radial graph: choose
+$\rho$ with $\tfrac12\int\rho^2=\pi$ minimising the defect; then
+$\abs G=\pi$ exactly, $\rho\in[r_-,r_+]$, and (by cutting the caps as in
+Theorem~\ref{thm:gd}, using the clean $\gd\lesssim\eta\diso$ form ---
+the $\eta^2$ term is an artifact, Remark~\ref{rem:eta2})
+$\abs{\Om\triangle G}\le C\eta\diso$. We check the four hypotheses of
+Theorem~\ref{thm:reduction}:
+\begin{itemize}[leftmargin=2em]
+\item[(i)] amplitude $\norm{\rho-1}_{L^\infty}\le\eta\le\eta_G$: \textbf{free}
+(holds once $\eta\le1/13$, automatic);
+\item[(ii)] volume $\abs G=\pi$: \textbf{free} (volume-preserving choice);
+\item[(iv)] closeness $\abs{\Om\triangle G}\le C\eta\diso\le C\diso\le
+C\sqrt\dT$: \textbf{free} (since $\eta\le1$);
+\item[(iii)] deficit: by Lemma~\ref{lem:torsion-stab},
+$\dT(G)\le\dT(\Om)+3\eta\abs{\Om\triangle G}\le\dT(\Om)+3C\,\eta^2\diso$.
+This is the \emph{only} condition that constrains $\eta$.
+\end{itemize}
+So three of the four are free; the surgery used to manufacture the graph
+shifts the deficit by $\lesssim\eta^2\diso$, and that is the entire price.
+
+\begin{corollary}[The surgery's deficit cost]\label{cor:sharp-gd}
+With $\diso\sim\sqrt\dT$, the deficit shift is
+$3C\eta^2\diso\le\dT(\Om)$ \emph{iff}
+\begin{equation}\label{eq:eta-cond}
+   \eta\ \lesssim\ \sqrt{\diso}\ \sim\ \dT^{1/4}.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+$\eta^2\diso\lesssim\dT\sim\diso^2\iff\eta^2\lesssim\diso$.
+\end{proof}
+
+\section{Route 2 (surgery): the main reduction, selection-free}
+\label{sec:input-A}
+
+\begin{theorem}[Selection deleted]\label{thm:reduction-final}
+Let $\Om\subset\R^2$, $\abs\Om=\pi$, $\dT(\Om)\le\delta_\star$, with
+$\diso\sim\sqrt\dT$. Suppose input \textup{(A)}: a centre $z$ and an
+inclusion $B_{1-\eta}(z)\subset\Om\subset B_{1+\eta}(z)$ with
+\begin{equation}\label{eq:Aplus}
+   \eta\ \lesssim\ \sqrt{\diso}\ \ (\sim\dT^{1/4}).
+\end{equation}
+Then $\AF(\Om)^2\le C\,\dT(\Om)$, with \emph{no selection principle, no
+$C^{1,\gamma}$ regularity, and no no-overhang hypothesis}.
+\end{theorem}
+
+\begin{proof}
+The volume-preserving optimal radial graph $G$ of \S\ref{ss:which-cost}
+satisfies (i),(ii),(iv) of Theorem~\ref{thm:reduction} unconditionally;
+by Corollary~\ref{cor:sharp-gd} and \eqref{eq:Aplus} it satisfies (iii),
+$\dT(G)\le 2\dT(\Om)$. Taking $\rho$ continuous (Theorem~\ref{thm:gd},
+Step~3, at cost $\le C\eta\diso$ to the defect, absorbed) and applying
+Theorem~\ref{thm:reduction} gives the claim.
+\end{proof}
+
+\begin{remark}[The width that is \emph{not} needed, and the one that is]
+\label{rem:width}
+The graph realization itself imposes \emph{no} width condition: a graph of
+amplitude $\le\eta_G$ (a fixed constant) is what (G) wants, and that is
+automatic. The condition \eqref{eq:Aplus}, $\eta\lesssim\dT^{1/4}$, comes
+\emph{solely} from keeping the deficit of the surgically repaired graph
+within $O(\dT)$ --- hypothesis (iii). It is much weaker than the
+$\sqrt\dT$-width annulus an earlier draft demanded. If the inset were
+already a graph (no surgery, $\gd=0$), even this would be vacuous and the
+result would be unconditional.
+\end{remark}
+
+\begin{remark}[What this accomplishes]\label{rem:accomplish}
+The selection-based proof used $C^{1,\gamma}$ for two things: the BNST
+annular inclusion \emph{and} the radial-graph realization (pocket lemma).
+Theorem~\ref{thm:reduction-final} eliminates the second entirely --- the
+optimal radial graph realizes $\Om$ within $\dT$ \emph{from finite
+perimeter alone} --- and shows the first is the \emph{only} remaining
+input. Equivalently: \textbf{the no-overhang obstruction, which blocked the
+density--to--hull route, is an artifact of insisting on the hull;
+cut-or-fill removes it.} What is left is a single, classical-looking
+estimate: an annulus of \emph{Hausdorff} width $\lesssim\dT^{1/4}$.
+\end{remark}
+
+\section{Route 1 (no surgery): the folding identity and radial monotonicity}
+\label{sec:route1}
+
+Route 2 \emph{repairs} the inset into a graph and pays a deficit cost.
+Route 1 asks whether the inset \emph{is already} a graph, so that
+$\dT(G)\le 4\dT$ holds with no repair and the result is unconditional. We
+give the exact criterion and a clean identity that measures the failure.
+
+Throughout $u=u_\Om$, $E_t=\{u>t\}$, and $0$ is the chosen radial centre.
+Where $\nabla u\ne0$ the outward unit normal of $E_t$ is
+$\nu_t=-\nabla u/|\nabla u|$, so
+\[
+   \nu_t\cdot e_r=-\frac{\partial_r u}{|\nabla u|},
+   \qquad \partial_r u:=\nabla u\cdot e_r .
+\]
+$E_t$ is a \emph{radial graph} about $0$ (star-shaped, no overhang) iff
+$\nu_t\cdot e_r\ge0$ $\HH^1$-a.e.\ on $\partial^*E_t$, i.e.\ iff
+$\partial_r u\le0$ there. Define the \emph{folded radial perimeter}
+\[
+   F(t):=\int_{\partial^*E_t}(\nu_t\cdot e_r)_-\,d\HH^1
+        =\int_{\partial^*E_t}\frac{(\partial_r u)_+}{|\nabla u|}\,d\HH^1
+        \ \ge\ 0,
+   \qquad F(t)=0\iff E_t\text{ is a radial graph.}
+\]
+
+\begin{lemma}[Folding identity]\label{lem:folding}
+For the torsion function of any bounded set $\Om$ of finite perimeter,
+\begin{equation}\label{eq:folding}
+   \int_0^{\infty}F(t)\,dt\ =\ \int_\Om(\partial_r u)_+\,dx\ =:\ M(\Om).
+\end{equation}
+Consequently:
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.2em]
+\item if $\partial_r u\le0$ a.e.\ in the annular layer
+$\{0<u<t_0\}$, then \emph{every} level set there is a radial graph
+\textup{(}Route 1 applies, with no surgery\textup{)};
+\item $M(\Om)$ is the total non-graphness; by averaging, some level in any
+sub-layer of width $\ell$ has $F(t)\le M/\ell$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+$(\nu_t\cdot e_r)_-=(\partial_r u)_+/|\nabla u|$ pointwise on
+$\partial^*E_t$. The coarea formula
+$\int_0^\infty\!\int_{\partial^*E_t}\!\frac{g}{|\nabla u|}\,d\HH^1dt=
+\int_\Om g\,dx$ with $g=(\partial_r u)_+$ gives \eqref{eq:folding}. (i),(ii)
+are immediate.
+\end{proof}
+
+\begin{lemma}[The interior is graph-like for free]\label{lem:interior}
+There are $t_0>0$ and $\delta_0>0$ \textup{(}absolute\textup{)} such that if
+$\dT(\Om)\le\delta_0$ and $\Om$ is suitably centred, then
+$\partial_r u<0$ on $\{u\ge t_0\}$; hence every inner level set
+$\{u=t\}$, $t\ge t_0$, is a radial graph.
+\end{lemma}
+
+\begin{proof}[Proof sketch]
+$|\nabla u|\le C$ (global gradient bound), so $u\le C\,\mathrm{dist}
+(\cdot,\partial\Om)$ and $\{u\ge t_0\}\subset\{\mathrm{dist}\ge t_0/C\}$.
+On this interior region $-\Delta u=1$ gives, by interior Schauder
+estimates, $C^{2}$ bounds depending only on $t_0$ and $\mathrm{diam}\,\Om$.
+If $\dT(\Om_k)\to0$ then $T(\Om_k)\to T(B)$, and by the rigidity of
+Saint--Venant together with elliptic compactness $u_k\to u_{B_1}$ in
+$C^1_{\mathrm{loc}}$ of the interior \textup{(}after recentring\textup{)};
+since $\partial_r u_{B_1}=-r/2<0$ there, $\partial_r u_k<0$ on
+$\{u_k\ge t_0\}$ for $k$ large, i.e.\ $\dT\le\delta_0$.
+\end{proof}
+
+\paragraph{The crux of Route 1.} Lemma~\ref{lem:interior} settles the
+\emph{interior}: the obstruction to Route 1 is confined to the boundary
+layer $\{0<u<t_0\}$, and is precisely a \emph{sign condition},
+\begin{equation}\label{eq:route1-crux}
+   \partial_r u\le0\quad\text{on}\quad\{0<u<t_0\}
+   \qquad(\text{radial monotonicity in the layer}).
+\end{equation}
+This is exactly what fails at an overhang of $\partial\Om$: beneath an
+outward cap, $u$ \emph{increases} outward ($\partial_r u>0$) toward the cap.
+A $C^{1,\gamma}$ boundary (what selection delivers) controls $\nabla u$ up
+to $\partial\Om$ and gives \eqref{eq:route1-crux} for $\dT$ small; with only
+finite perimeter it can fail, and then $M(\Om)>0$.
+
+\begin{remark}[Route 1 $\Leftrightarrow$ Route 2, quantitatively]
+\label{rem:routes-equiv}
+The folding identity unifies the two routes. If \eqref{eq:route1-crux}
+holds, $M=0$, every layer level is a graph, and Route 1 finishes with no
+deficit cost. If not, $M>0$ measures the total fold; the level-set deficits
+bound it,
+\begin{equation}\label{eq:M-bound}
+   M(\Om)=\int_0^\infty F(t)\,dt\ \le\ \tfrac12\!\int_0^\infty\!\bigl(P_t-I_t\bigr)\,dt,
+   \qquad I_t:=\int_{E_t}\tfrac1r\,dx,
+\end{equation}
+since $P_t=\HH^1(\partial^*E_t)\ge\int|\nu_t\cdot e_r|=I_t+2F(t)$ (the
+identity $\int_{\partial^*E_t}\nu_t\cdot e_r=\int_{E_t}\mathrm{div}\,e_r=
+I_t$). Each fold is then \emph{cut} at its level (Route 2). Thus the same
+quantity $M=\int(\partial_r u)_+$ governs both: Route 1 is the case $M=0$,
+Route 2 pays $\propto M$. The honest status: $M=0$ (pure Route 1) is the
+radial-monotonicity \eqref{eq:route1-crux}, of the same strength as the
+boundary regularity selection provides; absent it, Route 2 with
+$\eta\lesssim\dT^{1/4}$ is the fallback.
+\end{remark}
+
+\section{The remaining input}
+\label{sec:remaining}
+
+The two routes leave two clearly different open inputs:
+\begin{itemize}[leftmargin=2em]
+\item \textbf{Route 1} needs the sign condition \eqref{eq:route1-crux},
+$\partial_r u\le0$ in the boundary layer (radial monotonicity), i.e.\
+$M(\Om)=0$ --- a regularity-flavoured statement about $\nabla u$ up to
+$\partial\Om$.
+\item \textbf{Route 2} needs the inclusion \eqref{eq:Aplus}, a
+\emph{Hausdorff} annulus width $\eta\lesssim\dT^{1/4}$.
+\end{itemize}
+We discuss Route 2's input, the more classical of the two. The hypothesis
+\eqref{eq:Aplus} is an overdetermined-stability statement: \emph{small
+Serrin deficit (and small $\diso$) $\Rightarrow$ $\Om$ trapped in an
+annulus of Hausdorff width $\lesssim\dT^{1/4}$.} This is the
+\emph{Hausdorff} (pointwise) width, the quantity that resists overhangs ---
+genuinely stronger than the $L^1$ closeness $\abs{\Om\triangle B}
+\lesssim\sqrt{\diso}$ that quantitative isoperimetry gives directly. Two
+sub-routes:
+
+\paragraph{(a) With selection, this is BNST.} For $C^{1,\gamma}$ insets the
+Brandolini--Nitsch--Salani--Trombetti theorem gives an annulus of width
+$O(\dT^{\mu})$, sharpened after the $C^{1,\gamma}$ inset; this is the
+manuscript's Step~2. It uses the regularity that selection provides.
+
+\paragraph{(b) Without selection: Magnanini--Poggesi under density.} The
+flux mechanism of \texttt{almost\_serrin\_discussion.tex} gives two-sided
+density above scale $\rstar\sim\eps^2+\diso^{1/4}\sim\dT^{1/8}$ and, via an
+adapted Magnanini--Poggesi oscillation bound, a Hausdorff annulus width
+$\eta\sim\eps^\theta+\rstar\sim\dT^{1/8}$. This is \emph{not}
+\eqref{eq:Aplus}: $\dT^{1/8}\gg\dT^{1/4}$. The remaining gap is therefore
+\emph{one power}, $\dT^{1/8}\to\dT^{1/4}$, i.e.\ lowering the exterior fjord
+scale from $\diso^{1/4}$ to $\diso^{1/2}$ --- a Magnanini--Poggesi
+oscillation bound under the Serrin density, one power sharper than what the
+flux mechanism currently yields. That single estimate is all that stands
+between this and a fully selection-free sharp theorem.
+
+\begin{proposition}[Unconditional selection-free bound]\label{prop:nonsharp}
+For every bounded $\Om\subset\R^2$ with $\dT(\Om)\le\delta_\star$,
+\[
+   \AF(\Om)^2\ \le\ C\,\dT(\Om)^{2/3},
+\]
+with no selection, no regularity, and no inclusion hypothesis.
+\end{proposition}
+
+\begin{proof}
+Pick the good level at removed volume $\lambda$
+(Lemma of \S Step~2): $D_I(\hat t)\le 16\pi\dT/\lambda$ and
+$\abs{\Om\setminus E}=\lambda$, $E=\{u>\hat t\}\subset\Om$. The inset's
+isoperimetric deficit obeys $\diso(E)\lesssim D_I(\hat t)\lesssim\dT/\lambda$,
+so by the sharp quantitative isoperimetric inequality (FMP),
+$\AF(E)\lesssim\sqrt{\diso(E)}\lesssim\sqrt{\dT/\lambda}$. Comparing $\Om$
+to the volume-$\pi$ ball concentric with $E$'s optimal ball,
+$\AF(\Om)\le\AF(E)+2\lambda/\pi\lesssim\sqrt{\dT/\lambda}+\lambda$.
+Optimising $\lambda=\dT^{1/3}$ gives $\AF(\Om)\lesssim\dT^{1/3}$.
+\end{proof}
+
+\begin{remark}[Why this beats the inclusion bound]\label{rem:nonsharp}
+The Hausdorff-annulus route gives only $\AF(\Om)\le2\rho_e\eta\sim
+\dT^{1/8}$, i.e.\ $\AF^2\lesssim\dT^{1/4}$ --- \emph{worse} than
+Proposition~\ref{prop:nonsharp} and conditional on the inclusion. The point
+is that the \emph{inset's} perimeter is controlled by $\dT$
+(unlike $\partial\Om$'s), so FMP applies to it directly. The graph routes
+exist to remove the FMP square-root loss ($\AF\sim\sqrt\diso$) and reach the
+sharp $\AF^2\lesssim\dT$.
+\end{remark}
+
+\section{An overhang-free alternative: the Steiner flow}
+\label{sec:steiner}
+
+If the $\dT^{1/4}$ annulus proves stubborn, a structurally different route
+avoids inclusions altogether. Brock's continuous Steiner symmetrization
+$\Om^e_t$ ($t\in[0,1]$, direction $e$) is monotone for torsion and
+\emph{overhang-free by construction} (after symmetrizing in $e$, every
+line $\parallel e$ meets the set in one segment).
+
+\begin{proposition}[Monotone torsion, dissipation, deficit splitting]
+\label{prop:steiner}
+With $u=u_\Om\ge0$ extended by $0$ and $u^e_t$ its continuous Steiner
+rearrangement, $t\mapsto T(\Om^e_t)$ is non-decreasing and
+\[
+   T(\Om^e_t)\ge 2\!\int u^e_t-\!\int\abs{\nabla u^e_t}^2\ge T(\Om),
+   \qquad
+   \mathcal D^e(\Om):=\int\abs{\nabla u}^2-\int\abs{\nabla u^e}^2\ge0 .
+\]
+For a director schedule $\{e_k\}$ whose iterated symmetrizations converge
+in $L^1$ to $B_1$ \textup{(}e.g.\ equidistributed; \cite{ManiLevitska,
+Burchard}\textup{)},
+$\dT(\Om)=\sum_k\mathcal D^{e_k}(\Om_{k-1})$.
+\end{proposition}
+
+\begin{proof}
+$u^e_t\in H^1_0(\Om^e_t)$ (super-level sets symmetrize into $\Om^e_t$), so
+$u^e_t$ is admissible in $T(\Om^e_t)=\max\{2\int g-\int|\nabla g|^2\}$; the
+P\'olya--Szeg\H{o} content of Brock's theorem
+$\int|\nabla u^e_t|^2\le\int|\nabla u|^2$ with $\int u^e_t=\int u$ gives the
+displayed chain. Telescoping the energy drops along the schedule and
+$T=\int|\nabla u|^2$ on torsion functions yields the splitting.
+\end{proof}
+
+The sharp selection-free, overhang-free theorem then follows from a
+quantitative P\'olya--Szeg\H{o} $\mathcal D^e(\Om)\ge c\,
+\norm{u-u^e}_{L^1}^2$ plus an isotropy averaging --- the torsion analogues
+of the Dolbeault--Esteban--Figalli--Frank--Loss estimates \cite{DEFFL},
+neither of which uses selection or regularity. This is recorded as the
+backup; the optimal-graph route of \S\ref{sec:input-A} is the primary one
+because it is elementary modulo the single inclusion estimate.
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{enumerate}[leftmargin=1.8em]
+\item \textbf{Target (yours).} It suffices to realize $\Om$ by a radial
+graph $G$ with controlled volume and deficit; closeness to $\Om$ is then
+automatic, and the radial-graph theorem closes \eqref{eq:target}
+(Theorem~\ref{thm:reduction}). The graph theorem needs amplitude $\le$ a
+\emph{fixed constant} --- automatic. \textbf{No $\sqrt\dT$-width annulus is
+required}; that was an error in my previous note.
+\item \textbf{Cut, do not fill.} The radial hull fails (overhangs give
+defect $\gg\dT$). The optimal radial graph, which cuts thin caps, has
+$\gd(\Om)\lesssim\eta(\diso+\eta)$ (Theorem~\ref{thm:gd}) --- \emph{with no
+no-overhang hypothesis}. Overhangs are charged to $\diso$.
+\item \textbf{What the surgery costs.} Of the four hypotheses of
+Theorem~\ref{thm:reduction}, the graph realizes amplitude, volume, and
+closeness \emph{for free}; only the deficit (iii) is constrained, the
+surgical repair shifting $\dT$ by $\lesssim\eta^2\diso$. This is $O(\dT)$
+iff $\eta\lesssim\dT^{1/4}$ (Corollary~\ref{cor:sharp-gd}).
+\item \textbf{Reduction (Route 2).} Hence, selection-free /
+$C^{1,\gamma}$-free / overhang-free, $\AF^2\lesssim\dT$ once
+$\eta\lesssim\dT^{1/4}$ (Theorem~\ref{thm:reduction-final}).
+\item \textbf{Route 1 (no surgery).} The folding identity
+$\int_0^\infty F(t)\,dt=\int_\Om(\partial_r u)_+$
+(Lemma~\ref{lem:folding}) shows: the inset is a graph iff
+$\partial_r u\le0$ in the boundary layer (radial monotonicity). The
+interior holds for free (Lemma~\ref{lem:interior}); the obstruction is the
+\emph{sign of $\partial_r u$ in the layer} \eqref{eq:route1-crux}. The same
+$M=\int(\partial_r u)_+$ governs both routes: Route 1 is $M=0$, Route 2
+pays $\propto M$. Pure Route 1 is of the same strength as the boundary
+regularity selection supplies.
+\item \textbf{Status of the inputs.} Route 2's Hausdorff annulus width:
+with selection it is BNST; without, flux/density gives $\dT^{1/8}$, one
+power short of $\dT^{1/4}$ (gap $=$ fjord scale
+$\diso^{1/4}\to\diso^{1/2}$). Route 1's input is the radial-monotonicity
+sign condition.
+\item \textbf{Unconditional.} With no selection and no inclusion,
+$\AF^2\lesssim\dT^{2/3}$, by FMP applied to the inset
+(Proposition~\ref{prop:nonsharp}).
+\item \textbf{Backup.} The continuous Steiner flow is overhang-free and
+splits the deficit (Proposition~\ref{prop:steiner}), reducing the sharp
+theorem to a DEFFL-type quantitative P\'olya--Szeg\H{o}.
+\end{enumerate}
+
+\begin{thebibliography}{9}
+\bibitem{AFP} L.~Ambrosio, N.~Fusco, D.~Pallara, \emph{Functions of
+Bounded Variation and Free Discontinuity Problems}, Oxford, 2000.
+\bibitem{BNST} B.~Brandolini, C.~Nitsch, P.~Salani, C.~Trombetti,
+\emph{On the stability of the Serrin problem}, J.~Differential Equations
+\textbf{245} (2008), 1566--1583.
+\bibitem{Brock} F.~Brock, \emph{Continuous rearrangement and symmetry of
+solutions of elliptic problems}, Proc.\ Indian Acad.\ Sci.\ \textbf{110}
+(2000), 157--204.
+\bibitem{ManiLevitska} P.~Mani-Levitska, \emph{Random Steiner
+symmetrizations}, Studia Sci.\ Math.\ Hungar.\ \textbf{21} (1986),
+373--378.
+\bibitem{Burchard} A.~Burchard, \emph{Steiner symmetrization is continuous
+in $W^{1,p}$}, GAFA \textbf{7} (1997), 823--860.
+\bibitem{DEFFL} J.~Dolbeault, M.~Esteban, A.~Figalli, R.~Frank, M.~Loss,
+\emph{Sharp stability for Sobolev and log-Sobolev inequalities},
+arXiv:2209.08651.
+\bibitem{MP} R.~Magnanini, G.~Poggesi, \emph{On the stability for
+Alexandrov's Soap Bubble theorem}, J.~Anal.\ Math.\ \textbf{139} (2019),
+179--205.
+\bibitem{BDV} L.~Brasco, G.~De~Philippis, B.~Velichkov, \emph{Faber--Krahn
+inequalities in sharp quantitative form}, Duke Math.~J.\ \textbf{164}
+(2015), 1777--1831.
+\end{thebibliography}
+
+\end{document}

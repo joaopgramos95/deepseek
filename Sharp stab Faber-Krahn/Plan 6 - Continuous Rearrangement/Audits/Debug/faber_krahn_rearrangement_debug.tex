@@ -1,0 +1,420 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{problem}[theorem]{Problem}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Om}{\Omega}
+\newcommand{\Sph}{\mathbb S^{n-1}}
+\newcommand{\Drr}{\mathcal D_{\rm rr}}
+\newcommand{\Rrad}{\mathcal R_{\rm rad}}
+\newcommand{\dT}{\delta_T}
+\newcommand{\Fr}{\mathcal A}
+\newcommand{\HH}{\mathcal H}
+\newcommand{\X}{\mathcal X}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+\title{Debugging the Continuous-Rearrangement Proof\\
+       \large What survives, what fails, and the quantitative route that remains}
+\author{}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note audits \texttt{faber\_krahn\_rearrangement\_analysis.tex}.
+The conclusion is not that continuous rearrangement is useless; the
+conclusion is that the current Brock/Steiner schedule proof asks the
+wrong object to do the sharp endpoint job.  The finite-time dense-schedule
+claim is false, the stated one-dimensional quantitative
+Polya--Szego theorem is false as written, the multidimensional Fubini
+transition ignores transverse derivatives, and the centre-drift lemma is
+false.  The repair is to replace the one-shot directional story by the
+Plan~2 continuous \emph{level-set} rearrangement: Talenti's level-set
+identity gives the exact budget
+\[
+   \dT(\Omega)\simeq \int (D_H+D_I),
+\]
+where \(D_I\) controls distance of many levels from balls and \(D_H\)
+controls the kinetic cost of moving between levels.  A weighted metric
+trace then gives a good near-boundary level; the boundary-layer transfer
+returns the estimate to \(\Omega\).  This is the route in the directory
+with the correct \(H^{1/2}\)/quadratic scale.  It is fully quantitative
+once the explicitly isolated remaining lemmas are proved with constants.
+\end{abstract}
+
+\tableofcontents
+
+\section{The target and the non-negotiable scale}
+
+Normalize \(|\Omega|=\omega_n\), and write \(u=u_\Omega\).  The sharp
+Saint--Venant/Faber--Krahn target is
+\begin{equation}\label{eq:target}
+   \Fr(\Omega)^2 \le C(n)\,\dT(\Omega).
+\end{equation}
+The rearrangement bookkeeping begins with the exact splitting
+\begin{equation}\label{eq:split}
+   \dT(\Omega)
+   =
+   \underbrace{\left(\int |\nabla u|^2-\int |\nabla u^*|^2\right)}_{\Drr(\Omega)}
+   +
+   \underbrace{\left(T(B)-J(u^*)\right)}_{\Rrad(\Omega)}.
+\end{equation}
+This identity is sound.  The radial profile term is harmless: by strict
+concavity of the torsion functional on the ball,
+\[
+   \Rrad(\Omega)=\int_B |\nabla(u^*-u_B)|^2.
+\]
+The question is how to convert \(\Drr\), or a refined form of it, into
+geometric asymmetry at the sharp quadratic scale.
+
+\section{Where the current proof breaks}
+
+\subsection{Finite-time dense schedules do not see all directions}
+
+The theorem called ``Lower Bound for Dense Schedules'' in the current
+rearrangement-analysis note is false for finite time.  If the step size
+is fixed and \(T<\Delta_0\), the flow uses only one Steiner direction.
+Any non-radial function already symmetric in that direction has zero
+dissipation on \([0,T]\) but positive distance from the radial cone.
+More generally, a finite interval samples only finitely many directions;
+it never samples a dense subset of \(\Sph\).
+
+Even if the statement is weakened to an infinite-time convergence
+statement, the proof is not quantitative.  The compactness argument would
+produce at best a modulus depending on a compact class, the schedule, and
+the topology.  It does not produce the computable quadratic constant
+needed for \eqref{eq:target}.  The missing theorem would have to be a
+genuine angular spectral-gap estimate for averaged instantaneous
+dissipation, not compactness.
+
+\subsection{The stated one-dimensional theorem is false}
+
+The note states a scale-free estimate
+\begin{equation}\label{eq:false-1d}
+   \int |g'|^2-\int |(g^*)'|^2
+   \ge c_0 \inf_z \norm{g-g^*(\cdot-z)}_{L^2(\R)}^2
+\end{equation}
+for all compactly supported \(H^1\) functions on the line.  This cannot
+hold with a universal \(c_0\).  If \(g_L(x)=g(x/L)\), then the left side
+scales like \(L^{-1}\), while the right side scales like \(L\).  The
+ratio is \(L^{-2}\).
+
+There is a second, structural error: non-symmetric does not imply that
+the level sets \(\{g>t\}\) have multiple intervals on a positive set of
+heights.  A single asymmetric tent function has one interval at every
+height, but is not symmetric decreasing up to translation.  The
+multi-interval Cauchy--Schwarz estimate is correct but incomplete.
+
+\subsection{The missing one-dimensional term is centre drift}
+
+For one regular interval \(\{g>t\}=(a(t),b(t))\), set
+\[
+   p(t)=\frac{1}{g'(a(t))}>0,\qquad
+   q(t)=\frac{-1}{g'(b(t))}>0.
+\]
+Then \(a'=p\), \(b'=-q\), the length \(\ell=b-a\) satisfies
+\(-\ell'=p+q\), and the centre \(c=(a+b)/2\) satisfies
+\[
+   c'=\frac{p-q}{2}.
+\]
+The exact one-interval Polya--Szego level loss is
+\begin{equation}\label{eq:one-interval-loss}
+   \frac1p+\frac1q-\frac{4}{p+q}
+   =
+   \frac{(p-q)^2}{pq(p+q)}
+   =
+   \frac{4|c'|^2}{pq(p+q)}.
+\end{equation}
+Thus a one-interval asymmetric slice is not an obstruction by itself; it
+is controlled through variation of the level-centre \(c(t)\), provided
+the weights are non-degenerate on the height interval under study.  This
+is precisely why a correct proof needs profile-gap and bad-density
+control.  The current proof underclaims here by treating multiplicity as
+the only source of dissipation, and overclaims by pretending the
+multiplicity term controls all asymmetry.
+
+\subsection{The multidimensional Fubini step is not exact}
+
+For a fixed direction \(\nu\), slicing gives an identity for the
+\(\partial_\nu\)-part of the gradient, not for the full Dirichlet energy:
+\[
+   \int_{\R^n}|\partial_\nu u|^2-\int_{\R^n}|\partial_\nu u^{*\nu}|^2
+   =
+   \int_{\nu^\perp}
+   \left(\int |(u_{y,\nu})'|^2-\int |((u_{y,\nu})^*)'|^2\right)\,dy.
+\]
+The full difference
+\[
+   \int|\nabla u|^2-\int|\nabla u^{*\nu}|^2
+\]
+also involves transverse derivatives.  Brock's theorem controls the full
+Dirichlet energy under continuous Steiner symmetrization, but it is not a
+plain Fubini identity.  Any proof that averages one-dimensional slice
+losses must either use Brock's full formula or switch to a level-set
+identity where all terms are accounted for.
+
+\subsection{The centre-drift quarantine lemma is false}
+
+The asserted estimate
+\[
+   \int_{\nu^\perp} |\bar s_\nu(y)-x_0\cdot\nu|^2M_\nu(y)\,dy
+   \lesssim
+   \int|\nabla u|^2-\int|\nabla u^{*\nu}|^2
+\]
+is false.  Take a function whose slices in the \(s\)-direction are
+translated copies of a fixed symmetric profile, with the translation
+depending on \(y\), and with negligible \(y\)-transition cost in separated
+components.  The one-direction Steiner gap can be zero on each slice,
+while the variance of slice centres is positive.  The proof also uses an
+infinite factor \(\int_\R s^2\,ds\), an unavailable Hopf lower bound for
+all slice masses, and a Poincare estimate for \(u-u^{*\nu}\) that is not
+true in the stated form.
+
+\section{The repaired quantitative object}
+
+The route in the directory that has the right scale is not the finite
+directional Brock schedule.  It is the Talenti/Plan~2 continuous
+level-set rearrangement.  Let
+\[
+   E_t:=\{u>t\},\qquad m(t):=|E_t|.
+\]
+For a.e. regular level define
+\[
+   D_H(t)
+   :=
+   \left(\int_{\partial^*E_t}\frac{1}{|\nabla u|}\,d\HH^{n-1}\right)
+   \left(\int_{\partial^*E_t}|\nabla u|\,d\HH^{n-1}\right)
+   -P(E_t)^2,
+\]
+\[
+   D_I(t):=P(E_t)^2-n^2\omega_n^{2/n}m(t)^{2-2/n}.
+\]
+The first term is the Holder/Cauchy--Schwarz loss; the second is the
+isoperimetric loss of the level set.  The proved level-set identity in
+the Plan~2 material is
+\begin{equation}\label{eq:level-budget}
+   \frac{2\dT(\Omega)}{\omega_n}
+   =
+   \frac{1}{\omega_n}\int_0^{\|u\|_\infty}
+   \frac{D_H(t)+D_I(t)}
+        {n^2\omega_n^{2/n}m(t)^{1-2/n}}\,dt.
+\end{equation}
+This is the quantitative replacement for the informal statement
+``the rearrangement flow dissipates energy''.  It is exact, levelwise,
+and separates the two mechanisms that the broken proof conflated:
+\begin{itemize}[leftmargin=2em]
+\item \(D_I\) says that many levels are close to balls;
+\item \(D_H\) says that the level flow has controlled normal-speed
+oscillation, hence controlled kinetic motion between nearby levels.
+\end{itemize}
+
+\section{The debugged route to the sharp theorem}
+
+Parametrize levels by volume radius:
+\[
+   |E_\rho|=\omega_n\rho^n,\qquad
+   F_\rho:=\rho^{-1}E_\rho.
+\]
+Work in the quotient metric space
+\[
+   d_\X([A],[C])=\inf_{z\in\R^n}|A\Delta(C+z)|.
+\]
+The correct sharp route is the following.
+
+\begin{enumerate}[label=\textbf{Step \arabic*.},leftmargin=3em]
+\item \textbf{Exact budget.}
+Use \eqref{eq:level-budget} to obtain, on any fixed bulk window
+\(\rho\in[\rho_*,1]\),
+\[
+   \int_{\rho_*}^{\rho_\delta}
+   (D_H(t(\rho))+D_I(t(\rho)))\,d\mu(\rho)
+   \le C(n,\rho_*)\,\dT(\Omega),
+\]
+where \(d\mu(\rho)=(-t'(\rho))\,d\rho\).
+
+\item \textbf{Distance on many levels from \(D_I\).}
+On levels with small \(D_I\), a same-centre strong quantitative
+isoperimetric estimate gives
+\[
+   d_\X(F_\rho,B_1)^2\le C\,D_I(t(\rho)).
+\]
+This is where the strong Fusco--Julin type input belongs.
+
+\item \textbf{Kinetic control from \(D_H\).}
+For a Borel centre field \(z_\rho\), the desired metric first variation is
+\[
+   |\dot F_\rho|_\X
+   \le
+   \rho^{-n}\inf_{a\in\R^n}
+   \int_{\partial^*E_\rho}
+   |V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,d\HH^{n-1},
+\]
+where
+\[
+   V_\rho=\frac{-t'(\rho)}{|\nabla u|},\qquad
+   H_{z_\rho,\rho}(x)=\frac{(x-z_\rho)\cdot\nu_\rho(x)}{\rho}.
+\]
+The self-truncated velocity lemma in the directory shows that the
+low-gradient part is paid for by \(D_H\); no Hopf lower bound is needed.
+Together with the same-centre homothetic trace this gives
+\[
+   |\dot F_\rho|_\X^2\le C(D_H(t(\rho))+D_I(t(\rho)))
+\]
+on good levels.
+
+\item \textbf{Weighted trace.}
+The profile-gap lemma gives a density lower bound for \(d\mu\) outside a
+bad set of Lebesgue measure \(O(\dT)\) near
+\[
+   \rho_\delta=1-\kappa\sqrt{\dT(\Omega)}.
+\]
+Combining Markov on the distance term with Cauchy--Schwarz on the kinetic
+term over an order-one window gives
+\[
+   d_\X(F_{\rho_\delta},B_1)^2\le C\,\dT(\Omega),
+\]
+or the good-endpoint variant gives the same estimate at
+\(\widehat\rho\in[\rho_\delta-C\dT,\rho_\delta]\).
+
+\item \textbf{Boundary-layer transfer.}
+Since \(E_{\widehat\rho}\subset\Omega\) and
+\[
+   |\Omega\setminus E_{\widehat\rho}|
+   =
+   \omega_n(1-\widehat\rho^n)
+   \le C\sqrt{\dT(\Omega)},
+\]
+the elementary symmetric-difference transfer gives
+\[
+   \Fr(\Omega)
+   \le
+   \Fr(E_{\widehat\rho})
+   +C\sqrt{\dT(\Omega)}.
+\]
+The metric trace gives
+\[
+   \Fr(E_{\widehat\rho})^2\le C\,\dT(\Omega).
+\]
+Squaring the transfer inequality proves the sharp estimate
+\[
+   \Fr(\Omega)^2\le C\,\dT(\Omega).
+\]
+\end{enumerate}
+
+This route is a continuous rearrangement proof in the right sense: the
+``time'' is the level/volume radius, the exact energy budget is
+\eqref{eq:level-budget}, and the proof is an action-plus-trace argument.
+It is not the finite-time dense-direction Brock proof.
+
+\section{What remains to make it fully quantitative}
+
+The remaining tasks are now clean.  If each item below is proved with
+constants, then all constants in the final theorem are computable by
+composition.
+
+\begin{problem}[Same-centre strong isoperimetric input]\label{prob:same-centre}
+For every finite-perimeter set \(E\), prove or cite in exactly this
+form that there is one centre \(z_E\) such that
+\[
+   \left(\frac{|E\Delta B_E(z_E)|}{|E|}\right)^2
+   +
+   \frac{1}{P(B_E)}
+   \int_{\partial^*E}
+   \left|\nu_E-\frac{x-z_E}{|x-z_E|}\right|^2\,d\HH^{n-1}
+   \le C(n)\,\delta_{\rm iso}(E).
+\]
+The strong theorem of Fusco--Julin controls Fraenkel asymmetry and
+boundary oscillation, but the route needs the \emph{same} centre in both
+terms.  If the cited statement is only separately minimized, a centre
+comparison lemma must be added.
+\end{problem}
+
+\begin{problem}[Finite-perimeter metric upper gradient]\label{prob:UG}
+Upgrade the smooth first-variation formula for
+\(\rho\mapsto [\rho^{-1}E_\rho]\) to finite-perimeter level sets:
+\[
+   |\dot F_\rho|_\X
+   \le
+   \rho^{-n}\inf_{a\in\R^n}
+   \int_{\partial^*E_\rho}
+   |V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,d\HH^{n-1}
+\]
+for a.e. \(\rho\).  Lower semicontinuity is the wrong direction; the
+missing statement is a genuine limsup recovery theorem for the boundary
+action, or a direct finite-perimeter deformation estimate.
+\end{problem}
+
+\begin{problem}[Bad-level kinetic control]\label{prob:bad}
+Control the kinetic action on the bad isoperimetric or bad-density
+levels, or avoid transporting through those levels.  The good-endpoint
+variant shows that the final level may be chosen in
+\(G_I\cap G_\tau\), but it does not remove the need for kinetic control
+when propagating the Markov level to that endpoint.  A measure estimate
+for the bad-density set is not enough; one needs the right \(L^2(d\rho)\)
+action scale.
+\end{problem}
+
+\begin{problem}[Globalization]\label{prob:global}
+After the bounded result is proved, globalize it by a quantitative
+bounded reduction.  The existing final assembly uses the constructive BDV
+truncation lemmas and a suboptimal rearrangement bound, not BDV's final
+sharp stability theorem.  If the aim is to avoid every BDV input, those
+truncation lemmas must be reproved independently with explicit constants.
+\end{problem}
+
+\section{Verdict}
+
+The proof in \texttt{faber\_krahn\_rearrangement\_analysis.tex} cannot be
+patched by minor edits.  Its main theorem-level claims are false as
+stated.  The useful idea inside it is the dissipation picture, but the
+fully quantitative implementation must be the Plan~2 level-set action
+route, not the finite dense-direction schedule.
+
+The sharp theorem is therefore reduced to Problems
+\ref{prob:same-centre}--\ref{prob:bad} in the bounded setting, followed
+by Problem~\ref{prob:global} if one wants the global theorem.  This is a
+genuine quantitative route: no compactness modulus is needed in the final
+trace argument, and all constants are computable once the named inputs
+are proved quantitatively.
+
+\begin{thebibliography}{9}
+
+\bibitem{FuscoJulin}
+N.~Fusco and V.~Julin,
+\emph{A strong form of the quantitative isoperimetric inequality},
+Calc. Var. Partial Differential Equations 50 (2014), 925--937;
+arXiv:1111.4866.
+
+\bibitem{Plan2LSI}
+\texttt{Manuscript/plan2\_levelset\_identity.tex}.
+Exact level-set identity, profile-gap estimate, and superlevel transfer.
+
+\bibitem{Plan2WMT}
+\texttt{Plan 2/WIP/WIP\_WeightedMetricTrace.tex}.
+Conditional integrated action and weighted metric trace.
+
+\bibitem{Plan2MF}
+\texttt{Plan 2/WIP/WIP\_MetricFramework.tex}.
+Metric first variation and the finite-perimeter upper-gradient gap.
+
+\bibitem{Plan2TR}
+\texttt{Plan 2/WIP/WIP\_TrimmedVelocityRepair.tex}.
+Self-truncated velocity defect controlled by \(D_H\).
+
+\end{thebibliography}
+
+\end{document}

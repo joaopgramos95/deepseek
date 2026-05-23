@@ -1,0 +1,434 @@
+
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amsthm,amssymb,mathtools,fullpage,enumitem}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\Om}{\Omega}
+\newcommand{\deliso}{\delta_{\mathrm{iso}}}
+
+\title{Notes on Quantitative Stability for Almost Serrin Domains}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Setup}
+
+Let $\Omega \subset \mathbb R^n$ be a bounded smooth domain and let
+$u$ solve
+\[
+-\Delta u = 1 \quad \text{in }\Omega,
+\qquad
+u=0 \quad \text{on }\partial\Omega.
+\]
+
+Assume that $\Omega$ is almost isoperimetric, namely
+\[
+\deliso(\Omega)
+:=
+\frac{P(\Omega)}
+{n\omega_n^{1/n}|\Omega|^{(n-1)/n}}
+-1
+\ll 1,
+\]
+and assume that the Serrin deficit is small:
+\[
+\eps^2
+:=
+\int_{\partial\Omega}
+\left(
+|\nabla u|-c_\Omega
+\right)^2
+\,d\mathcal H^{n-1},
+\]
+where
+\[
+c_\Omega
+=
+\frac{|\Omega|}{P(\Omega)}
+=
+\fint_{\partial\Omega} |\nabla u|.
+\]
+
+The goal is to show that $\partial\Omega$ is close to a sphere,
+eventually as a radial graph.
+
+\section{Known quantitative ingredients}
+
+\subsection{Quantitative isoperimetry}
+
+By the sharp quantitative isoperimetric inequality of
+Fusco--Maggi--Pratelli,
+there exists a ball $B_R(x_0)$ such that
+\[
+|\Omega \Delta B_R(x_0)|
+\le
+C(n)|\Omega|\deliso(\Omega)^{1/2}.
+\]
+
+Thus small isoperimetric deficit implies closeness in measure to a ball.
+
+\subsection{Quantitative Serrin stability}
+
+Classical quantitative Serrin stability results
+(Magnanini--Poggesi and related works)
+show that if
+\[
+\left\|
+|\nabla u|-c_\Omega
+\right\|_{L^2(\partial\Omega)}
+\]
+is small, then $\Omega$ is trapped inside a thin annulus:
+\[
+B_{\rho_i}(z)\subset \Omega \subset B_{\rho_e}(z),
+\]
+with
+\[
+\rho_e-\rho_i
+\le
+C \eps^\theta,
+\]
+provided one assumes geometric nondegeneracy
+(interior/exterior sphere condition, $C^{2,\alpha}$ bounds, etc.).
+
+The discussion below aims at replacing those geometric constants
+by the pair
+\[
+(\deliso,\eps).
+\]
+
+\section{Flux identities}
+
+Fix $x\in \partial\Omega$ and define
+\[
+A_r:=\Omega\cap B_r(x),
+\]
+\[
+\Gamma_r:=\partial\Omega\cap B_r(x),
+\]
+\[
+\Sigma_r:=\Omega\cap \partial B_r(x).
+\]
+
+Integrating $-\Delta u=1$ over $A_r$ gives
+\[
+|A_r|
+=
+\int_{\Gamma_r} |\nabla u|
+-
+\int_{\Sigma_r} \partial_{\nu_{B_r}}u.
+\tag{1}
+\]
+
+Define the localized deficit
+\[
+\eps_r^2
+:=
+\int_{\Gamma_r}
+(|\nabla u|-c_\Omega)^2.
+\]
+
+By Cauchy--Schwarz,
+\[
+\int_{\Gamma_r} |\nabla u|
+\ge
+c_\Omega \mathcal H^{n-1}(\Gamma_r)
+-
+\eps_r
+\mathcal H^{n-1}(\Gamma_r)^{1/2}.
+\]
+
+Hence from (1),
+\[
+\eps_r
+\mathcal H^{n-1}(\Gamma_r)^{1/2}
+\ge
+c_\Omega \mathcal H^{n-1}(\Gamma_r)
+-|A_r|
+-
+\left|
+\int_{\Sigma_r}\partial_{\nu_{B_r}}u
+\right|.
+\tag{2}
+\]
+
+\section{Control of the spherical flux}
+
+Using comparison with balls, one has the global gradient estimate
+\[
+\|\nabla u\|_{L^\infty(\Omega)}
+\le
+C(n,\operatorname{diam}\Omega).
+\]
+
+By coarea,
+\[
+\int_r^{2r}
+\mathcal H^{n-1}(\Sigma_s)\,ds
+=
+|\Omega\cap(B_{2r}(x)\setminus B_r(x))|.
+\]
+
+Thus if
+\[
+|\Omega\cap B_{2r}(x)|
+\le
+\eta r^n,
+\]
+then there exists $s\in(r,2r)$ such that
+\[
+\mathcal H^{n-1}(\Sigma_s)
+\le
+C\eta r^{n-1}.
+\]
+
+Consequently,
+\[
+\left|
+\int_{\Sigma_s}\partial_{\nu_{B_s}}u
+\right|
+\le
+C(n,\operatorname{diam}\Omega)\eta r^{n-1}.
+\tag{3}
+\]
+
+\section{Relative isoperimetric inequality}
+
+The relative isoperimetric inequality in balls states that
+\[
+\min\{
+|\Omega\cap B_r(x)|,
+|B_r(x)\setminus \Omega|
+\}^{\frac{n-1}{n}}
+\le
+C_n P(\Omega;B_r(x)).
+\]
+
+Therefore small volume fraction implies a lower bound
+for the local perimeter:
+\[
+P(\Omega;B_r(x))
+\ge
+c_n |\Omega\cap B_r(x)|^{(n-1)/n}.
+\]
+
+This removes the need to assume a priori lower perimeter density.
+
+\section{Exclusion of macroscopic tentacles}
+
+Suppose that
+\[
+|\Omega\cap B_{2r}(x)|
+\le
+\eta r^n.
+\]
+
+Combining the local perimeter lower bound,
+the flux estimate (3),
+and inequality (2),
+one obtains
+\[
+\eps_r^2
+\gtrsim
+c_\Omega^2
+P(\Omega;B_r(x)).
+\]
+
+Using relative isoperimetry,
+\[
+\eps_r^2
+\gtrsim
+|\Omega\cap B_r(x)|^{(n-1)/n}.
+\]
+
+Thus bad interior density forces positive Serrin deficit.
+
+Equivalently,
+if the global Serrin deficit satisfies
+\[
+\eps^2
+=
+\int_{\partial\Omega}
+(|\nabla u|-c_\Omega)^2
+\ll1,
+\]
+then bad density can occur only below the scale
+\[
+r_*
+\sim
+\eps^{2/(n-1)}.
+\]
+
+More precisely, for every $x\in\partial\Omega$ and every
+\[
+r\gg \eps^{2/(n-1)},
+\]
+one has the lower density estimate
+\[
+|\Omega\cap B_r(x)|
+\ge
+c r^n.
+\]
+
+\section{Exterior density}
+
+Quantitative isoperimetry gives
+\[
+|\Omega\Delta B_R(x_0)|
+\lesssim
+\deliso(\Omega)^{1/2}.
+\]
+
+Thus large exterior holes or fjords would either
+
+\begin{enumerate}[label=(\roman*)]
+\item contribute substantial volume discrepancy against the nearby ball,
+or
+\item produce a thin geometric region whose flux behavior forces
+nontrivial Serrin deficit.
+\end{enumerate}
+
+Hence one expects the two-sided density estimate
+\[
+c r^n
+\le
+|\Omega\cap B_r(x)|
+\le
+(1-c)r^n
+\]
+for all boundary points $x$ and all scales
+\[
+r
+\ge
+C
+\left(
+\eps^{2/(n-1)}
++
+\deliso(\Omega)^{1/(2n)}
+\right).
+\]
+
+\section{Adapted Magnanini--Poggesi step}
+
+Define
+\[
+q(x)
+=
+\frac{R^2-|x-z|^2}{2n},
+\]
+where $z$ is a suitable center point, and let
+\[
+h:=q-u.
+\]
+
+Since
+\[
+-\Delta q=1,
+\]
+the function $h$ is harmonic in $\Omega$.
+
+Moreover,
+\[
+h|_{\partial\Omega}
+=
+\frac{R^2-|x-z|^2}{2n}.
+\]
+
+Hence if
+\[
+\rho_i
+=
+\min_{x\in\partial\Omega}|x-z|,
+\qquad
+\rho_e
+=
+\max_{x\in\partial\Omega}|x-z|,
+\]
+then
+\[
+\rho_e^2-\rho_i^2
+=
+2n\,
+\operatorname{osc}_{\partial\Omega} h.
+\]
+
+The classical Magnanini--Poggesi argument estimates
+$\operatorname{osc}_{\partial\Omega} h$
+through weighted Hessian control:
+\[
+\int_\Omega
+u |\nabla^2 h|^2
+\le
+C
+\int_{\partial\Omega}
+(|\nabla u|-c_\Omega)^2.
+\]
+
+In the present setting, the proposed replacement estimate is
+\[
+\operatorname{osc}_{\partial\Omega} h
+\le
+C
+\|\nabla^2 h\|_{L^2(\Omega,u\,dx)}^\theta
++
+C r_*,
+\]
+where
+\[
+r_*
+=
+C
+\left(
+\eps^{2/(n-1)}
++
+\deliso(\Omega)^{1/(2n)}
+\right).
+\]
+
+Combining these estimates yields
+\[
+\rho_e-\rho_i
+\le
+C
+\left(
+\eps^\theta
++
+r_*
+\right).
+\]
+
+Thus the domain is trapped in a thin annulus with constants depending only on
+\[
+n,
+\quad
+|\Omega|,
+\quad
+\operatorname{diam}\Omega,
+\]
+and the small deficits.
+
+\section{Remaining steps}
+
+The discussion above leaves the following technical points open:
+
+\begin{enumerate}[label=(\arabic*)]
+\item Establishing the adapted harmonic interpolation estimate rigorously under two-sided density assumptions above scale $r_*$.
+
+\item Showing that thin annular trapping plus small isoperimetric deficit imply that $\partial\Omega$ is a single radial graph.
+
+\item Upgrading the radial graph to $C^{1,\alpha}$ regularity.
+\end{enumerate}
+
+These appear plausible within the framework developed above,
+but they still require a complete proof.
+
+\end{document}

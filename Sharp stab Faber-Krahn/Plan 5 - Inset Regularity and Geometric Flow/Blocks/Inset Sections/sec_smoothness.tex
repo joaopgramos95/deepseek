@@ -1,0 +1,366 @@
+\section{Smoothness of the level sets}\label{sec:smooth}
+
+Throughout this section $\Om\subset\R^2$ is a bounded open set that is
+\emph{regular for the Dirichlet problem}, and $u$ denotes its torsion
+function: the unique
+\[
+  u\in H^1_0(\Om)\cap C(\overline\Om),\qquad -\Delta u=1\ \text{in }\Om,
+  \qquad u=0\ \text{on }\partial\Om .
+\]
+We collect from the Preliminaries (Section~\ref{sec:prelim}) the four facts
+we are allowed to use without reproof:
+\begin{enumerate}
+\item[(P1)] $u$ is real-analytic in $\Om$ (interior analyticity of solutions
+  of $-\Delta u=1$; see \cite[Ch.~6, \S6.1 and the analyticity
+  theorem]{Morrey1966} or \cite[Theorem~6.6.1]{Morrey1966}).
+\item[(P2)] Interior gradient and Hessian estimates: for every $K\Subset\Om$
+  there is $C(K)$ with $\|u\|_{C^2(K)}\le C(K)$
+  (\cite[Theorems~6.2, 6.17 and Corollary~6.3]{GT1983}).
+\item[(P3)] Sard's theorem: the set of critical values of a $C^k$ map
+  $\R^2\to\R$ with $k\ge2$ has Lebesgue measure zero
+  (\cite[\S2--3]{Milnor1997}; \cite{Sard1942}).
+\item[(P4)] The coarea formula and the structure of sets of finite perimeter
+  (Section~\ref{sec:prelim}; \cite[\S3.4, \S5]{EvansGariepy2015}).
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Positivity of $u$.}
+Since $-\Delta u=1>0$ in $\Om$, $u$ is superharmonic and not constant; as
+$u=0$ on $\partial\Om$ and $u\not\equiv0$, the strong maximum principle
+(equivalently Hopf's lemma) forbids an interior minimum equal to the boundary
+value unless $u$ is constant, hence $u>0$ throughout the connected
+components of $\Om$ meeting the interior; concretely, if $u(x_0)=0=\min u$ at
+some $x_0\in\Om$ then the strong maximum principle for $-\Delta u\ge0$ would
+force $u\equiv0$ near $x_0$, contradicting $-\Delta u=1$. Therefore $u>0$ in
+$\Om$. Set
+\[
+  m:=\max_{\overline\Om}u=\max_{\Om}u>0 ,
+\]
+the maximum being attained by continuity on the compact set $\overline\Om$
+and being positive since $u>0$ somewhere. For $v\in(0,m)$ write
+\[
+  E_v:=\{x\in\Om:u(x)>v\} .
+\]
+
+\subsection*{Compact containment of superlevel sets}
+
+\begin{lemma}[Compact containment]\label{lem:compact-containment}
+For every $v\in(0,m)$ the superlevel set
+$\overline{E_v}=\{x\in\overline\Om:u(x)\ge v\}=\{u\ge v\}$ is a nonempty
+compact subset of the open set $\Om$, and
+\[
+  \operatorname{dist}\bigl(\{u\ge v\},\partial\Om\bigr)\ \ge\ c(v)>0 .
+\]
+\end{lemma}
+
+\begin{proof}
+Since $u\in C(\overline\Om)$ and $\overline\Om$ is compact, the function
+$u\colon\overline\Om\to\R$ is continuous on a compact set.
+
+\emph{Nonempty.} By definition of $m$ there is $x_*\in\Om$ with $u(x_*)=m>v$,
+so $x_*\in\{u\ge v\}$.
+
+\emph{Closed and bounded.} The set $\{u\ge v\}=u^{-1}([v,\infty))$ is the
+preimage of a closed set under the continuous map $u$ on $\overline\Om$, hence
+relatively closed in $\overline\Om$; as $\overline\Om$ is itself closed in
+$\R^2$, $\{u\ge v\}$ is closed in $\R^2$. It is contained in the bounded set
+$\overline\Om$, hence bounded. A closed and bounded subset of $\R^2$ is
+compact (Heine--Borel).
+
+\emph{Disjoint from $\partial\Om$.} On $\partial\Om$ we have $u=0<v$, so no
+boundary point lies in $\{u\ge v\}$. Thus $\{u\ge v\}\subset\Om$.
+
+\emph{Positive distance.} The two sets $\{u\ge v\}$ and $\partial\Om$ are
+disjoint and both compact (the first by the above, the second because
+$\partial\Om$ is closed and bounded). The distance function
+$x\mapsto\operatorname{dist}(x,\partial\Om)$ is continuous and strictly
+positive on the compact set $\{u\ge v\}$ (strictly positive because that set
+is disjoint from the closed set $\partial\Om$), so it attains a positive
+minimum
+\[
+  c(v):=\min_{x\in\{u\ge v\}}\operatorname{dist}(x,\partial\Om)>0 .
+\]
+This is the asserted lower bound. Finally
+$\overline{E_v}=\{u\ge v\}$: clearly $E_v\subset\{u\ge v\}$ and the latter is
+closed, so $\overline{E_v}\subset\{u\ge v\}$; conversely if $u(x)\ge v$ then,
+$u$ being continuous and nonconstant near $x$ (analytic, $-\Delta u=1$), every
+neighbourhood of $x$ meets $\{u>v\}$, whence $x\in\overline{E_v}$. (We will
+re-derive $\partial E_v=\{u=v\}$ more precisely in
+Lemma~\ref{lem:smooth-level} for regular $v$.)
+\end{proof}
+
+\begin{remark}\label{rem:uniform-c2}
+Combining Lemma~\ref{lem:compact-containment} with (P2): fixing
+$v\in(0,m)$, the compact set $K_v:=\{u\ge v/2\}\Subset\Om$ contains an open
+neighbourhood of $\{u\ge v\}$, and on $K_v$ all estimates (P1)--(P2) apply.
+In particular $u\in C^\infty(K_v)$, indeed real-analytic, with $\nabla u$ and
+$D^2u$ bounded there. This is what lets us apply the divergence theorem and
+the implicit function theorem in a fixed interior region.
+\end{remark}
+
+\subsection*{Regular level sets are analytic curves}
+
+Recall that $v\in(0,m)$ is a \emph{regular value} of $u$ if $\nabla u(x)\ne0$
+for every $x\in\{u=v\}$; otherwise $v$ is a \emph{critical value}.
+
+\begin{lemma}[Smooth regular level sets]\label{lem:smooth-level}
+Let $v\in(0,m)$ be a regular value of $u$. Then:
+\begin{enumerate}
+\item[(a)] $\{u=v\}$ is a nonempty compact subset of $\Om$ on which
+  $|\nabla u|>0$ everywhere;
+\item[(b)] $\{u=v\}$ is a real-analytic embedded $1$-manifold without
+  boundary, equal to a finite disjoint union of analytic Jordan curves
+  $\Gamma_1,\dots,\Gamma_N$;
+\item[(c)] $E_v=\{u>v\}$ is a bounded open subset of $\Om$ with topological
+  boundary $\partial E_v=\{u=v\}$;
+\item[(d)] $E_v$ has finite perimeter,
+  $P(E_v)=\HH^1(\{u=v\})=\sum_{i=1}^N\HH^1(\Gamma_i)$, and its measure-theoretic
+  outward unit normal is
+  \[
+    \nu(x)=-\frac{\nabla u(x)}{|\nabla u(x)|}\qquad\text{for every }x\in\{u=v\}.
+  \]
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\emph{Step 0: $\{u=v\}$ is compact and nonempty.}
+By Lemma~\ref{lem:compact-containment}, $\{u\ge v\}\Subset\Om$ is compact, and
+$\{u=v\}=\{u\ge v\}\cap\{u\le v\}$ is closed (intersection of two closed sets),
+hence compact as a closed subset of a compact set. It is nonempty: $u$ attains
+both the value $m>v$ (at the interior maximum) and, on $\partial\Om$, the value
+$0<v$; by the intermediate value theorem along any path in $\overline\Om$ from
+the maximizer to a boundary point, $u$ takes the value $v$. (The path lies in
+$\overline\Om$, $u$ is continuous on it, and $u$ runs from $m$ to $0$.)
+Since $\{u=v\}\subset\{u\ge v\}\subset\Om$, it lies in the open set $\Om$, and
+$|\nabla u|>0$ on it because $v$ is a regular value.
+
+\emph{Step 1: local analytic graphs (implicit function theorem).}
+Fix $p\in\{u=v\}$. By Remark~\ref{rem:uniform-c2}, $u$ is real-analytic in a
+neighbourhood of $p$, and $\nabla u(p)\ne0$. After relabelling coordinates we
+may assume $\partial_{x_2}u(p)\ne0$. The real-analytic implicit function
+theorem (\cite[Theorem~6.1.2]{KrantzParks2002}; for the $C^1$ statement
+\cite[\S0.3 and Appendix]{GT1983}) yields an open neighbourhood
+$U_p\ni p$, an interval $I_p$, and a real-analytic function
+$g_p\colon I_p\to\R$ such that
+\[
+  \{u=v\}\cap U_p=\{(x_1,g_p(x_1)):x_1\in I_p\}.
+\]
+Thus near $p$ the level set is the graph of an analytic function, hence an
+embedded analytic $1$-dimensional submanifold; the map $x_1\mapsto(x_1,g_p(x_1))$
+is an analytic chart. As $p$ was arbitrary, $\{u=v\}$ is a real-analytic
+embedded $1$-manifold without boundary in $\Om$. (No boundary: every point has
+a chart modelled on an open interval, with no half-line charts, because the
+graph extends to both sides of $p$ inside $U_p$.)
+
+\emph{Step 2: finitely many components.}
+By Step~1 each $p\in\{u=v\}$ has an open neighbourhood $U_p$ meeting $\{u=v\}$
+in a single connected arc. The family $\{U_p\}_{p\in\{u=v\}}$ is an open cover
+of the compact set $\{u=v\}$, so admits a finite subcover
+$U_{p_1},\dots,U_{p_M}$. A connected component $\Gamma$ of $\{u=v\}$ is open
+in $\{u=v\}$ (locally it is an arc, hence locally connected, so components are
+open) and closed (components are always closed), thus compact; being covered by
+finitely many of the $U_{p_j}$, and each component being a union of arcs that
+overlap, there can be at most $M$ components, i.e. finitely many. Call them
+$\Gamma_1,\dots,\Gamma_N$, $N\le M$.
+
+\emph{Step 3: each component is an analytic Jordan curve.}
+Each $\Gamma_i$ is a connected, compact, $1$-dimensional analytic manifold
+without boundary. By the classification of connected $1$-manifolds
+(\cite[Appendix, Classification of $1$-manifolds]{Milnor1997}), a connected
+compact $1$-manifold without boundary is diffeomorphic to the circle $S^1$;
+moreover the diffeomorphism can be taken analytic by reparametrising by analytic
+arc length (the manifold being analytic). Hence each $\Gamma_i$ is the image of
+an analytic embedding $\gamma_i\colon S^1\hookrightarrow\Om$, i.e. an analytic
+Jordan curve. (It cannot be a line: a noncompact model is excluded by the
+compactness of $\Gamma_i$ from Step~2.)
+
+\emph{Step 4: $E_v$ open, bounded, with $\partial E_v=\{u=v\}$.}
+$E_v=u^{-1}((v,\infty))\cap\Om$ is the preimage of an open set under the
+continuous map $u\colon\Om\to\R$, hence open; it is bounded, being contained in
+$\overline\Om$. For the boundary, write $A:=\{u>v\}$, $B:=\{u<v\}\cup(\R^2\setminus\overline\Om)$.
+Both $A$ and the interior of $B$ are open and disjoint from $\{u=v\}$, so
+$\partial E_v\subset\{u=v\}$: indeed any $x\notin\{u=v\}$ either has $u(x)>v$
+(then $x\in A$ open, interior point of $E_v$) or has $u(x)<v$ or $x\notin\overline\Om$
+(then a neighbourhood avoids $E_v$, so $x$ is exterior). Conversely let
+$x\in\{u=v\}$. By Step~1, in $U_x$ the set $\{u=v\}$ is the graph of $g_x$, and
+since $\partial_{x_2}u(x)\ne0$, the function $x_2\mapsto u(x_1,x_2)$ is strictly
+monotone across the graph; hence both $\{u>v\}$ and $\{u<v\}$ meet every
+neighbourhood of $x$. Therefore $x\in\partial E_v$. Combining,
+$\partial E_v=\{u=v\}$.
+
+\emph{Step 5: finite perimeter, perimeter value, and normal.}
+By Step~4, $\partial E_v=\{u=v\}$ is a compact $C^1$ (indeed analytic)
+hypersurface in $\R^2$ contained in $\Om$, with $E_v$ lying locally on one side
+(the side where $u>v$). A bounded open set with $C^1$ boundary is a set of
+finite perimeter, and its reduced boundary coincides with its topological
+boundary, with measure-theoretic outer normal equal to the classical outer
+normal and
+\[
+  P(E_v)=\HH^1(\partial E_v)=\HH^1(\{u=v\})=\sum_{i=1}^N\HH^1(\Gamma_i)
+\]
+(\cite[\S5.7.2, Theorem~1 and \S5.1]{EvansGariepy2015}; this is also the
+content of (P4)). It remains to identify the outward normal. The classical
+outward unit normal of $E_v=\{u>v\}$ at $x\in\partial E_v$ points in the
+direction of \emph{decreasing} $u$, i.e. opposite to $\nabla u$, since $\nabla u$
+points in the direction of steepest increase of $u$. Normalising,
+\[
+  \nu(x)=-\frac{\nabla u(x)}{|\nabla u(x)|},
+\]
+which is well-defined because $|\nabla u(x)|>0$ on the regular level set. This
+proves (a)--(d).
+\end{proof}
+
+\subsection*{The flux identity}
+
+\begin{lemma}[Flux identity]\label{lem:flux}
+For every regular value $v\in(0,m)$, with $\mu(v):=|E_v|$,
+\[
+  \int_{\{u=v\}}|\nabla u|\,d\HH^1=|E_v|=\mu(v),
+  \qquad
+  \int_{\{u=v\}}\frac{1}{|\nabla u|}\,d\HH^1=-\mu'(v),
+\]
+the second identity holding for a.e.\ regular $v$ (at which $\mu$ is
+differentiable).
+\end{lemma}
+
+\begin{proof}
+\emph{First identity.}
+Fix a regular value $v$. By Lemma~\ref{lem:smooth-level}, $\overline{E_v}\Subset\Om$
+is compact with smooth (analytic) boundary $\partial E_v=\{u=v\}$, and by
+Remark~\ref{rem:uniform-c2} $u\in C^\infty$ in an open neighbourhood of
+$\overline{E_v}$. The vector field $X:=\nabla u$ is therefore $C^1$ up to
+$\overline{E_v}$, and the divergence theorem
+(\cite[\S4 and the Gauss--Green theorem]{EvansGariepy2015};
+\cite[(2.10)--(2.11)]{GT1983}) applies on the bounded $C^1$
+domain $E_v$:
+\[
+  \int_{E_v}\operatorname{div}(\nabla u)\,dx
+  =\int_{\partial E_v}\nabla u\cdot\nu\,d\HH^1 .
+\]
+On the left, $\operatorname{div}(\nabla u)=\Delta u=-1$, so the left side equals
+$-|E_v|$. On the right, $\nu=-\nabla u/|\nabla u|$ by
+Lemma~\ref{lem:smooth-level}(d), hence
+\[
+  \nabla u\cdot\nu=\nabla u\cdot\Bigl(-\frac{\nabla u}{|\nabla u|}\Bigr)
+  =-\frac{|\nabla u|^2}{|\nabla u|}=-|\nabla u|,
+\]
+that is $\partial_\nu u=-|\nabla u|$ on $\{u=v\}$. Therefore
+\[
+  -|E_v|=\int_{\{u=v\}}\bigl(-|\nabla u|\bigr)\,d\HH^1,
+\]
+and multiplying by $-1$ gives
+$\int_{\{u=v\}}|\nabla u|\,d\HH^1=|E_v|=\mu(v)$, the first identity.
+
+\emph{Second identity.}
+We use the coarea formula (P4): for the locally Lipschitz function $u$ on the
+open set $\{u>0\}$ and any Borel $g\ge0$,
+\[
+  \int_{\{u>0\}}g(x)\,|\nabla u(x)|\,dx
+  =\int_0^{\infty}\Bigl(\int_{\{u=t\}}g\,d\HH^1\Bigr)dt
+  \qquad(\cite[\S3.4.2, Theorem~5]{EvansGariepy2015}).
+\]
+Apply this with $g=\mathbf 1_{\{v<u\le m\}}\,|\nabla u|^{-1}$ on the set
+$\{0<u\}$, noting $|\nabla u|^{-1}$ is finite $\HH^1$-a.e.\ on $\{u=t\}$ for
+a.e.\ regular $t$ and that $g|\nabla u|=\mathbf 1_{\{v<u\le m\}}$. Equivalently,
+choosing $g=\mathbf 1_{\{u>v\}}/|\nabla u|$ where defined, the left side is
+$|\{u>v\}|=\mu(v)$ minus boundary contributions of measure zero; the cleanest
+route is to differentiate the coarea representation of $\mu$. Indeed, taking
+$g=\mathbf 1_{\{u>v\}}$ in the coarea formula written for the measure of
+superlevel sets gives, for $0<v<m$,
+\[
+  \mu(v)=|\{u>v\}|=\int_{\{u>v\}}\!1\,dx
+  =\int_{\{u>v\}}\frac{|\nabla u|}{|\nabla u|}\,dx
+  =\int_v^{m}\Bigl(\int_{\{u=t\}}\frac{1}{|\nabla u|}\,d\HH^1\Bigr)dt,
+\]
+where in the last step we applied coarea with $g=\mathbf 1_{\{u>v\}}/|\nabla u|$
+and used that $|\{\nabla u=0\}|=0$ (P3/Sard implies the critical \emph{values}
+have measure zero; the critical \emph{set} $\{\nabla u=0\}$ has Lebesgue measure
+zero because $u$ is real-analytic and nonconstant, so $\{\nabla u=0\}$ is a
+proper analytic subvariety, hence $\HH^2$-null). Thus $\mu$ is, on $(0,m)$, the
+integral from $v$ to $m$ of the function
+\[
+  v\mapsto \Phi(v):=\int_{\{u=v\}}\frac{1}{|\nabla u|}\,d\HH^1 ,
+\]
+which is finite for a.e.\ regular $v$. By the Lebesgue differentiation theorem
+(fundamental theorem of calculus for the absolutely continuous function
+$v\mapsto\int_v^m\Phi$), for a.e.\ $v$,
+\[
+  \mu'(v)=-\Phi(v)=-\int_{\{u=v\}}\frac{1}{|\nabla u|}\,d\HH^1 ,
+\]
+i.e. $\int_{\{u=v\}}|\nabla u|^{-1}\,d\HH^1=-\mu'(v)$, the second identity. The
+minus sign reflects that $\mu$ is non-increasing (Lemma~\ref{lem:critvals}).
+\end{proof}
+
+\subsection*{Critical values and regularity of $\mu$}
+
+\begin{lemma}[Finitely-thin critical set; regularity of $\mu$]\label{lem:critvals}
+Let $\mathrm{Crit}:=\{v\in(0,m):v\text{ is a critical value of }u\}$. Then:
+\begin{enumerate}
+\item[(a)] $\mathrm{Crit}$ is a closed subset of $(0,m)$ of Lebesgue measure
+  zero; consequently a.e.\ $v\in(0,m)$ is a regular value, and the conclusions of
+  Lemmas~\ref{lem:smooth-level}--\ref{lem:flux} hold for a.e.\ $v$;
+\item[(b)] for \emph{every} $v\in(0,m)$ the level set $\{u=v\}$ is Lebesgue-null:
+  $|\{u=v\}|=\HH^2(\{u=v\})=0$;
+\item[(c)] $\mu(v)=|E_v|$ is non-increasing on $(0,m)$ and continuous, with no
+  jumps (no atoms).
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\emph{(a) Measure zero and closedness.}
+The critical \emph{values} of $u$ have measure zero by Sard's theorem (P3),
+applicable since $u\in C^2(\Om)$ (indeed $C^\infty$, by (P1)--(P2)). For
+closedness: let $v_k\in\mathrm{Crit}$, $v_k\to v\in(0,m)$. Choose
+$x_k\in\{u=v_k\}$ with $\nabla u(x_k)=0$. By
+Lemma~\ref{lem:compact-containment}, all $x_k$ lie in the fixed compact set
+$\{u\ge \tfrac{1}{2}\min_k v_k\}\Subset\Om$ (and $\min_k v_k>0$ since
+$v_k\to v>0$); passing to a subsequence, $x_k\to x_*\in\Om$. By continuity of
+$u$ and of $\nabla u$ (P2), $u(x_*)=v$ and $\nabla u(x_*)=0$, so $v$ is a
+critical value, i.e. $v\in\mathrm{Crit}$. Hence $\mathrm{Crit}$ is closed in
+$(0,m)$.
+
+\emph{(b) Level sets are area-null.}
+Two cases. If $v$ is a regular value, then by Lemma~\ref{lem:smooth-level}
+$\{u=v\}$ is a finite union of analytic curves, each of which has zero
+$2$-dimensional Lebesgue measure (a $1$-manifold in $\R^2$ is locally a graph,
+hence $\HH^2$-null), so $|\{u=v\}|=0$. If $v$ is a critical value, write
+\[
+  \{u=v\}=\bigl(\{u=v\}\cap\{\nabla u\ne0\}\bigr)\cup\bigl(\{u=v\}\cap\{\nabla u=0\}\bigr).
+\]
+At points of the first set the implicit function theorem (as in
+Lemma~\ref{lem:smooth-level}, Step~1) again represents $\{u=v\}$ locally as an
+analytic graph, hence that part is $\HH^2$-null. The second set is contained in
+$\{\nabla u=0\}$, which is Lebesgue-null because $u$ is real-analytic and
+nonconstant on the connected components of $\Om$ (so $\nabla u$ does not vanish
+identically): the zero set of a nonzero real-analytic function has Lebesgue
+measure zero (\cite[Lemma in \S0; or the analytic zero-set theorem]{KrantzParks2002}).
+Covering $\{u=v\}$ by countably many balls on which $u$ is analytic and applying
+this in each, we get $|\{u=v\}|=0$ for every $v$.
+
+\emph{(c) Monotonicity and continuity of $\mu$.}
+Monotonicity: if $v_1<v_2$ then $E_{v_2}=\{u>v_2\}\subset\{u>v_1\}=E_{v_1}$, so
+$\mu(v_2)=|E_{v_2}|\le|E_{v_1}|=\mu(v_1)$; thus $\mu$ is non-increasing.
+Continuity: for $v_1<v_2$ in $(0,m)$,
+\[
+  \mu(v_1)-\mu(v_2)=|E_{v_1}\setminus E_{v_2}|=|\{v_1<u\le v_2\}|.
+\]
+As $v_2\downarrow v_1$, the sets $\{v_1<u\le v_2\}$ decrease to
+$\{u=v_1\}\cup\varnothing=\{u=v_1\}$ (more precisely
+$\bigcap_{v_2>v_1}\{v_1<u\le v_2\}=\{u=v_1\}$), which has measure $0$ by part
+(b); by dominated convergence (all sets contained in the finite-measure set
+$\Om$) the difference tends to $0$, giving right-continuity. Similarly, as
+$v_1\uparrow v_2$ the sets $\{v_1<u<v_2\}$ decrease to $\varnothing$, while
+$\{v_1<u\le v_2\}\downarrow\{u=v_2\}$, again of measure $0$, giving
+left-continuity. Hence $\mu$ is continuous on $(0,m)$ with no atoms.
+\end{proof}
+
+\begin{remark}\label{rem:ae-suffices}
+The combination of Lemmas~\ref{lem:smooth-level}--\ref{lem:critvals} is exactly
+what later sections require: away from the measure-zero set $\mathrm{Crit}$,
+the superlevel sets $E_v$ are smooth finite-perimeter domains for which the
+flux identity and the coarea representation of $\mu$ hold pointwise, while the
+exceptional set $\mathrm{Crit}$ may be discarded in any integration in $v$
+(e.g. when integrating the flux identity against $dv$). When $u$ is moreover
+real-analytic, $\mathrm{Crit}$ is in fact finite, but we shall only use that it
+is closed and null.
+\end{remark}

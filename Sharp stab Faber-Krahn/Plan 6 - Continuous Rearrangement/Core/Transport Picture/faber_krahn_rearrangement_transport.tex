@@ -1,0 +1,474 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{problem}[theorem]{Problem}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Om}{\Omega}
+\newcommand{\Drr}{\mathcal D_{\mathrm{rr}}}
+\newcommand{\Rrad}{\mathcal R_{\mathrm{rad}}}
+\newcommand{\dT}{\delta_T}
+\newcommand{\AF}{\mathcal A_F}
+\newcommand{\Sph}{\mathbb S^{n-1}}
+\newcommand{\fint}{\,\rlap{$-$}\!\!\int}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+\title{Continuous Rearrangement and a Transport Picture for\\
+       Quantitative Faber--Krahn / Saint--Venant Stability\\
+       \large Toward a selection-free proof}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We develop a geometric, non-perturbative route to the sharp quantitative
+Saint--Venant (equivalently Faber--Krahn) inequality that is intended to
+replace the Brasco--De~Philippis--Velichkov (BDV) selection principle by a
+deterministic \emph{continuous rearrangement flow}, in the spirit of the
+Dolbeault--Esteban--Figalli--Frank--Loss (DEFFL) proof of sharp Sobolev
+stability. The starting point is an exact splitting of the torsion deficit,
+$\dT=\Drr+\Rrad$, into a \emph{non-radiality} term $\Drr$ (the Pólya--Szegő
+gap of the torsion function) and a \emph{radial-profile} term $\Rrad$. The
+radial-profile term is controlled by a one-dimensional spectral gap and is
+elementary. The whole difficulty is concentrated in a single
+\emph{quantitative Pólya--Szegő} estimate for $\Drr$, which we propose to
+prove by Brock's continuous Steiner symmetrization together with a
+competing-symmetries schedule, exactly as DEFFL do for Sobolev. We explain
+the transport interpretation (rearrangement as a measure-preserving
+deformation, dissipation as a transport cost), the monotone quantity along
+the flow, and why this route never touches the regularity of $\partial\Om$
+and hence bypasses selection. The remaining nucleus is stated as a precise
+open problem.
+\end{abstract}
+
+\tableofcontents
+
+\section{The transferable idea from DEFFL}
+
+The DEFFL proof of sharp stability for the Sobolev inequality \cite{DEFFL}
+runs, schematically, as follows. Let $E(f)$ be the Sobolev deficit (the
+normalised gap in the inequality), whose zero set is the manifold $\mathcal
+M$ of Aubin--Talenti optimisers. They construct a deformation
+\[
+   f \;\rightsquigarrow\; f^* \quad(\text{symmetric decreasing rearrangement}),
+\]
+implemented \emph{continuously} through Brock's continuous Steiner
+symmetrization \cite{Brock1,Brock2}, chained over a sequence of hyperplanes
+(a Bucur--Henrot schedule), and accelerated by \emph{competing symmetries}
+(conformal rotations interleaved with rearrangement, after Carlen--Loss
+\cite{CarlenLoss}). Two facts make this a proof of \emph{quantitative}
+stability:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item \emph{Monotonicity / dissipation.} The Dirichlet energy is
+non-increasing along the flow, and the rate at which it decreases is an
+explicit non-negative \emph{dissipation} measuring how far the current
+profile is from being symmetric in the active direction.
+\item \emph{Local-to-global.} The flow drives any $f$ to within a
+controlled distance of $\mathcal M$; one then only needs a \emph{local}
+(near-optimiser) coercivity, supplied by the second variation. The deficit
+controls the total dissipation, hence the total flow distance, hence the
+distance of $f$ to $\mathcal M$.
+\end{enumerate}
+The conceptual upshot: \textbf{the continuous rearrangement flow is a
+deterministic substitute for a selection/compactness step.} It transports an
+arbitrary competitor to the optimiser while the deficit pays for the trip.
+No penalised minimisation, no subsequence, no contradiction.
+
+The thesis of this note is that the \emph{same} architecture should prove
+sharp quantitative Saint--Venant, with the torsion function $u_\Om$ playing
+the role of $f$ and the ball playing the role of the Aubin--Talenti manifold.
+The role of BDV's selection principle is taken over by the rearrangement
+flow.
+
+\section{An exact rearrangement splitting of the torsion deficit}
+\label{sec:splitting}
+
+Throughout, $\Om\subset\R^n$ is bounded open, $|\Om|=\omega_n$ (the volume of
+the unit ball $B=B_1$), and $u=u_\Om\in H^1_0(\Om)$ solves $-\Delta u=1$ in
+$\Om$, $u=0$ on $\partial\Om$, with torsion $T(\Om)=\int_\Om u$. Write
+$u^*$ for the symmetric decreasing rearrangement of $u$ (extended by $0$);
+$u^*\in H^1_0(B)$ and $u^*$ is radial. Recall the convex/variational form
+\[
+   T(D)=\max_{v\in H^1_0(D)}J(v),\qquad J(v):=2\!\int v-\!\int|\nabla v|^2,
+\]
+attained at $v=u_D$, the torsion function of $D$, where $J(u_D)=\int u_D=T(D)$.
+
+\begin{proposition}[Exact deficit splitting]\label{prop:split}
+With the notation above,
+\begin{equation}\label{eq:split}
+   \dT(\Om)\;=\;\underbrace{\Bigl(\norm{\nabla u}_2^2-\norm{\nabla u^*}_2^2\Bigr)}_{=:\;\Drr(\Om)\;\ge\;0}
+   \;+\;\underbrace{\Bigl(T(B)-J(u^*)\Bigr)}_{=:\;\Rrad(\Om)\;\ge\;0}.
+\end{equation}
+Here $\Drr\ge0$ is the Pólya--Szegő gap of the torsion function (vanishing
+iff $u$ is, up to translation, radial decreasing), and $\Rrad\ge0$ is the
+gap between the rearranged profile $u^*$ and the true ball torsion function
+$u_B$ (vanishing iff $u^*=u_B$).
+\end{proposition}
+
+\begin{proof}
+Since $-\Delta u=1$ and $u=0$ on $\partial\Om$, integration by parts gives
+$\norm{\nabla u}_2^2=\int u=T(\Om)$. Rearrangement preserves the distribution
+function, so $\int u^*=\int u$, whence $J(u^*)=2\int u-\norm{\nabla u^*}_2^2$.
+Therefore
+\[
+   \Drr+\Rrad
+   =\bigl(\norm{\nabla u}^2-\norm{\nabla u^*}^2\bigr)+\bigl(T(B)-2\!\int u+\norm{\nabla u^*}^2\bigr)
+   =\norm{\nabla u}^2-2\!\int u+T(B).
+\]
+Using $\norm{\nabla u}^2=\int u=T(\Om)$ this equals $T(\Om)-2T(\Om)+T(B)=T(B)-T(\Om)=\dT(\Om)$.
+Non-negativity of $\Drr$ is Pólya--Szegő; non-negativity of $\Rrad$ holds
+because $u^*\in H^1_0(B)$ is a competitor and $T(B)=\max_{H^1_0(B)}J=J(u_B)$.
+\end{proof}
+
+\begin{remark}
+The splitting \eqref{eq:split} is the exact bookkeeping behind the classical
+Schwarz-symmetrization proof of Saint--Venant ($\dT\ge0$). What is new is to
+read it as a sum of \emph{two independently coercive} non-negative defects
+and to attack each by its own mechanism: $\Rrad$ by a one-dimensional
+spectral gap (\S\ref{sec:radial}), $\Drr$ by a continuous-rearrangement
+quantitative Pólya--Szegő (\S\ref{sec:dissipation}). Crucially, neither
+mechanism uses any regularity of $\partial\Om$: rearrangement is defined for
+arbitrary measurable competitors. This is the precise sense in which the
+route is selection-free.
+\end{remark}
+
+\begin{remark}[Eigenvalue version]
+The same splitting holds verbatim for the first Dirichlet eigenvalue. With
+$\varphi=\varphi_\Om$ the positive first eigenfunction, $\norm\varphi_2=1$,
+and $\varphi^*$ its symmetric decreasing rearrangement,
+\[
+   \lambda_1(\Om)-\lambda_1(B)
+   =\bigl(\norm{\nabla\varphi}_2^2-\norm{\nabla\varphi^*}_2^2\bigr)
+   +\bigl(R(\varphi^*)-\lambda_1(B)\bigr),
+   \qquad R(\psi):=\tfrac{\norm{\nabla\psi}^2}{\norm{\psi}^2},
+\]
+the first term the Pólya--Szegő gap of the eigenfunction, the second the
+radial Rayleigh residual. We work with torsion below because the convex
+duality is cleaner; everything transfers.
+\end{remark}
+
+\section{The radial-profile term is elementary}
+\label{sec:radial}
+
+$\Rrad=J(u_B)-J(u^*)$ compares two radial functions on the fixed ball $B$.
+Since $J$ is strictly concave with maximiser $u_B$, and the second variation
+of $J$ at $u_B$ is $-2\int|\nabla h|^2$, restricted to radial $h\in
+H^1_0(B)$, we get a clean one-dimensional coercivity.
+
+\begin{lemma}[Radial gap]\label{lem:radial}
+There is $c_n>0$ such that
+\[
+   \Rrad(\Om)\;\ge\;c_n\,\norm{u^*-u_B}_{H^1_0(B)}^2 .
+\]
+\end{lemma}
+
+\begin{proof}
+Write $u^*=u_B+h$ with $h\in H^1_0(B)$ radial and $\int(u^*-u_B)\,(-\Delta u_B-1)=0$
+(the Euler--Lagrange orthogonality, automatic since $-\Delta u_B=1$). Then
+$J(u^*)=J(u_B)-\int|\nabla h|^2$, so $\Rrad=\int|\nabla h|^2=\norm{\nabla h}_2^2$,
+and $\norm{h}_{H^1_0}^2=\norm{\nabla h}_2^2$ by Poincaré on $B$. Hence
+$\Rrad=\norm{\nabla h}_2^2\ge c_n\norm{h}_{H^1_0}^2$ with $c_n$ the Poincaré
+constant of $B$.
+\end{proof}
+
+In particular, $\Rrad$ controls the deviation of the \emph{radial profile} of
+$u_\Om$ from the exact ball profile. This is the easy half of the deficit and
+needs nothing beyond a Poincaré inequality on the ball.
+
+\section{The non-radiality term and the continuous flow}
+\label{sec:dissipation}
+
+The entire content of sharp stability is now in $\Drr$, the Pólya--Szegő gap.
+We must show it controls the distance of $u_\Om$ from the radial cone, in a
+norm strong enough to recover the Fraenkel asymmetry. This is exactly where
+DEFFL's continuous machinery enters.
+
+\subsection{Brock's continuous Steiner symmetrization}
+
+For a direction (hyperplane) $H$, Brock's flow $\tau\mapsto u^{H}_\tau$,
+$\tau\in[0,\infty]$, continuously rearranges $u$ along lines $\perp H$,
+interpolating $u^H_0=u$ and $u^H_\infty=u^{*H}$ (Steiner symmetrization in
+$H$). It preserves all $L^p$ norms and the distribution function, and the
+Dirichlet energy is non-increasing,
+\begin{equation}\label{eq:brock-mono}
+   \frac{d}{d\tau}\norm{\nabla u^H_\tau}_2^2\;\le\;0,
+\end{equation}
+right-continuously in $\tau$ \cite{Brock1,Brock2}. Chaining a sequence of
+hyperplanes $(H_k)$ with the Bucur--Henrot reparametrisation produces a
+single flow $\tau\mapsto u_\tau$, $\tau\in[0,\infty]$, with $u_0=u$,
+$u_\infty=u^*$, $\norm{u_\tau}_p=\norm{u}_p$, and
+$\tau\mapsto\norm{\nabla u_\tau}_2^2$ non-increasing. Thus
+\begin{equation}\label{eq:Drr-integral}
+   \Drr(\Om)\;=\;\norm{\nabla u}_2^2-\norm{\nabla u^*}_2^2
+   \;=\;\int_0^\infty\Bigl(-\tfrac{d}{d\tau}\norm{\nabla u_\tau}_2^2\Bigr)\,d\tau
+   \;=\;\int_0^\infty \mathfrak d(u_\tau)\,d\tau,
+\end{equation}
+where $\mathfrak d(u_\tau)\ge0$ is the instantaneous \emph{dissipation}. The
+flow is the deterministic ``transport to the ball'': $u$ is carried to its
+radial rearrangement, and $\Drr$ is the total energy released.
+
+\subsection{The monotone quantity and the local-to-global principle}
+
+The monotone quantity along the flow is the Dirichlet energy
+$\norm{\nabla u_\tau}_2^2$ (equivalently the running torsion functional
+$J(u_\tau)=2\int u-\norm{\nabla u_\tau}^2$, non-decreasing). The DEFFL
+local-to-global principle, transported to our setting, reads:
+
+\begin{quote}
+\emph{If at no time $\tau$ the profile $u_\tau$ is close to radial, then the
+dissipation $\mathfrak d(u_\tau)$ stays bounded below, so $\Drr=\int\mathfrak
+d\,d\tau$ is large. Contrapositively, small $\Drr$ forces $u_\tau$ to be
+close to radial for a substantial range of $\tau$, in particular near
+$\tau=0$, i.e.\ $u=u_\Om$ itself is close to radial.}
+\end{quote}
+
+To make this quantitative one needs a lower bound on the dissipation by a
+\emph{distance to the radial cone}. Denote by
+\[
+   \mathcal C_{\mathrm{rad}}:=\{\,w^*(\,\cdot-z\,):z\in\R^n\,\}
+\]
+the cone of translated radial-decreasing rearrangements, and let
+$\mathrm{dist}(u,\mathcal C_{\mathrm{rad}})$ be measured in a norm to be
+specified. The nucleus of the whole program is:
+
+\begin{problem}[Quantitative Pólya--Szegő for the torsion function]\label{prob:QPS}
+Find a norm $\norm{\cdot}_X$ controlling the Fraenkel asymmetry of the
+super-level sets and a constant $c=c(n)>0$ such that
+\begin{equation}\label{eq:QPS}
+   \Drr(\Om)\;=\;\norm{\nabla u}_2^2-\norm{\nabla u^*}_2^2
+   \;\ge\;c\,\inf_{z\in\R^n}\,\norm{\,u-u^*(\,\cdot-z\,)\,}_X^2 .
+\end{equation}
+\end{problem}
+
+Two features of \eqref{eq:QPS} must be respected, and they are exactly the
+features DEFFL engineer for Sobolev.
+
+\paragraph{(a) Degeneracy of one-shot Pólya--Szegő.} The bare gap
+$\norm{\nabla u}^2-\norm{\nabla u^*}^2$ is \emph{not} coercive in general:
+Cianchi--Fusco exhibit families where the gap is much smaller than the
+asymmetry, because a single rearrangement can be ``almost free'' while still
+moving mass. This is the rearrangement analogue of the obstruction we met
+elsewhere in this project. The cure, after DEFFL, is to not use one
+rearrangement but the \emph{continuous flow}: integrate the dissipation
+\eqref{eq:Drr-integral} and bound it below using the spectral structure of
+the flow at \emph{every} time, not just the endpoints.
+
+\paragraph{(b) Competing symmetries to prevent stalling.} A single Steiner
+direction can leave the profile invariant (if $u$ is already symmetric in
+that direction) without being radial. DEFFL interleave conformal rotations
+so that the schedule cannot stall away from the optimiser. The Faber--Krahn
+analogue of the conformal group is absent (the torsion problem is not
+conformally invariant), so a \emph{different} anti-stalling device is needed:
+the natural candidate is to randomise/cycle the Steiner directions densely
+(a.e.\ schedule converges, by \cite{VanSchaftingen}) and to use the
+\emph{rotational averaging} of the dissipation. Establishing a uniform
+lower bound on the time-averaged dissipation in terms of non-radiality is the
+technical heart.
+
+\subsection{The instantaneous dissipation, explicitly}
+
+For a single Steiner direction $H=e^\perp$, slicing $\R^n=\R_e\times H$ and
+writing $u(s,y)$ ($s\in\R$, $y\in H$), Brock's dissipation has the
+one-dimensional-slice form
+\begin{equation}\label{eq:diss-slice}
+   \mathfrak d_H(u)\;=\;\int_H \mathfrak d_{1}\bigl(u(\cdot,y)\bigr)\,dy,
+\end{equation}
+where $\mathfrak d_1(g)\ge0$ measures, for the one-dimensional profile $g$,
+the rate of Dirichlet-energy loss under the 1D continuous symmetrization. For
+a smooth slice with super-level intervals $\{g>t\}=\bigcup_j(a_j(t),b_j(t))$,
+$\mathfrak d_1$ is a positive quadratic form in the velocities of the
+interval endpoints, vanishing exactly when the intervals are concentric. The
+key elementary fact is that $\mathfrak d_1(g)$ controls the
+\emph{1D asymmetry} of $g$: how far the super-level sets of $g$ are from being
+centred intervals. Integrating over slices $y\in H$ and over directions
+$H\in\Sph$, the dissipation controls the full (non-radial) asymmetry. Turning
+this chain of ``controls'' into a quantitative inequality with a uniform
+constant is Problem~\ref{prob:QPS}.
+
+\section{Transport interpretation}
+\label{sec:transport}
+
+The rearrangement $u\mapsto u^*$ is a measure-preserving transport at the
+level of super-level sets: for each height $t$, the set $\{u>t\}$ is
+transported to the ball $\{u^*>t\}=B_{r(t)}$ of equal volume. The continuous
+flow $u_\tau$ realises this transport through a one-parameter family of
+measure-preserving maps $T_\tau$, with $T_0=\mathrm{id}$ and $(T_\infty)_\#$
+sending each level set to its centred ball. In this picture:
+\begin{itemize}[leftmargin=2em]
+\item the \emph{monotone quantity} is the Dirichlet energy $\int|\nabla
+u_\tau|^2$, decreasing along transport;
+\item the \emph{dissipation} $\mathfrak d(u_\tau)$ is the instantaneous
+transport cost (the squared transport velocity weighted by the gradient);
+\item the \emph{total cost} $\int_0^\infty\mathfrak d\,d\tau=\Drr$ is the
+deficit's payment for moving $u$ to the ball.
+\end{itemize}
+This is the precise mirror of the isoperimetric ``transport to the ball''
+heuristic, now at the level of the torsion function rather than the bare
+domain. The advantage over a raw domain transport is that the gradient weight
+in the cost makes spectrally inefficient features (thin tentacles, spikes,
+high-frequency boundary oscillation) \emph{cheap to remove and yet large in
+energy}, which is exactly the favourable imbalance we verified directly via
+the Dirichlet-energy scaling of thin features in the companion
+energy-identity analysis.
+
+\begin{remark}[Relation to the pressure flow]
+The companion note develops a \emph{domain} flow with normal velocity
+$V_n=(\partial_\nu u)^2-\fint(\partial_\nu u)^2$ (boundary-pressure
+equalisation), whose equilibrium is the ball by Serrin. That flow is
+intrinsically perturbative: it requires a smooth moving boundary, and is the
+infinitesimal/Hadamard picture. The rearrangement flow of this note is its
+\emph{non-perturbative} counterpart: it acts on the function, not the
+boundary, is defined for arbitrary rough $\Om$, and integrates a global
+dissipation. The two are linked by the coarea formula --- the pressure
+$(\partial_\nu u)^2$ is the boundary trace of $|\nabla u|^2$, whose
+super-level redistribution is what the rearrangement flow performs --- but
+only the rearrangement flow survives at the rough, global scale where
+selection was previously needed.
+\end{remark}
+
+\section{Recovering the Fraenkel asymmetry}
+\label{sec:asymmetry}
+
+Granting Problem~\ref{prob:QPS} in a norm $X$ controlling super-level
+asymmetry, the deficit controls the domain asymmetry as follows. By the
+triangle inequality and Proposition~\ref{prop:split},
+\[
+   \inf_z\norm{u-u_B(\,\cdot-z\,)}_X
+   \;\le\;\inf_z\norm{u-u^*(\,\cdot-z\,)}_X+\norm{u^*-u_B}_X
+   \;\lesssim\;\Drr^{1/2}+\Rrad^{1/2}\;\lesssim\;\dT^{1/2}.
+\]
+The super-level sets of $u$ are then close to those of $u_B(\cdot-z)$,
+uniformly in height. Two points remain, both standard in flavour but
+requiring care at the rough scale:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item \emph{From level sets to the domain.} The Fraenkel asymmetry is the
+$t\to0$ level $\{u>0\}=\Om$. Control of all positive levels plus the Hopf
+non-degeneracy $u\sim\mathrm{dist}(\cdot,\partial\Om)$ near the boundary
+upgrades level-set control to $\AF(\Om)\lesssim\dT^{1/2}$. Unlike the
+single-good-level approach, the rearrangement controls \emph{all} levels
+simultaneously, which should make the $t\to0$ passage more robust.
+\item \emph{Sharp exponent.} The target is $\AF(\Om)^2\le C\,\dT(\Om)$,
+i.e.\ exponent $2$. The splitting and Lemma~\ref{lem:radial} are already at
+the sharp quadratic scale; the exponent in the final estimate is inherited
+entirely from the exponent in \eqref{eq:QPS}. Thus \emph{sharpness of the
+quantitative Pólya--Szegő is equivalent to sharpness of Faber--Krahn} along
+this route --- a clean reduction.
+\end{enumerate}
+
+\section{Why this bypasses selection}
+
+\begin{enumerate}[label=\textup{(\arabic*)},leftmargin=2em]
+\item \emph{No regularity of $\partial\Om$ is ever used.} Rearrangement and
+Brock's flow are defined for arbitrary measurable $u$; the dissipation is a
+function-space quantity. The selection step existed only to manufacture a
+smooth near-equilibrium boundary on which BNST / second variation could run;
+here there is no boundary analysis at all until the very end
+(\S\ref{sec:asymmetry}(i)), and even there only Hopf non-degeneracy is
+needed.
+\item \emph{No compactness or contradiction.} The flow is explicit and
+deterministic, and $\dT=\Drr+\Rrad$ is an identity. Stability is a
+\emph{computation} of how the deficit is distributed between non-radiality
+and profile, exactly as DEFFL turn the Sobolev deficit into an explicit flow
+budget.
+\item \emph{Global and non-perturbative.} The estimate \eqref{eq:QPS}, if
+true with a uniform constant, holds for all $\Om$, not just near the ball.
+The perturbative second-variation analysis (our $(G)$, BDV Thm 3.3) is
+recovered as the \emph{linearisation} of \eqref{eq:QPS} at $u^*=u_B$, but is
+no longer the load-bearing input.
+\end{enumerate}
+
+\section{The nucleus, and an honest assessment}
+
+The program reduces sharp quantitative Saint--Venant, with no selection, to:
+
+\begin{quote}
+\textbf{Problem~\ref{prob:QPS}, sharp form.} Prove
+$\norm{\nabla u}_2^2-\norm{\nabla u^*}_2^2\ge c(n)\,\inf_z\,\big\|\,
+\{u>\cdot\}\,\triangle\,\{u^*(\cdot-z)>\cdot\}\,\big\|^2$ in a level-set
+asymmetry norm at the quadratic scale, by integrating Brock's dissipation
+\eqref{eq:Drr-integral} along a non-stalling Steiner schedule.
+\end{quote}
+
+What is solid:
+\begin{itemize}[leftmargin=2em]
+\item the exact splitting $\dT=\Drr+\Rrad$ (Proposition~\ref{prop:split}),
+both terms non-negative, no regularity used;
+\item the radial half $\Rrad\gtrsim\norm{u^*-u_B}^2_{H^1}$
+(Lemma~\ref{lem:radial}), elementary;
+\item the reduction of the \emph{exponent} to that of the quantitative
+Pólya--Szegő;
+\item the structural match with DEFFL: monotone Dirichlet energy, integrated
+dissipation, local-to-global via the flow.
+\end{itemize}
+
+What is open, and genuinely hard:
+\begin{itemize}[leftmargin=2em]
+\item Problem~\ref{prob:QPS} itself. One-shot Pólya--Szegő is known to
+degenerate (Cianchi--Fusco); the continuous flow is the proposed cure but the
+dissipation lower bound \eqref{eq:diss-slice} must be made quantitative and
+uniform.
+\item The \emph{anti-stalling} device. The torsion problem lacks the
+conformal symmetry that DEFFL exploit via competing symmetries; a substitute
+(dense/random Steiner schedule with a time-averaged dissipation bound) must
+be supplied. This is the single place where the Sobolev proof does not
+transfer verbatim, and where new ideas are required.
+\item The $t\to0$ passage from level-set control to domain asymmetry at the
+rough scale (\S\ref{sec:asymmetry}(i)).
+\end{itemize}
+
+\paragraph{Verdict.} The rearrangement/transport route gives a genuinely
+non-perturbative architecture for quantitative Faber--Krahn in which the
+selection principle is replaced by a deterministic flow and the entire
+difficulty is isolated in one quantitative Pólya--Szegő inequality. It is the
+most plausible candidate among the routes considered in this project for a
+proof with real geometric content that does not pass through BDV selection.
+Its viability hinges on Problem~\ref{prob:QPS} and on finding the right
+anti-stalling substitute for competing symmetries; both are concrete and, in
+the Sobolev case, were solved exactly by DEFFL --- which is the strongest
+available evidence that the torsion case is within reach.
+
+\begin{thebibliography}{9}
+
+\bibitem{DEFFL} J.~Dolbeault, M.~J.~Esteban, A.~Figalli, R.~L.~Frank, and
+M.~Loss, \emph{Sharp stability for Sobolev and log-Sobolev inequalities,
+with optimal dimensional dependence}, arXiv:2209.08651v5 (2025).
+
+\bibitem{Brock1} F.~Brock, \emph{Continuous Steiner-symmetrization},
+Math.~Nachr.\ \textbf{172} (1995), 25--48.
+
+\bibitem{Brock2} F.~Brock, \emph{Continuous rearrangement and symmetry of
+solutions of elliptic problems}, Proc.~Indian Acad.~Sci.\ Math.~Sci.\
+\textbf{110} (2000), 157--204.
+
+\bibitem{CarlenLoss} E.~A.~Carlen and M.~Loss, \emph{Extremals of
+functionals with competing symmetries}, J.~Funct.~Anal.\ \textbf{88} (1990),
+437--456.
+
+\bibitem{VanSchaftingen} J.~Van Schaftingen, \emph{Universal approximation of
+symmetrizations by polarizations}, Proc.~Amer.~Math.~Soc.\ \textbf{134}
+(2006), 177--186.
+
+\bibitem{BDV} L.~Brasco, G.~De~Philippis, and B.~Velichkov, \emph{Faber--Krahn
+inequalities in sharp quantitative form}, Duke Math.~J.\ \textbf{164}
+(2015), 1777--1831.
+
+\bibitem{CianchiFusco} A.~Cianchi and N.~Fusco, \emph{Functions of bounded
+variation and rearrangements}, Arch.~Ration.~Mech.~Anal.\ \textbf{165}
+(2002), 1--40.
+
+\end{thebibliography}
+
+\end{document}

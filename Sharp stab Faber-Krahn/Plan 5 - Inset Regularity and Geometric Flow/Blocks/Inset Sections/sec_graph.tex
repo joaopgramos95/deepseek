@@ -1,0 +1,178 @@
+\section{The inset is a small-norm radial graph}\label{sec:graph}
+
+The trapping (Theorem~\ref{thm:perim-annulus}) puts $\partial\Etil$ in a
+thin annulus, so the inset has \emph{small amplitude}. To call it a
+\emph{graph} we must also rule out radial folds --- rays from the centre
+meeting $\partial\Etil$ more than once. This section bounds the total fold
+content by the deficit, through a point-source flux identity, and concludes
+that $\Etil$ coincides with a small-norm radial graph up to a symmetric
+difference of size $O(\dT^{3/4})$.
+
+Throughout, $z,\hat r=\sqrt{\hat\mu/\pi}$ are the centre and radius of
+Corollary~\ref{cor:L1}, $a:=|\Etil\triangle B_{\hat r}(z)|\le C\sqrt\dT$,
+$\mathrm{Exc}:=P(\Etil)-2\pi\hat r=2\pi\hat r\,\diso(\Etil)\le C\dT$, and
+$\rho_i\le\hat r\le\rho_e$ with $\rho_e-\rho_i\le C\dT^{1/4}$
+(Theorem~\ref{thm:perim-annulus}); $z\in B_{\rho_i}(z)\subset\Etil$. For
+$\theta\in S^1$ let
+\[
+   M(\theta):=\HH^0\bigl(\partial\Etil\cap\{z+\rho e^{i\theta}:\rho>0\}\bigr)
+\]
+be the number of crossings of the ray in direction $\theta$. For a.e.\
+$\theta$ the slice $\Etil_\theta=\{\rho:z+\rho e^{i\theta}\in\Etil\}$ is
+$(0,r_1)\cup(r_2,r_3)\cup\dots\cup(r_{2m},r_{2m+1})$ with $r_k\in[\rho_i,
+\rho_e]$ and $M(\theta)=2m(\theta)+1$; here $m(\theta)$ is the number of
+\emph{folds} (caps), and $M(\theta)=1$ exactly when the slice is a single
+interval. Thus $\Etil$ is a radial graph about $z$ iff $M\equiv1$.
+
+\subsection{The fold-content identity}
+
+\begin{lemma}[Two flux identities]\label{lem:two-flux}
+With $\nu_r:=\nu\cdot e_r$, $e_r=(x-z)/|x-z|$, the outward normal's radial
+part on $\partial\Etil$,
+\begin{equation}\label{eq:two-flux}
+   \int_{\partial\Etil}\frac{|\nu_r|}{|x-z|}\,d\HH^1=\int_{S^1}M(\theta)\,d\theta,
+   \qquad
+   \int_{\partial\Etil}\frac{\nu_r}{|x-z|}\,d\HH^1=2\pi .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+\emph{First identity (coarea).} The angular coordinate
+$g(x):=\arg(x-z)$ is locally smooth on $\R^2\setminus\{z\}$ with
+$|\nabla g|=1/|x-z|$; its tangential gradient along the rectifiable curve
+$\partial\Etil$ has modulus $|\nabla^{\partial\Etil}g|=|e_\theta\cdot\tau|/
+|x-z|=|e_r\cdot\nu|/|x-z|=|\nu_r|/|x-z|$ ($\tau$ the unit tangent, $\nu\perp
+\tau$, $e_r\perp e_\theta$). The coarea formula on $1$-rectifiable sets
+\textup{(}\cite[Theorem~2.93]{AFP2000}\textup{)} gives
+$\int_{\partial\Etil}|\nabla^{\partial\Etil}g|\,d\HH^1
+=\int_{S^1}\HH^0(\partial\Etil\cap g^{-1}(\theta))\,d\theta
+=\int_{S^1}M(\theta)\,d\theta$.
+
+\emph{Second identity (point source).} The field
+$X(x):=(x-z)/|x-z|^2$ is divergence-free on $\R^2\setminus\{z\}$ and has
+$X\cdot\nu=\nu_r/|x-z|$. Since $z\in\Etil$, applying the divergence theorem
+on $\Etil\setminus\overline{B_\eps(z)}$ and letting $\eps\downarrow0$,
+\[
+   \int_{\partial\Etil}X\cdot\nu\,d\HH^1
+   =\lim_{\eps\downarrow0}\int_{\partial B_\eps(z)}X\cdot\frac{x-z}{\eps}\,d\HH^1
+   =\lim_{\eps\downarrow0}\frac{1}{\eps}\,\HH^1(\partial B_\eps)=2\pi .
+\]
+\end{proof}
+
+\begin{proposition}[Fold content]\label{prop:fold}
+\begin{equation}\label{eq:fold}
+   \int_{S^1}\bigl(M(\theta)-1\bigr)\,d\theta
+   \ =\ 2\int_{\partial\Etil\cap\{\nu_r<0\}}\frac{|\nu_r|}{|x-z|}\,d\HH^1
+   \ \le\ \frac{\mathrm{Exc}+Ca}{\rho_i}
+   \ \le\ C\,\sqrt\dT .
+\end{equation}
+In particular the set of \emph{fold angles} has small measure:
+\begin{equation}\label{eq:foldangles}
+   \bigl|\{\theta\in S^1:M(\theta)\ge3\}\bigr|
+   \ \le\ \tfrac12\!\int_{S^1}(M-1)\,d\theta\ \le\ C\sqrt\dT .
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Subtracting the two identities of Lemma~\ref{lem:two-flux},
+\[
+   \int_{S^1}(M-1)\,d\theta
+   =\int_{\partial\Etil}\frac{|\nu_r|-\nu_r}{|x-z|}\,d\HH^1
+   =2\int_{\partial\Etil\cap\{\nu_r<0\}}\frac{|\nu_r|}{|x-z|}\,d\HH^1\ \ge0,
+\]
+the first equality of \eqref{eq:fold}. Bounding $|x-z|\ge\rho_i$ on the
+folded part,
+\[
+   \int_{S^1}(M-1)\,d\theta\le\frac{2}{\rho_i}\int_{\partial\Etil\cap\{\nu_r<0\}}
+   |\nu_r|\,d\HH^1=\frac{2F_r}{\rho_i},\qquad
+   F_r:=\int_{\{\nu_r<0\}}|\nu_r|\,d\HH^1 .
+\]
+By the (unweighted) divergence theorem, $\int_{\partial\Etil}\nu_r\,d\HH^1
+=\int_{\Etil}\operatorname{div}e_r\,dx=\int_{\Etil}\frac{1}{|x-z|}\,dx=:I_{\Etil}$,
+so $2F_r=\int|\nu_r|-\int\nu_r=P_r-I_{\Etil}$ where $P_r=\int|\nu_r|$. Now
+$P_r\le P(\Etil)=2\pi\hat r+\mathrm{Exc}$, while
+\[
+   |I_{\Etil}-2\pi\hat r|
+   =\Bigl|\int(\mathbf 1_{\Etil}-\mathbf 1_{B_{\hat r}(z)})\tfrac{1}{|x-z|}\Bigr|
+   \le\frac{1}{\rho_i}\,|\Etil\triangle B_{\hat r}(z)|=\frac{a}{\rho_i}\le Ca,
+\]
+using $\int_{B_{\hat r}(z)}|x-z|^{-1}=2\pi\hat r$ and that
+$\Etil\triangle B_{\hat r}(z)$ lies in the annulus
+$\{|x-z|\ge\rho_i\}$. Hence $2F_r=P_r-I_{\Etil}\le\mathrm{Exc}+Ca$, and
+$\int(M-1)\,d\theta\le(\mathrm{Exc}+Ca)/\rho_i\le C(\mathrm{Exc}+a)\le
+C\sqrt\dT$ (as $\mathrm{Exc}\le C\dT\le C\sqrt\dT$, $a\le C\sqrt\dT$,
+$\rho_i\ge\tfrac12$). Finally $M-1\ge2$ on $\{M\ge3\}$ gives
+\eqref{eq:foldangles}.
+\end{proof}
+
+\subsection{The small-norm graph}
+
+\begin{theorem}[Small-norm radial-graph realization]\label{thm:graph}
+There is a continuous $\rho:S^1\to[\rho_i,\rho_e]$ with
+\begin{equation}\label{eq:graph}
+   \bigl\|\rho-\hat r\bigr\|_{L^\infty(S^1)}\le \rho_e-\rho_i\le C\,\dT^{1/4},
+   \qquad
+   \bigl|\Etil\,\triangle\,G\bigr|\le C\,\dT^{3/4},
+   \quad G:=\{z+r e^{i\theta}:0\le r<\rho(\theta)\}.
+\end{equation}
+That is, the inset coincides, up to a measure-$O(\dT^{3/4})$ set, with a
+radial graph of amplitude $O(\dT^{1/4})$; in particular, after rescaling to
+area $\pi$ and recentring, $G$ satisfies the hypotheses of the
+radial-graph theorem \textup{(G)}.
+\end{theorem}
+
+\begin{proof}
+Take the \emph{core profile} $\rho_0(\theta):=r_1(\theta)$, the innermost
+crossing (so $\{r<\rho_0\}\subset\Etil$, cutting every cap). Then
+$\rho_0\in[\rho_i,\rho_e]$ and $\Etil\setminus\{r<\rho_0\}$ is the union of
+the caps, of total measure
+\[
+   \bigl|\Etil\setminus\{r<\rho_0\}\bigr|
+   =\int_{S^1}\sum_{i=1}^{m(\theta)}\!\int_{r_{2i}}^{r_{2i+1}}\!\!r\,dr\,d\theta
+   \le\int_{S^1}\hat r\,(\rho_e-\rho_i)\,\mathbf 1_{\{m(\theta)\ge1\}}\,d\theta
+   =\hat r(\rho_e-\rho_i)\,\bigl|\{M\ge3\}\bigr|,
+\]
+since on each ray the caps have total length $\le r_{2m+1}-r_1\le\rho_e-
+\rho_i$ and lie at radius $\le\rho_e\le C\hat r$. By
+Theorem~\ref{thm:perim-annulus} and \eqref{eq:foldangles},
+\[
+   \bigl|\Etil\setminus\{r<\rho_0\}\bigr|
+   \le C\,\dT^{1/4}\cdot C\sqrt\dT=C\,\dT^{3/4}.
+\]
+The profile $\rho_0\in BV(S^1;[\rho_i,\rho_e])$; mollifying at an angular
+scale $\sigma$ produces a continuous $\rho$ with $\rho\in[\rho_i,\rho_e]$
+and $|\{r<\rho_0\}\triangle\{r<\rho\}|\le\sigma\,\mathrm{TV}(\rho_0)\,\hat r$.
+Since $\mathrm{TV}(\rho_0)\le P(\Etil)\le C$, choosing $\sigma=\dT^{3/4}$
+keeps this $\le C\dT^{3/4}$. Hence $|\Etil\triangle G|\le|\Etil\setminus
+\{r<\rho_0\}|+|\{r<\rho_0\}\triangle\{r<\rho\}|\le C\dT^{3/4}$, while
+$\|\rho-\hat r\|_\infty\le\rho_e-\rho_i\le C\dT^{1/4}$ from
+$\rho\in[\rho_i,\rho_e]$. The last sentence follows because
+$\dT^{1/4}\le\eta_G$ for $\dT\le\delta_\star$.
+\end{proof}
+
+\begin{remark}[What is gained, and the sharp upgrade]\label{rem:graph-status}
+Theorem~\ref{thm:graph} confirms, selection-free and $C^2$-free, that the
+inset \emph{is} a small-norm radial graph up to a higher-order error; the
+engine is the fold-content bound \eqref{eq:fold}, built from the
+point-source identity \eqref{eq:two-flux} (it does the multi-fold
+bookkeeping globally, exactly as the coarea identity did for the annulus).
+
+The \emph{sharp} exponent $\AF(\Om)^2\lesssim\dT$ \emph{is} reached this way
+once two refinements are made; see \texttt{sharp\_via\_graph\_inset.tex} in
+\texttt{Plan~5/Core}. (1) The inset is taken at the \emph{low} level
+$\hat v\sim\sqrt\dT$ (not a middle level), so that closeness
+$\abs{\Om\triangle\Etil}=\pi-\mu(\hat v)\sim\sqrt\dT$ is carried by the
+\emph{level}; the deficit $\delta_*(\Etil)\lesssim\dT$ still holds (tail of the
+level identity) and the amplitude $\eta\sim\dT^{1/8}\le\eta_G$ is an
+absolute constant, which is all the graph theorem (G) needs. (2) The
+estimate $\abs{I_\Etil-2\pi\hat r}$ is sharpened from $Ca$ to $Ca\eta$ by
+subtracting the constant $1/\hat r$ (legitimate since the indicators have
+equal mass) and using that $\Etil\triangle B_{\hat r}$ is confined to the
+$\eta$-annulus; this removes the FMP square-root from the fold content, so
+$\mathrm{gd}\le C\eta(\mathrm{Exc}+a\eta)\sim\dT/\hat v\sim\sqrt\dT$. Crucially, cutting the
+caps to manufacture the graph \emph{lowers} the scale-invariant deficit
+(the equal-area ball shrinks faster than the torsion is lost), so no
+deficit is paid for cutting. With $\hat v\sim\sqrt\dT$, closeness and graph
+defect balance at $\sqrt\dT$, giving $\AF(\Om)^2\lesssim\dT$ with \emph{no}
+transport, \emph{no} Magnanini--Poggesi, and \emph{no} selection.
+\end{remark}

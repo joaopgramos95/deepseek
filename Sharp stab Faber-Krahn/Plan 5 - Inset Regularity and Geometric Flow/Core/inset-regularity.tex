@@ -1,0 +1,266 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\setlength{\parskip}{0.3em}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Om}{\Omega}
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dT}{\delta_T}
+\newcommand{\diso}{\delta_{\mathrm{iso}}}
+\newcommand{\Etil}{\widetilde E}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+\title{The inset of a near-extremal Saint--Venant domain\\
+       is a regular set}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Let $\Om\subset\R^2$ be a bounded open set of area $\pi$ whose torsional
+rigidity is close to that of the disk, i.e.\ with small Saint--Venant
+deficit $\dT(\Om)=T(B_1)-T(\Om)$. The boundary $\partial\Om$ may be
+arbitrarily irregular. We prove that a suitably chosen super-level set of
+the torsion function --- the \emph{inset} --- is nonetheless a regular set,
+and we quantify in what sense. Precisely (Theorem~\ref{thm:main}), there is
+a regular value $\hat v$ of the torsion function $u$ such that the inset
+$\Etil=\{u>\hat v\}$ has: \emph{(i)} an analytic boundary (a finite union of
+analytic Jordan curves) lying at positive distance from $\partial\Om$, with
+$|\nabla u|>0$ on it; \emph{(ii)} small isoperimetric and Serrin deficits,
+both $O(\dT)$; \emph{(iii)} closeness to a disk in measure,
+$|\Etil\,\triangle\,B|\lesssim\sqrt\dT$; \emph{(iv)} no interior holes; and
+\emph{(v)} containment in a thin annulus between two concentric circles,
+$B_{\hat r-\eta}(z)\subset\Etil\subset B_{\hat r+\eta}(z)$. For the width we
+give two routes: applying the Magnanini--Poggesi stability theorem to the
+\emph{smooth} inset yields $\eta\lesssim\dT^{\tau/2}$ but with a constant
+depending on the inset's $C^2$ geometry; replacing the interior/exterior
+ball conditions of that proof by the \emph{measure-theoretic} crossing count
+of the radial function on $\partial\Etil$ --- the coarea identity
+$\int_{\partial\Etil}|\nu_\theta|=\int_0^\infty N(\rho)\,d\rho$, which sums
+all inward fjords and outward tentacles at once --- yields instead
+$\eta\lesssim\dT^{1/4}$ with an \emph{absolute} constant, free of any $C^2$
+dependence and free of the multi-fjord covering bookkeeping, the whole
+dependence being on the isoperimetric deficit $D_I$. Every lemma is proved
+in full; standard facts are cited verbatim. The qualitative principle is
+that the roughness of $\partial\Om$ never reaches the inset: every feature
+of $\Etil$ is controlled by the deficits alone.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}\label{sec:intro}
+
+\subsection*{Setup and motivation}
+For a bounded open set $\Om\subset\R^2$, the \emph{torsion function} $u$ is
+the solution of $-\Delta u=1$ in $\Om$ with $u=0$ on $\partial\Om$, and the
+\emph{torsional rigidity} is $T(\Om)=\int_\Om u$. The Saint--Venant
+inequality states $T(\Om)\le T(B)$ among sets $B$ of equal area, with
+equality only for disks. Normalising $|\Om|=\pi$ (so the optimal disk is the
+unit disk $B_1$, $T(B_1)=\pi/8$), the \emph{Saint--Venant deficit} is
+\[
+   \dT(\Om):=T(B_1)-T(\Om)\ \ge\ 0 .
+\]
+A central problem is the sharp \emph{quantitative} Saint--Venant
+inequality, which would bound the Fraenkel asymmetry of $\Om$ by $\dT$. A
+standard difficulty is that $\partial\Om$ carries no a priori regularity:
+the only hypothesis is that $\dT$ is small. The contribution of this note is
+to show, with complete proofs, that one can extract from $\Om$ a
+\emph{regular} subdomain --- a super-level set of $u$ --- that captures the
+geometry while being analytic, nearly circular, and trapped (on the outside)
+in a thin annulus. This ``inset'' is the object on which the perturbative
+machinery of the quantitative theory can be run.
+
+The key principle is that \emph{the interior is always regular}: $u$ solves
+an analytic elliptic equation, so it is real-analytic inside $\Om$ no matter
+how rough $\partial\Om$ is, and its level sets a definite distance inside are
+analytic curves (Section~\ref{sec:smooth}). The roughness of $\partial\Om$
+does not propagate inward. What requires work is the \emph{quantitative}
+geometry: that the inset is nearly a disk, and how nearly.
+
+\subsection*{Standing assumptions}
+Throughout, $\Om\subset\R^2$ is a bounded open set, regular for the
+Dirichlet problem (so that the torsion function satisfies $u\in
+H^1_0(\Om)\cap C(\overline\Om)$ with $u=0$ on $\partial\Om$; this holds for
+instance whenever $\Om$ satisfies an exterior corkscrew or cone condition,
+and is no loss for the deficit since $\dT$ is continuous under invasion of
+$\Om$ by regular subdomains). We normalise $|\Om|=\pi$. We write $\dT$ for
+$\dT(\Om)$ and assume $\dT\le\delta_\star$, where $\delta_\star>0$ is an
+absolute constant fixed in the course of the proofs. Constants denoted
+$c,C,C_0,\dots$ are absolute unless a dependence is displayed; the only
+non-absolute dependence that appears anywhere is in the annulus
+\emph{width} of Section~\ref{sec:trapping}, whose constant depends on the
+$C^2$ geometry of the (smooth) inset --- see Remark~\ref{rem:nonuniform}.
+Every other constant in the paper is absolute.
+
+\subsection*{Main result}
+The following theorem collects the conclusions proved in
+Sections~\ref{sec:smooth}--\ref{sec:trapping}. Recall the \emph{isoperimetric
+deficit} $\diso(E)=P(E)/(2\sqrt{\pi|E|})-1$ and the \emph{Fraenkel
+asymmetry} $\mathcal A(E)=\min_x|E\triangle B(x)|/|E|$ (disk $B(x)$ of area
+$|E|$).
+
+\begin{theorem}[The inset is a regular set]\label{thm:main}
+There is an absolute constant $\delta_\star>0$ with the following property.
+Let $\Om\subset\R^2$ be bounded open, regular for the Dirichlet problem,
+$|\Om|=\pi$, with torsion function $u$ and $\dT(\Om)\le\delta_\star$. Then
+there is a regular value $\hat v\in(0,\tfrac14)$ of $u$ such that the
+\emph{inset}
+\[
+   \Etil:=\{x\in\Om:u(x)>\hat v\},\qquad
+   \hat\mu:=|\Etil|\in[\tfrac\pi4,\pi),\qquad
+   \hat r:=\sqrt{\hat\mu/\pi}\in[\tfrac12,1),
+\]
+satisfies all of the following.
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.4em]
+\item \textup{(Analytic boundary, interior.)} $\partial\Etil=\{u=\hat v\}$
+is a finite disjoint union of real-analytic Jordan curves, with
+$|\nabla u|>0$ everywhere on it, and
+$\operatorname{dist}(\overline\Etil,\partial\Om)>0$. Consequently $\Etil$ is
+a bounded open set of finite perimeter, $P(\Etil)=\HH^1(\{u=\hat v\})$, with
+outward unit normal $-\nabla u/|\nabla u|$.
+\item \textup{(Controlled deficits.)} $\diso(\Etil)\le C\,\dT$ and the
+weighted Serrin deficit obeys
+$\displaystyle\int_{\partial\Etil}\frac{(|\nabla u|-c)^2}{|\nabla u|}\,
+d\HH^1\le C\,\dT$, where $c=|\Etil|/P(\Etil)$.
+\item \textup{(Near-circular in measure.)} There is $z\in\R^2$ with
+$\abs{\Etil\,\triangle\,B_{\hat r}(z)}\le C\,\sqrt\dT$; equivalently
+$\mathcal A(\Etil)\le C\sqrt\dT$.
+\item \textup{(No interior holes.)} Every connected component of
+$\Om\setminus\overline\Etil$ has closure meeting $\partial\Om$; in
+particular $\Etil$ has no holes.
+\item \textup{(Squeezed between two concentric circles.)} The inset (its
+main component) is trapped in a thin annulus
+$B_{\hat r-\eta}(z)\subset\Etil\subset B_{\hat r+\eta}(z)$, in either of two
+forms:
+\begin{itemize}[leftmargin=1.4em]
+\item[\textup{(v$_{\mathrm{a}}$)}] \textup{(via Magnanini--Poggesi)}
+$\eta\le C_{\mathrm{MP}}\,\dT^{\tau/2}$, $\tau\in(0,1]$ absolute, but
+$C_{\mathrm{MP}}$ depending on the $C^2$ geometry of the smooth inset
+\textup{(}Theorem~\ref{thm:annulus}\textup{)};
+\item[\textup{(v$_{\mathrm{b}}$)}] \textup{(regularity-free)} $\eta\le
+C\,\dT^{1/4}$ with $C$ \emph{absolute}, depending only on the deficits;
+proved via the angular-perimeter coarea identity
+$P_\theta=\int_0^\infty N(\rho)\,d\rho$, which charges all inward fjords and
+outward tentacles to $D_I$ at once \textup{(}no $C^2$ data, no covering;
+Theorem~\ref{thm:perim-annulus}\textup{)}. The only standing assumption is
+connectedness of the main component, which carries area $\hat\mu-O(\dT)$.
+\end{itemize}
+\end{enumerate}
+The constants $C$ in \textup{(i)--(iv)} are \emph{absolute}. Clause
+\textup{(v$_{\mathrm a}$)} pays a non-absolute $C^2$ constant;
+\textup{(v$_{\mathrm b}$)} removes it with an absolute constant, the entire
+dependence then being on the isoperimetric deficit $D_I$
+(Remarks~\ref{rem:nonuniform}, \ref{rem:covering-gone}, \ref{rem:loop}).
+\end{theorem}
+
+\subsection*{Strategy and organisation}
+The proof has three layers. \emph{Interior regularity}
+(Sections~\ref{sec:prelim}--\ref{sec:smooth}): $u$ is analytic inside, so
+a.e.\ level set is an analytic curve at positive distance from
+$\partial\Om$; this is qualitative and uses no smallness. \emph{Energy /
+$L^1$ control} (Sections~\ref{sec:identity}--\ref{sec:controlled}): the
+level-set deficit identity
+$\int_0^m(D_H+D_I)\,dv=4\pi\dT$ (Theorem~\ref{thm:identity}) writes the
+deficit as the total of two non-negative level defects; combined with
+Talenti's volume comparison (Section~\ref{sec:talenti}) it yields, by
+averaging, a single good inset with $O(\dT)$ isoperimetric and Serrin
+defects and definite area, hence $\sqrt\dT$-closeness to a disk by the
+sharp quantitative isoperimetric inequality. \emph{Geometric control}
+(Sections~\ref{sec:topology}--\ref{sec:trapping}): superharmonicity removes
+interior holes, and --- crucially using that the inset is \emph{smooth} ---
+the Magnanini--Poggesi stability theorem for Serrin's overdetermined problem
+traps the inset between two concentric circles. This last step is where the
+inset's smoothness pays off: the regularity-dependent stability machinery,
+inapplicable to the rough $\Om$, applies to the analytic $\Etil$.
+
+Section~\ref{sec:prelim} collects the cited background; the reader familiar
+with finite-perimeter theory, the FMP inequality, interior elliptic
+regularity, and Sard's and Talenti's theorems may skip to
+Section~\ref{sec:smooth}.
+
+\bigskip
+\input{sec_preliminaries}
+
+\bigskip
+\input{sec_smoothness}
+
+\bigskip
+\input{sec_core}
+
+\bigskip
+\input{sec_core2}
+
+\bigskip
+\input{sec_density_annulus}
+
+\begin{thebibliography}{99}
+
+\bibitem{AFP2000} L.~Ambrosio, N.~Fusco, D.~Pallara,
+\emph{Functions of Bounded Variation and Free Discontinuity Problems},
+Oxford Mathematical Monographs, Oxford University Press, 2000.
+
+\bibitem{EvansGariepy2015} L.~C.~Evans, R.~F.~Gariepy,
+\emph{Measure Theory and Fine Properties of Functions}, revised edition,
+Textbooks in Mathematics, CRC Press, Boca Raton, 2015.
+
+\bibitem{FMP2008} N.~Fusco, F.~Maggi, A.~Pratelli,
+\emph{The sharp quantitative isoperimetric inequality},
+Annals of Mathematics (2) \textbf{168} (2008), no.~3, 941--980.
+
+\bibitem{GT1983} D.~Gilbarg, N.~S.~Trudinger,
+\emph{Elliptic Partial Differential Equations of Second Order},
+Grundlehren der mathematischen Wissenschaften 224, Springer-Verlag, Berlin,
+2nd ed., 1983 (reprinted 2001).
+
+\bibitem{KrantzParks2002} S.~G.~Krantz, H.~R.~Parks,
+\emph{A Primer of Real Analytic Functions}, 2nd ed., Birkh\"auser Advanced
+Texts, Boston, 2002.
+
+\bibitem{Maggi2012} F.~Maggi,
+\emph{Sets of Finite Perimeter and Geometric Variational Problems. An
+Introduction to Geometric Measure Theory}, Cambridge Studies in Advanced
+Mathematics 135, Cambridge University Press, 2012.
+
+\bibitem{MagnaniniPoggesi2019} R.~Magnanini, G.~Poggesi,
+\emph{On the stability for Alexandrov's Soap Bubble theorem},
+Journal d'Analyse Math\'ematique \textbf{139} (2019), no.~1, 179--205.
+\textup{(}See also: \emph{Serrin's problem and Alexandrov's Soap Bubble
+Theorem: stability via integral identities}, Indiana Univ.\ Math.\ J.\
+\textbf{69} (2020), no.~4, 1181--1205.\textup{)}
+
+\bibitem{Milnor1997} J.~W.~Milnor,
+\emph{Topology from the Differentiable Viewpoint}, revised reprint,
+Princeton Landmarks in Mathematics, Princeton University Press, 1997.
+
+\bibitem{Morrey1966} C.~B.~Morrey, Jr.,
+\emph{Multiple Integrals in the Calculus of Variations}, Grundlehren der
+mathematischen Wissenschaften 130, Springer-Verlag, New York, 1966.
+
+\bibitem{Sard1942} A.~Sard,
+\emph{The measure of the critical values of differentiable maps},
+Bulletin of the American Mathematical Society \textbf{48} (1942), 883--890.
+
+\bibitem{Talenti1976} G.~Talenti,
+\emph{Elliptic equations and rearrangements},
+Annali della Scuola Normale Superiore di Pisa, Classe di Scienze (4)
+\textbf{3} (1976), no.~4, 697--718.
+
+\end{thebibliography}
+
+\end{document}

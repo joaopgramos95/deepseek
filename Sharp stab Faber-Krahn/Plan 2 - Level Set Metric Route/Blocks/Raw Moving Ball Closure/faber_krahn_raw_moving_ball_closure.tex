@@ -1,0 +1,503 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Om}{\Omega}
+\newcommand{\Fr}{\mathcal A}
+\newcommand{\HH}{\mathcal H}
+\newcommand{\dT}{\delta_T}
+\newcommand{\rstar}{\rho_*}
+\newcommand{\rdel}{\rho_\delta}
+\newcommand{\wt}{w}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+\title{Raw Moving-Ball First Variation and Closure of the Bad-Density Step\\
+       \large Plan 2 / Level-Set Rearrangement Route}
+\author{}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note proves the remaining local theorem left by
+\texttt{faber\_krahn\_remaining\_steps.tex}, with one correction: the right
+moving-ball vector field is not the singular unit field \(e_z\), but the
+affine homothetic field \((x-z)/\rho+a\).  It maps \(B_\rho(z)\) exactly to
+\(B_{\rho+h}(z+ha)\), is globally Lipschitz, and pairs with the existing
+homothetic radial-trace estimate.  We prove a finite-perimeter one-sided
+first variation for
+\[
+   q(\rho):=\inf_{z\in\R^n}|E_\rho\Delta B_\rho(z)|.
+\]
+The estimate controls only the positive derivative \(q'_+\), which is exactly
+what the endpoint trace needs.  Together with nestedness, the bad-density
+set is paid at \(O(\delta_T)\), and the bounded sharp Saint--Venant estimate
+follows from the level-set identity, same-centre Fusco--Julin, and the
+boundary-layer transfer.
+\end{abstract}
+
+\tableofcontents
+
+\section{Setup}
+
+Let \(\Omega\subset B_R\) be bounded, \(|\Omega|=\omega_n\), and let \(u\) be
+the torsion potential.  Set
+\[
+   E_\rho:=\{u>t(\rho)\},\qquad |E_\rho|=\omega_n\rho^n,\qquad
+   \wt(\rho):=-t'(\rho),\qquad d\mu=\wt(\rho)\,d\rho .
+\]
+For a.e. \(\rho\), \(E_\rho\) has finite perimeter, \(|\nabla u|>0\) on
+\(\partial^*E_\rho\) up to \(\HH^{n-1}\)-null sets, and
+\[
+   V_\rho=\frac{\wt(\rho)}{|\nabla u|},\qquad
+   \int_{\partial^*E_\rho}V_\rho\,d\HH^{n-1}=P(B_\rho).
+\]
+Write
+\[
+   H_{z,\rho}(x):=\frac{(x-z)\cdot\nu_\rho(x)}{\rho},\qquad
+   \bar V_\rho:=\frac{P(B_\rho)}{P(E_\rho)}.
+\]
+The exact level-set identity supplies
+\begin{equation}\label{eq:budget}
+   \int_{\rstar}^{\rdel}(D_H(t(\rho))+D_I(t(\rho)))\,d\mu(\rho)
+   \le C(n,\rstar)\delta_T(\Omega).
+\end{equation}
+Talenti's profile-gap estimate supplies
+\begin{equation}\label{eq:badtau}
+   |B_\tau|\le C(n,\rstar)\delta_T,\qquad
+   B_\tau:=\{\rho:\wt(\rho)<\tau_0\},\quad
+   \tau_0:=\frac{\rstar}{2n}.
+\end{equation}
+Finally set
+\[
+   G_I:=\{\rho:D_I(t(\rho))\le\eta_I\}.
+\]
+On \(G_I\), the same-centre Fusco--Julin package and the oriented radial
+trace lemma give, at a same-centre field \(z_\rho^{\rm sc}\),
+\begin{align}
+   |E_\rho\Delta B_\rho(z_\rho^{\rm sc})|^2
+   &\le C(n,R,\rstar)D_I(t(\rho)), \label{eq:q-DI}\\
+   \left(\int_{\partial^*E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|\,d\HH^{n-1}\right)^2
+   &\le C(n,R,\rstar)D_I(t(\rho)), \label{eq:H-DI}
+\end{align}
+where \(z_\rho=z_\rho^{\rm sc}\) in \eqref{eq:H-DI}.  The first inequality
+implies the same bound for \(q(\rho)^2\), since \(q\) is an infimum over
+centres.
+
+\section{A Coarea Differentiation Lemma}
+
+The proof uses the following standard consequence of BV coarea and Lebesgue
+differentiation.  It is the precise replacement for smooth normal-flow
+coordinates.
+
+\begin{lemma}[Variable-thickness coarea differentiation]\label{lem:varcoarea}
+For a.e. regular level \(s\) of \(u\), and every bounded Borel function
+\(g\ge0\),
+\begin{equation}\label{eq:varcoarea}
+   \lim_{h\downarrow0}\frac1h
+   \left|\{x:0<u(x)-s<hg(x)\}\right|
+   =
+   \int_{\partial^*\{u>s\}}\frac{g(x)}{|\nabla u(x)|}\,d\HH^{n-1}(x),
+\end{equation}
+and the analogous identity holds for \(\{x:0<s-u(x)<hg(x)\}\).
+\end{lemma}
+
+\begin{proof}
+For simple \(g=\sum_{j=1}^N c_j\mathbf1_{A_j}\), the left side is a finite
+sum of terms
+\[
+   \frac1h\int_s^{s+hc_j}
+      \int_{\partial^*\{u>\tau\}}
+      \frac{\mathbf1_{A_j}(x)}{|\nabla u(x)|}\,d\HH^{n-1}(x)\,d\tau ,
+\]
+by the BV coarea formula.  At every common Lebesgue point of the finitely
+many coarea densities
+\[
+   \tau\mapsto
+   \int_{\partial^*\{u>\tau\}}
+      \frac{\mathbf1_{A_j}}{|\nabla u|}\,d\HH^{n-1},
+\]
+this converges to the right side of \eqref{eq:varcoarea}.  Approximate a
+bounded Borel \(g\) from below and above by simple functions and use the
+monotonicity of the slabs.  A countable monotone-class argument gives the
+identity for all bounded Borel \(g\) outside one null set of levels.  The
+lower slab is identical.
+\end{proof}
+
+\section{Raw Moving-Ball First Variation}
+
+\begin{lemma}[Affine shell estimate]\label{lem:shell}
+Fix a regular level \(\rho\) satisfying the differentiability and coarea
+Lebesgue-point properties above.  Let \(z,a\in\R^n\), and define
+\[
+   T_h(x):=z+ha+\left(1+\frac{h}{\rho}\right)(x-z).
+\]
+Then, for \(h\downarrow0\),
+\begin{equation}\label{eq:shell}
+   \limsup_{h\downarrow0}
+   \frac{|E_{\rho+h}\Delta T_h(E_\rho)|}{h}
+   \le
+   \int_{\partial^*E_\rho}
+      |V_\rho-H_{z,\rho}-a\cdot\nu_\rho|\,d\HH^{n-1}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The map \(T_h={\rm id}+hW\) has the Lipschitz velocity
+\[
+   W(x)=\frac{x-z}{\rho}+a.
+\]
+Since \(u\in W^{2,p}_{\rm loc}(\Omega)\) for \(p>n\), hence
+\(C^{1,\alpha}_{\rm loc}\), a countable compact-exhaustion of
+\(\{u=t(\rho)\}\cap\Omega\) gives, up to an \(\HH^{n-1}\)-null boundary part,
+\[
+   u(T_h^{-1}x)
+   =
+   u(x)-h\nabla u(x)\cdot W(x)+o(h)
+\]
+uniformly on each compact patch.  Also
+\[
+   t(\rho+h)=t(\rho)-h\wt(\rho)+o(h).
+\]
+Therefore the symmetric difference is contained, modulo an \(o(h)\)-thick
+slab, in the set where \(u(x)-t(\rho)\) lies between \(0\) and
+\[
+   h\bigl(\wt(\rho)+\nabla u(x)\cdot W(x)\bigr)
+\]
+or between that number and \(0\).  Applying Lemma~\ref{lem:varcoarea} to
+the positive and negative parts gives
+\[
+   \limsup_{h\downarrow0}
+   \frac{|E_{\rho+h}\Delta T_h(E_\rho)|}{h}
+   \le
+   \int_{\partial^*E_\rho}
+   \frac{|\wt(\rho)+\nabla u\cdot W|}{|\nabla u|}\,d\HH^{n-1}.
+\]
+On \(\partial^*E_\rho\), the outer normal is
+\(\nu_\rho=-\nabla u/|\nabla u|\), so
+\[
+   \frac{\wt+\nabla u\cdot W}{|\nabla u|}
+   =
+   V_\rho-W\cdot\nu_\rho
+   =
+   V_\rho-H_{z,\rho}-a\cdot\nu_\rho .
+\]
+This proves \eqref{eq:shell}.
+\end{proof}
+
+\begin{theorem}[One-sided first variation of the moving-ball distance]
+\label{thm:qplus}
+For a.e. \(\rho\in[\rstar,\rdel]\), let
+\[
+   q(\rho):=\inf_z |E_\rho\Delta B_\rho(z)|.
+\]
+Then
+\begin{equation}\label{eq:qplus}
+   D^+q(\rho):=
+   \limsup_{h\downarrow0}\frac{q(\rho+h)-q(\rho)}{h}
+   \le
+   \frac{n}{\rstar}q(\rho)
+   +
+   \inf_{a\in\R^n}\int_{\partial^*E_\rho}
+      |V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,d\HH^{n-1},
+\end{equation}
+where \(z_\rho\) is any minimiser of \(z\mapsto |E_\rho\Delta B_\rho(z)|\).
+\end{theorem}
+
+\begin{proof}
+The minimiser exists because \(z\mapsto |E_\rho\Delta B_\rho(z)|\) is
+continuous and tends to \(2|E_\rho|\) as \(|z|\to\infty\).  Fix such
+\(z_\rho\), fix \(a\in\R^n\), and use the affine map \(T_h\) from
+Lemma~\ref{lem:shell}.  Since
+\[
+   T_h(B_\rho(z_\rho))=B_{\rho+h}(z_\rho+ha),
+\]
+we have
+\[
+\begin{aligned}
+   q(\rho+h)
+   &\le |E_{\rho+h}\Delta T_h(B_\rho(z_\rho))|\\
+   &\le |E_{\rho+h}\Delta T_h(E_\rho)|
+      +|T_h(E_\rho)\Delta T_h(B_\rho(z_\rho))|\\
+   &= |E_{\rho+h}\Delta T_h(E_\rho)|
+      +\left(1+\frac{h}{\rho}\right)^n q(\rho).
+\end{aligned}
+\]
+Subtracting \(q(\rho)\), dividing by \(h\), taking the limsup, and using
+\(\rho\ge\rstar\) and Lemma~\ref{lem:shell}, gives
+\[
+   D^+q(\rho)
+   \le \frac{n}{\rho}q(\rho)
+   +
+   \int_{\partial^*E_\rho}|V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,d\HH^{n-1}.
+\]
+Take the infimum over \(a\).
+\end{proof}
+
+\begin{remark}[Why one-sided is enough]
+A two-sided derivative estimate would require controlling possible jumps of
+the optimal centre.  The endpoint trace only transports information forward
+from a Markov radius to \(\rho_\delta\).  Thus the positive derivative
+\((q')_+\), supplied by \eqref{eq:qplus}, is the exact quantity needed.
+\end{remark}
+
+\section{Integrated Positive Kinetic Bound}
+
+\begin{lemma}[Transfer from the FJ centre to a distance-minimising centre]
+\label{lem:center-transfer}
+Let \(\rho\in G_I\).  Let \(z_\rho^{\rm sc}\) be a same-centre
+Fusco--Julin centre satisfying \eqref{eq:q-DI}--\eqref{eq:H-DI}, and let
+\(z_\rho^{\rm min}\) minimise \(z\mapsto |E_\rho\Delta B_\rho(z)|\).  Then
+\begin{equation}\label{eq:H-DI-min}
+   \left(
+   \int_{\partial^*E_\rho}
+      |H_{z_\rho^{\rm min},\rho}-\bar V_\rho|\,d\HH^{n-1}
+   \right)^2
+   \le C(n,R,\rstar)D_I(t(\rho)).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By minimality,
+\[
+   |E_\rho\Delta B_\rho(z_\rho^{\rm min})|
+   \le |E_\rho\Delta B_\rho(z_\rho^{\rm sc})|
+   \le C D_I(t(\rho))^{1/2}.
+\]
+Hence
+\[
+   |B_\rho(z_\rho^{\rm min})\Delta B_\rho(z_\rho^{\rm sc})|
+   \le
+   |E_\rho\Delta B_\rho(z_\rho^{\rm min})|
+   +|E_\rho\Delta B_\rho(z_\rho^{\rm sc})|
+   \le C D_I^{1/2}.
+\]
+For two equal balls with centres separated by \(d\), one has
+\[
+   |B_\rho(z_1)\Delta B_\rho(z_2)|
+   \ge c(n)\rho^{n-1}\min\{d,\rho\}.
+\]
+Choosing \(\eta_I\) small in the definition of \(G_I\), this gives
+\[
+   |z_\rho^{\rm min}-z_\rho^{\rm sc}|
+   \le C(n,\rstar)D_I(t(\rho))^{1/2}.
+\]
+The homothetic trace is affine in the centre:
+\[
+   H_{z_\rho^{\rm min},\rho}-H_{z_\rho^{\rm sc},\rho}
+   =
+   -\frac{(z_\rho^{\rm min}-z_\rho^{\rm sc})\cdot\nu_\rho}{\rho}.
+\]
+On \(G_I\), \(P(E_\rho)\le C(n,\rstar,R)\).  Therefore
+\[
+   \int_{\partial^*E_\rho}
+      |H_{z_\rho^{\rm min},\rho}-H_{z_\rho^{\rm sc},\rho}|\,d\HH^{n-1}
+   \le C(n,R,\rstar)D_I(t(\rho))^{1/2}.
+\]
+Combine this with \eqref{eq:H-DI} and square.
+\end{proof}
+
+\begin{lemma}[Unconditional Lipschitz bound for \(q\)]\label{lem:qLip}
+For \(0<\rho\le\sigma\le1\),
+\[
+   |q(\sigma)-q(\rho)|
+   \le 2\omega_n(\sigma^n-\rho^n)
+   \le 2n\omega_n|\sigma-\rho|.
+\]
+\end{lemma}
+
+\begin{proof}
+Use the same centre for the two balls and the nestedness
+\(E_\rho\subset E_\sigma\), \(B_\rho(z)\subset B_\sigma(z)\):
+\[
+   q(\sigma)\le q(\rho)+|E_\sigma\setminus E_\rho|+|B_\sigma\setminus B_\rho|
+   =q(\rho)+2\omega_n(\sigma^n-\rho^n),
+\]
+and reverse the roles of \(\rho,\sigma\).
+\end{proof}
+
+\begin{proposition}[Positive kinetic estimate]\label{prop:positivekinetic}
+Let \(J\subset[\rstar,\rdel]\) be an order-one interval.  Then
+\[
+   \int_J (q'(\rho)_+)^2\,d\rho
+   \le C(n,R,\rstar,J)\,\delta_T(\Omega),
+\]
+where \(q'_+=\max\{q',0\}\), defined a.e. by the Lipschitz property.
+\end{proposition}
+
+\begin{proof}
+Split \(J\) into
+\[
+   G:=J\cap G_I\cap G_\tau,\qquad
+   \mathcal B:=J\setminus G .
+\]
+On \(G\), Theorem~\ref{thm:qplus}, \eqref{eq:q-DI}, and
+\[
+\begin{aligned}
+   \inf_a\int|V_\rho-H_{z_\rho^{\rm min},\rho}-a\cdot\nu_\rho|
+   &\le \int|V_\rho-\bar V_\rho|
+        +\int|H_{z_\rho^{\rm min},\rho}-\bar V_\rho|
+\end{aligned}
+\]
+give, after squaring,
+\[
+   (q'_+)^2
+   \le C(n,R,\rstar)(D_H(t(\rho))+D_I(t(\rho))).
+\]
+Here
+\[
+   \left(\int|V_\rho-\bar V_\rho|\right)^2\le D_H(t(\rho))
+\]
+is the unconditional velocity-variance identity, and \eqref{eq:H-DI} controls
+the homothetic term after the transfer Lemma~\ref{lem:center-transfer}.
+Since \(G\subset G_\tau\), \(d\rho\le\tau_0^{-1}d\mu\),
+so \eqref{eq:budget} gives
+\[
+   \int_G(q'_+)^2\,d\rho\le C\delta_T.
+\]
+On \(\mathcal B\), Lemma~\ref{lem:qLip} gives \(q'_+\le2n\omega_n\).  Also
+\[
+   |J\cap B_\tau|\le C\delta_T
+\]
+by \eqref{eq:badtau}, while
+\[
+   |J\cap G_\tau\cap G_I^c|
+   \le \tau_0^{-1}\mu(G_I^c)
+   \le \frac{C}{\eta_I}\int_JD_I\,d\mu
+   \le C\delta_T.
+\]
+Thus \(|\mathcal B|\le C\delta_T\), and
+\[
+   \int_{\mathcal B}(q'_+)^2\,d\rho\le C\delta_T.
+\]
+\end{proof}
+
+\section{Endpoint Trace and Bounded Stability}
+
+\begin{lemma}[Moving-ball endpoint trace]\label{lem:endpoint}
+Let \(J=[\rdel-L,\rdel]\subset[\rstar,\rdel]\), with \(L>0\) fixed.  Then
+\[
+   q(\rdel)^2\le C(n,R,\rstar,L)\,\delta_T(\Omega).
+\]
+\end{lemma}
+
+\begin{proof}
+First,
+\[
+   \int_{J\cap G}q(\rho)^2\,d\rho
+   \le C\int_{J\cap G}D_I(t(\rho))\,d\rho
+   \le C\int_JD_I(t(\rho))\,d\mu(\rho)
+   \le C\delta_T.
+\]
+On \(J\setminus G\), the measure is \(O(\delta_T)\) by the proof of
+Proposition~\ref{prop:positivekinetic}, and \(q\le2\omega_n\), so
+\[
+   \int_J q(\rho)^2\,d\rho\le C\delta_T.
+\]
+Hence there is \(\rho_0\in J\) with \(q(\rho_0)^2\le C L^{-1}\delta_T\).
+Since \(\rho_0\le\rdel\), the one-sided transport gives
+\[
+   q(\rdel)
+   \le q(\rho_0)+\int_{\rho_0}^{\rdel}q'_+(\rho)\,d\rho
+   \le C\delta_T^{1/2}
+      +L^{1/2}\left(\int_J(q'_+)^2\,d\rho\right)^{1/2}
+   \le C\delta_T^{1/2},
+\]
+using Proposition~\ref{prop:positivekinetic}.
+\end{proof}
+
+\begin{theorem}[Bounded sharp Saint--Venant stability]\label{thm:boundedSV}
+Assume the level-set identity, Talenti bad-density estimate, same-centre
+Fusco--Julin package, and finite-perimeter oriented radial trace lemma in
+the Plan~2 repository.  Then for bounded \(\Omega\subset B_R\),
+\[
+   \Fr(\Omega)^2\le C(n,R)\,\delta_T(\Omega).
+\]
+\end{theorem}
+
+\begin{proof}
+Choose
+\[
+   \rdel=1-\kappa\sqrt{\delta_T(\Omega)}
+\]
+with the usual fixed \(\kappa=\kappa(n,R)\) and \(\delta_T\) small enough
+that the order-one window \(J=[\rdel-L,\rdel]\) lies in \([\rstar,\rdel]\).
+Lemma~\ref{lem:endpoint} gives
+\[
+   \Fr(E_{\rdel})^2\le C(n,\rstar)q(\rdel)^2\le C\delta_T.
+\]
+Since \(E_{\rdel}\subset\Omega\),
+\[
+   |\Omega\setminus E_{\rdel}|=\omega_n(1-\rdel^n)
+   \le C(n)\sqrt{\delta_T}.
+\]
+The elementary boundary-layer transfer gives
+\[
+   \Fr(\Omega)\le \Fr(E_{\rdel})+\frac{2}{\omega_n}|\Omega\setminus E_{\rdel}|
+   \le C\sqrt{\delta_T}.
+\]
+Squaring proves the theorem.  The large-deficit case is absorbed by reducing
+the constant, since \(\Fr(\Omega)\le2\).
+\end{proof}
+
+\section{What Changed}
+
+The remaining step is closed in the bounded route, but with two corrections
+to the earlier formulation.
+
+\begin{enumerate}[leftmargin=2em]
+\item The deformation field is homothetic:
+\[
+   W(x)=\frac{x-z}{\rho}+a,
+\]
+not \(e_z+a\).  This avoids all singular-centre issues and uses exactly the
+homothetic trace already proved in Plan~2.
+\item The first variation is one-sided:
+\[
+   D^+q\le Cq+\hbox{homothetic boundary action}.
+\]
+This is sufficient because the trace transports from a Markov radius forward
+to \(\rho_\delta\).  A two-sided estimate is unnecessary.
+\item Bad levels are harmless for \(q\), because nestedness gives a genuine
+perimeter-free Lipschitz bound for the unscaled moving-ball distance.  The
+invalid old claim concerned the rescaled sets \(\rho^{-1}E_\rho\), not \(q\).
+\end{enumerate}
+
+All constants are computable from the constants in the level-set identity,
+Talenti profile gap, same-centre Fusco--Julin, the radial trace lemma, and
+the explicit Lipschitz constants above.
+
+\begin{thebibliography}{9}
+
+\bibitem{AFP2000}
+L.~Ambrosio, N.~Fusco, and D.~Pallara,
+\emph{Functions of Bounded Variation and Free Discontinuity Problems},
+Oxford University Press, 2000.
+
+\bibitem{Maggi2012}
+F.~Maggi,
+\emph{Sets of Finite Perimeter and Geometric Variational Problems},
+Cambridge University Press, 2012.
+
+\bibitem{FJ2014}
+N.~Fusco and V.~Julin,
+\emph{A strong form of the quantitative isoperimetric inequality},
+Calc. Var. Partial Differential Equations \textbf{50} (2014), 925--937.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,512 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{definition}[theorem]{Definition}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Om}{\Omega}
+\newcommand{\Fr}{\mathcal A}
+\newcommand{\X}{\mathcal X}
+\newcommand{\HH}{\mathcal H}
+\newcommand{\dT}{\delta_T}
+\newcommand{\rstar}{\rho_*}
+\newcommand{\rdel}{\rho_\delta}
+\newcommand{\wt}{w}
+\newcommand{\muT}{\mu}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\Per}{P}
+\newcommand{\B}{B}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+
+\title{Remaining Steps in the Level-Set Rearrangement Route\\
+       \large Same-Centre Fusco--Julin, Metric First Variation, and a Bad-Density Repair}
+\author{}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note records the outcome of attacking the three remaining gaps isolated
+in the debug note for the continuous-rearrangement proof.  The first gap,
+the same-centre Fusco--Julin input, is actually closed: the correct import is
+not the separately minimised statement currently written in
+\texttt{preliminaries\_quant\_isoperimetry.tex}, but the centred consequence
+of Fusco--Julin's oscillation index together with their Proposition~1.2
+(equivalently Proposition~5.5 in Fusco's survey).  The second gap, the
+finite-perimeter metric first variation for the rescaled curve
+\(\rho^{-1}E_\rho\), is still not proved by the current manuscript: the
+Reshetnyak/AGS closure has the lower-semicontinuity inequality in the wrong
+direction.  The useful new point is that the third gap, the bad-density
+kinetic estimate, can be bypassed if the trace is run on the unscaled
+distance
+\[
+   q(\rho):=\inf_z |E_\rho\Delta B_\rho(z)|
+\]
+to the moving ball.  Nestedness gives an unconditional Lipschitz bound for
+\(q\), so the bad-density set costs \(O(\delta_T)\).  The remaining local
+theorem is then a raw moving-ball first-variation estimate on good levels;
+in the smooth case it is exactly the vector-field computation below, and in
+finite perimeter it is a limsup deformation theorem, strictly weaker than
+the old rescaled metric theorem.
+\end{abstract}
+
+\tableofcontents
+
+\section{Setup}
+
+Normalize \(|\Omega|=\omega_n\), \(\Omega\subset B_R\), and let \(u\) be the
+torsion function.  Write
+\[
+   E_\rho:=\{u>t(\rho)\},\qquad |E_\rho|=\omega_n\rho^n,
+   \qquad \wt(\rho):=-t'(\rho),\qquad d\muT=\wt(\rho)\,d\rho .
+\]
+The level-set identity gives, on every fixed bulk interval
+\([\rstar,\rdel]\subset(0,1]\),
+\begin{equation}\label{eq:budget}
+   \int_{\rstar}^{\rdel}\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)\,d\muT(\rho)
+   \le C(n,\rstar)\,\dT(\Omega).
+\end{equation}
+Here \(D_H\) is the Cauchy--Schwarz defect of \(|\nabla u|\) on
+\(\partial^*E_\rho\), and
+\[
+   D_I(t(\rho))=P(E_\rho)^2-P(B_\rho)^2 .
+\]
+Talenti's profile-gap estimate gives the bad-density bound
+\begin{equation}\label{eq:bad-density}
+   |B_\tau|\le C(n,\rstar)\,\dT(\Omega),\qquad
+   B_\tau:=\{\rho\in[\rstar,\rdel]:\wt(\rho)<\tau_0\},\quad
+   \tau_0:=\frac{\rstar}{2n}.
+\end{equation}
+
+\section{Same-Centre Fusco--Julin Is Closed}
+
+\subsection{Where the current repository proof goes wrong}
+
+The proof of the scaled same-centre theorem in
+\texttt{Manuscript/preliminaries\_quant\_isoperimetry.tex} currently chooses
+an oscillation-minimising centre \(z\) and then uses
+\[
+   \frac{|E\Delta B_\rho(z)|}{\omega_n\rho^n}\ge \Fr(E)
+\]
+as if it were the needed upper bound.  This is the precise sign error: the
+Fraenkel asymmetry is an infimum over centres, so it gives only a lower bound
+on the centred symmetric difference at a prescribed centre.  That proof
+cannot be patched by algebra.
+
+The statement, however, is available from the correct Fusco--Julin input.
+Fusco--Julin do not merely give two unrelated minimisations.  Their
+oscillation index is minimised over balls, and their Poincare-type estimate
+shows that the same ball controls the \(L^1\) displacement.
+
+\subsection{Import-ready statement}
+
+For \(|E|=|B_\rho|\), define the pointed oscillation
+\[
+   \beta(E,z)^2
+   :=
+   \frac12\int_{\partial^*E}
+   \left|\nu_E(x)-\frac{x-z}{|x-z|}\right|^2\,d\HH^{n-1}(x).
+\]
+
+\begin{theorem}[Same-centre Fusco--Julin package]\label{thm:scFJ}
+Let \(n\ge2\) and \(0<\rstar\le\rho\le1\).  There is a constant
+\(C_{\rm scFJ}=C_{\rm scFJ}(n,\rstar)\), explicitly traceable to the
+Fusco--Julin constants, with the following property.  If
+\(E\) is a finite-perimeter set with \(|E|=\omega_n\rho^n\), then there is a
+centre \(z_E\) such that
+\begin{equation}\label{eq:scFJ}
+   |E\Delta B_\rho(z_E)|^2
+   +
+   \int_{\partial^*E}
+   \left|\nu_E(x)-\frac{x-z_E}{|x-z_E|}\right|^2\,d\HH^{n-1}(x)
+   \le
+   C_{\rm scFJ}\,\bigl(P(E)-P(B_\rho)\bigr).
+\end{equation}
+Consequently, on a level \(E_\rho\),
+\begin{equation}\label{eq:scFJ-DI}
+   |E_\rho\Delta B_\rho(z_\rho)|^2
+   +
+   \int_{\partial^*E_\rho}
+   \left|\nu_\rho-\frac{x-z_\rho}{|x-z_\rho|}\right|^2\,d\HH^{n-1}
+   \le C(n,\rstar)D_I(t(\rho)).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+After translating and scaling, it is enough to treat \(\rho=1\).  Let \(z_E\)
+be a minimiser of the Fusco--Julin oscillation index.  Fusco--Julin's strong
+form gives
+\[
+   \beta(E,z_E)^2\le C_{FJ}(n)\bigl(P(E)-P(B_1)\bigr).
+\]
+Their Poincare-type estimate for the same minimising ball gives, at this
+same centre,
+\[
+   |E\Delta B_1(z_E)|^2
+   \le C(n)\,\beta(E,z_E)^2 .
+\]
+Equivalently, in the notation of \cite[Prop.~1.2]{FJ2014} or
+\cite[Prop.~5.5]{FuscoSurvey2015}, once the oscillation centre has been
+translated to the origin,
+\[
+   \beta(E,0)^2\ge c(n)|E\Delta B_1|^2
+\]
+up to the harmless perimeter-deficit term that is already dominated by the
+same strong inequality.  Combining the two estimates proves
+\eqref{eq:scFJ} for \(\rho=1\).
+
+For general \(\rho\), apply the unit-radius statement to
+\(\widetilde E:=\rho^{-1}(E-z_E)\).  The oscillation integral scales like
+\(\rho^{1-n}\), the perimeter deficit like \(\rho^{1-n}\), and
+\(|E\Delta B_\rho(z_E)|^2=\rho^{2n}|\widetilde E\Delta B_1|^2\).  Since
+\(\rho\ge\rstar\), all scale factors are absorbed into
+\(C_{\rm scFJ}(n,\rstar)\).  Finally,
+\[
+   P(E_\rho)-P(B_\rho)
+   =
+   \frac{D_I(t(\rho))}{P(E_\rho)+P(B_\rho)}
+   \le C(n,\rstar)D_I(t(\rho)),
+\]
+which gives \eqref{eq:scFJ-DI}.
+\end{proof}
+
+\begin{remark}[Effectivity of the constant]
+The argument above introduces no compactness beyond the constant already
+present in the Fusco--Julin theorem.  Thus the same-centre repair is
+quantitative in exactly the same sense as the imported Fusco--Julin
+inequality: once the constants in Theorem~5.4 and Proposition~5.5 of the
+source are unpacked, \(C_{\rm scFJ}\) is obtained by algebra and scaling.
+\end{remark}
+
+\begin{remark}
+This also repairs the measurable centre selection: choose the minimisers of
+the joint closed sublevel set supplied by \eqref{eq:scFJ}.  The selection is
+standard once the centre is restricted to a compact ball; compactness follows
+from \(E_\rho\subset B_R\) and the centred \(L^1\) bound.
+\end{remark}
+
+\section{The Current Rescaled Metric Closure Is Not Sound}
+
+The manuscript file \texttt{Manuscript/plan2\_metric\_framework.tex} tries to
+pass from smooth approximations to finite-perimeter level sets by combining
+Reshetnyak lower semicontinuity with AGS lower semicontinuity of metric
+derivatives.  The decisive lines have the following form.  For smooth
+approximants,
+\[
+   |\dot F^k_\rho|_\X\le m_k(\rho),
+\]
+and weak compactness gives \(m_k\rightharpoonup m\).  Reshetnyak gives only
+\[
+   m(\rho)\ge
+   \rho_*^{-n}\inf_a
+   \int_{\partial^*E_\rho}
+   |V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,d\HH^{n-1}.
+\]
+AGS then gives \(|\dot F_\rho|_\X\le m(\rho)\).  These two inequalities do
+not imply the desired estimate by the boundary action; one would need
+\(m(\rho)\le\) that action, or a direct limsup recovery.  Thus the old
+rescaled finite-perimeter metric theorem remains open.
+
+\section{A Bad-Density Bypass: Use the Moving Ball}
+
+The bad-density obstruction was caused by the rescaled curve
+\[
+   F_\rho=\rho^{-1}E_\rho .
+\]
+The rescaling differentiates rough sets, and boundedness plus nestedness do
+not imply a perimeter-free Lipschitz bound for
+\(\rho\mapsto \rho^{-1}E_\rho\).  The following scalar quantity avoids that
+operation:
+\begin{equation}\label{eq:q-def}
+   q(\rho):=\inf_{z\in\R^n}|E_\rho\Delta B_\rho(z)|.
+\end{equation}
+
+\begin{lemma}[Unconditional Lipschitz bound for \(q\)]\label{lem:qLip}
+For \(0<\rho\le\sigma\le1\),
+\[
+   |q(\sigma)-q(\rho)|
+   \le 2\omega_n(\sigma^n-\rho^n)
+   \le 2n\omega_n|\sigma-\rho|.
+\]
+In particular \(q\in W^{1,\infty}_{\rm loc}((0,1))\), with a computable
+constant depending only on \(n\).
+\end{lemma}
+
+\begin{proof}
+Fix \(z\) with
+\(|E_\rho\Delta B_\rho(z)|\le q(\rho)+\eps\).  Since the level sets are
+nested and the same-centre balls are nested,
+\[
+\begin{aligned}
+   |E_\sigma\Delta B_\sigma(z)|
+   &\le |E_\rho\Delta B_\rho(z)|
+      +|E_\sigma\setminus E_\rho|+|B_\sigma(z)\setminus B_\rho(z)|  \\
+   &= |E_\rho\Delta B_\rho(z)|
+      +2\omega_n(\sigma^n-\rho^n).
+\end{aligned}
+\]
+Taking the infimum in \(z\) and then \(\eps\downarrow0\) gives
+\[
+   q(\sigma)\le q(\rho)+2\omega_n(\sigma^n-\rho^n).
+\]
+Interchanging \(\rho\) and \(\sigma\) gives the reverse inequality.
+\end{proof}
+
+\begin{corollary}[Bad-density action is free for \(q\)]\label{cor:badtau}
+With \(B_\tau\) as in \eqref{eq:bad-density},
+\[
+   \int_{B_\tau}|q'(\rho)|^2\,d\rho
+   \le C(n,\rstar)\,\dT(\Omega).
+\]
+\end{corollary}
+
+\begin{proof}
+By Lemma~\ref{lem:qLip}, \(|q'|\le 2n\omega_n\) a.e.  Combine this with
+\eqref{eq:bad-density}.
+\end{proof}
+
+\section{The Scalar Trace Lemma}
+
+The moving-ball distance gives the endpoint extraction without any rescaled
+bad-level kinetic estimate.
+
+\begin{lemma}[Scalar moving-ball trace]\label{lem:scalartrace}
+Let \(J=[a,b]\subset[\rstar,\rdel]\) have length bounded below by
+\(\ell_0>0\).  Assume
+\begin{align}
+   &\int_J q(\rho)^2\,d\muT(\rho)\le C_0\dT, \label{eq:traceH1}\\
+   &\int_{J\cap G_\tau}|q'(\rho)|^2\,d\rho\le C_1\dT, \qquad
+     G_\tau:=J\setminus B_\tau, \label{eq:traceH2}\\
+   &|B_\tau\cap J|\le C_2\dT . \label{eq:traceH3}
+\end{align}
+Then, for \(\dT\) small enough depending on \(n,\rstar,\ell_0\),
+\[
+   \sup_{\rho\in J}q(\rho)^2\le C(n,\rstar,\ell_0,C_0,C_1,C_2)\,\dT .
+\]
+\end{lemma}
+
+\begin{proof}
+First convert the weighted \(L^2\) distance into a Lebesgue \(L^2\) distance.
+On \(G_\tau\), \(d\muT\ge\tau_0\,d\rho\), hence
+\[
+   \int_{J\cap G_\tau}q^2\,d\rho\le \tau_0^{-1}C_0\dT .
+\]
+On \(B_\tau\), the trivial bound \(q(\rho)\le |E_\rho|+|B_\rho|=2\omega_n\rho^n
+\le2\omega_n\) and \eqref{eq:traceH3} give
+\[
+   \int_{J\cap B_\tau}q^2\,d\rho\le 4\omega_n^2 C_2\dT.
+\]
+Thus \(\int_J q^2\,d\rho\le C\dT\), and there is \(\rho_0\in J\) with
+\[
+   q(\rho_0)^2\le \frac{C}{|J|}\dT\le C(\ell_0)\dT.
+\]
+Next,
+\[
+   \int_J |q'|^2\,d\rho
+   =
+   \int_{J\cap G_\tau}|q'|^2\,d\rho+
+   \int_{J\cap B_\tau}|q'|^2\,d\rho
+   \le C\dT
+\]
+by \eqref{eq:traceH2} and Corollary~\ref{cor:badtau}.  For every
+\(\rho\in J\),
+\[
+   q(\rho)
+   \le q(\rho_0)+\int_J|q'|
+   \le C\dT^{1/2}+|J|^{1/2}\left(\int_J|q'|^2\right)^{1/2}
+   \le C\dT^{1/2}.
+\]
+Squaring proves the claim.
+\end{proof}
+
+\section{The Remaining Local Theorem}
+
+The preceding sections reduce the metric part to a local good-level estimate
+for \(q\).  This theorem is the precise replacement for the old rescaled
+finite-perimeter metric theorem.
+
+\begin{problem}[Raw moving-ball first variation]\label{prob:rawFV}
+Let \(E_\rho=\{u>t(\rho)\}\) be a.e. finite-perimeter levels.  On the good
+set where \(D_I(t(\rho))\) is small, choose the same-centre
+Fusco--Julin centre \(z_\rho\) from Theorem~\ref{thm:scFJ}.  Prove the
+finite-perimeter limsup estimate
+\begin{equation}\label{eq:rawFV}
+   |q'(\rho)|
+   \le C(n,R,\rstar)q(\rho)
+   +C(n,R,\rstar)\inf_{a\in\R^n}
+      \int_{\partial^*E_\rho}
+      |V_\rho-e_{z_\rho}\cdot\nu_\rho-a\cdot\nu_\rho|
+      \,d\HH^{n-1}
+\end{equation}
+for a.e. good \(\rho\), where
+\[
+   V_\rho=\frac{\wt(\rho)}{|\nabla u|},\qquad
+   e_{z_\rho}(x)=\frac{x-z_\rho}{|x-z_\rho|}.
+\]
+\end{problem}
+
+\begin{proposition}[Why \eqref{eq:rawFV} closes the route]\label{prop:rawcloses}
+If Problem~\ref{prob:rawFV} is proved, then the bounded sharp
+Saint--Venant estimate
+\[
+   \Fr(\Omega)^2\le C(n,R)\dT(\Omega)
+\]
+follows from the level-set identity and the boundary-layer transfer, with
+computable constants.
+\end{proposition}
+
+\begin{proof}
+On a good level, Theorem~\ref{thm:scFJ} gives
+\[
+   q(\rho)^2\le C D_I(t(\rho)),
+   \qquad
+   \int_{\partial^*E_\rho}|1-e_{z_\rho}\cdot\nu_\rho|\,d\HH^{n-1}
+   \le C D_I(t(\rho)).
+\]
+The velocity variance identity gives
+\[
+   \left(\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,d\HH^{n-1}\right)^2
+   \le C D_H(t(\rho)),
+   \qquad
+   \bar V_\rho:=\frac{P(B_\rho)}{P(E_\rho)} .
+\]
+Since \(P(E_\rho)-P(B_\rho)\le C D_I(t(\rho))\) on the good set,
+\[
+\begin{aligned}
+   \int_{\partial^*E_\rho}|V_\rho-e_{z_\rho}\cdot\nu_\rho|
+   &\le
+   \int|V_\rho-\bar V_\rho|
+   +P(E_\rho)|\bar V_\rho-1|
+   +\int|1-e_{z_\rho}\cdot\nu_\rho|                                      \\
+   &\le C D_H(t(\rho))^{1/2}+C D_I(t(\rho)).
+\end{aligned}
+\]
+Squaring and using \(D_I\le\eta_I\) on the good set,
+\[
+   |q'(\rho)|^2\le C\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)
+\]
+there.  On \(G_\tau\), \(d\rho\le\tau_0^{-1}d\muT\), so
+\[
+   \int_{G_\tau}|q'|^2\,d\rho
+   \le C\int_{\rstar}^{\rdel}(D_H+D_I)\,d\muT
+   \le C\dT
+\]
+by \eqref{eq:budget}.  The distance hypothesis
+\(\int q^2\,d\muT\le C\dT\) follows from \(q^2\le C D_I\) on the good
+isoperimetric set and the usual bad-\(I\) weighted Markov estimate with the
+trivial bound \(q\le2\omega_n\).  Lemma~\ref{lem:scalartrace} gives
+\[
+   q(\rdel)^2\le C\dT
+\]
+on an order-one window ending at \(\rdel\) (or at the good endpoint
+\(\widehat\rho\)).  Therefore
+\[
+   \Fr(E_{\rdel})^2
+   \le C(n,\rstar)q(\rdel)^2
+   \le C\dT .
+\]
+Finally \(E_{\rdel}\subset\Omega\) and
+\[
+   |\Omega\setminus E_{\rdel}|=\omega_n(1-\rdel^n)
+   \le C(n)\sqrt{\dT},
+\]
+so the elementary boundary-layer transfer gives
+\[
+   \Fr(\Omega)\le \Fr(E_{\rdel})+C\sqrt{\dT},
+\]
+and the desired squared estimate follows.
+\end{proof}
+
+\subsection{Smooth proof of the local theorem}
+
+For smooth moving level surfaces, Problem~\ref{prob:rawFV} is exactly the
+standard relative first variation.  Fix a centre \(z\) and a translation
+velocity \(a\).  Let \(X=e_z+a\) near \(\partial B_\rho(z)\), with a harmless
+smooth cutoff away from that sphere so that the flow is globally Lipschitz.
+The flow of \(B_\rho(z)\) has boundary normal velocity \(1+a\cdot\nu\), hence
+it agrees to first order with \(B_{\rho+h}(z+ha)\).  The level surface
+\(\partial E_\rho\) has normal velocity \(V_\rho\).  Differentiating
+\(|E_\rho\Delta B_\rho(z)|\) under these two motions gives
+\[
+   \frac{d^+}{d\rho}|E_\rho\Delta B_\rho(z)|
+   \le
+   C q(\rho)
+   +
+   \int_{\partial E_\rho}
+      |V_\rho-e_z\cdot\nu_\rho-a\cdot\nu_\rho|\,d\HH^{n-1}.
+\]
+The \(Cq\) term is the Jacobian error on the already mismatched region and is
+absorbed by \(q^2\le C D_I\).  Taking the infimum over \(z\) and \(a\), and
+then using measurable near-minimisers, gives \eqref{eq:rawFV}.
+
+The finite-perimeter version should be proved by the same spacetime
+Gauss--Green argument applied to
+\[
+   \mathcal E:=\{(\rho,x):x\in E_\rho\}\subset[\rstar,\rdel]\times B_R,
+\]
+whose perimeter is supplied by the coarea formula.  This is a genuine limsup
+deformation theorem, not a lower-semicontinuity passage.  It is the remaining
+load-bearing theorem.
+
+\section{Verdict}
+
+The state after this attack is sharper than before.
+
+\begin{enumerate}[leftmargin=2em]
+\item The same-centre Fusco--Julin input is closed, but the proof in the
+current preliminaries should be replaced.  The correct source is
+Fusco--Julin's same oscillation centre plus their Poincare-type control of
+the symmetric difference.
+\item The rescaled finite-perimeter metric theorem is still not proved by
+the manuscript's Reshetnyak/AGS passage; the inequality direction is wrong.
+\item The bad-density kinetic obstruction is not intrinsic.  It is an
+artifact of rescaling rough sets.  For the unscaled moving-ball distance
+\(q(\rho)\), nestedness gives a uniform Lipschitz bound and the bad-density
+set costs \(O(\dT)\).
+\item The remaining theorem is now the raw moving-ball first variation
+\eqref{eq:rawFV}.  It is local, good-level, and finite-perimeter; proving it
+with a direct spacetime limsup deformation would close the bounded
+Saint--Venant route without invoking BDV stability.
+\end{enumerate}
+
+\begin{thebibliography}{9}
+
+\bibitem{FJ2014}
+N.~Fusco and V.~Julin,
+\emph{A strong form of the quantitative isoperimetric inequality},
+Calc. Var. Partial Differential Equations \textbf{50} (2014), 925--937,
+\url{https://arxiv.org/abs/1111.4866}.
+
+\bibitem{FuscoSurvey2015}
+N.~Fusco,
+\emph{The quantitative isoperimetric inequality and related topics},
+Bull. Math. Sci. \textbf{5} (2015), 517--607,
+\url{https://link.springer.com/article/10.1007/s13373-015-0074-x}.
+
+\bibitem{Maggi2012}
+F.~Maggi,
+\emph{Sets of Finite Perimeter and Geometric Variational Problems},
+Cambridge University Press, 2012.
+
+\bibitem{AFP2000}
+L.~Ambrosio, N.~Fusco, and D.~Pallara,
+\emph{Functions of Bounded Variation and Free Discontinuity Problems},
+Oxford University Press, 2000.
+
+\end{thebibliography}
+
+\end{document}

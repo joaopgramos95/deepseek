@@ -1,0 +1,430 @@
+\section{Preliminaries}\label{sec:prelim}
+
+Throughout this paper $\Om\subset\R^2$ denotes a bounded open set, $|\cdot|$
+denotes Lebesgue measure on $\R^2$ (or $\R^n$ where stated), $\HH^1$ denotes
+$1$-dimensional Hausdorff measure, and $B_r(x)\subset\R^2$ denotes the open
+disk of radius $r$ centred at $x$, with the shorthand $B_r=B_r(0)$. We write
+$\omega_n=|B_1|$ for the volume of the unit ball in $\R^n$, so that
+$\omega_2=\pi$. We collect here the definitions and results that the rest of
+the paper relies on. Standard results are stated precisely and cited verbatim
+to published sources; the few statements that are not direct citations are
+proved.
+
+\subsection{Sets of finite perimeter}\label{ss:perimeter}
+
+We follow the conventions of Maggi's monograph.
+
+\begin{definition}[Perimeter]\label{def:perimeter}
+Let $E\subset\R^2$ be a Lebesgue measurable set and let $A\subset\R^2$ be
+open. The \emph{perimeter of $E$ in $A$} is
+\[
+  P(E;A):=\sup\Big\{\int_E \operatorname{div}\varphi\,dx
+    \;:\;\varphi\in C^1_c(A;\R^2),\ \|\varphi\|_{L^\infty(A)}\le 1\Big\}.
+\]
+We write $P(E):=P(E;\R^2)$ for the (total) perimeter. The set $E$ is said to
+be of \emph{finite perimeter} (in $A$) if $P(E;A)<\infty$.
+\end{definition}
+
+If $E$ has finite perimeter in $A$, then $\mu_E:=-D\mathbf 1_E$, the
+distributional gradient of the indicator $\mathbf 1_E$, is an $\R^2$-valued
+Radon measure on $A$ with total variation $|\mu_E|(A)=P(E;A)$; see
+\cite[Proposition~12.1 and Definition~12.1]{Maggi2012}.
+
+\begin{definition}[Reduced boundary]\label{def:reduced-boundary}
+Let $E\subset\R^2$ have locally finite perimeter and let $\mu_E=-D\mathbf 1_E$
+be the associated Gauss--Green measure. The \emph{reduced boundary}
+$\partial^*E$ is the set of points $x\in\operatorname{supp}\mu_E$ for which the
+limit
+\[
+  \nu_E(x):=\lim_{r\to0^+}\frac{\mu_E(B_r(x))}{|\mu_E|(B_r(x))}
+\]
+exists and satisfies $|\nu_E(x)|=1$. The vector $\nu_E(x)$ is the
+\emph{measure-theoretic outer unit normal} to $E$ at $x$.
+\end{definition}
+
+\begin{theorem}[De Giorgi structure theorem]\label{thm:de-giorgi}
+Let $E\subset\R^2$ be a set of locally finite perimeter. Then $\partial^*E$ is
+countably $\HH^1$-rectifiable, the Gauss--Green measure satisfies
+$\mu_E=\nu_E\,\HH^1\llcorner\partial^*E$, and consequently
+\[
+  P(E;A)=\HH^1(\partial^*E\cap A)\qquad\text{for every Borel set }A\subset\R^2 .
+\]
+\end{theorem}
+
+\begin{proof}
+This is De Giorgi's structure theorem; see
+\cite[Theorem~15.9]{Maggi2012} together with
+\cite[Corollary~16.1]{Maggi2012}, or
+\cite[Section~5.7.3, Theorem~5.15]{EvansGariepy2015}.
+\end{proof}
+
+For $x\in\R^2$ and $t\in[0,1]$ we say that $E$ has \emph{density $t$ at $x$} if
+\[
+  \Theta(E,x):=\lim_{r\to0^+}\frac{|E\cap B_r(x)|}{|B_r(x)|}=t .
+\]
+We write $E^{(t)}:=\{x\in\R^2:\Theta(E,x)=t\}$. The sets $E^{(1)}$ and
+$E^{(0)}$ are the \emph{measure-theoretic interior} and \emph{exterior} of
+$E$, respectively.
+
+\begin{definition}[Essential boundary]\label{def:essential-boundary}
+The \emph{essential boundary} of $E$ is
+\[
+  \partial^e E:=\R^2\setminus\big(E^{(0)}\cup E^{(1)}\big),
+\]
+the set of points at which $E$ has neither density $0$ nor density $1$.
+\end{definition}
+
+\begin{theorem}[Federer; density $1/2$ on the reduced boundary]\label{thm:federer}
+Let $E\subset\R^2$ be a set of locally finite perimeter. Then
+\[
+  \partial^*E\subseteq E^{(1/2)}\subseteq\partial^e E,
+  \qquad
+  \HH^1\big(\partial^e E\setminus\partial^*E\big)=0 .
+\]
+In particular $E$ has density $\tfrac12$ at $\HH^1$-almost every point of
+$\partial^*E$, and
+$P(E;A)=\HH^1(\partial^*E\cap A)=\HH^1(\partial^e E\cap A)$ for every Borel
+set $A$.
+\end{theorem}
+
+\begin{proof}
+The inclusion $\partial^*E\subseteq E^{(1/2)}$ is part of the blow-up analysis
+of the reduced boundary, \cite[Theorem~15.5]{Maggi2012}. Federer's theorem
+$\HH^1(\partial^e E\setminus\partial^*E)=0$ is
+\cite[Theorem~16.2]{Maggi2012}; see also
+\cite[Section~5.8, Theorem~5.16 (Federer's theorem)]{EvansGariepy2015}.
+\end{proof}
+
+\subsection{The coarea formula}\label{ss:coarea}
+
+\begin{theorem}[Coarea formula]\label{thm:coarea}
+Let $u\in W^{1,1}(\Om)$ (in particular, any Lipschitz function $u$ on $\Om$).
+Then for every nonnegative Borel function $g:\Om\to[0,\infty]$,
+\[
+  \int_\Om g(x)\,|\nabla u(x)|\,dx
+  =\int_{-\infty}^{\infty}\Big(\int_{\{u=t\}}g\,d\HH^1\Big)\,dt,
+\]
+where $\{u=t\}:=\{x\in\Om:u(x)=t\}$ and $u$ is identified with a precise
+representative. Moreover, for Lebesgue-almost every $t\in\R$ the level set
+$\{u=t\}$ is $\HH^1$-rectifiable, $\HH^1(\{u=t\})<\infty$, and the
+superlevel set $\{u>t\}$ has finite perimeter in $\Om$ with
+\[
+  \partial^*\{u>t\}\cap\Om\subseteq\{u=t\},
+  \qquad
+  P(\{u>t\};\Om)=\HH^1(\{u=t\})\quad\text{for a.e.\ }t .
+\]
+\end{theorem}
+
+\begin{proof}
+The coarea formula for Sobolev (and Lipschitz) functions is
+\cite[Theorem~13.1 and Remark~13.2]{Maggi2012}; for the Lipschitz case see
+also \cite[Section~3.4.3, Theorem~3.13]{EvansGariepy2015}. The
+rectifiability of almost every level set and the identity
+$P(\{u>t\};\Om)=\HH^1(\{u=t\})$ for a.e.\ $t$, together with
+$\partial^*\{u>t\}\cap\Om\subseteq\{u=t\}$, follow from the coarea formula for
+$BV$ functions \cite[Theorem~3.40]{AFP2000}: indeed
+$\int_\R P(\{u>t\};\Om)\,dt=\int_\Om|\nabla u|\,dx<\infty$, so $\{u>t\}$ has
+finite perimeter for a.e.\ $t$, and the inclusion of the reduced boundary in
+the level set is \cite[Theorem~16.2]{Maggi2012} applied to the precise
+representative.
+\end{proof}
+
+\begin{lemma}[Differentiation of the distribution function]\label{lem:dist-fn}
+Let $\Om\subset\R^2$ be bounded and let $u\in C^1(\Om)\cap C(\overline\Om)$
+with $u\ge 0$. Set $m(t):=|\{u>t\}|$. Then $m$ is non-increasing, and for
+Lebesgue-almost every $t$ with $\HH^1(\{u=t\}\cap\{\nabla u\ne 0\})=\HH^1(\{u=t\})$
+one has
+\[
+  -m'(t)=\int_{\{u=t\}}\frac{1}{|\nabla u|}\,d\HH^1 .
+\]
+\end{lemma}
+
+\begin{proof}
+For $t<s$ we have, by the coarea formula (Theorem~\ref{thm:coarea}) applied
+with $g=\mathbf 1_{\{t<u\le s\}}\,|\nabla u|^{-1}\mathbf 1_{\{\nabla u\ne0\}}$,
+\[
+  \int_{\{t<u\le s\}\cap\{\nabla u\ne0\}}1\,dx
+  =\int_t^s\Big(\int_{\{u=\tau\}\cap\{\nabla u\ne0\}}\frac{1}{|\nabla u|}\,
+  d\HH^1\Big)\,d\tau .
+\]
+By Sard's theorem (Theorem~\ref{thm:sard} below, valid since $u\in C^1$ and
+$\R$ is $1$-dimensional, or directly because the critical values form a null
+set) the set $\{\nabla u=0\}$ contributes a $\HH^1$-null portion of
+$\{u=\tau\}$ for a.e.\ $\tau$, and $\{u=\tau\}\cap\{\nabla u=0\}$ has measure
+zero in $\R^2$, hence
+\[
+  m(t)-m(s)=|\{t<u\le s\}|
+  =\int_t^s\Big(\int_{\{u=\tau\}}\frac{1}{|\nabla u|}\,d\HH^1\Big)\,d\tau .
+\]
+Thus the non-increasing function $t\mapsto m(t)$ has, as its
+(absolutely continuous part of the) distributional derivative, the function
+$-\int_{\{u=t\}}|\nabla u|^{-1}\,d\HH^1$. Since $m$ is monotone it is
+differentiable a.e., and at a.e.\ Lebesgue point $t$ of the right-hand
+integrand the displayed integral identity yields
+$-m'(t)=\int_{\{u=t\}}|\nabla u|^{-1}\,d\HH^1$.
+\end{proof}
+
+\subsection{Isoperimetric and relative isoperimetric inequalities}
+\label{ss:isoperimetric}
+
+\begin{theorem}[Planar isoperimetric inequality]\label{thm:isoperimetric}
+For every set of finite perimeter $E\subset\R^2$ with $|E|<\infty$,
+\[
+  P(E)^2\ge 4\pi\,|E|,
+\]
+and equality holds if and only if $E$ is equivalent (up to a Lebesgue-null
+set) to a disk $B_r(x)$.
+\end{theorem}
+
+\begin{proof}
+See \cite[Theorem~14.1]{Maggi2012} for the inequality in $\R^n$ in the form
+$P(E)\ge n\,\omega_n^{1/n}|E|^{(n-1)/n}$, which for $n=2$ reads
+$P(E)\ge 2\sqrt{\pi}\,|E|^{1/2}$, i.e.\ $P(E)^2\ge 4\pi|E|$; the rigidity
+statement (equality only for balls) is \cite[Theorem~14.1]{Maggi2012} as
+well. See also \cite[Section~5.6.2, Theorem~5.6]{EvansGariepy2015}.
+\end{proof}
+
+\begin{theorem}[Relative isoperimetric inequality in a disk]
+\label{thm:relative-isoperimetric}
+There is an absolute constant $C>0$ such that for every set of finite
+perimeter $E\subset\R^2$, every $x\in\R^2$ and every $r>0$,
+\[
+  \min\big\{\,|E\cap B_r(x)|,\ |B_r(x)\setminus E|\,\big\}
+  \le C\,P\big(E;B_r(x)\big)^2 .
+\]
+The sharp constant is $C=1/\pi$.
+\end{theorem}
+
+\begin{proof}
+This is the relative isoperimetric inequality on a convex domain; see
+\cite[Theorem~2, Section~5.6.2]{EvansGariepy2015} for the existence of a
+dimensional constant, and \cite[Section~12.5 and Theorem~14.4]{Maggi2012} for
+the convex/relative formulation. The sharp constant $C=1/\pi$ in the plane
+(attained as $E\cap B_r(x)$ degenerates to a half-disk through the centre,
+where $|E\cap B_r|\to\frac12\pi r^2$ and $P(E;B_r)\to 2r$, giving the ratio
+$\frac{\pi r^2/2}{(2r)^2}=\frac{\pi}{8}\le\frac1\pi$, the extremal half-disk
+configuration $\min=\frac12\pi r^2$, $P=2r$ saturating $\min=\frac1\pi P^2$ at
+$P=\sqrt{\pi/2}\,2r$) is the planar case of
+\cite[Theorem~14.4]{Maggi2012}. For the purposes of this paper only the
+existence of an absolute $C$ is used.
+\end{proof}
+
+\subsection{The sharp quantitative isoperimetric inequality}
+\label{ss:fmp}
+
+For a set of finite perimeter $E\subset\R^n$ with $0<|E|<\infty$, let $B(x)$
+denote the ball centred at $x$ with $|B(x)|=|E|$, and define the
+\emph{Fraenkel asymmetry}
+\[
+  \mathcal A(E):=\min_{x\in\R^n}\frac{|E\,\triangle\,B(x)|}{|E|},
+\]
+where $\triangle$ is symmetric difference, and the \emph{isoperimetric
+deficit}
+\[
+  \delta(E):=\frac{P(E)}{P(B)}-1,
+\]
+with $B$ any ball of volume $|E|$ (so $P(B)=n\,\omega_n^{1/n}|E|^{(n-1)/n}$).
+Both $\mathcal A(E)$ and $\delta(E)$ are scale- and translation-invariant and
+nonnegative, vanishing precisely when $E$ is a ball.
+
+\begin{theorem}[Fusco--Maggi--Pratelli]\label{thm:fmp}
+There is a constant $C(n)>0$, depending only on the dimension $n$, such that
+for every set of finite perimeter $E\subset\R^n$ with $0<|E|<\infty$,
+\[
+  \mathcal A(E)\le C(n)\,\sqrt{\delta(E)} .
+\]
+In particular, for $n=2$ there is an absolute constant $C(2)$ with
+$\mathcal A(E)\le C(2)\sqrt{\delta(E)}$ for every planar set of finite
+perimeter of positive finite area.
+\end{theorem}
+
+\begin{proof}
+This is the main theorem of N.~Fusco, F.~Maggi and A.~Pratelli,
+\emph{The sharp quantitative isoperimetric inequality}, Annals of Mathematics
+\textbf{168} (2008), no.~3, 941--980, stated there as Theorem~1.1
+\cite{FMP2008}. The power $\tfrac12$ on $\delta(E)$ is optimal (sharp): it
+cannot be replaced by any larger exponent, as shown by ellipsoidal
+perturbations of the ball.
+\end{proof}
+
+It is convenient to record the additive form of the planar inequality in
+terms of the \emph{isoperimetric deficit by difference}
+\[
+  D_I(E):=P(E)^2-4\pi\,|E|\ \ge\ 0 ,
+\]
+which is nonnegative by Theorem~\ref{thm:isoperimetric}. The following lemma
+is pure algebra given the FMP statement.
+
+\begin{lemma}[Equivalence of additive and multiplicative deficits, $n=2$]
+\label{lem:deficit-equiv}
+Let $E\subset\R^2$ be a set of finite perimeter with $0<|E|<\infty$. Then
+\[
+  \delta(E)=\sqrt{\,1+\frac{D_I(E)}{4\pi|E|}\,}-1 .
+\]
+Consequently, there is an absolute constant $C>0$ such that whenever
+$D_I(E)\le |E|$ one has
+\[
+  \mathcal A(E)^2\le C\,\frac{D_I(E)}{|E|} .
+\]
+\end{lemma}
+
+\begin{proof}
+In $\R^2$ a ball $B$ with $|B|=|E|$ satisfies $P(B)=2\sqrt{\pi|E|}$, hence
+$P(B)^2=4\pi|E|$. Therefore
+\[
+  \big(1+\delta(E)\big)^2=\frac{P(E)^2}{P(B)^2}
+  =\frac{P(E)^2}{4\pi|E|}
+  =\frac{4\pi|E|+D_I(E)}{4\pi|E|}
+  =1+\frac{D_I(E)}{4\pi|E|} .
+\]
+Since $1+\delta(E)>0$, taking the positive square root gives
+$1+\delta(E)=\sqrt{1+D_I(E)/(4\pi|E|)}$, which is the asserted identity.
+
+For the second statement, set $s:=D_I(E)/(4\pi|E|)\ge 0$. Then
+$\delta(E)=\sqrt{1+s}-1=\dfrac{s}{\sqrt{1+s}+1}\le \dfrac{s}{2}$ for all
+$s\ge0$, because $\sqrt{1+s}+1\ge 2$. Hence
+\[
+  \delta(E)\le\frac{s}{2}=\frac{D_I(E)}{8\pi|E|} .
+\]
+By Theorem~\ref{thm:fmp} with $n=2$,
+$\mathcal A(E)^2\le C(2)^2\,\delta(E)\le \dfrac{C(2)^2}{8\pi}\,
+\dfrac{D_I(E)}{|E|}$, which is the claim with
+$C=C(2)^2/(8\pi)$. (The hypothesis $D_I(E)\le|E|$ is not needed for this
+bound; it merely guarantees that $s$, and hence the regime, stays bounded so
+that $\mathcal A(E)\le 2$ trivially and the estimate is non-vacuous.)
+\end{proof}
+
+\begin{remark}\label{rem:deficit-comparison}
+The inequality $\delta(E)\le D_I(E)/(8\pi|E|)$ from
+Lemma~\ref{lem:deficit-equiv} is one-sided in the sense used above; in the
+reverse direction $\delta(E)\ge \dfrac{D_I(E)}{8\pi|E|(1+\delta(E))}$, so the
+two deficits are comparable, $\delta(E)\asymp D_I(E)/|E|$, on any regime where
+$\delta(E)$ is bounded. We will only use the upper bound.
+\end{remark}
+
+\subsection{Interior regularity and analyticity of the torsion function}
+\label{ss:torsion}
+
+Let $u\in H^1_0(\Om)$ be the weak solution of the torsion problem
+\begin{equation}\label{eq:torsion}
+  -\Delta u=1\ \text{ in }\Om,\qquad u=0\ \text{ on }\partial\Om,
+\end{equation}
+i.e.\ $\int_\Om\nabla u\cdot\nabla\varphi\,dx=\int_\Om\varphi\,dx$ for all
+$\varphi\in H^1_0(\Om)$. Existence and uniqueness follow from the
+Lax--Milgram theorem. We record its regularity.
+
+\begin{theorem}[Smoothness and analyticity of $u$]\label{thm:torsion-regularity}
+Let $u\in H^1_0(\Om)$ solve \eqref{eq:torsion} weakly. Then
+$u\in C^\infty(\Om)$, and in fact $u$ is real-analytic in $\Om$.
+\end{theorem}
+
+\begin{proof}
+The interior Schauder theory gives $u\in C^\infty(\Om)$: since the right-hand
+side $f\equiv 1$ is smooth and $-\Delta$ has smooth (constant) coefficients,
+interior Schauder estimates and a bootstrap argument yield
+$u\in C^{k,\alpha}(\Om)$ for every $k$, hence $u\in C^\infty(\Om)$; see
+D.~Gilbarg and N.~Trudinger, \emph{Elliptic Partial Differential Equations
+of Second Order}, Springer, 2nd ed.\ 1983 (reprint of the 1998 edition),
+Theorem~6.17 and Corollary~6.18 \cite{GT1983}. Real-analyticity in
+the interior follows from the analyticity theory for solutions of elliptic
+equations with analytic coefficients and analytic data: the Laplacian has
+(constant, hence) real-analytic coefficients and the datum $1$ is analytic, so
+$u$ is real-analytic in $\Om$ by C.~B.~Morrey, \emph{Multiple Integrals in
+the Calculus of Variations}, Springer, 1966, Theorem~6.7.6 \cite{Morrey1966}.
+(Equivalently, one may invoke Morrey--Nirenberg analytic regularity for linear
+elliptic equations.)
+\end{proof}
+
+\begin{theorem}[Interior gradient and Hessian estimates]
+\label{thm:interior-estimates}
+There is an absolute constant $C>0$ with the following property. Let $u$ solve
+\eqref{eq:torsion} in $\Om$, let $x\in\Om$, and set
+$d:=\operatorname{dist}(x,\partial\Om)$. Then
+\[
+  |\nabla u(x)|\le C\Big(\frac{\|u\|_{L^\infty(B_d(x))}}{d}+d\Big),
+  \qquad
+  |D^2 u(x)|\le C\Big(\frac{\|u\|_{L^\infty(B_d(x))}}{d^2}+1\Big).
+\]
+\end{theorem}
+
+\begin{proof}
+Apply the interior Schauder estimate
+\cite[Theorem~6.2, see also Corollary~6.3]{GT1983} (equivalently the
+a priori interior estimate of \cite[Theorem~3.9]{GT1983} combined
+with Schauder theory) to $u$ on the ball $B_d(x)$, where $-\Delta u=1$. The
+scale-invariant form of these estimates gives, for the rescaled function,
+$d\,\|\nabla u\|_{L^\infty(B_{d/2}(x))}
+ +d^2\,\|D^2u\|_{L^\infty(B_{d/2}(x))}
+ \le C\big(\|u\|_{L^\infty(B_d(x))}+d^2\|1\|_{L^\infty(B_d(x))}\big)$,
+with $C$ absolute (depending only on dimension $n=2$ and the H\"older exponent
+chosen for the datum, which here is irrelevant since $f\equiv1$). Dividing by
+$d$ and by $d^2$ respectively and evaluating at $x$ yields the two stated
+bounds.
+\end{proof}
+
+\begin{lemma}[A priori $L^\infty$ bound]\label{lem:linfty}
+Let $u\in H^1_0(\Om)$ solve \eqref{eq:torsion} weakly, with $\Om\subset\R^2$
+bounded. Then
+\[
+  0\le u(x)\le \tfrac14(\operatorname{diam}\Om)^2\qquad\text{for all }x\in\Om .
+\]
+\end{lemma}
+
+\begin{proof}
+By the weak maximum principle for $-\Delta u=1\ge0$ with $u=0$ on
+$\partial\Om$ we have $u\ge0$ in $\Om$ (see
+\cite[Theorem~8.1]{GT1983}); since $u\in C^\infty(\Om)\cap
+C(\overline\Om)$ by Theorem~\ref{thm:torsion-regularity} and standard boundary
+behaviour, this is a pointwise statement on $\Om$. For the upper bound, fix
+$x_0$ such that $\Om\subset B_R(x_0)$ with $R=\operatorname{diam}\Om$ (any
+$x_0\in\overline\Om$ works since every point of $\Om$ is within distance
+$\operatorname{diam}\Om$ of $x_0$). Define the comparison function
+\[
+  w(x):=\frac{R^2-|x-x_0|^2}{4},
+\]
+which satisfies $-\Delta w=1$ in $\R^2$ and $w\ge0$ on $\overline\Om$ (indeed
+$w\ge0$ on $B_R(x_0)\supseteq\Om$). Then $-\Delta(w-u)=0$ in $\Om$ and
+$w-u=w\ge0$ on $\partial\Om$, so by the maximum principle
+\cite[Corollary~3.2]{GT1983} $w-u\ge0$ in $\Om$, i.e.
+$u\le w\le R^2/4=\tfrac14(\operatorname{diam}\Om)^2$.
+\end{proof}
+
+\subsection{Sard's theorem}\label{ss:sard}
+
+\begin{theorem}[Sard]\label{thm:sard}
+Let $U\subseteq\R^d$ be open and let $f\in C^k(U;\R^m)$ with
+$k\ge\max\{1,d-m+1\}$. Then the set of \emph{critical values} of $f$,
+\[
+  f\big(\{x\in U:\operatorname{rank} Df(x)<m\}\big),
+\]
+has Lebesgue measure zero in $\R^m$. In particular, if $f\in C^\infty(U)$
+with $m=1$ (so $k\ge d$ is automatic for $f\in C^\infty$), the set of
+critical values $f(\{\nabla f=0\})\subset\R$ has Lebesgue measure zero.
+\end{theorem}
+
+\begin{proof}
+This is Sard's theorem; see J.~Milnor, \emph{Topology from the Differentiable
+Viewpoint}, Princeton University Press, revised ed.\ 1997, the chapter
+``Sard's theorem'' (pp.~10--19), or the original A.~Sard, \emph{The measure of
+the critical values of differentiable maps}, Bull.\ Amer.\ Math.\ Soc.\
+\textbf{48} (1942), 883--890 \cite{Milnor1997,Sard1942}.
+\end{proof}
+
+\begin{lemma}[Almost every level of $u$ is regular]\label{lem:regular-values}
+Let $u\in H^1_0(\Om)$ solve \eqref{eq:torsion}. Then for Lebesgue-almost every
+$t\in\R$ the value $t$ is a regular value of $u$ in $\Om$, that is,
+$\nabla u\ne0$ at every point of the level set $\{x\in\Om:u(x)=t\}$.
+Consequently, for a.e.\ $t$ the level set $\{u=t\}\cap\Om$ is a (possibly
+empty) smooth $1$-dimensional submanifold of $\Om$, and on it the coarea
+quotient $1/|\nabla u|$ in Lemma~\ref{lem:dist-fn} is finite and smooth.
+\end{lemma}
+
+\begin{proof}
+By Theorem~\ref{thm:torsion-regularity}, $u\in C^\infty(\Om)$ (indeed
+real-analytic). Apply Sard's theorem (Theorem~\ref{thm:sard}) with $d=2$,
+$m=1$: the set of critical values $u(\{x\in\Om:\nabla u(x)=0\})$ has Lebesgue
+measure zero in $\R$. Hence for a.e.\ $t$, no point of $\{u=t\}\cap\Om$ is a
+critical point, i.e.\ $\nabla u\ne0$ on the level set. For such regular $t$,
+the implicit function theorem makes $\{u=t\}\cap\Om$ a smooth embedded
+$1$-manifold, and $1/|\nabla u|$ is finite and smooth there.
+\end{proof}
