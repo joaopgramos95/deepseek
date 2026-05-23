@@ -1,0 +1,515 @@
+\section{The level deficits and the volume profile}\label{sec:identity}
+
+This section is the analytic heart of the paper. We package the Saint--Venant
+deficit
+\[
+   \dT=\dT(\Om)=\frac\pi8-T(\Om)\ \ge\ 0
+\]
+of a normalised domain $|\Om|=\pi$ into the level sets of its torsion
+function $u$. Recall (\cref{sec:prelim}) that $u\in H^1_0(\Om)\cap
+C^\infty(\Om)$ solves $-\Delta u=1$ in $\Om$, $u=0$ on $\partial\Om$, that
+\[
+   T(\Om):=\int_\Om u\,dx=\int_\Om|\nabla u|^2\,dx,
+   \qquad m:=\max_\Om u ,
+\]
+the second equality holding because testing $-\Delta u=1$ against
+$u\in H^1_0(\Om)$ gives $\int_\Om|\nabla u|^2=\int_\Om u$. We define two
+non-negative defects of each level set; their integral over all levels turns
+out to be exactly $4\pi\dT$. We then use Talenti's comparison to pin the
+volume profile $\mu(v):=|\{u>v\}|$, obtaining $m\le\tfrac14$, an exact
+profile identity, and the pointwise bound $-\mu'\ge4\pi$. These facts feed
+directly into the inset construction of \cref{sec:inset}.
+
+Throughout, a value $v\in(0,m)$ is called \emph{regular} if $\nabla u\ne0$ on
+$\{u=v\}$; by \cref{lem:regular-values} almost every $v\in(0,m)$ is regular,
+and for such $v$ the level set $\{u=v\}$ is a (closed, embedded)
+$C^\infty$ curve in $\Om$ and the coarea quotient $1/|\nabla u|$ is finite and
+smooth on it. We write
+\[
+   E_v:=\{x\in\Om:u(x)>v\},\qquad
+   \mu(v):=|E_v|,\qquad
+   P(v):=P(E_v)=\HH^1(\{u=v\})
+\]
+for the super-level set, its area, and its perimeter (the last equality
+holding for regular $v$, the level set being a smooth curve).
+
+\subsection{The flux and coarea identities}
+
+The two structural identities below are the only place where the equation
+$-\Delta u=1$ enters this section; everything afterwards is geometry of the
+level sets. The first (flux) identity quantifies the source; the second
+(coarea) is the differentiation formula for $\mu$. We prove both.
+
+\begin{lemma}[Flux and coarea identities]\label{lem:flux}
+For a.e.\ $v\in(0,m)$,
+\begin{equation}\label{eq:flux}
+   \int_{\{u=v\}}|\nabla u|\,d\HH^1=\mu(v),
+\end{equation}
+and for a.e.\ $v\in(0,m)$ the function $\mu$ is differentiable with
+\begin{equation}\label{eq:coarea}
+   -\mu'(v)=\int_{\{u=v\}}\frac{1}{|\nabla u|}\,d\HH^1 .
+\end{equation}
+Moreover $\mu$ is absolutely continuous and nonincreasing on $(0,m)$, with
+$\mu(0^+)=|\Om|=\pi$ and $\mu(m^-)=0$.
+\end{lemma}
+
+\begin{proof}
+\emph{Flux \eqref{eq:flux}.} We derive this directly from the weak
+formulation, so that no boundary regularity of $\Om$ is needed. Recall
+$u\in H^1_0(\Om)$ solves
+\begin{equation}\label{eq:weak}
+   \int_\Om\nabla u\cdot\nabla\varphi\,dx=\int_\Om\varphi\,dx
+   \qquad\text{for all }\varphi\in H^1_0(\Om).
+\end{equation}
+Fix $0<v<m$ and, for small $h>0$ with $v+h<m$, take the Lipschitz cut-off
+\[
+   \psi_h(x):=\min\Bigl\{1,\ \tfrac1h\bigl(u(x)-v\bigr)_+\Bigr\}\in[0,1].
+\]
+Since $t\mapsto\min\{1,\tfrac1h(t-v)_+\}$ is Lipschitz and vanishes for
+$t\le v$ (in particular at $t=0$), and $u\in H^1_0(\Om)$, the composition
+$\psi_h$ lies in $H^1_0(\Om)$ and is an admissible test function in
+\eqref{eq:weak}, with
+\[
+   \nabla\psi_h=\tfrac1h\,\nabla u\,\mathbf 1_{\{v<u<v+h\}}\quad\text{a.e.}
+\]
+Inserting $\varphi=\psi_h$ into \eqref{eq:weak},
+\[
+   \frac1h\int_{\{v<u<v+h\}}|\nabla u|^2\,dx
+   =\int_\Om\nabla u\cdot\nabla\psi_h\,dx
+   =\int_\Om\psi_h\,dx .
+\]
+We pass to the limit $h\downarrow0$ on each side. On the left, the coarea
+formula (\cref{thm:coarea}) gives
+\[
+   \frac1h\int_{\{v<u<v+h\}}|\nabla u|^2\,dx
+   =\frac1h\int_v^{v+h}\Bigl(\int_{\{u=t\}}|\nabla u|\,d\HH^1\Bigr)dt
+   \ \xrightarrow[h\downarrow0]{}\ \int_{\{u=v\}}|\nabla u|\,d\HH^1
+\]
+for a.e.\ $v$, namely at every Lebesgue point of the $L^1(0,m)$ function
+$t\mapsto F(t):=\int_{\{u=t\}}|\nabla u|\,d\HH^1$ (that $F\in L^1$ follows from
+$\int_0^m F\,dt=\int_{\{0<u<m\}}|\nabla u|^2\,dx\le\int_\Om|\nabla u|^2<\infty$
+by coarea). On the right, $0\le\psi_h\le1$ and $\psi_h\uparrow\mathbf
+1_{\{u>v\}}$ pointwise as $h\downarrow0$, so by monotone (or dominated, since
+$|\Om|<\infty$) convergence
+\[
+   \int_\Om\psi_h\,dx\ \xrightarrow[h\downarrow0]{}\ \int_\Om\mathbf
+   1_{\{u>v\}}\,dx=|\{u>v\}|=\mu(v).
+\]
+Equating the two limits yields \eqref{eq:flux} for a.e.\ $v\in(0,m)$.
+
+\emph{Coarea \eqref{eq:coarea} and absolute continuity.} This is the
+differentiation of the distribution function, \cref{lem:dist-deriv}: for
+a.e.\ $v$, $\mu$ is differentiable with $-\mu'(v)=\int_{\{u=v\}}|\nabla
+u|^{-1}\,d\HH^1$. We record the absolute-continuity statement explicitly, as
+it is used repeatedly. Set $\Phi(v):=\int_{\{u=v\}}|\nabla u|^{-1}\,d\HH^1\ge0$
+for those $v$ where this is finite. The coarea formula (\cref{thm:coarea})
+with $g=\mathbf 1_{\{u>0\}}|\nabla u|^{-1}\mathbf 1_{\{\nabla u\ne0\}}$ gives
+\[
+   \int_0^m\Phi(\tau)\,d\tau
+   =\int_{\{0<u<m\}\cap\{\nabla u\ne0\}}1\,dx
+   =|\Om|=\pi<\infty ,
+\]
+where the middle equality uses that $\{\nabla u=0\}\cap\{0<u<m\}$ has
+Lebesgue measure zero (it is contained in the union of level sets at critical
+values, a set of measure zero by Sard's theorem,
+\cref{thm:sard,lem:regular-values}, intersected with $\Om$). Hence $\Phi\in
+L^1(0,m)$. For $0<v_1<v_2<m$ the coarea formula applied with
+$g=\mathbf 1_{\{v_1<u\le v_2\}}|\nabla u|^{-1}\mathbf 1_{\{\nabla u\ne0\}}$
+yields
+\[
+   \mu(v_1)-\mu(v_2)=|\{v_1<u\le v_2\}|=\int_{v_1}^{v_2}\Phi(\tau)\,d\tau .
+\]
+Thus $\mu(v)=\int_v^m\Phi(\tau)\,d\tau$ for $v\in(0,m)$; being the tail
+integral of an $L^1$ function, $\mu$ is absolutely continuous and
+nonincreasing on $(0,m)$, with $\mu'=-\Phi$ a.e., which is \eqref{eq:coarea}.
+Finally $\mu(0^+)=\int_0^m\Phi=|\Om|=\pi$ (equivalently $|\{u>0\}|=|\Om|$
+since $u>0$ in $\Om$ by the strong minimum principle), and
+$\mu(m^-)=\int_m^m\Phi=0$.
+\end{proof}
+
+\subsection{The two level deficits}
+
+\begin{definition}[The two level deficits]\label{def:deficits}
+For a regular value $v\in(0,m)$ we define the \emph{Cauchy--Schwarz} (or
+H\"older/Serrin) defect and the \emph{isoperimetric} defect of the level set
+$\{u=v\}$ by
+\[
+   D_H(v):=\mu(v)\,\bigl(-\mu'(v)\bigr)-P(v)^2 ,
+   \qquad
+   D_I(v):=P(v)^2-4\pi\,\mu(v).
+\]
+\end{definition}
+
+The names anticipate \cref{lem:nonneg}: $D_H$ vanishes precisely when the
+flux is equidistributed (constant $|\nabla u|$ on the level curve), and $D_I$
+vanishes precisely when the level set is a disk.
+
+\begin{lemma}[Non-negativity of the deficits]\label{lem:nonneg}
+For a.e.\ $v\in(0,m)$ one has
+\[
+   D_H(v)\ \ge\ 0,\qquad D_I(v)\ \ge\ 0 .
+\]
+Moreover $D_I(v)=0$ if and only if $E_v$ is (equivalent to) a disk, and, for
+regular $v$, $D_H(v)=0$ if and only if $|\nabla u|$ is constant
+$\HH^1$-almost everywhere on $\{u=v\}$.
+\end{lemma}
+
+\begin{proof}
+\emph{$D_I\ge0$.} This is the planar isoperimetric inequality
+(\cref{thm:isoperimetric}) applied to the finite-perimeter set $E_v$:
+$P(E_v)^2\ge4\pi|E_v|$, i.e.\ $P(v)^2\ge4\pi\mu(v)$, with equality if and
+only if $E_v$ is a disk up to a Lebesgue-null modification.
+
+\emph{$D_H\ge0$.} Fix a regular value $v$ at which \eqref{eq:flux} and
+\eqref{eq:coarea} hold (a.e.\ $v$, by \cref{lem:flux,lem:regular-values}); then
+$\Sigma=\{u=v\}$ is a smooth embedded curve on which $|\nabla u|>0$ and
+$P(v)=\HH^1(\Sigma)<\infty$. Apply the Cauchy--Schwarz inequality
+on the finite measure $\HH^1\llcorner\Sigma$ to the functions
+$|\nabla u|^{1/2}$ and $|\nabla u|^{-1/2}$:
+\[
+   P(v)^2
+   =\Bigl(\int_{\Sigma}1\,d\HH^1\Bigr)^2
+   =\Bigl(\int_{\Sigma}|\nabla u|^{1/2}\cdot|\nabla u|^{-1/2}\,d\HH^1\Bigr)^2
+   \le\Bigl(\int_{\Sigma}|\nabla u|\,d\HH^1\Bigr)
+      \Bigl(\int_{\Sigma}\frac{1}{|\nabla u|}\,d\HH^1\Bigr).
+\]
+By \eqref{eq:flux} the first factor is $\mu(v)$, and by \eqref{eq:coarea} the
+second factor is $-\mu'(v)$. Hence $P(v)^2\le\mu(v)(-\mu'(v))$, i.e.\
+$D_H(v)\ge0$. Equality in
+Cauchy--Schwarz holds if and only if $|\nabla u|^{1/2}$ and
+$|\nabla u|^{-1/2}$ are proportional $\HH^1$-a.e.\ on $\Sigma$, i.e.\ if and
+only if $|\nabla u|$ is $\HH^1$-a.e.\ constant on $\{u=v\}$.
+\end{proof}
+
+\subsection{The level-set deficit identity}
+
+We now prove the central identity and, as the mandate requires, derive the
+constant $4\pi$ independently of any prior computation, directly from coarea
+and integration by parts (the Saint--Venant route).
+
+\begin{theorem}[Level-set deficit identity]\label{thm:level-identity}
+With the notation above,
+\begin{equation}\label{eq:level-identity}
+   \int_0^m\bigl(D_H(v)+D_I(v)\bigr)\,dv\ =\ 4\pi\,\dT(\Om).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+The proof has three steps: a pointwise telescoping, two integrations, and
+the assembly with the explicit value of the constant.
+
+\emph{Step 1: telescoping.} For a.e.\ $v\in(0,m)$ the squared-perimeter terms
+in \cref{def:deficits} cancel:
+\begin{equation}\label{eq:DHDI}
+   D_H(v)+D_I(v)
+   =\Bigl(\mu(v)(-\mu'(v))-P(v)^2\Bigr)+\Bigl(P(v)^2-4\pi\mu(v)\Bigr)
+   =\mu(v)\bigl(-\mu'(v)\bigr)-4\pi\,\mu(v).
+\end{equation}
+The perimeter has disappeared entirely; what remains involves only $\mu$ and
+$\mu'$.
+
+\emph{Step 2: the first term, by integration by parts.} By \cref{lem:flux},
+$\mu$ is absolutely continuous on $(0,m)$ with $\mu'\in L^1$, $\mu(0^+)=\pi$
+and $\mu(m^-)=0$. Consequently $v\mapsto\tfrac12\mu(v)^2$ is absolutely
+continuous with derivative $\mu(v)\mu'(v)\in L^1(0,m)$ (a product of a
+bounded absolutely continuous function and an $L^1$ function, with the
+Leibniz rule valid because $\mu$ is bounded and absolutely continuous).
+Hence
+\begin{equation}\label{eq:firstterm}
+   \int_0^m\mu(v)\bigl(-\mu'(v)\bigr)\,dv
+   =-\Bigl[\tfrac12\mu(v)^2\Bigr]_{v=0^+}^{v=m^-}
+   =\tfrac12\mu(0^+)^2-\tfrac12\mu(m^-)^2
+   =\tfrac12|\Om|^2=\frac{\pi^2}{2}.
+\end{equation}
+
+\emph{Step 3: the second term, by the layer-cake formula.} Since $u>0$ in
+$\Om$ and $\max u=m$,
+\begin{equation}\label{eq:secondterm}
+   \int_0^m 4\pi\,\mu(v)\,dv
+   =4\pi\int_0^\infty|\{u>v\}|\,dv
+   =4\pi\int_\Om u\,dx=4\pi\,T(\Om),
+\end{equation}
+the middle equality being Cavalieri's (layer-cake) formula for the
+nonnegative function $u$, valid since $\mu(v)=0$ for $v\ge m$.
+
+\emph{Assembly and the constant.} Integrating \eqref{eq:DHDI} over $(0,m)$
+and inserting \eqref{eq:firstterm}--\eqref{eq:secondterm},
+\[
+   \int_0^m\bigl(D_H+D_I\bigr)\,dv
+   =\frac{\pi^2}{2}-4\pi\,T(\Om).
+\]
+It remains to identify $\frac{\pi^2}{2}-4\pi T(\Om)$ with $4\pi\dT$. We do
+\emph{not} invoke any earlier formula for $T(B_1)$; instead we read off the
+constant from Step 2. Indeed
+\[
+   \frac{\pi^2}{2}=\frac{|\Om|^2}{2}=4\pi\cdot\frac{|\Om|^2}{8\pi}
+   =4\pi\cdot\frac{\pi^2}{8\pi}=4\pi\cdot\frac{\pi}{8},
+\]
+so that
+\[
+   \int_0^m\bigl(D_H+D_I\bigr)\,dv
+   =4\pi\Bigl(\frac{\pi}{8}-T(\Om)\Bigr)=4\pi\,\dT(\Om),
+\]
+by the definition $\dT=\frac\pi8-T(\Om)$. This proves
+\eqref{eq:level-identity}.
+
+We pause to make the provenance of the constant transparent, since it is the
+keystone of the paper. The factor $4\pi$ in $D_I$ is the planar isoperimetric
+constant ($P^2\ge4\pi A$). The factor $\tfrac12|\Om|^2$ in Step 2 is purely
+the integration of $\mu(-\mu')$, owing nothing to the equation beyond the
+boundary values $\mu(0^+)=|\Om|$, $\mu(m^-)=0$. These two independent inputs
+combine into the deficit because of the elementary algebraic identity
+$\tfrac12 A^2=4\pi\cdot A^2/(8\pi)$ for any area $A$; with $A=|\Om|=\pi$ this
+reads $\tfrac12|\Om|^2=4\pi\cdot\tfrac\pi8$, which is the algebra displayed
+above. The number $\tfrac\pi8$ so produced is exactly the disk torsion
+$T(B_1)$ (computed independently in \cref{lem:profile} below), so the
+right-hand side is $4\pi\bigl(T(B_1)-T(\Om)\bigr)$. Thus
+the right-hand side is $4\pi(T(B_1)-T(\Om))$, the Saint--Venant deficit
+scaled by $4\pi$, with no hidden normalisation.
+\end{proof}
+
+\begin{remark}[The identity as an exact, scale-aware statement]\label{rem:identity}
+Identity \eqref{eq:level-identity} expresses the (global) Saint--Venant
+deficit as the total over all levels of two pointwise non-negative geometric
+defects of the level sets: $D_H$, the failure of $|\nabla u|$ to be constant
+on $\{u=v\}$; and $D_I$, the failure of $E_v$ to be a disk. Both vanish
+identically (for all $v$) if and only if every level set is a disk on which
+$|\nabla u|$ is constant, i.e.\ if and only if $\Om$ is a disk and $u=u_B$;
+this is Serrin's overdetermined characterisation, and it is the rigidity
+behind \eqref{eq:level-identity}. The quantitative content is the converse,
+exploited from \cref{sec:inset} on: small $\dT$ forces both defects to be
+small \emph{on most levels}.
+\end{remark}
+
+\subsection{Scale invariance of the identity}
+
+For the inset of \cref{sec:inset} we will apply the identity not to $\Om$ but
+to its super-level sets, which are not area-normalised. We therefore record
+the unnormalised form of \eqref{eq:level-identity} and its exact
+homogeneity. Let $E\subset\R^2$ be any bounded open set of finite measure
+which is regular for the Dirichlet problem, with torsion function $w_E$
+($-\Delta w_E=1$ in $E$, $w_E\in H^1_0(E)$), torsion
+$T(E)=\int_E w_E=\int_E|\nabla w_E|^2$, maximum $m_E=\max w_E$, and level
+quantities $\mu_E(v)=|\{w_E>v\}|$, $P_E(v)=P(\{w_E>v\})$,
+\[
+   D_H^E(v):=\mu_E(v)\bigl(-\mu_E'(v)\bigr)-P_E(v)^2,
+   \qquad
+   D_I^E(v):=P_E(v)^2-4\pi\mu_E(v).
+\]
+
+\begin{proposition}[Unnormalised identity and degree-$4$ homogeneity]
+\label{prop:scale}
+For any such $E$,
+\begin{equation}\label{eq:identity-gen}
+   \int_0^{m_E}\bigl(D_H^E(v)+D_I^E(v)\bigr)\,dv
+   =\tfrac12|E|^2-4\pi\,T(E)
+   =4\pi\bigl(T(B_E)-T(E)\bigr),
+   \qquad T(B_E):=\frac{|E|^2}{8\pi},
+\end{equation}
+where $B_E$ is any disk with $|B_E|=|E|$. Both sides are homogeneous of
+degree $4$ under dilations: writing $sE=\{sx:x\in E\}$ for $s>0$, one has
+\begin{equation}\label{eq:homog}
+   \int_0^{m_{sE}}\bigl(D_H^{sE}+D_I^{sE}\bigr)\,dv
+   =s^4\int_0^{m_E}\bigl(D_H^{E}+D_I^{E}\bigr)\,dv,
+   \qquad
+   T(B_{sE})-T(sE)=s^4\bigl(T(B_E)-T(E)\bigr).
+\end{equation}
+Consequently the \emph{scale-invariant} deficit
+$\dstar(E):=\bigl(T(B_E)-T(E)\bigr)/T(B_E)\in[0,1)$ satisfies
+\begin{equation}\label{eq:scaleinv-identity}
+   \dstar(E)
+   =\frac{T(B_E)-T(E)}{T(B_E)}
+   =\frac{\frac{1}{4\pi}\int_0^{m_E}(D_H^E+D_I^E)\,dv}{|E|^2/(8\pi)}
+   =\frac{2}{|E|^2}\int_0^{m_E}\bigl(D_H^E+D_I^E\bigr)\,dv ,
+\end{equation}
+and $\dstar(sE)=\dstar(E)$ for all $s>0$.
+\end{proposition}
+
+\begin{proof}
+\emph{Identity \eqref{eq:identity-gen}.} The proof of
+\cref{lem:flux,thm:level-identity} used only $-\Delta w_E=1$, $w_E\in
+H^1_0(E)$, interior smoothness, and Sard's theorem, all of which hold for $E$
+verbatim (interior regularity and analyticity of the torsion function depend
+only on the interior equation, not on boundary regularity;
+\cref{thm:torsion-reg}). Repeating the three steps gives
+\[
+   \int_0^{m_E}(D_H^E+D_I^E)\,dv
+   =\tfrac12\mu_E(0^+)^2-4\pi\,T(E)
+   =\tfrac12|E|^2-4\pi\,T(E),
+\]
+since $\mu_E(0^+)=|\{w_E>0\}|=|E|$ ($w_E>0$ in $E$). The last equality in
+\eqref{eq:identity-gen} is the algebraic identity
+$\tfrac12|E|^2=4\pi\cdot|E|^2/(8\pi)=4\pi\,T(B_E)$.
+
+\emph{Homogeneity \eqref{eq:homog}.} The torsion function transforms under
+dilation by $w_{sE}(x)=s^2\,w_E(x/s)$: indeed $w_{sE}$ so defined vanishes on
+$\partial(sE)$ and $-\Delta w_{sE}(x)=-s^2\cdot s^{-2}(\Delta w_E)(x/s)=1$,
+and by uniqueness it is the torsion function of $sE$. Hence
+$m_{sE}=s^2 m_E$, and
+\[
+   T(sE)=\int_{sE}w_{sE}\,dx=\int_{sE}s^2 w_E(x/s)\,dx
+   \overset{x=sy}{=}s^2\!\int_E s^2 w_E(y)\,dy=s^4\,T(E),
+\]
+while $|sE|^2=s^4|E|^2$; both terms on the right of \eqref{eq:identity-gen}
+scale by $s^4$, giving the second equality in \eqref{eq:homog}, and the first
+follows from it via \eqref{eq:identity-gen}. (Directly: for a level $v=s^2v'$
+one has $\{w_{sE}>v\}=s\{w_E>v'\}$, so $\mu_{sE}(s^2v')=s^2\mu_E(v')$,
+$P_{sE}(s^2v')=s\,P_E(v')$, $\mu_{sE}'(s^2v')=\mu_E'(v')$, whence
+$D_H^{sE}(s^2v')=s^2 D_H^E(v')$ and $D_I^{sE}(s^2v')=s^2 D_I^E(v')$; the
+change of variables $v=s^2v'$, $dv=s^2\,dv'$ then produces the factor
+$s^2\cdot s^2=s^4$.)
+
+\emph{Scale invariance of $\dstar$.} From \eqref{eq:identity-gen},
+$T(B_E)-T(E)=\tfrac{1}{4\pi}\int_0^{m_E}(D_H^E+D_I^E)\,dv$ and
+$T(B_E)=|E|^2/(8\pi)$, so dividing gives
+$\dstar(E)=\tfrac{2}{|E|^2}\int_0^{m_E}(D_H^E+D_I^E)\,dv$, which is
+\eqref{eq:scaleinv-identity}. By \eqref{eq:homog} numerator and denominator
+$T(B_E)$ both scale by $s^4$, so $\dstar(sE)=\dstar(E)$.
+\end{proof}
+
+\begin{remark}[Consistency with the normalisation]\label{rem:consistency}
+Applied to $E=\Om$ with $|\Om|=\pi$, \eqref{eq:identity-gen} returns
+\eqref{eq:level-identity}: $\tfrac12\pi^2-4\pi T(\Om)=4\pi\dT$, and
+$T(B_\Om)=\pi^2/(8\pi)=\pi/8=T(B_1)$. The two normalisations are related by
+$\dstar(\Om)=\dT/T(B_1)=\tfrac8\pi\dT$, in agreement with the global
+notation.
+\end{remark}
+
+\subsection{Talenti's comparison and the volume profile}
+
+To convert ``small on most levels'' into quantitative geometry we need the
+size of the level sets, i.e.\ the profile $\mu(v)$. This is furnished by
+Talenti's pointwise comparison with the model disk. Recall the unit-disk
+torsion function $u_{B_1}(x)=\tfrac14(1-|x|^2)$ and its distribution function
+\[
+   \mu_B(v):=|\{u_{B_1}>v\}|=\pi(1-4v)_+ ,
+   \qquad v\ge0,
+\]
+where $t_+=\max\{t,0\}$.
+
+\begin{theorem}[Talenti comparison for the profile]\label{thm:talenti}
+Let $u$ be the torsion function of $\Om$ with $|\Om|=\pi$. Then
+\begin{equation}\label{eq:talenti}
+   \mu(v)=|\{u>v\}|\ \le\ \mu_B(v)=\pi(1-4v)_+
+   \qquad\text{for all }v\ge0 .
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We invoke Talenti's comparison theorem
+\cite[Theorem~1]{Talenti1976} in the form proved there: if
+$u\in H^1_0(\Om)$ solves $-\Delta u=f$ with $f\ge0$, and $u^\ast$ denotes the
+Schwarz (radially symmetric decreasing) rearrangement of $u$, while
+$\tilde u$ solves $-\Delta\tilde u=f^\ast$ in the ball $\Om^\ast$ centred at
+the origin with $|\Om^\ast|=|\Om|$ and $\tilde u\in H^1_0(\Om^\ast)$, then
+\[
+   u^\ast(x)\ \le\ \tilde u(x)\qquad\text{for all }x\in\Om^\ast .
+\]
+We apply this with $f\equiv1$. Then $f^\ast\equiv1$, $\Om^\ast=B_1$ (since
+$|\Om|=\pi=|B_1|$), and the comparison solution is the disk torsion function
+$\tilde u=u_{B_1}$, because $u_{B_1}=\tfrac14(1-|x|^2)$ solves
+$-\Delta u_{B_1}=1$ in $B_1$ with zero boundary data and is its own
+rearrangement. Thus $u^\ast\le u_{B_1}$ pointwise on $B_1$.
+
+Schwarz rearrangement is equimeasurable: $|\{u>v\}|=|\{u^\ast>v\}|$ for every
+$v$. Since $u^\ast\le u_{B_1}$, we have
+$\{u^\ast>v\}\subseteq\{u_{B_1}>v\}$, hence
+$|\{u^\ast>v\}|\le|\{u_{B_1}>v\}|$. Combining,
+\[
+   \mu(v)=|\{u>v\}|=|\{u^\ast>v\}|\le|\{u_{B_1}>v\}|=\mu_B(v)
+   =\pi(1-4v)_+ ,
+\]
+where the last equality is $\{u_{B_1}>v\}=\{|x|^2<1-4v\}$, of area
+$\pi(1-4v)_+$.
+\end{proof}
+
+\begin{lemma}[Exact volume profile and the cap on the maximum]\label{lem:profile}
+The Saint--Venant deficit equals the $L^1$ gap between the disk profile and
+the domain profile over $(0,\tfrac14)$:
+\begin{equation}\label{eq:profile}
+   \int_0^{1/4}\bigl(\mu_B(v)-\mu(v)\bigr)\,dv\ =\ \dT(\Om),
+\end{equation}
+the integrand $\mu_B(v)-\mu(v)\ge0$ being nonnegative for every $v$. In
+particular the maximum is capped,
+\begin{equation}\label{eq:mcap}
+   m=\max_\Om u\ \le\ \tfrac14 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+\emph{The maximum cap \eqref{eq:mcap}.} Suppose, for contradiction, that
+$m>\tfrac14$. Pick $v$ with $\tfrac14<v<m$. Then $\{u>v\}\ne\emptyset$ and is
+open (as $u$ is continuous), so $\mu(v)=|\{u>v\}|>0$; but $v>\tfrac14$ gives
+$\mu_B(v)=\pi(1-4v)_+=0$, contradicting \eqref{eq:talenti}. Hence
+$m\le\tfrac14$. In particular $\mu(v)=0$ for $v\ge\tfrac14\ge m$.
+
+\emph{The profile identity \eqref{eq:profile}.} Nonnegativity of the
+integrand on all of $(0,\tfrac14)$ is exactly \eqref{eq:talenti}. By the
+layer-cake formula and $m\le\tfrac14$,
+\[
+   T(\Om)=\int_\Om u\,dx=\int_0^\infty\mu(v)\,dv
+   =\int_0^{1/4}\mu(v)\,dv ,
+\]
+the last step using $\mu(v)=0$ for $v\ge\tfrac14$. Likewise, by the same
+formula for the disk torsion function $u_{B_1}$,
+\[
+   T(B_1)=\int_{B_1}u_{B_1}\,dx=\int_0^\infty\mu_B(v)\,dv
+   =\int_0^{1/4}\pi(1-4v)\,dv
+   =\pi\Bigl[v-2v^2\Bigr]_0^{1/4}
+   =\pi\Bigl(\tfrac14-\tfrac18\Bigr)=\frac\pi8 .
+\]
+Subtracting,
+\[
+   \int_0^{1/4}\bigl(\mu_B(v)-\mu(v)\bigr)\,dv
+   =T(B_1)-T(\Om)=\frac\pi8-T(\Om)=\dT(\Om).
+\]
+This is \eqref{eq:profile}. (The computation also reconfirms
+independently that $T(B_1)=\pi/8$, hence that the deficit is well defined and
+non-negative: $\dT=\int_0^{1/4}(\mu_B-\mu)\ge0$.)
+\end{proof}
+
+\begin{remark}[Two complementary decompositions of $\dT$]\label{rem:two}
+We have written $\dT$ in two ways: as an integral over levels of the
+\emph{shape} defects $D_H+D_I$ (\cref{thm:level-identity}, weight $4\pi$), and
+as an integral over levels of the \emph{volume} gap $\mu_B-\mu$
+(\cref{lem:profile}, weight $1$). The inset construction in \cref{sec:inset}
+uses both: the first transfers the torsion deficit to a single level set, the
+second certifies that this level set captures almost all of the area of
+$\Om$.
+\end{remark}
+
+\subsection{A pointwise lower bound on \texorpdfstring{$-\mu'$}{-mu'}}
+
+The final consequence we extract is a clean pointwise estimate, used to
+quantify how fast the volume profile decreases.
+
+\begin{lemma}[Lower bound on the profile slope]\label{lem:muprime}
+For a.e.\ $v\in(0,m)$,
+\begin{equation}\label{eq:muprime}
+   -\mu'(v)\ \ge\ 4\pi .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Fix $v\in(0,m)$ a regular value at which \eqref{eq:coarea} holds (a.e.\ $v$).
+By \cref{lem:nonneg}, $D_H(v)\ge0$ and $D_I(v)\ge0$, i.e.
+\[
+   \mu(v)\bigl(-\mu'(v)\bigr)\ \ge\ P(v)^2\qquad\text{and}\qquad
+   P(v)^2\ \ge\ 4\pi\,\mu(v).
+\]
+Chaining these,
+\[
+   \mu(v)\bigl(-\mu'(v)\bigr)\ \ge\ P(v)^2\ \ge\ 4\pi\,\mu(v).
+\]
+Since $v<m$, the super-level set $E_v=\{u>v\}$ is nonempty and open, so
+$\mu(v)>0$; dividing by $\mu(v)>0$ gives $-\mu'(v)\ge4\pi$.
+\end{proof}
+
+\begin{remark}[Sharpness and the model]\label{rem:sharp-mu}
+All four statements of this section are sharp and are simultaneously
+saturated by the disk: for $u_{B_1}$ one has $\mu=\mu_B$, $-\mu_B'(v)=4\pi$ on
+$(0,\tfrac14)$, $D_H\equiv D_I\equiv0$, $\dT=0$, and $m=\tfrac14$. Thus
+\eqref{eq:muprime} is an equality for the model, and the level identity
+\eqref{eq:level-identity} reads $0=0$. The quantitative theory of the
+remaining sections measures the deviation from this rigid configuration.
+\end{remark}

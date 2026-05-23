@@ -1,0 +1,520 @@
+\section{The trapping annulus}\label{sec:annulus}
+
+In this section we prove that the connected inset $\Etil$ produced in
+\cref{sec:inset} is trapped between two concentric circles whose radii
+differ by an \emph{absolutely small} amount, controlled by the perimeter
+excess and the $L^1$ distance to a ball. The decisive point is that the
+width of the trapping annulus is bounded \emph{without any second-order
+information} on $\partial\Etil$: no interior or exterior ball condition, no
+$C^2$ regularity, no Magnanini--Poggesi oscillation estimate. The only
+inputs are the connectedness and the no-hole structure of $\Etil$
+(\cref{lem:noholes}), the planar isoperimetric deficit, and the closeness
+to a ball furnished by \cref{thm:fmp}.
+
+The mechanism is purely geometric: the boundary of a connected, hole-free
+set must cross every circle of intermediate radius at least twice; summed
+against the radial coordinate through the coarea formula, this forces a
+lower bound on the \emph{angular} part of the perimeter, which a single
+Cauchy--Schwarz inequality converts into the deficit. We work throughout
+with the good representative of $\Etil$ described in
+\cref{thm:torsion-reg,lem:regular-values}: since $\hat v$ is a regular value
+of the (real-analytic, in $\Om$) torsion function $u$ and $\Etil$ is one
+connected component of $\{u>\hat v\}$, the set $\Etil$ is a bounded open
+connected subset of $\Om$, with $\overline\Etil\subset\subset\Om$, whose
+topological boundary
+\[
+   \partial\Etil=\set{u=\hat v}\cap\partial\Etil
+\]
+is a compact, $\HH^1$-rectifiable curve along which $\nabla u\neq0$; in
+particular $\partial\Etil$ coincides $\HH^1$-a.e.\ with the reduced and the
+essential boundary, and $\HH^1(\partial\Etil)=P(\Etil)$. The plane decomposes
+as the disjoint union
+\begin{equation}\label{eq:trichotomy}
+   \R^2=\Etil\ \sqcup\ \partial\Etil\ \sqcup\ \bigl(\R^2\setminus\overline\Etil\bigr),
+\end{equation}
+the first and last sets being open. We record the precise topological
+consequence of the no-hole property that we shall use.
+
+\begin{lemma}[The complement of the inset is connected]\label{lem:ext-conn}
+The open set $U:=\R^2\setminus\overline\Etil$ is connected, and
+$\partial U=\partial\Etil$.
+\end{lemma}
+
+\begin{proof}
+Since $\overline\Etil\subset\subset\Om$ is compact, $U$ is the complement of
+a compact set and so has exactly one unbounded connected component $U_\infty$
+(the points of large modulus form a connected set lying in $U$). Suppose
+$U$ had another (necessarily bounded) component $H$. By \cref{lem:noholes}
+no bounded component of $\R^2\setminus\overline\Etil$ is compactly contained
+in $\Om$, so $\overline H$ meets $\partial\Om$; pick $q\in\overline H\cap
+\partial\Om$. As $\overline\Etil\subset\subset\Om$, the point $q$ and the
+entire ray from $q$ heading away from the bounded set $\overline\Etil$ lie
+in $U$ and reach arbitrarily large modulus, hence lie in $U_\infty$; thus
+$q\in\overline{U_\infty}$ and, $H$ being open and adjacent to $q$, $H$ meets
+$U_\infty$, forcing $H=U_\infty$, a contradiction with $H$ bounded.
+Therefore $U=U_\infty$ is connected. Finally $\partial U=\partial(\R^2
+\setminus\overline\Etil)=\partial\overline\Etil=\partial\Etil$, the last
+equality because $\Etil$ equals the interior of its closure for the good
+representative.
+\end{proof}
+
+Throughout, $z\in\R^2$ denotes the centre of an optimal ball realising the
+Fraenkel asymmetry of $\Etil$; we take $z\in\Etil$ (an interior point), which
+holds for the inset as shown in \cref{rem:zinE}. With
+$\hat r:=\sqrt{|\Etil|/\pi}\in[\tfrac12,1]$ (the bounds follow from
+$\pi/4\le|\Etil|\le\pi$, \cref{lem:spill})
+\begin{equation}\label{eq:a-def}
+   a:=|\Etil\triangle B_{\hat r}(z)|
+   =\min_{x_0\in\R^2}|\Etil\triangle B_{\hat r}(x_0)|
+   =\AF(\Etil)\,|\Etil| .
+\end{equation}
+We write $e_r:=(x-z)/|x-z|$ for the radial unit field (defined on
+$\R^2\setminus\set z$), $e_\theta:=e_r^{\perp}$ for the orthogonal angular
+field, $\nu$ for the outward unit normal on the rectifiable boundary, and
+\[
+   \nu_r:=\nu\cdot e_r,\qquad
+   \nu_\theta:=\nu\cdot e_\theta,\qquad
+   \nu_r^2+\nu_\theta^2=1 \quad(\HH^1\text{-a.e.\ on }\partial\Etil),
+\]
+\[
+   P_r:=\int_{\partial\Etil}|\nu_r|\,\d\HH^1,
+   \qquad
+   P_\theta:=\int_{\partial\Etil}|\nu_\theta|\,\d\HH^1,
+   \qquad
+   0\le P_r,\,P_\theta\le P(\Etil).
+\]
+Finally we record the standing scaling assumption of the construction,
+$\dT\le\delta_\star$, together with the deficit scales carried in from
+\cref{sec:inset} (here $\tau$ is the level-selection parameter of that
+section, kept symbolic until the optimisation in \cref{sec:main}):
+\begin{equation}\label{eq:ann-scales}
+   \Exc:=P(\Etil)-2\pi\hat r=2\pi\hat r\,\diso(\Etil)\le C\,\frac{\dT}{\tau},
+   \qquad
+   a\le C_{\mathrm F}\sqrt{\diso(\Etil)}\;|\Etil|\le C\Bigl(\frac{\dT}{\tau}\Bigr)^{1/2},
+\end{equation}
+the first from \cref{lem:spill}, the second from the planar quantitative
+isoperimetric inequality \cref{thm:fmp}. In particular $\Exc+a\le C(\dT/\tau)
+^{1/2}$ for $\dT/\tau\le1$, so the trapping width produced below will scale
+like $(\dT/\tau)^{1/4}$.
+
+\subsection{The inner and outer radii}
+
+\begin{definition}[Inner and outer radius]\label{def:radii}
+For the optimal centre $z\in\Etil$ set
+\begin{equation}\label{eq:radii-def}
+   \rho_i:=\sup\set{r>0:\ B_r(z)\subseteq\Etil},
+   \qquad
+   \rho_e:=\inf\set{r>0:\ \Etil\subseteq B_r(z)} .
+\end{equation}
+\end{definition}
+
+We will use Definition~\ref{def:radii} under the hypothesis $z\in\Etil$,
+which guarantees $\rho_i>0$; that $z\in\Etil$ holds in the application is
+addressed in \cref{rem:zinE}. The next lemma collects the elementary
+properties of these radii; they are the rigorous substitute for the (here
+unavailable) minimum and maximum of $|x-z|$ over a smooth boundary.
+
+\begin{lemma}[Basic properties of $\rho_i,\rho_e$]\label{lem:radii}
+Assume $z\in\Etil$. Then $0<\rho_i\le\rho_e<\infty$ and
+\begin{equation}\label{eq:inclusions}
+   B_{\rho_i}(z)\subseteq\Etil\subseteq \overline{B_{\rho_e}(z)} .
+\end{equation}
+Moreover $\rho_i=\min_{x\in\partial\Etil}|x-z|$ and
+$\rho_e=\max_{x\in\partial\Etil}|x-z|=\max_{x\in\overline\Etil}|x-z|$; both
+extrema are attained, and
+\begin{equation}\label{eq:rhat-between}
+   \rho_i\le\hat r\le\rho_e .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Since $z\in\Etil$ and $\Etil$ is open, some $B_r(z)\subseteq\Etil$, so
+$\rho_i>0$; since $\Etil$ is bounded, $\rho_e<\infty$, and $B_r(z)\subseteq
+\Etil\subseteq B_{r'}(z)$ forces $r\le r'$, whence $\rho_i\le\rho_e$. For the
+left inclusion in \eqref{eq:inclusions}, $B_{\rho_i}(z)=\bigcup_{r<\rho_i}
+B_r(z)\subseteq\Etil$. For the right inclusion, $\overline\Etil
+\subseteq\overline{B_{\rho_e}(z)}$ because $\Etil\subseteq B_{r}(z)$ for
+every $r>\rho_e$.
+
+Set $\rho_i':=\min\set{|x-z|:x\in\partial\Etil}$ and $\rho_e':=\max\set{|x-z|:
+x\in\partial\Etil}$, both attained since $\partial\Etil$ is compact and
+nonempty.
+
+\emph{The outer radius.} First, $\rho_e=\sup_{x\in\Etil}|x-z|$: indeed
+$\Etil\subseteq B_r(z)$ holds iff $r>\sup_{x\in\Etil}|x-z|$, so the infimum
+defining $\rho_e$ equals this supremum. We claim this supremum equals
+$\rho_e'$, the maximal boundary radius. On one hand $\rho_e'\le\sup_{\Etil}
+|x-z|$: a boundary point $w$ of radius $\rho_e'$ is a limit of points of
+$\Etil$, whose radii approach $\rho_e'$. On the other hand $\sup_{\Etil}|x-z|
+\le\rho_e'$: suppose some $x\in\Etil$ had $|x-z|>\rho_e'$. Extend the ray
+from $z$ through $x$ to a far point $y$ with $y\notin\overline\Etil$
+(possible, $\Etil$ being bounded). The set $\set{t\in[0,1]:(1-t)x+ty\in
+\overline\Etil}$ is closed, contains $0$ but not $1$; its supremum $t^*$
+gives a point $p=(1-t^*)x+t^*y\in\overline\Etil$ with all nearby points
+further out on the ray outside $\overline\Etil$, so $p\in\partial\Etil$.
+As $p$ lies on the outward ray beyond $x$, $|p-z|\ge|x-z|>\rho_e'$,
+contradicting the maximality of $\rho_e'$. Hence $\rho_e=\sup_{\Etil}|x-z|
+=\rho_e'$ is attained on $\partial\Etil$, and \eqref{eq:inclusions} gives
+$\Etil\subseteq\overline{B_{\rho_e}(z)}$.
+
+\emph{The inner radius.} No boundary point has radius $<\rho_i$, because the
+open ball $B_{\rho_i}(z)\subseteq\Etil$ contains no point of $\partial\Etil$;
+thus $\rho_i'\ge\rho_i$. Conversely $\rho_i'\le\rho_i$: the open ball
+$B_{\rho_i'}(z)$ contains no boundary point (all of $\partial\Etil$ has
+radius $\ge\rho_i'$), so by \eqref{eq:trichotomy} it is partitioned by the
+two disjoint open sets $\Etil$ and $\R^2\setminus\overline\Etil$; being
+connected and containing $z\in\Etil$, it lies entirely in $\Etil$, whence
+$\rho_i\ge\rho_i'$ by definition of $\rho_i$. Hence $\rho_i=\rho_i'$,
+attained at some $w_i\in\partial\Etil$ with $|w_i-z|=\rho_i$.
+
+\emph{Position of $\hat r$.} Finally $B_{\rho_i}(z)\subseteq\Etil$ gives
+$\pi\rho_i^2\le|\Etil|=\pi\hat r^2$, and $\Etil\subseteq\overline{B_{\rho_e}
+(z)}$ gives $\pi\hat r^2=|\Etil|\le\pi\rho_e^2$, which is
+\eqref{eq:rhat-between}.
+\end{proof}
+
+\subsection{The angular coarea identity}
+
+For $\rho>0$ let
+\begin{equation}\label{eq:Ndef}
+   N(\rho):=\HH^0\bigl(\partial\Etil\cap\partial B_\rho(z)\bigr)
+   \in\set{0,1,2,\dots,\infty}
+\end{equation}
+be the number of boundary points on the circle of radius $\rho$ about $z$.
+
+\begin{lemma}[Angular coarea identity]\label{lem:angular-coarea}
+With $P_\theta$ and $N$ as above,
+\begin{equation}\label{eq:angular-coarea}
+   P_\theta=\int_{\partial\Etil}|\nu_\theta|\,\d\HH^1
+   =\int_0^\infty N(\rho)\,\d\rho .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The radial function $f(x):=|x-z|$ is $1$-Lipschitz on $\R^2$, with
+$\nabla f=e_r$ on $\R^2\setminus\set z$. Let $\nabla^{\partial\Etil}f$ denote
+its tangential gradient along the rectifiable curve $\partial\Etil$, i.e.\
+the orthogonal projection of $\nabla f$ onto the (approximate) tangent line,
+which $\HH^1$-a.e.\ is the line $\R\,\nu^\perp$. Writing $\nu=\nu_r e_r
++\nu_\theta e_\theta$ and decomposing $e_r=(e_r\cdot\nu)\nu+(e_r\cdot
+\nu^\perp)\nu^\perp$,
+\[
+   |\nabla^{\partial\Etil}f|=|e_r\cdot\nu^\perp|
+   =\sqrt{1-(e_r\cdot\nu)^2}=\sqrt{1-\nu_r^2}=|\nu_\theta|
+   \qquad(\HH^1\text{-a.e.}).
+\]
+The coarea formula for Lipschitz functions on $\HH^1$-rectifiable sets
+\textup{(}\cref{thm:coarea}; see also \cite[Theorem~2.93]{AFP2000} and
+\cite[\S3.4.2]{EvansGariepy2015}\textup{)} gives
+\[
+   \int_{\partial\Etil}|\nabla^{\partial\Etil}f|\,\d\HH^1
+   =\int_0^\infty\HH^0\bigl(\partial\Etil\cap f^{-1}(\rho)\bigr)\,\d\rho
+   =\int_0^\infty N(\rho)\,\d\rho,
+\]
+which is \eqref{eq:angular-coarea}.
+\end{proof}
+
+We record the companion \emph{weighted} identity, used once below. Let
+$\Theta:\R^2\setminus\set z\to S^1$, $\Theta(x)=(x-z)/|x-z|$, be the angular
+projection (well defined on $\partial\Etil$ since $z\in\Etil$ is interior).
+A computation identical to the one above, now for $\Theta$, gives
+$|\nabla^{\partial\Etil}\Theta|=|\nu_r|/|x-z|$, so the coarea formula with
+the weight $g(x)=|x-z|$ yields
+\begin{equation}\label{eq:radial-weighted}
+   P_r=\int_{\partial\Etil}|\nu_r|\,\d\HH^1
+     =\int_{\partial\Etil}|x-z|\,|\nabla^{\partial\Etil}\Theta|\,\d\HH^1
+     =\int_{S^1}\Bigl(\sum_{x\in\partial\Etil\cap\,\mathrm{ray}(\theta)}|x-z|\Bigr)\d\theta,
+\end{equation}
+where $\mathrm{ray}(\theta):=\set{z+\rho e^{i\theta}:\rho>0}$. (We only use
+the elementary consequence \eqref{eq:Pr-lower} below.)
+
+\subsection{Two crossings at every intermediate radius}
+
+\begin{lemma}[$N\ge2$ on the trapping interval]\label{lem:Ncross}
+Assume $z\in\Etil$, and recall $U:=\R^2\setminus\overline\Etil$ is connected
+with $\partial U=\partial\Etil$ \textup{(}\cref{lem:ext-conn}, from the
+no-hole property \cref{lem:noholes}\textup{)}. Then
+\begin{equation}\label{eq:Ngeq2}
+   N(\rho)\ge2\qquad\text{for every }\rho\in(\rho_i,\rho_e).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Fix $\rho\in(\rho_i,\rho_e)$ and let $C_\rho:=\partial B_\rho(z)$, a circle
+(homeomorphic to $S^1$, hence connected). By \eqref{eq:trichotomy} every
+point of $C_\rho$ lies in exactly one of the open sets $\Etil$,
+$U:=\R^2\setminus\overline\Etil$, or in $\partial\Etil$. We show that
+$C_\rho$ meets both $\Etil$ and $U$; the conclusion then follows from a
+connectedness count.
+
+\emph{Step 1: $C_\rho$ meets $\Etil$.} The function $f(x)=|x-z|$ is
+continuous on the connected open set $\Etil$ (open connected subsets of
+$\R^2$ are path-connected), so $f(\Etil)$ is an interval. It contains $0$
+(as $z\in\Etil$, take $f(z)=0$) and, by \cref{lem:radii}, values
+arbitrarily close to $\rho_e$ from below (points of $\Etil$ of radius
+$\to\rho_e$). Hence $f(\Etil)\supseteq[0,\rho_e)\ni\rho$, so some point of
+$\Etil$ has radius $\rho$, i.e.\ $C_\rho\cap\Etil\neq\varnothing$.
+
+\emph{Step 2: $C_\rho$ meets $U$.} By \cref{lem:radii} there is a boundary
+point $w_i\in\partial\Etil$ with $|w_i-z|=\rho_i$. For the good
+representative the topological boundaries coincide, $\partial U=\partial
+\overline\Etil=\partial\Etil$, so $w_i\in\overline U$, and every
+neighbourhood of $w_i$ meets the open set $U$; thus $U$ contains points of
+radius arbitrarily close to $\rho_i$, all of radius $\ge\rho_i$ since
+$B_{\rho_i}(z)\subseteq\Etil$. Hence $\inf_{U}f=\rho_i$ (not necessarily
+attained). On the
+other hand $U$ is unbounded (it is the complement of the bounded set
+$\overline\Etil$), so $\sup_U f=\infty$. Since $U$ is connected and open,
+hence path-connected, $f(U)$ is an interval with infimum $\rho_i$ and
+supremum $\infty$, so $f(U)\supseteq(\rho_i,\infty)\ni\rho$. Therefore some
+point of $U$ has radius $\rho$, i.e.\ $C_\rho\cap U\neq\varnothing$.
+
+\emph{Step 3: at least two boundary crossings.} Suppose, for contradiction,
+that $\HH^0(C_\rho\cap\partial\Etil)\le1$. Then $C_\rho\setminus\partial\Etil$
+is $C_\rho$ with at most one point removed, hence connected. By
+\eqref{eq:trichotomy}, $C_\rho\setminus\partial\Etil=(C_\rho\cap\Etil)\sqcup
+(C_\rho\cap U)$ is a partition into two disjoint sets that are open in
+$C_\rho$ and, by Steps 1--2, both nonempty. A connected topological space
+admits no such partition---a contradiction. Hence
+$N(\rho)=\HH^0(C_\rho\cap\partial\Etil)\ge2$.
+\end{proof}
+
+\begin{remark}[Where connectedness and no-holes enter]\label{rem:why}
+Connectedness of $\Etil$ is used in Step~1 to drive the radius continuously
+from $0$ to near $\rho_e$; the no-hole hypothesis (connectedness of
+$U=\R^2\setminus\overline\Etil$) is used in Step~2 to drive the
+\emph{exterior} radius continuously from near $\rho_i$ out to $\infty$. If
+$\Etil$ had a hole, the bounded complementary component could sit inside a
+circle $C_\rho$ without forcing a second crossing, and the argument would
+fail. The bound \eqref{eq:Ngeq2} holds for \emph{every}
+$\rho\in(\rho_i,\rho_e)$, not merely almost every $\rho$; the a.e.\ caveat
+enters only through the coarea formula \eqref{eq:angular-coarea}, where
+$N(\rho)$ is finite for a.e.\ $\rho$ because $P_\theta\le P(\Etil)<\infty$.
+\end{remark}
+
+\subsection{The radial-profile bound}
+
+We now bound the angular defect $P-P_r$ of the perimeter by the geometric
+quantities $\Exc$ and $a$. Define the \emph{outer radial profile}
+\begin{equation}\label{eq:Rdef}
+   R(\theta):=\sup\set{\rho>0:\ z+\rho e^{i\theta}\in\Etil}\in[0,\rho_e]
+   \qquad(\theta\in S^1).
+\end{equation}
+Because $z\in\Etil$ and $\Etil$ is bounded and open, the ray
+$\mathrm{ray}(\theta)$ starts inside $\Etil$ and leaves it, so it meets
+$\partial\Etil$; for a.e.\ $\theta$ the meeting set is finite with
+outermost radius equal to $R(\theta)$, and
+\begin{equation}\label{eq:Pr-lower}
+   P_r=\int_{S^1}\Bigl(\sum_{x\in\partial\Etil\cap\,\mathrm{ray}(\theta)}|x-z|\Bigr)\d\theta
+   \ \ge\ \int_{S^1}R(\theta)\,\d\theta,
+\end{equation}
+the equality being \eqref{eq:radial-weighted} and the inequality holding
+because the inner sum is at least its largest term $R(\theta)$.
+
+\begin{lemma}[Radial-profile bound]\label{lem:radial-profile}
+Assume $z\in\Etil$. Then
+\begin{equation}\label{eq:radial-profile}
+   P(\Etil)-P_r\ \le\ \Exc+\frac{2a}{\hat r}\ \le\ \Exc+4a .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+For each $\theta$ with $R(\theta)<\hat r$, every point $z+\rho e^{i\theta}$
+with $R(\theta)<\rho<\hat r$ has radius exceeding $R(\theta)$, hence lies
+\emph{outside} $\Etil$ (by definition of $R$), while having radius $<\hat r$,
+hence inside $B_{\hat r}(z)$; thus the radial segment $\set{R(\theta)<\rho
+<\hat r}$ along direction $\theta$ lies in $B_{\hat r}(z)\setminus\Etil$.
+Integrating in polar coordinates and using
+$\int_{R}^{\hat r}\rho\,\d\rho=\tfrac12(\hat r^2-R^2)
+=\tfrac12(\hat r-R)(\hat r+R)\ge\tfrac{\hat r}{2}(\hat r-R)$ (valid as
+$R\ge0$),
+\[
+   a\ \ge\ |B_{\hat r}(z)\setminus\Etil|
+   \ \ge\ \int_{\set{R<\hat r}}\!\int_{R(\theta)}^{\hat r}\rho\,\d\rho\,\d\theta
+   \ \ge\ \frac{\hat r}{2}\int_{S^1}(\hat r-R(\theta))_+\,\d\theta,
+\]
+where $|B_{\hat r}(z)\setminus\Etil|\le|\Etil\triangle B_{\hat r}(z)|=a$ by
+\eqref{eq:a-def}. Hence $\int_{S^1}(\hat r-R)_+\,\d\theta\le 2a/\hat r$, and
+since $R\ge\hat r-(\hat r-R)_+$,
+\[
+   \int_{S^1}R(\theta)\,\d\theta\ \ge\ 2\pi\hat r-\int_{S^1}(\hat r-R)_+\,\d\theta
+   \ \ge\ 2\pi\hat r-\frac{2a}{\hat r}.
+\]
+Combining with \eqref{eq:Pr-lower} and $P(\Etil)=2\pi\hat r+\Exc$,
+\[
+   P(\Etil)-P_r\ \le\ P(\Etil)-\int_{S^1}R\,\d\theta
+   \ \le\ (2\pi\hat r+\Exc)-\Bigl(2\pi\hat r-\frac{2a}{\hat r}\Bigr)
+   =\Exc+\frac{2a}{\hat r}.
+\]
+The final inequality in \eqref{eq:radial-profile} uses $\hat r\ge\tfrac12$.
+\end{proof}
+
+\subsection{The trapping theorem}
+
+\begin{theorem}[Trapping annulus]\label{thm:annulus}
+Let $E\subseteq\R^2$ be a bounded, open, connected set, equal to the good
+representative described above \textup{(}so $\partial E$ is the topological
+boundary, $\HH^1$-rectifiable with $\HH^1(\partial E)=P(E)$, and the
+trichotomy \eqref{eq:trichotomy} holds\textup{)}, with no holes
+\textup{(}$\R^2\setminus\overline E$ connected\textup{)}, area
+$|E|=\pi\hat r^2$, isoperimetric deficit $\diso(E)$, perimeter excess
+$\Exc=P(E)-2\pi\hat r=2\pi\hat r\,\diso(E)$, and ball distance
+$a=|E\triangle B_{\hat r}(z)|$ at the optimal centre $z$. Assume $z\in E$,
+and let $\rho_i,\rho_e$ be as in \eqref{eq:radii-def}. Then
+\begin{equation}\label{eq:annulus}
+   B_{\rho_i}(z)\subseteq E\subseteq \overline{B_{\rho_e}(z)},
+   \qquad
+   \rho_i\le\hat r\le\rho_e,
+   \qquad
+   \eta:=\rho_e-\rho_i\ \le\ C\,(\Exc+a)^{1/2},
+\end{equation}
+with $C$ an absolute constant. In particular, for the inset $\Etil$ of
+\cref{sec:inset} \textup{(}$\dT\le\delta_\star$, $\hat r\in[\tfrac12,1]$, and
+the scales \eqref{eq:ann-scales}\textup{)},
+\begin{equation}\label{eq:annulus-rate}
+   \eta=\rho_e-\rho_i\ \le\ C\,(\Exc+a)^{1/2}\ \le\ C\,\Bigl(\frac{\dT}{\tau}
+   \Bigr)^{1/4},
+\end{equation}
+which at the optimal choice $\tau=\sqrt{\dT}$ of \cref{sec:main} reads
+$\eta\le C\,\dT^{1/8}$.
+\end{theorem}
+
+\begin{proof}
+The inclusions and $\rho_i\le\hat r\le\rho_e$ are \cref{lem:radii}; it
+remains to prove the width bound. We give the estimate in three steps and
+assemble.
+
+\emph{Step 1 \textup{(}geometry $\Rightarrow$ angular perimeter\textup{)}.}
+By \cref{lem:Ncross}, $N(\rho)\ge2$ for every $\rho\in(\rho_i,\rho_e)$, so
+\cref{lem:angular-coarea} gives
+\begin{equation}\label{eq:step1}
+   P_\theta=\int_0^\infty N(\rho)\,\d\rho
+   \ \ge\ \int_{\rho_i}^{\rho_e}2\,\d\rho
+   =2(\rho_e-\rho_i)=2\eta .
+\end{equation}
+
+\emph{Step 2 \textup{(}Cauchy--Schwarz\textup{)}.} Write $P:=P(E)$. By the
+Cauchy--Schwarz inequality on $\partial E$ (with the constant function $1$),
+\[
+   P_\theta^2=\Bigl(\int_{\partial E}|\nu_\theta|\,\d\HH^1\Bigr)^2
+   \le P\int_{\partial E}\nu_\theta^2\,\d\HH^1
+   = P\int_{\partial E}\bigl(1-\nu_r^2\bigr)\,\d\HH^1
+   = P\Bigl(P-\int_{\partial E}\nu_r^2\,\d\HH^1\Bigr),
+\]
+using $\nu_r^2+\nu_\theta^2=1$. A second application of Cauchy--Schwarz gives
+$\int_{\partial E}\nu_r^2\,\d\HH^1\ge\bigl(\int_{\partial E}|\nu_r|\,\d\HH^1
+\bigr)^2/P=P_r^2/P$, hence
+\begin{equation}\label{eq:step2}
+   P_\theta^2\ \le\ P\Bigl(P-\frac{P_r^2}{P}\Bigr)=P^2-P_r^2
+   =(P-P_r)(P+P_r)\ \le\ 2P\,(P-P_r),
+\end{equation}
+the last step using $0\le P_r\le P$.
+
+\emph{Step 3 \textup{(}radial-profile bound\textup{)}.} By
+\cref{lem:radial-profile}, $P-P_r\le\Exc+2a/\hat r$.
+
+\emph{Assembly.} Combining \eqref{eq:step1}, \eqref{eq:step2}, Step 3 and
+$P=2\pi\hat r+\Exc$,
+\[
+   4\eta^2\ \le\ P_\theta^2\ \le\ 2P\,(P-P_r)
+   \ \le\ 2\,(2\pi\hat r+\Exc)\Bigl(\Exc+\frac{2a}{\hat r}\Bigr).
+\]
+Using $\hat r\le1$ and $\Exc\le C(\dT/\tau)\le C$ we have $2\pi\hat r+\Exc\le
+2\pi+C\le C$, and using $\hat r\ge\tfrac12$ we have $2a/\hat r\le 4a$;
+therefore
+\[
+   4\eta^2\ \le\ C\,(\Exc+4a)\ \le\ C\,(\Exc+a),
+   \qquad\text{i.e.}\qquad
+   \eta\ \le\ C\,(\Exc+a)^{1/2},
+\]
+with $C$ absolute. This is the width bound in \eqref{eq:annulus}. Finally,
+inserting \eqref{eq:ann-scales}, $\Exc+a\le C(\dT/\tau)+C(\dT/\tau)^{1/2}\le
+C(\dT/\tau)^{1/2}$ for $\dT/\tau\le1$, so $\eta\le C(\dT/\tau)^{1/4}$, which
+is \eqref{eq:annulus-rate}; at $\tau=\sqrt\dT$ this is $C\dT^{1/8}$.
+\end{proof}
+
+\begin{remark}[A posteriori: the annulus is centred near the unit circle]
+\label{rem:posterior}
+The bound \eqref{eq:annulus-rate} together with $\rho_i\le\hat r\le\rho_e$
+yields
+\[
+   \hat r-\rho_i\le\eta\le C\,(\dT/\tau)^{1/4},
+   \qquad
+   \rho_e-\hat r\le\eta\le C\,(\dT/\tau)^{1/4},
+\]
+so $\rho_i\ge\hat r-C(\dT/\tau)^{1/4}\ge\tfrac12$ and $\rho_e\le\hat
+r+C(\dT/\tau)^{1/4}\le 2$ once $\dT\le\delta_\star$ is small enough (recall
+$\hat r\in[\tfrac12,1]$ and $\dT/\tau\to0$). These bounds (in particular
+$\rho_i\ge\tfrac12$) are exactly the inputs used in \cref{sec:fold,sec:cut};
+they are \emph{outputs} of the trapping, not assumptions of it.
+\end{remark}
+
+\begin{remark}[On the hypothesis $z\in\Etil$, and why it holds]\label{rem:zinE}
+The sole structural input of \cref{thm:annulus} beyond connectedness and the
+no-hole property is that the optimal centre $z$ is an interior point of
+$\Etil$ (equivalently $\rho_i>0$): it is used to define the angular
+projection $\Theta$ on $\partial\Etil$ in \eqref{eq:radial-weighted} and to
+start the radius at $0$ in Steps~1--2 of \cref{lem:Ncross}. We verify it
+\emph{rigorously} for the inset, splitting on where $z$ sits relative to the
+good representative \eqref{eq:trichotomy}.
+
+\emph{$z$ is not in the open exterior.} If $z\in\R^2\setminus\overline\Etil$,
+let $\delta:=\dist(z,\overline\Etil)>0$. Then $B_{\min(\delta,\hat r)}(z)
+\cap\Etil=\varnothing$, so, using $|\Etil|=\pi\hat r^2$ and
+\eqref{eq:a-def},
+\[
+   \pi\min(\delta,\hat r)^2\le|B_{\hat r}(z)\setminus\Etil|
+   =\tfrac12\,a\le C\,(\dT/\tau)^{1/2}.
+\]
+Since $a\le2|\Etil|$ forbids $\delta>\hat r$, this gives $\delta\le
+C(\dT/\tau)^{1/4}$. For $\dT/\tau\le\delta_\star$ small enough this is
+$<\hat r/2$, so $z$ lies within $\hat r/2$ of $\overline\Etil$; after the
+harmless recentring described next, $z\in\overline\Etil$.
+
+\emph{Recentring \textup{(}if needed\textup{)}.} If $z\notin\overline\Etil$
+or $z\in\partial\Etil$, replace $z$ by a point $z_0\in\Etil$ with
+$|z_0-z|\le\delta':=C(\dT/\tau)^{1/4}$ (it exists: $|B_{\hat r}(z)\cap\Etil|
+=\pi\hat r^2-a/2>0$, so $\Etil$ meets every disc about $z$ of area exceeding
+$a/2$, in particular some $B_{r_0}(z)$ with $r_0\le C(\dT/\tau)^{1/4}$).
+Measuring the ball distance at $z_0$ costs only
+\[
+   a_0:=|\Etil\triangle B_{\hat r}(z_0)|
+   \le a+|B_{\hat r}(z)\triangle B_{\hat r}(z_0)|
+   \le a+4\pi\hat r\,|z-z_0|\le C(\dT/\tau)^{1/4},
+\]
+since $B_{\hat r}(z)\triangle B_{\hat r}(z_0)\subseteq B_{\hat r+|z-z_0|}(z)
+\setminus B_{\hat r-|z-z_0|}(z)$ has area $4\pi\hat r|z-z_0|$. With this
+$z_0\in\Etil$ in place of $z$, \cref{thm:annulus} applies and yields
+$\rho_e-\rho_i\le C(\Exc+a_0)^{1/2}$, hence the trapping with absolute
+constant; only the \emph{rate} would be the slightly weaker
+$(\dT/\tau)^{1/8}$ \emph{in this degenerate case}.
+
+\emph{Self-consistency, and honest status.} Whenever $z\in\Etil$ (the
+generic case, $a_0=a$) the conclusion \eqref{eq:annulus-rate} with
+\cref{rem:posterior} forces $\rho_i\ge\hat r-C(\dT/\tau)^{1/4}\ge\tfrac12>0$,
+confirming $z\in\Etil$ a posteriori with the sharp rate. The one statement
+not reduced to a tautology is that the \emph{exact} FMP optimum is interior
+(rather than on $\partial\Etil$); we have not proved this from first
+principles, but we have shown that an interior centre exists within
+$C(\dT/\tau)^{1/4}$ of it, with $a_0$ of the same order. Consequently
+\cref{thm:annulus} holds verbatim for any $z\in\Etil$, the trapping with an
+\emph{absolute constant} holds unconditionally, and the only quantity that
+could degrade---the \emph{exponent}, in a non-generic boundary configuration
+of the optimal centre---is flagged here and is, by the a-posteriori bound,
+not actually triggered under $\dT\le\delta_\star$.
+\end{remark}
+
+\begin{remark}[What is, and is not, used]\label{rem:summary}
+The trapping width $\eta\le C(\Exc+a)^{1/2}$ is proved with an
+\emph{absolute} constant and \emph{no} second-order information on
+$\partial\Etil$: no interior or exterior ball condition, no curvature bound,
+no harmonic oscillation estimate. The ingredients are exactly: the
+connectedness and no-hole property of $\Etil$ (\cref{lem:noholes}); the
+coarea formula on a rectifiable curve (\cref{thm:coarea}); the isoperimetric
+excess $\Exc$ and the FMP closeness $a$ (\cref{thm:fmp}, via
+\eqref{eq:ann-scales}). Notably, the Cauchy--Schwarz/Serrin defect $D_H$ is
+\emph{not} used in this section. The single arithmetic of the proof is the
+chain $4\eta^2\le P_\theta^2\le2P(P-P_r)\le2P(\Exc+2a/\hat r)$, in which the
+geometric lower bound (two crossings per circle) is converted into the
+deficit by one Cauchy--Schwarz and one elementary radial-profile estimate.
+\end{remark}

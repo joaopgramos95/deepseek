@@ -1,0 +1,392 @@
+\section{Preliminaries}\label{sec:prelim}
+
+Throughout this paper $\Omega\subset\R^2$ denotes a bounded open set,
+$|\,\cdot\,|$ denotes Lebesgue measure on $\R^2$, $\HH^1$ denotes
+one-dimensional Hausdorff measure, and $B_r(x)\subset\R^2$ is the open disc
+of radius $r$ centred at $x$; we write $B_r = B_r(0)$.  The fixed
+normalisation $|\Omega|=\pi$ is in force from \cref{sec:intro} onward but is
+not required for the statements in this section unless explicitly noted.  We
+collect here the definitions and classical results the rest of the paper relies
+on.  Standard results are stated precisely with full hypotheses and cited to
+published sources.
+
+%--------------------------------------------------------------------
+\subsection{Sets of finite perimeter}
+%--------------------------------------------------------------------
+
+We follow the conventions of \cite{Maggi2012}.
+
+\begin{definition}[Perimeter]\label{def:perimeter}
+Let $E\subset\R^2$ be Lebesgue measurable and let $A\subset\R^2$ be open.
+The \emph{perimeter of $E$ in $A$} is
+\[
+  \Per(E;A) := \sup\!\left\{\,\int_E \divg\varphi\,dx \;:\;
+    \varphi\in C^1_c(A;\R^2),\ \|\varphi\|_{L^\infty}\le 1\,\right\}.
+\]
+We set $\Per(E):=\Per(E;\R^2)$.  The set $E$ is of \emph{finite perimeter} (in
+$A$) if $\Per(E;A)<\infty$.
+\end{definition}
+
+If $E$ has locally finite perimeter, the distributional gradient
+$\mu_E := -D\mathbf{1}_E$ is an $\R^2$-valued Radon measure with total
+variation $|\mu_E|(A)=\Per(E;A)$
+\cite[Proposition~12.1, Definition~12.1]{Maggi2012}.
+
+\begin{definition}[Reduced boundary]\label{def:reduced-boundary}
+For $E$ of locally finite perimeter, the \emph{reduced boundary} $\partial^*E$
+is the set of $x\in\supp|\mu_E|$ at which
+\[
+  \nu_E(x) := \lim_{r\to 0^+}\frac{\mu_E(B_r(x))}{|\mu_E|(B_r(x))}
+\]
+exists and satisfies $|\nu_E(x)|=1$.  The vector $\nu_E(x)$ is the
+\emph{measure-theoretic outer unit normal} to $E$.
+\end{definition}
+
+\begin{theorem}[De~Giorgi structure theorem]\label{thm:de-giorgi}
+Let $E\subset\R^2$ have locally finite perimeter.  Then $\partial^*E$ is
+countably $\HH^1$-rectifiable, $\mu_E = \nu_E\,\HH^1\lfloor\partial^*E$, and
+for every Borel set $A$,
+\[
+  \Per(E;A) = \HH^1(\partial^*E\cap A).
+\]
+\end{theorem}
+
+\begin{proof}
+See \cite[Theorem~15.9, Corollary~16.1]{Maggi2012} or
+\cite[Section~5.7, Theorem~5.15]{EvansGariepy2015}.
+\end{proof}
+
+\begin{definition}[Essential boundary]\label{def:essential-boundary}
+For a measurable set $E\subset\R^2$, its \emph{essential boundary} is
+$\partial^e E := \R^2\setminus(E^{(0)}\cup E^{(1)})$, where
+$E^{(t)}:=\{x:\lim_{r\to0}|E\cap B_r(x)|/|B_r(x)|=t\}$.
+\end{definition}
+
+\begin{theorem}[Federer]\label{thm:federer}
+If $E\subset\R^2$ has locally finite perimeter then
+$\partial^*E\subseteq E^{(1/2)}\subseteq\partial^e E$ and
+$\HH^1(\partial^e E\setminus\partial^*E)=0$.  In particular,
+$\Per(E;A)=\HH^1(\partial^e E\cap A)$ for every Borel $A$.
+\end{theorem}
+
+\begin{proof}
+See \cite[Theorem~15.5, Theorem~16.2]{Maggi2012} or
+\cite[Theorem~5.16]{EvansGariepy2015}.
+\end{proof}
+
+%--------------------------------------------------------------------
+\subsection{The coarea formula and differentiation of the distribution
+function}
+%--------------------------------------------------------------------
+
+\begin{theorem}[Coarea formula]\label{thm:coarea}
+Let $\Omega\subset\R^2$ be open and let $u\in W^{1,1}(\Omega)$.  Then for
+every nonnegative Borel function $g:\Omega\to[0,\infty]$,
+\begin{equation}\label{eq:coarea}
+  \int_\Omega g(x)\,|\nabla u(x)|\,dx
+  = \int_{-\infty}^{\infty}\!\!\left(\int_{\{u=t\}} g\,d\HH^1\right)dt.
+\end{equation}
+Moreover, for Lebesgue-almost every $t\in\R$ the superlevel set $\{u>t\}$ has
+finite perimeter in $\Omega$, the level set $\{u=t\}$ is $\HH^1$-rectifiable
+with $\HH^1(\{u=t\})<\infty$, and
+\[
+  \Per(\{u>t\};\Omega) = \HH^1(\{u=t\}) \quad\text{for a.e.\ } t.
+\]
+\end{theorem}
+
+\begin{proof}
+The coarea formula \eqref{eq:coarea} for $W^{1,1}$ functions is
+\cite[Theorem~13.1]{Maggi2012}; see also
+\cite[Section~3.4, Theorem~3.13]{EvansGariepy2015}.  The perimeter identity and
+rectifiability of almost every level set follow from the $BV$-coarea formula
+\cite[Theorem~3.40]{AFP2000}: since
+$\int_\R\Per(\{u>t\};\Omega)\,dt = \int_\Omega|\nabla u|\,dx < \infty$, the
+set $\{u>t\}$ has finite perimeter for a.e.\ $t$.
+\end{proof}
+
+The following corollary, which we call the \emph{differentiation lemma} for the
+distribution function, is used repeatedly in the level-set analysis.
+
+\begin{lemma}[Differentiation of the distribution function]\label{lem:dist-deriv}
+Let $\Omega\subset\R^2$ be bounded and let $u\in C^1(\Omega)\cap C(\overline\Omega)$
+with $u\ge 0$.  Define $\mu(v):=|\{u>v\}|$ for $v\ge 0$.  Then $\mu$ is
+non-increasing and absolutely continuous, and for Lebesgue-almost every $v>0$,
+\begin{equation}\label{eq:dist-deriv}
+  -\mu'(v) = \int_{\{u=v\}} \frac{1}{|\nabla u|}\,d\HH^1.
+\end{equation}
+In particular, the Cauchy--Schwarz inequality applied to the pair
+$(1, |\nabla u|^{1/2})$ on $\{u=v\}$ gives
+\begin{equation}\label{eq:cauchy-schwarz-flux}
+  \Per(\{u>v\})^2 = \HH^1(\{u=v\})^2
+  \le \left(\int_{\{u=v\}}|\nabla u|\,d\HH^1\right)\left(-\mu'(v)\right)
+  \quad \text{for a.e.\ }v.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The coarea formula \eqref{eq:coarea} with $g = |\nabla u|^{-1}\mathbf{1}_{\{\nabla u\ne 0\}}$
+gives, for $0\le s < t$,
+\[
+  |\{s < u \le t\}\cap\{\nabla u\ne 0\}|
+  = \int_s^t \left(\int_{\{u=v\}\cap\{\nabla u\ne 0\}}\frac{1}{|\nabla u|}\,d\HH^1\right)dv.
+\]
+Since $u\in C^1(\Omega)$, Sard's theorem (\cref{thm:sard} below) implies that
+$\{u=v\}\cap\{\nabla u=0\}$ is empty for a.e.\ $v$, so the restriction to
+$\{\nabla u\ne 0\}$ is superfluous for a.e.\ $v$.  Also $|\{\nabla u=0\}\cap\{s<u\le t\}|$
+contributes zero to the left side (it has measure zero by a standard argument).
+Hence $\mu(s)-\mu(t) = \int_s^t(-\mu')\,dv$ with $-\mu'(v) =
+\int_{\{u=v\}}|\nabla u|^{-1}\,d\HH^1$ a.e.
+
+For \eqref{eq:cauchy-schwarz-flux}: by Cauchy--Schwarz on $\{u=v\}$,
+\[
+  \HH^1(\{u=v\})^2
+  = \left(\int_{\{u=v\}}1\,d\HH^1\right)^{\!2}
+  \le \left(\int_{\{u=v\}}|\nabla u|\,d\HH^1\right)
+      \left(\int_{\{u=v\}}\frac{1}{|\nabla u|}\,d\HH^1\right)
+  = \left(\int_{\{u=v\}}|\nabla u|\,d\HH^1\right)(-\mu'(v)),
+\]
+and by \cref{thm:coarea}, $\HH^1(\{u=v\}) = \Per(\{u>v\})$ for a.e.\ $v$.
+\end{proof}
+
+\begin{remark}\label{rem:flux-coarea}
+The integral $\int_{\{u=v\}}|\nabla u|\,d\HH^1$ is the \emph{flux} of the
+torsion function across the level set.  When $-\Delta u = 1$ in $\{u>v\}$ with
+$u=v$ on $\partial\{u>v\}$ (for a.e.\ regular $v$), integration of
+$-\Delta u = 1$ over $\{u>v\}$ and Green's first identity give
+$\int_{\{u=v\}}|\nabla u|\,d\HH^1 = |\{u>v\}| = \mu(v)$.  Hence
+\eqref{eq:cauchy-schwarz-flux} becomes
+$\Per(\{u>v\})^2\le \mu(v)\,(-\mu'(v))$ for a.e.\ $v$; the deficit from
+equality is $D_H(v) := \mu(v)(-\mu'(v)) - \Per(\{u>v\})^2 \ge 0$.  This is
+developed in \cref{sec:identity}.
+\end{remark}
+
+%--------------------------------------------------------------------
+\subsection{Isoperimetric inequalities}
+%--------------------------------------------------------------------
+
+\begin{theorem}[Planar isoperimetric inequality]\label{thm:isoperimetric}
+For every set of finite perimeter $E\subset\R^2$ with $|E|<\infty$,
+\begin{equation}\label{eq:isoperimetric}
+  \Per(E)^2 \ge 4\pi\,|E|,
+\end{equation}
+with equality if and only if $E$ is equivalent (up to a Lebesgue-null set)
+to a disc $B_r(x)$.
+\end{theorem}
+
+\begin{proof}
+This is \cite[Theorem~14.1]{Maggi2012}; see also
+\cite[Section~5.6, Theorem~5.6]{EvansGariepy2015}.
+\end{proof}
+
+\begin{theorem}[Relative isoperimetric inequality in a disc]
+\label{thm:rel-isoperimetric}
+There is an absolute constant $C_{\mathrm{rel}}>0$ such that for every set of
+finite perimeter $E\subset\R^2$, every $x\in\R^2$, and every $r>0$,
+\begin{equation}\label{eq:rel-isoperimetric}
+  \min\!\bigl\{|E\cap B_r(x)|,\,|B_r(x)\setminus E|\bigr\}
+  \;\le\; C_{\mathrm{rel}}\,\Per(E;B_r(x))^2.
+\end{equation}
+The constant $C_{\mathrm{rel}}$ is independent of $E$, $x$, and $r$.
+\end{theorem}
+
+\begin{proof}
+By the relative isoperimetric inequality for convex domains, applied to the unit
+disc $B_1\subset\R^2$, there is a constant $C_{\mathrm{rel}}>0$ such that for
+every set of finite perimeter $E$,
+$\min\{|E\cap B_1|, |B_1\setminus E|\} \le C_{\mathrm{rel}}\,\Per(E;B_1)^2$;
+see \cite[Theorem~12.37]{Maggi2012} (stated in $\R^n$, here with $n=2$,
+$K=B_1$) or \cite[Theorem~5.9]{EvansGariepy2015}.  The general case at radius
+$r$ follows by the substitution $\tilde{E}:=\{y/r:y\in E\}$: since
+$|\tilde{E}\cap B_1| = r^{-2}|E\cap B_r(x)|$ and
+$\Per(\tilde{E};B_1) = r^{-1}\Per(E;B_r(x))$, the unit-disc inequality for
+$\tilde{E}$ multiplied by $r^2$ yields \eqref{eq:rel-isoperimetric} with the
+same constant $C_{\mathrm{rel}}$.
+\end{proof}
+
+%--------------------------------------------------------------------
+\subsection{The sharp quantitative isoperimetric inequality}
+%--------------------------------------------------------------------
+
+For a set of finite perimeter $E\subset\R^2$ with $0<|E|<\infty$ we define the
+\emph{Fraenkel asymmetry}
+\begin{equation}\label{eq:fraenkel}
+  \AF(E) := \min_{x_0\in\R^2}\frac{|E\triangle B_{r_E}(x_0)|}{|E|},
+  \qquad r_E := \sqrt{|E|/\pi},
+\end{equation}
+and the \emph{isoperimetric deficit}
+\begin{equation}\label{eq:iso-deficit}
+  \diso(E) := \frac{\Per(E)}{2\sqrt{\pi|E|}}-1 \;\ge\; 0,
+\end{equation}
+where $2\sqrt{\pi|E|}$ is the perimeter of a disc of area $|E|$.  Both
+quantities are dimensionless, translation- and scaling-invariant, and
+nonnegative, vanishing precisely when $E$ is a disc.
+
+\begin{theorem}[Fusco--Maggi--Pratelli]\label{thm:fmp}
+There is an absolute constant $C_{\mathrm{F}}>0$ such that for every set of
+finite perimeter $E\subset\R^2$ with $0<|E|<\infty$,
+\begin{equation}\label{eq:fmp}
+  \AF(E) \;\le\; C_{\mathrm{F}}\,\diso(E)^{1/2}.
+\end{equation}
+The exponent $\tfrac{1}{2}$ is optimal: it cannot be replaced by any strictly
+larger power, as shown by elongated ellipses with small eccentricity.
+The value of $C_{\mathrm{F}}$ is not explicit in \cite{FMP2008}; it is finite
+and absolute (depending on neither $E$ nor any geometric parameter of $\Omega$).
+\end{theorem}
+
+\begin{proof}
+This is Theorem~1.1 of \cite{FMP2008} (stated there in $\R^n$; the planar case
+$n=2$ is the specialisation $C_{\mathrm{F}}:=C(2)$).  The theorem is proved in
+\cite{FMP2008} using symmetrisation and a selection-principle argument; we use
+it as a black box.
+\end{proof}
+
+\begin{remark}[Relation between $\diso$ and the additive deficit]\label{rem:deficit-forms}
+The additive isoperimetric deficit
+$D_I(E) := \Per(E)^2 - 4\pi|E| \ge 0$ (see \cref{def:deficits}) satisfies
+\[
+  \diso(E) = \sqrt{1 + \frac{D_I(E)}{4\pi|E|}}-1
+  = \frac{D_I(E)/\!(4\pi|E|)}{\sqrt{1+D_I(E)/(4\pi|E|)}+1}
+  \;\le\; \frac{D_I(E)}{8\pi|E|},
+\]
+since $\sqrt{1+s}+1\ge 2$ for $s\ge 0$.
+Hence $\diso(E)^{1/2} \le (D_I(E)/(8\pi|E|))^{1/2}$, and \eqref{eq:fmp} gives
+\[
+  \AF(E)^2 \;\le\; C_{\mathrm{F}}^2\,\diso(E)
+  \;\le\; \frac{C_{\mathrm{F}}^2}{8\pi}\,\frac{D_I(E)}{|E|}.
+\]
+We will apply this estimate in \cref{sec:main} to the inset $\Etil$.
+\end{remark}
+
+%--------------------------------------------------------------------
+\subsection{Interior regularity of the torsion function}
+%--------------------------------------------------------------------
+
+Let $u\in H^1_0(\Omega)$ be the unique weak solution of the torsion problem
+\begin{equation}\label{eq:torsion}
+  -\Delta u = 1 \text{ in }\Omega, \qquad u = 0 \text{ on }\partial\Omega,
+\end{equation}
+i.e., $\int_\Omega\nabla u\cdot\nabla\varphi\,dx=\int_\Omega\varphi\,dx$ for
+all $\varphi\in H^1_0(\Omega)$.  Existence and uniqueness follow from the
+Lax--Milgram theorem; $u\ge 0$ by the weak maximum principle
+\cite[Theorem~8.1]{GilbargTrudinger2001}.
+
+\begin{theorem}[Interior smoothness and analyticity of $u$]\label{thm:torsion-reg}
+Let $\Omega\subset\R^2$ be a bounded open set and let $u\in H^1_0(\Omega)$ be the
+weak solution of \eqref{eq:torsion}.  Then $u\in C^\infty(\Omega)$.
+Moreover, $u$ is real-analytic in $\Omega$.
+\end{theorem}
+
+\begin{proof}
+Since the right-hand side of \eqref{eq:torsion} is $f\equiv 1\in C^\infty(\R^2)$
+and the operator $-\Delta$ has smooth (constant) coefficients, interior Schauder
+estimates bootstrap to give $u\in C^{k,\alpha}_{\mathrm{loc}}(\Omega)$ for
+every $k\ge 0$ and every $\alpha\in(0,1)$; see
+\cite[Theorem~6.17, Corollary~6.18]{GilbargTrudinger2001}.  Hence
+$u\in C^\infty(\Omega)$.
+
+Real-analyticity follows from the general fact that solutions of linear
+elliptic equations with real-analytic coefficients and real-analytic right-hand
+side are real-analytic in the interior: the Laplacian has constant (hence
+analytic) coefficients and $f\equiv 1$ is analytic, so $u$ is real-analytic in
+$\Omega$; this is a classical result of Morrey--Nirenberg, discussed in
+\cite[Chapter~6, \S6.8 and the historical notes]{GilbargTrudinger2001}.
+\end{proof}
+
+\begin{theorem}[Interior gradient and Hessian estimates]\label{thm:interior-est}
+There is an absolute constant $C>0$ with the following property.  Let
+$\Omega\subset\R^2$ be a bounded open set, let $u$ satisfy \eqref{eq:torsion}
+weakly, let $x\in\Omega$, and set $d:=\dist(x,\partial\Omega)$.  Then
+\begin{equation}\label{eq:interior-est}
+  |\nabla u(x)| \;\le\; C\!\left(\frac{\|u\|_{L^\infty(B_d(x))}}{d}+d\right),
+  \qquad
+  |D^2 u(x)| \;\le\; C\!\left(\frac{\|u\|_{L^\infty(B_d(x))}}{d^2}+1\right).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Apply the interior Schauder estimate of \cite[Theorem~6.2]{GilbargTrudinger2001}
+to $u$ on $B_d(x)$ where $-\Delta u = 1$.  The scale-invariant form of the
+estimate gives
+\[
+  d\,\|\nabla u\|_{L^\infty(B_{d/2}(x))} + d^2\,\|D^2u\|_{L^\infty(B_{d/2}(x))}
+  \;\le\; C\!\left(\|u\|_{L^\infty(B_d(x))} + d^2\right),
+\]
+with $C$ depending only on the dimension $n=2$.  Dividing by $d$ and $d^2$
+respectively yields \eqref{eq:interior-est} (the sup over $B_{d/2}(x)$ bounds
+the pointwise value at $x$).
+\end{proof}
+
+\begin{lemma}[$L^\infty$ bound]\label{lem:linfty}
+Let $\Omega\subset\R^2$ be bounded and let $u$ solve \eqref{eq:torsion}.
+Then $0\le u(x)\le \tfrac14(\diam\Omega)^2$ for all $x\in\Omega$.
+In particular $m:=\max_{\overline\Omega}u \le \tfrac14(\diam\Omega)^2$.
+\end{lemma}
+
+\begin{proof}
+The lower bound $u\ge 0$ follows from the weak maximum principle
+\cite[Theorem~8.1]{GilbargTrudinger2001}.  For the upper bound, let $R=\diam\Omega$
+and pick any $x_0\in\overline\Omega$; then $\Omega\subset B_R(x_0)$.  The
+function $w(x):=(R^2-|x-x_0|^2)/4$ satisfies $-\Delta w=1$ in $\R^2$ and
+$w\ge 0$ on $\Omega$.  Hence $h:=w-u$ satisfies $-\Delta h=0$ in $\Omega$ and
+$h=w\ge 0$ on $\partial\Omega$, so by the maximum principle
+\cite[Corollary~3.2]{GilbargTrudinger2001}, $h\ge 0$ in $\Omega$, giving
+$u\le w\le R^2/4$.
+\end{proof}
+
+%--------------------------------------------------------------------
+\subsection{Sard's theorem and regular values of the torsion function}
+%--------------------------------------------------------------------
+
+\begin{theorem}[Sard]\label{thm:sard}
+Let $U\subseteq\R^d$ be open and $f\in C^k(U;\R^m)$ with
+$k\ge\max\{1, d-m+1\}$.  Then the set of critical values of $f$,
+\[
+  f\!\left(\bigl\{x\in U: \operatorname{rank}\,Df(x) < m\bigr\}\right),
+\]
+has Lebesgue measure zero in $\R^m$.  In particular, if $f\in C^\infty(U)$
+and $m=1$, the set $f(\{\nabla f=0\})\subset\R$ is a Lebesgue-null set.
+\end{theorem}
+
+\begin{proof}
+See \cite[Theorem~A.6]{Maggi2012} for the statement in the context used here;
+the original source is \cite{Sard1942}.
+\end{proof}
+
+\begin{lemma}[Almost every level of $u$ is regular]\label{lem:regular-values}
+Let $\Omega\subset\R^2$ be a bounded open set and let $u$ solve
+\eqref{eq:torsion}.  Then for Lebesgue-almost every $v\in(0,m)$ the level $v$
+is a \emph{regular value} of $u$ in $\Omega$: that is, $\nabla u(x)\ne 0$ at
+every point $x\in\{u=v\}\cap\Omega$.  For every such $v$,
+\begin{enumerate}[label=(\roman*)]
+  \item\label{it:rv-manifold}
+    the level set $\{u=v\}\cap\Omega$ is a finite, disjoint union of smooth
+    closed curves;
+  \item\label{it:rv-perimeter}
+    the superlevel set $\{u>v\}$ is a finite-perimeter set with
+    $\Per(\{u>v\}) = \HH^1(\{u=v\})$;
+  \item\label{it:rv-formula}
+    the differentiation formula \eqref{eq:dist-deriv} holds at $v$, with
+    $1/|\nabla u|$ finite and smooth on $\{u=v\}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+By \cref{thm:torsion-reg}, $u\in C^\infty(\Omega)$ (indeed real-analytic).
+Applying \cref{thm:sard} with $d=2$, $m=1$: the set of critical values
+$u(\{\nabla u=0\}\cap\Omega)\subset\R$ has Lebesgue measure zero.  Hence for
+a.e.\ $v$, every point of $\{u=v\}\cap\Omega$ is a regular point.  For such $v$:
+
+\ref{it:rv-manifold}: The implicit function theorem gives $\{u=v\}\cap\Omega$
+as a smooth $1$-dimensional embedded submanifold of $\Omega$.  Since $\Omega$
+is bounded and $u\in C(\overline\Omega)$ with $u=0$ on $\partial\Omega$, the
+level set $\{u=v\}$ (for $v>0$) is compactly contained in $\Omega$ and hence
+consists of finitely many smooth closed curves (a smooth $1$-manifold without
+boundary, compact in $\Omega$).
+
+\ref{it:rv-perimeter}: By \cref{thm:coarea},
+$\Per(\{u>v\})=\HH^1(\{u=v\})$ for a.e.\ $v$.
+
+\ref{it:rv-formula}: For a.e.\ $v$, \eqref{eq:dist-deriv} holds and
+$|\nabla u|>0$ on $\{u=v\}$, so $1/|\nabla u|$ is finite and smooth there by
+\cref{thm:torsion-reg}.
+\end{proof}

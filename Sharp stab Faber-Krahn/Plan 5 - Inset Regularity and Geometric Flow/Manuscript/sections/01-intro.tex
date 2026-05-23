@@ -1,0 +1,214 @@
+\section{Introduction}
+\label{sec:intro}
+
+\subsection*{The Saint--Venant inequality and its quantitative form}
+
+Let $\Omega\subset\R^2$ be a bounded open set of finite perimeter with
+$|\Omega|=\pi$.  The \emph{torsion function} of $\Omega$ is the unique
+solution $u\in H^1_0(\Omega)$ of $-\Delta u=1$ in $\Omega$, $u=0$ on
+$\partial\Omega$; its integral $T(\Omega):=\int_\Omega u$ is the
+\emph{torsional rigidity}.  The classical Saint--Venant conjecture,
+proved by P\'olya and Szeg\H{o} \cite{PolyaSzego1951} via the
+Schwarz symmetrization of the torsion potential, asserts that the disc
+maximises torsional rigidity at fixed area:
+\[
+  T(\Omega)\ \le\ T(B_1)\ =\ \frac{\pi}{8},
+\]
+with equality if and only if $\Omega$ is a disc.  A more precise, and
+substantially more difficult, question is to quantify stability: how
+large must $\Omega$ deviate from a disc when the deficit
+$\dT(\Omega):=\tfrac\pi8-T(\Omega)$ is small?  The natural measure of
+deviation is the \emph{Fraenkel asymmetry}
+\[
+  \AF(\Omega):=\min_{x_0\in\R^2}
+    \frac{|\Omega\triangle B(x_0,r_\Omega)|}{|\Omega|},\qquad
+  r_\Omega:=\sqrt{|\Omega|/\pi},
+\]
+which is zero if and only if $\Omega$ is a disc.  The sharp quantitative
+Saint--Venant inequality is the statement
+\begin{equation}\label{eq:sharp-main}
+  \AF(\Omega)^2\ \le\ C\,\dT(\Omega)
+\end{equation}
+for some \emph{absolute} constant $C$ (independent of $\Omega$, of $|\Omega|$,
+and of any regularity of $\partial\Omega$).  The exponent $2$ on the
+left and the exponent $1$ on the right are both optimal: the
+ratio $\AF(\Omega)^2/\dT(\Omega)$ is bounded and bounded away from
+zero for a one-parameter family of ellipses.
+
+Talenti \cite{Talenti1976} proved a pointwise comparison between the
+decreasing rearrangement of $u_\Omega$ and the torsion function of the
+equimeasure disc, giving $T(\Omega)\le T(B_1)$ and the quantitative
+comparison $\mu(v)\le\mu_B(v)$ between the distribution functions.
+This Talenti comparison, which we state precisely as \cref{thm:talenti},
+is a key input in the present work.  Talenti's result also implies the
+profile identity $\int_0^{1/4}(\mu_B-\mu)\d v=\dT$ (see \cref{lem:profile}),
+which localizes the deficit to a single integral of a non-negative
+integrand.
+
+\subsection*{Prior work on quantitative stability}
+
+The Faber--Krahn problem for the first Dirichlet eigenvalue $\lambda_1$
+is the structural analogue of the Saint--Venant problem, and the two
+share much of their quantitative theory.  For the quantitative
+isoperimetric inequality the sharp form
+$\AF(E)^2\le C_{\mathrm{F}}\,\diso(E)$ (where $\diso(E)$ denotes the
+isoperimetric deficit) was established by Fusco, Maggi, and Pratelli
+\cite{FMP2008}; this result, which we use as a black box, is the
+\emph{only} external quantitative inequality the present paper imports.
+
+For Saint--Venant/Faber--Krahn stability, Brasco and Pratelli
+\cite{BrascoPratelli2012} proved a quantitative stability result for
+both the torsional rigidity and the first eigenvalue, establishing
+\eqref{eq:sharp-main} with a \emph{non-sharp} exponent.  The sharp
+inequality \eqref{eq:sharp-main} --- with exponent $2$ and an absolute
+constant, valid with no regularity on $\partial\Omega$ --- was
+established by Brasco, De Philippis, and Velichkov \cite{BDV2015}.
+Their argument proceeds by a \emph{selection principle}: from a
+near-extremal sequence one extracts a subsequence that, after
+appropriate normalisation, converges in a strong topology to a
+$C^{1,\gamma}$ domain; the stability of the latter is then proved by a
+second-variation analysis.  The selection principle is a powerful and
+elegant tool, but it is non-constructive, non-quantitative in the
+convergence, and it relies on the regularity theory for minimizers of
+shape functionals in a fundamental way.  A survey of quantitative
+spectral inequalities, including the state of the art up to~2017, is
+given by Brasco and De Philippis \cite{BrascoDePhilippis2017}.
+
+\subsection*{The main theorem}
+
+The main result of this paper is the following, proved in \cref{sec:main}
+as \cref{thm:main}.
+
+\begin{theorem}[Main theorem; see \cref{thm:main}]
+  There exists an absolute constant $C$ such that every bounded open set
+  $\Omega\subset\R^2$ with $|\Omega|=\pi$ satisfies
+  \[
+    \AF(\Omega)^2\ \le\ C\,\dT(\Omega).
+  \]
+\end{theorem}
+
+This is the same conclusion as \cite{BDV2015}, but obtained by an
+entirely different route.  The proof requires no selection principle,
+no mass transport, and no symmetry-type argument (Serrin overde\-termined
+problem / Magnanini--Poggesi estimates).  The only external inputs are:
+classical function-space and geometric-measure-theory tools
+(the coarea formula, the planar isoperimetric inequality, the Talenti
+comparison, and the sharp quantitative isoperimetric inequality of
+\cite{FMP2008}), all quoted with precise references in
+\cref{sec:prelim}.
+
+\subsection*{Strategy and what is new}
+
+The argument replaces the selection--regularity--second-variation
+architecture of \cite{BDV2015} by a purely level-set construction
+driven by the two \emph{level deficits}:
+\begin{align*}
+  D_H(v) &:= \mu(v)\bigl(-\mu'(v)\bigr) - P(\{u>v\})^2\ \ge\ 0,\\
+  D_I(v) &:= P(\{u>v\})^2 - 4\pi\mu(v)\ \ge\ 0,
+\end{align*}
+where $\mu(v)=|\{u>v\}|$ is the distribution function and
+$P(\{u>v\})$ is the perimeter of the superlevel set.  The central
+identity (\cref{thm:level-identity}, proved in \cref{sec:identity})
+\[
+  \int_0^m\bigl(D_H(v)+D_I(v)\bigr)\d v\ =\ 4\pi\,\dT(\Omega)
+\]
+encodes the entire deficit in a non-negative integral over the level
+parameter.  All the estimates in the paper are consequences of this
+identity and the classical Talenti comparison.
+
+\smallskip
+\noindent\textbf{The two sharp ingredients.}
+Two novel observations make the reduction exact:
+
+\begin{enumerate}
+\item \emph{Fold-content bound with no square-root loss.}
+  At the optimal inset level $\hat v\sim\sqrt{\dT}$, the connected
+  component $\Etil$ of $\{u>\hat v\}$ of largest measure is trapped in a
+  thin annulus $B_{\rho_i}(z)\subset\Etil\subset B_{\rho_e}(z)$ of
+  width $\eta=\rho_e-\rho_i\lesssim\dT^{1/8}$ (established in
+  \cref{sec:annulus}).  The total angular measure of rays along which
+  $\Etil$ is \emph{not} a radial graph is bounded, via the
+  point-source flux identity and the cancellation
+  $|I_{\Etil}-2\pi\hat r|\le a\eta/(\rho_i\hat r)$
+  (where $a=|\Etil\triangle B_{\hat r}(z)|$), by a quantity of order
+  $\Exc+a\eta$ — without the factor of $\sqrt{\diso}$ that the
+  naive application of the quantitative isoperimetric inequality
+  \cite{FMP2008} would introduce.  This is the content of
+  \cref{prop:fold,cor:gd} in \cref{sec:fold}.
+
+\item \emph{Cutting caps decreases the deficit.}
+  To manufacture a genuine radial graph $G$ from $\Etil$ one must excise
+  the ``caps'' (the portions of $\Etil$ that cause each ray to intersect
+  $\partial\Etil$ more than once).  A potential concern is that this
+  excision increases the scale-invariant deficit
+  $\dstar(G):=(T(B_G)-T(G))/T(B_G)$.  In fact it does not: the
+  equal-area comparison ball shrinks faster than torsion is lost, so
+  $\dstar$ \emph{decreases}.  This is \cref{lem:cutdeficit} in
+  \cref{sec:cut}, proved via the Green-function representation of
+  torsional rigidity and a barrier estimate in the collar.
+\end{enumerate}
+
+With $\tau:=\sqrt{\dT}$, the two observations combine to produce a
+continuous radial graph $G$ with amplitude $\lesssim\dT^{1/8}$,
+scale-invariant deficit $\dstar(G)\le C\dstar(\Omega)$, and symmetric
+difference $|\Omega\triangle G|\le C\sqrt{\dT}$ (the precise reduction
+is \cref{thm:reduction} in \cref{sec:main}).  The
+perturbative stability of nearly spherical sets
+(\cref{thm:graphG} in \cref{sec:nearly}) then gives $\AF(G)^2\le C_G\dstar(G)$,
+and the triangle inequality for the symmetric difference transfers this
+to $\AF(\Omega)^2\le C\dT(\Omega)$.
+
+\subsection*{Organization of the paper}
+
+\Cref{sec:prelim} collects the classical prerequisites: the theory of
+sets of finite perimeter (De Giorgi--Federer structure theorem, coarea
+formula, differentiation of the distribution function), the planar
+isoperimetric inequality and the sharp quantitative version
+\cite{FMP2008}, the interior regularity and analyticity of the torsion
+function \cite{GilbargTrudinger2001}, and Sard's theorem.
+
+\Cref{sec:identity} introduces the two level deficits $D_H$ and $D_I$,
+proves their non-negativity, establishes the central level-set deficit
+identity $\int_0^m(D_H+D_I)\d v=4\pi\dT$ (\cref{thm:level-identity}),
+and derives the Talenti comparison and the profile identity.
+
+\Cref{sec:inset} carries out the level-set construction: it proves
+deficit transfer to any superlevel set, selects the good level $\hat v$
+by an averaging argument, establishes the closeness of $\{u>\hat v\}$
+to $\Omega$, and isolates the inset $\Etil$ as the dominant connected
+component.
+
+\Cref{sec:annulus} proves that a connected hole-free finite-perimeter
+set with controlled isoperimetric deficit is trapped in a thin
+concentric annulus, using the angular-perimeter coarea identity and a
+crossing-number argument.
+
+\Cref{sec:fold} bounds the fold content of $\Etil$ --- the obstruction
+to being a radial graph --- via the point-source flux identities and the
+thin-annulus cancellation, achieving the sharp estimate without the
+quantitative-isoperimetric square-root loss.
+
+\Cref{sec:cut} proves that excising the caps to manufacture a radial
+graph decreases the scale-invariant torsion deficit, via a
+Green-function comparison and a barrier estimate.
+
+\Cref{sec:nearly} establishes the perturbative stability of nearly
+spherical sets for the torsion functional, proving that any radial graph
+of small amplitude satisfies $\AF^2\le C_G\dstar$, with explicit
+absolute constants, by a second-order expansion of the torsion deficit
+in Fourier modes.
+
+\Cref{sec:main} assembles all pieces, optimises the level parameter at
+$\tau=\sqrt{\dT}$, and derives the main theorem in full.
+
+\subsection*{Notation}
+
+Throughout the paper, $\Omega\subset\R^2$ is a bounded open set with
+$|\Omega|=\pi$.  The unit disc is $B_1$; $B(x_0,r)$ denotes the open
+disc of radius $r$ centred at $x_0$.  The symbol $C$ denotes a generic
+positive absolute constant whose value may change from line to line;
+named constants such as $C_G$, $\eta_G$, $A_0$, $\delta_*$ are fixed
+at their first occurrence.  All \emph{absolute} constants are
+independent of $\Omega$ and of any geometric or regularity data of
+$\partial\Omega$.  The notation $f\lesssim g$ means $f\le Cg$ for an
+absolute $C$.

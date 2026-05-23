@@ -1,0 +1,365 @@
+\section{Proof of the main theorem}
+\label{sec:main}
+
+We now assemble the constructions of \S\S4--7 with the perturbative
+nearly--spherical estimate of \S8. Throughout, $\Om\subset\R^2$ is open with
+$\abs\Om=\pi$, $u\in H^1_0(\Om)$ is its torsion function, $\dT=\dT(\Om)=
+\tfrac\pi8-T(\Om)\ge0$ is the Saint--Venant deficit, and $\dstar(\Om)=
+\tfrac8\pi\dT$ is the scale--invariant relative torsion deficit. We write
+$C$ for an absolute constant whose value may change from line to line, and
+$\eta_G,C_G$ for the absolute constants of the radial--graph theorem
+\cref{thm:graphG}. The threshold $\delta_\star>0$ is absolute and may be
+shrunk finitely many times.
+
+The section has two results. \Cref{thm:reduction} reduces a near--extremal
+$\Om$ to a continuous small--amplitude radial graph $G$ that inherits the
+torsion deficit and is close to $\Om$ in measure; this is the entire payload
+of \S\S4--7. \Cref{thm:main} then feeds $G$ into \cref{thm:graphG} and
+transfers the resulting asymmetry bound back to $\Om$ by the triangle
+inequality.
+
+\subsection{The reduction}
+
+The construction selects an inset level $\hat v\sim\sqrt\dT$, passes to the
+trapping annulus, cuts the radial folds to make an honest graph, and
+optimises the free scale $\tau$ at $\tau=\sqrt\dT$. We carry $\tau$ symbolic
+through the estimates and set $\tau=\sqrt\dT$ only at the end, so that the
+balance producing the exponent $\tfrac12$ is visible.
+
+\begin{theorem}[Sharp reduction to a graph inset]\label{thm:reduction}
+There is an absolute $\delta_\star>0$ such that the following holds. Let
+$\Om\subset\R^2$ be open with $\abs\Om=\pi$ and $\dT\le\delta_\star$, and put
+$\tau:=\sqrt\dT$. Then there exist a point $z\in\R^2$ and a continuous radial
+graph
+\[
+   G=\{z+r\omega:\ 0\le r<\rho(\omega),\ \omega\in S^1\},
+   \qquad \rho\in C^0(S^1),
+\]
+with $\hat r_G:=\sqrt{\abs G/\pi}$, such that
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.6em]
+\item \textup{(small amplitude)}
+   $\ \norm{\dfrac{\rho}{\hat r_G}-1}_{L^\infty(S^1)}\ \le\ C\,\dT^{1/8}
+   \ \le\ \eta_G$;
+\item \textup{(controlled deficit)} $\ \dstar(G)\ \le\ C\,\dstar(\Om)$;
+\item \textup{(closeness)} $\ \abs{\Om\triangle G}\ \le\ C\,\sqrt\dT$.
+\end{enumerate}
+Every constant is absolute. The construction uses only the two level
+deficits $D_H,D_I$ (through \cref{thm:level-identity,lem:profile,lem:muprime,%
+thm:annulus,lem:two-flux}); it invokes no selection principle, no transport,
+and no Serrin/Magnanini--Poggesi symmetry estimate.
+\end{theorem}
+
+\begin{proof}
+Throughout we abbreviate $\diso=\diso(\Etil)$, $\Exc=P(\Etil)-2\pi\hat r$,
+$a=\abs{\Etil\triangle B_{\hat r}(z)}$ and $\eta=\rho_e-\rho_i$, with the
+notation of \cref{def:inset,thm:annulus}.
+
+\emph{Step 0: the inset.} Apply \cref{lem:level} with the given $\tau\in
+(0,\tfrac1{16})$ (legitimate since $\tau=\sqrt\dT\le\sqrt{\delta_\star}<
+\tfrac1{16}$ once $\delta_\star<\tfrac1{256}$): there is a regular value
+$\hat v\in(\tau,2\tau)$ with
+\begin{equation}\label{eq:m-good}
+   D_H(\hat v)+D_I(\hat v)\le A_0\,\frac\dT\tau,
+   \qquad
+   \mu_B(\hat v)-\mu(\hat v)\le A_0\,\frac\dT\tau,
+\end{equation}
+$A_0$ absolute. Let $\Etil$ be the connected inset of \cref{def:inset} (the
+component of $\{u>\hat v\}$ of largest measure); by \cref{lem:noholes} it is
+connected and has no interior holes, and $\mu_E=\abs\Etil$,
+$\hat r=\sqrt{\mu_E/\pi}$. By \cref{lem:close,lem:spill},
+\begin{equation}\label{eq:m-close}
+   \abs{\Om\triangle\Etil}\ \le\ 8\pi\tau+A_0\frac\dT\tau
+       +\frac{A_0^2}{16\pi^3}\,\frac{\dT^2}{\tau^2}.
+\end{equation}
+Since $\mu(\hat v)\ge\pi-(8\pi\tau+A_0\dT/\tau)\ge\pi-1$ for
+$\delta_\star$ small, $\mu_E\ge\pi-1\ge\pi/2$, hence $\hat r\ge1/\sqrt2$ and,
+for the annulus produced below, $\rho_i\ge\tfrac12$ after possibly shrinking
+$\delta_\star$.
+
+\emph{Step 1: the scales (carrying $\tau$ symbolic).} From \cref{lem:spill}
+(recorded in \cref{def:inset}),
+\begin{equation}\label{eq:m-diso}
+   \diso\ \le\ \frac{D_I(\hat v)}{8\pi\,\mu_E}\ \le\ C\,\frac\dT\tau,
+   \qquad
+   \Exc=2\pi\hat r\,\diso\ \le\ C\,\frac\dT\tau,
+\end{equation}
+using $\mu_E\ge\pi/2$ and \eqref{eq:m-good}. The sharp quantitative
+isoperimetric inequality \cref{thm:fmp}, in the form
+$a=\abs{\Etil\triangle B_{\hat r}(z)}\le C_{\mathrm F}\sqrt{\diso}\,\abs\Etil$,
+gives
+\begin{equation}\label{eq:m-a}
+   a\ \le\ C\,\sqrt{\diso}\ \le\ C\Bigl(\frac\dT\tau\Bigr)^{1/2}.
+\end{equation}
+The trapping annulus \cref{thm:annulus}, valid because $\Etil$ is connected
+and hole--free, yields $B_{\rho_i}(z)\subset\Etil\subset B_{\rho_e}(z)$ with
+\begin{equation}\label{eq:m-eta}
+   \eta=\rho_e-\rho_i\ \le\ C\,(\Exc+a)^{1/2}.
+\end{equation}
+By \cref{cor:gd} the radial--graph defect of $\Etil$ about $z$ obeys
+\begin{equation}\label{eq:m-gd}
+   \gd(\Etil)\ \le\ C\,\eta\,(\Exc+a\eta).
+\end{equation}
+
+\emph{Step 2: optimise $\tau=\sqrt\dT$ and re--derive every exponent.} Set
+$\tau=\sqrt\dT$, so $\dT/\tau=\sqrt\dT$. We re--derive each scale
+independently from \eqref{eq:m-diso}--\eqref{eq:m-gd}:
+\begin{align}
+   \diso\ &\le\ C\,\frac\dT\tau\ =\ C\,\dT^{1/2}, &
+   \Exc\ &\le\ C\,\dT^{1/2}, \label{eq:s-diso}\\
+   a\ &\le\ C\Bigl(\frac\dT\tau\Bigr)^{1/2}\ =\ C\,\dT^{1/4}, \label{eq:s-a}\\
+   \eta\ &\le\ C\,(\Exc+a)^{1/2}\ \le\ C\,a^{1/2}\ \le\ C\,\dT^{1/8},
+       \label{eq:s-eta}
+\end{align}
+where in \eqref{eq:s-eta} we used that $a\sim\dT^{1/4}$ dominates
+$\Exc\sim\dT^{1/2}$ as $\dT\to0$, so $\Exc+a\le 2a\le C\dT^{1/4}$ and
+$(\Exc+a)^{1/2}\le C\dT^{1/8}$. For the graph defect, \eqref{eq:m-gd} gives
+\begin{equation}\label{eq:s-gd}
+   \gd(\Etil)\ \le\ C\,\eta\,(\Exc+a\eta)
+   \ \le\ C\bigl(\dT^{1/8}\!\cdot\dT^{1/2}+\dT^{1/4}\!\cdot\dT^{1/4}\bigr)
+   \ =\ C\bigl(\dT^{5/8}+\dT^{1/2}\bigr)\ \le\ C\,\dT^{1/2},
+\end{equation}
+the dominant term being $a\eta\cdot\eta$ with
+$a\,\eta^2=\dT^{1/4}\cdot\dT^{1/4}=\dT^{1/2}$. As a cross--check against the
+heuristic $\gd\sim\dT/\tau$: at $\tau=\sqrt\dT$ one has
+$\dT/\tau=\dT^{1/2}$, matching \eqref{eq:s-gd}. Likewise the closeness
+\eqref{eq:m-close} reads
+\begin{equation}\label{eq:s-close}
+   \abs{\Om\triangle\Etil}\ \le\ 8\pi\,\dT^{1/2}+A_0\,\dT^{1/2}
+       +\frac{A_0^2}{16\pi^3}\,\dT\ \le\ C\,\dT^{1/2},
+\end{equation}
+i.e.\ both contributions $\tau=\dT^{1/2}$ (the level height) and
+$\dT/\tau=\dT^{1/2}$ (the level smoothing) coincide at the optimum, while the
+spillover $\dT^2/\tau^2=\dT$ is genuinely higher order. This is precisely the
+balance $\tau\sim\dT/\tau$, solved by $\tau=\sqrt\dT$; any other power of
+$\tau$ would leave one of the two terms larger than $\dT^{1/2}$.
+
+\emph{Step 3: realisation of the continuous graph $G$.} By
+\cref{prop:realization} there is a continuous (indeed Lipschitz) radial
+profile $\rho\in C^0(S^1;[\rho_i,\rho_e])$ and a smoothing scale $\sigma>0$
+such that, with $G:=\{z+r\omega:r<\rho(\omega)\}$,
+\begin{equation}\label{eq:s-real}
+   \abs{\Etil\triangle G}\ \le\ \gd(\Etil)+C\,\sigma,
+   \qquad
+   \norm{\rho-\hat r}_{L^\infty(S^1)}\ \le\ \eta,
+\end{equation}
+where the second bound holds because $\rho$ takes values in
+$[\rho_i,\rho_e]$ and $\hat r\in[\rho_i,\rho_e]$, so
+$\abs{\rho-\hat r}\le\rho_e-\rho_i=\eta$. We take $\sigma=\dT$, which is
+admissible (the total variation of the core profile is $\le P(\Etil)/\rho_i
+\le C$, so the smoothing cost is $\le C\sigma=C\dT$). Then by
+\eqref{eq:s-gd},
+\begin{equation}\label{eq:s-EtilG}
+   \abs{\Etil\triangle G}\ \le\ \gd(\Etil)+C\dT\ \le\ C\,\dT^{1/2}.
+\end{equation}
+
+\emph{Step 4: verification of (i), (ii), (iii).}
+
+\noindent\textup{(i)} \emph{Amplitude.} By \eqref{eq:s-real} and
+\eqref{eq:s-eta}, $\norm{\rho-\hat r}_\infty\le\eta\le C\dT^{1/8}$. The
+equal--area radius of $G$ satisfies $\abs{\hat r_G-\hat r}\le C\sqrt\dT$:
+indeed $\abs{\abs G-\mu_E}=\abs{\abs G-\abs\Etil}\le\abs{\Etil\triangle G}\le
+C\dT^{1/2}$ by \eqref{eq:s-EtilG}, and $\hat r_G^2-\hat r^2=(\abs G-\mu_E)/\pi$,
+so $\abs{\hat r_G-\hat r}\le\abs{\abs G-\mu_E}/(\pi(\hat r_G+\hat r))\le
+C\dT^{1/2}$ since $\hat r\ge1/\sqrt2$. Consequently
+\[
+   \norm{\frac{\rho}{\hat r_G}-1}_\infty
+   =\frac{\norm{\rho-\hat r_G}_\infty}{\hat r_G}
+   \le\frac{\norm{\rho-\hat r}_\infty+\abs{\hat r-\hat r_G}}{\hat r_G}
+   \le\frac{C\dT^{1/8}+C\dT^{1/2}}{\,1/\sqrt2-C\dT^{1/2}\,}
+   \le C\,\dT^{1/8}.
+\]
+Shrinking $\delta_\star$ so that $C\,\delta_\star^{1/8}\le\eta_G$ gives
+$\norm{\rho/\hat r_G-1}_\infty\le\eta_G$, which is (i). Here it is essential
+that $\eta\sim\dT^{1/8}$ is an \emph{absolute} smallness (decaying with
+$\dT$), so the hypothesis of \cref{thm:graphG} is met for $\dT$ small,
+\emph{regardless} of the cruder $L^1$--roundness $a\sim\dT^{1/4}$.
+
+\noindent\textup{(iii)} \emph{Closeness.} By \eqref{eq:s-close} and
+\eqref{eq:s-EtilG},
+\[
+   \abs{\Om\triangle G}\ \le\ \abs{\Om\triangle\Etil}+\abs{\Etil\triangle G}
+   \ \le\ C\,\dT^{1/2}+C\,\dT^{1/2}\ =\ C\,\sqrt\dT,
+\]
+which is (iii).
+
+\noindent\textup{(ii)} \emph{Deficit.} Let $G_0:=\{z+r\omega:r<\rho_0(\omega)\}$
+be the BV core inset of \cref{cor:gd,prop:realization}, so $\rho_0\in
+[\rho_i,\rho_e]$, $B_{\rho_i}(z)\subset G_0\subset\Etil\subset B_{\rho_e}(z)$,
+and $\Etil\setminus G_0$ (the radial caps) lies in the collar
+$\{\rho_i<\abs{x-z}<\rho_e\}$. The cutting condition
+$3\tilde\eta\le T(\Etil)/\abs\Etil$, with $\tilde\eta=\tfrac14(\rho_e^2-
+\rho_i^2)\le\eta\,\rho_e\le C\dT^{1/8}$, holds for $\delta_\star$ small,
+because
+\[
+   \frac{T(\Etil)}{\abs\Etil}
+   =\bigl(1-\dstar(\Etil)\bigr)\frac{\abs\Etil}{8\pi}
+   \ \ge\ \bigl(1-\tfrac12\bigr)\frac{\pi/2}{8\pi}=\frac1{32},
+\]
+using $\dstar(\Etil)\le\tfrac12$ (from Step~5 below, or directly from
+\cref{lem:transfer}) and $\abs\Etil\ge\pi/2$. Hence \cref{lem:cutdeficit}
+applies to $G_0\subset\Etil$ and gives
+\begin{equation}\label{eq:s-cut}
+   \dstar(G_0)\ \le\ \dstar(\Etil).
+\end{equation}
+Passing from $G_0$ to the mollified $G$ moves only collar material of total
+measure $\abs{G\triangle G_0}\le C\sigma=C\dT$; by the boundary--layer
+stability \cref{lem:torsion-stab} (with $\tilde\eta\le C\dT^{1/8}$),
+$\abs{T(G)-T(G_0)}\le3\tilde\eta\,\abs{G\triangle G_0}\le C\dT^{9/8}$, and
+$\abs{\,\abs G-\abs{G_0}\,}\le C\dT$, so from the definition of $\dstar$,
+\begin{equation}\label{eq:s-moll}
+   \dstar(G)\ \le\ \dstar(G_0)+C\bigl(\tilde\eta\,\abs{G\triangle G_0}
+   +\abs{\,\abs G-\abs{G_0}\,}\bigr)\ \le\ \dstar(G_0)+C\dT.
+\end{equation}
+(The constant absorbs $T(B_{G_0})=\abs{G_0}^2/8\pi\ge c>0$ in the
+denominator of $\dstar$.) Combining \eqref{eq:s-cut} and \eqref{eq:s-moll},
+\begin{equation}\label{eq:s-defchain}
+   \dstar(G)\ \le\ \dstar(\Etil)+C\dT.
+\end{equation}
+
+\emph{Step 5: transfer of the deficit from $\Om$ to $\Etil$.} By
+\cref{lem:transfer}, $\dstar(\{u>\hat v\})\le(\pi^2/\mu(\hat v)^2)\dstar(\Om)$.
+Passing from $\{u>\hat v\}$ to its largest component $\Etil$ removes the
+spillover, which by \cref{lem:spill} sits in the same collar and has measure
+$\le C\dT^2/\tau^2=C\dT$; by \cref{lem:cutdeficit} this does not increase
+$\dstar$ (the spillover is low--torsion boundary material). Hence, with
+$\mu_E=\pi-O(\sqrt\dT)$ so that $\pi^2/\mu_E^2\le1+C\sqrt\dT$,
+\begin{equation}\label{eq:s-transfer}
+   \dstar(\Etil)\ \le\ \dstar(\{u>\hat v\})\ \le\ \frac{\pi^2}{\mu_E^2}\,
+   \dstar(\Om)\ \le\ (1+C\sqrt\dT)\,\dstar(\Om)\ \le\ 2\,\dstar(\Om),
+\end{equation}
+for $\delta_\star$ small; in particular $\dstar(\Etil)\le\tfrac12$ for
+$\dstar(\Om)\le\tfrac14$, which justifies the value used in Step~4.
+Inserting \eqref{eq:s-transfer} into \eqref{eq:s-defchain} and using
+$\dT=\tfrac\pi8\dstar(\Om)\le C\dstar(\Om)$,
+\[
+   \dstar(G)\ \le\ \dstar(\Etil)+C\dT\ \le\ 2\dstar(\Om)+C\dstar(\Om)
+   \ =\ C\,\dstar(\Om),
+\]
+which is (ii). This completes the proof.
+\end{proof}
+
+\subsection{The main theorem}
+
+\begin{theorem}[Sharp quantitative Saint--Venant, selection--free]
+\label{thm:main}
+There is an absolute constant $C$ such that every open set $\Om\subset\R^2$
+with $\abs\Om=\pi$ satisfies
+\begin{equation}\label{eq:main}
+   \AF(\Om)^2\ \le\ C\,\dT(\Om).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\emph{Trivial regime.} If $\dT\ge\delta_\star$, then since $\abs\Om=\abs B=\pi$
+for the optimal disc $B$ we have $\abs{\Om\triangle B}\le\abs\Om+\abs B=2\pi$,
+so $\AF(\Om)\le2$ and
+$\AF(\Om)^2\le4\le(4/\delta_\star)\,\dT$. Thus \eqref{eq:main} holds with
+$C=4/\delta_\star$ in this regime.
+
+\emph{Near--extremal regime.} Assume $\dT\le\delta_\star$ with $\delta_\star$
+the threshold of \cref{thm:reduction}, and let $G=\{z+r\omega:r<\rho(\omega)\}$
+be the radial graph it provides, with $\hat r_G=\sqrt{\abs G/\pi}$ and
+amplitude $\norm{\rho/\hat r_G-1}_\infty\le C\dT^{1/8}\le\eta_G$.
+
+\emph{Barycentre normalisation.} \Cref{thm:graphG} requires the graph to be
+centred at its barycentre. Let $b$ be the barycentre of $G$. Since $G$ is
+trapped in the annulus $\{\,\rho_i\le\abs{x-z}\le\rho_e\,\}$ about $z$ with
+$\rho_e-\rho_i=\eta$ and the profile oscillates by at most $\eta$ about
+$\hat r$, the barycentre is displaced from $z$ by at most
+\begin{equation}\label{eq:m-bary}
+   \abs{b-z}\ \le\ C\,\eta\ \le\ C\,\dT^{1/8}\ \le\ \eta_G,
+\end{equation}
+for $\delta_\star$ small. Recentring $G$ at $b$ leaves a radial graph in the
+direction field $\omega\mapsto b+r\omega$ with profile $\tilde\rho$, whose
+amplitude satisfies $\norm{\tilde\rho/\hat r_G-1}_\infty\le C\dT^{1/8}\le
+\eta_G$ by \eqref{eq:m-bary} (a translation of size $\le\eta$ changes the
+radial profile of an $\eta$--graph by $\le2\eta$, so the amplitude at most
+doubles). \emph{We do not move $G$ itself}: the asymmetry $\AF(G)$ and the
+deficit $\dstar(G)$ are translation--invariant, so \cref{thm:graphG} applied
+to the recentred graph yields a bound on $\AF(G)$ for the original $G$, and
+the closeness \cref{thm:reduction}(iii), $\abs{\Om\triangle G}\le C\sqrt\dT$,
+is used for that original $G$. Thus no closeness is lost to recentring.
+
+\emph{Asymmetry of $G$.} By \cref{thm:graphG} (applied to the
+barycentre--recentred graph) and \cref{thm:reduction}(ii),
+\begin{equation}\label{eq:m-AG}
+   \AF(G)^2\ \le\ C_G\,\dstar(G)\ \le\ C_G\cdot C\,\dstar(\Om)
+   \ =\ C\,\dstar(\Om)\ =\ C\,\tfrac8\pi\,\dT\ \le\ C\,\dT,
+\end{equation}
+so $\AF(G)\le C\sqrt\dT$.
+
+\emph{Transfer to $\Om$ by the triangle inequality.} Let $B_G=B(y,\hat r_G)$
+be the disc of area $\abs G$ realising the asymmetry of $G$, i.e.\ centred at
+the optimal $y$ so that $\abs{G\triangle B_G}=\AF(G)\,\abs G$, and let
+$B=B(y,1)$ be the disc of area $\pi$ \emph{concentric} with $B_G$. Since
+$B_G$ and $B$ are concentric discs of areas $\abs G$ and $\pi$, their
+symmetric difference is the annulus of area
+\begin{equation}\label{eq:m-discs}
+   \abs{B_G\triangle B}\ =\ \bigl|\,\abs G-\pi\,\bigr|
+   \ =\ \bigl|\,\abs G-\abs\Om\,\bigr|\ \le\ \abs{\Om\triangle G}.
+\end{equation}
+Because $\abs\Om=\pi=\abs B$, the disc $B$ is admissible in the definition of
+$\AF(\Om)$, so by the triangle inequality for the symmetric difference,
+\begin{align*}
+   \AF(\Om)\ \le\ \frac{\abs{\Om\triangle B}}{\pi}
+   &\ \le\ \frac{\abs{\Om\triangle G}+\abs{G\triangle B_G}
+            +\abs{B_G\triangle B}}{\pi}\\
+   &\ \le\ \frac1\pi\Bigl(\abs{\Om\triangle G}+\AF(G)\,\abs G
+            +\abs{\Om\triangle G}\Bigr),
+\end{align*}
+using \eqref{eq:m-discs} and $\abs{G\triangle B_G}=\AF(G)\abs G$. With
+$\abs G=\pi+O(\sqrt\dT)\le2\pi$, $\abs{\Om\triangle G}\le C\sqrt\dT$ by
+\cref{thm:reduction}(iii), and $\AF(G)\le C\sqrt\dT$ by \eqref{eq:m-AG},
+\begin{equation}\label{eq:m-final}
+   \AF(\Om)\ \le\ \frac1\pi\bigl(C\sqrt\dT+\AF(G)\,\abs G+C\sqrt\dT\bigr)
+   \ \le\ C\sqrt\dT+C\,\AF(G)\ \le\ C\sqrt\dT.
+\end{equation}
+Squaring \eqref{eq:m-final} gives $\AF(\Om)^2\le C\,\dT$, which is
+\eqref{eq:main} in the near--extremal regime. Combining the two regimes
+proves the theorem.
+\end{proof}
+
+\begin{remark}[What was used, what was not, and the two sharp ingredients]
+\label{rem:audit}
+The reduction \cref{thm:reduction} draws on the two level deficits and
+nothing else of substance:
+\begin{itemize}[leftmargin=1.5em]
+\item $D_H+D_I$ enters through the level identity
+   $\int_0^m(D_H+D_I)\,dv=4\pi\dT$ (\cref{thm:level-identity}), which powers
+   both the level selection \cref{lem:level} and the deficit transfer
+   \cref{lem:transfer}, and through the pointwise bound $-\mu'\ge4\pi$
+   (\cref{lem:muprime}) and the profile identity (\cref{lem:profile}) that
+   carry closeness;
+\item $D_I$ enters through the isoperimetric/annulus inputs
+   (\cref{thm:annulus,thm:fmp}) and the multi--component spillover bound
+   (\cref{lem:spill}).
+\end{itemize}
+At no point is the Brasco--De~Philippis--Velichkov selection principle used,
+nor any mass--transport (moving--ball, kinetic) argument, nor a Serrin /
+Magnanini--Poggesi symmetry estimate. The only nonlinear stability input is
+the \emph{perturbative} nearly--spherical bound \cref{thm:graphG}, applied to
+a graph whose amplitude is already absolutely small.
+
+Two ingredients make the reduction \emph{sharp}, i.e.\ produce the exponent
+$\tfrac12$ rather than $\tfrac14$:
+\begin{enumerate}[label=\textup{(\alph*)},leftmargin=1.8em]
+\item the fold--content bound \cref{prop:fold}, in which subtracting the
+   constant $1/\hat r$ (legitimate because $\abs\Etil=\abs{B_{\hat r}(z)}$)
+   and confining $\Etil\triangle B_{\hat r}(z)$ to the $\eta$--annulus
+   replaces $a$ by $a\eta$, so the graph defect avoids the
+   quantitative--isoperimetric square--root loss; without it the fold content
+   would carry the full $a\sim\sqrt\diso$ and cap the result at
+   $\dT^{1/4}$ closeness;
+\item the cutting lemma \cref{lem:cutdeficit}: excising the low--torsion
+   boundary caps to manufacture the graph $G$ \emph{decreases} the
+   scale--invariant deficit $\dstar$, because the equal--area comparison ball
+   shrinks faster (by $\gd/4$ in $\tilde\eta$--weighted terms) than the
+   torsion is lost.
+\end{enumerate}
+Finally, the optimisation $\tau=\sqrt\dT$ is the balance between the two
+$\tau$--dependent contributions to closeness: the level height $\sim\tau$
+grows in $\tau$, while the smoothing/graph defect $\sim\dT/\tau$ decays in
+$\tau$; equating them, $\tau\sim\dT/\tau$, forces $\tau=\sqrt\dT$, at which
+both equal $\sqrt\dT$ and the amplitude is $\eta\sim(\dT/\tau)^{1/4}=
+\dT^{1/8}$, the absolute smallness the graph theorem requires.
+\end{remark}

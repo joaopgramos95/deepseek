@@ -1,0 +1,464 @@
+\section{The inset: regularity, deficit transfer, level selection}
+\label{sec:inset}
+
+Throughout this section $\Om\subset\R^2$ is open with $|\Om|=\pi$, $u\in
+H^1_0(\Om)$ is its torsion function ($-\Delta u=1$ in $\Om$, $u=0$ on
+$\partial\Om$), $m:=\max_\Om u$, and $\dT=\dT(\Om)=\tfrac\pi8-T(\Om)\ge0$ is
+the Saint--Venant deficit. We write $E_v:=\{u>v\}$ for the open super-level
+set, $\mu(v):=|E_v|$, $\Per(v):=\Per(E_v)$, and recall the two level
+deficits of \cref{def:deficits},
+\[
+   D_H(v)=\mu(v)\bigl(-\mu'(v)\bigr)-\Per(v)^2\ \ge0,
+   \qquad
+   D_I(v)=\Per(v)^2-4\pi\mu(v)\ \ge0
+\]
+(\cref{lem:nonneg}), the level-set deficit identity
+$\int_0^m(D_H+D_I)\,dv=4\pi\dT$ (\cref{thm:level-identity}), the Talenti
+profile $\mu_B(v):=\pi(1-4v)_+$ with $\mu\le\mu_B$ and the profile identity
+$\int_0^{1/4}(\mu_B-\mu)\,dv=\dT$ (\cref{thm:talenti}, \cref{lem:profile}),
+the bound $-\mu'(v)\ge4\pi$ a.e.\ (\cref{lem:muprime}), and the flux/coarea
+identities $\int_{\{u=v\}}|\nabla u|\,d\HH^1=\mu(v)$,
+$-\mu'(v)=\int_{\{u=v\}}|\nabla u|^{-1}\,d\HH^1$ for a.e.\ regular $v$
+(\cref{thm:coarea}, \cref{lem:dist-deriv}). By Sard's theorem
+(\cref{thm:sard}) and \cref{lem:regular-values} the non-regular values of
+$u$ form a Lebesgue-null set, and for every regular $v\in(0,m)$ the set
+$E_v$ has finite perimeter with $\HH^1$-rectifiable boundary
+$\{u=v\}$ (\cref{thm:torsion-reg}). Absolute constants are denoted $C$ (value
+may change) or named ($A_0$, $\delta_\star$); $\delta_\star>0$ is a small
+absolute constant, fixed at the end of the section. We set $\tau:=\sqrt\dT$
+only at the very end; until then $\tau$ is a free parameter in $(0,\tfrac1{16})$.
+
+\subsection{No interior holes}
+
+We first record a topological regularity property of the super-level sets,
+which is a direct consequence of the superharmonicity of $u$
+($-\Delta u=1\ge0$) and the minimum principle. Recall (\cref{thm:torsion-reg})
+that $u\in C^2(\Om)\cap C(\overline\Om)$, $u>0$ in $\Om$ and $u=0$ on
+$\partial\Om$.
+
+\begin{lemma}[No interior holes]\label{lem:noholes}
+For every $v\in(0,m)$ the following hold.
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.4em]
+\item Every connected component $K$ of the open set
+$\{x\in\Om:u(x)<v\}$ has $\overline K\cap\partial\Om\neq\emptyset$.
+\item For every \emph{regular} value $v$, each connected component $E$ of
+$E_v=\{u>v\}$ has no interior holes: every bounded connected component $H$
+of $\R^2\setminus\overline E$ satisfies $\overline H\not\subset\Om$; in
+particular $\R^2\setminus\overline E$ is connected up to sets touching
+$\partial\Om$, and the inset defined below is simply connected modulo
+$\partial\Om$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\emph{(i).} Suppose, for contradiction, that some component $K$ of
+$\{u<v\}$ satisfies $\overline K\Subset\Om$, i.e.\ $\overline K$ is a compact
+subset of $\Om$ not meeting $\partial\Om$. We claim $u\equiv v$ on
+$\partial K$. Let $x_0\in\partial K$. Since $\overline K\subset\Om$ we have
+$x_0\in\Om$, so $u$ is continuous at $x_0$. If $u(x_0)<v$ then by continuity
+$u<v$ on a ball around $x_0$, which would be a connected subset of
+$\{u<v\}$ meeting $K$, hence contained in $K$, placing $x_0$ in the
+\emph{interior} of $K$ --- contradicting $x_0\in\partial K$. If $u(x_0)>v$
+then by continuity $u>v$ near $x_0$, so a punctured neighbourhood of $x_0$
+is disjoint from $\{u<v\}\supset K$, contradicting $x_0\in\partial K$ (as
+$K$ accumulates at $x_0$). Hence $u(x_0)=v$, proving $u=v$ on $\partial K$.
+
+Now $u$ is continuous on the compact set $\overline K$ and attains its
+minimum there; since $u<v$ at any interior point of $K$ and $u=v$ on
+$\partial K$, the minimum is attained at an interior point and equals
+$\min_{\overline K}u<v=\min_{\partial K}u$. But $-\Delta u=1\ge0$ in $\Om$
+makes $u$ superharmonic, and the (weak) minimum principle for
+superharmonic functions in $C^2$
+\cite[Theorem~3.1]{GilbargTrudinger2001} gives
+$\min_{\overline K}u=\min_{\partial K}u$. This contradiction proves (i).
+
+\emph{(ii).} Let $v$ be regular and $E$ a component of $E_v$, and suppose
+$H$ is a bounded component of $\R^2\setminus\overline E$ with
+$\overline H\subset\Om$. Then $H$ is an open subset of $\Om$ with
+$\overline H\Subset\Om$, and we consider the two open sets
+$W^-:=H\cap\{u<v\}$ and $W^+:=H\cap\{u>v\}$, both contained in $H$, hence
+both with closures contained in $\overline H\Subset\Om$.
+
+Each connected component of $W^-$ is a connected component of $\{u<v\}$
+whose closure lies in $\overline H\Subset\Om$ and so does not meet
+$\partial\Om$; by (i) this forces $W^-=\emptyset$. Each connected component
+$E'$ of $W^+$ is a connected component of $E_v=\{u>v\}$ with
+$\overline{E'}\Subset\Om$; on it $u=v$ on $\partial E'$ and $u>v$ inside, so
+$u$ attains an interior maximum strictly above its boundary value. But $u$
+is superharmonic ($-\Delta u=1\ge0$), so $-u$ is subharmonic and satisfies
+the maximum principle \cite[Theorem~3.1]{GilbargTrudinger2001}:
+$\max_{\overline{E'}}u=\max_{\partial E'}u=v$, contradicting $u>v$ inside.
+Hence $W^+=\emptyset$ as well.
+
+Therefore $u\equiv v$ on the open set $H$, which has positive Lebesgue
+measure; but $v$ is a regular value, so $\{u=v\}$ is an $\HH^1$-rectifiable
+curve, of zero Lebesgue measure. This contradicts $|H|>0$, so no such $H$
+exists.
+\end{proof}
+
+\begin{remark}
+Part (ii) uses both the minimum principle (via (i), excluding holes that are
+sub-level islands) and the maximum principle (excluding super-level islands
+separated from $E$). Only two consequences are used downstream: that $\Etil$
+is connected with no interior holes (so that the trapping annulus and the
+ray-crossing counts of \cref{thm:annulus} are well posed), and the
+measure-theoretic fact $|\{u=\hat v\}|=0$ used repeatedly to identify
+symmetric differences. A reader content with these may keep (i) and the line
+``$u\equiv v$ on $H$ with $|H|>0$ contradicts $|\{u=v\}|=0$'' as the whole of
+(ii).
+\end{remark}
+
+\subsection{Deficit transfer to super-level sets}
+
+The torsion function of any super-level set $E_v$ is $u-v$, and the
+level-set deficit identity, being homogeneous of degree four, transfers the
+scale-invariant deficit from $\Om$ to $E_v$ as a tail of the
+positive-integrand identity of \cref{thm:level-identity}.
+
+\begin{lemma}[Deficit transfer]\label{lem:transfer}
+For every regular $v\in(0,m)$,
+\begin{equation}\label{eq:transfer}
+   \dstar(E_v)\ \le\ \frac{\pi^2}{\mu(v)^2}\,\dstar(\Om).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+On the open set $E_v$ the function $w:=u-v$ satisfies $-\Delta w=1$ in
+$E_v$, $w=0$ on $\partial E_v\subset\{u=v\}$, and $w>0$ in $E_v$; hence $w$
+is the torsion function of $E_v$ and
+$T(E_v)=\int_{E_v}w=\int_{E_v}(u-v)$. Its super-level sets are
+$\{w>s\}=\{u>v+s\}=E_{v+s}$ for $s\in(0,m-v)$, so the perimeter and
+distribution functions of $w$ at height $s$ coincide with those of $u$ at
+height $v+s$; in particular the two level deficits of $w$ at height $s$
+equal $D_H(v+s)$ and $D_I(v+s)$.
+
+We now apply the derivation of the level-set deficit identity
+(\cref{thm:level-identity}, eq.~\eqref{eq:level-identity}) to $w$ on $E_v$;
+the derivation there uses only the flux/coarea identities, the absolute
+continuity of the distribution function, and the layer-cake formula, none of
+which requires the area to equal $\pi$. For a domain $D$ of area $|D|$ with
+torsion function having maximum $m_D$ and level deficits $D_H^D,D_I^D$ it
+yields
+\[
+   \int_0^{m_D}\!\bigl(D_H^D+D_I^D\bigr)\,ds
+   \ =\ \tfrac12|D|^2-4\pi T(D)
+   \ =\ 4\pi\Bigl(\frac{|D|^2}{8\pi}-T(D)\Bigr)
+   \ =\ 4\pi\bigl(T(B_D)-T(D)\bigr),
+\]
+where $B_D$ is the disc of area $|D|$, $T(B_D)=|D|^2/(8\pi)$; the middle
+equality is exactly the computation in the proof of
+\cref{thm:level-identity} with $\tfrac12|D|^2$ in place of
+$\tfrac12\pi^2$. Taking $D=E_v$, $m_{E_v}=m-v$, and using the identification
+of the level deficits of $w$ with $D_H(v+\cdot),D_I(v+\cdot)$,
+\[
+   4\pi\bigl(T(B_{E_v})-T(E_v)\bigr)
+   =\int_0^{m-v}\!\bigl(D_H(v+s)+D_I(v+s)\bigr)\,ds
+   =\int_v^m\!\bigl(D_H+D_I\bigr)\,dv'
+   \ \le\ \int_0^m\!\bigl(D_H+D_I\bigr)\,dv'
+   =4\pi\dT,
+\]
+the inequality by non-negativity of the integrand (\cref{lem:nonneg}).
+Hence $T(B_{E_v})-T(E_v)\le\dT$. Dividing by
+$T(B_{E_v})=\mu(v)^2/(8\pi)$ and using $\dstar(\Om)=\tfrac8\pi\dT$, i.e.\
+$\dT=\tfrac\pi8\dstar(\Om)$,
+\[
+   \dstar(E_v)=\frac{T(B_{E_v})-T(E_v)}{T(B_{E_v})}
+   \ \le\ \frac{\dT}{\mu(v)^2/(8\pi)}
+   =\frac{8\pi\dT}{\mu(v)^2}
+   =\frac{8\pi}{\mu(v)^2}\cdot\frac\pi8\,\dstar(\Om)
+   =\frac{\pi^2}{\mu(v)^2}\,\dstar(\Om).\qedhere
+\]
+\end{proof}
+
+The content of \eqref{eq:transfer} is that the \emph{scale-invariant}
+torsion deficit of every super-level set is comparable to that of $\Om$
+(a tail of a positive integral), even at levels near $\partial\Om$ where the
+single-level deficits $D_H(v),D_I(v)$ are individually inflated. This is the
+mechanism that carries the small torsion deficit onto the inset.
+
+\subsection{Selection of a good level}
+
+\begin{lemma}[Good level]\label{lem:level}
+Let $A_0:=16\pi$. For every $\tau\in(0,\tfrac1{16})$ there is a regular
+value $\hat v\in(\tau,2\tau)$ of $u$ with
+\begin{equation}\label{eq:goodlevel}
+   D_H(\hat v)+D_I(\hat v)\ \le\ A_0\,\frac{\dT}{\tau},
+   \qquad
+   \mu_B(\hat v)-\mu(\hat v)\ \le\ A_0\,\frac{\dT}{\tau}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set $I:=(\tau,2\tau)$, of length $|I|=\tau$, and note $I\subset(0,\tfrac18)
+\subset(0,\tfrac14)$. By \cref{thm:level-identity} and non-negativity,
+$\int_I(D_H+D_I)\,dv\le\int_0^m(D_H+D_I)\,dv=4\pi\dT$. By Chebyshev's
+inequality,
+\[
+   \bigl|\{v\in I:\ D_H(v)+D_I(v)>A_0\dT/\tau\}\bigr|
+   \ \le\ \frac{\int_I(D_H+D_I)}{A_0\dT/\tau}
+   \ \le\ \frac{4\pi\dT}{A_0\dT/\tau}
+   =\frac{4\pi\tau}{A_0}.
+\]
+By \cref{lem:profile}, $\mu_B-\mu\ge0$ and
+$\int_I(\mu_B-\mu)\,dv\le\int_0^{1/4}(\mu_B-\mu)\,dv=\dT$, so again by
+Chebyshev,
+\[
+   \bigl|\{v\in I:\ \mu_B(v)-\mu(v)>A_0\dT/\tau\}\bigr|
+   \ \le\ \frac{\dT}{A_0\dT/\tau}
+   =\frac{\tau}{A_0}.
+\]
+With $A_0=16\pi$, the union of these two ``bad'' sets has measure at most
+$\dfrac{4\pi\tau}{A_0}+\dfrac{\tau}{A_0}=\dfrac{\tau}{4}+\dfrac{\tau}{16\pi}
+<\tau=|I|$. Adding the null set of non-regular values
+(\cref{thm:sard}, \cref{lem:regular-values}) does not change this. Hence the
+set of regular $\hat v\in I$ satisfying both bounds in \eqref{eq:goodlevel}
+has positive measure, and in particular is nonempty.
+\end{proof}
+
+From now on $\hat v\in(\tau,2\tau)$ denotes a good regular level as in
+\cref{lem:level}, and we write $\hat v<\tfrac14$ (since $\hat v<2\tau<
+\tfrac18$), so that $\mu_B(\hat v)=\pi(1-4\hat v)$.
+
+\subsection{Closeness of the super-level set}
+
+\begin{lemma}[Closeness]\label{lem:close}
+At the level $\hat v$ of \cref{lem:level},
+\begin{equation}\label{eq:close}
+   \bigl|\Om\triangle\{u>\hat v\}\bigr|
+   \ =\ \pi-\mu(\hat v)
+   \ \le\ 8\pi\,\tau+A_0\,\frac{\dT}{\tau}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Since $E_{\hat v}=\{u>\hat v\}\subset\Om$, the symmetric difference is
+$\Om\setminus E_{\hat v}=\{x\in\Om:u(x)\le\hat v\}$, of measure
+$\pi-\mu(\hat v)$ (the level set $\{u=\hat v\}$ is Lebesgue-null). Split
+\[
+   \pi-\mu(\hat v)
+   =\bigl(\pi-\mu_B(\hat v)\bigr)+\bigl(\mu_B(\hat v)-\mu(\hat v)\bigr).
+\]
+The first term is $\pi-\pi(1-4\hat v)=4\pi\hat v\le4\pi(2\tau)=8\pi\tau$,
+using $\hat v<2\tau$; the second is $\le A_0\dT/\tau$ by
+\eqref{eq:goodlevel}. Adding gives \eqref{eq:close}.
+\end{proof}
+
+\noindent
+We now fix $\delta_\star\in(0,\tfrac1{256}]$ small enough that, whenever
+$\dT\le\delta_\star$ and $\tau\in[\sqrt\dT,\tfrac1{16})$ with
+$\dT/\tau\le\sqrt\dT$ (e.g.\ at the optimal choice $\tau=\sqrt\dT$, where
+the right side of \eqref{eq:close} equals $(8\pi+A_0)\sqrt\dT$), one has
+\begin{equation}\label{eq:halfmass}
+   8\pi\,\tau+A_0\,\frac{\dT}{\tau}\ \le\ \frac\pi2,
+   \qquad\text{hence}\qquad
+   \mu(\hat v)\ \ge\ \frac\pi2 .
+\end{equation}
+Concretely, at $\tau=\sqrt\dT$ this requires $(8\pi+A_0)\sqrt{\delta_\star}
+\le\pi/2$, i.e.\ $\delta_\star\le\pi^2/(4(8\pi+A_0)^2)$; with $A_0=16\pi$
+this is $\delta_\star\le 1/(2304)$, comfortably compatible with
+$\delta_\star\le\tfrac1{256}$ after taking the smaller value. We keep
+\eqref{eq:halfmass} as a standing hypothesis for the remainder of the
+section (it holds at the optimised scale $\tau=\sqrt\dT$); the value of
+$\hat v,\tau$ is otherwise left symbolic and optimised in
+\cref{thm:reduction}.
+
+\subsection{One connected inset: the spillover is higher order}
+
+The super-level set $\{u>\hat v\}$ may have several components, but the
+total mass of all but the largest is quadratically small in $D_I(\hat v)$,
+by a multi-component refinement of the isoperimetric inequality.
+
+\begin{lemma}[Spillover]\label{lem:spill}
+Assume \eqref{eq:halfmass}. Let the connected components of $\{u>\hat v\}$
+have areas $A_1\ge A_2\ge\cdots>0$, let $\Etil$ be the component of area
+$A_1$, and set $S:=\sum_{i\ge2}A_i=\mu(\hat v)-A_1$ for the total spillover.
+Then $A_1\ge\pi/4$ and
+\begin{equation}\label{eq:spill}
+   \bigl|\{u>\hat v\}\setminus\Etil\bigr|
+   \ =\ S\ \le\ \frac{D_I(\hat v)^2}{16\pi^3}
+   \ \le\ \frac{A_0^2}{16\pi^3}\,\frac{\dT^2}{\tau^2}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+\emph{Multi-component isoperimetric inequality.} Perimeter is additive over
+the (essentially disjoint) components and the planar isoperimetric
+inequality (\cref{thm:isoperimetric}) applies to each, so
+$\Per(\hat v)=\sum_i\Per_i\ge\sum_i 2\sqrt{\pi A_i}$ with $\Per_i$ the
+perimeter of the $i$-th component. Squaring and using
+$\bigl(\sum_i\sqrt{A_i}\bigr)^2=\sum_iA_i+2\sum_{i<j}\sqrt{A_iA_j}$,
+\begin{equation}\label{eq:multiiso}
+   D_I(\hat v)=\Per(\hat v)^2-4\pi\!\sum_iA_i
+   \ \ge\ 4\pi\Bigl[\Bigl(\textstyle\sum_i\sqrt{A_i}\Bigr)^2-\sum_iA_i\Bigr]
+   \ =\ 8\pi\!\!\sum_{i<j}\!\sqrt{A_iA_j}.
+\end{equation}
+
+\emph{Lower bound on $A_1$.} Since $A_j\le A_1$ we have
+$\sqrt{A_j}=A_j/\sqrt{A_j}\ge A_j/\sqrt{A_1}$ for $j\ge2$, hence
+$\sum_{j\ge2}\sqrt{A_j}\ge S/\sqrt{A_1}$ and
+\[
+   \sum_i\sqrt{A_i}\ \ge\ \sqrt{A_1}+\frac{S}{\sqrt{A_1}}
+   =\frac{A_1+S}{\sqrt{A_1}}=\frac{\mu(\hat v)}{\sqrt{A_1}}.
+\]
+Combining with \eqref{eq:multiiso} (in the form $D_I\ge4\pi[(\sum\sqrt{A_i})^2
+-\mu(\hat v)]$),
+\begin{equation}\label{eq:Aone}
+   D_I(\hat v)\ \ge\ 4\pi\Bigl(\frac{\mu(\hat v)^2}{A_1}-\mu(\hat v)\Bigr)
+   =4\pi\,\mu(\hat v)\,\frac{\mu(\hat v)-A_1}{A_1}
+   =4\pi\,\mu(\hat v)\,\frac{S}{A_1}.
+\end{equation}
+Suppose, for contradiction, that $A_1<\pi/4$. By \eqref{eq:halfmass},
+$\mu(\hat v)\ge\pi/2>A_1$, so there are at least two components and
+$S=\mu(\hat v)-A_1>\pi/2-\pi/4=\pi/4$. Then \eqref{eq:Aone} gives
+\[
+   D_I(\hat v)\ >\ 4\pi\cdot\frac\pi2\cdot\frac{S}{\pi/4}=8\pi\,S>8\pi\cdot\frac\pi4=2\pi^2.
+\]
+But $D_I(\hat v)\le A_0\dT/\tau\le8\pi\tau+A_0\dT/\tau\le\pi/2<2\pi^2$ by
+\eqref{eq:goodlevel} and \eqref{eq:halfmass}, a contradiction. Hence
+$A_1\ge\pi/4$.
+
+\emph{Spillover bound.} From \eqref{eq:multiiso},
+\[
+   D_I(\hat v)\ \ge\ 8\pi\!\sum_{i<j}\!\sqrt{A_iA_j}
+   \ \ge\ 8\pi\sqrt{A_1}\sum_{j\ge2}\sqrt{A_j}
+   \ \ge\ 8\pi\sqrt{A_1}\,\sqrt{\textstyle\sum_{j\ge2}A_j}
+   \ =\ 8\pi\sqrt{A_1\,S},
+\]
+where the middle step keeps only the pairs $(1,j)$ and the last step uses
+$\sum_{j\ge2}\sqrt{A_j}\ge\sqrt{\sum_{j\ge2}A_j}$ (superadditivity of
+$t\mapsto\sqrt t$ on non-negative terms). Squaring and using $A_1\ge\pi/4$,
+\[
+   S\ \le\ \frac{D_I(\hat v)^2}{64\pi^2A_1}
+   \ \le\ \frac{D_I(\hat v)^2}{64\pi^2\cdot(\pi/4)}
+   =\frac{D_I(\hat v)^2}{16\pi^3}.
+\]
+The final bound in \eqref{eq:spill} follows from
+$D_I(\hat v)\le A_0\dT/\tau$ (\cref{lem:level}).
+\end{proof}
+
+\begin{definition}[The inset]\label{def:inset}
+Assume $\dT\le\delta_\star$, $\tau$ subject to \eqref{eq:halfmass}, and let
+$\hat v\in(\tau,2\tau)$ be a good regular level (\cref{lem:level}). The
+\emph{inset} is the connected component $\Etil$ of $\{u>\hat v\}$ of largest
+measure, i.e.\ the component of area $A_1$ in \cref{lem:spill}. We write
+\[
+   \mu_E:=|\Etil|=A_1=\mu(\hat v)-S\ \ge\ \frac\pi4,
+   \qquad
+   \hat r:=\sqrt{\mu_E/\pi},
+   \qquad
+   \diso:=\diso(\Etil)=\frac{\Per(\Etil)}{2\sqrt{\pi\mu_E}}-1,
+\]
+and $\Exc:=\Per(\Etil)-2\pi\hat r=2\pi\hat r\,\diso$.
+\end{definition}
+
+By \cref{lem:noholes}\,(ii), $\Etil$ is connected and has no interior holes.
+
+\subsection{Controls on the inset}
+
+We collect the three controls of the inset used in the subsequent sections.
+
+\begin{proposition}[Inset controls]\label{prop:insetcontrols}
+Under \cref{def:inset} there is an absolute constant $C$ such that
+\begin{align}
+   \diso(\Etil)\ &\le\ \frac{D_I(\hat v)+4\pi S}{8\pi\,\mu_E}
+   \ \le\ C\,\frac{\dT}{\tau},
+   \label{eq:diso-inset}\\[1mm]
+   \dstar(\Etil)\ &\le\ \frac{\pi^2}{\mu_E^2}\,\dstar(\Om)
+   \ \le\ C\,\dstar(\Om),
+   \label{eq:dstar-inset}\\[1mm]
+   \bigl|\Om\triangle\Etil\bigr|\ &\le\ 8\pi\,\tau+A_0\frac{\dT}{\tau}
+   +\frac{A_0^2}{16\pi^3}\frac{\dT^2}{\tau^2}.
+   \label{eq:close-inset}
+\end{align}
+In particular, with the optimal choice $\tau=\sqrt\dT$ of
+\cref{thm:reduction}, $\diso(\Etil)\le C\sqrt\dT$,
+$\dstar(\Etil)\le C\dstar(\Om)$ and
+$|\Om\triangle\Etil|\le C\sqrt\dT$.
+\end{proposition}
+
+\begin{proof}
+\emph{\eqref{eq:diso-inset}.} Since $\partial\Etil\subset\{u=\hat v\}$ and
+perimeter is additive over components, $\Per(\Etil)\le\Per(\hat v)$, hence
+\[
+   D_I(\Etil):=\Per(\Etil)^2-4\pi\mu_E
+   \ \le\ \Per(\hat v)^2-4\pi\mu_E
+   =\bigl(4\pi\mu(\hat v)+D_I(\hat v)\bigr)-4\pi\mu_E
+   =D_I(\hat v)+4\pi S,
+\]
+using $\Per(\hat v)^2=4\pi\mu(\hat v)+D_I(\hat v)$ and
+$\mu(\hat v)-\mu_E=S$. From the definition of $\diso$,
+$\bigl(1+\diso(\Etil)\bigr)^2=\Per(\Etil)^2/(4\pi\mu_E)=1+D_I(\Etil)/(4\pi\mu_E)$,
+so by $\sqrt{1+t}-1\le t/2$,
+\[
+   \diso(\Etil)\ \le\ \frac{D_I(\Etil)}{8\pi\mu_E}
+   \ \le\ \frac{D_I(\hat v)+4\pi S}{8\pi\mu_E}.
+\]
+By \eqref{eq:spill}, $4\pi S\le 4\pi D_I(\hat v)^2/(16\pi^3)
+=D_I(\hat v)^2/(4\pi^2)$; and $D_I(\hat v)\le A_0\dT/\tau\le\pi/2$ by
+\eqref{eq:goodlevel}--\eqref{eq:halfmass}, so $4\pi S\le D_I(\hat v)\cdot
+\frac{D_I(\hat v)}{4\pi^2}\le\frac{1}{8\pi}D_I(\hat v)\le D_I(\hat v)$.
+Hence $D_I(\hat v)+4\pi S\le2D_I(\hat v)\le2A_0\dT/\tau$, and with
+$\mu_E\ge\pi/4$,
+\[
+   \diso(\Etil)\ \le\ \frac{2A_0\dT/\tau}{8\pi\cdot(\pi/4)}
+   =\frac{A_0}{\pi^2}\,\frac{\dT}{\tau}\ =:\ C\,\frac{\dT}{\tau}.
+\]
+
+\emph{\eqref{eq:dstar-inset}.} Passing from the super-level set
+$E_{\hat v}$ to its largest component $\Etil$ removes the spillover, which
+\emph{does not increase} the scale-invariant deficit by the cutting
+principle \cref{lem:cutdeficit} (the spillover components sit in the same
+trapping annulus as $\Etil$, and the smallness hypothesis of
+\cref{lem:cutdeficit} holds for $\dT\le\delta_\star$ since the relevant
+collar width is $O(\dT^{1/8})\to0$ while $T(\Etil)/\mu_E$ stays bounded
+below). Hence $\dstar(\Etil)\le\dstar(E_{\hat v})$, and by
+\cref{lem:transfer},
+\[
+   \dstar(\Etil)\ \le\ \dstar(E_{\hat v})
+   \ \le\ \frac{\pi^2}{\mu(\hat v)^2}\,\dstar(\Om)
+   \ \le\ \frac{\pi^2}{\mu_E^2}\,\dstar(\Om),
+\]
+the last step using $\mu_E\le\mu(\hat v)$ (so the bound with $\mu_E$ is the
+weaker, hence valid). With $\mu_E\ge\pi/4$ this is $\le16\,\dstar(\Om)$.
+
+\emph{\eqref{eq:close-inset}.} By \cref{lem:close} and \cref{lem:spill},
+\[
+   |\Om\triangle\Etil|=\bigl(\pi-\mu(\hat v)\bigr)+S
+   \ \le\ \Bigl(8\pi\tau+A_0\frac\dT\tau\Bigr)+\frac{A_0^2}{16\pi^3}\frac{\dT^2}{\tau^2}.
+\]
+For the final assertions, set $\tau=\sqrt\dT$: then $\dT/\tau=\sqrt\dT$, so
+$\diso(\Etil)\le C\sqrt\dT$ by \eqref{eq:diso-inset}; the spillover term
+$\dT^2/\tau^2=\dT$ is higher order, so $|\Om\triangle\Etil|\le(8\pi+A_0)
+\sqrt\dT+C\dT\le C\sqrt\dT$; and \eqref{eq:dstar-inset} is independent of
+$\tau$.
+\end{proof}
+
+\begin{remark}[Forward dependence]\label{rem:fwd}
+The bound \eqref{eq:dstar-inset} invokes \cref{lem:cutdeficit} only to
+justify that excising the (low-torsion) spillover does not raise $\dstar$.
+This is not circular: \cref{lem:cutdeficit} depends only on
+Green-function monotonicity and a boundary-layer barrier, not on any result
+of the present section. If one prefers a self-contained
+estimate here, the deficit transfer \cref{lem:transfer} already gives
+$\dstar(E_{\hat v})\le(\pi^2/\mu(\hat v)^2)\dstar(\Om)$ for the full
+super-level set; the passage to $\Etil$ then costs at most the torsion
+carried by the spillover, which is $O(\dT^2/\tau^2)$ and absorbed for
+$\dT\le\delta_\star$.
+\end{remark}
+
+\begin{remark}[The scales, recorded]\label{rem:scales}
+With $\tau=\sqrt\dT$ (\cref{thm:reduction}) the inset $\Etil$ satisfies
+$\diso=\diso(\Etil)\le C\sqrt\dT$ and $\Exc=2\pi\hat r\,\diso\le C\sqrt\dT$.
+Feeding $\diso$ into the sharp quantitative isoperimetric inequality
+(\cref{thm:fmp}) gives the ball-distance
+$a:=|\Etil\triangle B_{\hat r}(z)|\le C_{\mathrm F}\sqrt{\diso}\,\mu_E\le
+C\,\dT^{1/4}$ at the optimal centre $z$. The trapping width then satisfies
+$\eta\le C(\Exc+a)^{1/2}\le C\,\dT^{1/8}$ (\cref{thm:annulus}), an
+\emph{absolute} small amplitude. These are the inputs to the annulus and
+fold sections; the deficit $\dstar(\Etil)\le C\dstar(\Om)$ and the closeness
+$|\Om\triangle\Etil|\le C\sqrt\dT$ are the inputs to the conclusion. We
+emphasise that closeness is carried by the \emph{level} $\hat v\sim\sqrt\dT$
+through \cref{lem:close}, not by the amplitude $\eta$; and that the deficit
+transfer \cref{lem:transfer} delivers $\dstar(\Etil)\lesssim\dstar(\Om)$
+without recourse to the inflated single-level deficits.
+\end{remark}

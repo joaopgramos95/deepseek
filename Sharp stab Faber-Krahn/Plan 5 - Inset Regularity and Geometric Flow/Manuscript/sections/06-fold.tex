@@ -1,0 +1,569 @@
+\section{Fold content and the radial graph}\label{sec:fold}
+
+The trapping annulus of \cref{thm:annulus} confines $\partial\Etil$ to a
+thin shell $\{\rho_i\le\abs{x-z}\le\rho_e\}$ of width $\eta=\rho_e-\rho_i$,
+so the inset has \emph{small amplitude}. To convert this into a radial
+\emph{graph} about the centre $z$ we must rule out radial folds: rays from
+$z$ meeting $\partial\Etil$ more than once. This section bounds the total
+\emph{fold content} --- the obstruction to being a graph --- by the
+geometric deficit, with \emph{no} square-root loss from the quantitative
+isoperimetric inequality, and then realises $\Etil$ as a continuous radial
+graph up to a controlled symmetric difference.
+
+Throughout, $\Etil$ is the connected, hole-free inset of \cref{def:inset},
+with $\mu_E:=\abs\Etil$, $\hat r:=\sqrt{\mu_E/\pi}$, isoperimetric deficit
+$\diso:=\diso(\Etil)$, perimeter excess $\Exc:=\Per(\Etil)-2\pi\hat r
+=2\pi\hat r\,\diso$, and (\cref{thm:annulus}) trapping
+\begin{equation}\label{eq:fold-annulus}
+   B_{\rho_i}(z)\subset\Etil\subset B_{\rho_e}(z),\qquad
+   \rho_i\le\hat r\le\rho_e,\qquad
+   \eta:=\rho_e-\rho_i\le C\,(\Exc+a)^{1/2},
+\end{equation}
+where $z$ is the optimal centre and $a:=\abs{\Etil\triangle B_{\hat r}(z)}$.
+In particular $z$ lies in the interior of $\Etil$ (indeed
+$B_{\rho_i}(z)\subset\Etil$), and $\partial\Etil$ avoids the singular point:
+\begin{equation}\label{eq:fold-away}
+   \partial\Etil\subset\{x:\rho_i\le\abs{x-z}\le\rho_e\}.
+\end{equation}
+We write $e_r:=(x-z)/\abs{x-z}$, $e_\theta:=e_r^\perp$ for the unit radial
+and angular vectors at $x\ne z$, $\nu$ for the outward unit normal on the
+reduced boundary $\partial^*\Etil$, and
+\[
+   \nu_r:=\nu\cdot e_r
+\]
+for the radial part of $\nu$. (As is standard for sets of finite perimeter,
+all boundary integrals are over the reduced boundary $\partial^*\Etil$, on
+which $\nu$ is defined $\HH^1$-a.e.; we write $\partial\Etil$ for it
+throughout, noting that for the hole-free finite-perimeter set $\Etil$ the
+reduced and essential boundaries coincide $\HH^1$-a.e.\ by the De
+Giorgi--Federer structure theorem.) For $\theta\in S^1$ let
+\begin{equation}\label{eq:fold-M}
+   M(\theta):=\HH^0\bigl(\partial\Etil\cap R_\theta\bigr),\qquad
+   R_\theta:=\{z+\rho e^{i\theta}:\rho>0\}
+\end{equation}
+be the number of crossings of $\partial\Etil$ by the open ray in direction
+$\theta$. By the one-dimensional structure of slices of finite-perimeter
+sets \cite[\S2.4, \S3.11]{AFP2000}, for a.e.\ $\theta$ the radial slice
+\[
+   \Etil_\theta:=\{\rho>0:z+\rho e^{i\theta}\in\Etil\}
+\]
+is, up to an $\HH^1$-null set, a finite union of intervals; since
+$B_{\rho_i}(z)\subset\Etil\subset B_{\rho_e}(z)$, the innermost interval
+starts at $0$ and all endpoints lie in $[\rho_i,\rho_e]$, so
+\begin{equation}\label{eq:fold-slice}
+   \Etil_\theta=(0,r_1)\cup(r_2,r_3)\cup\cdots\cup(r_{2m},r_{2m+1}),
+   \quad \rho_i\le r_1\le\cdots\le r_{2m+1}\le\rho_e,
+   \quad M(\theta)=2m(\theta)+1.
+\end{equation}
+The intervals $(r_{2i},r_{2i+1})$, $i\ge1$, are the \emph{caps};
+$m(\theta)$ is the number of caps on the ray, and $\Etil$ is a radial graph
+about $z$ exactly when $M\equiv1$ (no caps).
+
+\subsection{Point-source flux identities}
+
+\begin{lemma}[Two-flux identities]\label{lem:two-flux}
+Let $E\subset\R^2$ be a set of finite perimeter with $z$ in its measure-%
+theoretic interior, and suppose $\partial^* E\subset\{x:\abs{x-z}\ge r_0\}$
+for some $r_0>0$ \textup{(}so the reduced boundary stays away from
+$z$\textup{)}. With $e_r=(x-z)/\abs{x-z}$, $\nu_r=\nu\cdot e_r$, and
+$M(\theta)$ as in \eqref{eq:fold-M}, the following hold:
+\begin{subequations}\label{eq:two-flux}
+\begin{align}
+   \textup{(i)}\quad
+   &\int_{\partial E}\frac{\abs{\nu_r}}{\abs{x-z}}\,d\HH^1
+   =\int_{S^1}M(\theta)\,d\theta,
+   \label{eq:two-flux-i}\\[2pt]
+   \textup{(ii)}\quad
+   &\int_{\partial E}\frac{\nu_r}{\abs{x-z}}\,d\HH^1=2\pi,
+   \label{eq:two-flux-ii}\\[2pt]
+   \textup{(iii)}\quad
+   &\int_{\partial E}\nu_r\,d\HH^1
+   =\int_E\frac{dx}{\abs{x-z}}=:I_E .
+   \label{eq:two-flux-iii}
+\end{align}
+\end{subequations}
+We refer to the three identities collectively as \eqref{eq:two-flux}.
+\end{lemma}
+
+\begin{proof}
+We may translate so that $z=0$; then $e_r=x/\abs x$ and $\abs{x-z}=\abs x$.
+Set $A:=\{x:r_0\le\abs x\}$, a closed set containing $\partial^*E$ on which
+all three integrands are smooth and bounded. We first record that the open
+disc $B_{r_0}(0)$ lies entirely in the measure-theoretic interior $E^{(1)}$.
+Indeed, $\partial^*E\cap B_{r_0}(0)=\varnothing$ by hypothesis, so by the
+De~Giorgi structure theorem the set $\{x:\abs x<r_0\}\setminus\partial^*E
+=B_{r_0}(0)$ meets only the points of density $0$ or $1$ of $E$; since the
+connected set $B_{r_0}(0)$ contains $z=0\in E^{(1)}$ and the density is
+locally constant off $\partial^*E$, all of $B_{r_0}(0)\subset E^{(1)}$.
+Consequently, for \emph{every} $0<\eps<r_0$ the circle $\partial B_\eps(0)$
+lies in $E^{(1)}$.
+
+\emph{(i) The angular coarea identity.}
+On $\R^2\setminus\{0\}$ the angular function $g(x):=\arg x$ is locally
+smooth modulo $2\pi$, and its gradient $\nabla g=e_\theta/\abs x$ is a
+single-valued, smooth vector field there with $\abs{\nabla g}=1/\abs x$. The
+reduced boundary $\partial^*E$ is a countably $1$-rectifiable set contained
+in $A$, where $g$ is Lipschitz; let $\tau$ denote a unit tangent to
+$\partial^*E$ (defined $\HH^1$-a.e., orthogonal to $\nu$). The tangential
+gradient of $g$ along $\partial^*E$ is the projection of $\nabla g$ onto the
+approximate tangent line, of modulus
+\[
+   \bigl|\nabla^{\partial^*E}g\bigr|
+   =\frac{\abs{e_\theta\cdot\tau}}{\abs x}.
+\]
+Since $\{e_r,e_\theta\}$ and $\{\nu,\tau\}$ are each orthonormal bases of
+$\R^2$ with $e_r\perp e_\theta$ and $\nu\perp\tau$, the angle between
+$e_\theta$ and $\tau$ equals the angle between $e_r$ and $\nu$; hence
+$\abs{e_\theta\cdot\tau}=\abs{e_r\cdot\nu}=\abs{\nu_r}$, so
+\[
+   \bigl|\nabla^{\partial^*E}g\bigr|=\frac{\abs{\nu_r}}{\abs x}.
+\]
+The coarea formula for the Lipschitz map $g\colon\partial^*E\to S^1$ on the
+$1$-rectifiable set $\partial^*E$ \cite[Theorem~2.93]{AFP2000} gives
+\[
+   \int_{\partial^*E}\frac{\abs{\nu_r}}{\abs x}\,d\HH^1
+   =\int_{\partial^*E}\bigl|\nabla^{\partial^*E}g\bigr|\,d\HH^1
+   =\int_{S^1}\HH^0\bigl(\partial^*E\cap g^{-1}(\theta)\bigr)\,d\theta
+   =\int_{S^1}M(\theta)\,d\theta,
+\]
+because $g^{-1}(\theta)\cap A=R_\theta\cap A\supset
+\partial^*E\cap R_\theta$ and $\partial^*E\subset A$. This is
+\eqref{eq:two-flux-i}.
+
+\emph{(ii) The point-source field, singularity excised.}
+Consider the vector field $X(x):=x/\abs x^2$, defined and smooth on
+$\R^2\setminus\{0\}$, with
+\[
+   \divg X=\frac{2}{\abs x^2}-\frac{2}{\abs x^2}=0
+   \qquad(x\ne0)
+\]
+(directly: $\partial_i(x_i\abs x^{-2})=\abs x^{-2}+x_i(-2x_i\abs x^{-4})$,
+summing $i=1,2$ gives $2\abs x^{-2}-2\abs x^{-2}=0$). On $\partial^*E$ we
+have $X\cdot\nu=(x\cdot\nu)/\abs x^2=\nu_r/\abs x$. Fix $0<\eps<r_0$ and
+apply the Gauss--Green theorem for sets of finite perimeter
+\cite[Theorem~5.16]{EvansGariepy2015} to the field $X$, which is $C^1$ and
+bounded on the closed set $\{\abs x\ge\eps/2\}$, over the finite-perimeter
+set $E_\eps:=E\setminus\overline{B_\eps(0)}$. Since $\partial B_\eps\subset
+E^{(1)}$ (shown above), the reduced boundary $\partial^*E_\eps$ splits
+($\HH^1$-a.e.) into $\partial^*E$ (with outward normal $\nu$, and on which
+$X$ is integrable since $\partial^*E\subset A$) and the inner circle
+$\partial B_\eps$ (with outward-for-$E_\eps$ normal $-x/\eps$):
+\[
+   0=\int_{E_\eps}\divg X\,dx
+   =\int_{\partial^*E}X\cdot\nu\,d\HH^1
+   +\int_{\partial B_\eps}X\cdot\Bigl(-\frac{x}{\eps}\Bigr)\,d\HH^1 .
+\]
+On $\partial B_\eps$, $X=x/\eps^2$ and $X\cdot(-x/\eps)=-\abs x^2/\eps^3
+=-1/\eps$, so the second term equals $-\eps^{-1}\HH^1(\partial B_\eps)
+=-\eps^{-1}\cdot2\pi\eps=-2\pi$, independent of $\eps$. Hence
+\[
+   \int_{\partial^*E}\frac{\nu_r}{\abs x}\,d\HH^1
+   =\int_{\partial^*E}X\cdot\nu\,d\HH^1=2\pi,
+\]
+which is \eqref{eq:two-flux-ii}. (No limit in $\eps$ is even needed: the
+left side does not depend on $\eps$, and the inner-circle flux is exactly
+$2\pi$ for every admissible $\eps$.)
+
+\emph{(iii) The radial field, singularity integrable.}
+Consider $Y(x):=e_r=x/\abs x$, smooth on $\R^2\setminus\{0\}$, with
+\[
+   \divg Y=\sum_i\partial_i\frac{x_i}{\abs x}
+   =\sum_i\Bigl(\frac1{\abs x}-\frac{x_i^2}{\abs x^3}\Bigr)
+   =\frac2{\abs x}-\frac{\abs x^2}{\abs x^3}=\frac1{\abs x}
+   \qquad(x\ne0).
+\]
+Again fix $0<\eps<r_0$ and apply Gauss--Green to the $C^1$ bounded field $Y$
+over $E_\eps=E\setminus\overline{B_\eps(0)}$:
+\[
+   \int_{E_\eps}\frac{dx}{\abs x}
+   =\int_{E_\eps}\divg Y\,dx
+   =\int_{\partial^*E}Y\cdot\nu\,d\HH^1
+   +\int_{\partial B_\eps}Y\cdot\Bigl(-\frac x\eps\Bigr)\,d\HH^1 .
+\]
+On $\partial B_\eps$, $Y=x/\eps$ and $Y\cdot(-x/\eps)=-\abs x^2/\eps^2=-1$,
+so the inner term is $-\HH^1(\partial B_\eps)=-2\pi\eps$. Thus
+\[
+   \int_{\partial^*E}\nu_r\,d\HH^1
+   =\int_{E_\eps}\frac{dx}{\abs x}+2\pi\eps .
+\]
+Now let $\eps\downarrow0$. The left side is fixed. On the right,
+$\abs x^{-1}\in L^1_{\mathrm{loc}}(\R^2)$ (in polar coordinates
+$\int_{B_R}\abs x^{-1}\,dx=2\pi R<\infty$) and $E$ has finite measure, so
+$\abs x^{-1}\mathbf1_E\in L^1(\R^2)$; by dominated convergence
+$\int_{E_\eps}\abs x^{-1}\,dx\to\int_E\abs x^{-1}\,dx=I_E$, while
+$2\pi\eps\to0$. Therefore $\int_{\partial^*E}\nu_r\,d\HH^1=I_E$, which is
+\eqref{eq:two-flux-iii}. The constant $I_E$ is finite because
+$\abs x^{-1}\mathbf1_E\in L^1$.
+\end{proof}
+
+\begin{remark}[On the singularity]\label{rem:singularity}
+The two divergence-theorem identities are genuinely different at the source.
+In \eqref{eq:two-flux-ii} the field $X=x/\abs x^2$ has a non-integrable
+$\abs x^{-1}$ growth at $0$ and a non-zero residual flux $2\pi$ through any
+small circle; excising $B_\eps$ is mandatory, and the $2\pi$ is precisely
+that residue (the planar Green-function source). In \eqref{eq:two-flux-iii}
+the field $Y=e_r$ is bounded, $\divg Y=\abs x^{-1}$ is integrable, and the
+inner-circle flux $2\pi\eps\to0$ vanishes; the excision is a convenience and
+the resulting $I_E$ is a finite, well-defined number. We invoke
+\cref{lem:two-flux} for $E=\Etil$, whose reduced boundary satisfies the
+hypothesis $\partial^*\Etil\subset\{\abs{x-z}\ge\rho_i\}$ with $r_0=\rho_i$
+by \eqref{eq:fold-away}, and whose interior contains $z$ since
+$B_{\rho_i}(z)\subset\Etil$.
+\end{remark}
+
+\subsection{Sharp fold content}
+
+The fold content is the deviation of $M$ from the graph value $1$. We bound
+its total mass with no quantitative-isoperimetric square-root loss; this is
+the crux of the sharp reduction.
+
+\begin{proposition}[Sharp fold content]\label{prop:fold}
+With the inset $\Etil$ and the trapping data \eqref{eq:fold-annulus},
+\begin{equation}\label{eq:foldsharp}
+   \int_{S^1}\bigl(M(\theta)-1\bigr)\,d\theta
+   \ =\ 2\!\int_{\partial\Etil\cap\{\nu_r<0\}}\!
+        \frac{\abs{\nu_r}}{\abs{x-z}}\,d\HH^1
+   \ \le\ \frac1{\rho_i}\Bigl(\Exc+\frac{a\,\eta}{\rho_i\hat r}\Bigr)
+   \ \le\ C\bigl(\Exc+a\eta\bigr),
+\end{equation}
+with $C$ absolute. In particular the integrand is non-negative, so
+$M\ge1$ a.e., and
+\begin{equation}\label{eq:foldangles}
+   \bigl|\{\theta\in S^1:M(\theta)\ge3\}\bigr|
+   \ \le\ \tfrac12\!\int_{S^1}\bigl(M-1\bigr)\,d\theta
+   \ \le\ C\bigl(\Exc+a\eta\bigr).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+\emph{The fold identity.}
+Subtract \eqref{eq:two-flux-ii} from \eqref{eq:two-flux-i} of
+\cref{lem:two-flux} (legitimate by \cref{rem:singularity}); since
+$\int_{S^1}1\,d\theta=2\pi$ equals the right-hand side of
+\eqref{eq:two-flux-ii},
+\[
+   \int_{S^1}\bigl(M-1\bigr)\,d\theta
+   =\int_{\partial\Etil}\frac{\abs{\nu_r}-\nu_r}{\abs{x-z}}\,d\HH^1
+   =2\!\int_{\partial\Etil\cap\{\nu_r<0\}}\!
+       \frac{\abs{\nu_r}}{\abs{x-z}}\,d\HH^1\ \ge0,
+\]
+using $\abs{\nu_r}-\nu_r=0$ where $\nu_r\ge0$ and $=2\abs{\nu_r}$ where
+$\nu_r<0$. This is the first equality of \eqref{eq:foldsharp}. (Pointwise
+$M(\theta)=2m(\theta)+1\ge1$ a.e.\ by the slice structure
+\eqref{eq:fold-slice}, since every slice contains $(0,r_1)$; the content of
+the identity is the \emph{global} bound on the excess $\int(M-1)$, which is
+exactly twice the inward-pointing radial flux.)
+
+\emph{From the radial fold flux to $P_r-I_{\Etil}$.}
+On the folded part $\partial\Etil\cap\{\nu_r<0\}$ we bound
+$\abs{x-z}\ge\rho_i$ (by \eqref{eq:fold-away}), so
+\begin{equation}\label{eq:fold-step1}
+   \int_{S^1}\bigl(M-1\bigr)\,d\theta
+   \ \le\ \frac2{\rho_i}\!\int_{\partial\Etil\cap\{\nu_r<0\}}\!
+          \abs{\nu_r}\,d\HH^1
+   \ =\ \frac{2F_r}{\rho_i},\qquad
+   F_r:=\!\int_{\partial\Etil\cap\{\nu_r<0\}}\!\abs{\nu_r}\,d\HH^1 .
+\end{equation}
+Write $P_r:=\int_{\partial\Etil}\abs{\nu_r}\,d\HH^1$ for the total radial
+perimeter. Splitting according to the sign of $\nu_r$,
+\[
+   \int_{\partial\Etil}\nu_r\,d\HH^1
+   =\int_{\{\nu_r\ge0\}}\abs{\nu_r}\,d\HH^1
+    -\int_{\{\nu_r<0\}}\abs{\nu_r}\,d\HH^1
+   =\bigl(P_r-F_r\bigr)-F_r=P_r-2F_r .
+\]
+By \eqref{eq:two-flux-iii}, the left side is $I_{\Etil}$, hence
+\begin{equation}\label{eq:fold-Fr}
+   2F_r=P_r-I_{\Etil} .
+\end{equation}
+
+\emph{Upper bound on $P_r$.}
+Since $\abs{\nu_r}=\abs{\nu\cdot e_r}\le\abs\nu=1$ pointwise, the radial
+perimeter is dominated by the perimeter:
+\[
+   P_r=\int_{\partial\Etil}\abs{\nu_r}\,d\HH^1
+   \le\int_{\partial\Etil}1\,d\HH^1=\Per(\Etil)=2\pi\hat r+\Exc .
+\]
+
+\emph{The cancellation: lower bound on $I_{\Etil}$.}
+Here is the sharp step. Because $\abs\Etil=\mu_E=\pi\hat r^2
+=\abs{B_{\hat r}(z)}$, the indicators have equal mass, so
+$\int(\mathbf1_{\Etil}-\mathbf1_{B_{\hat r}(z)})\,dx=0$ and we may subtract
+\emph{any} constant from the kernel without changing the integral. Subtract
+the constant $1/\hat r$:
+\[
+   I_{\Etil}-\int_{B_{\hat r}(z)}\frac{dx}{\abs{x-z}}
+   =\int\bigl(\mathbf1_{\Etil}-\mathbf1_{B_{\hat r}(z)}\bigr)
+        \frac{dx}{\abs{x-z}}
+   =\int\bigl(\mathbf1_{\Etil}-\mathbf1_{B_{\hat r}(z)}\bigr)
+        \Bigl(\frac1{\abs{x-z}}-\frac1{\hat r}\Bigr)\,dx,
+\]
+the last equality because $\int(\mathbf1_{\Etil}-\mathbf1_{B_{\hat r}(z)})
+\cdot\hat r^{-1}\,dx=\hat r^{-1}(\abs\Etil-\abs{B_{\hat r}(z)})=0$. In polar
+coordinates,
+$\int_{B_{\hat r}(z)}\abs{x-z}^{-1}\,dx
+=\int_0^{\hat r}\!\!\int_{S^1}s^{-1}\,s\,d\theta\,ds=2\pi\hat r$, so
+\begin{equation}\label{eq:fold-Idiff}
+   I_{\Etil}-2\pi\hat r
+   =\int_{\Etil\triangle B_{\hat r}(z)}
+       \pm\Bigl(\frac1{\abs{x-z}}-\frac1{\hat r}\Bigr)\,dx,
+\end{equation}
+the integrand being supported on the symmetric difference
+$\Etil\triangle B_{\hat r}(z)$ (with sign $+$ on $\Etil\setminus
+B_{\hat r}(z)$ and $-$ on $B_{\hat r}(z)\setminus\Etil$). Now
+$\Etil\triangle B_{\hat r}(z)$ lies in the closed annulus
+$\{\rho_i\le\abs{x-z}\le\rho_e\}$: indeed
+$B_{\rho_i}(z)\subset\Etil\cap B_{\hat r}(z)$ (as $\rho_i\le\hat r$), so
+neither $\Etil$ nor $B_{\hat r}(z)$ differs from the other inside
+$B_{\rho_i}(z)$; and $\Etil\cup B_{\hat r}(z)\subset B_{\rho_e}(z)$ (as
+$\hat r\le\rho_e$ and $\Etil\subset B_{\rho_e}(z)$), so neither differs
+outside $B_{\rho_e}(z)$. On that annulus, with both $\abs{x-z}$ and
+$\hat r$ in $[\rho_i,\rho_e]$,
+\begin{equation}\label{eq:fold-kernel}
+   \Bigl|\frac1{\abs{x-z}}-\frac1{\hat r}\Bigr|
+   =\frac{\bigl|\hat r-\abs{x-z}\bigr|}{\hat r\,\abs{x-z}}
+   \le\frac{\rho_e-\rho_i}{\hat r\,\rho_i}=\frac{\eta}{\rho_i\hat r}.
+\end{equation}
+Therefore, taking absolute values in \eqref{eq:fold-Idiff} and using
+\eqref{eq:fold-kernel},
+\begin{equation}\label{eq:Icancel}
+   \bigl|I_{\Etil}-2\pi\hat r\bigr|
+   \ \le\ \frac{\eta}{\rho_i\hat r}\,
+          \bigl|\Etil\triangle B_{\hat r}(z)\bigr|
+   \ =\ \frac{a\,\eta}{\rho_i\hat r}.
+\end{equation}
+
+\emph{Conclusion.}
+Combining \eqref{eq:fold-Fr} with the bound on $P_r$ and the lower bound
+$I_{\Etil}\ge2\pi\hat r-a\eta/(\rho_i\hat r)$ from \eqref{eq:Icancel},
+\[
+   2F_r=P_r-I_{\Etil}
+   \le\bigl(2\pi\hat r+\Exc\bigr)
+      -\Bigl(2\pi\hat r-\frac{a\eta}{\rho_i\hat r}\Bigr)
+   =\Exc+\frac{a\eta}{\rho_i\hat r}.
+\]
+Inserting into \eqref{eq:fold-step1} yields the middle inequality of
+\eqref{eq:foldsharp}. Finally, for $\dT\le\delta_\star$ the inset radius
+obeys $\hat r\ge\tfrac12$ and $\rho_i\ge\tfrac12$ (since $\mu_E=\pi-O(\sqrt
+\dT)$ by \cref{def:inset} and $\rho_i\to\hat r$ as $\eta\to0$), so
+$1/\rho_i\le2$ and $1/(\rho_i^2\hat r)\le8$, giving the absolute bound
+$C(\Exc+a\eta)$. The fold-angle estimate \eqref{eq:foldangles} follows
+because $M-1\ge2$ on $\{M\ge3\}$ (as $M=2m+1$ is odd, $M\ge3$ means
+$m\ge1$), so $2\abs{\{M\ge3\}}\le\int_{\{M\ge3\}}(M-1)\le\int_{S^1}(M-1)$.
+\end{proof}
+
+\begin{remark}[Why the factor $\eta$ matters: the improvement over the
+naive bound]\label{rem:eta-matters}
+The naive estimate pulls $\abs{x-z}^{-1}\le\rho_i^{-1}$ out of the integral
+defining $I_{\Etil}-2\pi\hat r$ before subtracting any constant, giving
+\[
+   \bigl|I_{\Etil}-2\pi\hat r\bigr|
+   =\Bigl|\int\bigl(\mathbf1_{\Etil}-\mathbf1_{B_{\hat r}(z)}\bigr)
+        \tfrac1{\abs{x-z}}\Bigr|
+   \le\frac1{\rho_i}\,\abs{\Etil\triangle B_{\hat r}(z)}
+   =\frac{a}{\rho_i}\le Ca,
+\]
+hence $\int(M-1)\le C(\Exc+a)$. The two estimates differ by the factor
+$\eta=\rho_e-\rho_i$ on the $a$-term. This is decisive. By the quantitative
+isoperimetric inequality (\cref{thm:fmp}), $a\le C_{\mathrm F}\sqrt\diso\,
+\mu_E$ carries an unavoidable \emph{square-root} of the isoperimetric
+deficit; with $\diso\sim\dT/\tau\sim\sqrt\dT$ at the boundary scale this
+gives only $a\sim\dT^{1/4}$, and the naive fold content
+$\Exc+a\sim\dT^{1/4}$ would cap the whole argument at $\dT^{1/4}$ closeness.
+The cancellation \eqref{eq:Icancel} replaces $a$ by $a\eta$; since
+$\eta\le C(\Exc+a)^{1/2}\le Ca^{1/2}\sim\dT^{1/8}$, the product
+$a\eta\sim\dT^{3/8}$, and through \cref{cor:gd} the graph defect becomes
+$\gd\sim\eta\,a\eta\sim\dT^{1/8}\cdot\dT^{3/8}=\dT^{1/2}$, matching the
+closeness $O(\sqrt\dT)$. The single factor $\eta$ --- the legitimacy of
+subtracting the constant $1/\hat r$, because $\abs\Etil=\abs{B_{\hat r}(z)}$,
+together with the confinement of $\Etil\triangle B_{\hat r}(z)$ to the thin
+$\eta$-annulus --- is exactly what removes the FMP square-root from the fold
+content and makes the reduction sharp.
+\end{remark}
+
+\subsection{The graph defect}
+
+The \emph{graph defect} of $\Etil$ about $z$,
+\[
+   \gd(\Etil):=\inf_{\rho\colon S^1\to(0,\infty)}
+      \bigl|\Etil\,\triangle\,\{z+r\omega:0\le r<\rho(\omega)\}\bigr|,
+\]
+measures how far $\Etil$ is, in $L^1$, from being a radial graph about $z$.
+The fold content controls it directly.
+
+\begin{corollary}[Graph defect]\label{cor:gd}
+The graph defect of $\Etil$ about the centre $z$ satisfies
+\begin{equation}\label{eq:gd}
+   \gd(\Etil)\ \le\ \rho_e\,\eta\!\int_{S^1}\!m(\theta)\,d\theta
+   \ =\ \tfrac12\,\rho_e\,\eta\!\int_{S^1}\!\bigl(M-1\bigr)\,d\theta
+   \ \le\ C\,\eta\,\bigl(\Exc+a\eta\bigr),
+\end{equation}
+with $C$ absolute.
+\end{corollary}
+
+\begin{proof}
+Use the \emph{core profile} $\rho_0(\theta):=r_1(\theta)\in[\rho_i,\rho_e]$,
+the innermost crossing radius from \eqref{eq:fold-slice}; it is defined for
+a.e.\ $\theta$. Set
+$G_0:=\{z+r e^{i\theta}:0\le r<\rho_0(\theta)\}$. By construction the slice
+of $G_0$ in direction $\theta$ is $(0,\rho_0(\theta))=(0,r_1(\theta))
+\subset\Etil_\theta$, so $G_0\subset\Etil$ (up to $\HH^1$-null directions),
+and the slice of $\Etil\setminus G_0$ is exactly the union of caps
+$(r_2,r_3)\cup\cdots\cup(r_{2m},r_{2m+1})$. By the polar-coordinate area
+formula (Fubini on $\R^2\setminus\{z\}$),
+\[
+   \bigl|\Etil\setminus G_0\bigr|
+   =\int_{S^1}\sum_{i=1}^{m(\theta)}\int_{r_{2i}}^{r_{2i+1}}\!r\,dr\,d\theta .
+\]
+On each ray with $m(\theta)\ge1$, all cap endpoints lie in $[\rho_i,\rho_e]$,
+so the caps have total radial length $\sum_i(r_{2i+1}-r_{2i})\le
+r_{2m+1}-r_2\le\rho_e-\rho_i=\eta$, and each cap sits at radius
+$r\le\rho_e$; hence
+\[
+   \sum_{i=1}^{m(\theta)}\int_{r_{2i}}^{r_{2i+1}}\!r\,dr
+   \ \le\ \rho_e\sum_{i=1}^{m(\theta)}(r_{2i+1}-r_{2i})
+   \ \le\ \rho_e\,\eta\,\mathbf1_{\{m(\theta)\ge1\}}.
+\]
+Therefore
+\[
+   \gd(\Etil)\le\bigl|\Etil\triangle G_0\bigr|=\bigl|\Etil\setminus G_0\bigr|
+   \le\rho_e\,\eta\,\bigl|\{\theta:m(\theta)\ge1\}\bigr|
+   \le\rho_e\,\eta\!\int_{S^1}m\,d\theta,
+\]
+where the last step uses $\mathbf1_{\{m\ge1\}}\le m$ (as $m$ is a
+non-negative integer). Since $M=2m+1$, $\int_{S^1}m\,d\theta=\tfrac12
+\int_{S^1}(M-1)\,d\theta$, which is the displayed equality; and
+\cref{prop:fold} together with $\rho_e\le C\hat r\le C$ (for
+$\dT\le\delta_\star$) gives the final bound
+$\le C\,\eta(\Exc+a\eta)$.
+\end{proof}
+
+\subsection{Realization as a continuous radial graph}
+
+The core profile $\rho_0=r_1$ realises the graph defect but is only $BV$ in
+$\theta$. We mollify it to a continuous (indeed Lipschitz) profile at a
+negligible cost.
+
+\begin{proposition}[Continuous radial-graph realization]\label{prop:realization}
+For every $\sigma>0$ there is a Lipschitz profile
+$\rho_\sigma\colon S^1\to[\rho_i,\rho_e]$ such that the radial graph
+$G_\sigma:=\{z+r\omega:0\le r<\rho_\sigma(\omega)\}$ satisfies
+\begin{equation}\label{eq:realization}
+   \bigl\|\rho_\sigma-\hat r\bigr\|_{L^\infty(S^1)}\le\eta,
+   \qquad
+   \bigl|\Etil\,\triangle\,G_\sigma\bigr|
+   \ \le\ \bigl|\Etil\setminus G_0\bigr|+C\,\sigma
+   \ \le\ C\,\eta\,(\Exc+a\eta)+C\,\sigma,
+\end{equation}
+where $G_0=\{r<\rho_0\}$ is the core-profile graph of \cref{cor:gd} and $C$
+is absolute. Thus $G_\sigma$ is a continuous radial graph that approximates
+$\Etil$ to within the core-profile graph defect $\abs{\Etil\setminus G_0}$
+\textup{(}itself bounded by \cref{cor:gd}, hence
+$\ge\gd(\Etil)$\textup{)} plus the mollification error $C\sigma$. In our
+application one may take $\sigma=\dT$, which is negligible against
+$\abs{\Etil\setminus G_0}\le C\sqrt\dT$.
+\end{proposition}
+
+\begin{proof}
+\emph{Bounded variation of the core profile.}
+The core profile $\rho_0=r_1\colon S^1\to[\rho_i,\rho_e]$ takes values in a
+bounded interval, so $\rho_0\in L^\infty(S^1)$; we bound its essential total
+variation by the perimeter of $\Etil$. Its polar graph
+\[
+   \Gamma_0:=\{z+\rho_0(\theta)e^{i\theta}:\theta\in S^1\}
+\]
+is contained in $\partial\Etil$: for a.e.\ $\theta$, $r_1(\theta)$ is the
+innermost crossing radius of the slice \eqref{eq:fold-slice}, hence
+$z+r_1(\theta)e^{i\theta}\in\partial^*\Etil$, and distinct directions give
+points on disjoint open rays, so $\Gamma_0$ injects into $\partial^*\Etil$
+and $\HH^1(\Gamma_0)\le\HH^1(\partial^*\Etil)=\Per(\Etil)$. For a $BV$ polar
+profile the arclength of $\Gamma_0$ is
+$\HH^1(\Gamma_0)=\int_{S^1}\sqrt{\rho_0^2+\abs{D\rho_0}^2}$, where
+$\abs{D\rho_0}$ is the variation measure of $\rho_0$; dropping the
+non-negative $\rho_0^2\ge\rho_i^2$ term under the square root and using
+$\sqrt{\rho_i^2+t^2}\ge t$,
+\[
+   \mathrm{TV}(\rho_0)=\int_{S^1}\abs{D\rho_0}
+   \ \le\ \int_{S^1}\sqrt{\rho_0^2+\abs{D\rho_0}^2}
+   \ =\ \HH^1(\Gamma_0)\ \le\ \Per(\Etil).
+\]
+(Equivalently and more elementarily: the radial projection
+$\Pi(x):=z+\rho_0\bigl(\arg(x-z)\bigr)$ need not be invoked; the displayed
+arclength comparison is the polar form of the standard graph
+total-variation/perimeter inequality, valid for $BV$ profiles.) Hence, using
+$\Per(\Etil)=2\pi\hat r+\Exc\le C$ for $\dT\le\delta_\star$,
+\begin{equation}\label{eq:TVbound}
+   \mathrm{TV}(\rho_0)\ \le\ \Per(\Etil)\ \le\ \frac{\Per(\Etil)}{\rho_i}
+   \ \le\ C,
+\end{equation}
+the middle inequality holding since $\rho_i\le1$ (indeed $\rho_i\ge\tfrac12$
+for $\dT\le\delta_\star$, so $1/\rho_i\le2$). The form
+$\mathrm{TV}(\rho_0)\le\Per(\Etil)/\rho_i$ is the bound flagged in the
+mandate; either constant is absolute.
+
+\emph{Mollification.}
+Let $\psi_\sigma$ be a standard non-negative mollifier on $S^1$ at scale
+$\sigma$ ($\int\psi_\sigma=1$, $\supp\psi_\sigma\subset(-\sigma,\sigma)$,
+$\norm{\psi_\sigma'}_{L^1}\le C/\sigma$), and set
+$\rho_\sigma:=\psi_\sigma*\rho_0$. Then $\rho_\sigma$ is smooth, hence
+Lipschitz; it is a convex average of values of $\rho_0\in[\rho_i,\rho_e]$,
+so $\rho_\sigma\in[\rho_i,\rho_e]$; and
+$\norm{\rho_\sigma-\hat r}_\infty\le\rho_e-\rho_i=\eta$ since both
+$\rho_\sigma$ and $\hat r$ lie in $[\rho_i,\rho_e]$. This gives the first
+estimate in \eqref{eq:realization}.
+
+\emph{Cost of mollification.}
+Convolution moves a $BV$ function in $L^1$ by at most $\sigma$ times its
+total variation:
+\[
+   \norm{\rho_\sigma-\rho_0}_{L^1(S^1)}
+   =\int_{S^1}\Bigl|\int\psi_\sigma(s)\bigl(\rho_0(\theta-s)-\rho_0(\theta)
+      \bigr)\,ds\Bigr|\,d\theta
+   \le\int\psi_\sigma(s)\,\mathrm{TV}(\rho_0)\,\abs s\,ds
+   \le\sigma\,\mathrm{TV}(\rho_0),
+\]
+using $\int_{S^1}\abs{\rho_0(\theta-s)-\rho_0(\theta)}\,d\theta\le
+\abs s\,\mathrm{TV}(\rho_0)$. The symmetric difference of two radial graphs
+with profiles $\rho_0,\rho_\sigma\in[\rho_i,\rho_e]$ is
+\[
+   \bigl|\{r<\rho_0\}\triangle\{r<\rho_\sigma\}\bigr|
+   =\int_{S^1}\Bigl|\int_{\rho_\sigma(\theta)}^{\rho_0(\theta)}r\,dr\Bigr|
+       \,d\theta
+   =\int_{S^1}\frac{\abs{\rho_0^2-\rho_\sigma^2}}{2}\,d\theta
+   \le\rho_e\!\int_{S^1}\abs{\rho_0-\rho_\sigma}\,d\theta
+   \le\rho_e\,\sigma\,\mathrm{TV}(\rho_0),
+\]
+using $\abs{\rho_0^2-\rho_\sigma^2}=\abs{\rho_0-\rho_\sigma}
+(\rho_0+\rho_\sigma)\le2\rho_e\abs{\rho_0-\rho_\sigma}$. By
+\eqref{eq:TVbound} and $\rho_e\le C$, this is $\le C\sigma$. Hence, using
+$G_0\subset\Etil$ so that $\abs{\Etil\triangle G_0}=\abs{\Etil\setminus G_0}$,
+\[
+   \bigl|\Etil\triangle G_\sigma\bigr|
+   \le\bigl|\Etil\triangle G_0\bigr|
+      +\bigl|G_0\triangle G_\sigma\bigr|
+   \le\bigl|\Etil\setminus G_0\bigr|+C\,\sigma,
+\]
+which is the second estimate of \eqref{eq:realization}; the further bound
+$\abs{\Etil\setminus G_0}\le C\eta(\Exc+a\eta)$ is \cref{cor:gd}. Taking
+$\sigma=\dT$ makes the mollification cost $C\dT$, negligible against
+$\abs{\Etil\setminus G_0}\le C\sqrt\dT$.
+\end{proof}
+
+\begin{remark}[Scales, and the role in the reduction]\label{rem:fold-scales}
+Specialising to the inset at level $\hat v\sim\tau=\sqrt\dT$ (so
+$\diso\le C\dT/\tau\le C\sqrt\dT$, $\Exc\le C\sqrt\dT$, and by \cref{thm:fmp}
+$a\le C\sqrt\diso\le C\dT^{1/4}$), the annulus width is $\eta\le
+C(\Exc+a)^{1/2}\le Ca^{1/2}\le C\dT^{1/8}$, an \emph{absolute} small
+amplitude. Then \cref{cor:gd} gives
+\[
+   \gd(\Etil)\le C\eta(\Exc+a\eta)
+   \le C\bigl(\dT^{1/8}\dT^{1/2}+\dT^{1/4}\dT^{1/4}\bigr)
+   =C\bigl(\dT^{5/8}+\dT^{1/2}\bigr)\le C\sqrt\dT,
+\]
+and \cref{prop:realization} (with $\sigma=\dT$) produces a continuous radial
+graph $G$ of amplitude $\norm{\rho-\hat r}_\infty\le\eta\le C\dT^{1/8}$ with
+$\abs{\Etil\triangle G}\le C\sqrt\dT$. These are precisely the scales fed
+into the cutting estimate (\cref{lem:cutdeficit}) and the assembly
+(\cref{thm:reduction}): the graph defect balances the level-carried closeness
+$\abs{\Om\triangle\Etil}\sim\sqrt\dT$ at the optimal exponent.
+\end{remark}

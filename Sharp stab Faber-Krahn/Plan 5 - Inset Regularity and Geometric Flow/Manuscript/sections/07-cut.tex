@@ -1,0 +1,352 @@
+\section{Cutting the caps lowers the deficit}
+\label{sec:cut}
+
+The construction of \cref{sec:inset,sec:annulus,sec:fold} produces from
+$\Om$ a connected, hole-free inset $\Etil$ trapped in a thin annulus
+$B_{\rho_i}(z)\subset\Etil\subset B_{\rho_e}(z)$, together with a radial core
+profile whose graph
+$G_0=\{z+r\omega:r<\rho_0(\omega)\}$ satisfies $G_0\subset\Etil$ and
+$\abs{\Etil\setminus G_0}=\gd(\Etil)$ (\cref{cor:gd}). Manufacturing the
+honest graph from $\Etil$ therefore amounts to \emph{excising} the radial
+caps $\Etil\setminus G_0$, all of which lie in the collar
+$\{\rho_i<\abs{x-z}<\rho_e\}$. The naive worry is that removing material can
+only destroy torsion and hence inflate the scale-invariant deficit
+$\dstar$. The opposite is true: caps in a thin collar carry very little
+torsion, and the equal-area comparison ball shrinks faster than the torsion
+is lost, so $\dstar$ \emph{decreases}. This section proves the two facts
+that make this precise. They are sign-critical, so we prove them in full and
+check the inequalities digit by digit.
+
+Throughout, for a bounded open set $D\subset\R^2$ the \emph{torsion
+function} $u_D\in H^1_0(D)$ is the weak solution of $-\Delta u_D=1$ in $D$,
+$u_D=0$ on $\partial D$, and $T(D):=\int_D u_D$ is its torsional rigidity;
+for a general set of finite measure $D$ we set $T(D):=T(\mathrm{int}\,D)$ on
+the open representative produced by our construction, which is all we use.
+Recall (\cref{thm:torsion-reg}) that $u_D$ is real-analytic in $D$ and, by
+the comparison principle for the Laplacian, $u_D\ge0$.
+
+\subsection{The torsion as a Green double integral}
+
+We first record the representation of $T$ that drives the stability bound.
+Let $G_D(x,y)$ be the Green function of $-\Delta$ on the open set $D$ with
+pole at $y$: the distributional solution of $-\Delta_x G_D(\cdot,y)=
+\delta_y$ in $D$, $G_D(\cdot,y)=0$ on $\partial D$ (\cref{thm:torsion-reg}
+and \cite[\S2.4, \S4]{GilbargTrudinger2001}). Two classical properties are
+used.
+
+\begin{lemma}[Positivity and domain monotonicity of $G_D$]\label{lem:greenmono}
+For bounded open $D\subset\R^2$ one has $G_D\ge0$ on $D\times D$. If
+$E\subset F$ are bounded open sets, then $G_E(x,y)\le G_F(x,y)$ for all
+$x,y\in E$.
+\end{lemma}
+
+\begin{proof}
+Fix $y$. The function $x\mapsto G_D(x,y)$ is harmonic on $D\setminus\{y\}$,
+tends to $+\infty$ as $x\to y$ (the logarithmic singularity), and vanishes
+on $\partial D$; by the minimum principle it is $\ge0$ on $D$. This is the
+positivity.
+
+For monotonicity, fix $y\in E$ and set $w:=G_F(\cdot,y)-G_E(\cdot,y)$ on
+$E$. Both functions have the \emph{same} singularity $-\tfrac1{2\pi}\log
+\abs{x-y}$ at $y$, so $w$ extends to a harmonic function on all of $E$
+(the singularities cancel). On $\partial E$ we have $G_E(\cdot,y)=0$ while
+$G_F(\cdot,y)\ge0$ by positivity (since $\partial E\subset F$ up to the
+boundary points lying in $\overline F$, where $G_F\ge0$ by continuity);
+hence $w\ge0$ on $\partial E$. By the minimum principle for harmonic
+functions, $w\ge0$ on $E$, i.e.\ $G_E\le G_F$ on $E\times E$.
+\end{proof}
+
+\begin{lemma}[Green representation of torsion]\label{lem:greenrep}
+For a bounded open set $D\subset\R^2$,
+\begin{equation}\label{eq:greenrep}
+   u_D(y)=\int_D G_D(x,y)\,dx\quad(y\in D),
+   \qquad
+   T(D)=\iint_{D\times D}G_D(x,y)\,dx\,dy .
+\end{equation}
+In particular $T(D)=\iint_{D\times D}G_D\ge0$, and $G_D$ is symmetric,
+$G_D(x,y)=G_D(y,x)$.
+\end{lemma}
+
+\begin{proof}
+The Green function reproduces solutions of the Dirichlet problem: for
+$f\in C^\infty_c(D)$ the function $v(y):=\int_D G_D(x,y)f(x)\,dx$ solves
+$-\Delta v=f$ in $D$, $v=0$ on $\partial D$, by the defining property
+$-\Delta_x G_D(\cdot,y)=\delta_y$ and the symmetry $G_D(x,y)=G_D(y,x)$
+(both standard, \cite[Thm.~4.10]{GilbargTrudinger2001}). Taking $f\equiv1$
+(approximated in $L^2(D)$ by $C_c^\infty$ functions, with the corresponding
+solutions converging to $u_D$ in $H^1_0(D)$ by the energy estimate) gives
+$u_D(y)=\int_D G_D(x,y)\,dx$. Integrating over $y\in D$ and using Tonelli
+($G_D\ge0$ by \cref{lem:greenmono}) yields
+$T(D)=\int_D u_D=\iint_{D\times D}G_D$.
+\end{proof}
+
+\subsection{Boundary-layer torsion stability}
+
+The next lemma controls how much torsion can change when two sets agree
+except in a thin annular collar. It is the analytic heart of the section.
+
+\begin{lemma}[Boundary-layer torsion stability]\label{lem:torsion-stab}
+Let $z\in\R^2$ and $0<\rho_i\le\rho_e$, and put
+\begin{equation}\label{eq:tildeeta}
+   \tilde\eta:=\tfrac14\bigl(\rho_e^2-\rho_i^2\bigr).
+\end{equation}
+Let $E,F\subset\R^2$ be bounded open sets with
+\begin{equation}\label{eq:collar-hyp}
+   B_{\rho_i}(z)\subset E\cap F,\qquad
+   E\cup F\subset B_{\rho_e}(z),\qquad
+   \abs{E\,\triangle\,F}=m,
+\end{equation}
+so that $E\triangle F$ lies in the collar $\{\rho_i<\abs{x-z}<\rho_e\}$.
+Then
+\begin{equation}\label{eq:torsion-stab}
+   \abs{T(E)-T(F)}\ \le\ 3\,\tilde\eta\,m .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set $E_\cap:=E\cap F$ and $F_\cup:=E\cup F$; these are bounded open sets
+with $E_\cap\subset E,F\subset F_\cup$ and
+\[
+   F_\cup\setminus E_\cap=E\triangle F,\qquad
+   \abs{F_\cup\setminus E_\cap}=m .
+\]
+By monotonicity of the Green representation in the domain
+(\cref{lem:greenmono,lem:greenrep}), $E_\cap\subset E$ gives
+$T(E_\cap)\le T(E)$ and $E\subset F_\cup$ gives $T(E)\le T(F_\cup)$, and
+likewise for $F$; hence
+\begin{equation}\label{eq:sandwich}
+   T(E_\cap)\le T(E)\le T(F_\cup),\qquad
+   T(E_\cap)\le T(F)\le T(F_\cup),
+\end{equation}
+so that
+\begin{equation}\label{eq:reduce-to-cup-cap}
+   \abs{T(E)-T(F)}\ \le\ T(F_\cup)-T(E_\cap).
+\end{equation}
+It therefore suffices to bound $T(F_\cup)-T(E_\cap)$.
+
+Write $A:=F_\cup\setminus E_\cap=E\triangle F$, so
+$F_\cup=E_\cap\cup A$ is a disjoint union and $\abs A=m$. Using
+\cref{lem:greenrep} for both sets and then the domain monotonicity
+$G_{E_\cap}\le G_{F_\cup}$ on $E_\cap\times E_\cap$ (\cref{lem:greenmono}),
+\begin{align}
+   T(F_\cup)-T(E_\cap)
+   &=\iint_{F_\cup\times F_\cup}G_{F_\cup}
+     -\iint_{E_\cap\times E_\cap}G_{E_\cap}
+   \notag\\
+   &\le\iint_{F_\cup\times F_\cup}G_{F_\cup}
+     -\iint_{E_\cap\times E_\cap}G_{F_\cup}.
+   \label{eq:swapgreen}
+\end{align}
+Splitting $F_\cup\times F_\cup=(E_\cap\cup A)\times(E_\cap\cup A)$ into the
+four product pieces and cancelling $E_\cap\times E_\cap$, the right-hand
+side of \eqref{eq:swapgreen} equals, by the symmetry of $G_{F_\cup}$,
+\begin{equation}\label{eq:threepieces}
+   2\!\int_{E_\cap}\!\!\int_A G_{F_\cup}(x,y)\,dy\,dx
+   \ +\ \iint_{A\times A}G_{F_\cup}(x,y)\,dy\,dx .
+\end{equation}
+Each inner integral is bounded by the torsion function: for fixed $y\in A$,
+\cref{lem:greenrep} (with $D=F_\cup$) and positivity give
+\begin{equation}\label{eq:innertou}
+   \int_{E_\cap}G_{F_\cup}(x,y)\,dx\ \le\ \int_{F_\cup}G_{F_\cup}(x,y)\,dx
+   = u_{F_\cup}(y),
+   \qquad
+   \int_{A}G_{F_\cup}(x,y)\,dx\ \le\ u_{F_\cup}(y).
+\end{equation}
+Therefore
+\begin{equation}\label{eq:tothreeintu}
+   T(F_\cup)-T(E_\cap)\ \le\ 2\int_A u_{F_\cup}\ +\ \int_A u_{F_\cup}
+   \ =\ 3\int_A u_{F_\cup}.
+\end{equation}
+
+It remains to bound $u_{F_\cup}$ on the collar by the barrier $\tilde\eta$.
+Since $F_\cup\subset B_{\rho_e}(z)$, comparison gives $u_{F_\cup}\le
+u_{B_{\rho_e}(z)}$ on $F_\cup$: indeed $u_{B_{\rho_e}(z)}-u_{F_\cup}$ is
+$-\Delta$-harmonic in $F_\cup$ (both have $-\Delta(\cdot)=1$) and on
+$\partial F_\cup$ equals $u_{B_{\rho_e}(z)}\ge0$, so it is $\ge0$ in
+$F_\cup$ by the minimum principle. The radial torsion function of the disc
+is, explicitly,
+\begin{equation}\label{eq:discu}
+   u_{B_{\rho_e}(z)}(y)=\frac{\rho_e^2-\abs{y-z}^2}{4},
+\end{equation}
+which indeed solves $-\Delta u=1$ with $u=0$ on $\abs{y-z}=\rho_e$. Now
+$A=E\triangle F$ lies in the collar $\{\rho_i<\abs{x-z}<\rho_e\}$, by
+\eqref{eq:collar-hyp}: any point of $E\triangle F$ lies in
+$F_\cup\subset B_{\rho_e}(z)$ (so $\abs{x-z}<\rho_e$) and outside
+$E_\cap\supset B_{\rho_i}(z)$ (so $\abs{x-z}\ge\rho_i$; the boundary sphere
+is $\HH^2$-null). Hence for $y\in A$,
+\begin{equation}\label{eq:barrier}
+   u_{F_\cup}(y)\le u_{B_{\rho_e}(z)}(y)
+   =\frac{\rho_e^2-\abs{y-z}^2}{4}
+   \le\frac{\rho_e^2-\rho_i^2}{4}=\tilde\eta .
+\end{equation}
+Combining \eqref{eq:tothreeintu} and \eqref{eq:barrier},
+\[
+   T(F_\cup)-T(E_\cap)\ \le\ 3\int_A u_{F_\cup}
+   \ \le\ 3\,\tilde\eta\,\abs A\ =\ 3\,\tilde\eta\,m,
+\]
+and \eqref{eq:torsion-stab} follows from
+\eqref{eq:reduce-to-cup-cap}.
+\end{proof}
+
+\begin{remark}[The barrier constant]\label{rem:barrier}
+The width of the collar enters only through
+$\tilde\eta=\tfrac14(\rho_e^2-\rho_i^2)$, the maximal value of the disc
+torsion function on the inner sphere. With $\rho_i=\hat r-O(\eta)$ and
+$\rho_e=\hat r+O(\eta)$ one has $\tilde\eta=\tfrac14(\rho_e+\rho_i)
+(\rho_e-\rho_i)\le\tfrac12\rho_e\,\eta\le C\eta$, so $\tilde\eta$ is of the
+same order as the annulus width $\eta=\rho_e-\rho_i$. In the unit-scale
+normalisation $\rho_e=1+\eta$, $\rho_i=1-\eta$ one gets exactly
+$\tilde\eta=\eta$.
+\end{remark}
+
+\subsection{Cutting boundary material decreases \texorpdfstring{$\dstar$}{the scale-invariant deficit}}
+
+Recall the scale-invariant relative deficit of a finite-measure set $D$,
+\begin{equation}\label{eq:dstar-recall}
+   \dstar(D)=\frac{T(B_D)-T(D)}{T(B_D)},\qquad
+   T(B_D)=\frac{\abs D^2}{8\pi},
+\end{equation}
+where $B_D$ is any ball with $\abs{B_D}=\abs D$ (so
+$T(B_D)=|B_D|^2/(8\pi)$ by scaling from $T(B_1)=\pi/8$). Equivalently,
+$\dstar(D)=1-8\pi\,T(D)/\abs D^2$. We now show that excising boundary
+material confined to a thin collar lowers $\dstar$, provided the torsion
+density of the larger set exceeds three barrier-widths.
+
+\begin{lemma}[Cutting boundary material decreases $\dstar$]\label{lem:cutdeficit}
+Let $z\in\R^2$, $0<\rho_i\le\rho_e$ and $\tilde\eta=\tfrac14(\rho_e^2-
+\rho_i^2)$. Let $E,G$ be bounded open sets with
+\begin{equation}\label{eq:cut-incl}
+   B_{\rho_i}(z)\subset G\subset E\subset B_{\rho_e}(z),
+   \qquad E\setminus G\subset\{\rho_i<\abs{x-z}<\rho_e\}.
+\end{equation}
+If
+\begin{equation}\label{eq:cutcond}
+   3\,\tilde\eta\ \le\ \frac{T(E)}{\abs E},
+\end{equation}
+then $\dstar(G)\le\dstar(E)$.
+\end{lemma}
+
+\begin{proof}
+Write
+\[
+   V:=\abs E,\qquad g:=\abs{E\setminus G}=\abs E-\abs G=V-\abs G,
+   \qquad T:=T(E),
+\]
+so that $\abs G=V-g$ and, since $\varnothing\ne B_{\rho_i}(z)\subset
+G\subset E$, we have $0\le g\le V$ and $V>0$.
+
+\emph{Step 1: lower bound for $T(G)$.} Apply \cref{lem:torsion-stab} with
+$F:=E$ and the present $G$, $E$. The hypotheses \eqref{eq:collar-hyp} hold:
+$B_{\rho_i}(z)\subset G\cap E=G$, $G\cup E=E\subset B_{\rho_e}(z)$, and
+$\abs{G\triangle E}=\abs{E\setminus G}=g$ with $E\triangle G=E\setminus G$
+inside the collar by \eqref{eq:cut-incl}. Hence
+\begin{equation}\label{eq:TGlower}
+   T(E)-T(G)\le 3\,\tilde\eta\,g,
+   \qquad\text{i.e.}\qquad
+   T(G)\ \ge\ T-3\,\tilde\eta\,g .
+\end{equation}
+
+\emph{Step 2: the deficit comparison reduces to a torsion inequality.} By
+\eqref{eq:dstar-recall}, with $\abs E=V$ and $\abs G=V-g$,
+\begin{equation}\label{eq:dstar-diff}
+   \dstar(E)-\dstar(G)
+   =\Bigl(1-\frac{8\pi\,T}{V^2}\Bigr)-\Bigl(1-\frac{8\pi\,T(G)}{(V-g)^2}\Bigr)
+   =8\pi\Bigl[\frac{T(G)}{(V-g)^2}-\frac{T}{V^2}\Bigr].
+\end{equation}
+Thus $\dstar(G)\le\dstar(E)$ \emph{holds if and only if}
+$\dfrac{T(G)}{(V-g)^2}\ge\dfrac{T}{V^2}$, i.e.\ (multiplying by
+$(V-g)^2\ge0$) if and only if
+\begin{equation}\label{eq:target}
+   T(G)\ \ge\ T\,\frac{(V-g)^2}{V^2}\ =\ T\Bigl(1-\frac gV\Bigr)^2 .
+\end{equation}
+We now prove \eqref{eq:target}. (When $g=V$, $\abs G=0$ is impossible since
+$G\supset B_{\rho_i}(z)$, so in fact $g<V$; but the argument below covers
+$g\le V$ verbatim.)
+
+\emph{Step 3: the sign-critical chain.} Expand the right-hand side of
+\eqref{eq:target}:
+\begin{equation}\label{eq:expand}
+   T\Bigl(1-\frac gV\Bigr)^2
+   =T-\frac{2Tg}{V}+\frac{Tg^2}{V^2}.
+\end{equation}
+Subtracting \eqref{eq:expand} from the lower bound \eqref{eq:TGlower} for
+$T(G)$,
+\begin{align}
+   T(G)-T\Bigl(1-\frac gV\Bigr)^2
+   &\ \ge\ \bigl(T-3\,\tilde\eta\,g\bigr)
+     -\Bigl(T-\frac{2Tg}{V}+\frac{Tg^2}{V^2}\Bigr)
+   \notag\\
+   &\ =\ \frac{2Tg}{V}-\frac{Tg^2}{V^2}-3\,\tilde\eta\,g
+   \ =\ g\Bigl(\frac{2T}{V}-\frac{Tg}{V^2}-3\,\tilde\eta\Bigr).
+   \label{eq:bracket}
+\end{align}
+We bound the bracket from below. Since $0\le g\le V$ we have
+$0\le g/V\le1$, hence $2-g/V\ge1$, and therefore
+\begin{equation}\label{eq:bracket-key}
+   \frac{2T}{V}-\frac{Tg}{V^2}
+   =\frac TV\Bigl(2-\frac gV\Bigr)\ \ge\ \frac TV\ \ge\ 3\,\tilde\eta,
+\end{equation}
+the last inequality being exactly hypothesis \eqref{eq:cutcond}
+($T/V=T(E)/\abs E\ge3\tilde\eta$). Consequently the bracket in
+\eqref{eq:bracket} is $\ge\frac TV-3\tilde\eta\ge0$, and since $g\ge0$ the
+whole expression \eqref{eq:bracket} is $\ge0$. This is \eqref{eq:target},
+which by Step 2 yields $\dstar(G)\le\dstar(E)$.
+\end{proof}
+
+\begin{remark}[The hypothesis \eqref{eq:cutcond} holds with room to spare]
+\label{rem:roomtospare}
+In the application $E=\Etil$ is the inset of \cref{def:inset}, of measure
+$\mu_E=\abs\Etil=\pi-O(\sqrt\dT)\ge\pi/2$ and deficit
+$\dstar(\Etil)\le\tfrac12$ for $\dT\le\delta_\star$. Then
+\[
+   \frac{T(\Etil)}{\abs\Etil}
+   =\bigl(1-\dstar(\Etil)\bigr)\frac{\abs\Etil}{8\pi}
+   \ \ge\ \bigl(1-\tfrac12\bigr)\cdot\frac{\pi/2}{8\pi}
+   \ =\ \frac1{32},
+\]
+using $T(\Etil)=(1-\dstar(\Etil))\,T(B_{\Etil})=(1-\dstar(\Etil))\,
+\abs\Etil^2/(8\pi)$ from \eqref{eq:dstar-recall}. On the other hand
+$\tilde\eta\le\tfrac12\rho_e\,\eta\le C\eta\le C(\dT/\tau)^{1/4}\to0$ as
+$\dT\to0$ (\cref{thm:annulus}, with $\tau=\sqrt\dT$ giving
+$\eta\le C\dT^{1/8}$). Hence $3\tilde\eta\le\tfrac1{32}\le
+T(\Etil)/\abs\Etil$ for all $\dT\le\delta_\star$, and \eqref{eq:cutcond} is
+satisfied with a fixed margin. The threshold $1/32$ is not sharp and is
+recorded only to fix $\delta_\star$.
+\end{remark}
+
+\begin{remark}[Two uses of the same monotonicity]\label{rem:twouses}
+\Cref{lem:cutdeficit} is applied twice in the assembly
+(\cref{thm:reduction}), both times to a pair $G\subset E$ whose difference
+sits in the same trapping collar of \cref{thm:annulus}:
+\begin{enumerate}[label=\textup{(\alph*)},leftmargin=2.2em]
+\item with $E=\Etil$ and $G=G_0=\{z+r\omega:r<\rho_0(\omega)\}$ the radial
+core profile of \cref{cor:gd}: the difference $\Etil\setminus G_0$ is the
+union of the radial caps, all in the collar, so cutting the caps gives
+$\dstar(G_0)\le\dstar(\Etil)$;
+\item with $E=\{u>\hat v\}$ and $G=\Etil$ its largest connected component:
+by the spillover bound \cref{lem:spill} the discarded components have total
+measure $\abs{\{u>\hat v\}\setminus\Etil}\le D_I(\hat v)^2/(16\pi^3)$ and,
+being other level components, also lie in the trapping collar; hence passing
+to the main component does not raise the deficit, $\dstar(\Etil)\le
+\dstar(\{u>\hat v\})$.
+\end{enumerate}
+In both cases the discarded material is low-torsion boundary material in the
+$\eta$-collar, so \eqref{eq:cutcond} holds by \cref{rem:roomtospare}, and
+$\dstar$ only decreases. This is what closes the chain $\dstar(\Etil)\le
+\dstar(\{u>\hat v\})\le(\pi^2/\mu_E^2)\,\dstar(\Om)$ together with the
+deficit transfer of \cref{lem:transfer}.
+\end{remark}
+
+\begin{remark}[Why the deficit decreases — the mechanism]\label{rem:mechanism}
+The single inequality \eqref{eq:bracket-key} is the entire content. Cutting
+a cap of measure $g$ costs at most $3\tilde\eta\,g$ in torsion
+(\emph{linear} in $g$, with a small slope $3\tilde\eta\to0$), but it shrinks
+the equal-area comparison ball, lowering its torsion $T(B_G)=\abs G^2/(8\pi)$
+by $\approx\frac{2T(B_E)}{V}g=\frac{V}{4\pi}g$, i.e.\ by a slope
+$\approx\frac{2T}{V}$ after accounting for the deficit factor. Because the
+unperturbed torsion density $T/V$ of a near-disc is of order $1$ while the
+collar slope $3\tilde\eta$ vanishes, the denominator $T(B_G)$ drops faster
+than the numerator $T(G)$, and $\dstar=1-T/T(B)$ decreases. There is no
+square-root loss and no constant that degrades as $\dT\to0$: the bound is
+exact and the margin in \eqref{eq:cutcond} only widens.
+\end{remark}
