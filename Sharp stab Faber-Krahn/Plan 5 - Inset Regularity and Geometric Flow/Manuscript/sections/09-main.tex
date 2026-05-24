@@ -2,8 +2,8 @@
 \label{sec:main}
 
 We now assemble the constructions of \S\S4--7 with the perturbative
-nearly--spherical estimate of \S8. Throughout, $\Om\subset\R^2$ is open with
-$\abs\Om=\pi$, $u\in H^1_0(\Om)$ is its torsion function, $\dT=\dT(\Om)=
+nearly--spherical estimate of \S8. Throughout, $\Om\subset\R^2$ is bounded
+open with $\abs\Om=\pi$, $u\in H^1_0(\Om)$ is its torsion function, $\dT=\dT(\Om)=
 \tfrac\pi8-T(\Om)\ge0$ is the Saint--Venant deficit, and $\dstar(\Om)=
 \tfrac8\pi\dT$ is the scale--invariant relative torsion deficit. We write
 $C$ for an absolute constant whose value may change from line to line, and
@@ -28,7 +28,8 @@ balance producing the exponent $\tfrac12$ is visible.
 
 \begin{theorem}[Sharp reduction to a graph inset]\label{thm:reduction}
 There is an absolute $\delta_\star>0$ such that the following holds. Let
-$\Om\subset\R^2$ be open with $\abs\Om=\pi$ and $\dT\le\delta_\star$, and put
+$\Om\subset\R^2$ be bounded open with $\abs\Om=\pi$ and $\dT\le\delta_\star$,
+and put
 $\tau:=\sqrt\dT$. Then there exist a point $z\in\R^2$ and a continuous radial
 graph
 \[
@@ -71,10 +72,14 @@ $\hat r=\sqrt{\mu_E/\pi}$. By \cref{lem:close,lem:spill},
    \abs{\Om\triangle\Etil}\ \le\ 8\pi\tau+A_0\frac\dT\tau
        +\frac{A_0^2}{16\pi^3}\,\frac{\dT^2}{\tau^2}.
 \end{equation}
-Since $\mu(\hat v)\ge\pi-(8\pi\tau+A_0\dT/\tau)\ge\pi-1$ for
-$\delta_\star$ small, $\mu_E\ge\pi-1\ge\pi/2$, hence $\hat r\ge1/\sqrt2$ and,
-for the annulus produced below, $\rho_i\ge\tfrac12$ after possibly shrinking
-$\delta_\star$.
+Since $\mu_E=\abs\Etil=\pi-\abs{\Om\triangle\Etil}$ (as $\Etil\subset\Om$),
+\eqref{eq:m-close} gives $\mu_E\ge\pi-(8\pi\tau+A_0\dT/\tau+A_0^2\dT^2/
+(16\pi^3\tau^2))$; for $\delta_\star$ small (so that the right--hand bound is
+$\le\pi/2$, which is exactly the standing hypothesis \eqref{eq:halfmass} of
+\cref{sec:inset} at $\tau=\sqrt\dT$, with the higher--order spillover term
+absorbed) we obtain $\mu_E\ge\pi/2$, hence $\hat r=\sqrt{\mu_E/\pi}\ge1/\sqrt2$
+and, for the annulus produced below, $\rho_i\ge\tfrac12$ after possibly
+shrinking $\delta_\star$.
 
 \emph{Step 1: the scales (carrying $\tau$ symbolic).} From \cref{lem:spill}
 (recorded in \cref{def:inset}),
@@ -136,9 +141,10 @@ $\tau$ would leave one of the two terms larger than $\dT^{1/2}$.
 \emph{Step 3: realisation of the continuous graph $G$.} By
 \cref{prop:realization} there is a continuous (indeed Lipschitz) radial
 profile $\rho\in C^0(S^1;[\rho_i,\rho_e])$ and a smoothing scale $\sigma>0$
-such that, with $G:=\{z+r\omega:r<\rho(\omega)\}$,
+such that, with $G:=\{z+r\omega:r<\rho(\omega)\}$ and $G_0=\{r<\rho_0\}$ the
+core--profile graph of \cref{cor:gd},
 \begin{equation}\label{eq:s-real}
-   \abs{\Etil\triangle G}\ \le\ \gd(\Etil)+C\,\sigma,
+   \abs{\Etil\triangle G}\ \le\ \abs{\Etil\setminus G_0}+C\,\sigma,
    \qquad
    \norm{\rho-\hat r}_{L^\infty(S^1)}\ \le\ \eta,
 \end{equation}
@@ -146,10 +152,13 @@ where the second bound holds because $\rho$ takes values in
 $[\rho_i,\rho_e]$ and $\hat r\in[\rho_i,\rho_e]$, so
 $\abs{\rho-\hat r}\le\rho_e-\rho_i=\eta$. We take $\sigma=\dT$, which is
 admissible (the total variation of the core profile is $\le P(\Etil)/\rho_i
-\le C$, so the smoothing cost is $\le C\sigma=C\dT$). Then by
-\eqref{eq:s-gd},
+\le C$, so the smoothing cost is $\le C\sigma=C\dT$). By \cref{cor:gd} the
+core--profile defect obeys $\abs{\Etil\setminus G_0}\le C\,\eta(\Exc+a\eta)$,
+the same bound as \eqref{eq:s-gd} for $\gd(\Etil)\le\abs{\Etil\setminus G_0}$;
+hence
 \begin{equation}\label{eq:s-EtilG}
-   \abs{\Etil\triangle G}\ \le\ \gd(\Etil)+C\dT\ \le\ C\,\dT^{1/2}.
+   \abs{\Etil\triangle G}\ \le\ \abs{\Etil\setminus G_0}+C\dT
+   \ \le\ C\,\eta(\Exc+a\eta)+C\dT\ \le\ C\,\dT^{1/2}.
 \end{equation}
 
 \emph{Step 4: verification of (i), (ii), (iii).}
@@ -195,8 +204,11 @@ because
    =\bigl(1-\dstar(\Etil)\bigr)\frac{\abs\Etil}{8\pi}
    \ \ge\ \bigl(1-\tfrac12\bigr)\frac{\pi/2}{8\pi}=\frac1{32},
 \]
-using $\dstar(\Etil)\le\tfrac12$ (from Step~5 below, or directly from
-\cref{lem:transfer}) and $\abs\Etil\ge\pi/2$. Hence \cref{lem:cutdeficit}
+using $\dstar(\Etil)\le\tfrac12$ (from Step~5 below, equivalently
+\cref{prop:insetcontrols}\,\eqref{eq:dstar-inset}) and $\abs\Etil\ge\pi/2$.
+Here the excised set $\Etil\setminus G_0$ is the union of radial caps, all
+contained in the collar $\{\rho_i<\abs{x-z}<\rho_e\}$ (\cref{cor:gd}), so the
+collar hypothesis of \cref{lem:cutdeficit} is met; hence \cref{lem:cutdeficit}
 applies to $G_0\subset\Etil$ and gives
 \begin{equation}\label{eq:s-cut}
    \dstar(G_0)\ \le\ \dstar(\Etil).
@@ -216,23 +228,30 @@ denominator of $\dstar$.) Combining \eqref{eq:s-cut} and \eqref{eq:s-moll},
    \dstar(G)\ \le\ \dstar(\Etil)+C\dT.
 \end{equation}
 
-\emph{Step 5: transfer of the deficit from $\Om$ to $\Etil$.} By
-\cref{lem:transfer}, $\dstar(\{u>\hat v\})\le(\pi^2/\mu(\hat v)^2)\dstar(\Om)$.
-Passing from $\{u>\hat v\}$ to its largest component $\Etil$ removes the
-spillover, which by \cref{lem:spill} sits in the same collar and has measure
-$\le C\dT^2/\tau^2=C\dT$; by \cref{lem:cutdeficit} this does not increase
-$\dstar$ (the spillover is low--torsion boundary material). Hence, with
-$\mu_E=\pi-O(\sqrt\dT)$ so that $\pi^2/\mu_E^2\le1+C\sqrt\dT$,
+\emph{Step 5: transfer of the deficit from $\Om$ to $\Etil$.} This is the
+inset control \eqref{eq:dstar-inset} of \cref{prop:insetcontrols}, which
+states
 \begin{equation}\label{eq:s-transfer}
-   \dstar(\Etil)\ \le\ \dstar(\{u>\hat v\})\ \le\ \frac{\pi^2}{\mu_E^2}\,
-   \dstar(\Om)\ \le\ (1+C\sqrt\dT)\,\dstar(\Om)\ \le\ 2\,\dstar(\Om),
+   \dstar(\Etil)\ \le\ \frac{\pi^2}{\mu_E^2}\,\dstar(\Om)\ \le\ C\,\dstar(\Om).
 \end{equation}
-for $\delta_\star$ small; in particular $\dstar(\Etil)\le\tfrac12$ for
-$\dstar(\Om)\le\tfrac14$, which justifies the value used in Step~4.
-Inserting \eqref{eq:s-transfer} into \eqref{eq:s-defchain} and using
-$\dT=\tfrac\pi8\dstar(\Om)\le C\dstar(\Om)$,
+We stress that this bound is established in \cref{sec:inset}
+\emph{without} appeal to the cutting principle \cref{lem:cutdeficit}: the
+passage from the super--level set $\{u>\hat v\}$ to its largest component
+$\Etil$ is handled there by the exact additivity of torsion over the
+(disjoint) level components and the Saint--Venant bound on the spillover
+torsion (\cref{prop:insetcontrols}, eqs.~\eqref{eq:Tadd}--\eqref{eq:Tspill}),
+both internal to \cref{sec:identity,sec:inset}. In particular the spillover
+components need \emph{not} lie in the trapping collar of $\Etil$ --- so
+\cref{lem:cutdeficit}, whose hypothesis requires the excised set to sit in a
+thin concentric collar, is \emph{not} invoked here, and there is no circular
+dependence on \cref{sec:cut} (see \cref{rem:fwd}). With $\mu_E\ge\pi/2$
+(Step~0) the prefactor is $\pi^2/\mu_E^2\le4$, so for $\delta_\star$ small
+\eqref{eq:s-transfer} gives $\dstar(\Etil)\le 5\,\dstar(\Om)$; in particular
+$\dstar(\Etil)\le\tfrac12$ once $\dstar(\Om)\le\tfrac1{10}$, which justifies
+the value used in Step~4. Inserting \eqref{eq:s-transfer} into
+\eqref{eq:s-defchain} and using $\dT=\tfrac\pi8\dstar(\Om)\le C\dstar(\Om)$,
 \[
-   \dstar(G)\ \le\ \dstar(\Etil)+C\dT\ \le\ 2\dstar(\Om)+C\dstar(\Om)
+   \dstar(G)\ \le\ \dstar(\Etil)+C\dT\ \le\ C\dstar(\Om)+C\dstar(\Om)
    \ =\ C\,\dstar(\Om),
 \]
 which is (ii). This completes the proof.
@@ -242,8 +261,8 @@ which is (ii). This completes the proof.
 
 \begin{theorem}[Sharp quantitative Saint--Venant, selection--free]
 \label{thm:main}
-There is an absolute constant $C$ such that every open set $\Om\subset\R^2$
-with $\abs\Om=\pi$ satisfies
+There is an absolute constant $C$ such that every bounded open set
+$\Om\subset\R^2$ with $\abs\Om=\pi$ satisfies
 \begin{equation}\label{eq:main}
    \AF(\Om)^2\ \le\ C\,\dT(\Om).
 \end{equation}

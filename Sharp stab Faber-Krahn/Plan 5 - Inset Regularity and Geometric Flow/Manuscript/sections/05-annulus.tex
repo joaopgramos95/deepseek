@@ -476,7 +476,7 @@ or $z\in\partial\Etil$, replace $z$ by a point $z_0\in\Etil$ with
 $|z_0-z|\le\delta':=C(\dT/\tau)^{1/4}$ (it exists: $|B_{\hat r}(z)\cap\Etil|
 =\pi\hat r^2-a/2>0$, so $\Etil$ meets every disc about $z$ of area exceeding
 $a/2$, in particular some $B_{r_0}(z)$ with $r_0\le C(\dT/\tau)^{1/4}$).
-Measuring the ball distance at $z_0$ costs only
+Measuring the ball distance at $z_0$ costs
 \[
    a_0:=|\Etil\triangle B_{\hat r}(z_0)|
    \le a+|B_{\hat r}(z)\triangle B_{\hat r}(z_0)|
@@ -485,23 +485,60 @@ Measuring the ball distance at $z_0$ costs only
 since $B_{\hat r}(z)\triangle B_{\hat r}(z_0)\subseteq B_{\hat r+|z-z_0|}(z)
 \setminus B_{\hat r-|z-z_0|}(z)$ has area $4\pi\hat r|z-z_0|$. With this
 $z_0\in\Etil$ in place of $z$, \cref{thm:annulus} applies and yields
-$\rho_e-\rho_i\le C(\Exc+a_0)^{1/2}$, hence the trapping with absolute
-constant; only the \emph{rate} would be the slightly weaker
-$(\dT/\tau)^{1/8}$ \emph{in this degenerate case}.
+$\rho_e-\rho_i\le C(\Exc+a_0)^{1/2}$, hence the trapping
+\eqref{eq:annulus} \emph{with an absolute constant} holds unconditionally.
 
-\emph{Self-consistency, and honest status.} Whenever $z\in\Etil$ (the
-generic case, $a_0=a$) the conclusion \eqref{eq:annulus-rate} with
-\cref{rem:posterior} forces $\rho_i\ge\hat r-C(\dT/\tau)^{1/4}\ge\tfrac12>0$,
-confirming $z\in\Etil$ a posteriori with the sharp rate. The one statement
-not reduced to a tautology is that the \emph{exact} FMP optimum is interior
-(rather than on $\partial\Etil$); we have not proved this from first
-principles, but we have shown that an interior centre exists within
-$C(\dT/\tau)^{1/4}$ of it, with $a_0$ of the same order. Consequently
-\cref{thm:annulus} holds verbatim for any $z\in\Etil$, the trapping with an
-\emph{absolute constant} holds unconditionally, and the only quantity that
-could degrade---the \emph{exponent}, in a non-generic boundary configuration
-of the optimal centre---is flagged here and is, by the a-posteriori bound,
-not actually triggered under $\dT\le\delta_\star$.
+This recentring is, however, \emph{lossy in the rate}: the displacement
+$|z-z_0|$ can be as large as $\delta\sim a^{1/2}\sim(\dT/\tau)^{1/4}$, and the
+symmetric-difference penalty $4\pi\hat r\,|z-z_0|$ is \emph{linear} in it, so
+$a_0\sim(\dT/\tau)^{1/4}$ is one square-root \emph{worse} than the optimal
+$a\sim(\dT/\tau)^{1/2}$. Consequently in the degenerate case the width
+degrades to $\eta\le C(\Exc+a_0)^{1/2}\le C(\dT/\tau)^{1/8}$, i.e.\
+$\eta\le C\dT^{1/16}$ at $\tau=\sqrt\dT$, rather than the sharp
+$\eta\le C\dT^{1/8}$. The status of the sharp rate is recorded in the next
+remark.
+\end{remark}
+
+\begin{remark}[Gap: interiority of the exact FMP optimum, and the sharp rate]
+\label{rem:zinE-gap}
+The trapping \eqref{eq:annulus} with an \emph{absolute constant} is
+established unconditionally: \cref{thm:annulus} holds for any $z\in\Etil$, and
+the recentring above produces such a $z\in\Etil$ in every case. What is
+\emph{not} established from first principles is that the \emph{exact} FMP
+optimum $z$ is an interior point of $\Etil$ (equivalently $\rho_i>0$ at the
+exact optimum). If $z$ is interior, then $a_0=a$ and the sharp rate
+$\eta\le C(\dT/\tau)^{1/4}$ holds; the a-posteriori bound \cref{rem:posterior}
+is then \emph{self-consistent} (it gives $\rho_i\ge\tfrac12>0$), but this is a
+consistency check, not a proof of interiority. In the non-generic case
+$z\in\partial\Etil$ (or $z\notin\overline\Etil$), only the recentred,
+rate-degraded bound $\eta\le C\dT^{1/16}$ is available.
+
+\emph{Impact downstream.} The amplitude hypothesis of \cref{thm:graphG} in
+\cref{sec:main} requires only $\eta\le\eta_G$, which holds in both cases since
+$\dT^{1/16}\to0$; thus the \emph{main theorem $\AF(\Om)^2\le C\dT^{\gamma}$
+for some $\gamma>0$ is unaffected}. However, the graph-defect bound
+\cref{cor:gd}, $\gd(\Etil)\le C\eta(\Exc+a\eta)$, and through it the closeness
+$|\Om\triangle G|$ and the final exponent in \cref{thm:main}, \emph{do} use
+the sharp rate $\eta\sim\dT^{1/8}$: with the degraded $\eta\sim\dT^{1/16}$ the
+dominant term $a\eta^2\sim\dT^{1/4}\cdot\dT^{1/8}=\dT^{3/8}$ inflates $\gd$
+and closeness to $\dT^{3/8}$, yielding only $\AF(\Om)^2\le C\dT^{3/4}$ in the
+degenerate case. \emph{The sharp result $\AF(\Om)^2\le C\dT$ is therefore
+proved unconditionally only modulo the interiority of the exact FMP optimum;}
+in the (conjecturally non-occurring, but here unproved) degenerate boundary
+configuration of the optimal centre the method as written gives the weaker
+$\AF(\Om)^2\le C\dT^{3/4}$.
+
+\emph{Routes to close the gap} (not carried out here, to keep this section's
+inputs to connectedness, no-holes, $\Exc$ and $a$ only). \textup{(i)} Bound
+$\dist(z,\Etil)\le C\,\Exc$ \emph{linearly} in the perimeter excess --- a thin
+exterior channel reaching an empty pocket at $z$ costs perimeter proportional
+to its depth, charging $\dist(z,\Etil)$ to $\Exc$ rather than to
+$a^{1/2}$; this gives $a_0\le a+C\hat r\,\Exc\le C(\dT/\tau)^{1/2}$, the sharp
+order, and hence $\eta\le C\dT^{1/8}$ unconditionally. \textup{(ii)} Quote a
+quantitative-isoperimetric \emph{stability of the optimal centre} placing $z$
+within $C\,\diso$ of the barycentre, which lies in $\Etil$ for $\diso$ small.
+Either route restores the sharp rate; we record the gap honestly rather than
+assert its closure.
 \end{remark}
 
 \begin{remark}[What is, and is not, used]\label{rem:summary}
@@ -517,4 +554,9 @@ excess $\Exc$ and the FMP closeness $a$ (\cref{thm:fmp}, via
 chain $4\eta^2\le P_\theta^2\le2P(P-P_r)\le2P(\Exc+2a/\hat r)$, in which the
 geometric lower bound (two crossings per circle) is converted into the
 deficit by one Cauchy--Schwarz and one elementary radial-profile estimate.
+The hypothesis $z\in\Etil$ (used to start the radius at $0$ and to define the
+angular projection) is the one point not reduced to the deficits; the
+trapping with an absolute constant holds for any $z\in\Etil$ unconditionally,
+while the \emph{sharp rate} for the inset's FMP centre is conditional on the
+interiority of that centre, as discussed in \cref{rem:zinE-gap}.
 \end{remark}

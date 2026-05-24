@@ -79,7 +79,19 @@ $\overline H\Subset\Om$, and we consider the two open sets
 $W^-:=H\cap\{u<v\}$ and $W^+:=H\cap\{u>v\}$, both contained in $H$, hence
 both with closures contained in $\overline H\Subset\Om$.
 
-Each connected component of $W^-$ is a connected component of $\{u<v\}$
+We first note that every connected component $G$ of $W^-$ (resp.\ of $W^+$)
+is in fact a connected component of $\{u<v\}$ (resp.\ of $\{u>v\}$), and is
+contained in $H$. Indeed, $G$ is connected and contained in the open set
+$\{u\ne v\}$, so it lies in a unique component $\hat G$ of $\{u<v\}$ (resp.\
+$\{u>v\}$). If $\hat G$ left $H$ it would, being connected and meeting $H$,
+have to cross $\partial H$; but $\partial H\subset\overline E$ and on
+$\overline E$ one has $u\ge v$, while points of $\partial H$ with $u>v$ lie in
+the open set $E$ (a component of $E_v$, hence open) which is disjoint from
+$\hat G$ when $\hat G\subset W^-$, and equals a different component of $E_v$
+disjoint from $E$ when $\hat G\subset W^+$ (as $\hat G\cap E\subset W^+\cap
+E\subset H\cap E=\emptyset$). In either case $\hat G$ cannot meet $\partial H$,
+so $\hat G\subset H$ and $\hat G=G$. Thus each component of $W^-$ is a
+connected component of $\{u<v\}$
 whose closure lies in $\overline H\Subset\Om$ and so does not meet
 $\partial\Om$; by (i) this forces $W^-=\emptyset$. Each connected component
 $E'$ of $W^+$ is a connected component of $E_v=\{u>v\}$ with
@@ -364,6 +376,7 @@ Under \cref{def:inset} there is an absolute constant $C$ such that
    \ \le\ C\,\frac{\dT}{\tau},
    \label{eq:diso-inset}\\[1mm]
    \dstar(\Etil)\ &\le\ \frac{\pi^2}{\mu_E^2}\,\dstar(\Om)
+   +\frac{S^2}{\mu_E^2}
    \ \le\ C\,\dstar(\Om),
    \label{eq:dstar-inset}\\[1mm]
    \bigl|\Om\triangle\Etil\bigr|\ &\le\ 8\pi\,\tau+A_0\frac{\dT}{\tau}
@@ -404,22 +417,63 @@ $\mu_E\ge\pi/4$,
    =\frac{A_0}{\pi^2}\,\frac{\dT}{\tau}\ =:\ C\,\frac{\dT}{\tau}.
 \]
 
-\emph{\eqref{eq:dstar-inset}.} Passing from the super-level set
-$E_{\hat v}$ to its largest component $\Etil$ removes the spillover, which
-\emph{does not increase} the scale-invariant deficit by the cutting
-principle \cref{lem:cutdeficit} (the spillover components sit in the same
-trapping annulus as $\Etil$, and the smallness hypothesis of
-\cref{lem:cutdeficit} holds for $\dT\le\delta_\star$ since the relevant
-collar width is $O(\dT^{1/8})\to0$ while $T(\Etil)/\mu_E$ stays bounded
-below). Hence $\dstar(\Etil)\le\dstar(E_{\hat v})$, and by
-\cref{lem:transfer},
+\emph{\eqref{eq:dstar-inset}.} We bound $\dstar(\Etil)$ directly, using only
+the deficit transfer of \cref{lem:transfer} and the exact additivity of
+torsion over connected components; no appeal to \cref{lem:cutdeficit} is
+needed (see \cref{rem:fwd}). Let $C_2,C_3,\dots$ be the spillover components
+of $E_{\hat v}$, of areas $A_2,A_3,\dots$ with $\sum_{i\ge2}A_i=S$. On each
+component $C$ of $E_{\hat v}=\{u>\hat v\}$ the function $u-\hat v$ solves
+$-\Delta(u-\hat v)=1$, vanishes on $\partial C\subset\{u=\hat v\}$, and is
+positive inside; hence $u-\hat v$ is the torsion function of $C$ and
+$T(C)=\int_C(u-\hat v)$. As $u-\hat v$ is shared and the components are
+pairwise disjoint, torsion is \emph{exactly additive}:
+\begin{equation}\label{eq:Tadd}
+   T(E_{\hat v})=\int_{E_{\hat v}}(u-\hat v)
+   =\int_{\Etil}(u-\hat v)+\sum_{i\ge2}\int_{C_i}(u-\hat v)
+   =T(\Etil)+\sum_{i\ge2}T(C_i).
+\end{equation}
+By the Saint--Venant inequality applied to each spillover component
+(\cref{prop:scale}, $T(B_E)-T(E)\ge0$, with $T(B_{C_i})=A_i^2/(8\pi)$),
+\begin{equation}\label{eq:Tspill}
+   \sum_{i\ge2}T(C_i)\ \le\ \sum_{i\ge2}\frac{A_i^2}{8\pi}
+   \ \le\ \frac{1}{8\pi}\Bigl(\sum_{i\ge2}A_i\Bigr)^2=\frac{S^2}{8\pi},
+\end{equation}
+the middle inequality because $\sum A_i^2\le(\sum A_i)^2$ for non-negative
+terms. Combining \eqref{eq:Tadd}--\eqref{eq:Tspill} with $\mu_E\le\mu(\hat
+v)$,
 \[
-   \dstar(\Etil)\ \le\ \dstar(E_{\hat v})
-   \ \le\ \frac{\pi^2}{\mu(\hat v)^2}\,\dstar(\Om)
-   \ \le\ \frac{\pi^2}{\mu_E^2}\,\dstar(\Om),
+   T(B_{\Etil})-T(\Etil)
+   =\frac{\mu_E^2}{8\pi}-T(E_{\hat v})+\sum_{i\ge2}T(C_i)
+   \ \le\ \frac{\mu_E^2-\mu(\hat v)^2}{8\pi}
+          +\bigl(T(B_{E_{\hat v}})-T(E_{\hat v})\bigr)+\frac{S^2}{8\pi}
+   \ \le\ \dT+\frac{S^2}{8\pi},
 \]
-the last step using $\mu_E\le\mu(\hat v)$ (so the bound with $\mu_E$ is the
-weaker, hence valid). With $\mu_E\ge\pi/4$ this is $\le16\,\dstar(\Om)$.
+where we used $T(B_{\Etil})=\mu_E^2/(8\pi)$, $T(B_{E_{\hat v}})=
+\mu(\hat v)^2/(8\pi)$, $\mu_E^2-\mu(\hat v)^2\le0$, and the bound
+$T(B_{E_{\hat v}})-T(E_{\hat v})\le\dT$ established in the proof of
+\cref{lem:transfer}. Dividing by $T(B_{\Etil})=\mu_E^2/(8\pi)$ and using
+$\dT=\tfrac\pi8\dstar(\Om)$,
+\begin{equation}\label{eq:dstarE-exact}
+   \dstar(\Etil)
+   \ \le\ \frac{8\pi\dT}{\mu_E^2}+\frac{S^2}{\mu_E^2}
+   \ =\ \frac{\pi^2}{\mu_E^2}\,\dstar(\Om)+\frac{S^2}{\mu_E^2}.
+\end{equation}
+This is the first inequality in \eqref{eq:dstar-inset} up to the higher-order
+term $S^2/\mu_E^2$. The latter is negligible: by \eqref{eq:spill},
+$S\le A_0^2\dT^2/(16\pi^3\tau^2)$, and with the standing hypothesis
+\eqref{eq:halfmass} (in particular $A_0\dT/\tau\le\pi/2$, i.e.\
+$\dT/\tau\le1/32$) one has $S\le\tfrac{A_0^2}{16\pi^3}(\dT/\tau)\cdot\dT
+\le\tfrac{A_0^2}{16\pi^3\cdot32}\dT\le\dT$; hence, with $\mu_E\ge\pi/4$,
+\[
+   \frac{S^2}{\mu_E^2}\ \le\ \frac{S\cdot\dT}{(\pi/4)^2}
+   \ \le\ \frac{16}{\pi^2}\,\dT^2
+   \ \le\ \frac{16}{\pi^2}\,\dT\cdot\frac\pi8\,\dstar(\Om)
+   \ =\ \frac{2}{\pi}\,\dT\,\dstar(\Om)\ \le\ \dstar(\Om),
+\]
+the last step for $\dT\le\delta_\star\le\pi/2$. Thus, with $\mu_E\ge\pi/4$,
+\eqref{eq:dstarE-exact} gives
+$\dstar(\Etil)\le\frac{\pi^2}{\mu_E^2}\dstar(\Om)+\dstar(\Om)
+\le(16+1)\dstar(\Om)\le C\,\dstar(\Om)$, which is \eqref{eq:dstar-inset}.
 
 \emph{\eqref{eq:close-inset}.} By \cref{lem:close} and \cref{lem:spill},
 \[
@@ -433,17 +487,22 @@ $\dT^2/\tau^2=\dT$ is higher order, so $|\Om\triangle\Etil|\le(8\pi+A_0)
 $\tau$.
 \end{proof}
 
-\begin{remark}[Forward dependence]\label{rem:fwd}
-The bound \eqref{eq:dstar-inset} invokes \cref{lem:cutdeficit} only to
-justify that excising the (low-torsion) spillover does not raise $\dstar$.
-This is not circular: \cref{lem:cutdeficit} depends only on
-Green-function monotonicity and a boundary-layer barrier, not on any result
-of the present section. If one prefers a self-contained
-estimate here, the deficit transfer \cref{lem:transfer} already gives
-$\dstar(E_{\hat v})\le(\pi^2/\mu(\hat v)^2)\dstar(\Om)$ for the full
-super-level set; the passage to $\Etil$ then costs at most the torsion
-carried by the spillover, which is $O(\dT^2/\tau^2)$ and absorbed for
-$\dT\le\delta_\star$.
+\begin{remark}[Self-contained deficit transfer; no forward dependence]
+\label{rem:fwd}
+The bound \eqref{eq:dstar-inset} is proved above without any appeal to the
+cutting principle \cref{lem:cutdeficit} of \cref{sec:cut}: the passage from
+$E_{\hat v}$ to its largest component $\Etil$ is handled by the exact
+additivity of torsion over components \eqref{eq:Tadd} and the Saint--Venant
+bound \eqref{eq:Tspill} on the spillover torsion, both internal to
+\cref{sec:identity,sec:inset}. There is therefore \emph{no} circular
+dependence on \cref{sec:cut} in this section. (One could alternatively invoke
+\cref{lem:cutdeficit}; but its precise hypothesis --- that the excised set lie
+in a thin concentric collar of $\Etil$ --- is \emph{not} met by the spillover,
+whose components are in general not contained in the trapping annulus of
+$\Etil$. The additivity argument avoids this issue entirely, which is why we
+prefer it.) For the record, \cref{lem:cutdeficit} itself rests only on
+Green-function monotonicity and a boundary-layer barrier, so even the optional
+route would be acyclic.
 \end{remark}
 
 \begin{remark}[The scales, recorded]\label{rem:scales}

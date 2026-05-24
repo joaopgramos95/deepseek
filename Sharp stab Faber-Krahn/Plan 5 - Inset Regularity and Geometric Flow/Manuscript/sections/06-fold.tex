@@ -344,10 +344,12 @@ $I_{\Etil}\ge2\pi\hat r-a\eta/(\rho_i\hat r)$ from \eqref{eq:Icancel},
 \]
 Inserting into \eqref{eq:fold-step1} yields the middle inequality of
 \eqref{eq:foldsharp}. Finally, for $\dT\le\delta_\star$ the inset radius
-obeys $\hat r\ge\tfrac12$ and $\rho_i\ge\tfrac12$ (since $\mu_E=\pi-O(\sqrt
-\dT)$ by \cref{def:inset} and $\rho_i\to\hat r$ as $\eta\to0$), so
-$1/\rho_i\le2$ and $1/(\rho_i^2\hat r)\le8$, giving the absolute bound
-$C(\Exc+a\eta)$. The fold-angle estimate \eqref{eq:foldangles} follows
+obeys $\hat r\ge\tfrac34$ (since $\mu_E=\pi-O(\sqrt\dT)$ by \cref{def:inset},
+so $\hat r=\sqrt{\mu_E/\pi}\to1$), and $\eta\le C\dT^{1/8}\le\tfrac14$ by
+\eqref{eq:fold-annulus}, whence $\rho_i\ge\hat r-\eta\ge\tfrac12$ (using
+$\rho_e=\rho_i+\eta$ and $\rho_i\le\hat r\le\rho_e$). Therefore
+$1/\rho_i\le2$ and $1/(\rho_i^2\hat r)\le1/(\tfrac14\cdot\tfrac34)\le6$,
+giving the absolute bound $C(\Exc+a\eta)$. The fold-angle estimate \eqref{eq:foldangles} follows
 because $M-1\ge2$ on $\{M\ge3\}$ (as $M=2m+1$ is odd, $M\ge3$ means
 $m\ge1$), so $2\abs{\{M\ge3\}}\le\int_{\{M\ge3\}}(M-1)\le\int_{S^1}(M-1)$.
 \end{proof}
@@ -467,37 +469,52 @@ $\abs{\Etil\setminus G_0}\le C\sqrt\dT$.
 \begin{proof}
 \emph{Bounded variation of the core profile.}
 The core profile $\rho_0=r_1\colon S^1\to[\rho_i,\rho_e]$ takes values in a
-bounded interval, so $\rho_0\in L^\infty(S^1)$; we bound its essential total
-variation by the perimeter of $\Etil$. Its polar graph
+bounded interval, so $\rho_0\in L^\infty(S^1)$. We bound its essential total
+variation by the perimeter of $\Etil$ through the circle-crossing function
 \[
-   \Gamma_0:=\{z+\rho_0(\theta)e^{i\theta}:\theta\in S^1\}
+   N(\rho):=\HH^0\bigl(\partial\Etil\cap\partial B_\rho(z)\bigr)
 \]
-is contained in $\partial\Etil$: for a.e.\ $\theta$, $r_1(\theta)$ is the
-innermost crossing radius of the slice \eqref{eq:fold-slice}, hence
-$z+r_1(\theta)e^{i\theta}\in\partial^*\Etil$, and distinct directions give
-points on disjoint open rays, so $\Gamma_0$ injects into $\partial^*\Etil$
-and $\HH^1(\Gamma_0)\le\HH^1(\partial^*\Etil)=\Per(\Etil)$. For a $BV$ polar
-profile the arclength of $\Gamma_0$ is
-$\HH^1(\Gamma_0)=\int_{S^1}\sqrt{\rho_0^2+\abs{D\rho_0}^2}$, where
-$\abs{D\rho_0}$ is the variation measure of $\rho_0$; dropping the
-non-negative $\rho_0^2\ge\rho_i^2$ term under the square root and using
-$\sqrt{\rho_i^2+t^2}\ge t$,
-\[
-   \mathrm{TV}(\rho_0)=\int_{S^1}\abs{D\rho_0}
-   \ \le\ \int_{S^1}\sqrt{\rho_0^2+\abs{D\rho_0}^2}
-   \ =\ \HH^1(\Gamma_0)\ \le\ \Per(\Etil).
-\]
-(Equivalently and more elementarily: the radial projection
-$\Pi(x):=z+\rho_0\bigl(\arg(x-z)\bigr)$ need not be invoked; the displayed
-arclength comparison is the polar form of the standard graph
-total-variation/perimeter inequality, valid for $BV$ profiles.) Hence, using
-$\Per(\Etil)=2\pi\hat r+\Exc\le C$ for $\dT\le\delta_\star$,
+of \cref{lem:angular-coarea}, which is the rigorous substitute for the
+(false-in-the-$BV$-jump-case) identification of $\mathrm{TV}(\rho_0)$ with the
+arclength of the polar graph point-set $\{z+\rho_0(\theta)e^{i\theta}\}$. The
+key inequality is the layer-cake comparison
+\begin{equation}\label{eq:TVlayer}
+   \mathrm{TV}(\rho_0)
+   \ =\ \int_{\rho_i}^{\rho_e}\HH^0\bigl(\partial^*\{\rho_0>\rho\}\bigr)\,d\rho
+   \ \le\ \int_{\rho_i}^{\rho_e}N(\rho)\,d\rho .
+\end{equation}
+The first equality is the one-dimensional coarea (layer-cake) formula for the
+$BV$ function $\rho_0$ on $S^1$ \cite[Theorem~3.40]{AFP2000}: for a.e.\
+$\rho$ the superlevel set $\{\theta:\rho_0(\theta)>\rho\}\subset S^1$ is a
+finite union of arcs, its essential boundary $\partial^*\{\rho_0>\rho\}$ is a
+finite set of points, and the variation measure disintegrates as
+$\abs{D\rho_0}(S^1)=\int_0^\infty\HH^0(\partial^*\{\rho_0>\rho\})\,d\rho$
+(the integrand vanishes off $[\rho_i,\rho_e]$ since $\rho_0\in[\rho_i,
+\rho_e]$). For the inequality, fix a regular $\rho\in(\rho_i,\rho_e)$ and let
+$\theta_0\in\partial^*\{\rho_0>\rho\}$ be a point where $\rho_0=r_1$ crosses
+the level $\rho$ (jumping or continuously). Since $r_1(\theta)$ is the
+innermost crossing radius of $\partial\Etil$ on the ray $R_\theta$, the
+crossing of the level $\rho$ at $\theta_0$ is realised by a point
+$z+\rho\,e^{i\theta_0}$ of $\partial\Etil$ lying on the circle
+$\partial B_\rho(z)$: indeed, on one side of $\theta_0$ the inner interval
+$(0,r_1)$ of the slice \eqref{eq:fold-slice} reaches past radius $\rho$ and on
+the other side it does not, so $\partial B_\rho(z)$ separates points of
+$\Etil^{(1)}$ from points of $\Etil^{(0)}$ arbitrarily near
+$z+\rho\,e^{i\theta_0}$, whence $z+\rho\,e^{i\theta_0}\in\partial\Etil$.
+Distinct boundary directions $\theta_0$ give distinct points on
+$\partial B_\rho(z)$, so $\HH^0(\partial^*\{\rho_0>\rho\})\le N(\rho)$,
+proving \eqref{eq:TVlayer}. Now \cref{lem:angular-coarea} states
+$\int_0^\infty N(\rho)\,d\rho=P_\theta:=\int_{\partial\Etil}\abs{\nu_\theta}
+\,d\HH^1\le\Per(\Etil)$ (as $\abs{\nu_\theta}\le1$). Combining with
+\eqref{eq:TVlayer},
 \begin{equation}\label{eq:TVbound}
-   \mathrm{TV}(\rho_0)\ \le\ \Per(\Etil)\ \le\ \frac{\Per(\Etil)}{\rho_i}
+   \mathrm{TV}(\rho_0)\ \le\ \int_{\rho_i}^{\rho_e}N(\rho)\,d\rho
+   \ \le\ P_\theta\ \le\ \Per(\Etil)\ \le\ \frac{\Per(\Etil)}{\rho_i}
    \ \le\ C,
 \end{equation}
-the middle inequality holding since $\rho_i\le1$ (indeed $\rho_i\ge\tfrac12$
-for $\dT\le\delta_\star$, so $1/\rho_i\le2$). The form
+the penultimate inequality holding since $\rho_i\le1$ (indeed $\rho_i\ge
+\tfrac12$ for $\dT\le\delta_\star$, so $1/\rho_i\le2$), and the last using
+$\Per(\Etil)=2\pi\hat r+\Exc\le C$ for $\dT\le\delta_\star$. The form
 $\mathrm{TV}(\rho_0)\le\Per(\Etil)/\rho_i$ is the bound flagged in the
 mandate; either constant is absolute.
 

@@ -82,7 +82,7 @@ function}
 \begin{theorem}[Coarea formula]\label{thm:coarea}
 Let $\Omega\subset\R^2$ be open and let $u\in W^{1,1}(\Omega)$.  Then for
 every nonnegative Borel function $g:\Omega\to[0,\infty]$,
-\begin{equation}\label{eq:coarea}
+\begin{equation}\label{eq:coarea-formula}
   \int_\Omega g(x)\,|\nabla u(x)|\,dx
   = \int_{-\infty}^{\infty}\!\!\left(\int_{\{u=t\}} g\,d\HH^1\right)dt.
 \end{equation}
@@ -95,7 +95,7 @@ with $\HH^1(\{u=t\})<\infty$, and
 \end{theorem}
 
 \begin{proof}
-The coarea formula \eqref{eq:coarea} for $W^{1,1}$ functions is
+The coarea formula \eqref{eq:coarea-formula} for $W^{1,1}$ functions is
 \cite[Theorem~13.1]{Maggi2012}; see also
 \cite[Section~3.4, Theorem~3.13]{EvansGariepy2015}.  The perimeter identity and
 rectifiability of almost every level set follow from the $BV$-coarea formula
@@ -108,8 +108,12 @@ The following corollary, which we call the \emph{differentiation lemma} for the
 distribution function, is used repeatedly in the level-set analysis.
 
 \begin{lemma}[Differentiation of the distribution function]\label{lem:dist-deriv}
-Let $\Omega\subset\R^2$ be bounded and let $u\in C^1(\Omega)\cap C(\overline\Omega)$
-with $u\ge 0$.  Define $\mu(v):=|\{u>v\}|$ for $v\ge 0$.  Then $\mu$ is
+Let $\Omega\subset\R^2$ be bounded and let $u\in W^{1,1}(\Omega)\cap C^1(\Omega)$
+with $u\ge 0$ \textup{(}no continuity up to $\partial\Omega$ is assumed; the
+torsion function of \eqref{eq:torsion}, which is in $H^1_0(\Omega)\subset
+W^{1,1}(\Omega)$ for bounded $\Omega$ and in $C^\infty(\Omega)$ by
+\cref{thm:torsion-reg}, satisfies these hypotheses\textup{)}.  Define
+$\mu(v):=|\{u>v\}|$ for $v\ge 0$.  Then $\mu$ is
 non-increasing and absolutely continuous, and for Lebesgue-almost every $v>0$,
 \begin{equation}\label{eq:dist-deriv}
   -\mu'(v) = \int_{\{u=v\}} \frac{1}{|\nabla u|}\,d\HH^1.
@@ -124,7 +128,7 @@ $(1, |\nabla u|^{1/2})$ on $\{u=v\}$ gives
 \end{lemma}
 
 \begin{proof}
-The coarea formula \eqref{eq:coarea} with $g = |\nabla u|^{-1}\mathbf{1}_{\{\nabla u\ne 0\}}$
+The coarea formula \eqref{eq:coarea-formula} with $g = |\nabla u|^{-1}\mathbf{1}_{\{\nabla u\ne 0\}}$
 gives, for $0\le s < t$,
 \[
   |\{s < u \le t\}\cap\{\nabla u\ne 0\}|
@@ -319,18 +323,23 @@ the pointwise value at $x$).
 \begin{lemma}[$L^\infty$ bound]\label{lem:linfty}
 Let $\Omega\subset\R^2$ be bounded and let $u$ solve \eqref{eq:torsion}.
 Then $0\le u(x)\le \tfrac14(\diam\Omega)^2$ for all $x\in\Omega$.
-In particular $m:=\max_{\overline\Omega}u \le \tfrac14(\diam\Omega)^2$.
+In particular $m:=\sup_{\Omega}u \le \tfrac14(\diam\Omega)^2<\infty$
+\textup{(}the supremum is taken over the open set $\Omega$; no continuity of
+$u$ up to $\partial\Omega$ is assumed or asserted\textup{)}.
 \end{lemma}
 
 \begin{proof}
 The lower bound $u\ge 0$ follows from the weak maximum principle
 \cite[Theorem~8.1]{GilbargTrudinger2001}.  For the upper bound, let $R=\diam\Omega$
-and pick any $x_0\in\overline\Omega$; then $\Omega\subset B_R(x_0)$.  The
+and pick any $x_0\in\Omega$; then $\Omega\subset B_R(x_0)$.  The
 function $w(x):=(R^2-|x-x_0|^2)/4$ satisfies $-\Delta w=1$ in $\R^2$ and
-$w\ge 0$ on $\Omega$.  Hence $h:=w-u$ satisfies $-\Delta h=0$ in $\Omega$ and
-$h=w\ge 0$ on $\partial\Omega$, so by the maximum principle
-\cite[Corollary~3.2]{GilbargTrudinger2001}, $h\ge 0$ in $\Omega$, giving
-$u\le w\le R^2/4$.
+$w\ge 0$ on $\Omega$.  Hence $h:=w-u\in H^1(\Omega)$ satisfies $-\Delta h=0$
+weakly in $\Omega$ and $h=w-u\ge -u$, so $h^-:=\max\{-h,0\}=(u-w)^+\le u^+=u$
+has zero boundary trace, $(u-w)^+\in H^1_0(\Omega)$ (as $u\in H^1_0$ and
+$w\ge 0$).  By the weak maximum principle
+\cite[Theorem~8.1]{GilbargTrudinger2001} applied to the harmonic $h$,
+$h\ge 0$ a.e.\ in $\Omega$, i.e.\ $u\le w\le R^2/4$ in $\Omega$.  No
+continuity of $u$ up to $\partial\Omega$ is used.
 \end{proof}
 
 %--------------------------------------------------------------------
@@ -359,8 +368,11 @@ is a \emph{regular value} of $u$ in $\Omega$: that is, $\nabla u(x)\ne 0$ at
 every point $x\in\{u=v\}\cap\Omega$.  For every such $v$,
 \begin{enumerate}[label=(\roman*)]
   \item\label{it:rv-manifold}
-    the level set $\{u=v\}\cap\Omega$ is a finite, disjoint union of smooth
-    closed curves;
+    the level set $\{u=v\}\cap\Omega$ is a smooth, properly embedded
+    $1$-dimensional submanifold of $\Omega$ (a disjoint union of smooth
+    curves); if moreover $u\in C(\overline\Omega)$ with $u=0$ on
+    $\partial\Omega$, it is a \emph{finite} union of smooth closed curves,
+    compactly contained in $\Omega$;
   \item\label{it:rv-perimeter}
     the superlevel set $\{u>v\}$ is a finite-perimeter set with
     $\Per(\{u>v\}) = \HH^1(\{u=v\})$;
@@ -376,12 +388,18 @@ Applying \cref{thm:sard} with $d=2$, $m=1$: the set of critical values
 $u(\{\nabla u=0\}\cap\Omega)\subset\R$ has Lebesgue measure zero.  Hence for
 a.e.\ $v$, every point of $\{u=v\}\cap\Omega$ is a regular point.  For such $v$:
 
-\ref{it:rv-manifold}: The implicit function theorem gives $\{u=v\}\cap\Omega$
-as a smooth $1$-dimensional embedded submanifold of $\Omega$.  Since $\Omega$
-is bounded and $u\in C(\overline\Omega)$ with $u=0$ on $\partial\Omega$, the
-level set $\{u=v\}$ (for $v>0$) is compactly contained in $\Omega$ and hence
-consists of finitely many smooth closed curves (a smooth $1$-manifold without
-boundary, compact in $\Omega$).
+\ref{it:rv-manifold}: At a regular value $v$ the implicit function theorem
+gives $\{u=v\}\cap\Omega$ as a smooth, properly embedded $1$-dimensional
+submanifold of the open set $\Omega$ (without boundary in $\Omega$), i.e.\ a
+disjoint union of smooth curves, each either a closed loop in $\Omega$ or a
+properly embedded line escaping every compact subset of $\Omega$.  This is the
+honest \emph{interior} statement and uses no boundary regularity.  If, in
+addition, $u\in C(\overline\Omega)$ with $u=0$ on $\partial\Omega$ (which
+holds whenever $\partial\Omega$ is, say, continuous), then for $v>0$ the level
+set $\{u=v\}$ is compactly contained in $\Omega$ and so is a \emph{finite}
+disjoint union of smooth closed curves.  The two genuinely interior
+consequences \ref{it:rv-perimeter} and \ref{it:rv-formula} below, proved from
+the coarea formula alone, hold with no boundary regularity whatsoever.
 
 \ref{it:rv-perimeter}: By \cref{thm:coarea},
 $\Per(\{u>v\})=\HH^1(\{u=v\})$ for a.e.\ $v$.

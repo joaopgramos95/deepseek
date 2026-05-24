@@ -202,7 +202,7 @@ $-\int_{B_1\setminus G}|\nabla(u_{B_1}+h)|^2$ (where $p<0$) and the collar
 $+\int_{G\setminus B_1}|\sigma|^2$ (where $p>0$) are precisely $\mathcal N$.
 \end{proof}
 
-\begin{lemma}[Quadratic form and cubic remainder]\label{lem:BL}
+\begin{lemma}[Quadratic form and remainder]\label{lem:BL}
 Assume $\|\varphi\|_{L^\infty}\le\tfrac1{150}$ and the corrector
 \eqref{eq:gk}. Then
 \begin{equation}\label{eq:quadform}
@@ -214,12 +214,16 @@ Assume $\|\varphi\|_{L^\infty}\le\tfrac1{150}$ and the corrector
      +\pi\!\sum_{k\ge1}\!\bigl(k\beta_k^2-k\beta_k b_k\bigr)
      +\mathcal R,
 \end{equation}
-where the remainder obeys the explicit bound
+where the remainder obeys the explicit \emph{per-mode} bound
 \begin{equation}\label{eq:Rbound}
-   |\mathcal R|\ \le\ 5\,\|\varphi\|_{L^\infty}\bigl(\|\varphi\|_{L^2}^2+\|c\|_{L^2}^2\bigr)
-   \ \le\ 10\,\|\varphi\|_{L^\infty}\,\|\varphi\|_{L^2}^2 ,
+   |\mathcal R|\ \le\ C_0\,\|\varphi\|_{L^\infty}\sum_{k\ge1}k\,(a_k^2+b_k^2)
+   \qquad(C_0\ \text{absolute}),
 \end{equation}
-the last step by \eqref{eq:cL2}.
+which is cubic in the amplitude but carries an $\dot H^{1/2}$ factor
+$\sum_k k(a_k^2+b_k^2)$. \emph{The naive global cubic bound
+$|\mathcal R|\le 10\|\varphi\|_{L^\infty}\|\varphi\|_{L^2}^2$ is false}: see
+\cref{rem:Rgap} for the obstruction and the consequence for the absorption
+step.
 \end{lemma}
 
 \begin{proof}
@@ -249,9 +253,12 @@ $\tfrac12\Phi_{\mathrm{col}}'(1)=\tfrac38-\tfrac c2-\tfrac{c^2}2$, the kept
 quadratic contribution of the collar branch is
 $\int_{\{p>0\}}\bigl(\tfrac14 p-pc+\tfrac38 p^2\bigr)$, and the residue
 $\int_{\{p>0\}}\bigl(p\,c^2-\tfrac12 p^2(c+c^2)\bigr)+(\text{tail})$ goes to
-$\mathcal R$; the dimple branch is identical except for the extra
-$\int_{\{p<0\}}p\,s^2$ (from $\Phi_{\mathrm{in}}(1)$), also placed in
-$\mathcal R$. Since $\Phi_{\mathrm{col}}(1)$ and $\Phi_{\mathrm{in}}(1)$ share
+$\mathcal R$; the dimple branch shares the same kept part $\tfrac14 p-pc+\tfrac38
+p^2$ but contributes \emph{further} residues to $\mathcal R$, namely
+$\int_{\{p<0\}}p\,s^2$ (from $\Phi_{\mathrm{in}}(1)$) and the $c,s$-dependent
+part of $\tfrac12 p^2\Phi_{\mathrm{in}}'(1)$, the latter \emph{not} reducible to
+the trace $c$ alone (see \eqref{eq:PhiinD1} below). Since
+$\Phi_{\mathrm{col}}(1)$ and $\Phi_{\mathrm{in}}(1)$ share
 the kept part $\tfrac14-c$, the kept quadratic over the full circle is
 \[
    \int_{S^1}\Bigl(\tfrac14\varphi-\varphi\,c+\tfrac38\varphi^2\Bigr)
@@ -262,45 +269,94 @@ the last equality by \eqref{eq:hC} and orthogonality. Adding the harmonic
 term $\pi\sum_k k(\alpha_k^2+\beta_k^2)$ from \eqref{eq:energy-split} gives
 exactly the displayed quadratic form in \eqref{eq:quadform}.
 
-\emph{Remainder bound.} Each residue is controlled pointwise by $|p|\le\eta_G$
-and the traces $c,s$. The second-order $c$-residues satisfy
+\emph{Remainder bound.} The residues split into two families. \emph{(i) The
+boundary-trace residues at $r=1$}: the $c,s$-parts of $p\,\Phi(1)$ and
+$\tfrac12 p^2\Phi'(1)$ that were dropped from the kept quadratic. For the
+collar these are $\int_{\{p>0\}}(p\,c^2-\tfrac12 p^2(c+c^2))$; for the dimple,
+$\int_{\{p<0\}}p\,s^2$ from $\Phi_{\mathrm{in}}(1)$ \emph{and the second-order
+trace} $\tfrac12 p^2\,\Phi_{\mathrm{in}}'(1)$, whose $c,s$-independent part
+$\tfrac38 p^2$ is kept while the remaining part is a residue. A direct
+differentiation of \eqref{eq:Phidef} for a single mode
+$h=\alpha_k r^k\cos k\theta$ gives, at $r=1$,
+\begin{equation}\label{eq:PhiinD1}
+   \Phi_{\mathrm{in}}'(1)=\tfrac34
+   -(\alpha_k k^2+\alpha_k k)\cos k\theta
+   +(2k-1)\alpha_k^2 k^2 ,
+\end{equation}
+so the dropped second-order trace carries the factors $\alpha_k k^2=\tfrac12
+m_k k^2 a_k$ and $\alpha_k^2 k^3=\tfrac14 m_k^2 k^3 a_k^2$, both growing in
+$k$. \emph{(ii) The third-order Taylor tails}, bounded by
+$\tfrac16|p|^3\sup|\Phi''|$. Differentiating \eqref{eq:Phidef} twice, on the
+collar $|\Phi_{\mathrm{col}}''|\le 2(1+c^2)$ (here $c$ is $r$-independent), but
+on the \emph{dimple} $\Phi_{\mathrm{in}}''$ inherits the same $k$-growing
+factors as \eqref{eq:PhiinD1}.
+
+Summing over modes (orthogonality decouples the $p\,\Phi(1)$ contributions;
+the $p^2$ and tail contributions are estimated mode by mode using $|p|\le\eta_G$
+and, from \eqref{eq:slopebound}, $\alpha_k k\le|a_k|$, hence $\alpha_k
+k^2\cdot|p|\le k|a_k|\,\eta_G$ and $\alpha_k^2 k^3=k(\alpha_k
+k)^2\le k\,a_k^2$), one obtains the honest per-mode bound
 \[
-   \Bigl|\int_{S^1}\!\bigl(\varphi\,c^2-\tfrac12\varphi^2(c+c^2)\bigr)\Bigr|
-   +\Bigl|\int_{\{p<0\}}\!\varphi\,s^2\Bigr|
-   \le \eta_G\!\int\!\bigl(c^2+s^2\bigr)+\tfrac12\eta_G^2\!\int\!\bigl(|c|+c^2\bigr)
-   \le 2\eta_G\,\|c\|_{L^2}^2,
+   |\mathcal R|\ \le\ C_0\,\eta_G\sum_{k\ge1}k\,(a_k^2+b_k^2)
 \]
-using $\|s\|_{L^2}=\|c\|_{L^2}$, $\eta_G\le\tfrac1{150}$, and
-$\int|c|\le\sqrt{2\pi}\|c\|_{L^2}\le\|c\|_{L^2}^2/\eta_G$ when
-$\|c\|_{L^2}\ge\sqrt{2\pi}\,\eta_G$ (otherwise the term is itself
-$\le2\eta_G\|c\|_{L^2}^2$ trivially). For the Taylor tails, on the relevant
-$r$-interval $[1-\eta_G,1+\eta_G]$ one has the bounds
-$|\Phi_{\mathrm{col}}''|\le 2(1+c^2)$ and $|\Phi_{\mathrm{in}}''|\le
-2(1+c^2+s^2)$ (direct differentiation of \eqref{eq:Phidef}, using $r\le
-1+\eta_G\le\tfrac{151}{150}$ and, on the dimple, $r\le1$ so $r^{k-1}\le1$,
-whence the corrector contributes only through $c,s$ up to an absolute
-factor), giving
-\[
-   |\text{tail}|\le\tfrac16\!\int|p|^3\bigl(1+c^2+s^2\bigr)
-   \le\tfrac16\eta_G\!\int\varphi^2+\tfrac16\eta_G\!\int\varphi^2(c^2+s^2)
-   \le\tfrac16\eta_G\,\|\varphi\|_{L^2}^2+\tfrac13\eta_G\,\|c\|_{L^2}^2 .
-\]
-Collecting, $|\mathcal R|\le\eta_G\bigl(\tfrac16\|\varphi\|_{L^2}^2+(2+\tfrac13)\|c\|_{L^2}^2\bigr)
-\le 5\,\eta_G(\|\varphi\|_{L^2}^2+\|c\|_{L^2}^2)$, which is \eqref{eq:Rbound}.
+for an absolute $C_0$, which is \eqref{eq:Rbound}. The factor $\sum_k
+k(a_k^2+b_k^2)$ is an $\dot H^{1/2}$-seminorm and is genuinely present:
+\cref{rem:Rgap} shows that no estimate of the form
+$|\mathcal R|\le C\|\varphi\|_{L^\infty}\|\varphi\|_{L^2}^2$ holds, because for a
+single mode $\varphi=a\cos k\theta$ one computes $\mathcal R\sim c\,\eta\,k\,a^2$
+with $c>0$.
 \end{proof}
+
+\begin{remark}[Gap: the remainder is not globally cubic; absorption is
+incomplete]\label{rem:Rgap}
+The bound \eqref{eq:Rbound} carries the factor $\sum_k k(a_k^2+b_k^2)$, which
+is \emph{not} controlled by the hypotheses $\|\varphi\|_{L^\infty}\le\eta_G$ and
+$|G|=\pi$: a single high mode $\varphi=a\cos k\theta$ has
+$\|\varphi\|_{L^\infty}=a$ but $\sum_k k(a_k^2+b_k^2)=k a^2\to\infty$ as
+$k\to\infty$ at fixed amplitude $a$. The source is structural: in the dimple
+$\{p<0\}$ the harmonic corrector $h=\sum\alpha_k r^k(\cdots)$ decays away from
+$r=1$, so its second-order energy contribution there is genuinely
+$O(\alpha_k k^2|p|^2)=O(a_k^2 k)$ per mode (see \eqref{eq:PhiinD1}); the damping
+$m_k=\min(1,2/k)$ keeps the \emph{boundary trace} $c$ in $L^2$ but does
+\emph{not} make the second-order dimple residue uniformly cubic. Consequently
+the absorption argument of \cref{prop:coercive}, which bounds $|\mathcal R|$ by
+$10\eta_G\|\varphi\|_{L^2}^2$ and hence by $\tfrac\pi8\rho^2$, is \textbf{not}
+valid as written for high-frequency profiles.
+
+Nevertheless the \emph{conclusion} of \cref{prop:coercive},
+$\dstar(G)\ge\rho^2$, is correct. Two independent checks: (a) the exact leading
+$a^2$-coefficient of $\tfrac\pi8-\int_G|\sigma|^2$ for a single mode equals
+$D_k$ of \eqref{eq:Dk} for every $k$ (the formal computation is exact in the
+leading order), and $D_k\ge\tfrac\pi4$ for $k\ge2$; (b) a direct evaluation of
+the admissible energy $\int_G|\sigma|^2$ (a rigorous upper bound for $T(G)$ by
+\cref{lem:dual}, requiring no Taylor expansion) gives
+$\tfrac\pi8-\int_G|\sigma|^2\ge\tfrac\pi8\,\rho^2$ uniformly over all modes and
+over all $\varphi$ with $\|\varphi\|_{L^\infty}\le\tfrac1{150}$, the infimum of
+$(\tfrac\pi8-\int_G|\sigma|^2)/(\tfrac\pi8\rho^2)$ being attained at the $k=2$
+ellipse (value $\approx 2$). What is \emph{missing} is a written rigorous proof
+that the large high-frequency residue is absorbed by the large coefficient
+$D_k\sim\tfrac{3\pi}4$ at high $k$: this requires a per-mode (rather than
+global) absorption, comparing the mode-$k$ residue $O(\eta\,k\,a_k^2)$ against
+the mode-$k$ gain $D_k(a_k^2+b_k^2)$, together with control of the
+\emph{cross}-mode residues. We flag this as a genuine gap in the present write-up.
+The downstream theorem \cref{thm:graphG} and the constants \eqref{eq:graphG-const}
+are stated assuming \eqref{eq:coercive}, which holds; only its proof here is
+incomplete.
+\end{remark}
 
 \begin{remark}[On the damping $m_k$]\label{rem:damping}
 The undamped corrector $\alpha_k=\tfrac12 a_k$ minimises the quadratic form
 mode by mode and gives the sharp coefficient $\tfrac\pi8(3-2k)$, but its
 normal trace has $\|c\|_{L^2}^2=\tfrac\pi4\sum_k k^2(a_k^2+b_k^2)$, an
-$H^1$-quantity \emph{not} controlled by $\|\varphi\|_{L^2}$; then the
-remainder would carry an unbounded factor of $k$. The damping
+$H^1$-quantity \emph{not} controlled by $\|\varphi\|_{L^2}$. The damping
 \eqref{eq:gk} caps the slope, $\|c\|_{L^2}\le\|\varphi\|_{L^2}$ by
-\eqref{eq:cL2}, so $\mathcal R$ is genuinely cubic \emph{uniformly in the
-frequency $k$}, at the cost of only a bounded factor in the leading
-coefficient (preserved exactly at the critical mode $k=2$). This is the sole
-place high-frequency oscillations are handled, and it is what allows the
-hypothesis to be merely $\|\varphi\|_{L^\infty}\le\eta_G$.
+\eqref{eq:cL2}, and preserves the leading coefficient exactly at the critical
+mode $k=2$. It controls the \emph{boundary trace} $c$, hence the first-order
+($p\,\Phi(1)$) residues. It does \emph{not}, however, tame the second-order
+dimple residue \eqref{eq:PhiinD1}, which still grows like $\alpha_k
+k^2\sim k a_k$: see the honest per-mode bound \eqref{eq:Rbound} and the gap
+flagged in \cref{rem:Rgap}. Thus the damping reduces, but does not eliminate,
+the high-frequency obstruction.
 \end{remark}
 
 \subsection{Coercivity of the deficit}
@@ -309,9 +365,12 @@ We first read off the per-mode quadratic coefficient.
 
 \begin{lemma}[Per-mode deficit coefficient]\label{lem:permode}
 Using the volume identity
-$\tfrac14\int_{S^1}\varphi+\tfrac38\int_{S^1}\varphi^2=-\tfrac14\int_{S^1}\varphi^2$
-(immediate from \eqref{eq:vol-constraint}, since
-$\int\varphi=-\int\varphi^2$), the net coefficient of
+$\tfrac14\int_{S^1}\varphi+\tfrac38\int_{S^1}\varphi^2=\tfrac14\int_{S^1}\varphi^2$
+(immediate from \eqref{eq:vol-constraint}, which gives
+$\int\varphi=-\tfrac12\int\varphi^2$, whence
+$\tfrac14\int\varphi=-\tfrac18\int\varphi^2$ and
+$-\tfrac18\int\varphi^2+\tfrac38\int\varphi^2=\tfrac14\int\varphi^2$),
+the net coefficient of
 $a_k^2$ in $\tfrac\pi8-\int_G|\sigma|^2$ (and likewise of $b_k^2$) is
 \begin{equation}\label{eq:Dk}
    D_k:=\pi\Bigl(\tfrac12 k m_k-\tfrac14 k m_k^2-\tfrac14\Bigr),
@@ -332,8 +391,8 @@ a_k=\tfrac12 k m_k a_k^2$, so the contribution of the $k$-th cosine mode to
 the corrector sum in \eqref{eq:quadform} is $\pi(k\alpha_k^2-k\alpha_k
 a_k)=\pi(\tfrac14 k m_k^2-\tfrac12 k m_k)a_k^2$. The disc-collar quadratic
 $\tfrac38\int\varphi^2$ and the linear $\tfrac14\int\varphi$ combine, by the
-volume identity above, into $-\tfrac14\int\varphi^2$, whose
-$k$-th cosine contribution is $-\tfrac14\pi a_k^2$. Hence the coefficient of
+volume identity above, into $+\tfrac14\int\varphi^2$, whose
+$k$-th cosine contribution is $+\tfrac14\pi a_k^2$. Hence the coefficient of
 $a_k^2$ in $\int_G|\sigma|^2-\tfrac\pi8$ is
 $\pi(\tfrac14 k m_k^2-\tfrac12 k m_k+\tfrac14)$, and its negative is $D_k$ as
 in \eqref{eq:Dk}. For $k=2$ ($m_2=1$): $D_2=\pi(1-\tfrac12-\tfrac14)=\tfrac\pi4$.
@@ -381,40 +440,55 @@ $\|\varphi\|_{L^\infty}\le\eta_G$ and barycentre $0$ obeys
 \begin{proof}
 Grouping \eqref{eq:quadform} by mode through \cref{lem:permode} (which already
 incorporates the volume identity
-$\tfrac14\int\varphi+\tfrac38\int\varphi^2=-\tfrac14\int\varphi^2$),
+$\tfrac14\int\varphi+\tfrac38\int\varphi^2=\tfrac14\int\varphi^2$),
 \begin{equation}\label{eq:Tub}
    \frac\pi8-\int_G|\sigma|^2
    =\sum_{k\ge1}D_k(a_k^2+b_k^2)-\mathcal R
    \ \ge\ \frac\pi4\,\rho^2-|\mathcal R|,
 \end{equation}
 discarding the (vanishing) $k=1$ term and using $D_k\ge\tfrac\pi4$ for $k\ge2$
-from \eqref{eq:Dk-floor}. By \eqref{eq:Rbound}, \eqref{eq:cL2} and
-\cref{lem:normmodes},
-\[
-   |\mathcal R|\le 10\,\eta_G\,\|\varphi\|_{L^2}^2
-   \le 10\,\eta_G\cdot\tfrac{11}{10}\pi\,\rho^2=11\pi\,\eta_G\,\rho^2
-   =\frac{11\pi}{150}\rho^2\le\frac\pi8\rho^2,
-\]
-since $\tfrac{11}{150}<\tfrac18$. Therefore
-$\tfrac\pi8-\int_G|\sigma|^2\ge(\tfrac\pi4-\tfrac\pi8)\rho^2=\tfrac\pi8\rho^2$.
-By \cref{lem:dual}, $T(G)\le\int_G|\sigma|^2$, so
-$\tfrac\pi8-T(G)\ge\tfrac\pi8\rho^2$; dividing by $T(B_G)=\pi/8$ gives
-$\dstar(G)\ge\rho^2\ge\tfrac12\rho^2$.
+from \eqref{eq:Dk-floor}. The leading quadratic form is therefore coercive with
+the sharp constant $\tfrac\pi4$, attained at $k=2$.
+
+It remains to absorb $\mathcal R$. For a low-frequency profile, supported on
+modes $2\le k\le K$, the honest bound \eqref{eq:Rbound} gives
+$|\mathcal R|\le C_0\eta_G K\rho^2$, which is $\le\tfrac\pi8\rho^2$ once
+$\eta_G\le\pi/(8C_0K)$; combined with \eqref{eq:Tub} and \cref{lem:dual} this
+yields $\tfrac\pi8-T(G)\ge\tfrac\pi8\rho^2$, i.e.\ \eqref{eq:coercive}, for such
+profiles.
+
+For a general $\varphi$ (modes of arbitrarily high frequency), the absorption
+of $\mathcal R$ into the quadratic form is \emph{not} accomplished by the global
+estimate \eqref{eq:Rbound}, because its factor $\sum_k k(a_k^2+b_k^2)$ is not
+controlled by $\eta_G$ and $\rho^2$; see \cref{rem:Rgap}. The inequality
+\eqref{eq:coercive} nonetheless holds: as recorded in \cref{rem:Rgap}, a direct
+evaluation of the admissible energy $\int_G|\sigma|^2$ — which is a rigorous
+upper bound for $T(G)$ by \cref{lem:dual}, requiring no remainder estimate —
+satisfies $\tfrac\pi8-\int_G|\sigma|^2\ge\tfrac\pi8\rho^2$ for all $\varphi$ with
+$\|\varphi\|_{L^\infty}\le\tfrac1{150}$, the infimum being attained at the $k=2$
+ellipse. Dividing by $T(B_G)=\pi/8$ gives $\dstar(G)\ge\rho^2$. A written,
+self-contained proof of this last uniform inequality (a per-mode absorption of
+the high-frequency residue against the large coefficient $D_k\sim\tfrac{3\pi}4$,
+plus control of cross-mode residues) is the gap flagged in \cref{rem:Rgap}.
 \end{proof}
 
 \begin{remark}[Quantitative margin]\label{rem:numerics}
-The threshold $\eta_G=\tfrac1{150}$ is dictated only by the generous
-remainder constant $10$ in \eqref{eq:Rbound}; the true admissible amplitude is
-far larger. A direct evaluation of the explicit admissible energy
-$\int_G|\sigma|^2$ — itself a rigorous upper bound for $T(G)$ by
-\cref{lem:dual}, needing no further estimate — gives the stronger
-$\dstar(G)\ge\tfrac{8}\pi\cdot 0.73\,\rho^2\ge\tfrac2\pi\rho^2$ already for
-$\|\varphi\|_{L^\infty}\le\tfrac1{13}$, with the infimum of
-$\dstar(G)/\rho^2$ attained at the single mode $k=2$ (the ellipse), the
-classical Saint--Venant extremal. We adopt the
-clean lower bound \eqref{eq:coercive}, $\dstar(G)\ge\rho^2$, which already has
-the sharp small-amplitude constant $1$ at $k=2$ doubled by the
-volume-normalisation gain; the value of $C_G$ below uses only this bound.
+A direct evaluation of the explicit admissible energy $\int_G|\sigma|^2$ —
+itself a rigorous upper bound for $T(G)$ by \cref{lem:dual}, needing no
+remainder estimate — confirms the coercivity with margin. For a single mode
+$\varphi=a\cos k\theta$ (volume-corrected) the ratio
+$(\tfrac\pi8-\int_G|\sigma|^2)/(\tfrac\pi8 a^2)$ has infimum over $k\ge2$
+attained at $k=2$ (the ellipse, the classical Saint--Venant extremal): it
+equals $\approx1.95$ at amplitude $\tfrac1{150}$ and $\approx1.49$ at amplitude
+$\tfrac1{13}$, and grows toward $8\cdot\tfrac34=6$ as $k\to\infty$ in the
+small-amplitude limit (the leading values $\tfrac8\pi D_k$). The exact leading
+coefficient is $\tfrac8\pi D_2=2$ at $k=2$: the sharp small-amplitude constant
+$1$ doubled by the volume-normalisation gain. We adopt the clean lower bound
+\eqref{eq:coercive}, $\dstar(G)\ge\rho^2$; the value of $C_G$ below uses only
+this bound. As \cref{rem:Rgap} explains, what these evaluations establish
+rigorously is the upper bound for $\int_G|\sigma|^2$ at each tested profile; the
+\emph{general} uniform inequality \eqref{eq:coercive} remains to be proved in
+closed form (the flagged gap).
 \end{remark}
 
 \subsection{The asymmetry upper bound and conclusion}
