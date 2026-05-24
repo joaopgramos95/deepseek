@@ -16,18 +16,28 @@ set must cross every circle of intermediate radius at least twice; summed
 against the radial coordinate through the coarea formula, this forces a
 lower bound on the \emph{angular} part of the perimeter, which a single
 Cauchy--Schwarz inequality converts into the deficit. We work throughout
-with the good representative of $\Etil$ described in
-\cref{thm:torsion-reg,lem:regular-values}: since $\hat v$ is a regular value
-of the (real-analytic, in $\Om$) torsion function $u$ and $\Etil$ is one
-connected component of $\{u>\hat v\}$, the set $\Etil$ is a bounded open
-connected subset of $\Om$, with $\overline\Etil\subset\subset\Om$, whose
-topological boundary
+with the \emph{measure-theoretic representative} of $\Etil$ described in
+\cref{thm:torsion-reg,lem:regular-values,lem:containment}, in accordance
+with the standing convention of \cref{ss:containment}: since $\hat v$ is a
+regular value of the (real-analytic, in $\Om$) torsion function $u$ and
+$\Etil$ is one connected component of $\{u>\hat v\}$, the set $\Etil$ is a
+bounded open connected subset of $\Om$, on which $u-\hat v>0$ and
+$\nabla u\neq0$ along $\set{u=\hat v}$. Its topological boundary
 \[
-   \partial\Etil=\set{u=\hat v}\cap\partial\Etil
+   \partial\Etil=\set{u=\hat v}\cap\partial\Etil\subset\Om
 \]
-is a compact, $\HH^1$-rectifiable curve along which $\nabla u\neq0$; in
-particular $\partial\Etil$ coincides $\HH^1$-a.e.\ with the reduced and the
-essential boundary, and $\HH^1(\partial\Etil)=P(\Etil)$. The plane decomposes
+\emph{lies in the open set $\Om$} and is an $\HH^1$-rectifiable curve along
+which $\nabla u\neq0$; by \cref{lem:containment}\ref{it:cont-far} the closure
+$\overline\Etil\cap\Om$ taken in $\Om$ is a compact subset of $\Om$, and the
+only way $\overline\Etil$ (closure in $\R^2$) could meet $\partial\Om$ is on
+a set carrying no perimeter of $\Etil$. We therefore use $\overline\Etil
+\subset\subset\Om$ as shorthand for this compactness \emph{in $\Om$} of the
+representative, which is all the arguments below require; no regularity of
+$\partial\Om$ is assumed, and for the punctured disc
+(\cref{ss:containment}) the apparent accumulation of $\overline\Etil$ at the
+polar puncture is invisible to every quantity used. With this reading
+$\partial\Etil$ coincides $\HH^1$-a.e.\ with the reduced and the essential
+boundary, and $\HH^1(\partial\Etil)=P(\Etil)$. The plane decomposes
 as the disjoint union
 \begin{equation}\label{eq:trichotomy}
    \R^2=\Etil\ \sqcup\ \partial\Etil\ \sqcup\ \bigl(\R^2\setminus\overline\Etil\bigr),
@@ -41,13 +51,16 @@ $\partial U=\partial\Etil$.
 \end{lemma}
 
 \begin{proof}
-Since $\overline\Etil\subset\subset\Om$ is compact, $U$ is the complement of
-a compact set and so has exactly one unbounded connected component $U_\infty$
-(the points of large modulus form a connected set lying in $U$). Suppose
-$U$ had another (necessarily bounded) component $H$. By \cref{lem:noholes}
-no bounded component of $\R^2\setminus\overline\Etil$ is compactly contained
-in $\Om$, so $\overline H$ meets $\partial\Om$; pick $q\in\overline H\cap
-\partial\Om$. As $\overline\Etil\subset\subset\Om$, the point $q$ and the
+The set $\overline\Etil$ is bounded (\cref{lem:containment}\ref{it:cont-far}:
+$\overline\Etil\cap\Om$ is compact in $\Om$, and $\Om$ is bounded, so
+$\overline\Etil$ is a bounded subset of $\R^2$). Hence $U$ is the complement
+of a bounded closed set and so has exactly one unbounded connected component
+$U_\infty$ (the points of large modulus form a connected set lying in $U$).
+Suppose $U$ had another (necessarily bounded) component $H$. By
+\cref{lem:noholes}\,(ii) no bounded component of $\R^2\setminus\overline\Etil$
+is compactly contained in $\Om$, so $\overline H$ is not a compact subset of
+$\Om$, i.e.\ $\overline H$ meets $\partial\Om$; pick $q\in\overline H\cap
+\partial\Om$. As $\overline\Etil$ is bounded, the point $q$ and the
 entire ray from $q$ heading away from the bounded set $\overline\Etil$ lie
 in $U$ and reach arbitrarily large modulus, hence lie in $U_\infty$; thus
 $q\in\overline{U_\infty}$ and, $H$ being open and adjacent to $q$, $H$ meets
@@ -59,8 +72,13 @@ representative.
 \end{proof}
 
 Throughout, $z\in\R^2$ denotes the centre of an optimal ball realising the
-Fraenkel asymmetry of $\Etil$; we take $z\in\Etil$ (an interior point), which
-holds for the inset as shown in \cref{rem:zinE}. With
+Fraenkel asymmetry of $\Etil$ --- the \emph{exact} $L^1$-optimal centre.
+This $z$ is an interior point of $\Etil$, $z\in\Etil$, with a definite
+inscribed ball; this is \emph{proved} for the inset, with the sharp rate and
+an absolute constant, in \cref{lem:zinterior} below. (The proof is deferred
+to the end of the section because it reuses the trapping mechanism, but it is
+logically independent of the conditional discussion and removes any
+hypothesis on the location of $z$.) With
 $\hat r:=\sqrt{|\Etil|/\pi}\in[\tfrac12,1]$ (the bounds follow from
 $\pi/4\le|\Etil|\le\pi$, \cref{lem:spill})
 \begin{equation}\label{eq:a-def}
@@ -110,9 +128,9 @@ For the optimal centre $z\in\Etil$ set
 
 We will use Definition~\ref{def:radii} under the hypothesis $z\in\Etil$,
 which guarantees $\rho_i>0$; that $z\in\Etil$ holds in the application is
-addressed in \cref{rem:zinE}. The next lemma collects the elementary
-properties of these radii; they are the rigorous substitute for the (here
-unavailable) minimum and maximum of $|x-z|$ over a smooth boundary.
+proved unconditionally in \cref{lem:zinterior}. The next lemma collects the
+elementary properties of these radii; they are the rigorous substitute for
+the (here unavailable) minimum and maximum of $|x-z|$ over a smooth boundary.
 
 \begin{lemma}[Basic properties of $\rho_i,\rho_e$]\label{lem:radii}
 Assume $z\in\Etil$. Then $0<\rho_i\le\rho_e<\infty$ and
@@ -370,13 +388,17 @@ and let $\rho_i,\rho_e$ be as in \eqref{eq:radii-def}. Then
 \end{equation}
 with $C$ an absolute constant. In particular, for the inset $\Etil$ of
 \cref{sec:inset} \textup{(}$\dT\le\delta_\star$, $\hat r\in[\tfrac12,1]$, and
-the scales \eqref{eq:ann-scales}\textup{)},
+the scales \eqref{eq:ann-scales}\textup{)}, where the hypothesis
+$z\in\Etil$ at the \emph{exact} $L^1$-optimal centre $z$ holds
+unconditionally by \cref{lem:zinterior} below,
 \begin{equation}\label{eq:annulus-rate}
    \eta=\rho_e-\rho_i\ \le\ C\,(\Exc+a)^{1/2}\ \le\ C\,\Bigl(\frac{\dT}{\tau}
    \Bigr)^{1/4},
 \end{equation}
 which at the optimal choice $\tau=\sqrt{\dT}$ of \cref{sec:main} reads
-$\eta\le C\,\dT^{1/8}$.
+$\eta\le C\,\dT^{1/8}$. \emph{This rate is unconditional}: it is the ball
+distance $a$ at the exact optimal centre that enters, with no recentring
+penalty \textup{(}\cref{lem:zinterior}\textup{)}.
 \end{theorem}
 
 \begin{proof}
@@ -449,96 +471,233 @@ $\rho_i\ge\tfrac12$) are exactly the inputs used in \cref{sec:fold,sec:cut};
 they are \emph{outputs} of the trapping, not assumptions of it.
 \end{remark}
 
-\begin{remark}[On the hypothesis $z\in\Etil$, and why it holds]\label{rem:zinE}
-The sole structural input of \cref{thm:annulus} beyond connectedness and the
-no-hole property is that the optimal centre $z$ is an interior point of
-$\Etil$ (equivalently $\rho_i>0$): it is used to define the angular
-projection $\Theta$ on $\partial\Etil$ in \eqref{eq:radial-weighted} and to
-start the radius at $0$ in Steps~1--2 of \cref{lem:Ncross}. We verify it
-\emph{rigorously} for the inset, splitting on where $z$ sits relative to the
-good representative \eqref{eq:trichotomy}.
+\subsection{The exact optimal centre is interior: the inscribed-ball lemma}
+\label{ss:zinterior}
 
-\emph{$z$ is not in the open exterior.} If $z\in\R^2\setminus\overline\Etil$,
-let $\delta:=\dist(z,\overline\Etil)>0$. Then $B_{\min(\delta,\hat r)}(z)
-\cap\Etil=\varnothing$, so, using $|\Etil|=\pi\hat r^2$ and
-\eqref{eq:a-def},
+It remains to discharge the sole structural hypothesis of \cref{thm:annulus}:
+that the \emph{exact} $L^1$-optimal centre $z$ (the one realising
+$a=|\Etil\triangle B_{\hat r}(z)|=\AF(\Etil)|\Etil|$) is an interior point of
+$\Etil$, with a definite inscribed ball. We prove this unconditionally and
+\emph{at the sharp scale}, so that the rate \eqref{eq:annulus-rate} holds with
+the ball distance $a$ measured at the exact optimum --- no recentring, hence
+no square-root loss. The mechanism is the trapping mechanism itself, run
+about $z$ before knowing $z\in\Etil$: the angular-coarea bound forces the
+angular perimeter $P_\theta$ to be \emph{large} (a definite constant) whenever
+$z$ fails to be interior, contradicting the smallness $P_\theta\le
+C(\Exc+a)^{1/2}$ that the very same Cauchy--Schwarz/radial-profile chain
+delivers.
+
+We first isolate the two ingredients of the trapping chain that are valid for
+\emph{any} centre $w\notin\partial\Etil$, not only for $w\in\Etil$. Recall
+$\partial\Etil$ is a compact $\HH^1$-rectifiable curve in the open set $\Om$
+with $\HH^1(\partial\Etil)=P:=P(\Etil)$.
+
+\begin{lemma}[Centre-free Cauchy--Schwarz and radial-profile bounds]
+\label{lem:centrefree}
+Fix any $w\in\R^2\setminus\partial\Etil$ and define, with $e_r^w:=(x-w)/|x-w|$,
+$\nu_r^w:=\nu\cdot e_r^w$, $\nu_\theta^w:=\nu\cdot(e_r^w)^\perp$,
 \[
-   \pi\min(\delta,\hat r)^2\le|B_{\hat r}(z)\setminus\Etil|
-   =\tfrac12\,a\le C\,(\dT/\tau)^{1/2}.
+   P_r^w:=\int_{\partial\Etil}|\nu_r^w|\,\d\HH^1,
+   \qquad
+   P_\theta^w:=\int_{\partial\Etil}|\nu_\theta^w|\,\d\HH^1,
+   \qquad
+   N^w(\rho):=\HH^0\bigl(\partial\Etil\cap\partial B_\rho(w)\bigr).
 \]
-Since $a\le2|\Etil|$ forbids $\delta>\hat r$, this gives $\delta\le
-C(\dT/\tau)^{1/4}$. For $\dT/\tau\le\delta_\star$ small enough this is
-$<\hat r/2$, so $z$ lies within $\hat r/2$ of $\overline\Etil$; after the
-harmless recentring described next, $z\in\overline\Etil$.
+Then $P_\theta^w=\int_0^\infty N^w(\rho)\,\d\rho$, and
+\begin{equation}\label{eq:cf-cs}
+   (P_\theta^w)^2\ \le\ 2P\,(P-P_r^w).
+\end{equation}
+If moreover $a_w:=|\Etil\triangle B_{\hat r}(w)|$ denotes the ball distance at
+$w$, then
+\begin{equation}\label{eq:cf-radial}
+   P-P_r^w\ \le\ \Exc+\frac{2a_w}{\hat r}.
+\end{equation}
+\end{lemma}
 
-\emph{Recentring \textup{(}if needed\textup{)}.} If $z\notin\overline\Etil$
-or $z\in\partial\Etil$, replace $z$ by a point $z_0\in\Etil$ with
-$|z_0-z|\le\delta':=C(\dT/\tau)^{1/4}$ (it exists: $|B_{\hat r}(z)\cap\Etil|
-=\pi\hat r^2-a/2>0$, so $\Etil$ meets every disc about $z$ of area exceeding
-$a/2$, in particular some $B_{r_0}(z)$ with $r_0\le C(\dT/\tau)^{1/4}$).
-Measuring the ball distance at $z_0$ costs
+\begin{proof}
+The coarea identity $P_\theta^w=\int_0^\infty N^w\,\d\rho$ is
+\cref{lem:angular-coarea} verbatim with $z$ replaced by $w$: its proof uses
+only that $f_w(x):=|x-w|$ is $1$-Lipschitz with $|\nabla^{\partial\Etil}f_w|
+=|\nu_\theta^w|$ $\HH^1$-a.e.\ on $\partial\Etil$ (true since $w\notin
+\partial\Etil$, so $e_r^w$ is defined and smooth along $\partial\Etil$), and
+the coarea formula on the rectifiable curve. The chain \eqref{eq:cf-cs} is
+Step~2 of the proof of \cref{thm:annulus} (eq.~\eqref{eq:step2}) verbatim:
+it is two Cauchy--Schwarz inequalities on $\partial\Etil$ using
+$(\nu_r^w)^2+(\nu_\theta^w)^2=1$ and $0\le P_r^w\le P$, with no reference to
+the position of $w$. For \eqref{eq:cf-radial}, the proof of
+\cref{lem:radial-profile} applies with $w$ in place of $z$: define the outer
+radial profile $R_w(\theta):=\sup\set{\rho>0:w+\rho e^{i\theta}\in\Etil}\in
+[0,\rho_e^w]$, where $\rho_e^w:=\sup_{x\in\Etil}|x-w|<\infty$; for each
+$\theta$ with $R_w(\theta)<\hat r$ the segment $\set{R_w(\theta)<\rho<\hat r}$
+on the ray from $w$ lies in $B_{\hat r}(w)\setminus\Etil$ (its points have
+radius $>R_w(\theta)$, hence are outside $\Etil$ by definition of the
+supremum, and radius $<\hat r$), so by polar integration and
+$\int_R^{\hat r}\rho\,\d\rho\ge\tfrac{\hat r}{2}(\hat r-R)$ (valid as
+$R\ge0$),
 \[
-   a_0:=|\Etil\triangle B_{\hat r}(z_0)|
-   \le a+|B_{\hat r}(z)\triangle B_{\hat r}(z_0)|
-   \le a+4\pi\hat r\,|z-z_0|\le C(\dT/\tau)^{1/4},
+   a_w\ \ge\ |B_{\hat r}(w)\setminus\Etil|\ \ge\
+   \tfrac{\hat r}{2}\int_{S^1}(\hat r-R_w)_+\,\d\theta,
 \]
-since $B_{\hat r}(z)\triangle B_{\hat r}(z_0)\subseteq B_{\hat r+|z-z_0|}(z)
-\setminus B_{\hat r-|z-z_0|}(z)$ has area $4\pi\hat r|z-z_0|$. With this
-$z_0\in\Etil$ in place of $z$, \cref{thm:annulus} applies and yields
-$\rho_e-\rho_i\le C(\Exc+a_0)^{1/2}$, hence the trapping
-\eqref{eq:annulus} \emph{with an absolute constant} holds unconditionally.
+whence $\int_{S^1}R_w\,\d\theta\ge2\pi\hat r-2a_w/\hat r$. Finally $P_r^w\ge
+\int_{S^1}R_w\,\d\theta$ by the weighted coarea identity
+\eqref{eq:radial-weighted} with $w$ in place of $z$ (again valid because
+$w\notin\partial\Etil$, so $\Theta_w(x)=(x-w)/|x-w|$ is defined on
+$\partial\Etil$), the inner sum there being at least its outermost term
+$R_w(\theta)$. Combining with $P=2\pi\hat r+\Exc$ gives \eqref{eq:cf-radial}.
+\end{proof}
 
-This recentring is, however, \emph{lossy in the rate}: the displacement
-$|z-z_0|$ can be as large as $\delta\sim a^{1/2}\sim(\dT/\tau)^{1/4}$, and the
-symmetric-difference penalty $4\pi\hat r\,|z-z_0|$ is \emph{linear} in it, so
-$a_0\sim(\dT/\tau)^{1/4}$ is one square-root \emph{worse} than the optimal
-$a\sim(\dT/\tau)^{1/2}$. Consequently in the degenerate case the width
-degrades to $\eta\le C(\Exc+a_0)^{1/2}\le C(\dT/\tau)^{1/8}$, i.e.\
-$\eta\le C\dT^{1/16}$ at $\tau=\sqrt\dT$, rather than the sharp
-$\eta\le C\dT^{1/8}$. The status of the sharp rate is recorded in the next
-remark.
+\begin{lemma}[The exact optimal centre is interior; inscribed ball]
+\label{lem:zinterior}
+Let $\Etil$ be the inset \textup{(}$\dT\le\delta_\star$, connected,
+hole-free, $\hat r\in[\tfrac12,1]$, scales \eqref{eq:ann-scales}\textup{)},
+and let $z$ be an \emph{exact} $L^1$-optimal centre, $a=|\Etil\triangle
+B_{\hat r}(z)|=\AF(\Etil)|\Etil|$. There is an absolute constant $C_0$ such
+that, after possibly shrinking the absolute threshold $\delta_\star$,
+\begin{equation}\label{eq:zinterior}
+   z\in\Etil,
+   \qquad
+   \rho_i=\dist(z,\partial\Etil)\ \ge\ \hat r-C_0\,(\Exc+a)^{1/2}\ \ge\
+   \tfrac12 .
+\end{equation}
+In particular $B_{\rho_i}(z)\subseteq\Etil$ with $\rho_i\ge\tfrac12>0$, so the
+hypothesis $z\in\Etil$ of \cref{thm:annulus} holds at the exact optimum, and
+the rate \eqref{eq:annulus-rate} is unconditional.
+\end{lemma}
+
+\begin{proof}
+Set $\beta:=2P\,(\Exc+2a/\hat r)$, an absolute small quantity: by
+\eqref{eq:ann-scales} and $\hat r\in[\tfrac12,1]$ one has $P=2\pi\hat r+\Exc
+\le2\pi+C$ and $\Exc+2a/\hat r\le\Exc+4a\le C(\Exc+a)\le C(\dT/\tau)^{1/2}$,
+so
+\begin{equation}\label{eq:beta-small}
+   \beta\ \le\ C_1\,(\Exc+a)\ \le\ C_1\,C\,(\dT/\tau)^{1/2}
+   \ \xrightarrow[\ \dT/\tau\to0\ ]{}\ 0,
+\end{equation}
+with $C_1$ absolute. We show that if $z$ is \emph{not} an interior point with
+$\rho_i\ge\tfrac12$, then $\beta\ge\tfrac1{4}$, which is impossible once
+$\delta_\star$ is small enough that the right side of \eqref{eq:beta-small} is
+$<\tfrac14$; this proves \eqref{eq:zinterior}.
+
+\emph{Step 0: trichotomy for $z$.} By \eqref{eq:trichotomy}, exactly one of
+$z\in\Etil$, $z\in\partial\Etil$, $z\in U:=\R^2\setminus\overline\Etil$ holds.
+We treat the two non-interior cases and show each forces $\beta\ge\tfrac14$;
+we also show that in the interior case the inscribed radius is large.
+
+\emph{Step 1: $z\in U$ is impossible.} Suppose $z\in U$. Put
+$d:=\dist(z,\overline\Etil)>0$ (positive since $U$ is open). First, the
+trivial area bound: $B_{\min(d,\hat r)}(z)\cap\Etil=\varnothing$, so
+$\pi\min(d,\hat r)^2\le|B_{\hat r}(z)\setminus\Etil|\le a$; since $a\le
+C(\dT/\tau)^{1/2}<\pi\hat r^2$ for $\dT/\tau$ small (as $\hat r\ge\tfrac12$),
+this forces $d<\hat r$ and
+\begin{equation}\label{eq:d-area}
+   d\ \le\ \sqrt{a/\pi}\ \le\ C\,(\dT/\tau)^{1/4}\ \le\ \tfrac14
+\end{equation}
+for $\dT/\tau$ small. Now we lower-bound $P_\theta^z$. Because $z\notin
+\partial\Etil$, \cref{lem:centrefree} applies with $w=z$, giving
+$P_\theta^z=\int_0^\infty N^z(\rho)\,\d\rho$ and
+$(P_\theta^z)^2\le2P(\Exc+2a/\hat r)=\beta$. We claim $N^z(\rho)\ge2$ for
+every $\rho\in(d,\rho_e^z)$, where $\rho_e^z:=\sup_{x\in\Etil}|x-z|\ge\hat r$
+(the inequality because $\Etil\subset\overline{B_{\rho_e^z}(z)}$ gives
+$\pi\hat r^2=|\Etil|\le\pi(\rho_e^z)^2$). Indeed, let $C_\rho:=\partial
+B_\rho(z)$ with $\rho\in(d,\rho_e^z)$.
+\begin{itemize}[leftmargin=1.6em]
+\item $C_\rho$ meets $\Etil$: the radial function $f(x)=|x-z|$ is continuous
+on the connected open set $\Etil$, so $f(\Etil)$ is an interval; it has
+infimum $d=\inf_{\overline\Etil}f$ (attained in $\overline\Etil$, approached
+within $\Etil$) and supremum $\rho_e^z$, so $f(\Etil)\supseteq(d,\rho_e^z)\ni
+\rho$.
+\item $C_\rho$ meets $U$: by \cref{lem:ext-conn} the set $U$ is connected,
+open and unbounded, and $z\in U$, so $f(U)$ is an interval with infimum
+$f(z)=0$ and supremum $+\infty$; hence $f(U)\supseteq(0,\infty)\ni\rho$.
+\end{itemize}
+Thus $C_\rho\setminus\partial\Etil=(C_\rho\cap\Etil)\sqcup(C_\rho\cap U)$ is a
+disjoint union of two nonempty relatively open subsets of the connected curve
+$C_\rho$; were $N^z(\rho)=\HH^0(C_\rho\cap\partial\Etil)\le1$, removing at most
+one point would leave $C_\rho$ connected, contradicting the existence of such a
+partition. Hence $N^z(\rho)\ge2$. Therefore, using \eqref{eq:d-area} and
+$\rho_e^z\ge\hat r\ge\tfrac12$,
+\[
+   \sqrt{\beta}\ \ge\ P_\theta^z\ =\ \int_0^\infty N^z\,\d\rho\ \ge\
+   \int_{d}^{\rho_e^z}2\,\d\rho\ =\ 2(\rho_e^z-d)\ \ge\ 2\bigl(\tfrac12-
+   \tfrac14\bigr)\ =\ \tfrac12,
+\]
+so $\beta\ge\tfrac14$, the desired contradiction. Hence $z\notin U$.
+
+\emph{Step 2: $z\in\partial\Etil$ is impossible.} Suppose $z\in\partial\Etil$.
+We cannot apply \cref{lem:centrefree} directly at $w=z$, but we apply it at a
+sequence $w_k\to z$, $w_k\in U$, $w_k\notin\partial\Etil$ (such $w_k$ exist:
+$z\in\partial\Etil=\partial U$ by \cref{lem:ext-conn}, so every neighbourhood
+of $z$ meets the open set $U$). Set $d_k:=\dist(w_k,\overline\Etil)\ge0$, with
+$d_k\to0$ as $w_k\to z\in\partial\Etil$. Exactly as in Step~1
+\textup{(}$w_k\in U$\textup{)} we obtain $N^{w_k}(\rho)\ge2$ for $\rho\in
+(d_k,\rho_e^{w_k})$, where $\rho_e^{w_k}=\sup_{x\in\Etil}|x-w_k|\ge\hat r$, and
+\[
+   P_\theta^{w_k}\ \ge\ 2(\rho_e^{w_k}-d_k)\ \ge\ 2(\hat r-d_k)\
+   \xrightarrow[k\to\infty]{}\ 2\hat r\ \ge\ 1 .
+\]
+On the other hand $a_{w_k}=|\Etil\triangle B_{\hat r}(w_k)|\le a+4\pi\hat r\,
+|w_k-z|\to a$, since $B_{\hat r}(z)\triangle B_{\hat r}(w_k)\subseteq
+B_{\hat r+|w_k-z|}(z)\setminus B_{\hat r-|w_k-z|}(z)$ has measure
+$4\pi\hat r|w_k-z|$; so by \eqref{eq:cf-cs}--\eqref{eq:cf-radial},
+$(P_\theta^{w_k})^2\le2P(\Exc+2a_{w_k}/\hat r)$, whose right side tends to
+$2P(\Exc+2a/\hat r)=\beta$. Fix $\eps>0$. For $k$ large, $d_k<\eps$ and the
+right side is $<\beta+\eps$, so $(2\hat r-2\eps)^2\le(P_\theta^{w_k})^2<
+\beta+\eps$; as $\hat r\ge\tfrac12$ and $\eps>0$ is arbitrary this gives
+$1\le4\hat r^2\le\beta$, so again $\beta\ge1>\tfrac14$, a contradiction.
+Hence $z\notin\partial\Etil$.
+
+\emph{Step 3: interior case and inscribed radius.} By Steps~1--2, $z\in\Etil$.
+Then \cref{def:radii} gives $\rho_i=\dist(z,\partial\Etil)>0$ and
+$B_{\rho_i}(z)\subseteq\Etil$ (\cref{lem:radii}), and \cref{thm:annulus}
+applies at this very $z$ with the exact ball distance $a$: it yields
+$\eta=\rho_e-\rho_i\le C(\Exc+a)^{1/2}$. Since $\rho_i\le\hat r\le\rho_e$
+(\cref{lem:radii}), $\hat r-\rho_i\le\rho_e-\rho_i=\eta$, whence
+\[
+   \rho_i\ \ge\ \hat r-\eta\ \ge\ \hat r-C(\Exc+a)^{1/2}\ =:\
+   \hat r-C_0(\Exc+a)^{1/2}.
+\]
+By \eqref{eq:ann-scales}, $C_0(\Exc+a)^{1/2}\le C_0C(\dT/\tau)^{1/4}\le
+\hat r-\tfrac12$ once $\delta_\star$ is small (recall $\hat r\ge\tfrac12$ and,
+in the application $\tau=\sqrt\dT$, $\hat r\to1$ so $\hat r\ge\tfrac34$ and
+$\hat r-\tfrac12\ge\tfrac14\ge C_0C\dT^{1/8}$ for $\dT$ small). Hence
+$\rho_i\ge\tfrac12$, which is \eqref{eq:zinterior}.
+\end{proof}
+
+\begin{remark}[Why this is the sharp, not the recentred, rate]
+\label{rem:zinE}
+The naive route recenters from the exact optimum $z$ to a nearby interior
+point $z_0\in\Etil$ with $|z-z_0|$ possibly as large as $\dist(z,\Etil)\sim
+a^{1/2}$, and pays the \emph{linear} symmetric-difference penalty
+$a_0\le a+4\pi\hat r|z-z_0|\sim a^{1/2}$, one square root worse than $a$;
+fed into \eqref{eq:annulus} this gives only $\eta\le C(\Exc+a_0)^{1/2}\sim
+\dT^{1/16}$ at $\tau=\sqrt\dT$. \cref{lem:zinterior} avoids recentring
+altogether: it proves the exact optimum is \emph{already} interior with
+$\rho_i\ge\tfrac12$, so the trapping is run at $z$ itself and the ball
+distance entering \eqref{eq:annulus} is the optimal $a\sim\dT^{1/4}$, giving
+the sharp $\eta\le C(\Exc+a)^{1/2}\sim\dT^{1/8}$. The decisive point is that
+the obstruction to interiority is charged not to the \emph{area} $a$ (which
+only bounds $\dist(z,\Etil)\lesssim a^{1/2}$) but to the \emph{angular
+perimeter}: a non-interior centre would force $P_\theta\ge\tfrac12$ a definite
+constant, whereas the deficits force $P_\theta\le C(\Exc+a)^{1/2}\to0$. This
+is the rigorous form of route~(i) of the program: the cost of the exterior
+pocket reaching $z$ is the two crossings it forces at \emph{every}
+intermediate radius, summed by the coarea identity, i.e.\ a perimeter cost,
+not an area cost.
 \end{remark}
 
-\begin{remark}[Gap: interiority of the exact FMP optimum, and the sharp rate]
-\label{rem:zinE-gap}
-The trapping \eqref{eq:annulus} with an \emph{absolute constant} is
-established unconditionally: \cref{thm:annulus} holds for any $z\in\Etil$, and
-the recentring above produces such a $z\in\Etil$ in every case. What is
-\emph{not} established from first principles is that the \emph{exact} FMP
-optimum $z$ is an interior point of $\Etil$ (equivalently $\rho_i>0$ at the
-exact optimum). If $z$ is interior, then $a_0=a$ and the sharp rate
-$\eta\le C(\dT/\tau)^{1/4}$ holds; the a-posteriori bound \cref{rem:posterior}
-is then \emph{self-consistent} (it gives $\rho_i\ge\tfrac12>0$), but this is a
-consistency check, not a proof of interiority. In the non-generic case
-$z\in\partial\Etil$ (or $z\notin\overline\Etil$), only the recentred,
-rate-degraded bound $\eta\le C\dT^{1/16}$ is available.
-
-\emph{Impact downstream.} The amplitude hypothesis of \cref{thm:graphG} in
-\cref{sec:main} requires only $\eta\le\eta_G$, which holds in both cases since
-$\dT^{1/16}\to0$; thus the \emph{main theorem $\AF(\Om)^2\le C\dT^{\gamma}$
-for some $\gamma>0$ is unaffected}. However, the graph-defect bound
-\cref{cor:gd}, $\gd(\Etil)\le C\eta(\Exc+a\eta)$, and through it the closeness
-$|\Om\triangle G|$ and the final exponent in \cref{thm:main}, \emph{do} use
-the sharp rate $\eta\sim\dT^{1/8}$: with the degraded $\eta\sim\dT^{1/16}$ the
-dominant term $a\eta^2\sim\dT^{1/4}\cdot\dT^{1/8}=\dT^{3/8}$ inflates $\gd$
-and closeness to $\dT^{3/8}$, yielding only $\AF(\Om)^2\le C\dT^{3/4}$ in the
-degenerate case. \emph{The sharp result $\AF(\Om)^2\le C\dT$ is therefore
-proved unconditionally only modulo the interiority of the exact FMP optimum;}
-in the (conjecturally non-occurring, but here unproved) degenerate boundary
-configuration of the optimal centre the method as written gives the weaker
-$\AF(\Om)^2\le C\dT^{3/4}$.
-
-\emph{Routes to close the gap} (not carried out here, to keep this section's
-inputs to connectedness, no-holes, $\Exc$ and $a$ only). \textup{(i)} Bound
-$\dist(z,\Etil)\le C\,\Exc$ \emph{linearly} in the perimeter excess --- a thin
-exterior channel reaching an empty pocket at $z$ costs perimeter proportional
-to its depth, charging $\dist(z,\Etil)$ to $\Exc$ rather than to
-$a^{1/2}$; this gives $a_0\le a+C\hat r\,\Exc\le C(\dT/\tau)^{1/2}$, the sharp
-order, and hence $\eta\le C\dT^{1/8}$ unconditionally. \textup{(ii)} Quote a
-quantitative-isoperimetric \emph{stability of the optimal centre} placing $z$
-within $C\,\diso$ of the barycentre, which lies in $\Etil$ for $\diso$ small.
-Either route restores the sharp rate; we record the gap honestly rather than
-assert its closure.
+\begin{remark}[The a-posteriori check is now a theorem]\label{rem:zinE-gap}
+The self-consistency observation of \cref{rem:posterior} --- that the trapping
+output $\rho_i\ge\tfrac12$ is compatible with $z$ being interior --- is
+\emph{upgraded to a proof} by \cref{lem:zinterior}: interiority is established
+\emph{a priori}, by the same angular-coarea mechanism, with no appeal to the
+conclusion. Consequently the graph-defect bound \cref{cor:gd}, the closeness
+$|\Om\triangle G|$ of \cref{sec:fold,sec:cut}, and the final exponent in
+\cref{thm:main} all rest on the \emph{sharp} rate $\eta\sim\dT^{1/8}$
+unconditionally; the previously flagged degenerate boundary configuration of
+the optimal centre does \emph{not} occur, and the conclusion
+$\AF(\Om)^2\le C\dT$ carries no caveat on the location of the optimal centre.
+The inputs of this section remain exactly connectedness, the no-hole property,
+$\Exc$ and $a$ (the Serrin defect $D_H$ is not used).
 \end{remark}
 
 \begin{remark}[What is, and is not, used]\label{rem:summary}
@@ -554,9 +713,12 @@ excess $\Exc$ and the FMP closeness $a$ (\cref{thm:fmp}, via
 chain $4\eta^2\le P_\theta^2\le2P(P-P_r)\le2P(\Exc+2a/\hat r)$, in which the
 geometric lower bound (two crossings per circle) is converted into the
 deficit by one Cauchy--Schwarz and one elementary radial-profile estimate.
-The hypothesis $z\in\Etil$ (used to start the radius at $0$ and to define the
-angular projection) is the one point not reduced to the deficits; the
-trapping with an absolute constant holds for any $z\in\Etil$ unconditionally,
-while the \emph{sharp rate} for the inset's FMP centre is conditional on the
-interiority of that centre, as discussed in \cref{rem:zinE-gap}.
+The hypothesis $z\in\Etil$ --- the interiority of the exact $L^1$-optimal
+centre, used to start the radius at $0$ and to define the angular projection
+--- is itself \emph{proved} from the same ingredients in \cref{lem:zinterior}
+(the very same chain, run before interiority is known, forces a definite
+$P_\theta$ at a non-interior centre, contradicting the deficit smallness).
+Consequently the \emph{sharp rate} $\eta\le C(\Exc+a)^{1/2}\sim\dT^{1/8}$ for
+the inset's exact FMP centre is \emph{unconditional}; nothing in this section,
+or downstream, is left contingent on the location of the optimal centre.
 \end{remark}

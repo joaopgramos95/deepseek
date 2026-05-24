@@ -28,13 +28,136 @@ may change) or named ($A_0$, $\delta_\star$); $\delta_\star>0$ is a small
 absolute constant, fixed at the end of the section. We set $\tau:=\sqrt\dT$
 only at the very end; until then $\tau$ is a free parameter in $(0,\tfrac1{16})$.
 
+\subsection{Standing measure-theoretic convention and interior containment}
+\label{ss:containment}
+
+The torsion function $u$ is regular only in the \emph{interior} of $\Om$: by
+\cref{thm:torsion-reg}, $u\in C^\infty(\Om)$ (indeed real-analytic) and
+$u>0$ in $\Om$, but for a general bounded open $\Om$ we do \emph{not} assume
+$u\in C(\overline\Om)$, nor that $u=0$ holds pointwise on $\partial\Om$, nor
+that the super-level sets $E_v=\{u>v\}$ are compactly contained in $\Om$.
+Indeed they need not be: for the punctured disc $\Om=B_1\setminus\set0$
+(area $\pi$) the torsion function is $u=u_{B_1}=(1-|x|^2)/4$ (the removed
+point $\set0$ is polar, hence invisible to $H^1_0$), and every super-level
+set $\set{u\ge t}=\overline{B_{\sqrt{1-4t}}}$ accumulates at the boundary
+point $0\in\partial\Om$, so its closure is \emph{not} a compact subset of
+$\Om$. The naive statement ``$\overline{E_v}$ is compactly contained in
+$\Om$'' is therefore false in general, and we adopt throughout the only
+correct, measure-theoretic, stance: all quantities of the paper ---
+$|\Om|$, $T(\Om)$, the asymmetry $\AF$, the level sets $E_v$, their
+measures $\mu(v)$ and perimeters $\Per(v)$ --- depend on $\Om$ only through
+its measure-theoretic structure, and a \emph{polar} (capacity-zero) subset
+of $\partial\Om$ may be added to or removed from $\Om$ without changing any
+of them. We make this precise and isolate the containment property we
+actually use.
+
+\begin{lemma}[Interior containment of super-level sets, modulo a polar set]
+\label{lem:containment}
+Let $\Om\subset\R^2$ be bounded open with torsion function $u$, and let
+$t>0$. Then:
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.4em]
+\item\label{it:cont-fp} for a.e.\ $t>0$ the set $E_t=\set{u>t}$ has finite
+perimeter, $\Per(E_t)=\HH^1(\set{u=t})$, and $E_t$ is an open subset of
+$\Om$ that coincides with its own measure-theoretic interior up to an
+$\HH^1$-null set;
+\item\label{it:cont-far} for every regular $t>0$ and every connected
+component $E$ of $E_t$, the relative boundary of $E$ in $\Om$ lies in the
+level set,
+\[
+   \partial E\cap\Om\ \subset\ \set{u=t}\ \subset\ \Om,
+\]
+an $\HH^1$-rectifiable curve contained in the \emph{open} set $\Om$ and
+carrying the full perimeter, $\Per(E)=\HH^1(\partial^*E)=\HH^1(\partial E\cap
+\Om)$; the set $E$ is bounded \textup{(}so $\overline E\subset\R^2$ is
+compact\textup{)}, and the $\R^2$-closure $\overline E$ may meet
+$\partial\Om$, but $\overline E\cap\partial\Om$ carries \emph{no} perimeter
+of $E$: $\HH^1(\partial^*E\cap\partial\Om)=0$. \textup{(}This is the precise,
+measure-theoretic substitute for ``$\overline E$ compactly contained in
+$\Om$'', which fails for the punctured disc.\textup{)}
+\item\label{it:cont-polar} consequently, replacing $\Om$ by
+$\Om\cup Z$ or $\Om\setminus Z$ for any polar set $Z$ \textup{(}capacity
+zero, hence Lebesgue-null and not charged by the perimeter measure of any
+finite-perimeter set, \cite[Thm.~4.5, \S4.7]{EvansGariepy2015}\textup{)}
+leaves $u$, $T(\Om)$, every $E_t$, $\mu(t)$, $\Per(t)$, $\dT$ and $\AF(\Om)$
+unchanged. In particular the symmetric differences $|\Om\triangle E_t|$ and
+$|\Om\triangle G|$ used downstream are insensitive to such $Z$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\emph{\ref{it:cont-fp}.} By the coarea formula (\cref{thm:coarea}) applied
+to $u\in H^1(\Om)\cap C^\infty(\Om)$, $\int_0^m\Per(E_t)\,dt
+=\int_\Om|\nabla u|<\infty$, so $E_t$ has finite perimeter for a.e.\ $t$,
+with $\Per(E_t)=\HH^1(\set{u=t})$ at every regular $t$
+(\cref{lem:regular-values}). The set $E_t$ is open as a super-level set of
+the continuous function $u$ on the open set $\Om$; for a regular value
+$\nabla u\neq0$ on $\set{u=t}$, so $\set{u=t}$ is an $\HH^1$-rectifiable
+$C^1$ curve, of zero Lebesgue measure, whence $E_t$ equals its
+measure-theoretic interior up to that null curve.
+
+\emph{\ref{it:cont-far}.} Fix a regular $t$ and a component $E$ of $E_t$.
+$E$ is open (super-level set of the continuous $u$) and bounded ($E\subset
+\Om$, $\Om$ bounded), so $\overline E\subset\R^2$ is compact. The relative
+boundary $\partial E\cap\Om$ consists of points $q\in\Om$ that are limits of
+points of $E$ (where $u>t$) and of points of $\Om\setminus E$; by continuity
+of $u$ on the open set $\Om$, $u(q)=t$, so $\partial E\cap\Om\subset
+\set{u=t}$, which at the regular value $t$ is an $\HH^1$-rectifiable $C^1$
+curve in $\Om$ along which $\nabla u\neq0$ (\cref{lem:regular-values}). The
+reduced boundary satisfies $\partial^*E\subset\partial E$, and the part of
+$\partial^*E$ inside $\Om$ is $\HH^1$-equivalent to $\set{u=t}\cap\partial E$
+(\cref{thm:coarea}, $\Per(E)=\HH^1(\set{u=t}\cap\partial E)$). It remains to
+see that $\overline E$ may touch $\partial\Om$ only off the reduced boundary.
+Indeed $\partial^*E\subset\partial E$, and the part of $\partial E$ on
+$\partial\Om$ is disjoint from $\Om\supset\set{u=t}$; since
+$\partial^*E\cap\Om\subset\set{u=t}\subset\Om$ already carries the full
+perimeter $\Per(E)=\HH^1(\partial^*E)$, the remainder $\partial^*E\cap
+\partial\Om$ has $\HH^1$-measure zero. (For the punctured disc, $\overline E
+=\overline{B_{\sqrt{1-4t}}}$ touches $\partial\Om$ at the polar puncture
+$0$, which is a single point, hence $\HH^1$-null and not a reduced-boundary
+point.) This proves \ref{it:cont-far}.
+
+\emph{\ref{it:cont-polar}.} A polar set $Z\subset\R^2$ has zero
+$2$-capacity, hence zero Lebesgue measure and is removable for $H^1_0$: the
+torsion function of $\Om$ and of $\Om\cup Z$ coincide ($H^1_0(\Om)=
+H^1_0(\Om\cup Z)$ when $Z$ is polar of finite measure, since capacity-zero
+sets are negligible for $H^1$ traces, \cite[\S4.7]{EvansGariepy2015}). All
+listed quantities are integrals against Lebesgue measure of $u$ or
+indicators of finite-perimeter sets, or perimeters thereof; Lebesgue measure
+and the perimeter measure (which is absolutely continuous with respect to
+$\HH^1\restr{\partial^*E}$ and assigns no mass to the $\HH^1$-null, indeed
+Lebesgue-null, polar set $Z$, \cite[\S5.7]{EvansGariepy2015},
+\cite[Thm.~16.2]{Maggi2012}) both ignore $Z$. The claim follows.
+\end{proof}
+
+\begin{remark}[The role of \cref{lem:containment}]\label{rem:containment}
+\cref{lem:containment} is the honest substitute for the (false in general)
+assertion that $\overline{E_v}$ is compactly contained in $\Om$. What the
+later sections genuinely need is only: \textup{(a)} $E_v$ and each of its
+components are open subsets of $\Om$ on which $u$ is real-analytic with
+$\nabla u\neq0$ along $\set{u=v}$ at regular $v$ (so $\partial E$ is an
+$\HH^1$-rectifiable curve in the \emph{open} set $\Om$, with $\Per(E)=
+\HH^1(\partial^*E)$); and \textup{(b)} the measure-theoretic insensitivity
+to polar sets, \ref{it:cont-polar}, which guarantees that all symmetric
+differences and deficits are well posed. In \cref{sec:annulus} we work with
+the \emph{measure-theoretic representative} of $\Etil$ \textup{(}equivalently
+the finely-open representative\textup{)}: the topological boundary
+$\partial\Etil$ there is the boundary of this representative, which differs
+from the reduced and essential boundaries only on an $\HH^1$-null set and
+lies in the open set $\Om$. No regularity of $\partial\Om$ is used anywhere.
+\end{remark}
+
 \subsection{No interior holes}
 
-We first record a topological regularity property of the super-level sets,
+We now record a topological regularity property of the super-level sets,
 which is a direct consequence of the superharmonicity of $u$
-($-\Delta u=1\ge0$) and the minimum principle. Recall (\cref{thm:torsion-reg})
-that $u\in C^2(\Om)\cap C(\overline\Om)$, $u>0$ in $\Om$ and $u=0$ on
-$\partial\Om$.
+($-\Delta u=1\ge0$) and the minimum principle. We use only the
+\emph{interior} regularity of \cref{thm:torsion-reg} --- $u\in C^\infty(\Om)$,
+$u>0$ in $\Om$ --- together with \cref{lem:containment}; in particular we
+do \emph{not} assume $u\in C(\overline\Om)$ or any regularity of
+$\partial\Om$. The phrase ``$\overline K\cap\partial\Om\neq\emptyset$''
+below means that $K$, a relatively closed bounded subset of $\Om$, is
+\emph{not} compactly contained in $\Om$: its closure in $\R^2$ meets
+$\partial\Om$ (equivalently, $K$ has a limit point on $\partial\Om$).
 
 \begin{lemma}[No interior holes]\label{lem:noholes}
 For every $v\in(0,m)$ the following hold.
@@ -51,11 +174,21 @@ $\partial\Om$.
 \end{lemma}
 
 \begin{proof}
+The entire argument takes place in the open set $\Om$, where $u$ is smooth
+(\cref{thm:torsion-reg}); no value of $u$ on $\partial\Om$ and no continuity
+of $u$ up to $\partial\Om$ is invoked. The negations we contradict are
+exactly the statements that the relevant components are \emph{compactly
+contained in $\Om$} (closure in $\R^2$ a compact subset of $\Om$), the case
+\cref{lem:containment}\ref{it:cont-far} shows cannot occur for super-level
+components; here we prove the analogous exclusion for the complementary
+sub-level islands and for holes.
+
 \emph{(i).} Suppose, for contradiction, that some component $K$ of
 $\{u<v\}$ satisfies $\overline K\Subset\Om$, i.e.\ $\overline K$ is a compact
 subset of $\Om$ not meeting $\partial\Om$. We claim $u\equiv v$ on
 $\partial K$. Let $x_0\in\partial K$. Since $\overline K\subset\Om$ we have
-$x_0\in\Om$, so $u$ is continuous at $x_0$. If $u(x_0)<v$ then by continuity
+$x_0\in\Om$, so $u$ is continuous at $x_0$ (interior continuity,
+\cref{thm:torsion-reg}; no boundary regularity is used). If $u(x_0)<v$ then by continuity
 $u<v$ on a ball around $x_0$, which would be a connected subset of
 $\{u<v\}$ meeting $K$, hence contained in $K$, placing $x_0$ in the
 \emph{interior} of $K$ --- contradicting $x_0\in\partial K$. If $u(x_0)>v$
@@ -108,12 +241,20 @@ curve, of zero Lebesgue measure. This contradicts $|H|>0$, so no such $H$
 exists.
 \end{proof}
 
-\begin{remark}
+\begin{remark}[Measure-theoretic reading; no boundary regularity]
 Part (ii) uses both the minimum principle (via (i), excluding holes that are
 sub-level islands) and the maximum principle (excluding super-level islands
-separated from $E$). Only two consequences are used downstream: that $\Etil$
-is connected with no interior holes (so that the trapping annulus and the
-ray-crossing counts of \cref{thm:annulus} are well posed), and the
+separated from $E$), and only interior regularity of $u$
+(\cref{thm:torsion-reg}); it is consistent with the standing convention of
+\cref{ss:containment}. The statement ``$\overline H\not\subset\Om$'' is read
+in the sense of \cref{lem:containment}\ref{it:cont-far}: a putative hole $H$
+that is compactly contained in $\Om$ is excluded, while a putative hole that
+accumulates only on $\partial\Om$ (as the centre of the punctured disc would,
+were $\set0$ removed) is not a genuine interior hole and carries no perimeter
+of $E$. Only two consequences are used downstream: that $\Etil$ is connected
+with no interior holes --- so that the complement of its measure-theoretic
+representative is connected (\cref{lem:ext-conn}) and the trapping annulus and
+the ray-crossing counts of \cref{thm:annulus} are well posed --- and the
 measure-theoretic fact $|\{u=\hat v\}|=0$ used repeatedly to identify
 symmetric differences. A reader content with these may keep (i) and the line
 ``$u\equiv v$ on $H$ with $|H|>0$ contradicts $|\{u=v\}|=0$'' as the whole of
