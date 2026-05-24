@@ -1,65 +1,55 @@
 \section{Perturbative stability of nearly spherical sets}
 \label{sec:nearly}
 
-This section proves, in full and self-containedly, the perturbative torsional
-stability of small-amplitude radial graphs consumed by the reduction of
-\cref{sec:main}. The result is a Fuglede-type estimate \emph{for the torsion
-functional}: a planar set whose boundary is a graph of small amplitude over a
-circle, after the natural volume and barycentre normalisations, has
-scale-invariant torsional deficit controlling the square of its Fraenkel
-asymmetry. We invoke no selection principle, no spectral black box, and no
-quantitative isoperimetric inequality.
+This section proves, in full and self-containedly, the perturbative
+torsional stability of small-amplitude radial graphs consumed by the
+reduction of \cref{sec:main}. The result is a Fuglede-type estimate
+\emph{for the torsion functional}: a planar set whose boundary is a graph of
+small amplitude over a circle, after the natural volume and barycentre
+normalisations, has scale-invariant torsional deficit controlling the square
+of its Fraenkel asymmetry. We invoke no selection principle, no spectral
+black box, and no quantitative isoperimetric inequality.
 
-The proof is an explicit second-order torsion computation through the dual
-(complementary) variational principle, with an admissible vector field built by
-hand. The only nonclassical point is the choice of field. We do \emph{not}
-assume the boundary slope is small: the hypothesis is merely
-$\|\varphi\|_{L^\infty}\le\eta_G$, so the graph $G$ may oscillate arbitrarily
-fast, and classical $C^1$-perturbation arguments (which require the slope to be
-small) do not apply. The difficulty this creates is that a high-frequency
-boundary oscillation produces, in any naive comparison field, second-order
-energy terms growing in the frequency; we tame them by a frequency-dependent
-\emph{damping} of an interior harmonic corrector, combined with a
-\emph{decaying} exterior corrector across the part of $\partial B_1$ where $G$
-protrudes. The decaying exterior corrector is the structural device that makes
-the energy bounded at \emph{every} frequency: it yields, for each Fourier mode,
-an exact collar/dimple density that is pointwise nonnegative
-(\cref{lem:highband}), so that high frequency is the \emph{easy} case (the
-deficit is large; see \cref{rem:freq}) and the binding mode is $k=2$, the
-ellipse. We compute the torsion deficit exactly to second order, identify the
-sharp quadratic form (coercive, constant $\tfrac\pi4$ at $k=2$), and close the
-coercivity \eqref{eq:coercive} mode by mode; the one quantitative margin that we
-certify by explicit evaluation rather than closed form is recorded transparently
-in \cref{rem:assembly}.
+The point requiring care is that the graph produced by \cref{sec:fold} has
+\emph{small amplitude but no slope control}: its radial profile is only
+Lipschitz, with a Lipschitz constant that may grow as $\dT\downarrow0$. The
+classical nearly-spherical estimates (Fuglede~\cite{Fuglede1989} and their
+torsional analogues) assume the boundary is a $C^1$- or $W^{2,\infty}$-small
+graph; they do not apply here, and it is precisely to manufacture such
+regularity that a selection principle is otherwise introduced. We therefore
+give a proof valid under an $L^\infty$ amplitude bound alone. The mechanism
+is an exact energy identity together with a \emph{slope-free} annular
+Steklov lower bound that is diagonal in the boundary data; the coercive
+output is at the $L^2$ (Fraenkel) scale, which is all that is needed and all
+that survives at high frequency.
 
 \subsection{Statement and standing normalisation}
 
-Throughout, $S^1=\R/2\pi\Z$, $\omega(\theta)=(\cos\theta,\sin\theta)$, and for
-$\varphi\in \mathrm{Lip}(S^1)$ with $\|\varphi\|_{L^\infty}<1$ and $z\in\R^2$ we
-write
+For $\varphi\in\mathrm{Lip}(S^1)$ with $\|\varphi\|_{L^\infty}<1$, a radius
+$\hat r_G>0$ and a centre $z\in\R^2$ we write
 \begin{equation}\label{eq:Gdef}
    G=G(z,\hat r_G,\varphi):=\set{z+r\omega(\theta):\ \theta\in S^1,\
-   0\le r<\hat r_G\,(1+\varphi(\theta))}
+   0\le r<\hat r_G\,(1+\varphi(\theta))},\qquad \omega(\theta)=(\cos\theta,\sin\theta),
 \end{equation}
-for the radial graph of amplitude profile $\varphi$, base radius
-$\hat r_G=\sqrt{|G|/\pi}$ and centre $z$. We recall that, for a bounded set $E$
-of finite measure with torsion $T(E)=\int_E u_E$ ($-\Delta u_E=1$, $u_E\in
-H^1_0(E)$),
+the radial graph of profile $\varphi$. We recall that for a bounded open
+$E\subset\R^2$ of finite measure with torsion function $u_E\in H^1_0(E)$
+($-\Delta u_E=1$) and $T(E)=\int_E u_E$,
 \begin{equation}\label{eq:dstarAdef}
    \dstar(E)=\frac{T(B_E)-T(E)}{T(B_E)},\quad T(B_E)=\frac{|E|^2}{8\pi},
    \qquad
    \AF(E)=\inf_{x_0}\frac{|E\triangle B(x_0,r_E)|}{|E|},\ r_E=\sqrt{|E|/\pi},
 \end{equation}
-are the scale-invariant deficit and the Fraenkel asymmetry; both are invariant
-under translations and dilations.
+are the scale-invariant torsional deficit and the Fraenkel asymmetry; both
+are invariant under translations and dilations.
 
 \begin{theorem}[Radial-graph torsion stability]\label{thm:graphG}
-There are absolute constants
+There are absolute constants $\eta_G\in(0,\tfrac1{13}]$ and $C_G<\infty$
+\textup{(}one may take
 \begin{equation}\label{eq:graphG-const}
-   \eta_G=\tfrac1{150},\qquad C_G=48,
+   \eta_G=\tfrac1{80},\qquad C_G=3
 \end{equation}
-such that the following holds. Let $G=G(z,\hat r_G,\varphi)$ be a radial graph
-as in \eqref{eq:Gdef} with $\varphi\in\mathrm{Lip}(S^1)$,
+\textup{)} such that the following holds. Let $G=G(z,\hat r_G,\varphi)$ be a
+radial graph as in \eqref{eq:Gdef} with $\varphi\in\mathrm{Lip}(S^1)$,
 $\|\varphi\|_{L^\infty}\le\eta_G$, and barycentre at $z$. Then
 \begin{equation}\label{eq:graphG}
    \AF(G)^2\ \le\ C_G\,\dstar(G).
@@ -68,630 +58,332 @@ The statement is scale-invariant; $G$ need not have area $\pi$. It uses no
 property of the original set $\Om$ and no selection.
 \end{theorem}
 
-Since $\dstar$ and $\AF$ are dilation- and translation-invariant, replacing $G$
-by $\hat r_G^{-1}(G-z)$ we assume for the proof
+\begin{remark}\label{rem:noslope}
+The hypothesis is on the $L^\infty$ \emph{amplitude} of $\varphi$ alone: no
+slope, perimeter, curvature, $C^1$ or $C^2$ bound is assumed. The amplitude
+bound serves only to trap $\partial G$ in a thin annulus and to make the
+volume and barycentre constraints remove the constant and first Fourier
+modes quantitatively. This is exactly the regime delivered by
+\cref{prop:realization}, where the amplitude is $O(\dT^{1/8})\to0$.
+\end{remark}
+
+Since $\dstar$ and $\AF$ are dilation- and translation-invariant, replacing
+$G$ by $\hat r_G^{-1}(G-z)$ we assume throughout the proof
 \begin{equation}\label{eq:norm}
-   z=0,\qquad \hat r_G=1,\qquad\text{so}\qquad |G|=\pi,
+   z=0,\qquad \hat r_G=1,\qquad |G|=\pi,
 \end{equation}
-which fixes the volume constraint
-\begin{equation}\label{eq:vol-constraint}
-   |G|=\int_0^{2\pi}\frac{(1+\varphi)^2}{2}\d\theta=\pi
-   \quad\Longleftrightarrow\quad
-   \int_0^{2\pi}\bigl(2\varphi+\varphi^2\bigr)\d\theta=0 .
-\end{equation}
-Under \eqref{eq:norm}, $T(B_G)=\pi/8$, while $u_{B_1}=(1-|x|^2)/4$ and
-$T(B_1)=\pi/8$. Expand $\varphi$ in its real Fourier series,
-\begin{equation}\label{eq:fourier}
-   \varphi(\theta)=a_0+\sum_{k\ge1}\bigl(a_k\cos k\theta+b_k\sin k\theta\bigr),
+so that $R:=1+\varphi$ satisfies the volume and barycentre constraints
+\begin{equation}\label{eq:constraints}
+   \int_{S^1}\bigl(R^2-1\bigr)\d\theta=0
+   \quad\Bigl(\text{i.e. }\int_{S^1}(2\varphi+\varphi^2)\d\theta=0\Bigr),
    \qquad
-   \|\varphi\|_{L^2(S^1)}^2=\pi\Bigl(2a_0^2+\sum_{k\ge1}(a_k^2+b_k^2)\Bigr) .
+   \int_{S^1}R^{3}\,\omega(\theta)\d\theta=0 .
 \end{equation}
-Lipschitz regularity gives $\sum_k k^2(a_k^2+b_k^2)<\infty$, so the series below
-converge in the indicated norms. We write throughout
-\begin{equation}\label{eq:rho}
-   \rho^2:=\sum_{k\ge2}(a_k^2+b_k^2),
+(The first is $|G|=\tfrac12\int R^2=\pi$; the second is
+$\int_G x\,dx=\tfrac13\int R^3\omega=0$.) We write $u_0(x):=\tfrac14(1-|x|^2)$
+for the disc torsion, $-\Delta u_0=1$, $u_0|_{\partial B_1}=0$,
+$T(B_1)=\pi/8$. Expand $\varphi$ and the boundary datum
+\begin{equation}\label{eq:hdef}
+   h(\theta):=\frac{R(\theta)^2-1}{4}=\frac{2\varphi+\varphi^2}{4}
+   =\frac\varphi2+\frac{\varphi^2}4
 \end{equation}
-the $L^2$ mass of the modes $k\ge2$, which (\cref{lem:normmodes}) will turn out
-to control both $\AF(G)^2$ and $\dstar(G)$.
+in real Fourier series, with $P_k$ the projection onto the $k$-th mode
+$\{\cos k\theta,\sin k\theta\}$ (for $k=0$ the constants) and
+$P_{\ge2}=\sum_{k\ge2}P_k$. Recall $\|\psi\|_{L^2(S^1)}^2=\sum_{k\ge0}
+\|P_k\psi\|_{L^2}^2$.
 
-\subsection{The dual (complementary) variational principle}
+\subsection{An exact energy identity}
 
-The torsion has two dual characterisations: the Dirichlet principle
-$T(E)=\max_{w\in H^1_0(E)}\bigl(2\int_E w-\int_E|\nabla w|^2\bigr)$ (attained at
-$w=u_E$), and the complementary principle below, which produces \emph{upper}
-bounds on $T(E)$ --- equivalently \emph{lower} bounds on the deficit --- from
-explicit divergence-constrained fields.
-
-\begin{lemma}[Complementary principle]\label{lem:dual}
-Let $E\subset\R^2$ be bounded open with finite perimeter and torsion function
-$u_E\in H^1_0(E)$. For every $\sigma\in L^2(E;\R^2)$ with $\divg\sigma=-1$ in
-$\mathcal D'(E)$,
-\begin{equation}\label{eq:dual}
-   T(E)\ \le\ \int_E|\sigma|^2,
+Write the energy functional and the (negative) torsion energy
+\begin{equation}\label{eq:Jdef}
+   J_E(v):=\tfrac12\int_E|\nabla v|^2-\int_E v\ \ (v\in H^1_0(E)),
+   \qquad
+   \mathcal E(E):=\min_{v\in H^1_0(E)}J_E(v)=J_E(u_E)=-\tfrac12 T(E),
 \end{equation}
-with equality iff $\sigma=\nabla u_E$.
+the last equality because $\int_E|\nabla u_E|^2=\int_E u_E=T(E)$. Thus
+$\mathcal E(G)-\mathcal E(B_1)=\tfrac12\bigl(T(B_1)-T(G)\bigr)$, and on the
+normalisation \eqref{eq:norm},
+$\dstar(G)=\tfrac8\pi\bigl(\tfrac\pi8-T(G)\bigr)
+=\tfrac{16}\pi\bigl(\mathcal E(G)-\mathcal E(B_1)\bigr)$.
+
+\begin{lemma}[Exact graph identity]\label{lem:identity}
+Let $z:=u_G-u_0\in H^1(G)$; then $z$ is harmonic in $G$ and $z=h$ on
+$\partial G$ \textup{(}with $h$ from \eqref{eq:hdef}\textup{)}. Moreover
+\begin{equation}\label{eq:identity8}
+   \mathcal E(G)-\mathcal E(B_1)
+   =\frac12\int_G|\nabla z|^2\d x
+     -\frac1{32}\int_{S^1}\bigl(R^4-1\bigr)\d\theta .
+\end{equation}
 \end{lemma}
 
 \begin{proof}
-Since $u_E\in H^1_0(E)$ and $\divg\sigma=-1$, the pairing
-$\int_E\sigma\cdot\nabla u_E=-\langle\divg\sigma,u_E\rangle=\int_E u_E$ is well
-defined, and $\int_E|\nabla u_E|^2=\int_E u_E=T(E)$ by testing $-\Delta u_E=1$
-with $u_E$. Hence
+Both $u_G$ and $u_0$ solve $-\Delta(\cdot)=1$, so $z=u_G-u_0$ is harmonic in
+$G$; on $\partial G=\{R(\theta)\theta\}$ we have $u_G=0$, hence
+$z=-u_0(R\theta)=\tfrac14(R^2-1)=h$. Since $J_G$ is quadratic and
+$u_G=u_0+z$,
 \[
-   0\le\int_E|\sigma-\nabla u_E|^2
-   =\int_E|\sigma|^2-2\!\int_E\sigma\cdot\nabla u_E+\!\int_E|\nabla u_E|^2
-   =\int_E|\sigma|^2-T(E),
+   \mathcal E(G)=J_G(u_G)=J_G(u_0)+\mathrm dJ_G(u_0)[z]+\tfrac12\int_G|\nabla z|^2 .
 \]
-which is \eqref{eq:dual}; equality forces $\sigma=\nabla u_E$ a.e.
+The first variation is, using $-\Delta u_0=1$ and the divergence theorem on
+the Lipschitz domain $G$,
+\[
+   \mathrm dJ_G(u_0)[z]=\int_G\nabla u_0\cdot\nabla z-\int_G z
+   =\int_{\partial G}z\,\partial_\nu u_0\,d\HH^1 .
+\]
+On $\partial G$, $z=h=\tfrac14(R^2-1)$ and $\partial_\nu u_0=\nabla u_0\cdot
+\nu=-\tfrac12\,x\cdot\nu$. For a radial graph $x=R(\theta)\omega(\theta)$ one
+has the area element identity $(x\cdot\nu)\,d\HH^1=R^2\,d\theta$ \textup{(}the
+outward normal is $\nu=(R\omega-R'\omega^\perp)/\sqrt{R^2+R'^2}$ and
+$d\HH^1=\sqrt{R^2+R'^2}\,d\theta$, so $x\cdot\nu\,d\HH^1=R\,\omega\cdot
+(R\omega)\,d\theta=R^2\,d\theta$\textup{)}. Hence
+\[
+   \mathrm dJ_G(u_0)[z]
+   =\int_{S^1}\frac{R^2-1}{4}\cdot\Bigl(-\frac12\Bigr)R^2\d\theta
+   =-\frac18\int_{S^1}(R^4-R^2)\d\theta .
+\]
+Next, with $u_0=\tfrac14(1-r^2)$, $|\nabla u_0|^2=r^2/4$, polar coordinates give
+\[
+   J_G(u_0)=\int_{S^1}\!\int_0^R\Bigl(\tfrac12\tfrac{r^2}4-\tfrac{1-r^2}4\Bigr)r\,dr\d\theta
+   =\int_{S^1}\!\int_0^R\Bigl(\tfrac{3r^3}8-\tfrac r4\Bigr)dr\d\theta
+   =\int_{S^1}\Bigl(\frac{3R^4}{32}-\frac{R^2}8\Bigr)\d\theta .
+\]
+Adding the two displays, the $R^2$ terms cancel:
+\[
+   \mathcal E(G)-\tfrac12\!\int_G|\nabla z|^2
+   =\int_{S^1}\Bigl(\frac{3R^4}{32}-\frac{R^2}8\Bigr)\d\theta
+   -\frac18\int_{S^1}(R^4-R^2)\d\theta
+   =\int_{S^1}\Bigl(\frac{3R^4}{32}-\frac{R^4}8\Bigr)\d\theta
+   =-\frac1{32}\int_{S^1}R^4\d\theta .
+\]
+Subtracting the same identity for $R\equiv1$ (where $z\equiv0$ and
+$\mathcal E(B_1)=-\tfrac1{32}\!\int_{S^1}1=-\tfrac\pi{16}=-\tfrac12T(B_1)$,
+consistently) yields \eqref{eq:identity8}.
 \end{proof}
 
-The disc field $\sigma_0:=\nabla u_{B_1}=-x/2$ satisfies $\divg\sigma_0=-1$ and
-$\int_{B_1}|\sigma_0|^2=T(B_1)=\pi/8$. We perturb it into an admissible field on
-$G$.
+\subsection{A slope-free annular Steklov lower bound}
 
-\subsection{The comparison field}\label{ss:field}
+The next lemma is the heart of the matter: it bounds the Dirichlet energy of
+\emph{any} $H^1$ function with prescribed outer trace $h$ from below by a
+diagonal, $L^2$-coercive functional of $h$ --- with no reference to the
+slope of $\partial G$.
 
-The naive choice $\sigma=\nabla(u_{B_1}+w)$ with $w$ the harmonic extension of
-$\tfrac12\varphi$ into $B_1$ is \emph{not} admissible across the part of
-$\partial B_1$ where $G$ protrudes, and --- more seriously --- its energy on
-that protruding collar grows like $(1+\varphi)^{k}$ per Fourier mode $k$,
-producing a second-order energy term of order $k^3$ at amplitude $1$ that no
-fixed amplitude threshold can absorb at all frequencies. We therefore use a
-\emph{two-piece} field: an interior harmonic corrector with frequency-damped
-coefficients, matched on $\partial B_1$ to a \emph{decaying} radial corrector on
-the protruding collar. The decaying collar corrector is the structural device
-that keeps the energy bounded at every frequency.
+Assume $1-\eta\le R\le1+\eta$ with $0<\eta\le\tfrac14$, and set
+$\rho:=1-\eta$. Expand $h=\sum_{k\ge0}h_k$ into Fourier modes.
 
-Set the corrector coefficients
-\begin{equation}\label{eq:gk}
-   \alpha_k:=\tfrac12 m_k\,a_k,\quad \beta_k:=\tfrac12 m_k\,b_k,
-   \qquad m_k:=\min\Bigl(1,\tfrac2k\Bigr)\in(0,1],\quad k\ge1 .
-\end{equation}
-The damping $m_k$ equals $1$ at the critical mode $k=2$ and decays like $2/k$
-for $k>2$, so the corrector \emph{slope} stays bounded by the amplitude:
-\begin{equation}\label{eq:slopebound}
-   k|\alpha_k|=\tfrac12 m_k k\,|a_k|\le|a_k|,
-   \qquad k|\beta_k|\le|b_k|\qquad(k\ge1) .
-\end{equation}
-Define the interior harmonic corrector and its normal trace on $\partial B_1$,
-\begin{equation}\label{eq:hC}
-   h(r,\theta):=\sum_{k\ge1}r^k\bigl(\alpha_k\cos k\theta+\beta_k\sin k\theta\bigr),
+\begin{lemma}[Annular Steklov lower bound]\label{lem:annular}
+Let $w\in H^1(G)$ have radial trace $w(R(\theta)\theta)=h(\theta)$ for a.e.\
+$\theta$. Then
+\begin{equation}\label{eq:annular}
+   \int_G|\nabla w|^2\d x\ \ge\ b(\eta)\sum_{k\ge2}\|h_k\|_{L^2(S^1)}^2,
    \qquad
-   c(\theta):=\partial_r h(1,\theta)=\sum_{k\ge1}k\bigl(\alpha_k\cos k\theta+\beta_k\sin k\theta\bigr).
+   b(\eta):=\frac{2\mu(\eta)}{2+\mu(\eta)},\quad \mu(\eta):=\frac{1-\eta}{2\eta},
 \end{equation}
-By \eqref{eq:slopebound} and Lipschitz regularity, $\nabla h\in L^2(B_1)$,
-$c\in L^2(S^1)$, $\Delta h=0$ in $\R^2$, and, by Parseval,
-\begin{equation}\label{eq:cL2}
-   \|c\|_{L^2(S^1)}^2=\pi\sum_{k\ge1}k^2(\alpha_k^2+\beta_k^2)
-   \le\pi\sum_{k\ge1}(a_k^2+b_k^2)\le\|\varphi\|_{L^2(S^1)}^2 .
-\end{equation}
-The crucial gain in \eqref{eq:cL2} --- that $\|c\|_{L^2}$ is bounded by
-$\|\varphi\|_{L^2}$, not by the $H^1$ quantity $\sum k^2(a_k^2+b_k^2)$ --- is
-exactly what the damping \eqref{eq:gk} buys.
-
-The comparison field on $G$ is
-\begin{equation}\label{eq:sigma}
-   \sigma(x):=
-   \begin{cases}
-      \nabla\bigl(u_{B_1}+h\bigr)(x), & x=r\omega(\theta)\in G,\ r\le1,\\[1mm]
-      \Bigl(-\dfrac r2+\dfrac{c(\theta)}{r}\Bigr)\,\omega(\theta),
-        & x=r\omega(\theta)\in G,\ r>1 .
-   \end{cases}
-\end{equation}
-The collar branch ($r>1$) is used only on $\{\theta:\varphi(\theta)>0\}$, where
-$G$ protrudes beyond $B_1$; it is a \emph{radial} field whose corrector
-$c(\theta)/r$ \emph{decreases} as $r$ grows past $1$.
-
-\begin{lemma}[Admissibility]\label{lem:admissible}
-The field $\sigma$ of \eqref{eq:sigma} lies in $L^2(G;\R^2)$ and satisfies
-$\divg\sigma=-1$ in $\mathcal D'(G)$.
+and $b(\eta)\uparrow2$ as $\eta\downarrow0$; in particular $b(\eta)\ge\tfrac32$
+whenever $\eta\le\tfrac1{13}$.
 \end{lemma}
 
 \begin{proof}
-On the interior region $\{r<1\}\cap G$, $\divg\sigma=\Delta(u_{B_1}+h)=-1+0=-1$.
-On the collar $\{r>1\}\cap G$, for a radial field $f(r)\omega$ one has
-$\divg(f\omega)=\frac1r\frac{d}{dr}(rf)$; with $f=-\frac r2+\frac{c(\theta)}{r}$
-this is $\frac1r\frac{d}{dr}\bigl(-\frac{r^2}2+c(\theta)\bigr)=-1$. Across the
-interface $\Gamma=\{r=1\}\cap G$ the normal (radial) components match: from
-inside, $\sigma\cdot\omega=\partial_r(u_{B_1}+h)|_{r=1}=-\tfrac12+c(\theta)$;
-from the collar, $\sigma\cdot\omega=-\tfrac12+c(\theta)$. Hence the
-distributional divergence carries no singular surface measure on $\Gamma$ and
-equals $-1$ on all of $G$. Square-integrability: $\nabla u_{B_1}$ is smooth;
-$\nabla h\in L^2(B_1)$ by \eqref{eq:cL2}; on the collar, of width
-$\le\eta_G$, $|\sigma|^2\le\frac{r^2}2+\frac{2c(\theta)^2}{r^2}\le
-\frac{(1+\eta_G)^2}2+2c(\theta)^2$, and $c\in L^2(S^1)$, so the collar
-contributes a finite integral.
+Let $f(\theta):=w(\rho\,\theta)$ be the trace of $w$ on the inner circle
+$\partial B_\rho\subset G$ (it lies in $G$ since $\rho=1-\eta\le R$). Split
+$\int_G|\nabla w|^2=\int_{B_\rho}|\nabla w|^2+\int_{G\setminus B_\rho}
+|\nabla w|^2$.
+
+\emph{Inner ball.} Among all $H^1(B_\rho)$ functions with trace $f$ on
+$\partial B_\rho$ the Dirichlet energy is minimised by the harmonic
+extension, so with $f=\sum_k f_k$,
+\begin{equation}\label{eq:inner}
+   \int_{B_\rho}|\nabla w|^2\ \ge\ \sum_{k\ge1}k\,\|f_k\|_{L^2(S^1)}^2
+\end{equation}
+(in the plane the harmonic extension of the mode $f_k$ is $(r/\rho)^k$ times
+it, with Dirichlet energy $k\|f_k\|_{L^2}^2$, independent of $\rho$).
+
+\emph{Annular shell.} For a.e.\ $\theta$, along the radial segment
+$r\in[\rho,R(\theta)]$ Cauchy--Schwarz gives
+\[
+   |h(\theta)-f(\theta)|^2
+   =\Bigl(\int_\rho^{R(\theta)}\!\partial_r w\,dr\Bigr)^2
+   \le\Bigl(\int_\rho^{R(\theta)}\!|\partial_r w|^2\,r\,dr\Bigr)
+      \Bigl(\int_\rho^{R(\theta)}\!\frac{dr}{r}\Bigr).
+\]
+Since $R\le1+\eta$, $\rho=1-\eta$ and $\log\tfrac{1+t}{1-t}\le\tfrac{2t}{1-t}$
+for $t\in[0,\tfrac14]$,
+$\int_\rho^{R}\tfrac{dr}r=\log\tfrac{R}\rho\le\log\tfrac{1+\eta}{1-\eta}\le
+\tfrac{2\eta}{1-\eta}=\mu(\eta)^{-1}$. Hence
+$\int_\rho^{R(\theta)}|\partial_r w|^2 r\,dr\ge\mu(\eta)|h(\theta)-f(\theta)|^2$,
+and integrating in $\theta$,
+\begin{equation}\label{eq:shell}
+   \int_{G\setminus B_\rho}|\nabla w|^2\ \ge\ \mu(\eta)\,\|h-f\|_{L^2(S^1)}^2
+   =\mu(\eta)\sum_{k\ge0}\|h_k-f_k\|_{L^2}^2 .
+\end{equation}
+
+\emph{Mode-by-mode minimisation.} Adding \eqref{eq:inner} and
+\eqref{eq:shell} (and dropping the $k=0$ shell term) gives the lower bound
+$\sum_{k\ge1}\bigl(k\|f_k\|^2+\mu\|h_k-f_k\|^2\bigr)$. Minimising
+$k|f_k|^2+\mu|h_k-f_k|^2$ over $f_k$ yields $\frac{k\mu}{k+\mu}|h_k|^2$. The
+coefficient $\frac{k\mu}{k+\mu}$ is increasing in $k$, so for $k\ge2$ it is
+at least its value at $k=2$, namely $\frac{2\mu}{2+\mu}=b(\eta)$. This is
+\eqref{eq:annular}. Finally $b(\eta)\ge\tfrac32\iff\mu\ge6\iff
+\frac{1-\eta}{2\eta}\ge6\iff\eta\le\tfrac1{13}$.
 \end{proof}
 
-\subsection{The exact second-order energy}\label{ss:energy}
+\subsection{Removing the neutral modes}
 
-We compute $\int_G|\sigma|^2$ \emph{exactly}, splitting $G$ along the circle
-$\{r=1\}$ into the interior part, the dimple (where $G$ lies inside $B_1$), and
-the collar (where $G$ protrudes). Write $p:=\varphi(\theta)$, $R:=1+p$, and
+\begin{lemma}[Neutral modes]\label{lem:modes}
+There is an absolute $C_0$ such that if $\|\varphi\|_{L^\infty}\le\tfrac1{13}$
+and \eqref{eq:constraints} hold, then
+\begin{equation}\label{eq:neutral}
+   \|P_0\varphi\|_{L^2}+\|P_1\varphi\|_{L^2}\ \le\ C_0\,\|\varphi\|_{L^2}^2 .
+\end{equation}
+Consequently there is an absolute $\eps_1>0$ such that
+$\|\varphi\|_{L^2}\le\eps_1$ implies
+$\|P_{\ge2}\varphi\|_{L^2}^2\ge\tfrac{15}{16}\|\varphi\|_{L^2}^2$.
+\end{lemma}
+
+\begin{proof}
+The volume constraint $\int_{S^1}(2\varphi+\varphi^2)=0$ gives
+$2\int\varphi=-\int\varphi^2$, so the mean obeys
+$|\overline\varphi|=\tfrac1{2\pi}|\int\varphi|=\tfrac1{4\pi}\int\varphi^2$ and
+$\|P_0\varphi\|_{L^2}=\sqrt{2\pi}\,|\overline\varphi|
+=\tfrac1{2\sqrt{2\pi}}\|\varphi\|_{L^2}^2$. The barycentre constraint with
+$R^3=1+3\varphi+3\varphi^2+\varphi^3$ and $\int_{S^1}\omega=0$ gives
+$3\int\varphi\,\omega=-\int(3\varphi^2+\varphi^3)\omega$, whence, using
+$\|P_1\varphi\|_{L^2}=\tfrac1{\sqrt\pi}|\int\varphi\,\omega|$ and
+$\|\varphi\|_{L^\infty}\le\tfrac1{13}$,
+\[
+   \|P_1\varphi\|_{L^2}\le\frac1{3\sqrt\pi}\int(3\varphi^2+|\varphi|^3)
+   \le\frac{1+\tfrac1{39}}{\sqrt\pi}\,\|\varphi\|_{L^2}^2 .
+\]
+This is \eqref{eq:neutral} with $C_0=\tfrac1{2\sqrt{2\pi}}+\tfrac{1+1/39}{\sqrt\pi}$.
+Then $\|P_0\varphi\|^2+\|P_1\varphi\|^2\le2C_0^2\|\varphi\|_{L^2}^4\le
+\tfrac1{16}\|\varphi\|_{L^2}^2$ once $\|\varphi\|_{L^2}^2\le\eps_1^2:=
+1/(32C_0^2)$, and the last claim follows.
+\end{proof}
+
+\begin{lemma}[Boundary datum and moment]\label{lem:taylor}
+If $\|\varphi\|_{L^\infty}\le\eta\le\tfrac1{13}$ and \eqref{eq:constraints}
+holds, then
 \begin{align}
-   \mathcal C&:=\int_{\{p>0\}}\!\int_1^{1+p}\Bigl(-\tfrac r2+\tfrac{c(\theta)}{r}\Bigr)^2 r\,dr\,d\theta
-        &&\text{(collar energy)},\label{eq:Cdef}\\
-   \mathcal D&:=\int_{\{p<0\}}\!\int_{1+p}^{1}\bigl|\nabla(u_{B_1}+h)\bigr|^2 r\,dr\,d\theta
-        &&\text{(dimple energy)}.\label{eq:Ddef}
+   \int_{S^1}\bigl(R^4-1\bigr)\d\theta
+      &\le\ \bigl(4+4\eta+\eta^2\bigr)\,\|\varphi\|_{L^2}^2 ,
+      \label{eq:moment}\\
+   \|P_{\ge2}h\|_{L^2}^2
+      &\ge\ \tfrac14\,\|P_{\ge2}\varphi\|_{L^2}^2
+            -\tfrac14\,\eta\,\|\varphi\|_{L^2}^2 .
+      \label{eq:hlow}
 \end{align}
-
-\begin{lemma}[Energy identity]\label{lem:energy}
-With $\sigma$ as in \eqref{eq:sigma},
-\begin{equation}\label{eq:energy-split}
-   \int_G|\sigma|^2
-   =\frac\pi8+\pi\sum_{k\ge1}k(\alpha_k^2+\beta_k^2)-\mathcal D+\mathcal C .
-\end{equation}
 \end{lemma}
 
 \begin{proof}
-Decompose $\int_G=\int_{B_1}-\int_{B_1\setminus G}+\int_{G\setminus B_1}$. On
-$B_1$ the field equals $\nabla(u_{B_1}+h)$, and
+Expand $R^4-1=4\varphi+6\varphi^2+4\varphi^3+\varphi^4$. By
+\eqref{eq:constraints}, $4\int\varphi=-2\int\varphi^2$, so
 \[
-   \int_{B_1}|\nabla(u_{B_1}+h)|^2
-   =\int_{B_1}|\nabla u_{B_1}|^2+2\!\int_{B_1}\nabla u_{B_1}\!\cdot\!\nabla h
-     +\int_{B_1}|\nabla h|^2 .
+   \int_{S^1}(R^4-1)=4\int\varphi^2+\int(4\varphi^3+\varphi^4)
+   \le\bigl(4+4\eta+\eta^2\bigr)\|\varphi\|_{L^2}^2,
 \]
-The first term is $T(B_1)=\pi/8$. The cross term vanishes:
-$\int_{B_1}\nabla u_{B_1}\!\cdot\!\nabla h=-\int_{B_1}u_{B_1}\Delta
-h+\int_{\partial B_1}u_{B_1}\partial_\nu h=0$, since $\Delta h=0$ and
-$u_{B_1}|_{\partial B_1}=0$. By orthogonality of the harmonic modes and
-$\int_{B_1}|\nabla(r^k\cos k\theta)|^2=\pi k=\int_{B_1}|\nabla(r^k\sin
-k\theta)|^2$,
+using $\int|4\varphi^3+\varphi^4|\le(4\eta+\eta^2)\int\varphi^2$; this is
+\eqref{eq:moment}. For \eqref{eq:hlow}, from \eqref{eq:hdef},
+$P_{\ge2}h=\tfrac12P_{\ge2}\varphi+\tfrac14P_{\ge2}(\varphi^2)$ with
+$\|P_{\ge2}(\varphi^2)\|_{L^2}\le\|\varphi^2\|_{L^2}\le\|\varphi\|_{L^\infty}
+\|\varphi\|_{L^2}\le\eta\|\varphi\|_{L^2}$. Hence, by the triangle inequality,
+$\|P_{\ge2}h\|_{L^2}\ge\tfrac12\|P_{\ge2}\varphi\|_{L^2}-\tfrac14\eta
+\|\varphi\|_{L^2}$, and both terms are nonnegative; squaring and discarding
+the nonnegative square term,
 \[
-   \int_{B_1}|\nabla h|^2=\pi\sum_{k\ge1}k(\alpha_k^2+\beta_k^2).
+   \|P_{\ge2}h\|_{L^2}^2\ge\tfrac14\|P_{\ge2}\varphi\|_{L^2}^2
+   -2\cdot\tfrac12\cdot\tfrac14\eta\|P_{\ge2}\varphi\|_{L^2}\|\varphi\|_{L^2}
+   \ge\tfrac14\|P_{\ge2}\varphi\|_{L^2}^2-\tfrac14\eta\|\varphi\|_{L^2}^2,
 \]
-On the dimple $B_1\setminus G=\{p<0\}$ the field is still $\nabla(u_{B_1}+h)$, so
-$\int_{B_1\setminus G}|\sigma|^2=\mathcal D$. On the collar $G\setminus
-B_1=\{p>0\}$ the field is the collar branch, so $\int_{G\setminus
-B_1}|\sigma|^2=\mathcal C$. Assembling gives \eqref{eq:energy-split}.
+using $\|P_{\ge2}\varphi\|_{L^2}\le\|\varphi\|_{L^2}$ in the last step.
 \end{proof}
 
-We record the two energy densities in exact closed form. They are the heart of
-the argument: \emph{neither} grows with the frequency, because the collar
-corrector $c/r$ \emph{decays} and the dimple is a thin shell whose every harmonic
-monomial is killed by the Bernoulli bound \eqref{eq:bernoulli} below.
+\subsection{Proof of \texorpdfstring{\cref{thm:graphG}}{the theorem}}
 
-\paragraph{Collar (exact).}
-The collar integrand is $\bigl(-\tfrac r2+\tfrac cr\bigr)^2
-r=\tfrac{r^3}4-cr+\tfrac{c^2}r$; integrating in $r$ over $[1,1+p]$ gives, for each
-$\theta$ with $p=\varphi(\theta)>0$,
-\begin{equation}\label{eq:collar-exact}
-   \mathcal C(\theta)
-   :=\int_1^{1+p}\Bigl(-\tfrac r2+\tfrac{c}r\Bigr)^2 r\,dr
-   =\frac{(1+p)^4-1}{16}-\frac{c}2\bigl((1+p)^2-1\bigr)+c^2\log(1+p),
+By \cref{prop:realization} the graphs entering the reduction have amplitude
+$\|\varphi\|_{L^\infty}\le\eta\le C\dT^{1/8}$, so for $\dT$ small both
+$\|\varphi\|_{L^\infty}\le\eta_G=\tfrac1{80}$ and (since
+$\|\varphi\|_{L^2}\le\sqrt{2\pi}\,\|\varphi\|_{L^\infty}\le\sqrt{2\pi}/80
+\le\eps_1$, with $\eps_1$ from \cref{lem:modes}) the hypotheses below hold.
+We prove \eqref{eq:graphG} for every $\varphi$ with
+\begin{equation}\label{eq:thresh}
+   \|\varphi\|_{L^\infty}\le\eta_G=\tfrac1{80},
 \end{equation}
-with $c=c(\theta)=\partial_r h(1,\theta)$. Its second-order Taylor expansion is
-\begin{equation}\label{eq:collar-taylor}
-   \mathcal C(\theta)=p\bigl(\tfrac14-c+c^2\bigr)
-   +p^2\bigl(\tfrac38-\tfrac c2-\tfrac{c^2}2\bigr)+\mathcal C_3(\theta),
-   \qquad
-   |\mathcal C_3(\theta)|\le \tfrac{p^3}3\bigl(\tfrac12+c^2\bigr)\le
-   \eta_G\,p^2\bigl(\tfrac12+c^2\bigr),
-\end{equation}
-the cubic bound holding for $0\le p\le\eta_G\le1$ since the third $p$-derivative of
-\eqref{eq:collar-exact}, namely $\tfrac{3(1+p)}2+\tfrac{2c^2}{(1+p)^3}$, is
-$\le 3+2c^2\le 2(\tfrac12+c^2)$ once we keep the explicit $\tfrac13$ prefactor;
-the second inequality uses $p\le\eta_G$.
+which already forces $\|\varphi\|_{L^2}\le\sqrt{2\pi}/80<\eps_1$, so
+\cref{lem:modes,lem:taylor} apply with $\eta=\tfrac1{80}$.
 
-\paragraph{Dimple (exact).}
-With $\nabla u_{B_1}=-\tfrac r2\omega$ and $\nabla u_{B_1}\!\cdot\!\nabla h=-\tfrac
-r2\partial_r h$, the dimple integrand is $\tfrac{r^3}4-r^2\partial_r h+|\nabla
-h|^2 r$, a finite sum $\sum_{m\ge1}\kappa_m(\theta)\,r^m$ of monomials, and for
-$p=\varphi(\theta)<0$,
-\begin{equation}\label{eq:dimple-monomial}
-   \mathcal D(\theta):=\int_{1+p}^{1}\Bigl(\tfrac{r^3}4-r^2\partial_r h+|\nabla
-   h|^2 r\Bigr)dr,\qquad
-   \int_{1+p}^{1}r^m\,dr=\frac{1-(1+p)^{m+1}}{m+1} .
+By \cref{lem:annular} applied to $w=z$ (legitimate: $z$ is harmonic with
+outer trace $h$, and $1-\eta_G\le R\le1+\eta_G$ with $\eta_G\le\tfrac1{13}$,
+so $b(\eta_G)\ge\tfrac32$), then \eqref{eq:hlow} and the
+$\|P_{\ge2}\varphi\|^2\ge\tfrac{15}{16}\|\varphi\|^2$ of \cref{lem:modes},
+\begin{equation}\label{eq:zlow}
+   \int_G|\nabla z|^2
+   \ \ge\ \tfrac32\,\|P_{\ge2}h\|_{L^2}^2
+   \ \ge\ \tfrac32\Bigl(\tfrac14\cdot\tfrac{15}{16}-\tfrac14\eta_G\Bigr)
+          \|\varphi\|_{L^2}^2
+   \ =\ \Bigl(\tfrac{45}{128}-\tfrac38\eta_G\Bigr)\|\varphi\|_{L^2}^2 .
 \end{equation}
-The \emph{Bernoulli inequality} $(1+p)^{m+1}\ge1+(m+1)p$ ($p>-1$, $m\ge0$) yields,
-for $p<0$,
-\begin{equation}\label{eq:bernoulli}
-   0\le\int_{1+p}^1 r^m\,dr\le -p=|p|\le\eta_G
-   \qquad\text{and}\qquad
-   \Bigl|\int_{1+p}^1 r^m\,dr-|p|\Bigr|\le\tfrac12 m\,p^2,
-\end{equation}
-the second from $|r^m-1|\le m|p|$ on $[1+p,1]$. The first inequality is the key
-structural fact: \emph{every} monomial integral, of arbitrarily high exponent
-$m=j+k-1$, is bounded by the shell width $|p|$ alone, so no frequency growth
-survives the radial integration. The value of the integrand at $r=1$ is
-$\tfrac14-c+c^2+s^2$, where $s(\theta):=\tfrac1r\partial_\theta
-h(1,\theta)=\sum_k k(-\alpha_k\sin k\theta+\beta_k\cos k\theta)$ is the tangential
-trace, $\|s\|_{L^2}=\|c\|_{L^2}$.
-
-\begin{lemma}[Quadratic form and remainder]\label{lem:remainder}
-Assume $\|\varphi\|_{L^\infty}\le\eta_G\le\tfrac1{150}$ and the corrector
-\eqref{eq:gk}. Then
-\begin{equation}\label{eq:quadform}
-   \int_G|\sigma|^2
-   =\frac\pi8+\frac14\!\int_{S^1}\!\varphi+\frac38\!\int_{S^1}\!\varphi^2
-     +\pi\!\sum_{k\ge1}\!\bigl(k\alpha_k^2-k\alpha_k a_k\bigr)
-     +\pi\!\sum_{k\ge1}\!\bigl(k\beta_k^2-k\beta_k b_k\bigr)
-     +\mathcal R,
-\end{equation}
-where the remainder splits into a part controlled in the plain $L^2$ norm and a
-single dimple term controlled by the product of the $L^2$ and $\dot H^1$
-seminorms:
-\begin{equation}\label{eq:Rbound}
+Combining \eqref{eq:zlow} and the moment bound \eqref{eq:moment} in the exact
+identity \eqref{eq:identity8},
+\begin{equation}\label{eq:deffinal}
 \begin{aligned}
-   |\mathcal R|\ \le\ &C_0\,\eta_G\,\|\varphi\|_{L^2(S^1)}^2
-   \ +\ C_1\,\eta_G\,\|\varphi\|_{L^2(S^1)}\,\|\varphi\|_{\dot H^1(S^1)},\\
-   &\|\varphi\|_{\dot H^1}^2:=\pi\!\sum_{k\ge1}k^2(a_k^2+b_k^2),
-   \qquad C_0\le 8,\ C_1\le 4 .
+   \mathcal E(G)-\mathcal E(B_1)
+   &\ge\ \frac12\Bigl(\tfrac{45}{128}-\tfrac38\eta_G\Bigr)\|\varphi\|_{L^2}^2
+        -\frac1{32}\bigl(4+4\eta_G+\eta_G^2\bigr)\|\varphi\|_{L^2}^2\\
+   &=\ \Bigl(\tfrac{45}{256}-\tfrac18-\tfrac5{16}\eta_G-\tfrac1{32}\eta_G^2\Bigr)
+        \|\varphi\|_{L^2}^2
+   \ =\ \Bigl(\tfrac{13}{256}-\tfrac5{16}\eta_G-\tfrac1{32}\eta_G^2\Bigr)
+        \|\varphi\|_{L^2}^2 .
 \end{aligned}
 \end{equation}
-\end{lemma}
-
-\begin{proof}
-\emph{Kept quadratic.} The first-order term of \eqref{eq:collar-taylor} and the
-boundary value $\tfrac14-c$ of the dimple share the part $\tfrac14-c$, and the
-$p^2$-coefficient $\tfrac38$ is common; collecting from $\mathcal C$ (over
-$\{p>0\}$) and $-\mathcal D$ (over $\{p<0\}$) the contributions $\tfrac14 p-pc$
-and $\tfrac38 p^2$ that are independent of $c^2,s^2$ and of $p^3$ and higher
-yields the kept integrand $\tfrac14 p-pc+\tfrac38 p^2$ over the full circle:
-\begin{equation}\label{eq:kept}
-   \int_{S^1}\Bigl(\tfrac14\varphi-\varphi\,c+\tfrac38\varphi^2\Bigr)
-   =\tfrac14\!\int_{S^1}\!\varphi+\tfrac38\!\int_{S^1}\!\varphi^2
-     -\pi\!\sum_{k\ge1}k(\alpha_k a_k+\beta_k b_k),
+With $\eta_G=\tfrac1{80}$ the bracket equals
+$\tfrac{13}{256}-\tfrac5{1280}-\tfrac1{204800}=0.04687\ge0.046=:c_0$, so
+\begin{equation}\label{eq:Edown}
+   \mathcal E(G)-\mathcal E(B_1)\ \ge\ c_0\,\|\varphi\|_{L^2}^2,
+   \qquad c_0=0.046,
 \end{equation}
-by $\int_{S^1}\varphi c=\pi\sum_k k(\alpha_k a_k+\beta_k b_k)$ (Parseval). Adding
-$\pi\sum_k k(\alpha_k^2+\beta_k^2)$ from \eqref{eq:energy-split} produces exactly
-\eqref{eq:quadform}; everything else is $\mathcal R=\mathcal R_{\mathrm
-c}+\mathcal R_{\mathrm d}$, the collar and dimple residues.
+and therefore, by $\dstar(G)=\tfrac{16}\pi(\mathcal E(G)-\mathcal E(B_1))$,
+\begin{equation}\label{eq:dstarlow}
+   \dstar(G)\ \ge\ \frac{16 c_0}\pi\,\|\varphi\|_{L^2}^2
+   \ =\ \frac{0.736}\pi\,\|\varphi\|_{L^2}^2
+   \ \ge\ 0.234\,\|\varphi\|_{L^2}^2 .
+\end{equation}
 
-\emph{Collar residue $\mathcal R_{\mathrm c}$} (dropped terms of
-\eqref{eq:collar-taylor}). Using $|p|\le\eta_G$, $\int p^2=\|\varphi\|_{L^2}^2$,
-$\|c\|_{L^2}\le\|\varphi\|_{L^2}$ \eqref{eq:cL2}:
-$\int_{\{p>0\}}p\,c^2\le\eta_G\|\varphi\|_{L^2}^2$;
-$\bigl|\int p^2(\tfrac c2+\tfrac{c^2}2)\bigr|\le\tfrac12\eta_G\|\varphi\|_{L^2}^2
-+\tfrac12\eta_G^2\|\varphi\|_{L^2}^2\le\eta_G\|\varphi\|_{L^2}^2$; and
-$\int|\mathcal C_3|\le\eta_G\int p^2(\tfrac12+c^2)\le\tfrac32\eta_G
-\|\varphi\|_{L^2}^2$. Hence $|\mathcal R_{\mathrm c}|\le\tfrac72\eta_G
-\|\varphi\|_{L^2}^2$.
-
-\emph{Dimple residue $\mathcal R_{\mathrm d}$.} By the second bound in
-\eqref{eq:bernoulli}, the exact dimple differs from $\int_{\{p<0\}}|p|\,
-(\tfrac14-c+c^2+s^2)$ (boundary value times shell width) by at most
-$\tfrac12\int_{\{p<0\}}p^2\sum_m m|\kappa_m(\theta)|$. The boundary-value part
-contributes the kept $\tfrac14 p-pc$ together with $\int_{\{p<0\}}|p|(c^2+s^2)\le
-\eta_G\int(c^2+s^2)\le2\eta_G\|\varphi\|_{L^2}^2$. The weighted sum
-$\sum_m m|\kappa_m(\theta)|$ comes from three pieces: $\tfrac{r^3}4$ gives
-$\tfrac34$; $|\nabla h|^2 r$ gives $\le3(c^2+s^2)$ at $r=1$, contributing
-$\tfrac12\int p^2\cdot3(c^2+s^2)\le\tfrac32\eta_G^2\|\varphi\|_{L^2}^2$; and the
-mixed term $-r^2\partial_r h$ gives a factor with one derivative more than $c$,
-namely (at $r=1$) bounded by $2|\partial_r h|+|\partial_r^2 h|$. The first is
-$\le2|c|$ (giving an $L^2$ piece $\le\tfrac12\int p^2\cdot2|c|\le\eta_G^2
-\|\varphi\|_{L^2}\le\eta_G\|\varphi\|_{L^2}^2$). The genuinely frequency-sensitive
-part is $\tfrac12\int_{\{p<0\}}p^2\,|\partial_r^2 h(1,\cdot)|$, where
-$\partial_r^2 h(1,\theta)=\sum_k k(k-1)(\alpha_k\cos k\theta+\beta_k\sin
-k\theta)$. By the damping \eqref{eq:gk}, $k(k-1)|\alpha_k|=\tfrac12
-m_k k(k-1)|a_k|\le (k-1)|a_k|\le k|a_k|$, so $\|\partial_r^2
-h(1,\cdot)\|_{L^2}^2=\pi\sum_k\bigl(k(k-1)\bigr)^2(\alpha_k^2+\beta_k^2)\le
-\pi\sum_k k^2(a_k^2+b_k^2)=\|\varphi\|_{\dot H^1}^2$. Using $p^2\le\eta_G|p|\le
-\eta_G|\varphi|$ and Cauchy--Schwarz in $\theta$,
+Finally we bound the asymmetry. Comparing $G$ with $B_1$,
 \[
-   \tfrac12\!\int_{\{p<0\}}\!\!p^2\,|\partial_r^2 h(1,\cdot)|
-   \le\tfrac12\eta_G\!\int_{S^1}\!|\varphi|\,|\partial_r^2 h(1,\cdot)|
-   \le\tfrac12\eta_G\,\|\varphi\|_{L^2}\,\|\partial_r^2 h(1,\cdot)\|_{L^2}
-   \le\tfrac12\eta_G\,\|\varphi\|_{L^2}\,\|\varphi\|_{\dot H^1}.
+   |G\triangle B_1|=\int_{S^1}\Bigl|\int_0^{R}r\,dr-\int_0^1 r\,dr\Bigr|\d\theta
+   =\frac12\int_{S^1}|R^2-1|\d\theta
+   =\frac12\int_{S^1}|2\varphi+\varphi^2|\d\theta
+   \le\bigl(1+\tfrac{\eta_G}2\bigr)\!\int_{S^1}\!|\varphi|\d\theta,
 \]
-This is the only frequency-sensitive contribution, and it appears in
-\eqref{eq:Rbound} with $C_1$. Hence $|\mathcal R_{\mathrm d}|\le 4\eta_G
-\|\varphi\|_{L^2}^2+ \tfrac12\eta_G\|\varphi\|_{L^2}\|\varphi\|_{\dot H^1}$, and
-\eqref{eq:Rbound} holds with $C_0\le8$ (collecting $\tfrac72$ from
-$\mathcal R_{\mathrm c}$ and $4$ from $\mathcal R_{\mathrm d}$, with slack) and
-$C_1\le4$.
-\end{proof}
-
-\begin{remark}[The frequency-sensitive residue and the rôle of the split]
-\label{rem:freq}
-The second term of \eqref{eq:Rbound} carries $\|\varphi\|_{\dot H^1}$, a
-quantity not controlled by $\|\varphi\|_{L^\infty}$ and $|G|=\pi$ alone: for a
-single mode $\varphi=a\cos k\theta$ it equals $\sqrt\pi\,k a$, growing in $k$.
-This residue is genuine --- it is the dimple's second-order radial curvature,
-$\propto\partial_r^2 h$. The damping \eqref{eq:gk} reduces it from the
-$\dot H^2$-product that the \emph{undamped} field would produce (a half-derivative
-worse) down to the $L^2$--$\dot H^1$ product above, but does not remove it.
-Because the leading coefficients $D_k$ are \emph{bounded} ($D_k\le\tfrac{3\pi}4$),
-this residue cannot be absorbed uniformly in $k$ by the quadratic form, and a
-naive ``quadratic form minus small remainder'' argument fails at high frequency.
-We therefore split the frequencies in \cref{prop:coercive}: on the low band
-$2\le k\le K$ the residue is $\le C_1\eta_G K\,\rho^2$ and is absorbed by the
-quadratic form; on the high band $k>K$ we abandon the second-order expansion
-entirely and bound the \emph{exact} admissible energy directly, using the
-structural facts \eqref{eq:bernoulli} (thin dimple) and the decay of the collar
-corrector to show $\int_G|\sigma|^2$ stays below $\tfrac\pi8$ by the required
-margin. This matches the heuristic that high frequency is the \emph{easy} case:
-for $\varphi=a\cos k\theta$, $\AF(G)\sim a$ is $k$-independent while
-$\dstar(G)\gtrsim a^2$ holds with room to spare.
-\end{remark}
-
-\subsection{Coercivity of the deficit}
-
-We read off the per-mode quadratic coefficient.
-
-\begin{lemma}[Per-mode deficit coefficient]\label{lem:permode}
-Under the volume constraint \eqref{eq:vol-constraint}, the net coefficient of
-$a_k^2$ in $\tfrac\pi8-\int_G|\sigma|^2$ (and likewise of $b_k^2$), \emph{before}
-the remainder $\mathcal R$, is
-\begin{equation}\label{eq:Dk}
-   D_k:=\pi\Bigl(\tfrac12 k m_k-\tfrac14 k m_k^2-\tfrac14\Bigr),
-   \qquad m_k=\min(1,2/k).
+so by Cauchy--Schwarz $|G\triangle B_1|\le(1+\tfrac{\eta_G}2)\sqrt{2\pi}\,
+\|\varphi\|_{L^2}$, and since $\AF(G)\le|G\triangle B_1|/\pi$,
+\begin{equation}\label{eq:Aupper}
+   \AF(G)^2\ \le\ \frac{2(1+\eta_G/2)^2}\pi\,\|\varphi\|_{L^2}^2
+   \ \le\ \frac{2(1+1/160)^2}\pi\,\|\varphi\|_{L^2}^2\ \le\ 0.645\,\|\varphi\|_{L^2}^2 .
 \end{equation}
-One has
-\begin{equation}\label{eq:Dk-floor}
-   D_1=0,\qquad D_2=\frac\pi4,\qquad
-   D_k=\pi\Bigl(\tfrac34-\tfrac1k\Bigr)\ \ge\ \frac{5\pi}{12}\quad(k\ge3),
-   \qquad\text{hence } D_k\ge\frac\pi4\ \ \forall k\ge2 .
-\end{equation}
-\end{lemma}
-
-\begin{proof}
-By \eqref{eq:vol-constraint}, $\int_{S^1}\varphi=-\int_{S^1}\varphi^2$, so
-$\tfrac14\int\varphi+\tfrac38\int\varphi^2=-\tfrac18\int\varphi^2+\tfrac38
-\int\varphi^2=\tfrac14\int\varphi^2$, whose $k$-th cosine contribution is
-$+\tfrac14\pi a_k^2$. By \eqref{eq:gk}, $k\alpha_k^2=\tfrac14 k m_k^2 a_k^2$ and
-$k\alpha_k a_k=\tfrac12 k m_k a_k^2$, so the $k$-th cosine contribution of the
-corrector sum $\pi\sum_k(k\alpha_k^2-k\alpha_k a_k)$ in \eqref{eq:quadform} is
-$\pi(\tfrac14 k m_k^2-\tfrac12 k m_k)a_k^2$. Hence the coefficient of $a_k^2$ in
-$\int_G|\sigma|^2-\tfrac\pi8$ (modulo $\mathcal R$) is $\pi(\tfrac14 k
-m_k^2-\tfrac12 k m_k+\tfrac14)$, and its negative is $D_k$. Evaluating:
-$k=2$ ($m_2=1$): $D_2=\pi(1-\tfrac12-\tfrac14)=\tfrac\pi4$; $k\ge3$ ($m_k=2/k$):
-$\tfrac12 km_k=1$, $\tfrac14 km_k^2=\tfrac1k$, so
-$D_k=\pi(1-\tfrac1k-\tfrac14)=\pi(\tfrac34-\tfrac1k)\ge\pi(\tfrac34-\tfrac13)
-=\tfrac{5\pi}{12}$; $k=1$ ($m_1=1$):
-$D_1=\pi(\tfrac12-\tfrac14-\tfrac14)=0$.
-\end{proof}
-
-\begin{lemma}[Normalisation kills modes $0$ and $1$]\label{lem:normmodes}
-Under \eqref{eq:vol-constraint} and barycentre $0$, with
-$\|\varphi\|_{L^\infty}\le\eta_G\le\tfrac1{150}$ and $\rho$ as in \eqref{eq:rho},
-\begin{equation}\label{eq:lowmodes}
-   2a_0^2+a_1^2+b_1^2\ \le\ \tfrac1{10}\,\rho^2,
-   \qquad\text{hence}\qquad
-   \|\varphi\|_{L^2}^2=\pi\bigl(2a_0^2+a_1^2+b_1^2+\rho^2\bigr)
-   \le\tfrac{11}{10}\pi\,\rho^2 .
-\end{equation}
-\end{lemma}
-
-\begin{proof}
-By \eqref{eq:vol-constraint}, $2\pi a_0=-\int_{S^1}\varphi^2$, so
-$|a_0|\le\tfrac1{2\pi}\|\varphi\|_{L^\infty}\!\int|\varphi|
-\le\tfrac1{2\pi}\eta_G\sqrt{2\pi}\,\|\varphi\|_{L^2}$, whence $2a_0^2\le
-\tfrac{\eta_G^2}\pi\|\varphi\|_{L^2}^2$. For the barycentre, $\int_G
-x\,dx=\int_0^{2\pi}\tfrac{(1+\varphi)^3}3\,\omega\,d\theta$; its linear part is
-$\int\varphi\,\omega=\pi(a_1,b_1)$, and setting the moment to $0$ gives
-$\pi^2(a_1^2+b_1^2)\le\bigl(\tfrac13\!\int(3|\varphi|^2+|\varphi|^3)\bigr)^2
-\le(2\!\int\varphi^2)^2\le4\eta_G^2(\sqrt{2\pi}\|\varphi\|_{L^2})^2
-=8\pi\eta_G^2\|\varphi\|_{L^2}^2$. Thus $2a_0^2+a_1^2+b_1^2\le
-\bigl(\tfrac{\eta_G^2}\pi+\tfrac{8\eta_G^2}\pi\bigr)\|\varphi\|_{L^2}^2
-=\tfrac{9\eta_G^2}\pi\|\varphi\|_{L^2}^2$. Inserting
-$\|\varphi\|_{L^2}^2=\pi(2a_0^2+a_1^2+b_1^2+\rho^2)$ and solving,
-$2a_0^2+a_1^2+b_1^2\le\tfrac{9\eta_G^2}{1-9\eta_G^2}\rho^2$. With
-$\eta_G\le\tfrac1{150}$ the factor is $\le\tfrac1{10}$, giving
-\eqref{eq:lowmodes}.
-\end{proof}
-
-The leading quadratic form is coercive with constant $\tfrac\pi4$, but the
-$\dot H^1$-residue in \eqref{eq:Rbound} is not absorbable by it uniformly in $k$
-(\cref{rem:freq}). We therefore split the spectrum at
-\begin{equation}\label{eq:Kdef}
-   K:=12 .
-\end{equation}
-On the \emph{low band} $2\le k\le K$ the residue is harmless; on the
-\emph{high band} $k>K$ we bound the exact energy directly, via a pointwise
-collar/dimple comparison that needs no expansion. We first isolate the
-single-mode positivity that drives the high band.
-
-\begin{lemma}[Pointwise collar/dimple positivity]\label{lem:highband}
-Let $q\in(0,\eta_G]$ with $\eta_G\le\tfrac1{150}$, $k\ge3$, and set $R_\pm=1\pm q$.
-For the damped single mode (so that the boundary trace satisfies $c=q$, by
-$k\alpha_k=a$, $m_k=2/k$), the matched collar/dimple density
-\begin{equation}\label{eq:gqdef}
-   g_k(q):=\underbrace{\frac{1-R_-^4}{16}+q\,\frac{1-R_-^{k+2}}{k+2}
-     +a^2\,\frac{1-R_-^{2k}}{2k}}_{\text{dimple at }p=-q}
-     \ -\ \underbrace{\Bigl[\frac{R_+^4-1}{16}-\frac q2\bigl(R_+^2-1\bigr)
-       +q^2\log R_+\Bigr]}_{\text{collar at }p=+q}
-\end{equation}
-satisfies $g_k(q)\ge\tfrac15 q^2\ge0$.
-\end{lemma}
-
-\begin{proof}
-The dimple's last two summands are nonnegative (each is a positive multiple of
-$1-R_-^{m}\ge0$ for $R_-=1-q\in(0,1)$), so we discard them. For the rest, expand
-exactly:
+Combining \eqref{eq:Aupper} with \eqref{eq:dstarlow},
 \[
-   \frac{1-R_-^4}{16}-\frac{R_+^4-1}{16}
-   =\frac{2-R_+^4-R_-^4}{16}
-   =\frac{2-(2+12q^2+2q^4)}{16}=-\frac{3q^2}4-\frac{q^4}8,
+   \AF(G)^2\ \le\ 0.645\,\|\varphi\|_{L^2}^2
+   \ \le\ \frac{0.645}{0.234}\,\dstar(G)\ =\ 2.76\,\dstar(G)\ \le\ 3\,\dstar(G),
 \]
-using $(1+q)^4+(1-q)^4=2+12q^2+2q^4$; and the two collar correction terms give
-$+\tfrac q2(R_+^2-1)=q^2+\tfrac{q^3}2$ and $-q^2\log(1+q)$. Hence
-\[
-   g_k(q)\ \ge\ -\frac{3q^2}4-\frac{q^4}8+q^2+\frac{q^3}2-q^2\log(1+q)
-   =\frac{q^2}4+\frac{q^3}2-\frac{q^4}8-q^2\log(1+q).
-\]
-Since $0<q\le\eta_G\le\tfrac1{150}$ and $\log(1+q)\le q\le\tfrac1{150}$, the
-negative terms obey $\tfrac{q^4}8+q^2\log(1+q)\le q^2(\tfrac{q^2}8+q)\le
-q^2\cdot\tfrac1{100}$, so $g_k(q)\ge q^2(\tfrac14-\tfrac1{100})\ge\tfrac15 q^2$.
-\end{proof}
-
-\begin{proposition}[Deficit coercivity]\label{prop:coercive}
-For $\eta_G=\tfrac1{150}$, any normalised radial graph \eqref{eq:norm} with
-$\|\varphi\|_{L^\infty}\le\eta_G$ and barycentre $0$ obeys
-\begin{equation}\label{eq:coercive}
-   \dstar(G)\ \ge\ \rho^2=\sum_{k\ge2}(a_k^2+b_k^2).
-\end{equation}
-\end{proposition}
-
-\begin{proof}
-By \cref{lem:dual}, $\tfrac\pi8-T(G)\ge\tfrac\pi8-\int_G|\sigma|^2$, and dividing
-by $T(B_G)=\tfrac\pi8$ it suffices to prove \eqref{eq:goal} below:
-\begin{equation}\label{eq:goal}
-   \frac\pi8-\int_G|\sigma|^2\ \ge\ \frac\pi8\,\rho^2 .
-\end{equation}
-
-\emph{Single-mode coercivity.} Take first $\varphi=a\cos k\theta$ (a $\sin$ or a
-phase is identical by rotation), $0<a\le\eta_G$, with the volume constant $a_0$ of
-\eqref{eq:vol-constraint} ($|a_0|=O(a^2)$). By \cref{lem:energy},
-\begin{equation}\label{eq:single-defi}
-   \frac\pi8-\int_G|\sigma|^2=\mathcal D-\mathcal C-\pi k\alpha_k^2 .
-\end{equation}
-For $k\ge3$ the damped corrector gives $k\alpha_k=a$, so the boundary trace
-satisfies $c(\theta)=k\alpha_k\cos k\theta=a\cos k\theta=p$ \emph{exactly} along
-the curve, and pairing each collar point ($p=+q$) with the dimple point of equal
-$|p|$ ($p=-q$) turns $\mathcal D-\mathcal C$ into $\int_{\{p>0\}}g_k(|p|)\,d\theta$
-with $g_k$ the matched density of \cref{lem:highband}, which retains \emph{all}
-the nonnegative dimple terms of \eqref{eq:gqdef}. By \cref{lem:highband},
-$g_k(q)\ge\tfrac15 q^2>0$, so $\mathcal D-\mathcal C>0$: the field energy excess
-over the modes is \emph{negative even before the volume gain} --- the structural
-positivity that makes \emph{every} frequency admissible and defeats the
-high-frequency obstruction. The exact value of
-$\mathcal D-\mathcal C=\int_{\{p>0\}}g_k(|p|)\,d\theta$ (with $a_0$ producing an
-$O(a_0 a)=O(\eta_G a^2)$ shift of the matching, absorbed in the margin below)
-minus the decaying harmonic term $\pi k\alpha_k^2=\pi a^2/k$ gives via
-\eqref{eq:single-defi} the single-mode coercivity
-\begin{equation}\label{eq:permode-coercive}
-   \frac\pi8-\int_G|\sigma|^2\ \ge\ \frac\pi8(a_k^2+b_k^2)\qquad(k\ge2),
-\end{equation}
-with margin: the ratio $\dstar(G)/(a_k^2+b_k^2)$, evaluated exactly from
-\eqref{eq:collar-exact}--\eqref{eq:dimple-monomial}, equals $1.98$ at $k=2$ (the
-ellipse), rises to about $5$ for moderate $k$, and returns to $\approx1.98$ as
-$k\to\infty$, never dropping below $1$ (\cref{rem:numerics}). For $k=2$ the
-corrector is undamped ($m_2=1$) and \cref{lem:permode} gives the exact leading
-coefficient $D_2=\tfrac\pi4$ (this already \emph{incorporates} the volume
-constraint, which converts $\tfrac14\!\int\varphi+\tfrac38\!\int\varphi^2$ into
-$\tfrac14\!\int\varphi^2$), the remainder being $O(\eta_G a^2)$: this is the
-binding mode, where \eqref{eq:permode-coercive} is closest to equality.
-
-\emph{Assembly.} For a general $\varphi$ the field $\sigma$ is affine in
-$\varphi$, the harmonic and kept-quadratic parts of $\int_G|\sigma|^2$ are
-diagonal in $k$ (\cref{lem:permode}), and the only mode coupling is the
-collar/dimple residue, confined to the $\eta_G$-layer $\{\,||x|-1|<\eta_G\,\}$ and
-bounded by \eqref{eq:Rbound}. Splitting at $K=12$, the diagonal sum of the
-single-mode lower bounds \eqref{eq:permode-coercive} gives
-$\tfrac\pi8\rho^2=\tfrac\pi8(\rho_{\mathrm{lo}}^2+\rho_{\mathrm{hi}}^2)$, while the
-off-diagonal layer coupling is controlled as follows. On the low band $k\le K$ the
-residue \eqref{eq:Rbound} is $\le(C_0+C_1K)\eta_G\,\pi\rho_{\mathrm{lo}}^2$, which
-is absorbed once we use the genuine (rather than leading) per-mode margin: by
-\eqref{eq:permode-coercive} the low band carries deficit
-$\ge\tfrac\pi8\rho_{\mathrm{lo}}^2$ with the ellipse extremal, and the
-numerically-verified margin (\cref{rem:numerics}, ratio $\ge1.98$) leaves a factor
-$\ge\tfrac{15}8$ of slack. On the high band, \cref{lem:highband} controls the
-layer integrand pointwise, so the cross-band coupling
-$2C_1\eta_G\|\varphi_{\mathrm{lo}}\|_{L^2}\|\varphi_{\mathrm{hi}}\|_{\dot H^1}$ is
-dominated by the high-band excess (which exceeds $\tfrac\pi6\rho_{\mathrm{hi}}^2$,
-leaving $\tfrac\pi{24}$ of slack). Combining, \eqref{eq:goal} holds; see
-\cref{rem:assembly} for the precise status of the off-diagonal estimate.
-\end{proof}
-
-\begin{remark}[Status of the proof of \eqref{eq:coercive}]\label{rem:assembly}
-We delineate precisely what is established in closed form and what is certified
-by an explicit (but lengthy) computation, so that no step is overstated. The
-following are rigorous and self-contained: the exact energy identity
-\cref{lem:energy}; the exact collar/dimple forms
-\eqref{eq:collar-exact}--\eqref{eq:dimple-monomial} and the Bernoulli bound
-\eqref{eq:bernoulli}; the exact diagonal quadratic coefficient
-$D_k\ge\tfrac\pi4$ (\cref{lem:permode}), \emph{sharp and binding at $k=2$};
-the remainder structure \eqref{eq:Rbound} with the damping reducing it to the
-$L^2$--$\dot H^1$ product; and the pointwise positivity $g_k(q)\ge\tfrac15 q^2$
-of \cref{lem:highband}, which shows the matched collar/dimple density is
-nonnegative \emph{at every frequency}, the structural fact that defeats the
-high-frequency obstruction. In particular $\mathcal D-\mathcal C>0$ for every
-single mode, so the field's energy excess is, mode by mode, dominated by the
-harmonic term plus the volume gain, both controlled in closed form. Two
-ingredients are certified by explicit evaluation of the exact admissible energy
-$\int_G|\sigma|^2$ (\cref{lem:dual}) rather than by a closed-form scalar
-inequality, the pointwise floor $g_k(q)\ge\tfrac15 q^2$ being too lossy to give
-the sharp ratio directly:
-\begin{itemize}[leftmargin=1.4em]
-\item \emph{Single-mode sharpness} \eqref{eq:permode-coercive}: evaluating
-$\int_{\{p>0\}}g_k(|p|)\,d\theta-\pi k\alpha_k^2$ plus the volume gain along the
-curve $p=a\cos k\theta$ gives $\dstar(G)/(a_k^2+b_k^2)\ge1.98$ for all $k\ge2$ and
-all amplitudes $\le\eta_G$ (computed for $2\le k\le10^4$; the value is $1.98$ at
-$k=2$ and again as $k\to\infty$, larger in between).
-\item \emph{Multi-mode off-diagonal coupling}: the collar/dimple residue mixing
-distinct frequencies, supported in the $\eta_G$-layer and bounded in
-\eqref{eq:Rbound} by $C_1\eta_G\|\varphi\|_{L^2}\|\varphi\|_{\dot H^1}$, must not
-consume the per-mode margin. Direct integration of $\int_G|\sigma|^2$ over a large
-family of multi-mode profiles (one to six modes spanning $2\le k\le400$, amplitude
-$\eta_G=\tfrac1{150}$) gives $\dstar(G)/\rho^2\ge2.48$, twice the required $1$.
-\end{itemize}
-A fully closed-form treatment of both is elementary but tedious (per-mode
-comparison of the layer residue against the gain $D_k$, with \cref{lem:highband}
-controlling the high band pointwise); we record the certified inequalities and
-use only the clean conclusion $\dstar(G)\ge\rho^2$. The structural content of the
-proof --- the construction \eqref{eq:sigma}, the exact identity, the sharp $k=2$
-constant, and the frequency-uniform positivity $g_k\ge0$ --- is closed-form and
-is what makes the theorem true; the residual is a quantitative margin check.
-\end{remark}
-
-\begin{remark}[Quantitative margin and numerical confirmation]\label{rem:numerics}
-A direct evaluation of the explicit admissible energy $\int_G|\sigma|^2$ ---
-itself a rigorous upper bound for $T(G)$ by \cref{lem:dual}, needing no
-remainder estimate --- confirms \eqref{eq:coercive} with margin. For a single
-mode $\varphi=a\cos k\theta$ (volume-corrected) the ratio
-$\dstar(G)/(a^2)$ has small-amplitude limit $\tfrac8\pi D_k$, equal to $2$ at
-$k=2$, $8(\tfrac34-\tfrac1k)$ for $k\ge3$, and approaching $6$ as $k\to\infty$;
-its infimum over $k\ge2$ is the ellipse value $2$. At the full amplitude
-$a=\tfrac1{150}$ the ratio $\dstar(G)/\rho^2$, computed by numerical
-integration of \eqref{eq:energy-split}, equals $1.989$ at $k=2$ and stays above
-$1.87$ for every tested frequency up to $k=3200$ --- in particular it never
-drops below $1$, in agreement with \eqref{eq:coercive}, and the decaying collar
-corrector is seen to be essential (the same evaluation with an interior
-corrector continued into the collar turns negative near $k\approx1600$). For
-multi-mode profiles the ratio is larger still. We adopt the clean bound
-\eqref{eq:coercive}, $\dstar(G)\ge\rho^2$; the value of $C_G$ below uses only it.
-\end{remark}
-
-\subsection{The asymmetry upper bound and conclusion}
-
-\begin{lemma}[Asymmetry bound]\label{lem:fuglede}
-For a normalised radial graph \eqref{eq:norm} with
-$\|\varphi\|_{L^\infty}\le\tfrac1{150}$ and barycentre $0$,
-\begin{equation}\label{eq:asym}
-   \AF(G)^2\ \le\ \frac{16}{\pi}\,\rho^2 .
-\end{equation}
-\end{lemma}
-
-\begin{proof}
-As $|G|=\pi$, the concentric unit ball is admissible in \eqref{eq:dstarAdef}, so
-$\AF(G)\le\pi^{-1}|G\triangle B_1|$ and, in polar form,
-\[
-   |G\triangle B_1|=\int_0^{2\pi}\Bigl|\varphi+\tfrac12\varphi^2\Bigr|\d\theta
-   \le\bigl(1+\tfrac12\eta_G\bigr)\!\int_0^{2\pi}\!|\varphi|
-   \le\tfrac{301}{300}\sqrt{2\pi}\,\|\varphi\|_{L^2}.
-\]
-Hence $\AF(G)^2\le\pi^{-2}(\tfrac{301}{300})^2 2\pi\|\varphi\|_{L^2}^2\le
-\tfrac3\pi\|\varphi\|_{L^2}^2$, and by \cref{lem:normmodes}
-$\|\varphi\|_{L^2}^2\le\tfrac{11}{10}\pi\rho^2$, so
-$\AF(G)^2\le\tfrac{33}{10}\rho^2\le\tfrac{16}\pi\rho^2$ (as
-$\tfrac{33}{10}<\tfrac{16}\pi\approx5.09$).
-\end{proof}
-
-\begin{proof}[Proof of \cref{thm:graphG}]
-After the dilation and translation reducing to \eqref{eq:norm} with barycentre
-$0$, \cref{prop:coercive} gives $\dstar(G)\ge\rho^2$ and \cref{lem:fuglede}
-gives $\AF(G)^2\le\tfrac{16}\pi\rho^2$. Therefore
-\[
-   \AF(G)^2\le\frac{16}\pi\rho^2\le\frac{16}\pi\,\dstar(G)\le 48\,\dstar(G),
-\]
-since $\tfrac{16}\pi\approx5.09<48$. This is \eqref{eq:graphG} with
-$\eta_G=\tfrac1{150}$, $C_G=48$ (any constant $\ge\tfrac{16}\pi$ works; we report
-the safe value $48$).
-\end{proof}
+which is \eqref{eq:graphG} with $C_G=3$.\qed
 
 \begin{remark}[Sharpness and what is used]\label{rem:sharp}
-The exponent $2$ in \eqref{eq:graphG} is sharp: for the pure mode
-$\varphi=a\cos2\theta$ (a small ellipse), after normalisation $\AF(G)^2\sim c_1
-a^2$ and $\dstar(G)\sim c_2 a^2$ as $a\to0$ with $c_1,c_2>0$, so
-$\AF(G)^2/\dstar(G)$ has a finite positive limit and no exponent larger than $2$
-can hold. (Concretely $\tfrac8\pi D_2=2$ is the small-amplitude torsional
-deficit constant of the ellipse, the classical Saint--Venant extremal.) The
-proof uses only the two variational characterisations of torsion
-(\cref{lem:dual}; elementary), harmonicity of $r^k e^{\mathrm i k\theta}$, the
-divergence theorem on the disc, Parseval, the Bernoulli inequality, and the
-volume/barycentre normalisations --- \emph{no} quantitative isoperimetric
-inequality, \emph{no} selection or symmetrisation, \emph{no} spectral input, and
-\emph{no} boundary regularity beyond the Lipschitz graph structure (in
-particular \emph{no} slope smallness).
+The exponent $2$ in \eqref{eq:graphG} is sharp: for $\varphi=a\cos2\theta$
+(a small ellipse) one has $\AF(G)^2\sim c_1a^2$ and $\dstar(G)\sim c_2a^2$ as
+$a\to0$ with $c_1,c_2>0$, so $\AF(G)^2/\dstar(G)$ tends to a finite positive
+limit and no exponent larger than $2$ can hold. The proof uses only: the
+exact energy identity \cref{lem:identity} (integration by parts and the
+radial-graph area element); the Dirichlet principle and a one-dimensional
+Cauchy--Schwarz along radii (\cref{lem:annular}); the harmonicity of the
+disc modes $r^k e^{\mathrm i k\theta}$; Parseval; and the volume/barycentre
+constraints. There is \emph{no} quantitative isoperimetric inequality,
+\emph{no} selection or symmetrisation, \emph{no} second shape derivative,
+and crucially \emph{no} slope or curvature control on $\partial G$ --- only
+the $L^\infty$ amplitude bound. The coercive output is at the $L^2$
+(Fraenkel) scale; the stronger $\dot H^{1/2}$ bound is false at this level of
+generality (high-frequency ripples) but is not needed. The constants
+\eqref{eq:graphG-const} are not optimised; the threshold $\eta\le1/13$ for
+$b(\eta)\ge3/2$ in \cref{lem:annular} is the only place the amplitude enters
+the coercivity, and any smaller absolute $\eta_G$ is admissible, which is all
+\cref{sec:main} requires since the inset amplitude is $O(\dT^{1/8})\to0$.
 \end{remark}
