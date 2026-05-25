@@ -27,35 +27,51 @@
 \newcommand{\eps}{\varepsilon}
 \newcommand{\Hn}{\mathcal H^{n-1}}
 \newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\|#1\right\|}
 \newcommand{\Per}{P}
+\newcommand{\Otilde}{\widetilde{\Omega}}
+\newcommand{\Bstar}{B^*}
+\newcommand{\deltaFK}{\delta_{\mathrm{FK}}}
+\newcommand{\dx}{\,dx}
+\newcommand{\dt}{\,dt}
+\newcommand{\dH}{\,d\mathcal H^{n-1}}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\Tmod}{T_{\mathrm{mod}}}
 
-\title[Moving-ball closure of the bad-density step]
-{A moving-ball closure of the bad-density step\\
-in the level-set route to sharp Saint--Venant stability}
+\title[Sharp quantitative Faber--Krahn stability]
+{The sharp quantitative Faber--Krahn inequality\\
+via the level-set moving-ball route}
 \author{}
 \date{May 2026}
 
 \begin{document}
 
 \begin{abstract}
-For a bounded open set \(\Om\subset\R^n\) of volume \(\omega_n\) we prove the
-bounded sharp Saint--Venant stability estimate
-\(\Fr(\Om)^2\le C\,\dT(\Om)\), where \(\Fr\) is the Fraenkel asymmetry and
-\(\dT\) the Saint--Venant deficit.  The argument is built around the unscaled
-moving-ball distance \(q(\rho)=\inf_{z}|E_\rho\Delta B_\rho(z)|\) on the
-torsion superlevel sets \(E_\rho\).  We first establish, on reduced boundaries
-and for almost every level, the exact level-set deficit identity expressing
-\(\dT\) as a weighted integral of the Cauchy--Schwarz defect \(D_H\) and the
-isoperimetric defect \(D_I\), and derive from it a profile-gap identity and a
-bad-density bound.  Nestedness gives a perimeter-free Lipschitz bound for
-\(q\); we then prove a finite-perimeter one-sided affine first variation for
-\(q\), a positive kinetic estimate, and an endpoint trace, which together close
-the stability estimate.  The same-centre good-level package is obtained from
-the Fusco--Julin strong quantitative isoperimetric inequality and an elementary
-reduced-boundary radial trace lemma.  The manuscript is self-contained modulo
-standard tools for sets of finite perimeter (the BV coarea formula, the
-Gauss--Green theorem, and Reshetnyak continuity) and the cited isoperimetric
-theorems.
+We prove the sharp quantitative Faber--Krahn inequality: there is a dimensional
+constant \(c_{\mathrm{FK}}(n)>0\) such that every open set \(\Om\subset\R^n\)
+with \(0<|\Om|<\infty\) satisfies
+\[
+   \Bigl(\tfrac{|\Om|}{\omega_n}\Bigr)^{2/n}
+   \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)
+   \;\ge\; c_{\mathrm{FK}}(n)\,\Fr(\Om)^2 ,
+\]
+where \(\lambda_1\) is the first Dirichlet eigenvalue, \(\Bstar\) the ball of
+the same volume, and \(\Fr\) the Fraenkel asymmetry; the exponent \(2\) is
+sharp.  The proof is organised around the torsion function and the unscaled
+moving-ball distance \(q(\rho)=\inf_{z}|E_\rho\Delta B_\rho(z)|\) on its
+superlevel sets \(E_\rho\).  On reduced boundaries and for almost every level we
+establish an exact level-set deficit identity expressing the Saint--Venant
+deficit as a weighted integral of a Cauchy--Schwarz defect \(D_H\) and an
+isoperimetric defect \(D_I\); nestedness gives a perimeter-free Lipschitz bound
+for \(q\); a finite-perimeter affine first variation for \(q\), a positive
+kinetic estimate, and an endpoint trace yield bounded sharp Saint--Venant
+stability \(\Fr(\Om)^2\le C(n,R)\,\dT(\Om)\) for \(\Om\subset B_R\).  A
+constructive De~Giorgi truncation removes the confinement, and the
+Kohler--Jobin rearrangement transfers the Saint--Venant estimate to the
+eigenvalue.  Apart from the Fusco--Julin strong quantitative isoperimetric
+inequality and standard tools for sets of finite perimeter, the argument --
+including the bounded reduction and the Kohler--Jobin inequality -- is
+self-contained.
 \end{abstract}
 
 \maketitle
@@ -63,17 +79,38 @@ theorems.
 
 \section{Introduction}\label{sec:intro}
 
-Let \(\Om\subset\R^n\) (\(n\ge2\)) be a bounded open set with \(|\Om|=\omega_n\)
-and let \(u=u_\Om\) be its torsion function.  Writing \(\dT(\Om)\) for the
-Saint--Venant deficit and \(\Fr(\Om)\) for the Fraenkel asymmetry, the main
-result is the bounded sharp stability estimate
+For an open set \(\Om\subset\R^n\) (\(n\ge2\)) with \(0<|\Om|<\infty\), let
+\(\lambda_1(\Om)\) denote its first Dirichlet eigenvalue and \(\Bstar\) the ball
+with \(|\Bstar|=|\Om|\).  The Faber--Krahn inequality asserts
+\(\lambda_1(\Om)\ge\lambda_1(\Bstar)\), with equality only for balls.  This
+paper proves its sharp quantitative form.
+
+\begin{theorem}[Sharp quantitative Faber--Krahn]\label{thm:FK-main}
+There is a constant \(c_{\mathrm{FK}}(n)>0\), depending only on \(n\), such that
+every open set \(\Om\subset\R^n\) with \(0<|\Om|<\infty\) satisfies
 \[
-   \Fr(\Om)^2\le C(n,R,\rstar)\,\dT(\Om)
-   \qquad(\Om\subset B_R),
+   \deltaFK(\Om):=
+   \Bigl(\frac{|\Om|}{\omega_n}\Bigr)^{2/n}
+   \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)
+   \;\ge\; c_{\mathrm{FK}}(n)\,\Fr(\Om)^2,
 \]
-proved as Theorem~\ref{thm:boundedSV}.  The strategy works directly with the
-torsion superlevel sets \(E_\rho=\{u>t(\rho)\}\) of volume \(\omega_n\rho^n\)
-and the \emph{unscaled} moving-ball distance
+where \(\Fr(\Om):=\inf_{x_0}|\Om\Delta(x_0+\Bstar)|/|\Bstar|\) is the Fraenkel
+asymmetry.  The exponent \(2\) is sharp.
+\end{theorem}
+
+This is the theorem of Brasco--De~Philippis--Velichkov \cite{BDV}; the present
+proof is structurally different, and self-contained apart from the Fusco--Julin
+quantitative isoperimetric inequality and standard tools for sets of finite
+perimeter.
+
+\paragraph{Strategy.} The eigenvalue is reached only at the very end, through
+the torsion function \(u=u_\Om\) (\(-\Delta u=1\) in \(\Om\), \(u\in
+H^1_0(\Om)\)) and its Saint--Venant deficit
+\(\dT(\Om)=E(\Om)-E(\Bstar)\), \(E=-\tfrac12\int u\).  The heart of the paper is
+the \emph{sharp Saint--Venant stability} estimate
+\(\Fr(\Om)^2\le C\,\dT(\Om)\), obtained by working directly with the torsion
+superlevel sets \(E_\rho=\{u>t(\rho)\}\) of volume \(\omega_n\rho^n\) and the
+\emph{unscaled} moving-ball distance
 \[
    q(\rho):=\inf_{z\in\R^n}|E_\rho\Delta B_\rho(z)| .
 \]
@@ -81,23 +118,42 @@ Because the family \(\{E_\rho\}\) is nested, \(q\) is uniformly Lipschitz
 (Lemma~\ref{lem:qLip}); this is what lets the sparse set of bad-density radii be
 charged by Lebesgue measure rather than by the deficit.
 
-The proof has three parts.  Section~\ref{sec:identity} proves, on reduced
-boundaries and for a.e.\ level, the exact deficit identity
+\paragraph{Outline.} The proof proceeds in three blocks.
+
+\emph{(I) Bounded Saint--Venant stability
+(\S\S\ref{sec:identity}--\ref{sec:endpoint}).}
+Section~\ref{sec:identity} proves, on reduced boundaries and for a.e.\ level, the
+exact deficit identity
 \(2\dT(\Om)=\int_0^{\|u\|_\infty}(D_H+D_I)/(n^2\omega_n^{2/n}\,m^{1-2/n})\,dt\),
 where \(D_H\) is the Cauchy--Schwarz defect of \(|\nabla u|\) on
-\(\partial^*E_t\) and \(D_I\) the squared-perimeter isoperimetric defect, and
+\(\partial^*E_t\) and \(D_I\) the squared-perimeter isoperimetric defect;
 Section~\ref{sec:profilegap} derives its profile-gap and bad-density
-consequences.  Section~\ref{sec:samecentre} converts the Fusco--Julin strong
-quantitative isoperimetric inequality into a same-centre control of the
-homothetic trace.  Sections~\ref{sec:coarea}--\ref{sec:kinetic} prove a
-finite-perimeter one-sided affine first variation for \(q\) and the resulting
-positive kinetic estimate, and Section~\ref{sec:endpoint} closes the argument
-through an endpoint trace.  The one substantive external theorem is the
-Fusco--Julin quantitative isoperimetric inequality; the remaining ingredients
-are classical tools for sets of finite perimeter and classical
-rearrangement and isoperimetric inequalities, collected in
-Appendix~\ref{app:bv} and the dependency certificate of
-Appendix~\ref{app:constants}.
+consequences.  Section~\ref{sec:samecentre} converts the Fusco--Julin inequality
+into a same-centre control of the homothetic trace.
+Sections~\ref{sec:coarea}--\ref{sec:kinetic} prove a finite-perimeter affine
+first variation for \(q\) and the positive kinetic estimate, and
+Section~\ref{sec:endpoint} closes the bounded estimate
+\(\Fr(\Om)^2\le C(n,R)\,\dT(\Om)\) for \(\Om\subset B_R\)
+(Theorem~\ref{thm:boundedSV}).
+
+\emph{(II) Bounded reduction (\S\ref{sec:bddred}).}
+A constructive De~Giorgi \(L^\infty\) truncation produces, from any \(\Om\) of
+small deficit, a bounded surrogate inside a dimensional ball with controlled
+loss of deficit and asymmetry; gluing the resulting bounded estimate to a
+trivial far-deficit branch removes the confinement and yields the global sharp
+Saint--Venant inequality \(\dT(\Om)\ge c_{\mathrm{SV}}^{\mathrm{glob}}(n)
+\Fr(\Om)^2\).
+
+\emph{(III) Kohler--Jobin transfer (\S\ref{sec:kj}).}
+The Kohler--Jobin rearrangement, proved here from scratch, gives the
+scale-invariant comparison \(T(\Om)\lambda_1(\Om)^{(n+2)/2}\ge
+T_n\lambda_1(B_1)^{(n+2)/2}\); combined with the global Saint--Venant inequality
+and an elementary one-variable estimate it yields Theorem~\ref{thm:FK-main}.
+
+The one substantive external theorem is the Fusco--Julin quantitative
+isoperimetric inequality; the remaining ingredients are classical tools for sets
+of finite perimeter, collected in Appendix~\ref{app:bv}, and the dependency
+certificate of Appendix~\ref{app:constants}.
 
 \section{Standing notation and scope}\label{sec:notation}
 
@@ -108,11 +164,25 @@ Fix \(n\ge2\), \(R\ge1\), and \(0<\rstar<1\).  Let
    -\Delta u=1\quad\hbox{in }\Om,\qquad u=0\quad\hbox{on }\partial\Om
    \quad(H^1_0\hbox{ sense}).
 \]
-We write the Saint--Venant deficit as
+We write the torsional rigidity \(T(\Om):=\int_\Om u\,dx\), the Saint--Venant
+energy \(E(\Om):=-\tfrac12 T(\Om)\), and the Saint--Venant deficit
 \[
    \dT(\Om):=E(\Om)-E(B_1)
    =-\frac12\int_\Om u+\frac12\int_{B_1}u_{B_1}\ge0.
 \]
+We write \(\lambda_1(\Om)\) for the first Dirichlet eigenvalue, \(\Bstar\) for
+the ball with \(|\Bstar|=|\Om|\), \(L_n:=\lambda_1(B_1)\), and
+\(T_n:=T(B_1)=\omega_n/(n(n+2))\); these enter only in the bounded reduction
+(\S\ref{sec:bddred}) and the Kohler--Jobin transfer (\S\ref{sec:kj}).
+
+\paragraph{Scope of the bounded core.}  Blocks (I) of the introduction --
+Sections \ref{sec:identity}--\ref{sec:endpoint} -- are carried out under the
+standing normalisation \(|\Om|=\omega_n\) and the confinement
+\(\Om\subset B_R\), with parameters \(n\ge2\), \(R\ge1\), \(0<\rstar<1\) fixed
+throughout.  The confinement and the volume normalisation are both removed in
+\S\ref{sec:bddred} by scaling and a constructive truncation, so the final
+theorem holds for arbitrary open sets of finite measure.
+
 Let \(t(\rho)\) be the volume-radius parametrisation of the superlevels:
 \[
    E_\rho:=\{u>t(\rho)\},\qquad |E_\rho|=\omega_n\rho^n,
@@ -1556,9 +1626,15 @@ If \(\dT(\Om)>\delta_0\), then \(\Fr(\Om)<2\), so
 Enlarging \(C\) completes the proof.
 \end{proof}
 
+\input{parts/sec_bounded_reduction_body.tex}
+
+\input{parts/sec_kohler_jobin_body.tex}
+
 \section{Proof architecture and constants}\label{sec:architecture}
 
-The argument is organised around the following five steps.
+The argument is organised around the following principal steps; the first five
+produce the bounded Saint--Venant estimate, the last two upgrade it to
+Faber--Krahn.
 \begin{enumerate}[leftmargin=2em]
 \item The exact level-set deficit identity (Theorem~\ref{thm:id-main}) writes
 \(\dT(\Om)\) as a weighted reduced-boundary integral of the Cauchy--Schwarz
@@ -1581,6 +1657,18 @@ deficit, which is possible because \(q\) is uniformly Lipschitz by nestedness.
 obtained from the Fusco--Julin strong quantitative isoperimetric inequality
 (Theorem~\ref{thm:FJ-strong}); the passage from normal oscillation to the
 homothetic trace is the radial trace Lemma~\ref{lem:oriented-radial-trace}.
+\item The bounded reduction (Theorem~\ref{thm:SV-global}) removes the
+confinement \(\Om\subset B_R\): a constructive De~Giorgi \(L^\infty\) tail
+estimate (Lemma~\ref{lem:Linfty}) feeds a truncation construction
+(Lemma~\ref{lem:truncation}) that replaces \(\Om\) by a bounded surrogate of
+dimensional diameter with comparable deficit and controlled asymmetry loss;
+gluing the bounded estimate to the trivial large-deficit branch gives the
+global Saint--Venant inequality with a dimensional constant.
+\item The Kohler--Jobin rearrangement (Theorem~\ref{thm:kj}), built to preserve
+the modified torsional rigidity of superlevel sets, gives
+\(T(\Om)\lambda_1(\Om)^{(n+2)/2}\ge T_n L_n^{(n+2)/2}\); combined with the
+global Saint--Venant inequality and an elementary one-variable estimate it
+yields Theorem~\ref{thm:FK-main} (Theorem~\ref{thm:fk}).
 \end{enumerate}
 
 \noindent
@@ -1593,7 +1681,13 @@ them through the proof: \(C_L=2n^2\omega_n\) and
 (Theorem~\ref{inp:samecenter}, Lemma~\ref{lem:center-transfer}); the ball--ball
 lower constant \(\tfrac12\omega_{n-1}(3/4)^{(n-1)/2}\); the slab length
 \(L_0=(1-\rstar)/8\); and the large-deficit cutoff \(4/\delta_0\).  No constant
-depends on \(\Om\) beyond these parameters.
+depends on \(\Om\) beyond these parameters.  The bounded reduction internalises
+the confinement at the dimensional radius \(R_*(n)=\max\{d(n),2\}\), producing
+the purely dimensional \(c_{\mathrm{SV}}^{\mathrm{glob}}(n)\)
+(Theorem~\ref{thm:SV-global}), and the Kohler--Jobin transfer outputs
+\(c_{\mathrm{FK}}(n)=\min\{4L_n c_{\mathrm{SV}}^{\mathrm{glob}}(n)/((n+2)T_n),\,
+L_n(2^{2/(n+2)}-1)/4\}\) of Theorem~\ref{thm:FK-main}, with
+\(L_n=\lambda_1(B_1)\), \(T_n=\omega_n/(n(n+2))\).
 
 \appendix
 
@@ -1639,20 +1733,32 @@ deformation tail in \S\ref{sec:coarea}; the affine shell estimate, the
 one-sided first variation, and the Lipschitz bound for \(q\) in
 \S\ref{sec:shell}; the centre transfer and the positive kinetic estimate in
 \S\ref{sec:kinetic}; the endpoint trace and the bounded stability theorem in
-\S\ref{sec:endpoint}.
+\S\ref{sec:endpoint}; the De~Giorgi \(L^\infty\) tail estimate, the truncation
+construction, and the global bounded reduction in \S\ref{sec:bddred}; and the
+Kohler--Jobin inequality (via the modified-torsion rearrangement) together with
+the transfer to Faber--Krahn in \S\ref{sec:kj}.
 
 \emph{Quoted with exact citation:} the Fusco--Julin strong quantitative
 isoperimetric inequality \cite{FJ2014}; the BV coarea formula, the
 finite-perimeter Gauss--Green theorem, and Reshetnyak continuity
 \cite{AFP2000,Maggi2012}; the De~Giorgi isoperimetric inequality
-\cite{DeGiorgi1958}; the Talenti rearrangement \(L^\infty\) bound
-\cite{Talenti1976}; the absolutely continuous monotone inverse theorem
-\cite{BBC1975}; Stampacchia's theorem on \(\{\nabla u=0\}\)
-\cite{Stampacchia1965}; interior elliptic regularity and the weak maximum
-principle \cite{GilbargTrudinger2001}; and the P\'olya--Szeg\H{o}
-identification of the ball energy \cite{PolyaSzego1951,Bandle1980}.  Every
-ingredient is therefore either proved above or quoted from the published
-literature; the argument can be checked from this manuscript alone.
+\cite{DeGiorgi1958}; the Talenti rearrangement comparison and \(L^\infty\) bound
+\cite{Talenti1976}; the classical Saint--Venant inequality; the
+Sobolev inequality; the Brothers--Ziemer regularity of the distribution
+function \cite{AFP2000}; the absolutely continuous monotone inverse theorem
+\cite{BBC1975}; eigenfunction regularity, interior elliptic regularity, and the
+weak maximum principle \cite{GilbargTrudinger2001}; and the P\'olya--Szeg\H{o}
+identification of the ball energy \cite{PolyaSzego1951,Bandle1980}.
+
+\emph{The suboptimal seed is proved internally.} The truncation of
+\S\ref{sec:bddred} uses a \emph{suboptimal} Saint--Venant stability bound
+\(\dT(\Om)\ge c\,\Fr(\Om)^4\) (Lemma~\ref{lem:seed}) only to bound the number
+of truncation steps.  This is proved here (Lemma~\ref{lem:seed}) from the
+exact deficit identity, the profile-gap identity, and the superlevel transfer
+established above, together with the Fusco--Julin inequality already in use;
+it relies on no stability estimate external to this paper.  Consequently
+every ingredient of the argument is either proved above or is one of the
+standard tools just listed.
 
 \begin{thebibliography}{99}
 
@@ -1666,6 +1772,45 @@ Oxford University Press, 2000.
 C.~Bandle,
 \emph{Isoperimetric Inequalities and Applications},
 Pitman, 1980. Ch.~II.
+
+\bibitem{BDV}
+L.~Brasco, G.~De~Philippis, and B.~Velichkov,
+\emph{Faber--Krahn inequalities in sharp quantitative form},
+Duke Math.\ J.\ \textbf{164} (2015), 1777--1831.
+
+\bibitem{Brasco2014}
+L.~Brasco,
+\emph{On torsional rigidity and principal frequencies: an invitation to the
+Kohler--Jobin rearrangement technique},
+ESAIM Control Optim.\ Calc.\ Var.\ \textbf{20} (2014), 315--338.
+
+\bibitem{BraDeP2017}
+L.~Brasco and G.~De~Philippis,
+\emph{Spectral inequalities in quantitative form}, in
+\emph{Shape Optimization and Spectral Theory}, De Gruyter, 2017, pp.~201--281.
+
+\bibitem{FMP}
+N.~Fusco, F.~Maggi, and A.~Pratelli,
+\emph{Stability estimates for certain Faber--Krahn, isocapacitary and Cheeger
+inequalities},
+Ann.\ Sc.\ Norm.\ Super.\ Pisa Cl.\ Sci.\ (5) \textbf{8} (2009), 51--71.
+
+\bibitem{KJ1}
+M.-T.~Kohler-Jobin,
+\emph{Une m\'ethode de comparaison isop\'erim\'etrique de fonctionnelles de
+domaines de la physique math\'ematique},
+Z.\ Angew.\ Math.\ Phys.\ \textbf{29} (1978), 757--766.
+
+\bibitem{KJ2}
+M.-T.~Kohler-Jobin,
+\emph{D\'emonstration de l'in\'egalit\'e isop\'erim\'etrique
+\(P\lambda^2\ge\pi j_0^4/2\) conjectur\'ee par P\'olya et Szeg\H{o}},
+C.\ R.\ Acad.\ Sci.\ Paris \textbf{281} (1975), 119--121.
+
+\bibitem{KJ3}
+M.-T.~Kohler-Jobin,
+\emph{Symmetrization with equal Dirichlet integrals},
+SIAM J.\ Math.\ Anal.\ \textbf{13} (1982), 153--161.
 
 \bibitem{BBC1975}
 P.~B\'enilan, H.~Brezis, and M.~G.~Crandall,

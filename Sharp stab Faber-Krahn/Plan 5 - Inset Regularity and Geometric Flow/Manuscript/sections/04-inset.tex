@@ -251,11 +251,13 @@ in the sense of \cref{lem:containment}\ref{it:cont-far}: a putative hole $H$
 that is compactly contained in $\Om$ is excluded, while a putative hole that
 accumulates only on $\partial\Om$ (as the centre of the punctured disc would,
 were $\set0$ removed) is not a genuine interior hole and carries no perimeter
-of $E$. Only two consequences are used downstream: that $\Etil$ is connected
-with no interior holes --- so that the complement of its measure-theoretic
-representative is connected (\cref{lem:ext-conn}) and the trapping annulus and
-the ray-crossing counts of \cref{thm:annulus} are well posed --- and the
-measure-theoretic fact $|\{u=\hat v\}|=0$ used repeatedly to identify
+of $E$. This does \emph{not} by itself prove that the full exterior
+$\R^2\setminus\overline\Etil$ is connected; that stronger topological input is
+supplied unconditionally by the hole-filling construction \cref{lem:fill} of
+\cref{ss:fill}, which fills any boundary-touching holes at a cost quadratic in
+the isoperimetric deficit. The consequences used unconditionally
+here are connectedness of $\Etil$, exclusion of compactly contained holes, and
+the measure-theoretic fact $|\{u=\hat v\}|=0$ used repeatedly to identify
 symmetric differences. A reader content with these may keep (i) and the line
 ``$u\equiv v$ on $H$ with $|H|>0$ contradicts $|\{u=v\}|=0$'' as the whole of
 (ii).
@@ -276,9 +278,21 @@ For every regular $v\in(0,m)$,
 \end{lemma}
 
 \begin{proof}
-On the open set $E_v$ the function $w:=u-v$ satisfies $-\Delta w=1$ in
-$E_v$, $w=0$ on $\partial E_v\subset\{u=v\}$, and $w>0$ in $E_v$; hence $w$
-is the torsion function of $E_v$ and
+On the open set $E_v$ the relevant function is
+$w:=(u-v)_+\restr{E_v}=u-v$.  This is the torsion function of $E_v$ in the
+weak Sobolev sense.  Indeed, by the capacity characterisation of zero traces,
+the quasi-continuous representative of $(u-v)_+$ vanishes outside $E_v$ up to
+capacity zero, hence $(u-v)_+\in H^1_0(E_v)$
+\cite[\S4.7]{EvansGariepy2015}.  For every
+$\varphi\in C_c^\infty(E_v)$,
+\[
+   \int_{E_v}\nabla w\cdot\nabla\varphi
+   =\int_{\Om}\nabla u\cdot\nabla\varphi
+   =\int_{\Om}\varphi
+   =\int_{E_v}\varphi .
+\]
+Thus $-\Delta w=1$ in $E_v$ with zero Sobolev trace, and uniqueness in
+$H^1_0(E_v)$ gives the claim.  Therefore
 $T(E_v)=\int_{E_v}w=\int_{E_v}(u-v)$. Its super-level sets are
 $\{w>s\}=\{u>v+s\}=E_{v+s}$ for $s\in(0,m-v)$, so the perimeter and
 distribution functions of $w$ at height $s$ coincide with those of $u$ at
@@ -504,7 +518,13 @@ measure, i.e.\ the component of area $A_1$ in \cref{lem:spill}. We write
 and $\Exc:=\Per(\Etil)-2\pi\hat r=2\pi\hat r\,\diso$.
 \end{definition}
 
-By \cref{lem:noholes}\,(ii), $\Etil$ is connected and has no interior holes.
+By \cref{lem:noholes}\,(ii), $\Etil$ is connected and has no interior hole
+\emph{compactly contained in $\Om$}. The stronger \emph{global}
+exterior-connectedness ($\R^2\setminus\overline\Etil$ connected) required by
+\cref{sec:annulus,sec:fold} is supplied unconditionally by passing to the
+hole-filled inset of \cref{lem:fill} below (\cref{ss:fill}); from
+\cref{sec:annulus} onward the geometric reduction is run on that saturation,
+which inherits all the controls of \cref{prop:insetcontrols} at the same scale.
 
 \subsection{Controls on the inset}
 
@@ -563,11 +583,19 @@ the deficit transfer of \cref{lem:transfer} and the exact additivity of
 torsion over connected components; no appeal to \cref{lem:cutdeficit} is
 needed (see \cref{rem:fwd}). Let $C_2,C_3,\dots$ be the spillover components
 of $E_{\hat v}$, of areas $A_2,A_3,\dots$ with $\sum_{i\ge2}A_i=S$. On each
-component $C$ of $E_{\hat v}=\{u>\hat v\}$ the function $u-\hat v$ solves
-$-\Delta(u-\hat v)=1$, vanishes on $\partial C\subset\{u=\hat v\}$, and is
-positive inside; hence $u-\hat v$ is the torsion function of $C$ and
-$T(C)=\int_C(u-\hat v)$. As $u-\hat v$ is shared and the components are
-pairwise disjoint, torsion is \emph{exactly additive}:
+component $C$ of $E_{\hat v}=\{u>\hat v\}$, the restriction of
+$(u-\hat v)_+$ to $C$ belongs to $H^1_0(C)$.  More explicitly, the Sobolev
+space on an open set decomposes over its connected components:
+if $E=\bigcup_i C_i$ is the disjoint union of open components and
+$w\in H^1_0(E)$, then $w_i:=w\mathbf1_{C_i}$ belongs to $H^1_0(C_i)$ and
+$\nabla w_i=\mathbf1_{C_i}\nabla w$ a.e.; this follows from the
+quasi-continuous trace characterisation of $H^1_0$ and the locality of the
+Sobolev gradient.  Applying this to $w=(u-\hat v)_+\in H^1_0(E_{\hat v})$
+gives the claim.  Testing against $C_c^\infty(C)$ gives
+$-\Delta(u-\hat v)=1$ weakly in $C$, and uniqueness makes this restriction
+the torsion function of $C$; hence $T(C)=\int_C(u-\hat v)$. As
+$u-\hat v$ is shared and the components are pairwise disjoint, torsion is
+\emph{exactly additive}:
 \begin{equation}\label{eq:Tadd}
    T(E_{\hat v})=\int_{E_{\hat v}}(u-\hat v)
    =\int_{\Etil}(u-\hat v)+\sum_{i\ge2}\int_{C_i}(u-\hat v)
@@ -627,6 +655,290 @@ $\dT^2/\tau^2=\dT$ is higher order, so $|\Om\triangle\Etil|\le(8\pi+A_0)
 \sqrt\dT+C\dT\le C\sqrt\dT$; and \eqref{eq:dstar-inset} is independent of
 $\tau$.
 \end{proof}
+
+\subsection{Hole-filling: global exterior connectedness at no cost}
+\label{ss:fill}
+
+\Cref{lem:noholes} excludes complementary components of $\Etil$ that are
+\emph{compactly contained} in $\Om$, but it does not by itself rule out a
+bounded complementary component whose closure reaches $\partial\Om$: such a
+component evades the interior minimum principle, which is available only away
+from $\partial\Om$. The downstream geometry of \cref{sec:annulus,sec:fold},
+however, needs the \emph{global} topological fact that the unbounded
+complement of the set is its only complement --- the exterior-connectedness
+convention of \cref{lem:ext-conn}. We supply this unconditionally by passing
+to the \emph{saturation} (hole-filling) of $\Etil$, the standard device of
+filling in all bounded complementary components. The decisive quantitative
+point is that, by an isoperimetric argument identical in spirit to the
+spillover bound \cref{lem:spill}, the filled area is bounded by the
+\emph{square} of the isoperimetric deficit, hence is of the same higher order
+as the spillover $S$; all inset scales are therefore preserved.
+
+\begin{definition}[Saturation of the inset]\label{def:fill}
+The \emph{hole-filled inset} is
+\begin{equation}\label{eq:fill-def}
+   E^h\ :=\ \Etil\ \cup\ \bigcup\set{K:\ K\text{ a bounded connected
+   component of }\R^2\setminus\overline\Etil},
+\end{equation}
+the union of $\Etil$ with all bounded complementary components of its
+$\R^2$-closure. We write $H:=|E^h\setminus\Etil|\ge0$ for the filled area.
+\end{definition}
+
+\begin{lemma}[Hole-filling]\label{lem:fill}
+Under \cref{def:inset} the hole-filled inset $E^h$ of \cref{def:fill}
+satisfies the following.
+\begin{enumerate}[label=\textup{(\alph*)},leftmargin=2.4em]
+\item\label{it:fill-top} $E^h$ is bounded, open and connected; its complement
+$\R^2\setminus\overline{E^h}$ is connected and unbounded \textup{(}it is
+exactly the unbounded component of $\R^2\setminus\overline\Etil$\textup{)},
+and $\partial E^h\subset\partial\Etil$. Thus $E^h$ is globally hole-free and
+satisfies the exterior-connectedness convention \cref{lem:ext-conn}
+\textup{(}$\R^2\setminus\overline{E^h}$ connected, with
+$\partial(\R^2\setminus\overline{E^h})=\partial E^h$\textup{)}
+unconditionally, with no hypothesis on $\partial\Om$.
+\item\label{it:fill-per} $\Etil\subset E^h$, $|E^h|=\mu_E+H$, and the
+perimeter does not increase:
+\begin{equation}\label{eq:fill-per}
+   \Per(E^h)\ \le\ \Per(\Etil).
+\end{equation}
+\item\label{it:fill-key} \textup{(}Key bound.\textup{)} With
+$D_I(\Etil)=\Per(\Etil)^2-4\pi\mu_E\ge0$,
+\begin{equation}\label{eq:fill-key}
+   H\ \le\ \frac{D_I(\Etil)^2}{64\pi^2\,\mu_E}\ \le\ C\,D_I(\Etil)^2 .
+\end{equation}
+\item\label{it:fill-scales} At the inset scales of
+\cref{prop:insetcontrols} \textup{(}$D_I(\Etil)\le C\,\dT/\tau$,
+$\mu_E\ge\pi/4$\textup{)} one has $H\le C(\dT/\tau)^2$, so at $\tau=\sqrt\dT$,
+$H\le C\,\dT$ \textup{(}higher order, the order of the spillover $S$\textup{)}.
+Consequently all the inset controls transfer to $E^h$, with the same rates:
+writing $\hat r^h:=\sqrt{|E^h|/\pi}$,
+\begin{align}
+   |\Om\triangle E^h|\ &\le\ |\Om\triangle\Etil|+H\ \le\ C\,\sqrt\dT,
+   &\hat r^h\ &=\ \hat r+O(H)=\hat r+O(\dT);\label{eq:fill-close}\\[1mm]
+   \diso(E^h)\ &\le\ \diso(\Etil)\ \le\ C\,\tfrac\dT\tau,
+   &\Exc(E^h)\ &\le\ \Exc(\Etil)+C\,H\ \le\ C\,\tfrac\dT\tau;\label{eq:fill-diso}\\[1mm]
+   a(E^h)\ &\le\ a(\Etil)+C\,H\ \le\ a(\Etil)+C\,\dT,
+   &&\bigl(\text{so }a(E^h)\le C(\tfrac\dT\tau)^{1/2}\bigr);\label{eq:fill-a}\\[1mm]
+   \dstar(E^h)\ &\le\ \dstar(\Etil)+\frac{C\,H}{\mu_E}\ \le\ \dstar(\Etil)+C\,\dT
+   \ \le\ C\,\dstar(\Om), &&\label{eq:fill-dstar}
+\end{align}
+where $a(F):=|F\triangle B_{\hat r_F}(z_F)|$ is the ball distance of $F$ at
+its optimal centre and $\hat r_F:=\sqrt{|F|/\pi}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\emph{\ref{it:fill-top}.} The open set $\R^2\setminus\overline\Etil$ has, as
+the complement of a bounded set, exactly one unbounded connected component
+$U_\infty$ (nonempty since $\Etil$ is bounded) and at most countably many
+bounded components $\set{K_i}_{i\in I}$, all open and disjoint; by
+\eqref{eq:fill-def}, $E^h=\Etil\cup\bigcup_iK_i$, so that as sets
+\[
+   E^h\ =\ \R^2\setminus\bigl(\partial\Etil\cup U_\infty\bigr),
+   \qquad\text{equivalently}\qquad
+   \overline{E^h}=\R^2\setminus U_\infty .
+\]
+We first record the elementary topological facts. Each component $K$ of
+$\R^2\setminus\overline\Etil$ (bounded or not) is open with $\partial
+K\subset\partial\Etil$: a point $x\in\partial K$ lies neither in the open set
+$K$ nor in the open set $\R^2\setminus\overline\Etil\setminus K$ (a union of
+other components), so $x\in\overline\Etil$; and $x\notin\Etil$, since $\Etil$
+open with $x\in\overline K$ would put a neighbourhood of $x$ inside $\Etil$,
+disjoint from $K$. Hence $x\in\partial\Etil$. In particular $\partial
+U_\infty\subset\partial\Etil$ and $\partial K_i\subset\partial\Etil$.
+
+\emph{$E^h$ is open.} Since $\Etil$ and each $K_i$ are open, it suffices to
+show every $x\in\partial\Etil\cap E^h$ is interior to $E^h$; but in fact no
+point of $\partial\Etil$ lies in $E^h$, because $E^h=\Etil\cup\bigcup_iK_i$
+is a union of open sets disjoint from $\partial\Etil$
+(as $\partial\Etil\cap\Etil=\emptyset$ and $\partial\Etil\cap K_i=\emptyset$,
+the latter since $K_i$ is open and $\subset\R^2\setminus\overline\Etil$).
+Thus $E^h$ is a union of open sets, hence open. It is bounded since $\Etil$
+and all $K_i$ lie in any ball $B$ with $\R^2\setminus B\subset U_\infty$
+(such $B$ exists as $U_\infty$ contains the complement of a large ball).
+
+\emph{$E^h$ is connected.} $\Etil$ is connected (\cref{def:inset},
+\cref{lem:noholes}). For each $i$, $\partial K_i\subset\partial\Etil$ is
+nonempty (a bounded open $K_i\subsetneq\R^2$ has nonempty boundary), so
+pick $x\in\partial K_i\subset\partial\Etil$; then $x\in\overline{K_i}\cap
+\overline\Etil$, so $\Etil\cup K_i$ is connected (two connected sets with
+intersecting closures, both inside the connected $\overline{\Etil\cup K_i}$;
+concretely $\overline{K_i}\cap\overline\Etil\ni x$ joins them). All the
+$\Etil\cup K_i$ share the connected $\Etil$, so their union $E^h$ is
+connected.
+
+\emph{Exterior connectedness.} By the displayed identity
+$\overline{E^h}=\R^2\setminus U_\infty$, so $\R^2\setminus\overline{E^h}=
+U_\infty$, which is connected and unbounded by construction. Moreover
+$\partial E^h=\overline{E^h}\setminus E^h=(\R^2\setminus U_\infty)\setminus
+E^h\subset\partial\Etil$ (the points of $\R^2\setminus U_\infty$ not in
+$E^h=\Etil\cup\bigcup_iK_i$ lie in $\partial\Etil$, as
+$\R^2=\Etil\sqcup\partial\Etil\sqcup(\R^2\setminus\overline\Etil)$ and
+$\R^2\setminus\overline\Etil=U_\infty\sqcup\bigcup_iK_i$). Conversely
+$\partial U_\infty=\overline{U_\infty}\setminus U_\infty\subset\partial\Etil$
+lies in $\partial E^h$ since these points are limits of $U_\infty=\R^2
+\setminus\overline{E^h}$ and of $E^h$ (being in $\partial\Etil$, hence limits
+of $\Etil\subset E^h$). Thus $\partial(\R^2\setminus\overline{E^h})=\partial
+U_\infty=\partial E^h$, and the trichotomy $\R^2=E^h\sqcup\partial E^h\sqcup
+(\R^2\setminus\overline{E^h})$ holds. This is exactly the
+exterior-connectedness convention of \cref{lem:ext-conn}, established with no
+appeal to the minimum principle, hence with no hypothesis on $\partial\Om$.
+
+\emph{\ref{it:fill-per}.} Clearly $\Etil\subset E^h$ and the $K_i$ are
+pairwise disjoint and disjoint from $\Etil$, so $|E^h|=\mu_E+\sum_i|K_i|=
+\mu_E+H$ with $H=\sum_i|K_i|\ge0$; each $K_i$ is bounded with finite
+perimeter $\Per(K_i)<\infty$, since $\Per(\Etil)<\infty$ and
+$\partial^*K_i\subset\partial^*\Etil$ $\HH^1$-a.e. (see below).
+
+For the perimeter, we identify the essential boundaries. The plane is
+partitioned $\HH^2$-a.e.\ into the measure-theoretic interiors of the
+disjoint open sets $\Etil,K_1,K_2,\dots,U_\infty$, and the perimeters add up
+along their shared interfaces. Concretely, write $F_\infty:=U_\infty$,
+$F_0:=\Etil$, $F_i:=K_i$. Each pair of these sets is separated by the level
+set $\set{u=\hat v}\cap\Om$ or sits across $\partial\Etil$, and by the locality
+and structure of the reduced boundary \cite[Thm.~16.3, \S16.2]{Maggi2012} the
+essential boundary of $\Etil$ decomposes $\HH^1$-a.e.\ as
+\begin{equation}\label{eq:fill-boundary}
+   \partial^*\Etil\ =\ \bigl(\partial^*\Etil\cap\partial^*U_\infty\bigr)
+   \ \sqcup\ \bigsqcup_i\bigl(\partial^*\Etil\cap\partial^*K_i\bigr)
+   \qquad(\HH^1\text{-a.e.}),
+\end{equation}
+since every point of $\partial^*\Etil$ has, on its outer side, density-one
+membership in exactly one of the complementary components $U_\infty,K_1,K_2,
+\dots$. Filling the bounded components $K_i$ \emph{removes} from the boundary
+exactly the interfaces $\partial^*\Etil\cap\partial^*K_i$ (now interior to
+$E^h$) and keeps the outer interface $\partial^*\Etil\cap\partial^*U_\infty=
+\partial^*E^h$; moreover, since each $K_i$ has \emph{all} of its essential
+boundary shared with $\Etil$ or with other filled components (its complement
+in $\R^2$ is $\Etil\cup U_\infty\cup\bigcup_{j\ne i}K_j$, whose density-one
+points exhaust $\partial^*K_i$), filling adds no new reduced boundary. Hence
+$\partial^*E^h=\partial^*\Etil\cap\partial^*U_\infty=\partial^*\Etil
+\setminus\bigsqcup_i\partial^*K_i$ ($\HH^1$-a.e.), and by additivity of
+$\HH^1$ over \eqref{eq:fill-boundary},
+\begin{equation}\label{eq:fill-perimexact}
+   \Per(E^h)=\HH^1(\partial^*E^h)
+   =\HH^1(\partial^*\Etil)-\sum_i\HH^1(\partial^*\Etil\cap\partial^*K_i)
+   =\Per(\Etil)-\sum_i\Per(K_i),
+\end{equation}
+the last equality because $\partial^*K_i\subset\partial^*\Etil$ $\HH^1$-a.e.\
+(every essential-boundary point of $K_i$ adjacent to $\Etil$ is one of
+$\Etil$ adjacent to $K_i$; the components $K_i$ do not touch each other or
+$U_\infty$ across a set of positive $\HH^1$-measure, being separated by
+$\overline\Etil$). In particular $\Per(E^h)\le\Per(\Etil)$, which is
+\eqref{eq:fill-per}.
+
+\emph{\ref{it:fill-key}.} Let the filled holes $K_i$ have areas $A_i^h:=|K_i|$
+and perimeters $p_i:=\Per(K_i)$, so $H=\sum_iA_i^h$. By \ref{it:fill-per},
+filling removes exactly the boundaries of the holes, $\Per(E^h)=\Per(\Etil)
+-\sum_i p_i$ (eq.~\eqref{eq:fill-perimexact}).
+By the planar isoperimetric inequality (\cref{thm:isoperimetric}) applied to
+each hole, $p_i\ge2\sqrt{\pi A_i^h}$; and by superadditivity of
+$t\mapsto\sqrt t$ on non-negative terms,
+\begin{equation}\label{eq:fill-superadd}
+   \sum_i p_i\ \ge\ 2\sqrt\pi\sum_i\sqrt{A_i^h}\ \ge\ 2\sqrt\pi
+   \sqrt{\textstyle\sum_iA_i^h}\ =\ 2\sqrt{\pi H}.
+\end{equation}
+On the other hand the isoperimetric inequality for $E^h$ itself, of area
+$\mu_E+H$, gives $\Per(E^h)\ge2\sqrt{\pi(\mu_E+H)}$. Substituting both into
+\eqref{eq:fill-perimexact},
+\[
+   2\sqrt{\pi(\mu_E+H)}\ \le\ \Per(E^h)\ =\ \Per(\Etil)-\sum_i p_i
+   \ \le\ \Per(\Etil)-2\sqrt{\pi H},
+\]
+so that
+\[
+   \Per(\Etil)\ \ge\ 2\sqrt\pi\Bigl(\sqrt{\mu_E+H}+\sqrt{H}\Bigr).
+\]
+Squaring and using $\sqrt{(\mu_E+H)H}\ge\sqrt{\mu_E H}$,
+\[
+   \Per(\Etil)^2\ \ge\ 4\pi\Bigl(\mu_E+2H+2\sqrt{H(\mu_E+H)}\Bigr)
+   \ \ge\ 4\pi\mu_E+8\pi\sqrt{H\mu_E},
+\]
+whence $D_I(\Etil)=\Per(\Etil)^2-4\pi\mu_E\ge8\pi\sqrt{H\mu_E}$, i.e.
+\[
+   H\ \le\ \frac{D_I(\Etil)^2}{64\pi^2\mu_E},
+\]
+which is \eqref{eq:fill-key}; the second inequality there uses
+$\mu_E\ge\pi/4$ (\cref{lem:spill}), giving the absolute constant
+$C=1/(16\pi^3)$.
+
+\emph{\ref{it:fill-scales}.} By \eqref{eq:diso-inset} and its proof,
+$D_I(\Etil)\le D_I(\hat v)+4\pi S\le2D_I(\hat v)\le2A_0\,\dT/\tau$, so
+\eqref{eq:fill-key} gives $H\le C(\dT/\tau)^2$, and at $\tau=\sqrt\dT$,
+$H\le C\dT$, of the same higher order as the spillover $S$ of
+\cref{lem:spill}. The consequences follow:
+
+\noindent\emph{Closeness and radius.} Since $\Etil\subset E^h$ and
+$\Etil\subset\Om$ (so $|\Etil\setminus\Om|=0$), we split the symmetric
+difference: $|\Om\setminus E^h|\le|\Om\setminus\Etil|$ (as $\Etil\subset E^h$
+shrinks the part of $\Om$ outside), while $|E^h\setminus\Om|\le|E^h\setminus
+\Etil|+|\Etil\setminus\Om|=H+0=H$. Hence
+\[
+   |\Om\triangle E^h|=|\Om\setminus E^h|+|E^h\setminus\Om|
+   \ \le\ |\Om\setminus\Etil|+H=|\Om\triangle\Etil|+H
+   \ \le\ C\sqrt\dT+C\dT\le C\sqrt\dT,
+\]
+which is \eqref{eq:fill-close}; no assertion that $E^h\subset\Om$ is needed.
+The radius obeys $\hat r^h=\sqrt{(\mu_E+H)/\pi}=
+\hat r\sqrt{1+H/\mu_E}=\hat r+O(H/\hat r)=\hat r+O(\dT)$ by $H\le C\dT$ and
+$\hat r\ge1/2$.
+
+\noindent\emph{Isoperimetric deficit.} Since $\Per(E^h)\le\Per(\Etil)$
+\eqref{eq:fill-per} and $|E^h|=\mu_E+H\ge\mu_E$,
+\[
+   \diso(E^h)=\frac{\Per(E^h)}{2\sqrt{\pi|E^h|}}-1
+   \ \le\ \frac{\Per(\Etil)}{2\sqrt{\pi\mu_E}}-1=\diso(\Etil)\le C\,\tfrac\dT\tau,
+\]
+which is the first bound in \eqref{eq:fill-diso}; and $\Exc(E^h)=
+\Per(E^h)-2\pi\hat r^h\le\Per(\Etil)-2\pi\hat r+2\pi(\hat r-\hat r^h)\le
+\Exc(\Etil)+CH\le C\,\dT/\tau$, using $|\hat r-\hat r^h|\le CH$.
+
+\noindent\emph{Ball distance.} For any common centre,
+$|E^h\triangle B_{\hat r^h}(z)|\le|\Etil\triangle B_{\hat r}(z)|+|E^h
+\setminus\Etil|+|B_{\hat r^h}(z)\triangle B_{\hat r}(z)|\le a(\Etil)+H+
+C|\hat r^h-\hat r|\le a(\Etil)+CH$; minimising over $z$ gives $a(E^h)\le
+a(\Etil)+CH\le a(\Etil)+C\dT$, which is \eqref{eq:fill-a}, and the parenthetical
+rate follows from $a(\Etil)\le C(\dT/\tau)^{1/2}$ and $\dT\le(\dT/\tau)^{1/2}$
+(as $\dT/\tau\le1$).
+
+\noindent\emph{Scale-invariant deficit.} Torsional rigidity is monotone under
+set inclusion: from the variational characterisation
+$T(F)=\max\set{2\int_F v-\int_F|\nabla v|^2:\ v\in H^1_0(F)}$ \textup{(}attained
+at the torsion function of $F$\textup{)} and the inclusion $H^1_0(\Etil)\subset
+H^1_0(E^h)$ (extension by zero, valid as $\Etil\subset E^h$ are open), one has
+$T(E^h)\ge T(\Etil)$ for $\Etil\subset E^h$. Hence, with $|E^h|=\mu_E+H$,
+\[
+   1-\dstar(E^h)=\frac{8\pi T(E^h)}{|E^h|^2}
+   \ \ge\ \frac{8\pi T(\Etil)}{(\mu_E+H)^2}
+   =\frac{1-\dstar(\Etil)}{(1+H/\mu_E)^2},
+\]
+so
+\[
+   \dstar(E^h)\ \le\ 1-\frac{1-\dstar(\Etil)}{(1+H/\mu_E)^2}
+   \ \le\ \dstar(\Etil)+\Bigl(1-\frac1{(1+H/\mu_E)^2}\Bigr)
+   \ \le\ \dstar(\Etil)+\frac{2H}{\mu_E},
+\]
+using $1-(1+t)^{-2}\le2t$ for $t\ge0$. With $\mu_E\ge\pi/4$ and $H\le C\dT$
+this is $\dstar(E^h)\le\dstar(\Etil)+C\dT\le C\dstar(\Om)$ by
+\eqref{eq:dstar-inset} and $\dT=\tfrac\pi8\dstar(\Om)$, which is
+\eqref{eq:fill-dstar}.
+\end{proof}
+
+\begin{remark}[The hole-filled inset is the object of
+\cref{sec:annulus,sec:fold}]\label{rem:fill-use}
+\Cref{lem:fill} resolves, unconditionally, the global exterior-connectedness
+property required by the trapping annulus and the inscribed-ball lemma: the
+hole-filled inset $E^h$ is connected and satisfies $\R^2\setminus
+\overline{E^h}$ connected, with all the inset scales of
+\cref{prop:insetcontrols} preserved up to an additive $O(\dT)$, of the same
+higher order as the spillover. From \cref{sec:annulus} onward the geometric
+reduction is therefore applied to $E^h$ in place of $\Etil$; the only change
+in any estimate is the replacement of $\mu_E$ by $\mu_E+H=\mu_E+O(\dT)$ and
+of $\hat r,\diso,\Exc,a,\dstar$ by their $E^h$-counterparts, with identical
+rates. The mass $H$ added by filling, like the spillover $S$ subtracted by
+selecting the largest component, is quadratic in the isoperimetric deficit
+and hence negligible at the sharp scale.
+\end{remark}
 
 \begin{remark}[Self-contained deficit transfer; no forward dependence]
 \label{rem:fwd}

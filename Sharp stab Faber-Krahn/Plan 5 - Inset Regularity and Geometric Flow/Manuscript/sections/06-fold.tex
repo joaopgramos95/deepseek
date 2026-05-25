@@ -7,10 +7,14 @@ so the inset has \emph{small amplitude}. To convert this into a radial
 $z$ meeting $\partial\Etil$ more than once. This section bounds the total
 \emph{fold content} --- the obstruction to being a graph --- by the
 geometric deficit, with \emph{no} square-root loss from the quantitative
-isoperimetric inequality, and then realises $\Etil$ as a continuous radial
+isoperimetric inequality, and then realises $\Etil$ as a measurable radial
 graph up to a controlled symmetric difference.
 
-Throughout, $\Etil$ is the connected, hole-free inset of \cref{def:inset},
+Throughout, $\Etil$ is the hole-filled inset of \cref{def:inset,lem:fill}
+(\cref{conv:fill}), connected and globally hole-free, so the global
+exterior-connectedness needed to invoke the trapping annulus of
+\cref{thm:annulus} holds unconditionally (\cref{lem:fill}\ref{it:fill-top}).
+We write
 with $\mu_E:=\abs\Etil$, $\hat r:=\sqrt{\mu_E/\pi}$, isoperimetric deficit
 $\diso:=\diso(\Etil)$, perimeter excess $\Exc:=\Per(\Etil)-2\pi\hat r
 =2\pi\hat r\,\diso$, and (\cref{thm:annulus}) trapping
@@ -62,10 +66,13 @@ about $z$ exactly when $M\equiv1$ (no caps).
 \subsection{Point-source flux identities}
 
 \begin{lemma}[Two-flux identities]\label{lem:two-flux}
-Let $E\subset\R^2$ be a set of finite perimeter with $z$ in its measure-%
-theoretic interior, and suppose $\partial^* E\subset\{x:\abs{x-z}\ge r_0\}$
-for some $r_0>0$ \textup{(}so the reduced boundary stays away from
-$z$\textup{)}. With $e_r=(x-z)/\abs{x-z}$, $\nu_r=\nu\cdot e_r$, and
+Let $E\subset\R^2$ be a set of finite perimeter and suppose that, for some
+$r_0>0$,
+\[
+   B_{r_0}(z)\subset E,\qquad
+   \partial^* E\subset\{x:\abs{x-z}\ge r_0\}.
+\]
+With $e_r=(x-z)/\abs{x-z}$, $\nu_r=\nu\cdot e_r$, and
 $M(\theta)$ as in \eqref{eq:fold-M}, the following hold:
 \begin{subequations}\label{eq:two-flux}
 \begin{align}
@@ -88,27 +95,18 @@ We refer to the three identities collectively as \eqref{eq:two-flux}.
 \begin{proof}
 We may translate so that $z=0$; then $e_r=x/\abs x$ and $\abs{x-z}=\abs x$.
 Set $A:=\{x:r_0\le\abs x\}$, a closed set containing $\partial^*E$ on which
-all three integrands are smooth and bounded. We first record that the open
-disc $B_{r_0}(0)$ lies entirely in the measure-theoretic interior $E^{(1)}$.
-Indeed, $\partial^*E\cap B_{r_0}(0)=\varnothing$ by hypothesis, so by the
-De~Giorgi structure theorem the set $\{x:\abs x<r_0\}\setminus\partial^*E
-=B_{r_0}(0)$ meets only the points of density $0$ or $1$ of $E$; since the
-connected set $B_{r_0}(0)$ contains $z=0\in E^{(1)}$ and the density is
-locally constant off $\partial^*E$, all of $B_{r_0}(0)\subset E^{(1)}$.
-Consequently, for \emph{every} $0<\eps<r_0$ the circle $\partial B_\eps(0)$
-lies in $E^{(1)}$.
+all three integrands are smooth and bounded. Since $B_{r_0}(0)\subset E$,
+for every $0<\eps<r_0$ the circle $\partial B_\eps(0)$ lies in the
+measure-theoretic interior $E^{(1)}$.
 
 \emph{(i) The angular coarea identity.}
-On $\R^2\setminus\{0\}$ the angular function $g(x):=\arg x$ is locally
-smooth modulo $2\pi$, and its gradient $\nabla g=e_\theta/\abs x$ is a
-single-valued, smooth vector field there with $\abs{\nabla g}=1/\abs x$. The
-reduced boundary $\partial^*E$ is a countably $1$-rectifiable set contained
-in $A$, where $g$ is Lipschitz; let $\tau$ denote a unit tangent to
-$\partial^*E$ (defined $\HH^1$-a.e., orthogonal to $\nu$). The tangential
-gradient of $g$ along $\partial^*E$ is the projection of $\nabla g$ onto the
-approximate tangent line, of modulus
+Let $\Theta(x):=x/\abs x\in S^1$ be the angular projection.  On the annulus
+$A$ this map is Lipschitz.  The reduced boundary $\partial^*E$ is a
+countably $1$-rectifiable set contained in $A$; let $\tau$ denote a unit
+tangent to $\partial^*E$ (defined $\HH^1$-a.e., orthogonal to $\nu$). The
+tangential Jacobian of $\Theta$ along $\partial^*E$ is
 \[
-   \bigl|\nabla^{\partial^*E}g\bigr|
+   J_{\partial^*E}\Theta
    =\frac{\abs{e_\theta\cdot\tau}}{\abs x}.
 \]
 Since $\{e_r,e_\theta\}$ and $\{\nu,\tau\}$ are each orthonormal bases of
@@ -116,17 +114,18 @@ $\R^2$ with $e_r\perp e_\theta$ and $\nu\perp\tau$, the angle between
 $e_\theta$ and $\tau$ equals the angle between $e_r$ and $\nu$; hence
 $\abs{e_\theta\cdot\tau}=\abs{e_r\cdot\nu}=\abs{\nu_r}$, so
 \[
-   \bigl|\nabla^{\partial^*E}g\bigr|=\frac{\abs{\nu_r}}{\abs x}.
+   J_{\partial^*E}\Theta=\frac{\abs{\nu_r}}{\abs x}.
 \]
-The coarea formula for the Lipschitz map $g\colon\partial^*E\to S^1$ on the
-$1$-rectifiable set $\partial^*E$ \cite[Theorem~2.93]{AFP2000} gives
+The coarea formula for the Lipschitz map
+$\Theta\colon\partial^*E\to S^1$ on the $1$-rectifiable set
+$\partial^*E$ \cite[Theorem~2.93]{AFP2000} gives
 \[
    \int_{\partial^*E}\frac{\abs{\nu_r}}{\abs x}\,d\HH^1
-   =\int_{\partial^*E}\bigl|\nabla^{\partial^*E}g\bigr|\,d\HH^1
-   =\int_{S^1}\HH^0\bigl(\partial^*E\cap g^{-1}(\theta)\bigr)\,d\theta
+   =\int_{\partial^*E}J_{\partial^*E}\Theta\,d\HH^1
+   =\int_{S^1}\HH^0\bigl(\partial^*E\cap \Theta^{-1}(\theta)\bigr)\,d\theta
    =\int_{S^1}M(\theta)\,d\theta,
 \]
-because $g^{-1}(\theta)\cap A=R_\theta\cap A\supset
+because $\Theta^{-1}(\theta)\cap A=R_\theta\cap A\supset
 \partial^*E\cap R_\theta$ and $\partial^*E\subset A$. This is
 \eqref{eq:two-flux-i}.
 
@@ -343,10 +342,12 @@ $I_{\Etil}\ge2\pi\hat r-a\eta/(\rho_i\hat r)$ from \eqref{eq:Icancel},
    =\Exc+\frac{a\eta}{\rho_i\hat r}.
 \]
 Inserting into \eqref{eq:fold-step1} yields the middle inequality of
-\eqref{eq:foldsharp}. Finally, for $\dT\le\delta_\star$ the inset radius
-obeys $\hat r\ge\tfrac34$ (since $\mu_E=\pi-O(\sqrt\dT)$ by \cref{def:inset},
-so $\hat r=\sqrt{\mu_E/\pi}\to1$), and $\eta\le C\dT^{1/8}\le\tfrac14$ by
-\eqref{eq:fold-annulus}, whence $\rho_i\ge\hat r-\eta\ge\tfrac12$ (using
+\eqref{eq:foldsharp}. Finally, in the optimised inset regime of
+\cref{thm:reduction}, \eqref{eq:close-inset} gives
+$\mu_E=\pi-O(\sqrt{\dT})$, hence $\hat r\ge\tfrac34$ after shrinking
+$\delta_\star$, and \cref{thm:annulus} gives
+$\eta\le C\dT^{1/8}\le\tfrac14$. Thus $\rho_i\ge\hat r-\eta\ge\tfrac12$
+(using
 $\rho_e=\rho_i+\eta$ and $\rho_i\le\hat r\le\rho_e$). Therefore
 $1/\rho_i\le2$ and $1/(\rho_i^2\hat r)\le1/(\tfrac14\cdot\tfrac34)\le6$,
 giving the absolute bound $C(\Exc+a\eta)$. The fold-angle estimate \eqref{eq:foldangles} follows
@@ -440,130 +441,90 @@ $\dT\le\delta_\star$) gives the final bound
 $\le C\,\eta(\Exc+a\eta)$.
 \end{proof}
 
-\subsection{Realization as a continuous radial graph}
+\subsection{Realization as a measurable radial graph}
 
-The core profile $\rho_0=r_1$ realises the graph defect but is only $BV$ in
-$\theta$. We mollify it to a continuous (indeed Lipschitz) profile at a
-negligible cost.
+The core profile $\rho_0=r_1$ is, a priori, only \emph{measurable} in
+$\theta$ (it is defined ray by ray from the one-dimensional slices, with no
+modulus of continuity and no bounded variation available --- a cap on a ray
+inserts a jump that the slice structure does not control). We do not attempt
+to regularise it. Instead we record that the measurable core graph $G_0$ is
+\emph{already} an admissible input to the nearly-spherical estimate of
+\cref{sec:nearly}, whose hypotheses --- a bounded open star-shaped set
+trapped between two concentric circles, with measurable radial profile and
+small $L^\infty$ amplitude --- ask for no slope, no continuity, and no
+bounded variation. This removes the regularity step entirely.
 
-\begin{proposition}[Continuous radial-graph realization]\label{prop:realization}
-For every $\sigma>0$ there is a Lipschitz profile
-$\rho_\sigma\colon S^1\to[\rho_i,\rho_e]$ such that the radial graph
-$G_\sigma:=\{z+r\omega:0\le r<\rho_\sigma(\omega)\}$ satisfies
-\begin{equation}\label{eq:realization}
-   \bigl\|\rho_\sigma-\hat r\bigr\|_{L^\infty(S^1)}\le\eta,
-   \qquad
-   \bigl|\Etil\,\triangle\,G_\sigma\bigr|
-   \ \le\ \bigl|\Etil\setminus G_0\bigr|+C\,\sigma
-   \ \le\ C\,\eta\,(\Exc+a\eta)+C\,\sigma,
+\begin{proposition}[Measurable radial-graph realization]\label{prop:realization}
+Let $\rho_0=r_1\colon S^1\to[\rho_i,\rho_e]$ be the innermost-crossing core
+profile of \cref{cor:gd}, and let
+\[
+   G_0:=\{z+r\omega(\theta):\ \theta\in S^1,\ 0\le r<\rho_0(\theta)\}
+\]
+be the associated core graph, taken in its open star-shaped representative
+\textup{(}equivalently, replace $\rho_0$ by its lower-semicontinuous
+envelope along rays, which alters $G_0$ only on an $\HH^2$-null set and hence
+changes none of the quantities below\textup{)}. Then:
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.4em]
+\item\label{it:real-meas} $\rho_0$ is measurable with values in
+$[\rho_i,\rho_e]$, and $G_0$ is a bounded open set, star-shaped about $z$,
+with
+\begin{equation}\label{eq:real-trap}
+   B_{\rho_i}(z)\subset G_0\subset B_{\rho_e}(z);
 \end{equation}
-where $G_0=\{r<\rho_0\}$ is the core-profile graph of \cref{cor:gd} and $C$
-is absolute. Thus $G_\sigma$ is a continuous radial graph that approximates
-$\Etil$ to within the core-profile graph defect $\abs{\Etil\setminus G_0}$
-\textup{(}itself bounded by \cref{cor:gd}, hence
-$\ge\gd(\Etil)$\textup{)} plus the mollification error $C\sigma$. In our
-application one may take $\sigma=\dT$, which is negligible against
-$\abs{\Etil\setminus G_0}\le C\sqrt\dT$.
+\item\label{it:real-amp} writing $\hat r_{G_0}:=\sqrt{\abs{G_0}/\pi}\in
+[\rho_i,\rho_e]$ and $\varphi_0:=\rho_0/\hat r_{G_0}-1$, the amplitude obeys
+\begin{equation}\label{eq:realization}
+   \norm{\varphi_0}_{L^\infty(S^1)}\ \le\ \frac{\rho_e-\rho_i}{\rho_i}
+   \ =\ \frac{\eta}{\rho_i}\ \le\ 2\eta;
+\end{equation}
+\item\label{it:real-close} $G_0\subset\Etil$ and
+\begin{equation}\label{eq:realization-close}
+   \abs{\Etil\,\triangle\,G_0}\ =\ \abs{\Etil\setminus G_0}
+   \ \le\ C\,\eta\,(\Exc+a\eta).
+\end{equation}
+\end{enumerate}
+Consequently $G_0$ satisfies the hypotheses of \cref{thm:graphG} on the
+amplitude, the trapping ball, and the volume normalisation; only the
+quadratic mode-one bound \eqref{eq:mode1hyp} remains to be supplied, which is
+done at the optimal centre in \cref{sec:main}. No mollification is performed
+and no continuity of $\rho_0$ is claimed or used.
 \end{proposition}
 
 \begin{proof}
-\emph{Bounded variation of the core profile.}
-The core profile $\rho_0=r_1\colon S^1\to[\rho_i,\rho_e]$ takes values in a
-bounded interval, so $\rho_0\in L^\infty(S^1)$. We bound its essential total
-variation by the perimeter of $\Etil$ through the circle-crossing function
-\[
-   N(\rho):=\HH^0\bigl(\partial\Etil\cap\partial B_\rho(z)\bigr)
-\]
-of \cref{lem:angular-coarea}, which is the rigorous substitute for the
-(false-in-the-$BV$-jump-case) identification of $\mathrm{TV}(\rho_0)$ with the
-arclength of the polar graph point-set $\{z+\rho_0(\theta)e^{i\theta}\}$. The
-key inequality is the layer-cake comparison
-\begin{equation}\label{eq:TVlayer}
-   \mathrm{TV}(\rho_0)
-   \ =\ \int_{\rho_i}^{\rho_e}\HH^0\bigl(\partial^*\{\rho_0>\rho\}\bigr)\,d\rho
-   \ \le\ \int_{\rho_i}^{\rho_e}N(\rho)\,d\rho .
-\end{equation}
-The first equality is the one-dimensional coarea (layer-cake) formula for the
-$BV$ function $\rho_0$ on $S^1$ \cite[Theorem~3.40]{AFP2000}: for a.e.\
-$\rho$ the superlevel set $\{\theta:\rho_0(\theta)>\rho\}\subset S^1$ is a
-finite union of arcs, its essential boundary $\partial^*\{\rho_0>\rho\}$ is a
-finite set of points, and the variation measure disintegrates as
-$\abs{D\rho_0}(S^1)=\int_0^\infty\HH^0(\partial^*\{\rho_0>\rho\})\,d\rho$
-(the integrand vanishes off $[\rho_i,\rho_e]$ since $\rho_0\in[\rho_i,
-\rho_e]$). For the inequality, fix a regular $\rho\in(\rho_i,\rho_e)$ and let
-$\theta_0\in\partial^*\{\rho_0>\rho\}$ be a point where $\rho_0=r_1$ crosses
-the level $\rho$ (jumping or continuously). Since $r_1(\theta)$ is the
-innermost crossing radius of $\partial\Etil$ on the ray $R_\theta$, the
-crossing of the level $\rho$ at $\theta_0$ is realised by a point
-$z+\rho\,e^{i\theta_0}$ of $\partial\Etil$ lying on the circle
-$\partial B_\rho(z)$: indeed, on one side of $\theta_0$ the inner interval
-$(0,r_1)$ of the slice \eqref{eq:fold-slice} reaches past radius $\rho$ and on
-the other side it does not, so $\partial B_\rho(z)$ separates points of
-$\Etil^{(1)}$ from points of $\Etil^{(0)}$ arbitrarily near
-$z+\rho\,e^{i\theta_0}$, whence $z+\rho\,e^{i\theta_0}\in\partial\Etil$.
-Distinct boundary directions $\theta_0$ give distinct points on
-$\partial B_\rho(z)$, so $\HH^0(\partial^*\{\rho_0>\rho\})\le N(\rho)$,
-proving \eqref{eq:TVlayer}. Now \cref{lem:angular-coarea} states
-$\int_0^\infty N(\rho)\,d\rho=P_\theta:=\int_{\partial\Etil}\abs{\nu_\theta}
-\,d\HH^1\le\Per(\Etil)$ (as $\abs{\nu_\theta}\le1$). Combining with
-\eqref{eq:TVlayer},
-\begin{equation}\label{eq:TVbound}
-   \mathrm{TV}(\rho_0)\ \le\ \int_{\rho_i}^{\rho_e}N(\rho)\,d\rho
-   \ \le\ P_\theta\ \le\ \Per(\Etil)\ \le\ \frac{\Per(\Etil)}{\rho_i}
-   \ \le\ C,
-\end{equation}
-the penultimate inequality holding since $\rho_i\le1$ (indeed $\rho_i\ge
-\tfrac12$ for $\dT\le\delta_\star$, so $1/\rho_i\le2$), and the last using
-$\Per(\Etil)=2\pi\hat r+\Exc\le C$ for $\dT\le\delta_\star$. The form
-$\mathrm{TV}(\rho_0)\le\Per(\Etil)/\rho_i$ is the bound flagged in the
-mandate; either constant is absolute.
+\emph{\ref{it:real-meas}.} The profile $\rho_0=r_1$ is measurable: it is the
+essential infimum, along the ray $R_\theta$, of the radii at which the slice
+$\Etil_\theta$ first exits $\Etil$, and $\theta\mapsto r_1(\theta)$ is
+measurable because for each $t$ the set $\{\theta:r_1(\theta)>t\}=\{\theta:
+(0,t)\subset\Etil_\theta\ \text{up to }\HH^1\text{-null}\}$ is, up to a null
+set, the slice projection of the open set $\Etil\cap(B_t(z)\setminus\set z)$,
+hence measurable (as in the measurability of $R$ in \eqref{eq:Rdef}). By
+\eqref{eq:fold-slice} every slice contains the innermost interval $(0,r_1)$
+with $r_1\in[\rho_i,\rho_e]$, so $\rho_0\in[\rho_i,\rho_e]$. Passing to the
+lower-semicontinuous envelope of $\rho_0$ along rays makes
+$G_0=\{r<\rho_0\}$ open; this changes $\rho_0$, hence $\partial G_0$, only on
+an $\HH^1$-null set of directions, so $\abs{G_0}$ and all symmetric
+differences are unchanged. Then $B_{\rho_i}(z)\subset G_0$ because every ray
+contains $(0,\rho_i)\subset(0,r_1)$, and $G_0\subset B_{\rho_e}(z)$ because
+$\rho_0\le\rho_e$; this is \eqref{eq:real-trap}, and star-shapedness about
+$z$ is immediate from the radial definition.
 
-\emph{Mollification.}
-Let $\psi_\sigma$ be a standard non-negative mollifier on $S^1$ at scale
-$\sigma$ ($\int\psi_\sigma=1$, $\supp\psi_\sigma\subset(-\sigma,\sigma)$,
-$\norm{\psi_\sigma'}_{L^1}\le C/\sigma$), and set
-$\rho_\sigma:=\psi_\sigma*\rho_0$. Then $\rho_\sigma$ is smooth, hence
-Lipschitz; it is a convex average of values of $\rho_0\in[\rho_i,\rho_e]$,
-so $\rho_\sigma\in[\rho_i,\rho_e]$; and
-$\norm{\rho_\sigma-\hat r}_\infty\le\rho_e-\rho_i=\eta$ since both
-$\rho_\sigma$ and $\hat r$ lie in $[\rho_i,\rho_e]$. This gives the first
-estimate in \eqref{eq:realization}.
+\emph{\ref{it:real-amp}.} From \eqref{eq:real-trap},
+$\pi\rho_i^2\le\abs{G_0}\le\pi\rho_e^2$, so $\hat r_{G_0}=
+\sqrt{\abs{G_0}/\pi}\in[\rho_i,\rho_e]$. For every $\theta$ both
+$\rho_0(\theta)$ and $\hat r_{G_0}$ lie in $[\rho_i,\rho_e]$, whence
+$\abs{\rho_0-\hat r_{G_0}}\le\rho_e-\rho_i=\eta$ and
+$\norm{\varphi_0}_\infty=\norm{\rho_0-\hat r_{G_0}}_\infty/\hat r_{G_0}\le
+\eta/\rho_i\le2\eta$, using $\rho_i\ge\tfrac12$ (\cref{rem:posterior}).
 
-\emph{Cost of mollification.}
-Convolution moves a $BV$ function in $L^1$ by at most $\sigma$ times its
-total variation:
-\[
-   \norm{\rho_\sigma-\rho_0}_{L^1(S^1)}
-   =\int_{S^1}\Bigl|\int\psi_\sigma(s)\bigl(\rho_0(\theta-s)-\rho_0(\theta)
-      \bigr)\,ds\Bigr|\,d\theta
-   \le\int\psi_\sigma(s)\,\mathrm{TV}(\rho_0)\,\abs s\,ds
-   \le\sigma\,\mathrm{TV}(\rho_0),
-\]
-using $\int_{S^1}\abs{\rho_0(\theta-s)-\rho_0(\theta)}\,d\theta\le
-\abs s\,\mathrm{TV}(\rho_0)$. The symmetric difference of two radial graphs
-with profiles $\rho_0,\rho_\sigma\in[\rho_i,\rho_e]$ is
-\[
-   \bigl|\{r<\rho_0\}\triangle\{r<\rho_\sigma\}\bigr|
-   =\int_{S^1}\Bigl|\int_{\rho_\sigma(\theta)}^{\rho_0(\theta)}r\,dr\Bigr|
-       \,d\theta
-   =\int_{S^1}\frac{\abs{\rho_0^2-\rho_\sigma^2}}{2}\,d\theta
-   \le\rho_e\!\int_{S^1}\abs{\rho_0-\rho_\sigma}\,d\theta
-   \le\rho_e\,\sigma\,\mathrm{TV}(\rho_0),
-\]
-using $\abs{\rho_0^2-\rho_\sigma^2}=\abs{\rho_0-\rho_\sigma}
-(\rho_0+\rho_\sigma)\le2\rho_e\abs{\rho_0-\rho_\sigma}$. By
-\eqref{eq:TVbound} and $\rho_e\le C$, this is $\le C\sigma$. Hence, using
-$G_0\subset\Etil$ so that $\abs{\Etil\triangle G_0}=\abs{\Etil\setminus G_0}$,
-\[
-   \bigl|\Etil\triangle G_\sigma\bigr|
-   \le\bigl|\Etil\triangle G_0\bigr|
-      +\bigl|G_0\triangle G_\sigma\bigr|
-   \le\bigl|\Etil\setminus G_0\bigr|+C\,\sigma,
-\]
-which is the second estimate of \eqref{eq:realization}; the further bound
-$\abs{\Etil\setminus G_0}\le C\eta(\Exc+a\eta)$ is \cref{cor:gd}. Taking
-$\sigma=\dT$ makes the mollification cost $C\dT$, negligible against
-$\abs{\Etil\setminus G_0}\le C\sqrt\dT$.
+\emph{\ref{it:real-close}.} By construction the slice of $G_0$ in direction
+$\theta$ is $(0,\rho_0(\theta))=(0,r_1(\theta))\subset\Etil_\theta$, so
+$G_0\subset\Etil$ up to $\HH^1$-null directions, and
+$\abs{\Etil\triangle G_0}=\abs{\Etil\setminus G_0}$. The bound
+\eqref{eq:realization-close} is exactly \cref{cor:gd}: the slice of
+$\Etil\setminus G_0$ is the union of caps
+$(r_2,r_3)\cup\cdots\cup(r_{2m},r_{2m+1})$, of total area
+$\le\rho_e\,\eta\int_{S^1}m\,d\theta=\tfrac12\rho_e\,\eta\int_{S^1}(M-1)\,
+d\theta\le C\,\eta(\Exc+a\eta)$.
 \end{proof}
 
 \begin{remark}[Scales, and the role in the reduction]\label{rem:fold-scales}
@@ -577,10 +538,12 @@ amplitude. Then \cref{cor:gd} gives
    \le C\bigl(\dT^{1/8}\dT^{1/2}+\dT^{1/4}\dT^{1/4}\bigr)
    =C\bigl(\dT^{5/8}+\dT^{1/2}\bigr)\le C\sqrt\dT,
 \]
-and \cref{prop:realization} (with $\sigma=\dT$) produces a continuous radial
-graph $G$ of amplitude $\norm{\rho-\hat r}_\infty\le\eta\le C\dT^{1/8}$ with
-$\abs{\Etil\triangle G}\le C\sqrt\dT$. These are precisely the scales fed
+and \cref{prop:realization} exhibits the measurable core graph $G_0$ of
+amplitude $\norm{\varphi_0}_\infty\le2\eta\le C\dT^{1/8}$ with
+$\abs{\Etil\triangle G_0}\le C\sqrt\dT$. These are precisely the scales fed
 into the cutting estimate (\cref{lem:cutdeficit}) and the assembly
 (\cref{thm:reduction}): the graph defect balances the level-carried closeness
-$\abs{\Om\triangle\Etil}\sim\sqrt\dT$ at the optimal exponent.
+$\abs{\Om\triangle\Etil}\sim\sqrt\dT$ at the optimal exponent, and the
+measurable-profile form of \cref{thm:graphG} consumes $G_0$ directly, with no
+intervening regularisation.
 \end{remark}

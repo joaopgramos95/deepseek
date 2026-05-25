@@ -5,14 +5,28 @@ This section proves, in full and self-containedly, the perturbative
 torsional stability of small-amplitude radial graphs consumed by the
 reduction of \cref{sec:main}. The result is a Fuglede-type estimate
 \emph{for the torsion functional}: a planar set whose boundary is a graph of
-small amplitude over a circle, after the natural volume and barycentre
-normalisations, has scale-invariant torsional deficit controlling the square
-of its Fraenkel asymmetry. We invoke no selection principle, no spectral
-black box, and no quantitative isoperimetric inequality.
+small amplitude over a circle, after the natural volume normalisation, has
+scale-invariant torsional deficit controlling the square of its Fraenkel
+asymmetry. We invoke no selection principle, no spectral black box, and no
+quantitative isoperimetric inequality.
+
+The graph is taken about an \emph{arbitrary} centre $z$: we do not assume
+that $z$ is the barycentre, nor do we recentre the set. The only structural
+information beyond the volume constraint is that the centre be chosen so that
+the first Fourier mode of the profile --- the translation mode --- is
+\emph{quadratically} small, $\|P_1\varphi\|_{L^2}\le K\|\varphi\|_{L^2}^2$.
+This is an explicit, checkable condition that the constant and first modes
+play symmetric, neutral roles, and it is the natural minimal hypothesis: it
+holds for the barycentre exactly, and we verify in \cref{sec:main} that it
+holds for the $L^1$-optimal centre produced by the construction. Recentring
+the set to enforce $P_1\varphi=0$ is \emph{not} used, and would be unsafe
+under the present hypotheses, because the profile is only Lipschitz with
+slope that may degenerate.
 
 The point requiring care is that the graph produced by \cref{sec:fold} has
 \emph{small amplitude but no slope control}: its radial profile is only
-Lipschitz, with a Lipschitz constant that may grow as $\dT\downarrow0$. The
+\emph{measurable}, with no modulus of continuity and no bounded variation
+available. The
 classical nearly-spherical estimates (Fuglede~\cite{Fuglede1989} and their
 torsional analogues) assume the boundary is a $C^1$- or $W^{2,\infty}$-small
 graph; they do not apply here, and it is precisely to manufacture such
@@ -25,8 +39,8 @@ that survives at high frequency.
 
 \subsection{Statement and standing normalisation}
 
-For $\varphi\in\mathrm{Lip}(S^1)$ with $\|\varphi\|_{L^\infty}<1$, a radius
-$\hat r_G>0$ and a centre $z\in\R^2$ we write
+For a measurable $\varphi\colon S^1\to\R$ with $\|\varphi\|_{L^\infty}<1$, a
+radius $\hat r_G>0$ and a centre $z\in\R^2$ we write
 \begin{equation}\label{eq:Gdef}
    G=G(z,\hat r_G,\varphi):=\set{z+r\omega(\theta):\ \theta\in S^1,\
    0\le r<\hat r_G\,(1+\varphi(\theta))},\qquad \omega(\theta)=(\cos\theta,\sin\theta),
@@ -43,28 +57,64 @@ are the scale-invariant torsional deficit and the Fraenkel asymmetry; both
 are invariant under translations and dilations.
 
 \begin{theorem}[Radial-graph torsion stability]\label{thm:graphG}
-There are absolute constants $\eta_G\in(0,\tfrac1{13}]$ and $C_G<\infty$
-\textup{(}one may take
+Fix any $K<\infty$. There are constants $\eta_G\in(0,\tfrac1{13}]$ and
+$C_G<\infty$, depending only on $K$ \textup{(}one may take
 \begin{equation}\label{eq:graphG-const}
-   \eta_G=\tfrac1{80},\qquad C_G=3
+   \eta_G=\min\Bigl\{\tfrac1{80},\ \tfrac1{16(1+K)^2}\Bigr\},
+   \qquad C_G=3
 \end{equation}
 \textup{)} such that the following holds. Let $G=G(z,\hat r_G,\varphi)$ be a
-radial graph as in \eqref{eq:Gdef} with $\varphi\in\mathrm{Lip}(S^1)$,
-$\|\varphi\|_{L^\infty}\le\eta_G$, and barycentre at $z$. Then
+radial graph as in \eqref{eq:Gdef} about an \emph{arbitrary} centre
+$z\in\R^2$, with $\varphi\colon S^1\to\R$ \emph{measurable} \textup{(}so that
+$G$ is a bounded open star-shaped set about $z$, taken in its open
+representative\textup{)},
+$\|\varphi\|_{L^\infty}\le\eta_G$, and
+\[
+   \hat r_G=\sqrt{|G|/\pi}.
+\]
+Assume the \emph{quadratic mode-one bound}
+\begin{equation}\label{eq:mode1hyp}
+   \|P_1\varphi\|_{L^2(S^1)}\ \le\ K\,\|\varphi\|_{L^2(S^1)}^2,
+\end{equation}
+where $P_1$ is the projection onto $\{\cos\theta,\sin\theta\}$ in the polar
+parametrisation of $\partial G$ about $z$. Then
 \begin{equation}\label{eq:graphG}
    \AF(G)^2\ \le\ C_G\,\dstar(G).
 \end{equation}
 The statement is scale-invariant; $G$ need not have area $\pi$. It uses no
-property of the original set $\Om$ and no selection.
+property of the original set $\Om$ and no selection. No slope, perimeter,
+curvature, barycentre or recentring hypothesis is made: only the volume
+constraint $\hat r_G=\sqrt{|G|/\pi}$, the $L^\infty$ amplitude bound, and the
+quadratic mode-one bound \eqref{eq:mode1hyp}.
 \end{theorem}
 
 \begin{remark}\label{rem:noslope}
-The hypothesis is on the $L^\infty$ \emph{amplitude} of $\varphi$ alone: no
+The hypotheses are on the $L^\infty$ \emph{amplitude} of $\varphi$, the
+volume constraint, and the quadratic mode-one bound \eqref{eq:mode1hyp}: no
 slope, perimeter, curvature, $C^1$ or $C^2$ bound is assumed. The amplitude
-bound serves only to trap $\partial G$ in a thin annulus and to make the
-volume and barycentre constraints remove the constant and first Fourier
-modes quantitatively. This is exactly the regime delivered by
-\cref{prop:realization}, where the amplitude is $O(\dT^{1/8})\to0$.
+bound serves only to trap $\partial G$ in a thin annulus; the volume
+constraint removes the constant mode quantitatively; and \eqref{eq:mode1hyp}
+removes the first (translation) mode quantitatively, playing exactly the role
+that a barycentre normalisation would. This is exactly the regime delivered
+by \cref{prop:realization}, where the amplitude is $O(\dT^{1/8})\to0$.
+\end{remark}
+
+\begin{remark}[The mode-one hypothesis and the barycentre]\label{rem:mode1}
+The quadratic mode-one bound \eqref{eq:mode1hyp} holds, with $K$ absolute,
+whenever $z$ is the barycentre of $G$: then $\int_{S^1}R^3\,\omega\d\theta=0$,
+and expanding $R^3=1+3\varphi+3\varphi^2+\varphi^3$ together with
+$\int_{S^1}\omega=0$ gives
+$3\int\varphi\,\omega=-\int(3\varphi^2+\varphi^3)\omega$, so
+$\|P_1\varphi\|_{L^2}\le\tfrac1{\sqrt\pi}(1+\tfrac13\|\varphi\|_{L^\infty})
+\|\varphi\|_{L^2}^2$. Thus \cref{thm:graphG} contains the
+barycentre-normalised case as the special instance
+$K=\tfrac1{\sqrt\pi}(1+\tfrac1{39})$ \textup{(}using
+$\|\varphi\|_{L^\infty}\le\tfrac1{13}$\textup{)}. The point of stating it as the
+explicit condition \eqref{eq:mode1hyp} is that it can also be verified
+\emph{at a prescribed centre} --- in particular at the $L^1$-optimal centre
+of the construction (\cref{sec:main}) --- without recentring the set, which
+under an $L^\infty$ amplitude bound alone need not preserve single-valuedness
+of the radial graph.
 \end{remark}
 
 Since $\dstar$ and $\AF$ are dilation- and translation-invariant, replacing
@@ -72,15 +122,20 @@ $G$ by $\hat r_G^{-1}(G-z)$ we assume throughout the proof
 \begin{equation}\label{eq:norm}
    z=0,\qquad \hat r_G=1,\qquad |G|=\pi,
 \end{equation}
-so that $R:=1+\varphi$ satisfies the volume and barycentre constraints
+where the last equality uses the hypothesis
+$\hat r_G=\sqrt{|G|/\pi}$. (This rescaling fixes the origin at the prescribed
+centre $z$ and leaves \eqref{eq:mode1hyp} unchanged, since both sides scale
+the same way under $\varphi\mapsto\hat r_G^{-1}\varphi$ once $\hat r_G$ is
+normalised to $1$.) Thus $R:=1+\varphi$ satisfies the single volume
+constraint
 \begin{equation}\label{eq:constraints}
    \int_{S^1}\bigl(R^2-1\bigr)\d\theta=0
    \quad\Bigl(\text{i.e. }\int_{S^1}(2\varphi+\varphi^2)\d\theta=0\Bigr),
-   \qquad
-   \int_{S^1}R^{3}\,\omega(\theta)\d\theta=0 .
 \end{equation}
-(The first is $|G|=\tfrac12\int R^2=\pi$; the second is
-$\int_G x\,dx=\tfrac13\int R^3\omega=0$.) We write $u_0(x):=\tfrac14(1-|x|^2)$
+which is just $|G|=\tfrac12\int R^2=\pi$. We do \emph{not} impose any
+barycentre constraint; the first Fourier mode of $\varphi$ is controlled
+instead through the quadratic mode-one hypothesis \eqref{eq:mode1hyp}. We
+write $u_0(x):=\tfrac14(1-|x|^2)$
 for the disc torsion, $-\Delta u_0=1$, $u_0|_{\partial B_1}=0$,
 $T(B_1)=\pi/8$. Expand $\varphi$ and the boundary datum
 \begin{equation}\label{eq:hdef}
@@ -107,8 +162,11 @@ $\dstar(G)=\tfrac8\pi\bigl(\tfrac\pi8-T(G)\bigr)
 =\tfrac{16}\pi\bigl(\mathcal E(G)-\mathcal E(B_1)\bigr)$.
 
 \begin{lemma}[Exact graph identity]\label{lem:identity}
-Let $z:=u_G-u_0\in H^1(G)$; then $z$ is harmonic in $G$ and $z=h$ on
-$\partial G$ \textup{(}with $h$ from \eqref{eq:hdef}\textup{)}. Moreover
+Let $G$ be any bounded \emph{open} star-shaped \textup{(}about $0$\textup{)}
+set with $B_{\rho_i}\subset G\subset B_{\rho_e}$ and \emph{measurable} radial
+profile $R=\rho\colon S^1\to[\rho_i,\rho_e]$, normalised by \eqref{eq:norm}.
+Let $z:=u_G-u_0\in H^1(G)$. Then $z$ is harmonic in $G$, with $z=h$ as its
+a.e.-radial boundary trace \textup{(}$h$ from \eqref{eq:hdef}\textup{)}, and
 \begin{equation}\label{eq:identity8}
    \mathcal E(G)-\mathcal E(B_1)
    =\frac12\int_G|\nabla z|^2\d x
@@ -118,46 +176,78 @@ $\partial G$ \textup{(}with $h$ from \eqref{eq:hdef}\textup{)}. Moreover
 
 \begin{proof}
 Both $u_G$ and $u_0$ solve $-\Delta(\cdot)=1$, so $z=u_G-u_0$ is harmonic in
-$G$; on $\partial G=\{R(\theta)\theta\}$ we have $u_G=0$, hence
-$z=-u_0(R\theta)=\tfrac14(R^2-1)=h$. Since $J_G$ is quadratic and
-$u_G=u_0+z$,
+$G$. The boundary trace is read off ray by ray: for a.e.\ $\theta$ the
+restriction of $u_G$ to the radial segment $r\mapsto u_G(r\omega(\theta))$
+lies in $H^1(0,\rho(\theta))$, is absolutely continuous, and (being the
+restriction of an $H^1_0(G)$ function) has radial limit $0$ at the endpoint
+$r=\rho(\theta)$; hence $z=u_G-u_0$ has radial limit $-u_0(\rho\omega)
+=\tfrac14(\rho^2-1)=h(\theta)$ there. We emphasise, however, that the
+identity \eqref{eq:identity8} below uses \emph{no} boundary regularity: it is
+proved by a boundary-term-free Green identity valid for any bounded open $G$.
+
+\emph{A weak Green identity.}
+Since $u_0\in C^\infty(\R^2)$ with $-\Delta u_0=1$ and $u_G\in H^1_0(G)$,
+\begin{equation}\label{eq:weakgreen}
+   \int_G\nabla u_0\cdot\nabla u_G\,dx=\int_G u_G\,dx=T(G).
+\end{equation}
+Indeed, choose $\phi_j\in C_c^\infty(G)$ with $\phi_j\to u_G$ in $H^1_0(G)$;
+integrating by parts on the compact support of $\phi_j$ (no boundary term),
+$\int_G\nabla u_0\cdot\nabla\phi_j=\int_G(-\Delta u_0)\phi_j=\int_G\phi_j$,
+and passing to the limit in $H^1_0(G)$ (the left side is continuous in
+$\nabla\phi_j$ because $\nabla u_0\in L^\infty(G)$, the right side in
+$\phi_j$) yields \eqref{eq:weakgreen}. No boundary regularity of $G$ is
+invoked.
+
+\emph{Polar integrals for the smooth datum.}
+By Fubini in polar coordinates, valid for the measurable profile $\rho$,
+\begin{align}
+   \int_G|\nabla u_0|^2\,dx
+      &=\int_{S^1}\!\int_0^{\rho}\frac{r^2}4\,r\,dr\d\theta
+      =\frac1{16}\int_{S^1}\rho^4\d\theta,
+      \label{eq:polar-grad}\\
+   \int_G u_0\,dx
+      &=\int_{S^1}\!\int_0^{\rho}\frac{1-r^2}4\,r\,dr\d\theta
+      =\int_{S^1}\Bigl(\frac{\rho^2}8-\frac{\rho^4}{16}\Bigr)\d\theta,
+      \label{eq:polar-u0}
+\end{align}
+using $|\nabla u_0|^2=r^2/4$ and $u_0=\tfrac14(1-r^2)$.
+
+\emph{Expansion of $T(G)$.}
+Write $\nabla u_G=\nabla u_0+\nabla z$. Then
 \[
-   \mathcal E(G)=J_G(u_G)=J_G(u_0)+\mathrm dJ_G(u_0)[z]+\tfrac12\int_G|\nabla z|^2 .
+   T(G)=\int_G|\nabla u_G|^2
+   =\int_G|\nabla u_0|^2+2\int_G\nabla u_0\cdot\nabla z+\int_G|\nabla z|^2 .
 \]
-The first variation is, using $-\Delta u_0=1$ and the divergence theorem on
-the Lipschitz domain $G$,
+By \eqref{eq:weakgreen} and \eqref{eq:polar-grad},
 \[
-   \mathrm dJ_G(u_0)[z]=\int_G\nabla u_0\cdot\nabla z-\int_G z
-   =\int_{\partial G}z\,\partial_\nu u_0\,d\HH^1 .
+   \int_G\nabla u_0\cdot\nabla z
+   =\int_G\nabla u_0\cdot\nabla u_G-\int_G|\nabla u_0|^2
+   =T(G)-\frac1{16}\int_{S^1}\rho^4\d\theta .
 \]
-On $\partial G$, $z=h=\tfrac14(R^2-1)$ and $\partial_\nu u_0=\nabla u_0\cdot
-\nu=-\tfrac12\,x\cdot\nu$. For a radial graph $x=R(\theta)\omega(\theta)$ one
-has the area element identity $(x\cdot\nu)\,d\HH^1=R^2\,d\theta$ \textup{(}the
-outward normal is $\nu=(R\omega-R'\omega^\perp)/\sqrt{R^2+R'^2}$ and
-$d\HH^1=\sqrt{R^2+R'^2}\,d\theta$, so $x\cdot\nu\,d\HH^1=R\,\omega\cdot
-(R\omega)\,d\theta=R^2\,d\theta$\textup{)}. Hence
+Substituting,
 \[
-   \mathrm dJ_G(u_0)[z]
-   =\int_{S^1}\frac{R^2-1}{4}\cdot\Bigl(-\frac12\Bigr)R^2\d\theta
-   =-\frac18\int_{S^1}(R^4-R^2)\d\theta .
+   T(G)=\frac1{16}\int\rho^4
+   +2\Bigl(T(G)-\frac1{16}\int\rho^4\Bigr)+\int_G|\nabla z|^2,
 \]
-Next, with $u_0=\tfrac14(1-r^2)$, $|\nabla u_0|^2=r^2/4$, polar coordinates give
+so that
+\begin{equation}\label{eq:Tgz}
+   T(G)=\frac1{16}\int_{S^1}\rho^4\d\theta-\int_G|\nabla z|^2\d x .
+\end{equation}
+(On the disc $\rho\equiv1$ this reads $T(B_1)=\tfrac1{16}\cdot2\pi=\pi/8$,
+as it must.)
+
+\emph{Conversion to $\mathcal E$.}
+Recall $\mathcal E(E)=-\tfrac12 T(E)$ and, on the normalisation
+\eqref{eq:norm}, $\mathcal E(B_1)=-\tfrac\pi{16}$. From \eqref{eq:Tgz},
 \[
-   J_G(u_0)=\int_{S^1}\!\int_0^R\Bigl(\tfrac12\tfrac{r^2}4-\tfrac{1-r^2}4\Bigr)r\,dr\d\theta
-   =\int_{S^1}\!\int_0^R\Bigl(\tfrac{3r^3}8-\tfrac r4\Bigr)dr\d\theta
-   =\int_{S^1}\Bigl(\frac{3R^4}{32}-\frac{R^2}8\Bigr)\d\theta .
+   \mathcal E(G)-\mathcal E(B_1)
+   =-\frac12 T(G)+\frac\pi{16}
+   =-\frac1{32}\int_{S^1}\rho^4\d\theta+\frac12\int_G|\nabla z|^2
+     +\frac\pi{16},
 \]
-Adding the two displays, the $R^2$ terms cancel:
-\[
-   \mathcal E(G)-\tfrac12\!\int_G|\nabla z|^2
-   =\int_{S^1}\Bigl(\frac{3R^4}{32}-\frac{R^2}8\Bigr)\d\theta
-   -\frac18\int_{S^1}(R^4-R^2)\d\theta
-   =\int_{S^1}\Bigl(\frac{3R^4}{32}-\frac{R^4}8\Bigr)\d\theta
-   =-\frac1{32}\int_{S^1}R^4\d\theta .
-\]
-Subtracting the same identity for $R\equiv1$ (where $z\equiv0$ and
-$\mathcal E(B_1)=-\tfrac1{32}\!\int_{S^1}1=-\tfrac\pi{16}=-\tfrac12T(B_1)$,
-consistently) yields \eqref{eq:identity8}.
+and since $\tfrac\pi{16}=\tfrac1{32}\int_{S^1}1\d\theta$, the two
+$\rho^4$/constant terms combine into $-\tfrac1{32}\int_{S^1}(\rho^4-1)$.
+With $R=\rho$ this is exactly \eqref{eq:identity8}.
 \end{proof}
 
 \subsection{A slope-free annular Steklov lower bound}
@@ -167,12 +257,13 @@ The next lemma is the heart of the matter: it bounds the Dirichlet energy of
 diagonal, $L^2$-coercive functional of $h$ --- with no reference to the
 slope of $\partial G$.
 
-Assume $1-\eta\le R\le1+\eta$ with $0<\eta\le\tfrac14$, and set
-$\rho:=1-\eta$. Expand $h=\sum_{k\ge0}h_k$ into Fourier modes.
+Assume $G$ is a bounded open star-shaped set with measurable profile
+$1-\eta\le R\le1+\eta$, $0<\eta\le\tfrac14$, and set $\rho:=1-\eta$ (so that
+$B_\rho\subset G$). Expand $h=\sum_{k\ge0}h_k$ into Fourier modes.
 
 \begin{lemma}[Annular Steklov lower bound]\label{lem:annular}
-Let $w\in H^1(G)$ have radial trace $w(R(\theta)\theta)=h(\theta)$ for a.e.\
-$\theta$. Then
+Let $w\in H^1(G)$ have, for a.e.\ $\theta$, a radial trace
+$w(R(\theta)\theta)=h(\theta)$ at the outer endpoint of the ray. Then
 \begin{equation}\label{eq:annular}
    \int_G|\nabla w|^2\d x\ \ge\ b(\eta)\sum_{k\ge2}\|h_k\|_{L^2(S^1)}^2,
    \qquad
@@ -197,8 +288,12 @@ extension, so with $f=\sum_k f_k$,
 (in the plane the harmonic extension of the mode $f_k$ is $(r/\rho)^k$ times
 it, with Dirichlet energy $k\|f_k\|_{L^2}^2$, independent of $\rho$).
 
-\emph{Annular shell.} For a.e.\ $\theta$, along the radial segment
-$r\in[\rho,R(\theta)]$ Cauchy--Schwarz gives
+\emph{Annular shell.} By Fubini, for a.e.\ $\theta$ the restriction
+$r\mapsto w(r\omega(\theta))$ lies in $H^1(\rho,R(\theta))$, is absolutely
+continuous on $[\rho,R(\theta)]$, equals $f(\theta)$ at $r=\rho$, and has
+radial limit $h(\theta)$ at the outer endpoint $r=R(\theta)$ by hypothesis;
+no regularity of the profile $R$ is used. Along the radial segment
+$r\in[\rho,R(\theta)]$ Cauchy--Schwarz then gives
 \[
    |h(\theta)-f(\theta)|^2
    =\Bigl(\int_\rho^{R(\theta)}\!\partial_r w\,dr\Bigr)^2
@@ -229,13 +324,13 @@ at least its value at $k=2$, namely $\frac{2\mu}{2+\mu}=b(\eta)$. This is
 \subsection{Removing the neutral modes}
 
 \begin{lemma}[Neutral modes]\label{lem:modes}
-There is an absolute $C_0$ such that if $\|\varphi\|_{L^\infty}\le\tfrac1{13}$
-and \eqref{eq:constraints} hold, then
+Assume $\|\varphi\|_{L^\infty}\le\tfrac1{13}$, the volume constraint
+\eqref{eq:constraints}, and the mode-one hypothesis \eqref{eq:mode1hyp} with
+parameter $K$. Then, with $C_0:=\tfrac1{2\sqrt{2\pi}}+K$,
 \begin{equation}\label{eq:neutral}
    \|P_0\varphi\|_{L^2}+\|P_1\varphi\|_{L^2}\ \le\ C_0\,\|\varphi\|_{L^2}^2 .
 \end{equation}
-Consequently there is an absolute $\eps_1>0$ such that
-$\|\varphi\|_{L^2}\le\eps_1$ implies
+Consequently, if $\|\varphi\|_{L^2}\le\eps_1:=1/(\sqrt{32}\,C_0)$, then
 $\|P_{\ge2}\varphi\|_{L^2}^2\ge\tfrac{15}{16}\|\varphi\|_{L^2}^2$.
 \end{lemma}
 
@@ -244,19 +339,14 @@ The volume constraint $\int_{S^1}(2\varphi+\varphi^2)=0$ gives
 $2\int\varphi=-\int\varphi^2$, so the mean obeys
 $|\overline\varphi|=\tfrac1{2\pi}|\int\varphi|=\tfrac1{4\pi}\int\varphi^2$ and
 $\|P_0\varphi\|_{L^2}=\sqrt{2\pi}\,|\overline\varphi|
-=\tfrac1{2\sqrt{2\pi}}\|\varphi\|_{L^2}^2$. The barycentre constraint with
-$R^3=1+3\varphi+3\varphi^2+\varphi^3$ and $\int_{S^1}\omega=0$ gives
-$3\int\varphi\,\omega=-\int(3\varphi^2+\varphi^3)\omega$, whence, using
-$\|P_1\varphi\|_{L^2}=\tfrac1{\sqrt\pi}|\int\varphi\,\omega|$ and
-$\|\varphi\|_{L^\infty}\le\tfrac1{13}$,
-\[
-   \|P_1\varphi\|_{L^2}\le\frac1{3\sqrt\pi}\int(3\varphi^2+|\varphi|^3)
-   \le\frac{1+\tfrac1{39}}{\sqrt\pi}\,\|\varphi\|_{L^2}^2 .
-\]
-This is \eqref{eq:neutral} with $C_0=\tfrac1{2\sqrt{2\pi}}+\tfrac{1+1/39}{\sqrt\pi}$.
-Then $\|P_0\varphi\|^2+\|P_1\varphi\|^2\le2C_0^2\|\varphi\|_{L^2}^4\le
-\tfrac1{16}\|\varphi\|_{L^2}^2$ once $\|\varphi\|_{L^2}^2\le\eps_1^2:=
-1/(32C_0^2)$, and the last claim follows.
+=\tfrac1{2\sqrt{2\pi}}\|\varphi\|_{L^2}^2$. The first-mode term is bounded
+directly by the hypothesis \eqref{eq:mode1hyp}, $\|P_1\varphi\|_{L^2}\le
+K\|\varphi\|_{L^2}^2$. Adding the two bounds gives \eqref{eq:neutral} with
+$C_0=\tfrac1{2\sqrt{2\pi}}+K$. Then
+$\|P_0\varphi\|^2+\|P_1\varphi\|^2\le2C_0^2\|\varphi\|_{L^2}^4\le
+\tfrac1{16}\|\varphi\|_{L^2}^2$ once $\|\varphi\|_{L^2}^2\le\eps_1^2=
+1/(32C_0^2)$, and the last claim follows from
+$\|P_{\ge2}\varphi\|^2=\|\varphi\|^2-\|P_0\varphi\|^2-\|P_1\varphi\|^2$.
 \end{proof}
 
 \begin{lemma}[Boundary datum and moment]\label{lem:taylor}
@@ -298,17 +388,32 @@ using $\|P_{\ge2}\varphi\|_{L^2}\le\|\varphi\|_{L^2}$ in the last step.
 
 \subsection{Proof of \texorpdfstring{\cref{thm:graphG}}{the theorem}}
 
-By \cref{prop:realization} the graphs entering the reduction have amplitude
-$\|\varphi\|_{L^\infty}\le\eta\le C\dT^{1/8}$, so for $\dT$ small both
-$\|\varphi\|_{L^\infty}\le\eta_G=\tfrac1{80}$ and (since
-$\|\varphi\|_{L^2}\le\sqrt{2\pi}\,\|\varphi\|_{L^\infty}\le\sqrt{2\pi}/80
-\le\eps_1$, with $\eps_1$ from \cref{lem:modes}) the hypotheses below hold.
-We prove \eqref{eq:graphG} for every $\varphi$ with
+Fix $K$ and set $\eta_G:=\min\{\tfrac1{80},\,\tfrac1{16(1+K)^2}\}$ as in
+\eqref{eq:graphG-const}. We prove \eqref{eq:graphG} for every $\varphi$
+satisfying the hypotheses of the theorem, i.e.\ the volume constraint
+\eqref{eq:constraints}, the mode-one bound \eqref{eq:mode1hyp}, and
 \begin{equation}\label{eq:thresh}
-   \|\varphi\|_{L^\infty}\le\eta_G=\tfrac1{80},
+   \|\varphi\|_{L^\infty}\le\eta_G\le\tfrac1{80}.
 \end{equation}
-which already forces $\|\varphi\|_{L^2}\le\sqrt{2\pi}/80<\eps_1$, so
-\cref{lem:modes,lem:taylor} apply with $\eta=\tfrac1{80}$.
+We first check that \cref{lem:modes,lem:taylor} apply with
+$\eta=\eta_G\le\tfrac1{13}$. From \eqref{eq:thresh},
+$\|\varphi\|_{L^2}\le\sqrt{2\pi}\,\|\varphi\|_{L^\infty}\le\sqrt{2\pi}\,\eta_G$.
+With $C_0=\tfrac1{2\sqrt{2\pi}}+K<1+K$ and
+$\eps_1=1/(\sqrt{32}\,C_0)$ from \cref{lem:modes}, the smallness
+$\|\varphi\|_{L^2}\le\eps_1$ needed there holds because
+\[
+   \sqrt{2\pi}\,\eta_G\,\cdot\,\sqrt{32}\,C_0
+   \ <\ \sqrt{64\pi}\,(1+K)\,\eta_G
+   \ \le\ \sqrt{64\pi}\,(1+K)\,\frac1{16(1+K)^2}
+   \ =\ \frac{\sqrt{64\pi}}{16(1+K)}\ <\ 1,
+\]
+using $\sqrt{64\pi}<16$ and $1+K\ge1$. Thus
+$\|\varphi\|_{L^2}<\eps_1$ and \cref{lem:modes} gives
+$\|P_{\ge2}\varphi\|^2\ge\tfrac{15}{16}\|\varphi\|^2$, while \cref{lem:taylor}
+applies with $\eta=\eta_G$. In the application,
+\cref{prop:realization} delivers $\|\varphi\|_{L^\infty}\le C\dT^{1/8}\to0$,
+so \eqref{eq:thresh} holds for $\dT$ small, and \cref{sec:main} supplies a
+centre for which \eqref{eq:mode1hyp} holds.
 
 By \cref{lem:annular} applied to $w=z$ (legitimate: $z$ is harmonic with
 outer trace $h$, and $1-\eta_G\le R\le1+\eta_G$ with $\eta_G\le\tfrac1{13}$,
@@ -334,8 +439,10 @@ identity \eqref{eq:identity8},
         \|\varphi\|_{L^2}^2 .
 \end{aligned}
 \end{equation}
-With $\eta_G=\tfrac1{80}$ the bracket equals
-$\tfrac{13}{256}-\tfrac5{1280}-\tfrac1{204800}=0.04687\ge0.046=:c_0$, so
+The bracket is decreasing in $\eta_G$, so its minimum over $\eta_G\le\tfrac1{80}$
+is attained at $\eta_G=\tfrac1{80}$, where it equals
+$\tfrac{13}{256}-\tfrac5{1280}-\tfrac1{204800}=0.04687\ge0.046=:c_0$; hence
+for every admissible $\eta_G\le\tfrac1{80}$,
 \begin{equation}\label{eq:Edown}
    \mathcal E(G)-\mathcal E(B_1)\ \ge\ c_0\,\|\varphi\|_{L^2}^2,
    \qquad c_0=0.046,
@@ -358,9 +465,10 @@ so by Cauchy--Schwarz $|G\triangle B_1|\le(1+\tfrac{\eta_G}2)\sqrt{2\pi}\,
 \|\varphi\|_{L^2}$, and since $\AF(G)\le|G\triangle B_1|/\pi$,
 \begin{equation}\label{eq:Aupper}
    \AF(G)^2\ \le\ \frac{2(1+\eta_G/2)^2}\pi\,\|\varphi\|_{L^2}^2
-   \ \le\ \frac{2(1+1/160)^2}\pi\,\|\varphi\|_{L^2}^2\ \le\ 0.645\,\|\varphi\|_{L^2}^2 .
+   \ \le\ \frac{2(1+1/160)^2}\pi\,\|\varphi\|_{L^2}^2\ \le\ 0.645\,\|\varphi\|_{L^2}^2 ,
 \end{equation}
-Combining \eqref{eq:Aupper} with \eqref{eq:dstarlow},
+where in the last two steps we used $\eta_G\le\tfrac1{80}$. Combining
+\eqref{eq:Aupper} with \eqref{eq:dstarlow},
 \[
    \AF(G)^2\ \le\ 0.645\,\|\varphi\|_{L^2}^2
    \ \le\ \frac{0.645}{0.234}\,\dstar(G)\ =\ 2.76\,\dstar(G)\ \le\ 3\,\dstar(G),
@@ -375,15 +483,120 @@ limit and no exponent larger than $2$ can hold. The proof uses only: the
 exact energy identity \cref{lem:identity} (integration by parts and the
 radial-graph area element); the Dirichlet principle and a one-dimensional
 Cauchy--Schwarz along radii (\cref{lem:annular}); the harmonicity of the
-disc modes $r^k e^{\mathrm i k\theta}$; Parseval; and the volume/barycentre
-constraints. There is \emph{no} quantitative isoperimetric inequality,
-\emph{no} selection or symmetrisation, \emph{no} second shape derivative,
-and crucially \emph{no} slope or curvature control on $\partial G$ --- only
-the $L^\infty$ amplitude bound. The coercive output is at the $L^2$
+disc modes $r^k e^{\mathrm i k\theta}$; Parseval; the volume constraint; and
+the quadratic mode-one bound \eqref{eq:mode1hyp}. There is \emph{no}
+quantitative isoperimetric inequality, \emph{no} selection or symmetrisation,
+\emph{no} second shape derivative, \emph{no} barycentre recentring of the
+set, and crucially \emph{no} slope or curvature control on $\partial G$ ---
+only the $L^\infty$ amplitude bound. The coercive output is at the $L^2$
 (Fraenkel) scale; the stronger $\dot H^{1/2}$ bound is false at this level of
 generality (high-frequency ripples) but is not needed. The constants
 \eqref{eq:graphG-const} are not optimised; the threshold $\eta\le1/13$ for
 $b(\eta)\ge3/2$ in \cref{lem:annular} is the only place the amplitude enters
 the coercivity, and any smaller absolute $\eta_G$ is admissible, which is all
 \cref{sec:main} requires since the inset amplitude is $O(\dT^{1/8})\to0$.
+\end{remark}
+
+\subsection{The translation mode: reduction of the mode-one hypothesis}
+\label{ss:translation}
+
+We record what the hypothesis \eqref{eq:mode1hyp} is really controlling, and
+how far one can go without it. The asymmetry side requires no mode-one
+assumption at all: optimising the comparison disc over translations removes the
+first Fourier mode automatically, up to an error of the natural quadratic
+order.
+
+\begin{lemma}[Translation-reduced asymmetry]\label{lem:shift-asym}
+Let $G=G(0,1,\varphi)$ be normalised as in \eqref{eq:norm}, with $\varphi$
+measurable, $\|\varphi\|_{L^\infty}\le\eta_G\le\tfrac1{13}$, and the volume
+constraint \eqref{eq:constraints}. Let $q\in\R^2$ be the first Fourier
+coefficient vector of $\varphi$, i.e.\ $\omega(\theta)\cdot q=P_1\varphi(\theta)$.
+Then $B(q,1)$ is star-shaped about $0$ and
+\begin{equation}\label{eq:shift-asym}
+   \AF(G)\ \le\ \frac{|G\triangle B(q,1)|}{\pi}
+   \ \le\ C\bigl(\|P_{\ge2}\varphi\|_{L^2}+\|\varphi\|_{L^2}^2\bigr),
+   \qquad\text{hence}\qquad
+   \AF(G)^2\ \le\ C\bigl(\|P_{\ge2}\varphi\|_{L^2}^2+\|\varphi\|_{L^2}^4\bigr),
+\end{equation}
+with $C$ absolute and \emph{no} mode-one hypothesis.
+\end{lemma}
+
+\begin{proof}
+Since $|q|=\|P_1\varphi\|_{L^2}/\sqrt\pi\le\|\varphi\|_{L^2}/\sqrt\pi\le
+\sqrt2\,\eta_G<1$, the origin lies in $B(q,1)$, which is therefore star-shaped
+about $0$ with polar radius $\rho_q(\theta)$ given by $|\rho_q\omega-q|=1$, i.e.
+$\rho_q^2-2(\omega\cdot q)\rho_q+|q|^2=1$, so $\rho_q^2=1-|q|^2+2(\omega\cdot q)
+\rho_q$ and $\rho_q=(\omega\cdot q)+\sqrt{1-|q|^2+(\omega\cdot q)^2}
+=1+\omega\cdot q+O(|q|^2)$. Hence
+\[
+   \rho_q^2=1-|q|^2+2(\omega\cdot q)+2(\omega\cdot q)^2+r,\qquad
+   |r|\le C|q|^3 ,
+\]
+with $C$ absolute for $|q|\le\sqrt2/13$. Both $G$ and $B(q,1)$ are star-shaped
+about $0$ with measurable radial profiles $R=1+\varphi$ and $\rho_q$, so the
+polar area formula gives
+\[
+   |G\triangle B(q,1)|=\tfrac12\int_{S^1}\bigl|R^2-\rho_q^2\bigr|\d\theta,
+   \qquad
+   R^2-\rho_q^2=2(\varphi-\omega\cdot q)+\varphi^2+|q|^2-2(\omega\cdot q)^2-r .
+\]
+Therefore, by the triangle inequality and $\omega\cdot q=P_1\varphi$,
+\[
+   |G\triangle B(q,1)|
+   \ \le\ \int_{S^1}|\varphi-P_1\varphi|\d\theta
+   +\tfrac12\!\int_{S^1}\!\bigl(\varphi^2+|q|^2+2(\omega\cdot q)^2\bigr)\d\theta
+   +\tfrac12\!\int_{S^1}|r|\d\theta .
+\]
+For the first term, $\varphi-P_1\varphi=P_0\varphi+P_{\ge2}\varphi$, so by
+Cauchy--Schwarz $\int_{S^1}|\varphi-P_1\varphi|\le\sqrt{2\pi}\,
+(\|P_0\varphi\|_{L^2}+\|P_{\ge2}\varphi\|_{L^2})$; and the volume constraint
+gives $\|P_0\varphi\|_{L^2}=\sqrt{2\pi}\,|\overline\varphi|=\tfrac1{2\sqrt{2\pi}}
+\|\varphi\|_{L^2}^2$ (as in \cref{lem:modes}). For the second term,
+$\int_{S^1}\varphi^2=\|\varphi\|_{L^2}^2$, $\int_{S^1}|q|^2=2\pi|q|^2$ and
+$\int_{S^1}(\omega\cdot q)^2=\pi|q|^2$, so it equals $\tfrac12\|\varphi\|_{L^2}^2
++2\pi|q|^2=\tfrac12\|\varphi\|_{L^2}^2+2\|P_1\varphi\|_{L^2}^2$. The third term
+is $\le\tfrac12\cdot2\pi C|q|^3\le C\|\varphi\|_{L^2}^3$. Collecting, and using
+$\|P_1\varphi\|_{L^2}^2\le\|\varphi\|_{L^2}^2$ and $\|\varphi\|_{L^2}^3\le
+\eta_G\|\varphi\|_{L^2}^2$,
+\[
+   |G\triangle B(q,1)|\ \le\ \sqrt{2\pi}\,\|P_{\ge2}\varphi\|_{L^2}
+   +C\,\|\varphi\|_{L^2}^2 .
+\]
+Dividing by $\pi$ (and $\AF(G)\le|G\triangle B(q,1)|/|G|=|G\triangle
+B(q,1)|/\pi$) gives the first bound in \eqref{eq:shift-asym}; squaring and using
+$2\|P_{\ge2}\varphi\|\,\|\varphi\|^2\le\|P_{\ge2}\varphi\|^2+\|\varphi\|^4$
+gives the second.
+\end{proof}
+
+\begin{remark}[What remains: the translation mode is a quartic direction]
+\label{rem:mode1-residual}
+\Cref{lem:shift-asym} isolates the exact role of \eqref{eq:mode1hyp}. The
+deficit lower bound coerces the modes $k\ge2$: keeping the $k=1$ term in
+\cref{lem:annular} (coefficient $c_1(\eta)=\mu/(1+\mu)=1-O(\eta)$) and matching
+it against the mode-one part of the moment term \eqref{eq:moment} produces, for
+\emph{any} centre and with no mode-one hypothesis, the cancellation
+\begin{equation}\label{eq:dstar-modes}
+   \dstar(G)\ \ge\ c\,\|P_{\ge2}\varphi\|_{L^2}^2-C\,\eta\,\|\varphi\|_{L^2}^2 ,
+\end{equation}
+with $c,C$ absolute. Comparing \eqref{eq:dstar-modes} with the asymmetry bound
+\eqref{eq:shift-asym}, the estimate $\AF(G)^2\le C_G\dstar(G)$ would follow from
+the single \emph{quartic translation bound}
+\begin{equation}\label{eq:quartic-residual}
+   \|P_1\varphi\|_{L^2}^4\ \le\ C\,\dstar(G)
+   \qquad\bigl(\text{equivalently }\dstar(G)\ge c\,\|P_1\varphi\|_{L^2}^4\bigr),
+\end{equation}
+which is exactly the statement that translating the disc is a direction of
+\emph{vanishing first variation and strictly positive second variation} of the
+torsional deficit. The hypothesis \eqref{eq:mode1hyp}, $\|P_1\varphi\|_{L^2}\le
+K\|\varphi\|_{L^2}^2$, implies \eqref{eq:quartic-residual} a fortiori (it makes
+$\|\varphi\|_{L^2}^2\le C\|P_{\ge2}\varphi\|_{L^2}^2$, absorbing the
+$-C\eta\|\varphi\|^2$ loss in \eqref{eq:dstar-modes}), which is why we adopt it.
+We emphasise that \eqref{eq:quartic-residual} is \emph{not} delivered by the
+slope-free energy method of this section: the translation contributes to
+$\dstar$ only at order $\|P_1\varphi\|^4=O(\eta^2)\|P_1\varphi\|^2$, which lies
+below the $O(\eta)\|P_1\varphi\|^2$ loss of the one-sided annular Steklov bound
+\cref{lem:annular} and of the cubic remainder in \eqref{eq:moment}; extracting
+it would require an exact (rather than one-sided) second-order computation of
+the harmonic energy under the domain perturbation. This is the precise content
+of the residual recorded as \eqref{eq:mode1-scoped} in \cref{sec:main}.
 \end{remark}

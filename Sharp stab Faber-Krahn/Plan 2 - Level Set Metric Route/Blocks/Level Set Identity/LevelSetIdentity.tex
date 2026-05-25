@@ -126,8 +126,12 @@ The set
 \]
 has full Lebesgue measure in $(0,\|u\|_{\infty})$; Sobolev--Sard
 \cite[App.~A, Thm.~A.1]{FigalliMaggi2011} additionally gives
-$\mathcal H^{n-1}(\{u=t\}\cap\{|\nabla u|=0\})=0$ for a.e.\ $t$, but is
-not used below since all integrals are on reduced boundaries.
+$\mathcal H^{n-1}(\{u=t\}\cap\{|\nabla u|=0\})=0$ for a.e.\ $t$, used
+only to identify the coarea integrand
+$|\nabla u|^{-1}\mathbf 1_{\{|\nabla u|>0\}}$ with $|\nabla u|^{-1}$ on
+$\partial^{*}E_{t}$ in Lemma~\ref{lem:coarea}; all integrals below live
+on reduced boundaries, with no graph or manifold regularity of
+$\partial^{*}E_{t}$.
 Statements ``for a.e.\ $t$'' below refer to a.e.\ $t\in\mathcal R$.
 
 \begin{lemma}[No positive-level atoms and no critical bulk]\label{lem:noatoms}
@@ -404,9 +408,13 @@ absolutely continuous on compact subintervals of $(0,|\Om|)$ and that
    (u^*)'(s)=\frac{1}{m'(u^*(s))}
 \]
 for a.e.\ $s$ for which $m'(u^*(s))$ exists and is nonzero
-\cite[Thm.~0.4 and \S1]{BBC1975}.  The exceptional set where
-$m'=0$ has zero image measure because $m$ is absolutely continuous.
-Since $m'=-\alpha$, this gives~\eqref{eq:L3c}.  Finally
+\cite[Thm.~0.4 and \S1]{BBC1975}.  Here $\alpha(t)>0$ for a.e.\
+$t\in(0,\|u\|_\infty)$: such $t$ have $0<|E_t|<|\Om|$, hence $P(E_t)>0$
+and $\mathcal H^{n-1}(\partial^{*}E_t)>0$, so
+$\alpha(t)=\int_{\partial^{*}E_t}|\nabla u|^{-1}\,d\mathcal H^{n-1}>0$.
+Thus $\{m'=0\}=\{\alpha=0\}$ is Lebesgue-null, and in any event
+$|m(\{m'=0\})|\le\int_{\{m'=0\}}|m'|=0$, so this set carries no image
+measure.  Since $m'=-\alpha$, this gives~\eqref{eq:L3c}.  Finally
 Lemma~\ref{lem:I3b} gives $I'=u^*$ a.e.; on compact subintervals
 $u^*$ is absolutely continuous, so the distributional derivative of
 $I'$ is the a.e.\ derivative $(u^*)'$.
@@ -559,16 +567,16 @@ $I(L)=\int_{0}^{L}u^{*}=\int_{\Om}u\,dx$, so
 The one-sided derivative of the primitive satisfies
 $I'_{-}(L)=\lim_{s\uparrow L}u^*(s)=0$, so
 $G'_{-}(L)=
-\frac{L^{2/n}}{2n\omega_{n}^{2/n}}$. Hence
+\frac{L^{2/n}}{2n\omega_{n}^{2/n}}$. Hence, using
+$\frac{1}{2n}-\frac{1}{4+2n}=\frac{1}{2n}-\frac{1}{2(n+2)}
+ =\frac{1}{n(n+2)}$ (recall $4+2n=2(n+2)$),
 \[
    \Gamma(\Om)
    =\frac{L^{2/n}}{2n\omega_{n}^{2/n}}
     -\frac{L^{2/n}}{(4+2n)\omega_{n}^{2/n}}
     -\frac{1}{L}\int_{\Om}u\,dx
-   =\frac{L^{2/n}}{2n(n+2)\omega_{n}^{2/n}}-\frac{1}{L}\int_{\Om}u\,dx.
+   =\frac{L^{2/n}}{n(n+2)\omega_{n}^{2/n}}-\frac{1}{L}\int_{\Om}u\,dx.
 \]
-(Note $4+2n=2(n+2)$, reconciling the constant $1/(4+2n)$ in the
-corrector~\eqref{eq:Gdef} with $1/(2n(n+2))$ here.)
 For the ball $B=B_{R}$ with $|B_{R}|=L$, the torsion function is
 $u_{B}(x)=(R^{2}-|x|^{2})/(2n)$ (so $-\Delta u_{B}=1$, $u_{B}=0$ on
 $\partial B_{R}$). Take $|B|=\omega_{n}$ (so $R=1$, $L=\omega_{n}$,
@@ -578,14 +586,15 @@ yields
    \int_{B_{1}}u_{B}\,dx
    =\frac{1}{2n}\int_{B_{1}}(1-|x|^{2})\,dx
    =\frac{1}{2n}\cdot n\omega_{n}\int_{0}^{1}(1-r^{2})r^{n-1}\,dr
-   =\frac{\omega_{n}}{2n(n+2)}.
+   =\frac{\omega_{n}}{2}\Bigl(\frac1n-\frac1{n+2}\Bigr)
+   =\frac{\omega_{n}}{n(n+2)}.
 \]
 Substituting into $\Gamma$ (still with $L=\omega_{n}$),
-$\frac{1}{L}\int_{B}u_{B}=\frac{1}{2n(n+2)}$ and
-$\frac{L^{2/n}}{2n(n+2)\omega_{n}^{2/n}}=\frac{1}{2n(n+2)}$, hence
+$\frac{1}{L}\int_{B}u_{B}=\frac{1}{n(n+2)}$ and
+$\frac{L^{2/n}}{n(n+2)\omega_{n}^{2/n}}=\frac{1}{n(n+2)}$, hence
 $\Gamma(B)=0$. By scaling, the same conclusion holds for arbitrary
 $L>0$, giving
-$\frac{L^{2/n}}{2n(n+2)\omega_{n}^{2/n}}=\frac{1}{L}\int_{B}u_{B}\,dx$.
+$\frac{L^{2/n}}{n(n+2)\omega_{n}^{2/n}}=\frac{1}{L}\int_{B}u_{B}\,dx$.
 Subtracting,
 \[
    \Gamma(\Om)

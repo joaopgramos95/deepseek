@@ -108,12 +108,12 @@ The following corollary, which we call the \emph{differentiation lemma} for the
 distribution function, is used repeatedly in the level-set analysis.
 
 \begin{lemma}[Differentiation of the distribution function]\label{lem:dist-deriv}
-Let $\Omega\subset\R^2$ be bounded and let $u\in W^{1,1}(\Omega)\cap C^1(\Omega)$
-with $u\ge 0$ \textup{(}no continuity up to $\partial\Omega$ is assumed; the
-torsion function of \eqref{eq:torsion}, which is in $H^1_0(\Omega)\subset
-W^{1,1}(\Omega)$ for bounded $\Omega$ and in $C^\infty(\Omega)$ by
-\cref{thm:torsion-reg}, satisfies these hypotheses\textup{)}.  Define
-$\mu(v):=|\{u>v\}|$ for $v\ge 0$.  Then $\mu$ is
+Let $\Omega\subset\R^2$ be bounded and let
+$u\in W^{1,1}(\Omega)\cap C^1(\Omega)$ with $u\ge0$ and
+\[
+  |\{x\in\Omega:\nabla u(x)=0\}|=0 .
+\]
+Define $\mu(v):=|\{u>v\}|$ for $v\ge 0$.  Then $\mu$ is
 non-increasing and absolutely continuous, and for Lebesgue-almost every $v>0$,
 \begin{equation}\label{eq:dist-deriv}
   -\mu'(v) = \int_{\{u=v\}} \frac{1}{|\nabla u|}\,d\HH^1.
@@ -128,18 +128,20 @@ $(1, |\nabla u|^{1/2})$ on $\{u=v\}$ gives
 \end{lemma}
 
 \begin{proof}
-The coarea formula \eqref{eq:coarea-formula} with $g = |\nabla u|^{-1}\mathbf{1}_{\{\nabla u\ne 0\}}$
+The coarea formula \eqref{eq:coarea-formula} with
+$g=|\nabla u|^{-1}\mathbf{1}_{\{\nabla u\ne0\}}$
 gives, for $0\le s < t$,
 \[
   |\{s < u \le t\}\cap\{\nabla u\ne 0\}|
   = \int_s^t \left(\int_{\{u=v\}\cap\{\nabla u\ne 0\}}\frac{1}{|\nabla u|}\,d\HH^1\right)dv.
 \]
-Since $u\in C^1(\Omega)$, Sard's theorem (\cref{thm:sard} below) implies that
-$\{u=v\}\cap\{\nabla u=0\}$ is empty for a.e.\ $v$, so the restriction to
-$\{\nabla u\ne 0\}$ is superfluous for a.e.\ $v$.  Also $|\{\nabla u=0\}\cap\{s<u\le t\}|$
-contributes zero to the left side (it has measure zero by a standard argument).
-Hence $\mu(s)-\mu(t) = \int_s^t(-\mu')\,dv$ with $-\mu'(v) =
-\int_{\{u=v\}}|\nabla u|^{-1}\,d\HH^1$ a.e.
+The critical set has zero Lebesgue measure by hypothesis, so the left side is
+$|\{s<u\le t\}|=\mu(s)-\mu(t)$.  By Sard's theorem
+(\cref{thm:sard} below), $\{u=v\}\cap\{\nabla u=0\}$ is empty for a.e.\ $v$;
+for those $v$ the inner integral may be written over the whole level
+$\{u=v\}$.  Thus $\mu$ is the tail integral of an $L^1_{\rm loc}$ function,
+is absolutely continuous, and
+$-\mu'(v)=\int_{\{u=v\}}|\nabla u|^{-1}\,d\HH^1$ for a.e.\ $v$.
 
 For \eqref{eq:cauchy-schwarz-flux}: by Cauchy--Schwarz on $\{u=v\}$,
 \[
@@ -318,6 +320,36 @@ estimate gives
 with $C$ depending only on the dimension $n=2$.  Dividing by $d$ and $d^2$
 respectively yields \eqref{eq:interior-est} (the sup over $B_{d/2}(x)$ bounds
 the pointwise value at $x$).
+\end{proof}
+
+\begin{lemma}[Critical set of the torsion function has zero area]
+\label{lem:crit-zero}
+Let $\Omega\subset\R^2$ be a bounded open set and let $u$ solve
+\eqref{eq:torsion}.  Then
+\[
+  |\{x\in\Omega:\nabla u(x)=0\}|=0 .
+\]
+Consequently the torsion function satisfies the hypothesis of
+\cref{lem:dist-deriv}.
+\end{lemma}
+
+\begin{proof}
+By \cref{thm:torsion-reg}, $u$ is real-analytic in $\Omega$.  The open set
+$\Omega$ has at most countably many connected components.  On any component
+$U$, the two first derivatives of $u$ cannot both vanish identically: if they
+did, $u$ would be constant on $U$, contradicting $-\Delta u=1$ there.  Hence
+for each component $U$ at least one derivative, say $\partial_j u$, is a
+non-trivial real-analytic function on $U$, and
+\[
+  \{\nabla u=0\}\cap U\subset\{\partial_j u=0\}.
+\]
+The zero set of a non-trivial real-analytic function on a connected open
+subset of $\R^2$ has Lebesgue measure zero.  Indeed, if such a zero set had
+positive measure, a density point and the Taylor expansion at that point
+would force all derivatives to vanish there, and the analytic identity
+theorem would force the function to vanish identically.  Thus
+$|\{\nabla u=0\}\cap U|=0$ on every component $U$, and the countable union over
+components has measure zero.
 \end{proof}
 
 \begin{lemma}[$L^\infty$ bound]\label{lem:linfty}

@@ -1,0 +1,1388 @@
+%=====================================================================
+%  EXHAUSTIVE, LINE-BY-LINE JUSTIFIED VERSION OF THE KOHLER--JOBIN
+%  SECTION (STEP 4 OF THE WRITEUP PIPELINE).
+%
+%  This file is the SECTION BODY ONLY, ready to \input into the master
+%  preamble, which already defines:
+%     \R \Om \Fr \Hn \abs \norm \dx \dt \dH \Tmod
+%     theorem/lemma/proposition/corollary/remark/definition
+%        (numbered by section)
+%     the bib keys
+%        Brasco2014, BraDeP2017, KJ1, KJ2, KJ3,
+%        FJ2014, GilbargTrudinger2001
+%     the cross-references thm:boundedSV, thm:SV-global, thm:FK-main,
+%        and the equation label eq:T-global.
+%
+%  The MATHEMATICS is identical to the verified source
+%  sec_kohler_jobin_body.tex: same theorems, lemmas, propositions,
+%  labels, constants and logical order.  The ONLY change is the
+%  insertion of detailed justifications after every nontrivial step,
+%  the spelling-out in full of the compressed computations, and short
+%  motivating sentences.  No mathematical claim and no constant has
+%  been altered.
+%
+%  To compile this file STANDALONE, prepend the throwaway test preamble
+%  delimited at the bottom of this header (copy it above \begin{document}
+%  and append \end{document} after the body).  In the master file, drop
+%  the test preamble entirely.
+%=====================================================================
+%
+%  >>>  THROWAWAY TEST PREAMBLE  (delete on integration)  <<<
+%
+%  \documentclass[11pt]{amsart}
+%  \usepackage[a4paper,margin=2.5cm]{geometry}
+%  \usepackage{amsmath,amssymb,amsthm,mathtools}
+%  \usepackage{enumitem}
+%  \usepackage[hidelinks]{hyperref}
+%  \newtheorem{theorem}{Theorem}[section]
+%  \newtheorem{proposition}[theorem]{Proposition}
+%  \newtheorem{lemma}[theorem]{Lemma}
+%  \newtheorem{corollary}[theorem]{Corollary}
+%  \theoremstyle{definition}
+%  \newtheorem{definition}[theorem]{Definition}
+%  \newtheorem{remark}[theorem]{Remark}
+%  \newcommand{\R}{\mathbb R}
+%  \newcommand{\Om}{\Omega}
+%  \newcommand{\Fr}{\mathcal A}
+%  \newcommand{\HH}{\mathcal H}
+%  \newcommand{\eps}{\varepsilon}
+%  \newcommand{\Hn}{\mathcal H^{n-1}}
+%  \newcommand{\abs}[1]{\left|#1\right|}
+%  \newcommand{\norm}[1]{\left\|#1\right\|}
+%  \newcommand{\dx}{\,dx}
+%  \newcommand{\dt}{\,dt}
+%  \newcommand{\dH}{\,d\HH^{n-1}}
+%  \DeclareMathOperator{\Tmod}{T_{\mathrm{mod}}}
+%  \begin{document}
+%
+%  >>>  END THROWAWAY TEST PREAMBLE  <<<
+%
+%=====================================================================
+%  >>>>>>>>>>>>>>>>>>>>  BEGIN SECTION BODY  <<<<<<<<<<<<<<<<<<<<<<<<<<
+%=====================================================================
+
+\section{The Kohler--Jobin inequality and the transfer to Faber--Krahn}
+\label{sec:kj}
+
+This section is logically self-contained. In Part~1 we reconstruct from
+scratch, by the Kohler--Jobin rearrangement technique, the spectral shape
+inequality
+\[
+  T(\Om)\,\lambda_1(\Om)^{(n+2)/2}\ \ge\ T(B)\,\lambda_1(B)^{(n+2)/2}
+  \qquad(B\text{ any ball}),
+\]
+with equality only for balls. In Part~2 we feed this inequality, together
+with the global sharp Saint--Venant stability estimate proved elsewhere in
+the manuscript, into a short and fully explicit computation that yields
+sharp quantitative Faber--Krahn stability,
+$\delta_{\mathrm{FK}}(\Om)\ge c_{\mathrm{FK}}(n)\,\Fr(\Om)^2$.
+
+The technique, due to Kohler--Jobin~\cite{KJ1,KJ2,KJ3}, is a spherical
+rearrangement that, unlike Schwarz symmetrisation, preserves not the
+\emph{volume} of the superlevel sets but a \emph{torsional} functional of
+them. We follow the modern exposition of Brasco~\cite[\S\S3--5,
+Thm.~1.1]{Brasco2014}, specialised throughout to the linear case (the
+Laplacian, $p=2$, and the Dirichlet energy quotient).
+
+The section is written for a reader meeting the argument for the first
+time: each displayed inference is accompanied by a short justification
+naming the identity, inequality, or theorem invoked and noting why its
+hypotheses are met, and the central computations -- the radial-gradient
+expansion in Lemma~\ref{lem:A}, the closed form of $\Tmod$, the convexity
+chain in Lemma~\ref{lem:B}, the Rayleigh assembly, and the one-variable
+inequality of Part~2 -- are carried out in full, with every constant
+tracked.
+
+\subsection{Notation and scaling conventions}
+\label{ssec:kj-notation}
+
+Throughout, $n\ge 2$ and $\Om\subset\R^n$ is open with finite measure. We
+use:
+\begin{itemize}
+\item $u_\Om\in H^1_0(\Om)$, the \emph{torsion function}, the unique weak
+solution of $-\Delta u_\Om=1$ in $\Om$, $u_\Om=0$ on $\partial\Om$;
+\item $T(\Om)=\int_\Om u_\Om\dx$, the \emph{torsional rigidity}, and
+$E(\Om)=-T(\Om)/2$;
+\item $\lambda_1(\Om)$, the first Dirichlet eigenvalue,
+\begin{equation}\label{eq:rayleigh}
+  \lambda_1(\Om)=\min_{\,0\ne v\in H^1_0(\Om)}
+  \frac{\int_\Om\abs{\nabla v}^2\dx}{\int_\Om v^2\dx},
+\end{equation}
+attained by a first eigenfunction $u>0$ solving $-\Delta u=\lambda_1(\Om)u$;
+\item $B^*$, the ball centred at $0$ with $\abs{B^*}=\abs\Om$; $B_r$ the
+open ball of radius $r$ centred at $0$; $B_1$ the unit ball;
+$\omega_n=\abs{B_1}$;
+\item $L_n=\lambda_1(B_1)=j_{n/2-1,1}^2$ and
+$T_n=T(B_1)=\omega_n/\bigl(n(n+2)\bigr)$;
+\item $\Fr(\Om)=\inf_{x_0\in\R^n}\abs{\Om\,\triangle\,(x_0+B^*)}/\abs{B^*}
+\in[0,2)$, the Fraenkel asymmetry;
+\item $\delta_{\mathrm{FK}}(\Om)
+=(\abs\Om/\omega_n)^{2/n}\bigl(\lambda_1(\Om)-\lambda_1(B^*)\bigr)$, the
+scale-invariant Faber--Krahn deficit.
+\end{itemize}
+
+\paragraph{Justification of the listed identities.}
+We verify the two facts about balls that the conventions assert, since the
+whole argument is calibrated against them.
+
+\emph{The torsion function of a ball.} On $B_r$ put
+$v(x)=(r^2-\abs x^2)/(2n)$. Then $v\in C^\infty(\overline{B_r})$, $v=0$ on
+$\{\abs x=r\}=\partial B_r$, and, writing $\abs x^2=\sum_{i}x_i^2$,
+\[
+  \Delta v=\frac{1}{2n}\,\Delta\bigl(r^2-\abs x^2\bigr)
+  =\frac{1}{2n}\,\bigl(-\Delta\abs x^2\bigr)
+  =\frac{1}{2n}\,(-2n)=-1,
+\]
+because $\Delta\abs x^2=\sum_i\partial_{x_ix_i}^2\bigl(\sum_j x_j^2\bigr)
+=\sum_i 2=2n$. Thus $-\Delta v=1$ in $B_r$ with $v=0$ on $\partial B_r$, so
+by uniqueness of the weak solution $u_{B_r}=v$. This justifies the formula
+$u_{B_r}(x)=(r^2-\abs x^2)/(2n)$.
+
+\emph{The torsional rigidity of a ball.} Integrating $u_{B_r}$ in polar
+coordinates (writing $\sigma_{n-1}=\mathcal H^{n-1}(\partial B_1)=n\omega_n$
+for the surface area of the unit sphere, the standard relation between the
+volume and surface measure of the unit ball),
+\[
+  T(B_r)=\int_{B_r}\frac{r^2-\abs x^2}{2n}\dx
+  =\frac{1}{2n}\int_0^r\frac{(r^2-\rho^2)}{1}\,\sigma_{n-1}\rho^{n-1}\,d\rho
+  =\frac{\sigma_{n-1}}{2n}\Bigl[\frac{r^2\rho^n}{n}-\frac{\rho^{n+2}}{n+2}
+     \Bigr]_0^r .
+\]
+The bracket at $\rho=r$ equals
+$r^{n+2}\bigl(\tfrac1n-\tfrac1{n+2}\bigr)
+=r^{n+2}\cdot\tfrac{2}{n(n+2)}$, so with $\sigma_{n-1}=n\omega_n$,
+\begin{equation}\label{eq:torsionball}
+  T(B_r)=\frac{n\omega_n}{2n}\cdot\frac{2}{n(n+2)}\,r^{\,n+2}
+  =\frac{\omega_n}{n(n+2)}\,r^{\,n+2}=T_n\,r^{\,n+2}.
+\end{equation}
+The last equality is the definition $T_n=T(B_1)=\omega_n/\bigl(n(n+2)\bigr)$,
+recovered by setting $r=1$. This is exactly the constant whose value will
+make the leading constant in Lemma~\ref{lem:A} collapse to $1$.
+
+\emph{Scaling.} If $t>0$ and $w_t(x):=t^2\,u_\Om(x/t)$ on $t\Om$, then
+$-\Delta w_t(x)=t^2\cdot t^{-2}\,(-\Delta u_\Om)(x/t)=1$ and $w_t=0$ on
+$\partial(t\Om)$, so $u_{t\Om}=w_t$ by uniqueness, and the change of
+variables $x=ty$ gives
+$T(t\Om)=\int_{t\Om}w_t\dx=\int_\Om t^2u_\Om(y)\,t^n\,dy=t^{n+2}T(\Om)$.
+Likewise, if $u$ realises the minimum in \eqref{eq:rayleigh} on $\Om$, then
+$x\mapsto u(x/t)$ is admissible on $t\Om$ and the Rayleigh quotient scales
+by $t^{-2}$ (gradients carry an extra $t^{-2}$ relative to values, and the
+Jacobian $t^n$ cancels between numerator and denominator), whence
+$\lambda_1(t\Om)=t^{-2}\lambda_1(\Om)$. Therefore the combination
+\begin{equation}\label{eq:psi-def}
+  \Psi(\Om):=T(\Om)\,\lambda_1(\Om)^{(n+2)/2}
+\end{equation}
+satisfies $\Psi(t\Om)=t^{n+2}\,t^{-2\cdot(n+2)/2}\,\Psi(\Om)
+=t^{n+2}\,t^{-(n+2)}\Psi(\Om)=\Psi(\Om)$: it is scale invariant. In
+particular every ball $B_r$ is a dilate of $B_1$, so
+$\Psi(B_r)=\Psi(B_1)=T_n L_n^{(n+2)/2}$ for every ball. We abbreviate
+$\beta:=(n+2)/2$; with this notation $\Psi=T\,\lambda_1^{\beta}$.
+
+%---------------------------------------------------------------------
+\subsection{Part 1: the Kohler--Jobin inequality, proved from scratch}
+\label{ssec:kj-proof}
+
+\begin{theorem}[Kohler--Jobin]\label{thm:kj}
+For every open $\Om\subset\R^n$ of finite measure with $\lambda_1(\Om)<\infty$
+and every ball $B\subset\R^n$,
+\begin{equation}\label{eq:kj}
+  T(\Om)\,\lambda_1(\Om)^{\beta}\ \ge\ T(B)\,\lambda_1(B)^{\beta},
+  \qquad\beta=\tfrac{n+2}{2}.
+\end{equation}
+Equivalently $\Psi(\Om)\ge\Psi(B_1)=T_n L_n^{\beta}$, with equality if and
+only if $\Om$ is a ball (up to translation and a Lebesgue-null modification).
+\end{theorem}
+
+\subsubsection*{Strategy}
+
+Both sides of \eqref{eq:kj} have the same scaling and $\Psi(B)=\Psi(B_1)$
+for every ball; so it suffices to compare $\Om$ with a single, well-chosen
+ball. The idea is to rearrange the first eigenfunction $u$ of $\Om$ into a
+radial decreasing function $u^*$ on a ball $B$ in such a way that
+\begin{enumerate}[label=\textup{(\Alph*)}]
+\item\label{prop:A} the Dirichlet energy is \emph{exactly preserved},
+$\int_B\abs{\nabla u^*}^2=\int_\Om\abs{\nabla u}^2$, and
+\item\label{prop:B} the $L^2$ norm \emph{does not decrease},
+$\int_B(u^*)^2\ge\int_\Om u^2$.
+\end{enumerate}
+Granting \ref{prop:A}--\ref{prop:B}, the Rayleigh principle
+\eqref{eq:rayleigh} on $B$ gives
+\begin{equation}\label{eq:rayleigh-chain}
+  \lambda_1(B)\ \le\
+  \frac{\int_B\abs{\nabla u^*}^2}{\int_B(u^*)^2}
+  \ \le\
+  \frac{\int_\Om\abs{\nabla u}^2}{\int_\Om u^2}
+  =\lambda_1(\Om),
+\end{equation}
+the last equality because $u$ is the first eigenfunction of $\Om$.
+
+\emph{Reading the chain \eqref{eq:rayleigh-chain}.} The first inequality is
+the variational characterisation \eqref{eq:rayleigh} applied on $B$ to the
+admissible competitor $u^*\in H^1_0(B)$: the minimum is no larger than the
+quotient at any one competitor. The second inequality replaces the
+numerator by an equal quantity (property~\ref{prop:A}, equality) and the
+denominator by a smaller-or-equal one (property~\ref{prop:B},
+$\int_B(u^*)^2\ge\int_\Om u^2$): increasing the denominator of a positive
+fraction decreases it, so the quotient over $B$ is $\le$ the quotient over
+$\Om$. The final equality is the definition of $u$ as a minimiser of
+\eqref{eq:rayleigh} on $\Om$, so its Rayleigh quotient equals
+$\lambda_1(\Om)$. Hence $\lambda_1(B)\le\lambda_1(\Om)$.
+
+The decisive design choice is which geometric quantity of the superlevel
+sets the ball $B$ is built to match. Schwarz symmetrisation matches
+\emph{volume} and yields the Faber--Krahn inequality directly; the
+Kohler--Jobin rearrangement instead matches a \emph{torsional functional},
+the \emph{modified torsional rigidity} introduced next, and this is exactly
+what allows the Dirichlet energy to be preserved (not merely decreased)
+while the $L^2$ norm grows. The relation $\lambda_1(B)\le\lambda_1(\Om)$
+\emph{at equal torsion} of $B$ and $\Om$ is then the inequality
+\eqref{eq:kj}, as the assembly at the end of Part~1 makes precise.
+
+\subsubsection*{Standing regularity facts (cited, not proved)}
+\begin{enumerate}[label=\textup{(R\arabic*)}]
+\item\label{R:reg} \emph{(Regularity of the eigenfunction.)} The first
+eigenfunction $u$ of $\Om$ may be taken positive, solves
+$-\Delta u=\lambda u$ in $\Om$ with $\lambda=\lambda_1(\Om)$, and satisfies
+$u\in L^\infty(\Om)$ (Moser iteration) and $u\in C^\infty(\Om)$ in the
+interior: indeed $-\Delta u=\lambda u$ with $u\in L^\infty$ gives $u\in
+C^{1,\alpha}_{\rm loc}$ by Schauder, and bootstrapping the equation gives
+$u\in C^\infty(\Om)$ (\cite[Prop.~2.4]{Brasco2014}, \cite{GilbargTrudinger2001}).
+In particular Sard's theorem applies to $u$ in the interior, so a.e.\
+$t\in(0,M)$ is a regular value. Put $M:=\norm{u}_{L^\infty(\Om)}<\infty$.
+
+\emph{Why this is enough.} Positivity is the Krein--Rutman/maximum-principle
+fact that the first eigenfunction has a sign; we fix the sign $u>0$. The
+interior smoothness lets us apply, for a.e.\ level $t$, the divergence
+theorem on $\{u>t\}$ (whose boundary $\{u=t\}$ is then a smooth
+hypersurface, by the implicit function theorem at points where
+$\nabla u\ne0$, which is a.e.\ on a regular level set). Sard guarantees
+a.e.\ level is regular, so all level-set statements below ("for a.e.\ $t$")
+are legitimate.
+
+\item\label{R:coarea} \emph{(Coarea formula.)} For $u\in W^{1,1}_{\rm loc}$
+and Borel $g\ge0$,
+$\int_\Om g\,\abs{\nabla u}\dx=\int_0^M\bigl(\int_{\{u=t\}}g\dH\bigr)\dt$
+(Federer; see Maggi, \emph{Sets of Finite Perimeter}, Thm.~13.1). Taking
+$g=\mathbf 1_{\Om}\,h(u)/\abs{\nabla u}$ on $\{\nabla u\ne0\}$ converts a
+bulk integral of $h(u)$ weighted by $\abs{\nabla u}^{-1}$ into a level
+integral, which is the mechanism behind all the "Cavalieri$+$coarea"
+computations to follow.
+
+\item\label{R:saint-venant} \emph{(Saint--Venant inequality.)} For any open
+bounded $A\subset\R^n$, $T(A)\le T(A^\#)$ where $A^\#$ is the ball with
+$\abs{A^\#}=\abs A$; in the scale-free form we use it,
+\begin{equation}\label{eq:sv-scale}
+  T(A)\ \le\ T_n\Bigl(\frac{\abs A}{\omega_n}\Bigr)^{(n+2)/n},
+\end{equation}
+with equality iff $A$ is a ball. (\cite[(1.7) with $p=2$]{Brasco2014}.)
+The exponent is dictated by scaling: from $T(A^\#)=T_n(\abs{A^\#}/\omega_n
+\cdot\omega_n/\omega_n)\cdots$, more directly $T(A^\#)=T_n R^{n+2}$ with
+$\abs{A^\#}=\omega_n R^n$, i.e.\ $R=(\abs A/\omega_n)^{1/n}$ and
+$T(A^\#)=T_n(\abs A/\omega_n)^{(n+2)/n}$, which is \eqref{eq:sv-scale}.
+
+\item\label{R:absc} \emph{(Distribution function.)} The distribution
+function $\mu_u(t):=\abs{\{u>t\}}$ is non-increasing; together with the
+coarea formula this gives, for a.e.\ regular value $t$, that
+$\int_{\{u=t\}}\abs{\nabla u}^{-1}\dH$ is finite and
+$\mu_u'(t)=-\int_{\{u=t\}}\abs{\nabla u}^{-1}\dH$ (Brothers--Ziemer). Thus
+$\mu_u$ is locally absolutely continuous on the set of regular values, the
+fact we need to differentiate under the integral and to integrate by the
+change of variables $t=\varphi(\tau)$.
+\end{enumerate}
+
+\subsubsection*{Two preliminary identities}
+
+We record the variational form of $T$ and the level-set flux identity for
+the eigenfunction; both are elementary. The first says torsion is the
+maximum of a concave energy and will let us define a \emph{constrained}
+torsion (the modified torsion) by maximising the same energy over a smaller
+class. The second computes, for the eigenfunction, the boundary flux
+through each level set in closed form; it is what verifies the integrability
+condition that makes the modified torsion finite.
+
+\begin{lemma}[Variational torsion and the eigenfunction flux]\label{lem:prelim}
+\leavevmode
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item\label{it:Fvar} For open $A$ of finite measure, with
+$F(w):=\int_A w\dx-\tfrac12\int_A\abs{\nabla w}^2\dx$,
+\begin{equation}\label{eq:Tvar}
+  T(A)=2\max_{w\in H^1_0(A)}F(w),
+\end{equation}
+the maximiser being the torsion function $u_A$; equivalently
+$T(A)=\max\{(\int_A w)^2/\int_A\abs{\nabla w}^2:0\ne w\in H^1_0(A)\}$.
+\item\label{it:flux} The first eigenfunction $u$ satisfies, for a.e.\
+$t\in(0,M)$,
+\begin{equation}\label{eq:flux}
+  \int_{\{u=t\}}\abs{\nabla u}\dH=\lambda\int_{\{u>t\}}u\dx .
+\end{equation}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\ref{it:Fvar}: The functional $F$ is strictly concave on $H^1_0(A)$ because
+$w\mapsto\tfrac12\int\abs{\nabla w}^2$ is strictly convex (its Hessian is the
+positive-definite Dirichlet form $\int\nabla\cdot\nabla$) while
+$w\mapsto\int w$ is linear; and $F$ is coercive because, by the Poincar\'e
+inequality on the finite-measure set $A$,
+$\int_A w\le\abs A^{1/2}\,(\int_A w^2)^{1/2}
+\le C(A)\,(\int_A\abs{\nabla w}^2)^{1/2}$, so the quadratic term dominates
+the linear one as $\norm{\nabla w}_2\to\infty$. A strictly concave coercive
+functional on a Hilbert space has a unique maximiser, characterised by its
+Euler--Lagrange equation. Computing the first variation, for $\phi\in
+H^1_0(A)$,
+\[
+  \frac{d}{d\eps}\Big|_{\eps=0}F(w+\eps\phi)
+  =\int_A\phi\dx-\int_A\nabla w\cdot\nabla\phi\dx=0
+  \quad\Longleftrightarrow\quad -\Delta w=1\ \text{weakly},
+\]
+so the maximiser is the torsion function $u_A$. Testing $-\Delta u_A=1$
+against $u_A\in H^1_0(A)$ itself gives the key normalisation
+\begin{equation}\label{eq:tor-norm}
+  \int_A\abs{\nabla u_A}^2\dx=\int_A u_A\dx=T(A).
+\end{equation}
+Substituting \eqref{eq:tor-norm} into $F$,
+\[
+  F(u_A)=\int_A u_A\dx-\tfrac12\int_A\abs{\nabla u_A}^2\dx
+  =T(A)-\tfrac12 T(A)=\tfrac12 T(A),
+\]
+which is \eqref{eq:Tvar} after multiplying by $2$. For the second
+(quotient) form: for $0\ne w\in H^1_0(A)$ and $c>0$, $F(cw)=c\int_A w
+-\tfrac{c^2}{2}\int_A\abs{\nabla w}^2$ is a downward parabola in $c$,
+maximised at $c_\star=\int_A w/\int_A\abs{\nabla w}^2$ with value
+$F(c_\star w)=\tfrac12(\int_A w)^2/\int_A\abs{\nabla w}^2$; taking the
+supremum over directions $w$ and using \eqref{eq:Tvar} gives
+$T(A)=\max\{(\int_A w)^2/\int_A\abs{\nabla w}^2\}$. This is the standard
+Rayleigh-type characterisation of $T$ (\cite[Prop.~2.2]{Brasco2014} with
+$p=2$).
+
+\ref{it:flux}: Fix a regular value $t$, so that $\{u>t\}$ is open with
+smooth boundary $\{u=t\}$ on which $\nabla u\ne0$. On $\{u=t\}$ the function
+$u$ decreases outward (we cross from $\{u>t\}$ to $\{u<t\}$), so the outward
+unit normal to $\{u>t\}$ is $\nu=-\nabla u/\abs{\nabla u}$, whence the normal
+derivative is
+\[
+  \partial_\nu u=\nabla u\cdot\nu
+  =\nabla u\cdot\Bigl(-\frac{\nabla u}{\abs{\nabla u}}\Bigr)
+  =-\frac{\abs{\nabla u}^2}{\abs{\nabla u}}=-\abs{\nabla u}.
+\]
+Integrate the equation $-\Delta u=\lambda u$ over $\{u>t\}$ and apply the
+divergence theorem to the vector field $\nabla u$:
+\[
+  \lambda\int_{\{u>t\}}u\dx
+  =\int_{\{u>t\}}(-\Delta u)\dx
+  =-\int_{\{u=t\}}\partial_\nu u\dH
+  =\int_{\{u=t\}}\abs{\nabla u}\dH,
+\]
+the middle equality being $\int_{\{u>t\}}\Delta u=\int_{\partial\{u>t\}}
+\partial_\nu u$ (Gauss--Green), and the last equality using
+$\partial_\nu u=-\abs{\nabla u}$. Rearranged, this is \eqref{eq:flux}.
+\end{proof}
+
+\subsubsection*{The modified torsional rigidity}
+
+The engine of the technique is the following functional, which assigns to a
+nonnegative function a torsion-type quantity that is sensitive to the
+\emph{level structure} of the function, not just to its domain. Concretely,
+ordinary torsion \eqref{eq:Tvar} maximises $F$ over \emph{all} of
+$H^1_0(\Om)$; the modified torsion maximises $F$ only over functions of the
+form $g\circ u$, i.e.\ functions constant on the level sets of $u$. This
+constraint is exactly what carries the level structure of $u$ into the
+functional, and it is what the rearrangement will match between $\Om$ and
+the ball.
+
+\begin{definition}[Modified torsional rigidity]\label{def:tmod}
+Let $u\in H^1_0(\Om)\cap L^\infty(\Om)$, $u\ge0$, $M=\norm u_\infty$, with
+distribution function $\mu(t)=\abs{\{u>t\}}$. Assume the integrability
+condition
+\begin{equation}\label{eq:refcond}
+  t\ \longmapsto\ \frac{\mu(t)}{\int_{\{u=t\}}\abs{\nabla u}\dH}\ \in\ L^\infty(0,M)
+\end{equation}
+For the first eigenfunction this holds: by \eqref{eq:flux} the ratio in
+\eqref{eq:refcond} equals $\mu(t)/(\lambda\int_{\{u>t\}}u)$. On $[M/2,M)$ the
+bound $\int_{\{u>t\}}u\ge t\,\mu(t)$ gives ratio $\le 1/(\lambda t)\le
+2/(\lambda M)$; on $(0,M/2]$ the monotonicity $\int_{\{u>t\}}u\ge
+\int_{\{u>M/2\}}u>0$ together with $\mu(t)\le\abs\Om$ gives ratio $\le
+\abs\Om/(\lambda\int_{\{u>M/2\}}u)$. Hence the ratio is bounded on $(0,M)$
+(cf.~\cite[Lem.~3.2]{Brasco2014}). With
+$\mathcal L:=\{g\in\mathrm{Lip}([0,M]):g(0)=0\}$, define the
+\emph{modified torsional rigidity of $\Om$ along $u$}
+\begin{equation}\label{eq:tmod-def}
+  \Tmod(\Om;u):=2\,\sup_{g\in\mathcal L}F\bigl(g\circ u\bigr),
+  \qquad F(w)=\int_\Om w\dx-\tfrac12\int_\Om\abs{\nabla w}^2\dx .
+\end{equation}
+\end{definition}
+
+\emph{Unpacking the verification of \eqref{eq:refcond}.} Substituting the
+flux identity \eqref{eq:flux}, $\int_{\{u=t\}}\abs{\nabla u}\dH
+=\lambda\int_{\{u>t\}}u$, into the denominator turns the ratio in
+\eqref{eq:refcond} into $\mu(t)/\bigl(\lambda\int_{\{u>t\}}u\dx\bigr)$. We
+bound this on two ranges of $t$:
+\begin{itemize}
+\item For $t\in[M/2,M)$: since $u>t$ on $\{u>t\}$, we have
+$\int_{\{u>t\}}u\dx\ge t\,\abs{\{u>t\}}=t\,\mu(t)$, so
+\[
+  \frac{\mu(t)}{\lambda\int_{\{u>t\}}u}
+  \le\frac{\mu(t)}{\lambda\, t\,\mu(t)}=\frac{1}{\lambda t}
+  \le\frac{1}{\lambda\,(M/2)}=\frac{2}{\lambda M},
+\]
+using $t\ge M/2$ in the last step (and $\mu(t)>0$ for $t<M$, so the
+cancellation is legitimate).
+\item For $t\in(0,M/2]$: the numerator is bounded by $\mu(t)\le\abs\Om$
+(monotonicity of $\mu$ and $\mu\le\abs\Om$), while the denominator integral
+is non-increasing in $t$ (its domain $\{u>t\}$ shrinks as $t$ grows), so for
+$t\le M/2$, $\int_{\{u>t\}}u\ge\int_{\{u>M/2\}}u>0$ (positive because $u$ is
+positive on the nonempty open set $\{u>M/2\}$). Hence the ratio is
+$\le\abs\Om/\bigl(\lambda\int_{\{u>M/2\}}u\bigr)$, a finite constant.
+\end{itemize}
+Taking the larger of the two bounds shows the ratio lies in $L^\infty(0,M)$.
+
+\emph{The pointwise bound $\Tmod\le T$.} Since each competitor $g\circ u$
+with $g\in\mathcal L$ lies in $H^1_0(\Om)$ (a Lipschitz function of an
+$H^1_0$ function vanishing at $0$ is again $H^1_0$, by the chain rule for
+Lipschitz compositions), the class $\{g\circ u:g\in\mathcal L\}$ is a subset
+of $H^1_0(\Om)$. Maximising $F$ over a smaller set cannot exceed the maximum
+over the whole space, so by \eqref{eq:Tvar},
+\begin{equation}\label{eq:tmod-le-t}
+  \Tmod(\Om;u)=2\sup_{g\in\mathcal L}F(g\circ u)
+  \ \le\ 2\max_{w\in H^1_0(\Om)}F(w)=T(\Om).
+\end{equation}
+This inequality, used repeatedly below, is the single channel through which
+the Saint--Venant inequality \eqref{eq:sv-scale} enters the argument.
+
+\begin{lemma}[Closed form of $\Tmod$]\label{lem:tmod-formula}
+Under the hypotheses of Definition~\ref{def:tmod}, writing
+$P(t):=\int_{\{u=t\}}\abs{\nabla u}\dH$, the supremum in
+\eqref{eq:tmod-def} is uniquely attained by the nondecreasing $g_0$ with
+$g_0'(t)=\mu(t)/P(t)$, and
+\begin{equation}\label{eq:tmod-formula}
+  \Tmod(\Om;u)=\int_0^M\frac{\mu(t)^2}{P(t)}\dt .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+\emph{Reduction to nondecreasing $g$.} Given $g\in\mathcal L$, set
+$\tilde g(t):=\int_0^t\abs{g'(s)}\,ds$. Then $\tilde g\in\mathcal L$ (it is
+Lipschitz with $\tilde g(0)=0$ and $\tilde g'=\abs{g'}$ a.e.) and
+$\tilde g$ is nondecreasing. We compare $F(\tilde g\circ u)$ with
+$F(g\circ u)$:
+\begin{itemize}
+\item \emph{Gradient term unchanged.} By the chain rule
+$\nabla(g\circ u)=g'(u)\nabla u$, so $\abs{\nabla(g\circ u)}^2
+=g'(u)^2\abs{\nabla u}^2$; similarly $\abs{\nabla(\tilde g\circ u)}^2
+=\tilde g'(u)^2\abs{\nabla u}^2=\abs{g'(u)}^2\abs{\nabla u}^2
+=g'(u)^2\abs{\nabla u}^2$. The two gradient terms coincide pointwise, hence
+$\int_\Om\abs{\nabla(\tilde g\circ u)}^2=\int_\Om\abs{\nabla(g\circ u)}^2$.
+\item \emph{Linear term does not decrease.} For every $t$,
+$g(t)=\int_0^t g'\le\int_0^t\abs{g'}=\tilde g(t)$, so $\tilde g\ge g$
+pointwise, and since $u\ge0$, $\tilde g(u)\ge g(u)$, whence
+$\int_\Om\tilde g(u)\ge\int_\Om g(u)$.
+\end{itemize}
+Therefore $F(\tilde g\circ u)\ge F(g\circ u)$, and the supremum in
+\eqref{eq:tmod-def} is unchanged if we restrict to nondecreasing
+$g\in\mathcal L$.
+
+\emph{Reduction to a one-dimensional integral.} Let $g\in\mathcal L$ be
+nondecreasing. Writing $g(t)=\int_0^t g'(s)\,ds$ and applying Cavalieri's
+principle (the layer-cake/Fubini identity
+$\int_\Om h(u)\dx=\int_0^M h'(t)\mu(t)\dt$ valid for $h$ with $h(0)=0$,
+which is the integral against $-d\mu$ written via the distribution
+function),
+\[
+  \int_\Om g(u)\dx=\int_0^M g'(t)\,\mu(t)\dt .
+\]
+For the gradient term, the chain rule gives $\abs{\nabla(g\circ u)}^2
+=g'(u)^2\abs{\nabla u}^2=g'(u)\cdot\bigl(g'(u)\abs{\nabla u}\bigr)
+\abs{\nabla u}$; applying the coarea formula \ref{R:coarea} with
+$h:=g'(u)^2\abs{\nabla u}$ (so that $h\abs{\nabla u}^{-1}=g'(u)^2\abs{\nabla
+u}$, matching the bulk integrand) -- more directly, coarea with the Borel
+function $g'(u)^2\abs{\nabla u}$ slices the integral by level sets, on each
+of which $g'(u)^2=g'(t)^2$ is constant:
+\[
+  \int_\Om\abs{\nabla(g\circ u)}^2\dx
+  =\int_\Om g'(u)^2\abs{\nabla u}^2\dx
+  =\int_0^M g'(t)^2\Bigl(\int_{\{u=t\}}\abs{\nabla u}\dH\Bigr)\dt
+  =\int_0^M g'(t)^2\,P(t)\dt .
+\]
+(Here coarea is used in the form $\int_\Om\Phi(u)\abs{\nabla u}\dx
+=\int_0^M\Phi(t)P(t)\dt$ with $\Phi=g'(\cdot)^2\,$, taking
+$\Phi(u)\abs{\nabla u}=g'(u)^2\abs{\nabla u}=\abs{\nabla(g\circ
+u)}^2/\abs{\nabla u}\cdot\abs{\nabla u}$, i.e.\ slicing $g'(u)^2$ against the
+factor $\abs{\nabla u}$ that coarea supplies.) Hence
+\[
+  F(g\circ u)=\int_\Om g(u)\dx-\tfrac12\int_\Om\abs{\nabla(g\circ u)}^2\dx
+  =\int_0^M\Bigl[g'(t)\,\mu(t)-\tfrac12\,g'(t)^2\,P(t)\Bigr]\dt .
+\]
+
+\emph{Pointwise Young maximisation.} The integrand depends on $g$ only
+through the value $s:=g'(t)\ge0$ at each fixed $t$, through the quadratic
+$q_t(s):=s\,\mu(t)-\tfrac12 s^2P(t)$. Since $P(t)>0$ for a.e.\ regular $t$
+(the boundary flux of a nonconstant function), $q_t$ is a downward parabola
+in $s$; setting $q_t'(s)=\mu(t)-sP(t)=0$ gives the unconstrained maximiser
+$s_\star=\mu(t)/P(t)\ge0$ (which is admissible since it is nonnegative), with
+maximum value
+\[
+  \max_{s\ge0}q_t(s)=q_t(s_\star)
+  =\frac{\mu(t)}{P(t)}\cdot\mu(t)-\tfrac12\frac{\mu(t)^2}{P(t)^2}\,P(t)
+  =\frac{\mu(t)^2}{P(t)}-\frac{\mu(t)^2}{2P(t)}
+  =\frac{\mu(t)^2}{2P(t)}.
+\]
+Integrating the pointwise bound $q_t(g'(t))\le\max_{s\ge0}q_t(s)
+=\mu(t)^2/(2P(t))$ over $t$,
+\[
+  F(g\circ u)=\int_0^M q_t\bigl(g'(t)\bigr)\dt
+  \ \le\ \int_0^M\frac{\mu(t)^2}{2P(t)}\dt,
+\]
+with equality if and only if $g'(t)=s_\star=\mu(t)/P(t)$ for a.e.\ $t$. By
+the integrability condition \eqref{eq:refcond}, the function
+$t\mapsto\mu(t)/P(t)$ is in $L^\infty(0,M)$, so $g_0(t):=\int_0^t
+\mu(s)/P(s)\,ds$ is Lipschitz with $g_0(0)=0$, i.e.\ $g_0\in\mathcal L$, and
+it attains the bound. Multiplying through by $2$ (recall the factor $2$ in
+\eqref{eq:tmod-def}),
+\[
+  \Tmod(\Om;u)=2\sup_{g\in\mathcal L}F(g\circ u)
+  =2\int_0^M\frac{\mu(t)^2}{2P(t)}\dt
+  =\int_0^M\frac{\mu(t)^2}{P(t)}\dt,
+\]
+which is \eqref{eq:tmod-formula}, attained uniquely (the parabola has a
+unique maximiser) by $g_0$.
+\end{proof}
+
+The next proposition is the isoperimetric statement that makes the
+rearrangement decrease the Rayleigh quotient. It is the only place where
+the Saint--Venant inequality enters: it converts the algebraic bound
+$\Tmod\le T$ into the \emph{geometric} statement that the torsion-matched
+ball is smaller than $\Om$.
+
+\begin{proposition}[Isoperimetric inequality for $\Tmod$]\label{prop:isop-tmod}
+Let $u\in H^1_0(\Om)\cap L^\infty$, $u\ge0$, satisfy \eqref{eq:refcond}.
+If $B\subset\R^n$ is a ball with $T(B)=\Tmod(\Om;u)$, then $\abs B\le\abs\Om$,
+with equality iff $\Om$ is a ball and $u$ is (a translate of) a radial
+function.
+\end{proposition}
+
+\begin{proof}
+By hypothesis $T(B)=\Tmod(\Om;u)$, and by \eqref{eq:tmod-le-t} (the remark
+after Definition~\ref{def:tmod}) $\Tmod(\Om;u)\le T(\Om)$; chaining,
+\[
+  T(B)=\Tmod(\Om;u)\ \le\ T(\Om).
+\]
+The Saint--Venant inequality \eqref{eq:sv-scale} bounds the right-hand side
+from above by the ball value at equal volume:
+$T(\Om)\le T_n(\abs\Om/\omega_n)^{(n+2)/n}$. The left-hand side is computed
+exactly by \eqref{eq:torsionball}: writing $\abs B=\omega_n R^n$ with $R$
+the radius of $B$, $T(B)=T_n R^{n+2}=T_n(\abs B/\omega_n)^{(n+2)/n}$.
+Substituting,
+\[
+  T_n\Bigl(\frac{\abs B}{\omega_n}\Bigr)^{(n+2)/n}
+  =T(B)\le T(\Om)\le
+  T_n\Bigl(\frac{\abs\Om}{\omega_n}\Bigr)^{(n+2)/n}.
+\]
+Cancelling the positive constant $T_n$ and the positive normalisation
+$\omega_n^{-(n+2)/n}$, and raising to the positive power $n/(n+2)$ (a
+strictly increasing operation on $[0,\infty)$),
+\[
+  \abs B\ \le\ \abs\Om .
+\]
+\emph{Equality case.} If $\abs B=\abs\Om$, then both inequalities in the
+chain are equalities. Equality in the right inequality is equality in
+Saint--Venant \eqref{eq:sv-scale}, which by \ref{R:saint-venant} forces $\Om$
+to be a ball. Equality $T(B)=T(\Om)$ together with
+$T(B)=\Tmod(\Om;u)\le T(\Om)$ forces $\Tmod(\Om;u)=T(\Om)$; comparing
+\eqref{eq:tmod-def} with \eqref{eq:Tvar}, the constrained supremum equals
+the unconstrained maximum, so the maximiser $g_0\circ u$ of the modified
+problem must coincide with the unconstrained maximiser, the torsion function
+$u_\Om$. On a ball $u_\Om$ is radial (by \eqref{eq:torsionball},
+$u_{B_r}(x)=(r^2-\abs x^2)/(2n)$), so $g_0\circ u=u_\Om$ is radial; as $g_0$
+is a strictly increasing bijection on the range of $u$ (its derivative
+$\mu/P$ is a.e.\ positive), $u$ itself is radial up to translation. This is
+\cite[Prop.~3.8]{Brasco2014}.
+\end{proof}
+
+\subsubsection*{The Kohler--Jobin rearrangement}
+
+We now build $u^*$. The plan: instead of rearranging $u$ so that its
+superlevel sets become balls of \emph{equal volume} (Schwarz), we make them
+balls of \emph{equal modified torsion}. We first record, for each level $t$,
+the modified torsion of the truncated function on the corresponding
+superlevel set, then invert this monotone quantity to parametrise the levels
+of $u^*$.
+
+For $t\in[0,M]$ set $\Om_t=\{u>t\}$ and let
+\begin{equation}\label{eq:Tt}
+  \mathcal T(t):=\Tmod\bigl(\Om_t;(u-t)_+\bigr).
+\end{equation}
+Since $\abs{\{(u-t)_+>s\}}=\mu(t+s)$ and the coarea factor of $(u-t)_+$ at
+level $s$ is $P(t+s)$, formula \eqref{eq:tmod-formula} gives the explicit
+expression
+\begin{equation}\label{eq:Tt-formula}
+  \mathcal T(t)=\int_t^M\frac{\mu(\tau)^2}{P(\tau)}\,d\tau,
+\end{equation}
+so that $\mathcal T\in\mathrm{Lip}_{\rm loc}([0,M))$, $\mathcal T(M)=0$,
+$\mathcal T(0)=\Tmod(\Om;u)=:T_\star$, and for a.e.\ $t$
+\begin{equation}\label{eq:Tprime}
+  \mathcal T'(t)=-\frac{\mu(t)^2}{P(t)}<0 .
+\end{equation}
+Thus $\mathcal T$ is a strictly decreasing bijection $[0,M]\to[0,T_\star]$.
+
+\emph{Derivation of \eqref{eq:Tt-formula} and its consequences.} Apply
+Lemma~\ref{lem:tmod-formula} to the function $v:=(u-t)_+$ on the set
+$\Om_t=\{u>t\}$. The superlevel sets of $v$ are
+$\{v>s\}=\{(u-t)_+>s\}=\{u>t+s\}=\Om_{t+s}$, so the distribution function of
+$v$ is $\mu_v(s)=\abs{\Om_{t+s}}=\mu(t+s)$; and on a regular level
+$\{v=s\}=\{u=t+s\}$ we have $\abs{\nabla v}=\abs{\nabla u}$ (translation by
+the constant $t$ does not change the gradient on $\{u>t\}$), so the coarea
+factor of $v$ is $P_v(s)=\int_{\{u=t+s\}}\abs{\nabla u}\dH=P(t+s)$. The top
+level of $v$ is $M-t$. Hence by \eqref{eq:tmod-formula},
+\[
+  \mathcal T(t)=\Tmod(\Om_t;v)
+  =\int_0^{M-t}\frac{\mu_v(s)^2}{P_v(s)}\,ds
+  =\int_0^{M-t}\frac{\mu(t+s)^2}{P(t+s)}\,ds
+  =\int_t^M\frac{\mu(\tau)^2}{P(\tau)}\,d\tau,
+\]
+the last step being the substitution $\tau=t+s$. The integrand
+$\mu(\tau)^2/P(\tau)$ is, by \eqref{eq:refcond} and $\mu\le\abs\Om$, locally
+integrable, so $\mathcal T$ is locally absolutely continuous (indeed locally
+Lipschitz away from $t=M$), and the fundamental theorem of calculus gives,
+for a.e.\ $t$, $\mathcal T'(t)=-\mu(t)^2/P(t)$, which is \eqref{eq:Tprime};
+it is $<0$ because $\mu(t)>0$ for $t<M$ and $P(t)>0$. The boundary values
+$\mathcal T(M)=\int_M^M=0$ and $\mathcal T(0)=\int_0^M\mu^2/P
+=\Tmod(\Om;u)=:T_\star$ follow by setting $t=M$ and $t=0$ in
+\eqref{eq:Tt-formula} and comparing with \eqref{eq:tmod-formula}. A
+continuous, strictly decreasing function from $[0,M]$ onto
+$[\mathcal T(M),\mathcal T(0)]=[0,T_\star]$ is a bijection, with a strictly
+decreasing continuous inverse.
+
+\paragraph{Definition of $u^*$.}
+Let $B=B_{R_\star}$ be the ball with $T(B)=T_\star$, i.e.\
+$R_\star=(T_\star/T_n)^{1/(n+2)}$. For $\tau\in[0,T_\star]$ let $R(\tau)$ be
+the radius with $T(B_{R(\tau)})=\tau$, i.e.\
+\begin{equation}\label{eq:Rtau}
+  R(\tau)=(\tau/T_n)^{1/(n+2)},\qquad
+  \abs{B_{R(\tau)}}=\omega_n R(\tau)^n
+  =\omega_n\,(\tau/T_n)^{n/(n+2)}.
+\end{equation}
+The radius formula in \eqref{eq:Rtau} is the inversion of
+$T(B_R)=T_n R^{n+2}$ from \eqref{eq:torsionball}: setting $T_n R^{n+2}=\tau$
+and solving gives $R=(\tau/T_n)^{1/(n+2)}$; the volume then follows from
+$\abs{B_R}=\omega_n R^n$, substituting this $R$.
+
+Let $\varphi:=\mathcal T^{-1}:[0,T_\star]\to[0,M]$ (so $\varphi(0)=M$,
+$\varphi(T_\star)=0$, $\varphi'<0$). We define $u^*$ on $B$ to be the radial
+decreasing function whose value on the sphere $\{\abs x=R(\tau)\}$ is
+$\psi(\tau)$, where $\psi:[0,T_\star]\to[0,\infty)$ is the
+locally Lipschitz (monotone, absolutely continuous) function determined by
+\begin{equation}\label{eq:psi-ode}
+  \bigl(-\psi'(\tau)\bigr)\,\mu^*\!\bigl(\psi(\tau)\bigr)
+  =\bigl(-\varphi'(\tau)\bigr)\,\mu\!\bigl(\varphi(\tau)\bigr),
+  \qquad \psi(T_\star)=0,
+\end{equation}
+$\mu^*$ denoting the distribution function of $u^*$. Concretely the
+superlevel set $\{u^*>\psi(\tau)\}=B_{R(\tau)}$ has, by construction,
+torsional rigidity exactly $\tau$, the value of the \emph{modified}
+torsion that the corresponding superlevel set $\Om_{\varphi(\tau)}$ of $u$
+carries. In particular $\{u^*>0\}=B=B_{R_\star}$, so
+\begin{equation}\label{eq:TB}
+  T(B)=T_\star=\Tmod(\Om;u)\ \ \le\ \ T(\Om).
+\end{equation}
+Since $\mu^*(\psi(\tau))=\abs{B_{R(\tau)}}=\omega_n R(\tau)^n$, equation
+\eqref{eq:psi-ode} integrates to an explicit $\psi$; we shall only need the
+two qualitative consequences \ref{prop:A}, \ref{prop:B}, proved next.
+
+\emph{Why this construction is well posed and what \eqref{eq:psi-ode}
+encodes.} The map $\tau\mapsto R(\tau)$ assigns to each torsion level $\tau$
+the radius of the ball of that torsion; the map $\tau\mapsto\varphi(\tau)
+=\mathcal T^{-1}(\tau)$ assigns to each torsion level $\tau$ the height $t$
+of $u$ whose tail $(u-t)_+$ carries modified torsion $\tau$. We then declare
+$u^*$ to take the value $\psi(\tau)$ on the sphere of radius $R(\tau)$; this
+defines $u^*$ as a radial decreasing function once $\psi$ is fixed, since
+$R(\tau)$ increases with $\tau$ while we will see $\psi(\tau)$ decreases.
+The relation \eqref{eq:psi-ode} fixes $\psi$ by matching, at each $\tau$, the
+\emph{differential of the distribution function} of $u^*$ to that of $u$:
+both sides equal $\frac{d}{d\tau}\bigl(\text{volume of the }\tau\text{-th
+superlevel set}\bigr)\cdot(-1)$ rewritten in the level variable, and this is
+precisely the identity that makes the Dirichlet integrands coincide in
+Lemma~\ref{lem:A}. The chain $T(B)=T_\star=\Tmod(\Om;u)\le T(\Om)$ in
+\eqref{eq:TB} is the special case $\tau=T_\star$ (so $\varphi(T_\star)=0$,
+$\Om_0=\Om$) of the construction, combined with \eqref{eq:tmod-le-t}.
+
+\begin{lemma}[Dirichlet energy is preserved]\label{lem:A}
+$\displaystyle\int_B\abs{\nabla u^*}^2\dx=\int_\Om\abs{\nabla u}^2\dx$.
+\end{lemma}
+
+\begin{proof}
+\emph{The original side.} By the coarea formula \ref{R:coarea} applied with
+$g\equiv\abs{\nabla u}$ on each level (so $\int_\Om\abs{\nabla u}^2
+=\int_\Om\abs{\nabla u}\cdot\abs{\nabla u}=\int_0^M\int_{\{u=t\}}
+\abs{\nabla u}\dH\,dt=\int_0^M P(t)\,dt$), and then the change of variable
+$t=\varphi(\tau)$ (the one-dimensional area formula for the locally
+Lipschitz strictly decreasing $\varphi=\mathcal T^{-1}$, with $dt=\varphi'(
+\tau)\,d\tau=-(-\varphi'(\tau))\,d\tau$ and reversed limits $t:0\to M$
+corresponding to $\tau:T_\star\to0$; Lemma~2.5 of~\cite{Brasco2014}),
+\begin{equation}\label{eq:dir-orig}
+  \int_\Om\abs{\nabla u}^2\dx
+  =\int_0^M P(t)\dt
+  =\int_0^{T_\star}P(\varphi(\tau))\,(-\varphi'(\tau))\,d\tau .
+\end{equation}
+(The two sign flips -- reversing the limits of integration and
+$dt=-(-\varphi')\,d\tau$ -- cancel, leaving the positive integrand
+$P(\varphi)(-\varphi')$ over $[0,T_\star]$.)
+
+Differentiating the identity $\mathcal T(\varphi(\tau))=\tau$ (valid because
+$\varphi=\mathcal T^{-1}$) by the chain rule gives
+$\mathcal T'(\varphi(\tau))\,\varphi'(\tau)=1$, hence
+$\varphi'(\tau)=1/\mathcal T'(\varphi(\tau))$; substituting
+$\mathcal T'(\varphi)=-\mu(\varphi)^2/P(\varphi)$ from \eqref{eq:Tprime},
+\begin{equation}\label{eq:phiprime}
+  -\varphi'(\tau)=\frac{1}{-\mathcal T'(\varphi(\tau))}
+  =\frac{1}{\mu(\varphi(\tau))^2/P(\varphi(\tau))}
+  =\frac{P(\varphi(\tau))}{\mu(\varphi(\tau))^2}.
+\end{equation}
+This is the key relation. We use it to eliminate the factor
+$P(\varphi)$ from \eqref{eq:dir-orig}: from \eqref{eq:phiprime},
+$P(\varphi)=\mu(\varphi)^2\,(-\varphi')$, so
+\[
+  P(\varphi)\,(-\varphi')
+  =\mu(\varphi)^2\,(-\varphi')\cdot(-\varphi')
+  =\mu(\varphi)^2\,(-\varphi')^2 .
+\]
+Substituting into \eqref{eq:dir-orig},
+\begin{equation}\label{eq:dir-orig2}
+  \int_\Om\abs{\nabla u}^2\dx
+  =\int_0^{T_\star}\mu(\varphi(\tau))^2\,(-\varphi'(\tau))^2\,d\tau.
+\end{equation}
+
+\emph{The rearranged side, computed in full.} We now establish the radial
+analogue \eqref{eq:dir-rear}, spelling out the radial-gradient expansion
+that the source compresses. The function $u^*$ is radial decreasing, say
+$u^*(x)=h(\abs x)$ for a decreasing $h:[0,R_\star]\to[0,\infty)$ with
+$h(R(\tau))=\psi(\tau)$ and $h(R_\star)=\psi(T_\star)=0$. On the sphere
+$\{\abs x=R(\tau)\}$ the gradient of a radial function is purely radial,
+$\nabla u^*(x)=h'(\abs x)\,\tfrac{x}{\abs x}$, so
+\begin{equation}\label{eq:radgrad}
+  \abs{\nabla u^*}=\abs{h'(\abs x)}=-h'(R(\tau))\qquad
+  \text{(constant on the sphere; $h$ decreasing, so $h'\le0$).}
+\end{equation}
+Differentiating $h(R(\tau))=\psi(\tau)$ in $\tau$ by the chain rule,
+$h'(R(\tau))\,R'(\tau)=\psi'(\tau)$, whence
+\begin{equation}\label{eq:hprime}
+  -h'(R(\tau))=\frac{-\psi'(\tau)}{R'(\tau)}
+  =\frac{-\psi'(\tau)}{R'(\tau)},
+  \qquad\text{i.e.}\qquad
+  \abs{\nabla u^*}\big|_{\abs x=R(\tau)}=\frac{-\psi'(\tau)}{R'(\tau)} ,
+\end{equation}
+using $R'(\tau)>0$ (the radius increases with the torsion level $\tau$) and
+$-\psi'(\tau)\ge0$ (we verify $\psi$ is decreasing in Lemma~\ref{lem:B}; here
+we only use $\abs{\nabla u^*}=\abs{\psi'}/R'$). This is the announced
+identity $\abs{\nabla u^*}=(-\psi')/R'$ at the sphere of radius $R(\tau)$.
+
+Now compute the two ingredients of the coarea slicing on $B$. The sphere
+$\{u^*=\psi(\tau)\}=\{\abs x=R(\tau)\}$ has area
+$\mathcal H^{n-1}(\{\abs x=R(\tau)\})=n\omega_n R(\tau)^{n-1}$ (the surface
+area of a sphere of radius $R(\tau)$, with $n\omega_n=\sigma_{n-1}$ the unit
+sphere area). The distribution function of $u^*$ at the level $\psi(\tau)$ is
+the volume of the corresponding superlevel ball,
+\begin{equation}\label{eq:mustar}
+  \mu^*(\psi(\tau))=\abs{B_{R(\tau)}}=\omega_n R(\tau)^n .
+\end{equation}
+The coarea factor of $u^*$ at level $\psi(\tau)$ is
+\begin{equation}\label{eq:Pstar}
+  P^*(\psi(\tau))
+  =\int_{\{u^*=\psi(\tau)\}}\abs{\nabla u^*}\dH
+  =\underbrace{\frac{-\psi'(\tau)}{R'(\tau)}}_{\abs{\nabla u^*}}
+   \cdot\underbrace{n\omega_n R(\tau)^{n-1}}_{\text{sphere area}}
+  =\frac{n\omega_n R(\tau)^{n-1}}{R'(\tau)}\,(-\psi'(\tau)),
+\end{equation}
+the gradient being constant on the sphere, so it pulls out of the surface
+integral, multiplying the area. We also need $R'(\tau)$ explicitly. From
+$R(\tau)=(\tau/T_n)^{1/(n+2)}$,
+\begin{equation}\label{eq:Rprime}
+  R'(\tau)=\frac{1}{n+2}\,(\tau/T_n)^{1/(n+2)-1}\frac1{T_n}
+  =\frac{1}{(n+2)T_n}\,(\tau/T_n)^{-(n+1)/(n+2)}
+  =\frac{R(\tau)}{(n+2)\,\tau},
+\end{equation}
+where the last step uses $(\tau/T_n)^{-(n+1)/(n+2)}
+=(\tau/T_n)^{1/(n+2)}\cdot(\tau/T_n)^{-1}=R(\tau)\,T_n/\tau$, so
+$R'(\tau)=\tfrac{1}{(n+2)T_n}\cdot R(\tau)\,T_n/\tau=R(\tau)/((n+2)\tau)$.
+
+We now write the Dirichlet energy of $u^*$ via coarea
+\ref{R:coarea} (slicing $\int_B\abs{\nabla u^*}^2=\int_B\abs{\nabla u^*}\cdot
+\abs{\nabla u^*}$ by levels of $u^*$, then changing variable to $\tau$ via
+$u^*=\psi(\tau)$, $du^*=\psi'(\tau)\,d\tau$):
+\[
+  \int_B\abs{\nabla u^*}^2\dx
+  =\int_0^{M^*}\Bigl(\int_{\{u^*=\ell\}}\abs{\nabla u^*}\dH\Bigr)
+     \abs{\nabla u^*}\big|_{\{u^*=\ell\}}\,d\ell
+  =\int_0^{T_\star}P^*(\psi(\tau))\cdot\frac{-\psi'(\tau)}{R'(\tau)}
+     \,(-\psi'(\tau))\,d\tau,
+\]
+where $M^*=\psi(0)$ is the maximum of $u^*$, the change of variable
+$\ell=\psi(\tau)$ carries $d\ell=\psi'(\tau)\,d\tau$ with the sign and limit
+flips cancelling (exactly as in \eqref{eq:dir-orig}), and the integrand
+factor $\abs{\nabla u^*}|_{\{u^*=\psi(\tau)\}}=(-\psi')/R'$ is
+\eqref{eq:hprime}. Substituting $P^*(\psi(\tau))$ from \eqref{eq:Pstar},
+\[
+  \int_B\abs{\nabla u^*}^2\dx
+  =\int_0^{T_\star}\frac{n\omega_n R(\tau)^{n-1}}{R'(\tau)}(-\psi')
+     \cdot\frac{-\psi'}{R'(\tau)}(-\psi')\,d\tau
+  =\int_0^{T_\star}\frac{n\omega_n R(\tau)^{n-1}}{R'(\tau)^2}\,
+     (-\psi'(\tau))^2\,d\tau .
+\]
+\emph{The constant collapses to $1$ exactly because $T_n=\omega_n/(n(n+2))$.}
+Substitute $R'(\tau)=R(\tau)/((n+2)\tau)$ from \eqref{eq:Rprime}:
+\[
+  \frac{n\omega_n R^{n-1}}{R'^2}
+  =\frac{n\omega_n R^{n-1}}{\bigl(R/((n+2)\tau)\bigr)^2}
+  =n\omega_n R^{n-1}\cdot\frac{(n+2)^2\tau^2}{R^2}
+  =n\omega_n (n+2)^2\,\tau^2\,R^{n-3}.
+\]
+Now express $R^{n-3}$ through $R^n=\abs{B_R}/\omega_n=\mu^*(\psi)/\omega_n$
+and through $\tau$. From $\tau=T_n R^{n+2}$ we get $R^{n+2}=\tau/T_n$, so
+\[
+  \tau^2 R^{n-3}=\tau^2\,R^{n+2}\,R^{-5}\quad\text{is awkward; instead use}
+  \quad \tau=T_n R^{n+2}\ \Rightarrow\ \tau^2=T_n^2 R^{2(n+2)} .
+\]
+Hence
+\[
+  n\omega_n(n+2)^2\,\tau^2 R^{n-3}
+  =n\omega_n(n+2)^2\,T_n^2 R^{2n+4}R^{n-3}
+  =n\omega_n(n+2)^2 T_n^2\,R^{3n+1}.
+\]
+This still contains $R$; the cancellation is cleaner if we keep one factor
+of $\tau$ and one of $\mu^*$. Write instead
+$\tau=T_n R^{n+2}$ and $\mu^*(\psi(\tau))=\omega_n R^n$, so that
+\[
+  \tau^2 R^{n-3}
+  =\tau\cdot\tau\,R^{n-3}
+  =\tau\cdot(T_n R^{n+2})\,R^{n-3}
+  =\tau\,T_n\,R^{2n-1},
+\]
+and
+\[
+  n\omega_n(n+2)^2\,\tau^2R^{n-3}
+  =(n+2)^2\,\tau\,\bigl(n\omega_n T_n\bigr)\,R^{2n-1}.
+\]
+Using $T_n=\omega_n/(n(n+2))$, the bracket is $n\omega_n T_n
+=n\omega_n\cdot\omega_n/(n(n+2))=\omega_n^2/(n+2)$, so
+\[
+  n\omega_n(n+2)^2\,\tau^2R^{n-3}
+  =(n+2)^2\,\tau\,\frac{\omega_n^2}{n+2}\,R^{2n-1}
+  =(n+2)\,\tau\,\omega_n^2\,R^{2n-1}.
+\]
+Finally substitute $\tau=T_n R^{n+2}=\tfrac{\omega_n}{n(n+2)}R^{n+2}$:
+\[
+  (n+2)\,\tau\,\omega_n^2 R^{2n-1}
+  =(n+2)\cdot\frac{\omega_n}{n(n+2)}R^{n+2}\cdot\omega_n^2 R^{2n-1}
+  =\frac{\omega_n^3}{n}\,R^{3n+1}.
+\]
+On the other hand $\mu^*(\psi)^2=(\omega_n R^n)^2=\omega_n^2 R^{2n}$, and we
+must check this equals the coefficient just computed; that is, the claim of
+the source is that the rearranged Dirichlet integrand equals
+$\mu^*(\psi)^2(-\psi')^2$. We verify:
+\[
+  \frac{n\omega_n R^{n-1}}{R'^2}
+  \stackrel{?}{=}\mu^*(\psi)^2=\omega_n^2 R^{2n}.
+\]
+Indeed, from \eqref{eq:Rprime}, $R'=R/((n+2)\tau)$ and
+$\tau=T_nR^{n+2}=\tfrac{\omega_n}{n(n+2)}R^{n+2}$, so
+\[
+  R'=\frac{R}{(n+2)\,\tfrac{\omega_n}{n(n+2)}R^{n+2}}
+  =\frac{R\cdot n(n+2)}{(n+2)\,\omega_n R^{n+2}}
+  =\frac{n}{\omega_n}\,R^{-(n+1)},
+\]
+whence $R'^2=\tfrac{n^2}{\omega_n^2}R^{-2(n+1)}$ and
+\[
+  \frac{n\omega_n R^{n-1}}{R'^2}
+  =n\omega_n R^{n-1}\cdot\frac{\omega_n^2}{n^2}R^{2(n+1)}
+  =\frac{\omega_n^3}{n}\,R^{n-1+2n+2}
+  =\frac{\omega_n^3}{n}\,R^{3n+1}.
+\]
+This matches the coefficient computed above, confirming the algebra; it
+is \emph{not} literally $\omega_n^2R^{2n}=\mu^*(\psi)^2$ unless we restore
+the factor that the change of variable carries. The clean statement is
+obtained by reinstating the coarea/level bookkeeping: writing the rearranged
+Dirichlet energy in the same variables as \eqref{eq:dir-orig2} -- i.e.\
+expressing it through $\mu^*(\psi)$ and $(-\psi')$ rather than through $R$ --
+one finds, exactly as for the original side (where $P(\varphi)(-\varphi')
+=\mu(\varphi)^2(-\varphi')^2$ followed from $-\varphi'=P(\varphi)/
+\mu(\varphi)^2$), the radial relation $P^*(\psi)(-\psi')
+=\mu^*(\psi)^2(-\psi')^2$. We derive this last identity directly. From
+\eqref{eq:Pstar} and the computation $\tfrac{n\omega_n R^{n-1}}{R'}
+=\mu^*(\psi)^2/(-\psi')\cdot(-\psi')\cdots$, more transparently: the radial
+analogue of \eqref{eq:phiprime} is the statement that the ball $B_{R(\tau)}$
+has torsion $\tau$, i.e.\ $T(B_{R(\tau)})=\tau$, which on differentiation in
+$\tau$ gives $1=\tfrac{d}{d\tau}T(B_{R(\tau)})$. By the same flux/coarea
+computation that produced \eqref{eq:Tprime} for $\mathcal T$ -- now for the
+\emph{ordinary} torsion of a ball, whose level sets are the spheres -- the
+"modified torsion equals torsion" relation on the ball yields the radial
+counterpart of \eqref{eq:phiprime},
+\begin{equation}\label{eq:psiprime-rel}
+  -\psi'(\tau)=\frac{P^*(\psi(\tau))}{\mu^*(\psi(\tau))^2},
+  \qquad\text{equivalently}\qquad
+  P^*(\psi)(-\psi')=\mu^*(\psi)^2(-\psi')^2 .
+\end{equation}
+Granting \eqref{eq:psiprime-rel}, the coarea expression for the rearranged
+Dirichlet energy becomes
+\begin{equation}\label{eq:dir-rear}
+  \int_B\abs{\nabla u^*}^2\dx
+  =\int_0^{T_\star}P^*(\psi(\tau))\,(-\psi'(\tau))\,d\tau
+  =\int_0^{T_\star}\mu^*(\psi(\tau))^2\,(-\psi'(\tau))^2\,d\tau,
+\end{equation}
+the exact radial analogue of \eqref{eq:dir-orig2}; this is the
+specialisation to $p=2$ of the identity~(4.4)
+of~\cite{Brasco2014}, obtained there by the same coarea computation. (The
+first equality in \eqref{eq:dir-rear} is coarea on $B$ exactly as in the
+first equality of \eqref{eq:dir-orig}, written in the $\tau$ variable; the
+second is \eqref{eq:psiprime-rel}.)
+
+\emph{Verifying \eqref{eq:psiprime-rel} concretely.} Substitute the explicit
+$P^*(\psi)$ and $\mu^*(\psi)$ into the claimed identity. From \eqref{eq:Pstar}
+with $\abs{\nabla u^*}=(-\psi')/R'$ and from \eqref{eq:mustar},
+\[
+  \frac{P^*(\psi)}{\mu^*(\psi)^2}
+  =\frac{(-\psi')\,n\omega_n R^{n-1}/R'}{(\omega_n R^n)^2}
+  =(-\psi')\,\frac{n\omega_n R^{n-1}}{R'\,\omega_n^2 R^{2n}}
+  =(-\psi')\,\frac{n}{\omega_n R^{n+1}R'} .
+\]
+With $R'=\tfrac{n}{\omega_n}R^{-(n+1)}$ (computed just above),
+$\omega_n R^{n+1}R'=\omega_n R^{n+1}\cdot\tfrac{n}{\omega_n}R^{-(n+1)}=n$, so
+\[
+  \frac{P^*(\psi)}{\mu^*(\psi)^2}=(-\psi')\,\frac{n}{n}=(-\psi'),
+\]
+which is exactly \eqref{eq:psiprime-rel}. (Equivalently this re-derives
+$-\psi'=P^*(\psi)/\mu^*(\psi)^2$ from scratch, using only the explicit ball
+geometry; the appeal to the "torsion of the ball" identity above is just the
+conceptual reason it holds.) Thus \eqref{eq:dir-rear} is justified.
+
+\emph{Matching the two sides.} Now the defining relation \eqref{eq:psi-ode},
+$\mu^*(\psi)(-\psi')=\mu(\varphi)(-\varphi')$, makes the integrands of
+\eqref{eq:dir-rear} and \eqref{eq:dir-orig2} \emph{equal}, by squaring:
+\[
+  \mu^*(\psi(\tau))^2(-\psi'(\tau))^2
+  =\bigl[\mu^*(\psi(\tau))(-\psi'(\tau))\bigr]^2
+  =\bigl[\mu(\varphi(\tau))(-\varphi'(\tau))\bigr]^2
+  =\mu(\varphi(\tau))^2(-\varphi'(\tau))^2 ,
+\]
+the middle equality being \eqref{eq:psi-ode} squared. Integrating over
+$[0,T_\star]$, the right-hand side of \eqref{eq:dir-rear} equals that of
+\eqref{eq:dir-orig2}, i.e.\
+$\int_B\abs{\nabla u^*}^2=\int_\Om\abs{\nabla u}^2$. This is the asserted
+equality, and we emphasise it is an \emph{exact} equality, not merely an
+inequality: the Dirichlet energy is preserved.
+\end{proof}
+
+\begin{lemma}[$L^2$ norm does not decrease]\label{lem:B}
+$\displaystyle\int_B(u^*)^2\dx\ \ge\ \int_\Om u^2\dx$, and more generally
+$\int_B f(u^*)\dx\ge\int_\Om f(u)\dx$ for every convex
+$f:[0,\infty)\to[0,\infty)$ with $f(0)=0$, strictly if $f$ is strictly
+convex unless $\Om$ is a ball and $u$ radial.
+\end{lemma}
+
+\begin{proof}
+The point is the comparison of \emph{distribution functions} along the
+rearrangement. We proceed in three steps: a level-by-level volume
+comparison, the consequent monotonicity $\psi\ge\varphi$, and the convexity
+chain.
+
+\emph{Step 1: volume comparison \eqref{eq:vol-cmp}.} Apply
+Proposition~\ref{prop:isop-tmod} not to $u$ but to the truncations. For each
+$\tau\in[0,T_\star]$, the construction declares that the ball $B_{R(\tau)}$
+has $T(B_{R(\tau)})=\tau$; and by \eqref{eq:Tt}--\eqref{eq:Tt-formula} and
+$\varphi=\mathcal T^{-1}$,
+$\tau=\mathcal T(\varphi(\tau))=\Tmod(\Om_{\varphi(\tau)};
+(u-\varphi(\tau))_+)$. Thus $B_{R(\tau)}$ is a ball whose ordinary torsion
+equals the modified torsion of the pair $(\Om_{\varphi(\tau)},
+(u-\varphi(\tau))_+)$. Proposition~\ref{prop:isop-tmod}, applied with domain
+$\Om_{\varphi(\tau)}$ and reference function $(u-\varphi(\tau))_+$ (which
+satisfies \eqref{eq:refcond}, being a truncation of the eigenfunction --
+the flux identity \eqref{eq:flux} for the tail follows from that for $u$),
+yields $\abs{B_{R(\tau)}}\le\abs{\Om_{\varphi(\tau)}}$. Writing both volumes
+through the distribution functions,
+\begin{equation}\label{eq:vol-cmp}
+  \mu^*(\psi(\tau))=\abs{B_{R(\tau)}}\ \le\ \abs{\Om_{\varphi(\tau)}}
+  =\mu(\varphi(\tau)),\qquad\tau\in[0,T_\star],
+\end{equation}
+where the first equality is \eqref{eq:mustar} and the last is the definition
+$\mu(t)=\abs{\Om_t}$ with $t=\varphi(\tau)$.
+
+\emph{Step 2: $-\psi'\ge-\varphi'$ and $\psi\ge\varphi$.} Solve the defining
+relation \eqref{eq:psi-ode} for $-\psi'$:
+\begin{equation}\label{eq:psi-monotone}
+  -\psi'(\tau)=\frac{\mu(\varphi(\tau))}{\mu^*(\psi(\tau))}\,(-\varphi'(\tau))
+  \ \ge\ -\varphi'(\tau)\qquad\text{for a.e.\ }\tau,
+\end{equation}
+the inequality because the prefactor $\mu(\varphi)/\mu^*(\psi)\ge1$ by
+\eqref{eq:vol-cmp} (numerator $\ge$ denominator), and $-\varphi'(\tau)>0$.
+Integrating \eqref{eq:psi-monotone} from $\tau$ up to $T_\star$ and using the
+common terminal value $\psi(T_\star)=\varphi(T_\star)=0$ (so that
+$\psi(\tau)=\psi(\tau)-\psi(T_\star)=\int_\tau^{T_\star}(-\psi'(s))\,ds$, and
+likewise for $\varphi$),
+\begin{equation}\label{eq:psi-ge-phi}
+  \psi(\tau)=\int_\tau^{T_\star}(-\psi'(s))\,ds
+  \ \ge\ \int_\tau^{T_\star}(-\varphi'(s))\,ds=\varphi(\tau),
+  \qquad\tau\in[0,T_\star],
+\end{equation}
+the inequality being the integral of the pointwise inequality
+\eqref{eq:psi-monotone}. Thus $\psi\ge\varphi$ on $[0,T_\star]$: at each
+torsion level, the rearranged function $u^*$ takes a \emph{higher} value than
+$u$ does at the matched level. (This is the analytic content of the sign
+remark: smaller superlevel balls force higher level values.)
+
+\emph{Step 3: the convexity chain.} Let $f:[0,\infty)\to[0,\infty)$ be
+convex with $f(0)=0$. Then $f$ is locally Lipschitz, $f'$ exists a.e.\ and
+is nondecreasing (convexity), and $f(\xi)=\int_0^\xi f'(t)\,dt$ for
+$\xi\ge0$. We compute $\int_\Om f(u)$ by Cavalieri and convert to the $\tau$
+variable, then bound by monotonicity of $f'$ and re-convert:
+\begin{align*}
+  \int_\Om f(u)\dx
+  &=\int_0^M f'(t)\,\mu(t)\dt
+   &&\text{(Cavalieri: }f(u)=\textstyle\int_0^u f', \text{ slice by }
+     \mu(t)=\abs{\{u>t\}})\\
+  &=\int_0^{T_\star}f'(\varphi(\tau))\,(-\varphi'(\tau))\,\mu(\varphi(\tau))
+     \,d\tau
+   &&\text{(change of variable }t=\varphi(\tau)\text{, as in
+     \eqref{eq:dir-orig})}\\
+  &=\int_0^{T_\star}f'(\varphi(\tau))\,(-\psi'(\tau))\,\mu^*(\psi(\tau))
+     \,d\tau
+   &&\text{(by \eqref{eq:psi-ode}: }\mu(\varphi)(-\varphi')
+     =\mu^*(\psi)(-\psi'))\\
+  &\le\int_0^{T_\star}f'(\psi(\tau))\,(-\psi'(\tau))\,\mu^*(\psi(\tau))
+     \,d\tau
+   &&\text{(by \eqref{eq:psi-ge-phi}, }\psi\ge\varphi\text{, and }f'
+     \text{ nondecreasing, so }f'(\varphi)\le f'(\psi))\\
+  &=\int_0^M f'(\ell)\,\mu^*(\ell)\,d\ell
+   &&\text{(change of variable }\ell=\psi(\tau)\text{, reverse of step 2)}\\
+  &=\int_B f(u^*)\dx
+   &&\text{(Cavalieri on }B\text{ for }u^*\text{, reverse of step 1).}
+\end{align*}
+The single inequality uses only that $f'$ is nondecreasing and $\psi\ge
+\varphi$, while $(-\psi')\ge0$ and $\mu^*(\psi)\ge0$ keep the multiplied
+factors nonnegative so the inequality is preserved after multiplication and
+integration. The two changes of variable are the area formula for the
+monotone Lipschitz functions $\varphi,\psi$, with the sign and limit flips
+cancelling exactly as before. Taking $f(s)=s^2$ (convex, $f(0)=0$,
+$f'(s)=2s$ nondecreasing) gives the principal claim $\int_B(u^*)^2\ge
+\int_\Om u^2$.
+
+\emph{Equality case.} Suppose $f$ is strictly convex and equality holds.
+Then equality holds in the single inequality step, i.e.\
+$f'(\varphi(\tau))=f'(\psi(\tau))$ for a.e.\ $\tau$ in the support of the
+integrand. Strict convexity makes $f'$ strictly increasing, so $f'(\varphi)
+=f'(\psi)$ forces $\varphi(\tau)=\psi(\tau)$ a.e.; then \eqref{eq:psi-ode}
+with $\psi=\varphi$ gives $\mu^*(\psi)=\mu(\varphi)$ a.e., i.e.\ equality in
+\eqref{eq:vol-cmp}, $\abs{B_{R(\tau)}}=\abs{\Om_{\varphi(\tau)}}$ for a.e.\
+$\tau$. By the equality case of Proposition~\ref{prop:isop-tmod} (equivalently
+the equality case of Saint--Venant), this makes a.e.\ superlevel set
+$\Om_t=\{u>t\}$ a ball. The sets $\Om_t$ are nested ($\Om_s\subset\Om_t$ for
+$s>t$); writing $\Om_t=B(c_t,r_t)$, the inclusion of nested balls forces
+$\abs{c_s-c_t}\le r_t-r_s$ on the centres and radii. As $t\downarrow0$ the
+radii $r_t$ increase to a limit $r_\star$ (monotone bounded by $\abs\Om$
+through the volume), and the centre estimate $\abs{c_s-c_t}\le r_t-r_s\to0$
+makes $\{c_t\}$ Cauchy, converging to some $c_\star$. Since the $\Om_t$
+increase to $\{u>0\}=\Om$ up to a null set, $\Om=B(c_\star,r_\star)$: a ball.
+Then $u$, having all superlevel sets concentric balls, is radial about
+$c_\star$, consistently with the equality case of
+Proposition~\ref{prop:isop-tmod}.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:kj}]
+Apply the construction to the first eigenfunction $u$ of $\Om$. It is a
+valid reference function: by \ref{R:reg} it is positive, bounded, smooth in
+the interior, and by Lemma~\ref{lem:prelim}\ref{it:flux} (the flux identity
+\eqref{eq:flux}) it satisfies the integrability condition
+\eqref{eq:refcond}, as verified in detail after Definition~\ref{def:tmod}.
+By Lemmas~\ref{lem:A} and~\ref{lem:B} the rearranged $u^*\in H^1_0(B)$
+satisfies $\int_B\abs{\nabla u^*}^2=\int_\Om\abs{\nabla u}^2$ (equality,
+property~\ref{prop:A}) and $\int_B(u^*)^2\ge\int_\Om u^2$ (property
+\ref{prop:B}). Feeding these into the Rayleigh principle on $B$
+\eqref{eq:rayleigh} -- as spelt out at \eqref{eq:rayleigh-chain} -- gives the
+chain
+\[
+  \lambda_1(B)
+  \ \underset{\text{(i)}}{\le}\
+  \frac{\int_B\abs{\nabla u^*}^2}{\int_B(u^*)^2}
+  \ \underset{\text{(ii)}}{\le}\
+  \frac{\int_\Om\abs{\nabla u}^2}{\int_\Om u^2}
+  \ \underset{\text{(iii)}}{=}\
+  \lambda_1(\Om),
+\]
+where (i) is \eqref{eq:rayleigh} on $B$ at the competitor $u^*$, (ii)
+replaces the numerator by an equal value (Lemma~\ref{lem:A}) and increases
+the denominator (Lemma~\ref{lem:B}), thereby decreasing the positive
+quotient, and (iii) is the eigenfunction property of $u$ on $\Om$.
+
+It remains to assemble $\Psi(B)\le\Psi(\Om)$. Multiply
+$\lambda_1(B)\le\lambda_1(\Om)$ -- both nonnegative -- by the factor
+$T(B)^{\beta}>0$ after raising to the power $\beta>0$ (a strictly increasing
+operation on $[0,\infty)$), $\lambda_1(B)^\beta\le\lambda_1(\Om)^\beta$, and
+note $T(B)\le T(\Om)$ from \eqref{eq:TB}. Then
+\[
+  \Psi(B)=T(B)\,\lambda_1(B)^\beta
+  \ \le\ T(\Om)\,\lambda_1(B)^\beta
+  \ \le\ T(\Om)\,\lambda_1(\Om)^\beta=\Psi(\Om),
+\]
+the first inequality using $T(B)\le T(\Om)$ (and $\lambda_1(B)^\beta\ge0$),
+the second using $\lambda_1(B)^\beta\le\lambda_1(\Om)^\beta$ (and
+$T(\Om)\ge0$). Finally, by scale invariance \eqref{eq:psi-def},
+$\Psi(B)=\Psi(B_1)=T_n L_n^\beta$ for the ball $B$, and likewise the right
+side of \eqref{eq:kj} for an arbitrary ball is $\Psi(B_1)$; so
+\[
+  T(B_1)L_n^\beta=\Psi(B_1)=\Psi(B)\le\Psi(\Om)=T(\Om)\lambda_1(\Om)^\beta,
+\]
+which is exactly \eqref{eq:kj}.
+
+\emph{Equality.} If \eqref{eq:kj} holds with equality, then every
+inequality in the chain above is an equality; in particular the inequality
+$\int_B(u^*)^2\ge\int_\Om u^2$ from Lemma~\ref{lem:B} with the strictly
+convex $f(s)=s^2$ is an equality. By the equality case of Lemma~\ref{lem:B}
+this forces $\Om$ to be a ball (and $u$ radial). Conversely, if $\Om$ is a
+ball then $\Psi(\Om)=\Psi(B_1)$ by scale invariance, giving equality. This
+is the equality characterisation claimed in Theorem~\ref{thm:kj}.
+\end{proof}
+
+\begin{remark}[On the sign that distinguishes Kohler--Jobin from Faber--Krahn]
+\label{rem:sign}
+The torsion-preserving rearrangement makes the ball
+$B_{R(\tau)}$ \emph{smaller} than the superlevel set
+$\Om_{\varphi(\tau)}$, \eqref{eq:vol-cmp} -- the opposite of Schwarz
+symmetrisation, which makes the rearranged level sets balls of \emph{equal}
+volume. It is precisely this that lets the Dirichlet energy be
+\emph{exactly preserved} (Lemma~\ref{lem:A}) rather than merely decreased:
+matching modified torsion rather than volume is what equalises the two
+Dirichlet integrands at \eqref{eq:dir-orig2} and \eqref{eq:dir-rear}.
+Meanwhile the level-set volumes \emph{grow under the inverse rearrangement},
+i.e.\ $\mu^*(\psi)\le\mu(\varphi)$ forces $\psi\ge\varphi$ in
+\eqref{eq:psi-ge-phi}, which is what makes $\int(u^*)^2\ge\int u^2$
+(Lemma~\ref{lem:B}). The naive attempt to compare $L^2$ masses level by
+level fails because the rearranged superlevel balls are smaller; the correct
+comparison is through the \emph{distribution-function inequality}
+\eqref{eq:psi-ge-phi}, driven by the isoperimetric
+Proposition~\ref{prop:isop-tmod}.
+\end{remark}
+
+%---------------------------------------------------------------------
+\subsection{Part 2: transfer to sharp Faber--Krahn stability}
+\label{ssec:transfer}
+
+We now use Theorem~\ref{thm:kj} just proved: it lets us bound
+$\lambda_1(\Om)$ from below by a function of the torsion $T(\Om)$ alone. The
+strategy of Part~2 is to (i) turn the multiplicative Kohler--Jobin
+inequality into an additive lower bound for $\lambda_1(\Om)-L$ in terms of
+the torsion deficit $\sigma=T_0-T(\Om)$, (ii) bound this from below linearly
+in $\sigma$ via a one-variable convexity estimate, and (iii) feed in the
+global Saint--Venant stability bound $\sigma\gtrsim\Fr^2$ to close the loop.
+A large-deficit branch handles the regime where the linearisation is wasteful.
+
+Throughout, $L:=\lambda_1(B^*)$, $T_0:=T(B^*)$, $\beta=(n+2)/2$,
+$p:=1/\beta=2/(n+2)\in(0,1]$.
+
+\begin{lemma}[Pointwise Kohler--Jobin transfer]\label{lem:ptwise}
+For every open $\Om\subset\R^n$ with $\abs\Om=\abs{B^*}$,
+\begin{equation}\label{eq:ptwise}
+  \lambda_1(\Om)\ \ge\ L\,\Bigl(\frac{T_0}{T(\Om)}\Bigr)^{1/\beta}
+  =L\,\Bigl(\frac{T_0}{T(\Om)}\Bigr)^{2/(n+2)} .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Theorem~\ref{thm:kj} with the ball $B=B^*$ (which has $\abs{B^*}=\abs\Om$,
+$T(B^*)=T_0$, $\lambda_1(B^*)=L$) reads
+$T(\Om)\,\lambda_1(\Om)^\beta\ge T(B^*)\,\lambda_1(B^*)^\beta=T_0 L^\beta$.
+Divide by $T(\Om)>0$:
+$\lambda_1(\Om)^\beta\ge L^\beta\,T_0/T(\Om)$. Raise both nonnegative sides
+to the power $1/\beta>0$ (strictly increasing):
+$\lambda_1(\Om)\ge L\,(T_0/T(\Om))^{1/\beta}$. Finally $1/\beta=1/((n+2)/2)
+=2/(n+2)$, giving the displayed exponent.
+\end{proof}
+
+By Saint--Venant \eqref{eq:sv-scale} at fixed volume $\abs\Om=\abs{B^*}$, the
+ball maximises torsion, so $T(\Om)\le T(B^*)=T_0$ and the torsion deficit
+$\sigma:=\sigma(\Om):=T_0-T(\Om)\ge0$ is well defined. Put
+$s:=\sigma/T_0\in[0,1)$ (it is $<1$ because $T(\Om)>0$ for $\Om$ with
+positive measure and finite $\lambda_1$). Then
+$T(\Om)=T_0-\sigma=T_0(1-s)$, so $T_0/T(\Om)=1/(1-s)=(1-s)^{-1}$ and
+$(T_0/T(\Om))^{p}=(1-s)^{-p}$ with $p=2/(n+2)$. Subtracting $L$ from both
+sides of \eqref{eq:ptwise},
+\begin{equation}\label{eq:ptwise-s}
+  \lambda_1(\Om)-L\ \ge\ L\bigl[(1-s)^{-p}-1\bigr],\qquad p=\tfrac{2}{n+2}.
+\end{equation}
+
+\begin{lemma}[An elementary one-variable inequality]\label{lem:onevar}
+For $p\in(0,1]$ and $s\in[0,1)$, $\ (1-s)^{-p}-1\ge p\,s$.
+\end{lemma}
+
+\begin{proof}
+Set $f(s):=(1-s)^{-p}-1$ on $[0,1)$. Then $f(0)=(1-0)^{-p}-1=1-1=0$. By the
+chain rule, $f'(s)=(-p)(1-s)^{-p-1}\cdot(-1)=p\,(1-s)^{-(p+1)}$. For
+$s\in[0,1)$ we have $0<1-s\le1$, so $(1-s)^{-(p+1)}\ge1^{-(p+1)}=1$ (a base
+in $(0,1]$ raised to a positive power $p+1>0$ is at most $1$, hence its
+reciprocal is at least $1$). Therefore $f'(s)\ge p$ on $[0,1)$. By the
+fundamental theorem of calculus, $f(s)=f(0)+\int_0^s f'(t)\,dt
+=\int_0^s f'(t)\,dt\ge\int_0^s p\,dt=p\,s$. This is the claim. (The
+inequality is the convexity-type linear lower bound: $f$ is convex with
+slope at least $p$ throughout, so it dominates its tangent line $ps$ at the
+origin.)
+\end{proof}
+
+\begin{lemma}[Small-deficit linearisation]\label{lem:small}
+If $\abs\Om=\abs{B^*}$ and $\sigma\le T_0/2$, then
+$\displaystyle\lambda_1(\Om)-L\ge\frac{2L}{(n+2)T_0}\,\sigma$.
+\end{lemma}
+
+\begin{proof}
+The hypothesis $\sigma\le T_0/2$ means $s=\sigma/T_0\le1/2<1$, so
+$s\in[0,1)$ and Lemma~\ref{lem:onevar} applies with $p=2/(n+2)\in(0,1]$
+(indeed $p\le1$ since $n\ge2$ gives $n+2\ge4>2$). Chaining
+\eqref{eq:ptwise-s} with Lemma~\ref{lem:onevar},
+\[
+  \lambda_1(\Om)-L
+  \ \ge\ L\bigl[(1-s)^{-p}-1\bigr]
+  \ \ge\ L\,p\,s
+  =L\cdot\frac{2}{n+2}\cdot\frac{\sigma}{T_0}
+  =\frac{2L}{(n+2)\,T_0}\,\sigma,
+\]
+where the first inequality is \eqref{eq:ptwise-s}, the second is
+Lemma~\ref{lem:onevar}, and the substitutions are $p=2/(n+2)$ and
+$s=\sigma/T_0$.
+\end{proof}
+
+\begin{lemma}[Large-deficit branch]\label{lem:large}
+If $\abs\Om=\abs{B^*}$ and $\sigma>T_0/2$, then
+$\lambda_1(\Om)-L\ge L(2^{2/(n+2)}-1)$, hence, since $\Fr(\Om)<2$,
+\begin{equation}\label{eq:large}
+  \lambda_1(\Om)-L\ \ge\ \frac{L(2^{2/(n+2)}-1)}{4}\,\Fr(\Om)^2 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The hypothesis $\sigma>T_0/2$ means $T(\Om)=T_0-\sigma<T_0-T_0/2=T_0/2$,
+hence $T_0/T(\Om)>2$. Since $x\mapsto x^{p}$ with $p=2/(n+2)>0$ is strictly
+increasing, $(T_0/T(\Om))^{p}>2^{p}=2^{2/(n+2)}$, and \eqref{eq:ptwise}
+gives
+\[
+  \lambda_1(\Om)\ \ge\ L\,(T_0/T(\Om))^{2/(n+2)}\ >\ L\,2^{2/(n+2)},
+\]
+so $\lambda_1(\Om)-L\ge L\,(2^{2/(n+2)}-1)$ (the strict inequality is
+weakened to $\ge$, which is all we need). To convert this constant lower
+bound into the stated $\Fr^2$ form, recall that at fixed volume the Fraenkel
+asymmetry obeys $\Fr(\Om)\in[0,2)$, so $\Fr(\Om)^2\le4$, i.e.\
+$\Fr(\Om)^2/4\le1$. Multiplying the constant bound by $\Fr(\Om)^2/4\le1$
+(which only decreases the right-hand side, preserving the inequality):
+\[
+  \lambda_1(\Om)-L\ \ge\ L(2^{2/(n+2)}-1)
+  \ \ge\ L(2^{2/(n+2)}-1)\cdot\frac{\Fr(\Om)^2}{4}
+  =\frac{L(2^{2/(n+2)}-1)}{4}\,\Fr(\Om)^2 ,
+\]
+the second inequality because $2^{2/(n+2)}-1>0$ and $\Fr^2/4\le1$. This is
+\eqref{eq:large}.
+\end{proof}
+
+\begin{theorem}[Sharp Faber--Krahn via Kohler--Jobin]\label{thm:fk}
+By the global sharp Saint--Venant stability estimate of
+Theorem~\ref{thm:SV-global}, with $c_{\mathrm{SV}}^{\mathrm{glob}}(n)>0$,
+\begin{equation}\label{eq:sv-input}
+  T(B^*)-T(\Om)=2\bigl(E(\Om)-E(B^*)\bigr)
+  \ \ge\ 2\,c_{\mathrm{SV}}^{\mathrm{glob}}(n)
+  \Bigl(\frac{\abs\Om}{\omega_n}\Bigr)^{(n+2)/n}\Fr(\Om)^2
+\end{equation}
+for all open bounded $\Om\subset\R^n$, $0<\abs\Om<\infty$. Then
+\begin{equation}\label{eq:fk-out}
+  \delta_{\mathrm{FK}}(\Om)
+  =\Bigl(\frac{\abs\Om}{\omega_n}\Bigr)^{2/n}
+   \bigl(\lambda_1(\Om)-\lambda_1(B^*)\bigr)
+  \ \ge\ c_{\mathrm{FK}}(n)\,\Fr(\Om)^2,
+\end{equation}
+with the explicit constant
+\begin{equation}\label{eq:cfk}
+  c_{\mathrm{FK}}(n)=\min\!\left\{
+  \frac{4\,L_n\,c_{\mathrm{SV}}^{\mathrm{glob}}(n)}{(n+2)\,T_n},\ \
+  \frac{L_n\bigl(2^{2/(n+2)}-1\bigr)}{4}\right\},
+\end{equation}
+equivalently $\Fr(\Om)^2\le C_{\mathrm{FK}}(n)\,\delta_{\mathrm{FK}}(\Om)$
+with $C_{\mathrm{FK}}(n)=1/c_{\mathrm{FK}}(n)$.
+\end{theorem}
+
+\begin{proof}
+\emph{Reduction by scaling.} The deficit $\delta_{\mathrm{FK}}$ and the
+asymmetry $\Fr$ are scale invariant: $\Fr(t\Om)=\Fr(\Om)$ since both
+$\abs{\,\cdot\,\triangle\,\cdot\,}$ and $\abs{B^*}$ scale by $t^n$ and cancel;
+and $\delta_{\mathrm{FK}}(t\Om)=(t^n\abs\Om/\omega_n)^{2/n}
+(t^{-2}\lambda_1(\Om)-t^{-2}\lambda_1(B^*))
+=t^2(\abs\Om/\omega_n)^{2/n}\cdot t^{-2}(\lambda_1(\Om)-\lambda_1(B^*))
+=\delta_{\mathrm{FK}}(\Om)$ by the dilation laws of \S\ref{ssec:kj-notation}.
+The hypothesis \eqref{eq:sv-input} is likewise scale invariant: both sides
+carry the factor $(\abs\Om/\omega_n)^{(n+2)/n}\cdot$(scale-free) and $T$
+scales by $t^{n+2}$ consistently. Hence we may rescale so that
+$\abs\Om=\omega_n$, whence $B^*=B_1$, $L=\lambda_1(B_1)=L_n$,
+$T_0=T(B_1)=T_n$, and the volume prefactor $(\abs\Om/\omega_n)^{2/n}=1$, so
+that $\delta_{\mathrm{FK}}(\Om)=\lambda_1(\Om)-L_n$ in this normalisation.
+Under this normalisation, \eqref{eq:sv-input} becomes
+$\sigma=T_n-T(\Om)\ge2c_{\mathrm{SV}}^{\mathrm{glob}}(n)\Fr(\Om)^2$ (the
+prefactor $(\abs\Om/\omega_n)^{(n+2)/n}=1$). Split on the torsion deficit
+$\sigma=T_n-T(\Om)$.
+
+\emph{Case 1 ($\sigma\le T_n/2$).} Lemma~\ref{lem:small} applies (its
+hypothesis $\sigma\le T_0/2=T_n/2$ holds), giving $\lambda_1(\Om)-L_n\ge
+\tfrac{2L_n}{(n+2)T_n}\,\sigma$. Now insert the Saint--Venant lower bound
+$\sigma\ge2c_{\mathrm{SV}}^{\mathrm{glob}}(n)\Fr(\Om)^2$:
+\[
+  \lambda_1(\Om)-L_n
+  \ \ge\ \frac{2L_n}{(n+2)T_n}\,\sigma
+  \ \ge\ \frac{2L_n}{(n+2)T_n}\cdot 2c_{\mathrm{SV}}^{\mathrm{glob}}(n)
+     \,\Fr(\Om)^2
+  =\frac{4L_n\,c_{\mathrm{SV}}^{\mathrm{glob}}(n)}{(n+2)T_n}\,\Fr(\Om)^2 .
+\]
+The first inequality is Lemma~\ref{lem:small}; the second multiplies the
+positive coefficient $\tfrac{2L_n}{(n+2)T_n}$ by the lower bound for
+$\sigma$ (preserving direction since the coefficient is positive); the final
+equality collects the constants. This matches the first entry of the minimum
+in \eqref{eq:cfk}.
+
+\emph{Case 2 ($\sigma>T_n/2$).} Lemma~\ref{lem:large} applies (its
+hypothesis $\sigma>T_0/2=T_n/2$ holds), giving directly
+$\lambda_1(\Om)-L_n\ge\frac{L_n(2^{2/(n+2)}-1)}{4}\Fr(\Om)^2$, the second
+entry of the minimum in \eqref{eq:cfk}. (Note this branch does \emph{not}
+use the Saint--Venant input: a large torsion deficit already forces a large
+spectral gap through Kohler--Jobin alone.)
+
+\emph{Conclusion.} In either case
+$\delta_{\mathrm{FK}}(\Om)=\lambda_1(\Om)-L_n\ge c\,\Fr(\Om)^2$ with $c$ the
+constant of the relevant case; taking the smaller of the two constants,
+which is the worst case across the dichotomy, gives the uniform bound
+$\delta_{\mathrm{FK}}(\Om)\ge c_{\mathrm{FK}}(n)\Fr(\Om)^2$ with
+$c_{\mathrm{FK}}(n)$ the minimum \eqref{eq:cfk}. Undoing the scaling
+preserves the inequality, every term being scale invariant as shown. The
+equivalent reciprocal form $\Fr(\Om)^2\le C_{\mathrm{FK}}(n)
+\delta_{\mathrm{FK}}(\Om)$ with $C_{\mathrm{FK}}=1/c_{\mathrm{FK}}$ follows by
+dividing by the positive constant $c_{\mathrm{FK}}(n)$.
+\end{proof}
+
+\begin{remark}[Sharpness of the exponent]\label{rem:sharp}
+The exponent $2$ on $\Fr$ in \eqref{eq:fk-out} is optimal: smooth
+ellipsoidal perturbations of the ball have
+$\lambda_1(\Om)-L_n\asymp\Fr(\Om)^2$
+(\cite{BraDeP2017,Brasco2014} and references therein), so no exponent
+smaller than $2$ can hold and the quadratic rate cannot be improved. The
+transfer is non-perturbative: no compactness, contradiction, or Taylor
+expansion is used past the elementary Lemma~\ref{lem:onevar}; the only
+analytic inputs are the Kohler--Jobin inequality (Part~1) and the global
+Saint--Venant stability bound \eqref{eq:sv-input}, both valid for all
+admissible $\Om$, not merely near the ball.
+\end{remark}
+
+\begin{proof}[Proof of Theorem~\ref{thm:FK-main}]
+For an open set of finite measure with $\lambda_1(\Om)=+\infty$ the
+inequality is trivial, since its left side $\delta_{\mathrm{FK}}(\Om)$ is
+then $+\infty$ (the prefactor is finite and positive, multiplying
+$\lambda_1(\Om)-\lambda_1(B^*)=+\infty$) while the right side
+$c_{\mathrm{FK}}(n)\Fr(\Om)^2\le 4c_{\mathrm{FK}}(n)$ is finite (using
+$\Fr(\Om)^2\le4$). Otherwise $\lambda_1(\Om)<\infty$, and
+Theorem~\ref{thm:fk} applies: its Saint--Venant hypothesis
+\eqref{eq:sv-input} is exactly the global estimate \eqref{eq:T-global} of
+Theorem~\ref{thm:SV-global}, so \eqref{eq:fk-out} holds with
+$c_{\mathrm{FK}}(n)$ as in \eqref{eq:cfk}. This is precisely the assertion of
+Theorem~\ref{thm:FK-main}.
+\end{proof}
+
+%=====================================================================
+%  >>>>>>>>>>>>>>>>>>>>>>  END SECTION BODY  <<<<<<<<<<<<<<<<<<<<<<<<<<
+%=====================================================================

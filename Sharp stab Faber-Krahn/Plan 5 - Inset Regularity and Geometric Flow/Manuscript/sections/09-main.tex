@@ -7,12 +7,13 @@ open with $\abs\Om=\pi$, $u\in H^1_0(\Om)$ is its torsion function, $\dT=\dT(\Om
 \tfrac\pi8-T(\Om)\ge0$ is the Saint--Venant deficit, and $\dstar(\Om)=
 \tfrac8\pi\dT$ is the scale--invariant relative torsion deficit. We write
 $C$ for an absolute constant whose value may change from line to line, and
-$\eta_G,C_G$ for the absolute constants of the radial--graph theorem
-\cref{thm:graphG}. The threshold $\delta_\star>0$ is absolute and may be
-shrunk finitely many times.
+$\eta_G,C_G$ for the constants of the radial--graph theorem
+\cref{thm:graphG}, which depend only on the absolute mode-one constant $K$ of
+\eqref{eq:mode1-scoped} below and are therefore themselves absolute. The
+threshold $\delta_\star>0$ is absolute and may be shrunk finitely many times.
 
 The section has two results. \Cref{thm:reduction} reduces a near--extremal
-$\Om$ to a continuous small--amplitude radial graph $G$ that inherits the
+$\Om$ to a measurable small--amplitude radial graph $G$ that inherits the
 torsion deficit and is close to $\Om$ in measure; this is the entire payload
 of \S\S4--7. \Cref{thm:main} then feeds $G$ into \cref{thm:graphG} and
 transfers the resulting asymmetry bound back to $\Om$ by the triangle
@@ -30,11 +31,11 @@ balance producing the exponent $\tfrac12$ is visible.
 There is an absolute $\delta_\star>0$ such that the following holds. Let
 $\Om\subset\R^2$ be bounded open with $\abs\Om=\pi$ and $\dT\le\delta_\star$,
 and put
-$\tau:=\sqrt\dT$. Then there exist a point $z\in\R^2$ and a continuous radial
-graph
+$\tau:=\sqrt\dT$. Then there exist a point $z\in\R^2$ and a bounded open
+star-shaped radial graph
 \[
    G=\{z+r\omega:\ 0\le r<\rho(\omega),\ \omega\in S^1\},
-   \qquad \rho\in C^0(S^1),
+   \qquad \rho\colon S^1\to(0,\infty)\ \text{measurable},
 \]
 with $\hat r_G:=\sqrt{\abs G/\pi}$, such that
 \begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.6em]
@@ -64,15 +65,15 @@ $\hat v\in(\tau,2\tau)$ with
    \qquad
    \mu_B(\hat v)-\mu(\hat v)\le A_0\,\frac\dT\tau,
 \end{equation}
-$A_0$ absolute. Let $\Etil$ be the connected inset of \cref{def:inset} (the
+$A_0$ absolute. Let $\Etil_0$ be the connected inset of \cref{def:inset} (the
 component of $\{u>\hat v\}$ of largest measure); by \cref{lem:noholes} it is
-connected and has no interior holes, and $\mu_E=\abs\Etil$,
+connected and has no interior holes, and $\mu_E=\abs{\Etil_0}$,
 $\hat r=\sqrt{\mu_E/\pi}$. By \cref{lem:close,lem:spill},
 \begin{equation}\label{eq:m-close}
-   \abs{\Om\triangle\Etil}\ \le\ 8\pi\tau+A_0\frac\dT\tau
+   \abs{\Om\triangle\Etil_0}\ \le\ 8\pi\tau+A_0\frac\dT\tau
        +\frac{A_0^2}{16\pi^3}\,\frac{\dT^2}{\tau^2}.
 \end{equation}
-Since $\mu_E=\abs\Etil=\pi-\abs{\Om\triangle\Etil}$ (as $\Etil\subset\Om$),
+Since $\mu_E=\abs{\Etil_0}=\pi-\abs{\Om\triangle\Etil_0}$ (as $\Etil_0\subset\Om$),
 \eqref{eq:m-close} gives $\mu_E\ge\pi-(8\pi\tau+A_0\dT/\tau+A_0^2\dT^2/
 (16\pi^3\tau^2))$; for $\delta_\star$ small (so that the right--hand bound is
 $\le\pi/2$, which is exactly the standing hypothesis \eqref{eq:halfmass} of
@@ -81,22 +82,49 @@ absorbed) we obtain $\mu_E\ge\pi/2$, hence $\hat r=\sqrt{\mu_E/\pi}\ge1/\sqrt2$
 and, for the annulus produced below, $\rho_i\ge\tfrac12$ after possibly
 shrinking $\delta_\star$.
 
-\emph{Step 1: the scales (carrying $\tau$ symbolic).} From \cref{lem:spill}
-(recorded in \cref{def:inset}),
+\emph{Step $0'$: hole-filling.} Pass from $\Etil_0$ to its saturation
+$\Etil:=E^h$ of \cref{def:fill}, with all bounded complementary components
+filled in (\cref{conv:fill}). By \cref{lem:fill}\ref{it:fill-top} the set
+$\Etil$ is bounded, open, connected and \emph{globally hole-free} ---
+$\R^2\setminus\overline\Etil$ connected --- \emph{unconditionally}, with no
+hypothesis on $\partial\Om$; this discharges the exterior-connectedness
+convention \cref{lem:ext-conn} required by the trapping annulus and the
+inscribed-ball lemma. The filled mass obeys $H:=\abs{\Etil\setminus\Etil_0}
+\le D_I(\Etil_0)^2/(64\pi^2\mu_E)\le C(\dT/\tau)^2$
+(\cref{lem:fill}\ref{it:fill-key},\ref{it:fill-scales}), so at $\tau=\sqrt\dT$,
+$H\le C\dT$, of the same higher order as the spillover. By
+\cref{lem:fill}\ref{it:fill-scales} all inset scales are preserved with the
+same rates: $\diso(\Etil)\le\diso(\Etil_0)$, $\Exc(\Etil)\le\Exc(\Etil_0)+CH$,
+$a(\Etil)\le a(\Etil_0)+CH$, $\dstar(\Etil)\le\dstar(\Etil_0)+CH/\mu_E$, and
+the closeness deteriorates only by $H$:
+\begin{equation}\label{eq:m-fillclose}
+   \abs{\Om\triangle\Etil}\ \le\ \abs{\Om\triangle\Etil_0}+H
+   \ \le\ 8\pi\tau+A_0\frac\dT\tau+\frac{A_0^2}{16\pi^3}\frac{\dT^2}{\tau^2}+CH.
+\end{equation}
+From here on $\Etil$ denotes the hole-filled inset, $\mu_E:=\abs\Etil$ (now
+$\mu_E+H$ of the previous step, still $\ge\pi/2$), $\hat r:=\sqrt{\mu_E/\pi}$,
+and we run Steps~1--4 on it; all of \cref{sec:annulus,sec:fold,sec:cut} apply
+to it directly (\cref{conv:fill}).
+
+\emph{Step 1: the scales (carrying $\tau$ symbolic).} From the inset control
+\eqref{eq:diso-inset} of \cref{prop:insetcontrols} (which includes the
+spillover term $4\pi S$ and absorbs it),
 \begin{equation}\label{eq:m-diso}
-   \diso\ \le\ \frac{D_I(\hat v)}{8\pi\,\mu_E}\ \le\ C\,\frac\dT\tau,
+   \diso\ \le\ C\,\frac\dT\tau,
    \qquad
    \Exc=2\pi\hat r\,\diso\ \le\ C\,\frac\dT\tau,
 \end{equation}
-using $\mu_E\ge\pi/2$ and \eqref{eq:m-good}. The sharp quantitative
+using $\hat r\le1$. The sharp quantitative
 isoperimetric inequality \cref{thm:fmp}, in the form
 $a=\abs{\Etil\triangle B_{\hat r}(z)}\le C_{\mathrm F}\sqrt{\diso}\,\abs\Etil$,
 gives
 \begin{equation}\label{eq:m-a}
    a\ \le\ C\,\sqrt{\diso}\ \le\ C\Bigl(\frac\dT\tau\Bigr)^{1/2}.
 \end{equation}
-The trapping annulus \cref{thm:annulus}, valid because $\Etil$ is connected
-and hole--free, yields $B_{\rho_i}(z)\subset\Etil\subset B_{\rho_e}(z)$ with
+The trapping annulus \cref{thm:annulus}, applied to the hole-filled inset
+$\Etil=E^h$ (globally hole-free unconditionally by \cref{lem:fill}\ref{it:fill-top},
+\cref{conv:fill}), yields
+$B_{\rho_i}(z)\subset\Etil\subset B_{\rho_e}(z)$ with
 \begin{equation}\label{eq:m-eta}
    \eta=\rho_e-\rho_i\ \le\ C\,(\Exc+a)^{1/2}.
 \end{equation}
@@ -126,79 +154,72 @@ $(\Exc+a)^{1/2}\le C\dT^{1/8}$. For the graph defect, \eqref{eq:m-gd} gives
 the dominant term being $a\eta\cdot\eta$ with
 $a\,\eta^2=\dT^{1/4}\cdot\dT^{1/4}=\dT^{1/2}$. As a cross--check against the
 heuristic $\gd\sim\dT/\tau$: at $\tau=\sqrt\dT$ one has
-$\dT/\tau=\dT^{1/2}$, matching \eqref{eq:s-gd}. Likewise the closeness
-\eqref{eq:m-close} reads
+$\dT/\tau=\dT^{1/2}$, matching \eqref{eq:s-gd}. Likewise the closeness of the
+hole-filled inset \eqref{eq:m-fillclose} reads
 \begin{equation}\label{eq:s-close}
    \abs{\Om\triangle\Etil}\ \le\ 8\pi\,\dT^{1/2}+A_0\,\dT^{1/2}
-       +\frac{A_0^2}{16\pi^3}\,\dT\ \le\ C\,\dT^{1/2},
+       +\frac{A_0^2}{16\pi^3}\,\dT+CH\ \le\ C\,\dT^{1/2},
 \end{equation}
 i.e.\ both contributions $\tau=\dT^{1/2}$ (the level height) and
 $\dT/\tau=\dT^{1/2}$ (the level smoothing) coincide at the optimum, while the
-spillover $\dT^2/\tau^2=\dT$ is genuinely higher order. This is precisely the
+spillover $\dT^2/\tau^2=\dT$ and the filled mass $H\le C\dT$ are genuinely
+higher order. This is precisely the
 balance $\tau\sim\dT/\tau$, solved by $\tau=\sqrt\dT$; any other power of
 $\tau$ would leave one of the two terms larger than $\dT^{1/2}$.
 
-\emph{Step 3: realisation of the continuous graph $G$.} By
-\cref{prop:realization} there is a continuous (indeed Lipschitz) radial
-profile $\rho\in C^0(S^1;[\rho_i,\rho_e])$ and a smoothing scale $\sigma>0$
-such that, with $G:=\{z+r\omega:r<\rho(\omega)\}$ and $G_0=\{r<\rho_0\}$ the
-core--profile graph of \cref{cor:gd},
-\begin{equation}\label{eq:s-real}
-   \abs{\Etil\triangle G}\ \le\ \abs{\Etil\setminus G_0}+C\,\sigma,
-   \qquad
-   \norm{\rho-\hat r}_{L^\infty(S^1)}\ \le\ \eta,
-\end{equation}
-where the second bound holds because $\rho$ takes values in
-$[\rho_i,\rho_e]$ and $\hat r\in[\rho_i,\rho_e]$, so
-$\abs{\rho-\hat r}\le\rho_e-\rho_i=\eta$. We take $\sigma=\dT$, which is
-admissible (the total variation of the core profile is $\le P(\Etil)/\rho_i
-\le C$, so the smoothing cost is $\le C\sigma=C\dT$). By \cref{cor:gd} the
-core--profile defect obeys $\abs{\Etil\setminus G_0}\le C\,\eta(\Exc+a\eta)$,
-the same bound as \eqref{eq:s-gd} for $\gd(\Etil)\le\abs{\Etil\setminus G_0}$;
-hence
+\emph{Step 3: realisation as the measurable core graph $G$.} We take $G:=G_0$
+the measurable open star-shaped core graph of \cref{prop:realization}, with
+profile $\rho:=\rho_0\colon S^1\to[\rho_i,\rho_e]$ measurable. No
+mollification or continuity is required: the nearly-spherical estimate
+\cref{thm:graphG} admits measurable profiles. By
+\cref{prop:realization}\ref{it:real-close} and \cref{cor:gd},
 \begin{equation}\label{eq:s-EtilG}
-   \abs{\Etil\triangle G}\ \le\ \abs{\Etil\setminus G_0}+C\dT
-   \ \le\ C\,\eta(\Exc+a\eta)+C\dT\ \le\ C\,\dT^{1/2}.
+   \abs{\Etil\triangle G}\ =\ \abs{\Etil\setminus G_0}
+   \ \le\ C\,\eta(\Exc+a\eta)\ \le\ C\,\dT^{1/2},
 \end{equation}
+the last step being \eqref{eq:s-gd}, and
+$\norm{\rho/\hat r_G-1}_{L^\infty}\le2\eta$ by
+\cref{prop:realization}\ref{it:real-amp} with $\hat r_G=\hat r_{G_0}=
+\sqrt{\abs G/\pi}\in[\rho_i,\rho_e]$.
 
 \emph{Step 4: verification of (i), (ii), (iii).}
 
-\noindent\textup{(i)} \emph{Amplitude.} By \eqref{eq:s-real} and
-\eqref{eq:s-eta}, $\norm{\rho-\hat r}_\infty\le\eta\le C\dT^{1/8}$. The
-equal--area radius of $G$ satisfies $\abs{\hat r_G-\hat r}\le C\sqrt\dT$:
-indeed $\abs{\abs G-\mu_E}=\abs{\abs G-\abs\Etil}\le\abs{\Etil\triangle G}\le
-C\dT^{1/2}$ by \eqref{eq:s-EtilG}, and $\hat r_G^2-\hat r^2=(\abs G-\mu_E)/\pi$,
-so $\abs{\hat r_G-\hat r}\le\abs{\abs G-\mu_E}/(\pi(\hat r_G+\hat r))\le
-C\dT^{1/2}$ since $\hat r\ge1/\sqrt2$. Consequently
-\[
-   \norm{\frac{\rho}{\hat r_G}-1}_\infty
-   =\frac{\norm{\rho-\hat r_G}_\infty}{\hat r_G}
-   \le\frac{\norm{\rho-\hat r}_\infty+\abs{\hat r-\hat r_G}}{\hat r_G}
-   \le\frac{C\dT^{1/8}+C\dT^{1/2}}{\,1/\sqrt2-C\dT^{1/2}\,}
-   \le C\,\dT^{1/8}.
-\]
-Shrinking $\delta_\star$ so that $C\,\delta_\star^{1/8}\le\eta_G$ gives
+\noindent\textup{(i)} \emph{Amplitude.} By
+\cref{prop:realization}\ref{it:real-amp} the profile $\rho=\rho_0$ obeys
+$\norm{\rho/\hat r_G-1}_\infty\le2\eta$ with $\hat r_G=\sqrt{\abs G/\pi}\in
+[\rho_i,\rho_e]$, and by \eqref{eq:s-eta} $\eta\le C\dT^{1/8}$, so
+$\norm{\rho/\hat r_G-1}_\infty\le C\dT^{1/8}$. Shrinking $\delta_\star$ so
+that $C\,\delta_\star^{1/8}\le\eta_G$ gives
 $\norm{\rho/\hat r_G-1}_\infty\le\eta_G$, which is (i). Here it is essential
 that $\eta\sim\dT^{1/8}$ is an \emph{absolute} smallness (decaying with
 $\dT$), so the hypothesis of \cref{thm:graphG} is met for $\dT$ small,
 \emph{regardless} of the cruder $L^1$--roundness $a\sim\dT^{1/4}$.
 
 \noindent\textup{(iii)} \emph{Closeness.} By \eqref{eq:s-close} and
-\eqref{eq:s-EtilG},
+\eqref{eq:s-EtilG}, with $\Etil=E^h$ so that $\abs{\Om\triangle\Etil}$ already
+includes the filled mass $H\le C\dT$ (\eqref{eq:m-fillclose}),
 \[
-   \abs{\Om\triangle G}\ \le\ \abs{\Om\triangle\Etil}+\abs{\Etil\triangle G}
+   \abs{\Om\triangle G}\ \le\ \abs{\Om\triangle\Etil_0}+H+\abs{\Etil\triangle G}
+   \ =\ \abs{\Om\triangle\Etil}+\abs{\Etil\triangle G}
    \ \le\ C\,\dT^{1/2}+C\,\dT^{1/2}\ =\ C\,\sqrt\dT,
 \]
-which is (iii).
+which is (iii); the filled mass $H\le C\dT$ is negligible.
 
-\noindent\textup{(ii)} \emph{Deficit.} Let $G_0:=\{z+r\omega:r<\rho_0(\omega)\}$
-be the BV core inset of \cref{cor:gd,prop:realization}, so $\rho_0\in
+\noindent\textup{(ii)} \emph{Deficit.} Here $G=G_0=
+\{z+r\omega:r<\rho_0(\omega)\}$ is the measurable core graph of
+\cref{cor:gd,prop:realization}, so $\rho_0\in
 [\rho_i,\rho_e]$, $B_{\rho_i}(z)\subset G_0\subset\Etil\subset B_{\rho_e}(z)$,
 and $\Etil\setminus G_0$ (the radial caps) lies in the collar
-$\{\rho_i<\abs{x-z}<\rho_e\}$. The cutting condition
-$3\tilde\eta\le T(\Etil)/\abs\Etil$, with $\tilde\eta=\tfrac14(\rho_e^2-
-\rho_i^2)\le\eta\,\rho_e\le C\dT^{1/8}$, holds for $\delta_\star$ small,
-because
+$\{\rho_i<\abs{x-z}<\rho_e\}$. The torsion-loss decomposition
+\eqref{eq:torsion-loss} of \cref{lem:torsion-stab} holds unconditionally,
+\[
+   T(\Etil)-T(G_0)=\int_{\Etil\setminus G_0}u_{\Etil}+\int_{G_0}h
+   \ \le\ \tilde\eta\,g+\int_{G_0}h,
+   \qquad g=\abs{\Etil\setminus G_0},
+\]
+with $\tilde\eta=\tfrac14(\rho_e^2-\rho_i^2)\le\eta\,\rho_e\le C\dT^{1/8}$ and
+the cap term $\int_{\Etil\setminus G_0}u_{\Etil}\le\tilde\eta\,g$ rigorous. The
+torsion density is an absolute constant bounded below,
 \[
    \frac{T(\Etil)}{\abs\Etil}
    =\bigl(1-\dstar(\Etil)\bigr)\frac{\abs\Etil}{8\pi}
@@ -206,44 +227,43 @@ because
 \]
 using $\dstar(\Etil)\le\tfrac12$ (from Step~5 below, equivalently
 \cref{prop:insetcontrols}\,\eqref{eq:dstar-inset}) and $\abs\Etil\ge\pi/2$.
-Here the excised set $\Etil\setminus G_0$ is the union of radial caps, all
-contained in the collar $\{\rho_i<\abs{x-z}<\rho_e\}$ (\cref{cor:gd}), so the
-collar hypothesis of \cref{lem:cutdeficit} is met; hence \cref{lem:cutdeficit}
-applies to $G_0\subset\Etil$ and gives
-\begin{equation}\label{eq:s-cut}
-   \dstar(G_0)\ \le\ \dstar(\Etil).
-\end{equation}
-Passing from $G_0$ to the mollified $G$ moves only collar material of total
-measure $\abs{G\triangle G_0}\le C\sigma=C\dT$; by the boundary--layer
-stability \cref{lem:torsion-stab} (with $\tilde\eta\le C\dT^{1/8}$),
-$\abs{T(G)-T(G_0)}\le3\tilde\eta\,\abs{G\triangle G_0}\le C\dT^{9/8}$, and
-$\abs{\,\abs G-\abs{G_0}\,}\le C\dT$, so from the definition of $\dstar$,
-\begin{equation}\label{eq:s-moll}
-   \dstar(G)\ \le\ \dstar(G_0)+C\bigl(\tilde\eta\,\abs{G\triangle G_0}
-   +\abs{\,\abs G-\abs{G_0}\,}\bigr)\ \le\ \dstar(G_0)+C\dT.
-\end{equation}
-(The constant absorbs $T(B_{G_0})=\abs{G_0}^2/8\pi\ge c>0$ in the
-denominator of $\dstar$.) Combining \eqref{eq:s-cut} and \eqref{eq:s-moll},
+Under the boundary-layer control \eqref{eq:flux-hyp} of
+\cref{gap:torsion-stab} --- the single residual analytic point, namely the
+localisation $\int_{G_0}h\le\tilde\eta\,g$ of the harmonic boundary-layer
+term to the cap region --- the loss-slope hypothesis \eqref{eq:cutcond} holds
+with $\lambda=2\tilde\eta\le\tfrac1{32}\le T(\Etil)/\abs\Etil$
+(\cref{rem:supply,rem:roomtospare}), so \cref{lem:cutdeficit} applies to
+$G=G_0\subset\Etil$ and gives directly, with no further regularisation step
+(since $G=G_0$),
 \begin{equation}\label{eq:s-defchain}
-   \dstar(G)\ \le\ \dstar(\Etil)+C\dT.
+   \dstar(G)\ =\ \dstar(G_0)\ \le\ \dstar(\Etil).
 \end{equation}
+This is the only place in the reduction where a residual analytic point is
+invoked; everything else --- the exact decomposition, the cap term, and the
+deficit algebra --- is unconditional.
 
-\emph{Step 5: transfer of the deficit from $\Om$ to $\Etil$.} This is the
-inset control \eqref{eq:dstar-inset} of \cref{prop:insetcontrols}, which
-states
+\emph{Step 5: transfer of the deficit from $\Om$ to $\Etil$.} The deficit of
+the raw component $\Etil_0$ is controlled by the inset control
+\eqref{eq:dstar-inset} of \cref{prop:insetcontrols},
+$\dstar(\Etil_0)\le(\pi^2/\mu_E^2)\,\dstar(\Om)\le C\,\dstar(\Om)$; and the
+hole-filling raises it only by the higher-order term $CH/\mu_E\le C\dT$
+(\cref{lem:fill}\ref{it:fill-scales}, eq.~\eqref{eq:fill-dstar}), so
 \begin{equation}\label{eq:s-transfer}
-   \dstar(\Etil)\ \le\ \frac{\pi^2}{\mu_E^2}\,\dstar(\Om)\ \le\ C\,\dstar(\Om).
+   \dstar(\Etil)\ \le\ \dstar(\Etil_0)+\frac{CH}{\mu_E}
+   \ \le\ \frac{\pi^2}{\mu_E^2}\,\dstar(\Om)+C\dT\ \le\ C\,\dstar(\Om).
 \end{equation}
-We stress that this bound is established in \cref{sec:inset}
+We stress that the transfer to $\Etil_0$ is established in \cref{sec:inset}
 \emph{without} appeal to the cutting principle \cref{lem:cutdeficit}: the
 passage from the super--level set $\{u>\hat v\}$ to its largest component
-$\Etil$ is handled there by the exact additivity of torsion over the
+$\Etil_0$ is handled there by the exact additivity of torsion over the
 (disjoint) level components and the Saint--Venant bound on the spillover
 torsion (\cref{prop:insetcontrols}, eqs.~\eqref{eq:Tadd}--\eqref{eq:Tspill}),
-both internal to \cref{sec:identity,sec:inset}. In particular the spillover
-components need \emph{not} lie in the trapping collar of $\Etil$ --- so
-\cref{lem:cutdeficit}, whose hypothesis requires the excised set to sit in a
-thin concentric collar, is \emph{not} invoked here, and there is no circular
+both internal to \cref{sec:identity,sec:inset}; and the hole-filling step
+\eqref{eq:fill-dstar} uses only domain monotonicity of torsion and the area
+bound $H\le C\dT$, again internal to \cref{sec:inset}. In particular the
+spillover components need \emph{not} lie in the trapping collar of $\Etil$ ---
+so \cref{lem:cutdeficit}, whose hypothesis requires the excised set to sit in
+a thin concentric collar, is \emph{not} invoked here, and there is no circular
 dependence on \cref{sec:cut} (see \cref{rem:fwd}). With $\mu_E\ge\pi/2$
 (Step~0) the prefactor is $\pi^2/\mu_E^2\le4$, so for $\delta_\star$ small
 \eqref{eq:s-transfer} gives $\dstar(\Etil)\le 5\,\dstar(\Om)$; in particular
@@ -280,27 +300,53 @@ the threshold of \cref{thm:reduction}, and let $G=\{z+r\omega:r<\rho(\omega)\}$
 be the radial graph it provides, with $\hat r_G=\sqrt{\abs G/\pi}$ and
 amplitude $\norm{\rho/\hat r_G-1}_\infty\le C\dT^{1/8}\le\eta_G$.
 
-\emph{Barycentre normalisation.} \Cref{thm:graphG} requires the graph to be
-centred at its barycentre. Let $b$ be the barycentre of $G$. Since $G$ is
-trapped in the annulus $\{\,\rho_i\le\abs{x-z}\le\rho_e\,\}$ about $z$ with
-$\rho_e-\rho_i=\eta$ and the profile oscillates by at most $\eta$ about
-$\hat r$, the barycentre is displaced from $z$ by at most
-\begin{equation}\label{eq:m-bary}
-   \abs{b-z}\ \le\ C\,\eta\ \le\ C\,\dT^{1/8}\ \le\ \eta_G,
-\end{equation}
-for $\delta_\star$ small. Recentring $G$ at $b$ leaves a radial graph in the
-direction field $\omega\mapsto b+r\omega$ with profile $\tilde\rho$, whose
-amplitude satisfies $\norm{\tilde\rho/\hat r_G-1}_\infty\le C\dT^{1/8}\le
-\eta_G$ by \eqref{eq:m-bary} (a translation of size $\le\eta$ changes the
-radial profile of an $\eta$--graph by $\le2\eta$, so the amplitude at most
-doubles). \emph{We do not move $G$ itself}: the asymmetry $\AF(G)$ and the
-deficit $\dstar(G)$ are translation--invariant, so \cref{thm:graphG} applied
-to the recentred graph yields a bound on $\AF(G)$ for the original $G$, and
-the closeness \cref{thm:reduction}(iii), $\abs{\Om\triangle G}\le C\sqrt\dT$,
-is used for that original $G$. Thus no closeness is lost to recentring.
+\Cref{thm:graphG} now applies directly to the graph $G$ as it is produced by
+\cref{thm:reduction}, radial about the annulus centre $z$, with no
+barycentre recentring: its hypotheses are the volume normalisation
+$\hat r_G=\sqrt{|G|/\pi}$ (built into \cref{thm:reduction}), the $L^\infty$
+amplitude bound $\|\rho/\hat r_G-1\|_\infty\le\eta_G$ (part~(i)), and the
+quadratic mode-one bound \eqref{eq:mode1hyp}, i.e.\ $\|P_1\varphi\|_{L^2}\le
+K\|\varphi\|_{L^2}^2$ for the profile $\varphi=\rho/\hat r_G-1$ in polar
+coordinates about $z$. The first two hold by \cref{thm:reduction}. The third
+is supplied by the choice of centre, as we now record.
 
-\emph{Asymmetry of $G$.} By \cref{thm:graphG} (applied to the
-barycentre--recentred graph) and \cref{thm:reduction}(ii),
+\begin{remark}[The mode-one bound at the $L^1$-optimal centre]%
+\label{gap:barycentre}
+The centre $z$ is the \emph{exact} $L^1$-optimal (Fraenkel) centre of the
+inset $\Etil$ (\cref{lem:zinterior}), an interior point with a definite
+inscribed ball. Exact $L^1$-optimality is a first-order extremality condition
+on the comparison ball: for the optimal centre the directional derivative of
+$p\mapsto|\Etil\triangle B_{\hat r}(z+p)|$ vanishes, which is the statement
+that the translation mode of $\partial\Etil$ carries no first-order
+$L^1$-content. This is precisely the mechanism behind the quadratic mode-one
+bound \eqref{eq:mode1hyp}: it forces the first Fourier mode of the radial
+profile to be of second order in the amplitude, exactly as the barycentre
+condition does through \cref{rem:mode1}, but \emph{at the centre $z$ already
+in hand}, with no recentring of the set. What remains to make this fully
+quantitative for the measurable core graph $G$ (as opposed to $\Etil$) is the
+passage of the first-order extremality from the $L^1$-content of $\partial
+\Etil$ to the $L^2$ mode-one coefficient of the profile of $G$, with the
+collar error $\abs{\Etil\triangle G}\le C\sqrt\dT$ of \cref{thm:reduction}
+absorbed. We isolate this as the explicit scoped hypothesis:
+\begin{equation}\label{eq:mode1-scoped}
+   \|P_1\varphi\|_{L^2(S^1)}\ \le\ K\,\|\varphi\|_{L^2(S^1)}^2
+   \qquad(\varphi=\rho/\hat r_G-1\text{ about the }L^1\text{-optimal }z),
+\end{equation}
+for an absolute $K$. Under \eqref{eq:mode1-scoped} the argument below is
+unconditional. This replaces the earlier, false-as-stated requirement of a
+barycentre recentring --- which need not preserve single-valuedness of the
+graph under an $L^\infty$ amplitude bound alone --- by a precise condition at
+the existing centre, and removes the recentring obstruction entirely from
+\cref{thm:graphG}. By \cref{lem:shift-asym} the asymmetry side needs no
+mode-one hypothesis at all, and by \cref{rem:mode1-residual} the bound
+\eqref{eq:mode1-scoped} is equivalent, for the present purpose, to the quartic
+translation estimate $\dstar(G)\ge c\,\|P_1\varphi\|_{L^2}^4$
+\eqref{eq:quartic-residual} --- the flatness of the translation direction of
+the torsional deficit; this is the precise form of the residual.
+\end{remark}
+
+\emph{Asymmetry of $G$.} By \cref{thm:graphG} (with the mode-one bound
+\eqref{eq:mode1-scoped}) and \cref{thm:reduction}(ii),
 \begin{equation}\label{eq:m-AG}
    \AF(G)^2\ \le\ C_G\,\dstar(G)\ \le\ C_G\cdot C\,\dstar(\Om)
    \ =\ C\,\dstar(\Om)\ =\ C\,\tfrac8\pi\,\dT\ \le\ C\,\dT,

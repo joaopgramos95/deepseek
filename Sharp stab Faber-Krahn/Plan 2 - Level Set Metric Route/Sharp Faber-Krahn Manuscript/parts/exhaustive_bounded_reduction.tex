@@ -1,0 +1,1892 @@
+%=====================================================================
+%  EXHAUSTIVE (line-by-line justified) version of the bounded
+%  reduction section.
+%
+%  This file is a section to be \input into a master document whose
+%  preamble defines:
+%     \R \Om \Otilde \Fr \Hn \Per \eps \abs \norm \diam \dx
+%  and the theorem-like environments
+%     theorem/proposition/lemma/corollary/definition/remark
+%  numbered by section, together with the bibliography keys BDV, FMP.
+%  The cross-reference \ref{thm:boundedSV} resolves in the master file.
+%
+%  MATHEMATICAL CONTENT IS UNCHANGED relative to the verified source
+%  sec_bounded_reduction_body.tex: same theorems, lemmas, labels,
+%  logical order, and constants.  This file only ANNOTATES and EXPANDS;
+%  it introduces no new claims and changes no constant.
+%=====================================================================
+
+\section{Bounded reduction}\label{sec:bddred}
+
+The purpose of this section is to remove the boundedness hypothesis from
+the sharp Saint--Venant stability inequality. The idea is simple to
+state. We already possess a sharp quadratic stability estimate for sets
+\emph{confined to a ball of a fixed radius}; we want the same estimate
+for arbitrary open sets of finite measure, with a constant depending
+only on the dimension. The obstruction is that a general competitor may
+have very long, thin tentacles reaching out to infinity. The remedy,
+following Brasco--De~Philippis--Velichkov, is to amputate those tails:
+we will show that a set with small deficit carries almost all of its
+torsional energy and almost all of its mass inside a ball of
+dimensionally bounded radius, so that chopping it off there changes the
+deficit and the asymmetry by only a controlled amount. The bounded
+estimate, applied to the amputated set, then transfers back.
+
+The input is the following \emph{bounded} estimate, proved in the earlier
+part of the manuscript (Theorem~\ref{thm:boundedSV}), restated here in
+energy form.
+
+\begin{theorem}[Bounded sharp Saint--Venant]\label{thm:SV-bounded}
+For every $n\ge2$ and every $R\ge2$ there is a constant
+$c_{\mathrm{SV}}(n,R)>0$ such that
+\begin{equation}\label{eq:SV-bounded}
+   E(\Om)-E(B_1)\;\ge\;c_{\mathrm{SV}}(n,R)\,\Fr(\Om)^2
+\end{equation}
+for every open set $\Om\subset B_R$ with $\abs{\Om}=\omega_n$.
+\end{theorem}
+
+This is Theorem~\ref{thm:boundedSV}, restated in energy form: with the
+constant $C(n,R,\rstar)$ there one may take
+$c_{\mathrm{SV}}(n,R)=1/C(n,R,\rstar)$ and
+$\dT(\Om)=E(\Om)-E(B_1)$, and the parameter $\rstar$ is fixed at, say,
+$\rstar=\tfrac34$.
+%% JUSTIFICATION.  The earlier theorem is phrased with the torsional
+%% deficit \dT on the left and the asymmetry on the right separated by a
+%% multiplicative constant C; writing the inequality with the constant on
+%% the asymmetry side simply means inverting C.  The auxiliary parameter
+%% \rstar is an internal parameter of that proof (an inner radius in the
+%% selection step); any fixed admissible value works, and \rstar=3/4 is
+%% one such.  No new content is introduced here.
+
+Our goal is the global statement.
+
+\begin{theorem}[Global sharp Saint--Venant stability]\label{thm:SV-global}
+There is a dimensional constant $c_{\mathrm{SV}}^{\mathrm{glob}}(n)>0$
+such that
+\begin{equation}\label{eq:SV-global}
+   E(\Om)-E(B_1)\;\ge\;c_{\mathrm{SV}}^{\mathrm{glob}}(n)\,\Fr(\Om)^2
+\end{equation}
+for every open set $\Om\subset\R^n$ with $\abs{\Om}=\omega_n$.
+Equivalently, after rescaling, for every open set $\Om$ of finite
+measure, with $B^*$ the ball of the same volume,
+\begin{equation}\label{eq:T-global}
+   T(B^*)-T(\Om)\;=\;2\bigl(E(\Om)-E(B^*)\bigr)\;\ge\;
+   2\,c_{\mathrm{SV}}^{\mathrm{glob}}(n)\,
+   \Bigl(\tfrac{\abs{\Om}}{\omega_n}\Bigr)^{(n+2)/n}\,\Fr(\Om)^2 .
+\end{equation}
+\end{theorem}
+
+The strategy is the constructive reduction of Brasco, De~Philippis and
+Velichkov \cite[\S5]{BDV}. From a set $\Om$ with small Saint--Venant
+deficit we manufacture a \emph{bounded} surrogate $\Otilde$, of the same
+volume, of dimensionally bounded diameter, with comparable deficit and
+with controlled loss of asymmetry; applying
+Theorem~\ref{thm:SV-bounded} to $\Otilde$ at a fixed dimensional radius
+and transferring the estimate back to $\Om$ closes the small-deficit
+regime. The complementary large-deficit regime is trivial because
+$\Fr<2$. The whole construction is explicit: no compactness, no
+minimising sequence and no contradiction argument enter.
+
+The two technical ingredients are an $L^\infty$ tail estimate for the
+torsion function (Lemma~\ref{lem:Linfty}, proved by a De~Giorgi
+iteration) and the truncation construction itself
+(Lemma~\ref{lem:truncation}). Both are proved here in full rather than
+cited. The reader who wishes to keep the logical skeleton in mind may
+note the order of dependence: a purely numerical convergence lemma
+(\S\ref{ssec:DG-lemma}) feeds the De~Giorgi $L^\infty$ bound
+(\S\ref{ssec:Linfty}), which feeds the energy-comparison inequality that
+drives the truncation (\S\ref{ssec:truncation}); the truncation, the
+trivial far branch (\S\ref{ssec:far}) and the transfer
+(\S\ref{ssec:near}) are then assembled in \S\ref{ssec:global-proof}.
+
+\subsection{Standing notation and the standard tools we cite}
+\label{ssec:notation}
+
+Throughout, $n\ge2$ and all sets are open subsets of $\R^n$ of finite
+Lebesgue measure. We write $u_\Om\in H^1_0(\Om)$ for the torsion
+function, i.e. the unique weak solution of $-\Delta u_\Om=1$ in $\Om$,
+$u_\Om=0$ on $\partial\Om$, equivalently the minimiser of
+\begin{equation}\label{eq:energy-def}
+   J_\Om(v)\;=\;\tfrac12\int_\Om\abs{\nabla v}^2\dx-\int_\Om v\dx,
+   \qquad v\in H^1_0(\Om),
+\end{equation}
+and $E(\Om)=J_\Om(u_\Om)=\min_{H^1_0(\Om)}J_\Om$.
+%% JUSTIFICATION.  Existence and uniqueness of the minimiser are the
+%% standard direct-method facts for the strictly convex, coercive
+%% functional J_\Om on the Hilbert space H^1_0(\Om); the Euler--Lagrange
+%% equation of J_\Om is exactly -\Delta u = 1 in the weak sense
+%% \int \nabla u\cdot\nabla v = \int v for all v in H^1_0(\Om).
+Testing the equation with $u_\Om$ gives the standard identities
+\begin{equation}\label{eq:energy-identities}
+   \int_\Om\abs{\nabla u_\Om}^2\dx=\int_\Om u_\Om\dx=T(\Om),
+   \qquad
+   E(\Om)=-\tfrac12\int_\Om u_\Om\dx=-\tfrac12\,T(\Om).
+\end{equation}
+%% JUSTIFICATION.  Put v=u_\Om in the weak equation: the left side is
+%% \int|\nabla u_\Om|^2 and the right side is \int u_\Om; this is the
+%% first identity, and both equal T(\Om) by definition of torsional
+%% rigidity.  For the energy value, substitute v=u_\Om into J_\Om:
+%%   E(\Om)=\tfrac12\int|\nabla u_\Om|^2-\int u_\Om
+%%         =\tfrac12\int u_\Om-\int u_\Om=-\tfrac12\int u_\Om,
+%% where the first \int u_\Om came from the just-proved identity.  Hence
+%% E=-T/2.  In particular E(\Om)<0 for any nonempty \Om (the torsion
+%% function is strictly positive on a nonempty open set by the maximum
+%% principle, so \int u_\Om>0); we will use E(B_1)<0 repeatedly.
+
+We use $\omega_n=\abs{B_1}$, $T_n=T(B_1)=\omega_n/(n(n+2))$, the Fraenkel
+asymmetry $\Fr(\Om)=\inf_{x_0}\abs{\Om\,\triangle\,(B_1+x_0)}/\omega_n$
+(for $\abs{\Om}=\omega_n$ this lies in $[0,2)$), and the scale-invariant
+deficit
+\begin{equation}\label{eq:deficit-def}
+   D(\Om)\;=\;E(\Om)\abs{\Om}^{-(n+2)/n}-E(B_1)\abs{B_1}^{-(n+2)/n},
+\end{equation}
+so that $D(\Om)=\omega_n^{-(n+2)/n}\bigl(E(\Om)-E(B_1)\bigr)\ge0$ when
+$\abs{\Om}=\omega_n$.
+%% JUSTIFICATION (asymmetry range).  Trivially \Fr\ge0.  For the upper
+%% bound, with B:=B_1+x_0 any unit ball and \abs{\Om}=\abs{B}=\omega_n,
+%%   |\Om\triangle B| = |\Om\setminus B|+|B\setminus\Om|
+%%                    = 2|\Om\setminus B| \le 2\omega_n,
+%% using |\Om\setminus B|=|B\setminus\Om| (equal volumes) and
+%% |\Om\setminus B|\le|\Om|=\omega_n; equality |\Om\triangle B|=2\omega_n
+%% needs disjoint sets, excluded for an infimum over translates of a
+%% fixed-volume set, so \Fr<2.
+%% JUSTIFICATION (deficit value at \abs{\Om}=\omega_n).  Put
+%% \abs{B_1}=\omega_n in \eqref{eq:deficit-def}: the second term is
+%% E(B_1)\omega_n^{-(n+2)/n}, and the first is
+%% E(\Om)\omega_n^{-(n+2)/n}, so D(\Om)=\omega_n^{-(n+2)/n}(E(\Om)-E(B_1)).
+The non-negativity of $D$ is the
+\emph{Saint--Venant inequality} (equivalently Talenti's comparison
+theorem): among sets of given volume the ball minimises $E$, i.e.
+\begin{equation}\label{eq:saint-venant}
+   E(\Om)\,\abs{\Om}^{-(n+2)/n}\;\ge\;E(B)\,\abs{B}^{-(n+2)/n}
+   \qquad\text{for every ball }B.
+\end{equation}
+We treat \eqref{eq:saint-venant} as a known classical result.
+%% JUSTIFICATION.  The quantity E(\Om)\abs{\Om}^{-(n+2)/n} is invariant
+%% under dilations because E(t\Om)=t^{n+2}E(\Om) (see the scaling note
+%% below) and \abs{t\Om}=t^n\abs{\Om}; thus \eqref{eq:saint-venant} for
+%% all balls B is equivalent to the single statement that B minimises
+%% this scale-invariant energy among fixed-volume sets, which is the
+%% Saint--Venant--Talenti theorem.
+
+We will also need the elementary scaling law for $E$. If $\Om'$ is open
+and $t>0$ then $E(t\Om')=t^{n+2}E(\Om')$, with torsion function
+$u_{t\Om'}(x)=t^2u_{\Om'}(x/t)$.
+%% JUSTIFICATION.  If -\Delta u_{\Om'}=1 in \Om' then setting
+%% w(x):=t^2 u_{\Om'}(x/t) gives \Delta w(x)=t^2\cdot t^{-2}(\Delta
+%% u_{\Om'})(x/t)=t^2\cdot t^{-2}\cdot(-1)=-1 in t\Om', and w=0 on
+%% \partial(t\Om'); by uniqueness w=u_{t\Om'}.  Then
+%%   E(t\Om')=-\tfrac12\int_{t\Om'}u_{t\Om'}(x)\,dx
+%%           =-\tfrac12\int t^2 u_{\Om'}(x/t)\,dx
+%%           =-\tfrac12\, t^2\cdot t^n\int_{\Om'}u_{\Om'}(y)\,dy
+%%           =t^{n+2}E(\Om'),
+%% changing variables y=x/t (Jacobian t^n).  We use this in Steps 6 and
+%% in the general-volume rescaling.
+
+The external analytic facts we invoke without proof are:
+\begin{itemize}
+\item the \emph{Sobolev inequality}
+   $\norm{w}_{L^{2^*}(\R^n)}\le S_n\norm{\nabla w}_{L^2(\R^n)}$ for
+   $w\in H^1(\R^n)$ when $n\ge3$ (with $2^*=2n/(n-2)$), and its $n=2$
+   surrogate explained in Remark~\ref{rem:n2};
+\item the \emph{Saint--Venant/Talenti inequality}~\eqref{eq:saint-venant},
+   used in the truncation argument and in the global $L^\infty$ bound
+   \eqref{eq:global-Linfty} below;
+\item Theorem~\ref{thm:SV-bounded}, the bounded stability input;
+\item the \emph{suboptimal} torsional stability bound
+   $\Fr(\Om)^4\le C(n)D(\Om)$ (Lemma~\ref{lem:seed}), used only to seed
+   the truncation iteration. This is proved here from the level-set identity
+   established earlier in the manuscript; see Remark~\ref{rem:seed-status}.
+\end{itemize}
+Everything else --- in particular the fast-convergence iteration lemma
+(Lemma~\ref{lem:DG-iteration2}), the De~Giorgi $L^\infty$ tail estimate
+(Lemma~\ref{lem:Linfty}), the energy-comparison inequality, the truncation
+iteration (Lemma~\ref{lem:truncation}) and the gluing --- is proved from
+scratch.
+
+We will also need the elementary pointwise sup-bound on the torsion
+function. By Talenti's symmetrisation comparison the torsion function of
+$\Om$ is dominated, after Schwarz symmetrisation, by that of the ball of
+the same volume; in particular
+\begin{equation}\label{eq:global-Linfty}
+   \norm{u_\Om}_{L^\infty(\Om)}\;\le\;\norm{u_{B^*}}_{L^\infty(B^*)}
+   \;=\;\frac{(\abs{\Om}/\omega_n)^{2/n}}{2n}
+   \;=:\;\Lambda_n\,\abs{\Om}^{2/n},
+   \qquad \Lambda_n:=\frac{\omega_n^{-2/n}}{2n},
+\end{equation}
+where $B^*$ is the ball with $\abs{B^*}=\abs{\Om}$ and we used
+$u_{B_r}(x)=(r^2-\abs{x}^2)/(2n)$. For $\abs{\Om}=\omega_n$ this reads
+$\norm{u_\Om}_{L^\infty(\Om)}\le 1/(2n)$. We record \eqref{eq:global-Linfty}
+as a consequence of the cited Talenti comparison.
+%% JUSTIFICATION (the ball's torsion function).  For \Om=B_r the function
+%% u(x)=(r^2-|x|^2)/(2n) satisfies -\Delta u = -\tfrac1{2n}\Delta(r^2-|x|^2)
+%% = -\tfrac1{2n}(-2n)=1 (since \Delta|x|^2=2n) and vanishes on |x|=r; by
+%% uniqueness it is u_{B_r}.  Its maximum is at the centre, u(0)=r^2/(2n).
+%% JUSTIFICATION (the sup-bound).  Talenti's pointwise comparison says
+%% the decreasing rearrangement u_\Om^* is pointwise \le u_{B^*}, where
+%% B^* is the ball of volume \abs{\Om}; in particular the maxima compare,
+%% \|u_\Om\|_\infty = \|u_\Om^*\|_\infty \le \|u_{B^*}\|_\infty.  Writing
+%% \abs{B^*}=\abs{\Om}=\omega_n(R^*)^n gives R^*=(\abs{\Om}/\omega_n)^{1/n}
+%% and \|u_{B^*}\|_\infty=(R^*)^2/(2n)=(\abs{\Om}/\omega_n)^{2/n}/(2n),
+%% which is \eqref{eq:global-Linfty}.  At \abs{\Om}=\omega_n the right
+%% side is 1/(2n).  We will use the cruder bound u_\Om\le 1/(2n)\le1 in
+%% the De~Giorgi iteration.
+
+\subsection{The fast-convergence iteration lemma}\label{ssec:DG-lemma}
+
+The De~Giorgi scheme reduces an $L^\infty$ bound to the vanishing of a
+nonlinear recursion. We isolate the underlying numerical lemma and prove
+it, so that nothing is cited at this step. The mechanism is purely
+algebraic: a super-quadratic recursion (the increment $a_{k+1}$ depends
+on a power $a_k^{1+\beta}$ strictly larger than the first power)
+ultimately beats any \emph{fixed} geometric growth factor $b^k$, provided
+the seed $a_0$ is below an explicit threshold. The threshold is exactly
+the break-even point of the two competing effects.
+
+\begin{lemma}[Fast geometric convergence]\label{lem:DG-iteration2}
+Let $(a_k)_{k\ge0}$ be non-negative reals with
+\begin{equation}\label{eq:DG-recursion2}
+   a_{k+1}\;\le\;C\,b^{\,k}\,a_k^{\,1+\beta},\qquad k\ge0,
+\end{equation}
+where $C>0$, $b>1$, $\beta>0$. If
+\begin{equation}\label{eq:DG-smallness2}
+   a_0\;\le\;C^{-1/\beta}\,b^{-1/\beta^2},
+\end{equation}
+then
+\begin{equation}\label{eq:DG-conclusion}
+   a_k\;\le\;b^{-k/\beta}\,a_0\qquad\text{for all }k\ge0,
+\end{equation}
+so $a_k\to0$.
+\end{lemma}
+
+\begin{proof}
+Put $r:=b^{-1/\beta}\in(0,1)$ and $\theta:=C\,a_0^{\beta}$.
+%% JUSTIFICATION.  b>1 and 1/\beta>0 give b^{-1/\beta}\in(0,1), so r\in(0,1);
+%% \theta\ge0 since C>0, a_0\ge0.
+The smallness hypothesis \eqref{eq:DG-smallness2} is precisely
+$\theta\le r$.
+%% JUSTIFICATION.  Raise \eqref{eq:DG-smallness2} to the power \beta>0
+%% (monotone for nonnegative bases):
+%%   a_0^{\beta}\le C^{-1}b^{-1/\beta}=C^{-1}r,
+%% i.e.\ C a_0^{\beta}\le r, which is \theta\le r.  (Equivalence: the
+%% steps are reversible since x\mapsto x^{1/\beta} is increasing.)
+We prove the target $a_k\le r^{k}a_0$ by induction; this is
+\eqref{eq:DG-conclusion} because $r^k=b^{-k/\beta}$, and $r<1$ then gives
+$a_k\to0$.
+
+\emph{Base case} $k=0$: the claim reads $a_0\le r^0a_0=a_0$, an equality.
+
+\emph{Inductive step.} Assume $a_k\le r^{k}a_0$. Using
+\eqref{eq:DG-recursion2} and splitting off one factor $a_k$,
+\[
+   a_{k+1}\le C\,b^{k}\,a_k^{1+\beta}
+          =C\,b^{k}\,a_k\,a_k^{\beta}
+          \le C\,b^{k}\,a_k\,\bigl(r^{k}a_0\bigr)^{\beta}
+          =\bigl(C\,a_0^{\beta}\bigr)\,(b\,r^{\beta})^{k}\,a_k
+          =\theta\,(b\,r^{\beta})^{k}\,a_k .
+\]
+%% JUSTIFICATION, term by term.
+%%  (i) a_k^{1+\beta}=a_k\cdot a_k^{\beta}: laws of exponents.
+%%  (ii) a_k^{\beta}\le(r^k a_0)^{\beta}: the inductive hypothesis
+%%       a_k\le r^k a_0 raised to the power \beta>0 (monotone).  Here we
+%%       use a_k\ge0 and r^k a_0\ge0.
+%%  (iii) regroup: C\,b^k\,(r^k a_0)^{\beta}
+%%        =(C a_0^{\beta})\,b^k r^{k\beta}=(C a_0^{\beta})(b\,r^{\beta})^k.
+%%  (iv) rename C a_0^{\beta}=\theta.
+By the definition of $r$ we have $r^{\beta}=b^{-1}$, hence $b\,r^{\beta}=1$
+and the geometric factor collapses:
+\[
+   a_{k+1}\le\theta\,a_k\le r\,a_k\le r\cdot r^{k}a_0=r^{k+1}a_0,
+\]
+using $\theta\le r$ and the inductive hypothesis $a_k\le r^k a_0$.
+%% JUSTIFICATION.  r=b^{-1/\beta} gives r^{\beta}=b^{-1}, so b r^{\beta}=1
+%% and (b r^{\beta})^k=1; this kills the only k-dependent factor.  Then
+%% \theta\le r (smallness) and a_k\le r^k a_0 (induction) chain the
+%% inequalities.  This is exactly the target at index k+1.
+This closes the induction.
+\end{proof}
+
+\begin{remark}
+The identity $b\,r^{\beta}=1$ with $r=b^{-1/\beta}$ is the algebraic
+mechanism behind the convergence: the super-quadratic gain
+$a_k^{1+\beta}$ converts, once $a_0$ is small, the growing factor $b^k$
+into a contraction. The threshold \eqref{eq:DG-smallness2} is sharp for
+this clean conclusion: it is exactly the value of $a_0$ at which
+$\theta=r$, i.e.\ at which the contraction factor in the displayed chain
+first dips to $r<1$.
+\end{remark}
+
+\subsection{The De~Giorgi \texorpdfstring{$L^\infty$}{L-infinity} tail
+estimate}\label{ssec:Linfty}
+
+We now prove that, for a unit-volume set, the torsion function is
+quantitatively small far out, with the smallness measured by a
+\emph{super-linear} power of the tail mass $\abs{\Om\setminus B_R}$. The
+super-linearity (exponent $1/n>0$, or $\tfrac12-\tfrac1p>0$ when $n=2$)
+is the whole point: it will let the truncation iteration converge.
+
+\begin{lemma}[$L^\infty$ tail estimate]\label{lem:Linfty}
+Let $n\ge3$. There is a dimensional constant $C_\flat=C_\flat(n)>0$ such
+that for every open $\Om$ with $\abs{\Om}=\omega_n$ and every $R\ge1$,
+\begin{equation}\label{eq:Linfty}
+   \norm{u_\Om}_{L^\infty(\Om\setminus B_{R+1})}
+   \;\le\;C_\flat\,\abs{\Om\setminus B_R}^{1/n}.
+\end{equation}
+For $n=2$ the same holds with the exponent $1/n$ replaced by
+$\tfrac12-\tfrac1p$ for any fixed $p\in(2,\infty)$
+(Remark~\textup{\ref{rem:n2}}); this weaker but still super-linear power is
+all that the truncation uses.
+\end{lemma}
+
+\begin{proof}
+If $\abs{\Om\setminus B_R}=0$ then $u_\Om=0$ a.e.\ on
+$\Om\setminus B_R\supset\Om\setminus B_{R+1}$ and \eqref{eq:Linfty} is
+trivial, so assume $\abs{\Om\setminus B_R}>0$.
+%% JUSTIFICATION.  If |\Om\setminus B_R|=0 then \Om\subset B_R up to a
+%% null set; since u_\Om\in H^1_0(\Om) vanishes outside \Om and \Om has
+%% no mass beyond B_R, u_\Om=0 a.e.\ on \Om\setminus B_R, hence on the
+%% smaller set \Om\setminus B_{R+1} (as R+1>R).  The right side of
+%% \eqref{eq:Linfty} is 0 and the left side is 0, so it holds.  Below we
+%% assume the tail has positive measure, so all the relative measures
+%% \mu_k and normalisations a_k=\mu_k/|\Om\setminus B_R| make sense.
+We carry out a De~Giorgi iteration on the annular region
+$\Om\setminus B_R$. The plan: build cut-offs that switch on across a
+shrinking nest of annuli, and levels rising to a target height; show
+that the volume of the super-level set above the rising level, inside the
+shrinking annulus, obeys a recursion of the form
+\eqref{eq:DG-recursion2}; then choose the target height $M$ so large that
+the seed is below the threshold \eqref{eq:DG-smallness2}, forcing the
+volume to $0$ and pinning $u_\Om$ below the height.
+
+\smallskip
+\emph{Set-up: shrinking radii, cut-offs, and rising levels.}
+For $k\in\mathbb N_0$ put
+\[
+   R_k:=R+1-2^{-k},
+\]
+so that $R_0=R$, the radii increase to $R_\infty=R+1$, and
+$R_k\ge R\ge1$.
+%% JUSTIFICATION.  R_0=R+1-1=R; as k\to\infty, 2^{-k}\to0 so R_k\to R+1;
+%% k\mapsto 2^{-k} is decreasing so k\mapsto R_k is increasing, hence
+%% R_k\ge R_0=R\ge1.  Thus the radii sweep the annulus B_{R+1}\setminus
+%% B_R outward.
+Let $\varphi_k\in C^{0,1}(\R^n)$ be the radial cut-off
+\[
+   \varphi_k(x):=\phi_k(\abs{x}),\qquad
+   \phi_k=0\ \text{on}\ [0,R_{k-1}],\quad
+   \phi_k=1\ \text{on}\ [R_k,\infty),\quad
+   \phi_k\ \text{affine on}\ [R_{k-1},R_k],
+\]
+for $k\ge1$, and $\varphi_0\equiv1$ on $\{\abs{x}\ge R_0\}$, extended by
+$0$ inside (we only use $\varphi_k$ for $k\ge1$ in the recursion). Then
+$0\le\varphi_k\le1$, $\varphi_k\equiv0$ on $B_{R_{k-1}}$, $\varphi_k\equiv1$
+on $\R^n\setminus B_{R_k}$, and
+\[
+   \abs{\nabla\varphi_k}\le\frac1{R_k-R_{k-1}}
+   =\frac1{2^{-(k-1)}-2^{-k}}=2^{\,k}\le 2^{\,k+1}.
+\]
+%% JUSTIFICATION (the gradient bound).  \varphi_k is affine in |x| with
+%% slope 1/(R_k-R_{k-1}) on the annulus B_{R_k}\setminus B_{R_{k-1}} and
+%% constant elsewhere, so |\nabla\varphi_k| is that slope on the annulus
+%% and 0 off it.  The width is
+%%   R_k-R_{k-1}=(R+1-2^{-k})-(R+1-2^{-(k-1)})=2^{-(k-1)}-2^{-k}
+%%             =2^{-k}(2-1)=2^{-k},
+%% so the slope is 2^{k}; we record the slightly larger 2^{k+1} only to
+%% match the algebra later (any upper bound is admissible).  The bounds
+%% 0\le\varphi_k\le1 and the support facts are immediate from the
+%% piecewise definition.
+Choose rising levels
+\[
+   s_k:=M\,\abs{\Om\setminus B_R}^{1/n}\,(1-2^{-k}),\qquad k\ge0,
+\]
+where $M=M(n)\ge1$ is a free constant fixed at the end. Thus $s_0=0$,
+$s_k\uparrow s_\infty:=M\abs{\Om\setminus B_R}^{1/n}$, and
+\begin{equation}\label{eq:s-diff}
+   s_{k+1}-s_k=M\abs{\Om\setminus B_R}^{1/n}\,2^{-(k+1)} .
+\end{equation}
+%% JUSTIFICATION.  s_0=M|\cdot|^{1/n}(1-1)=0; k\mapsto(1-2^{-k}) is
+%% increasing to 1, so s_k\uparrow M|\cdot|^{1/n}=s_\infty.  The gap is
+%%   s_{k+1}-s_k=M|\cdot|^{1/n}[(1-2^{-(k+1)})-(1-2^{-k})]
+%%             =M|\cdot|^{1/n}(2^{-k}-2^{-(k+1)})=M|\cdot|^{1/n}2^{-(k+1)},
+%% which is \eqref{eq:s-diff}.  The geometry: radii shrink the domain to
+%% B_{R+1}^{\,c} and levels rise to the height s_\infty we want to prove
+%% is an upper bound for u_\Om; the products (gap)^2 will furnish the
+%% Chebyshev denominators.
+
+\smallskip
+\emph{Caccioppoli inequality from the truncated test function.}
+Fix $k\ge1$. The function $(u_\Om-s_k)_+\in H^1_0(\Om)$ (it vanishes
+where $u_\Om\le s_k$, in particular near $\partial\Om$ since $u_\Om\ge0$
+and $s_k\ge0$), and $\varphi_k$ is bounded Lipschitz, so
+\[
+   v_k:=\varphi_k^{\,2}\,(u_\Om-s_k)_+\ \in\ H^1_0(\Om)
+\]
+is an admissible test function.
+%% JUSTIFICATION.  (u_\Om-s_k)_+ \in H^1_0(\Om): truncation
+%% w\mapsto(w-s)_+ maps H^1_0 to H^1_0 (it is 1-Lipschitz and fixes 0,
+%% so preserves H^1 and the zero boundary trace), and u_\Om\in H^1_0(\Om).
+%% Multiplying by the bounded Lipschitz \varphi_k^2 keeps it in H^1_0(\Om)
+%% (product rule for an H^1 function times a Lipschitz function); the
+%% support is inside \Om because (u_\Om-s_k)_+ already is.
+Insert it into the weak formulation
+$\int_\Om\nabla u_\Om\cdot\nabla v\dx=\int_\Om v\dx$. Using
+$\nabla v_k=\varphi_k^2\nabla(u_\Om-s_k)_+
++2\varphi_k(u_\Om-s_k)_+\nabla\varphi_k$ and
+$\nabla u_\Om\cdot\nabla(u_\Om-s_k)_+=\abs{\nabla(u_\Om-s_k)_+}^2$ (the
+gradient of $u_\Om$ equals that of $(u_\Om-s_k)_+$ on $\{u_\Om>s_k\}$ and
+both factors vanish elsewhere), we get
+\[
+   \int\varphi_k^2\abs{\nabla(u_\Om-s_k)_+}^2\dx
+   +2\int\varphi_k(u_\Om-s_k)_+\,\nabla\varphi_k\cdot\nabla(u_\Om-s_k)_+\dx
+   =\int\varphi_k^2(u_\Om-s_k)_+\dx .
+\]
+%% JUSTIFICATION.  Product rule for \nabla v_k:
+%%   \nabla(\varphi_k^2 w)=\varphi_k^2\nabla w + w\nabla(\varphi_k^2)
+%%     =\varphi_k^2\nabla w + 2\varphi_k w\nabla\varphi_k,  w=(u_\Om-s_k)_+.
+%% Dot with \nabla u_\Om and integrate.  On \{u_\Om>s_k\}, \nabla
+%% (u_\Om-s_k)_+=\nabla u_\Om, so \nabla u_\Om\cdot\nabla w=|\nabla w|^2;
+%% on \{u_\Om\le s_k\}, w=0 and \nabla w=0 a.e., so both sides are 0.
+%% Hence \nabla u_\Om\cdot\nabla w=|\nabla w|^2 everywhere a.e.  The
+%% right side is \int v_k=\int\varphi_k^2 w by the weak equation.
+The middle term is bounded by Young's inequality,
+$2\abs{\varphi_k(u_\Om-s_k)_+\nabla\varphi_k\cdot\nabla(u_\Om-s_k)_+}
+\le\tfrac12\varphi_k^2\abs{\nabla(u_\Om-s_k)_+}^2
++2\abs{\nabla\varphi_k}^2(u_\Om-s_k)_+^2$,
+and absorbing the first piece on the left yields the Caccioppoli
+estimate
+\begin{equation}\label{eq:caccioppoli}
+   \int\abs{\nabla\bigl(\varphi_k(u_\Om-s_k)_+\bigr)}^2\dx
+   \;\le\;C_1\!\int\abs{\nabla\varphi_k}^2(u_\Om-s_k)_+^2\dx
+        \;+\;C_1\!\int\varphi_k^2(u_\Om-s_k)_+\dx,
+\end{equation}
+with an absolute constant $C_1$ (one checks $C_1=10$ works after expanding
+$\abs{\nabla(\varphi_k w)}^2\le2\varphi_k^2\abs{\nabla w}^2
++2\abs{\nabla\varphi_k}^2 w^2$ and combining with the absorbed bound; the
+precise value is immaterial). Here we wrote $w=(u_\Om-s_k)_+$.
+%% JUSTIFICATION (Young with the right weight).  Young: for any \eta>0,
+%%   2|XY|\le \eta X^2 + \eta^{-1}Y^2.  Take
+%%   X=\varphi_k|\nabla w|, Y=w|\nabla\varphi_k|, \eta=1/2:
+%%   2\varphi_k w |\nabla\varphi_k||\nabla w|
+%%     \le \tfrac12\varphi_k^2|\nabla w|^2 + 2 w^2|\nabla\varphi_k|^2,
+%% which is the displayed bound (the dot product is \le the product of
+%% norms, Cauchy--Schwarz).  Move \tfrac12\varphi_k^2|\nabla w|^2 to the
+%% left of the integrated identity; the left becomes
+%%   \tfrac12\int\varphi_k^2|\nabla w|^2,
+%% and the surviving right side is
+%%   2\int|\nabla\varphi_k|^2 w^2 + \int\varphi_k^2 w.
+%% JUSTIFICATION (constant C_1=10).  Use the elementary
+%%   |\nabla(\varphi_k w)|^2=|\varphi_k\nabla w+w\nabla\varphi_k|^2
+%%     \le 2\varphi_k^2|\nabla w|^2 + 2 w^2|\nabla\varphi_k|^2
+%% (from |a+b|^2\le2|a|^2+2|b|^2).  Bound \varphi_k^2|\nabla w|^2 by
+%% twice the absorbed Caccioppoli left side, i.e.
+%%   \int\varphi_k^2|\nabla w|^2\le 4\int|\nabla\varphi_k|^2 w^2
+%%     + 2\int\varphi_k^2 w
+%% (double the inequality 2\cdot left = \int\varphi_k^2|\nabla w|^2\le
+%%  4\int|\nabla\varphi_k|^2 w^2+2\int\varphi_k^2 w).  Then
+%%   \int|\nabla(\varphi_k w)|^2
+%%     \le 2(4\int|\nabla\varphi_k|^2 w^2+2\int\varphi_k^2 w)
+%%        +2\int|\nabla\varphi_k|^2 w^2
+%%     = 10\int|\nabla\varphi_k|^2 w^2 + 4\int\varphi_k^2 w
+%%     \le 10\int|\nabla\varphi_k|^2 w^2 + 10\int\varphi_k^2 w.
+%% So C_1=10 is admissible; only its dimensional independence matters,
+%% it folds into C_2 below.
+
+\smallskip
+\emph{Sobolev inequality.} Set
+$w_k:=\varphi_k(u_\Om-s_k)_+\in H^1_0(\R^n)$ and
+\[
+   A_k:=\bigl\{\varphi_k(u_\Om-s_k)_+>0\bigr\}
+       =\bigl\{u_\Om>s_k\bigr\}\cap\{\varphi_k>0\}
+       \subset\{u_\Om>s_k\}\cap(\R^n\setminus B_{R_{k-1}}).
+\]
+%% JUSTIFICATION.  The product is >0 iff both factors are >0:
+%% (u_\Om-s_k)_+>0 means u_\Om>s_k, and \varphi_k>0 means |x|>R_{k-1}
+%% (since \varphi_k\equiv0 on B_{R_{k-1}}); hence the set equality and
+%% the inclusion A_k\subset\{u_\Om>s_k\}\cap(\R^n\setminus B_{R_{k-1}}).
+%% w_k has finite-measure support since \{u_\Om>s_k\}\subset\Om has
+%% finite measure; w_k\in H^1_0(\R^n) extending by 0.
+For $n\ge3$ the Sobolev inequality and Hölder's inequality on the support
+$A_k$ give
+\begin{equation}\label{eq:sobolev}
+   \int w_k^2\dx
+   \le\Bigl(\int w_k^{2^*}dx\Bigr)^{2/2^*}\abs{A_k}^{1-2/2^*}
+   \le S_n^2\,\abs{A_k}^{2/n}\!\int\abs{\nabla w_k}^2\dx,
+\end{equation}
+using $1-2/2^*=2/n$.
+%% JUSTIFICATION.  Hölder on the set A_k with exponents (2^*/2) and its
+%% conjugate (2^*/2)'=2^*/(2^*-2): since w_k=0 off A_k,
+%%   \int w_k^2=\int_{A_k}w_k^2\cdot 1
+%%     \le (\int_{A_k}w_k^{2})^{?}...
+%% precisely \int_{A_k}w_k^2\le(\int_{A_k}(w_k^2)^{2^*/2})^{2/2^*}
+%%   |A_k|^{1-2/2^*}=(\int w_k^{2^*})^{2/2^*}|A_k|^{1-2/2^*}.  Then
+%% Sobolev (\int w_k^{2^*})^{2/2^*}=\|w_k\|_{2^*}^2\le S_n^2\|\nabla
+%% w_k\|_2^2=S_n^2\int|\nabla w_k|^2.  The exponent identity:
+%%   1-2/2^*=1-2(n-2)/(2n)=1-(n-2)/n=2/n.
+(The $n=2$ case is handled in
+Remark~\ref{rem:n2}; the resulting estimate has the same shape with $2/n$
+replaced by any fixed exponent in $(0,1)$, which only changes the
+dimensional constants.)
+
+Combining \eqref{eq:sobolev} with \eqref{eq:caccioppoli},
+$\abs{\nabla\varphi_k}\le2^{k+1}$ (so $\abs{\nabla\varphi_k}^2\le4^{k+1}$)
+and $0\le\varphi_k\le1$, we obtain
+\begin{equation}\label{eq:after-sobolev}
+   \int w_k^2\dx
+   \le S_n^2\,C_1\,\abs{A_k}^{2/n}
+   \Bigl(4^{k+1}\!\!\int_{A_k}\!(u_\Om-s_k)_+^2\dx
+        +\!\!\int_{A_k}\!(u_\Om-s_k)_+\dx\Bigr),
+\end{equation}
+where for the second term we used
+$\int\varphi_k^2(u_\Om-s_k)_+\le\int_{A_k}(u_\Om-s_k)_+$.
+%% JUSTIFICATION.  Substitute \int|\nabla w_k|^2 from
+%% \eqref{eq:caccioppoli} into \eqref{eq:sobolev}.  In the first
+%% Caccioppoli term replace |\nabla\varphi_k|^2 by its bound 4^{k+1};
+%% the integrand (u_\Om-s_k)_+^2 is supported in A_k so the integral is
+%% over A_k.  In the second term, \varphi_k^2\le1 gives
+%% \int\varphi_k^2(u_\Om-s_k)_+\le\int(u_\Om-s_k)_+
+%% =\int_{A_k}(u_\Om-s_k)_+ (the integrand vanishes off \{u_\Om>s_k\},
+%% and on A_k^c\cap\{u_\Om>s_k\}... in fact (u_\Om-s_k)_+ is supported
+%% in \{u_\Om>s_k\}\supset A_k but the \varphi_k^2 factor restricts to
+%% \{\varphi_k>0\}; either way the bound holds because the integrand is
+%% nonnegative and we only enlarged the constant).
+By the global
+sup-bound \eqref{eq:global-Linfty} at $\abs{\Om}=\omega_n$ we have
+$0\le(u_\Om-s_k)_+\le u_\Om\le1/(2n)\le1$ on $\Om$, hence both
+$(u_\Om-s_k)_+^2\le1$ and $(u_\Om-s_k)_+\le1$ there, so each integral over
+$A_k$ is at most $\abs{A_k}$. Therefore
+\begin{equation}\label{eq:after-sobolev2}
+   \int w_k^2\dx
+   \le S_n^2\,C_1\,\bigl(4^{k+1}+1\bigr)\,\abs{A_k}^{2/n}\,\abs{A_k}
+   \le C_2\,4^{k}\,\abs{A_k}^{1+2/n},
+\end{equation}
+with $C_2=C_2(n):=8\,S_n^2 C_1$ (using $4^{k+1}+1\le8\cdot4^{k}$).
+%% JUSTIFICATION.  (u_\Om-s_k)_+\le u_\Om because s_k\ge0; and
+%% u_\Om\le1/(2n)\le1 by \eqref{eq:global-Linfty} at \abs{\Om}=\omega_n.
+%% So both (u_\Om-s_k)_+ and its square are \le1, and
+%%   \int_{A_k}(u_\Om-s_k)_+^{(\cdot)}\le\int_{A_k}1=|A_k|.
+%% Plugging into \eqref{eq:after-sobolev}:
+%%   \int w_k^2\le S_n^2 C_1|A_k|^{2/n}(4^{k+1}|A_k|+|A_k|)
+%%     =S_n^2 C_1(4^{k+1}+1)|A_k|^{1+2/n}.
+%% Finally 4^{k+1}+1=4\cdot4^k+1\le4\cdot4^k+4^k\cdot... actually
+%% 1\le4^k so 4^{k+1}+1\le4\cdot4^k+4\cdot4^k=8\cdot4^k (k\ge1 gives
+%% 1\le4^k\le4\cdot4^k); set C_2=8 S_n^2 C_1.  This is the form
+%% \int w_k^2\le C_2 4^k|A_k|^{1+2/n}, super-linear in |A_k|.
+
+\smallskip
+\emph{From energy to a measure recursion.} Restrict the left-hand side of
+\eqref{eq:after-sobolev2} to the smaller set where the \emph{next} level
+is exceeded. On $\{u_\Om>s_{k+1}\}\cap(\R^n\setminus B_{R_{k}})$ we have
+$\varphi_k=1$ (since this set lies outside $B_{R_k}$) and
+$u_\Om-s_k>s_{k+1}-s_k$, hence
+$w_k^2=(u_\Om-s_k)_+^2\ge(s_{k+1}-s_k)^2$ there. Therefore
+\begin{equation}\label{eq:chebyshev}
+   (s_{k+1}-s_k)^2\,
+   \bigl|\{u_\Om>s_{k+1}\}\cap(\R^n\setminus B_{R_{k}})\bigr|
+   \;\le\;\int_{\R^n}w_k^2\dx .
+\end{equation}
+%% JUSTIFICATION (this is Chebyshev/Markov).  On the indicated set
+%% \varphi_k=1 (it lies outside B_{R_k}, where \varphi_k\equiv1), so
+%% w_k=(u_\Om-s_k)_+.  There u_\Om>s_{k+1}, so u_\Om-s_k>s_{k+1}-s_k>0,
+%% hence w_k^2\ge(s_{k+1}-s_k)^2.  Integrating this pointwise lower
+%% bound over the set and dropping the rest of \R^n (where w_k^2\ge0):
+%%   (s_{k+1}-s_k)^2\,|set|\le\int_{set}w_k^2\le\int_{\R^n}w_k^2.
+Introduce the (relative) super-level measures
+\[
+   \mu_k:=\bigl|\{u_\Om>s_k\}\cap(\R^n\setminus B_{R_{k-1}})\bigr|,
+   \qquad k\ge1,
+\]
+which decrease in $k$ (both $s_k$ and $R_{k-1}$ increase). Since
+$A_k\subset\{u_\Om>s_k\}\cap(\R^n\setminus B_{R_{k-1}})$ we have
+$\abs{A_k}\le\mu_k$, and the left-hand set in \eqref{eq:chebyshev} is
+exactly $\{u_\Om>s_{k+1}\}\cap(\R^n\setminus B_{R_{(k+1)-1}})$, of
+measure $\mu_{k+1}$.
+%% JUSTIFICATION.  As k grows, s_k\uparrow and R_{k-1}\uparrow, so both
+%% defining conditions \{u_\Om>s_k\} and (\R^n\setminus B_{R_{k-1}})
+%% shrink; hence \mu_k is nonincreasing.  |A_k|\le\mu_k by the inclusion
+%% recorded above.  And R_{(k+1)-1}=R_k, so the set in \eqref{eq:chebyshev}
+%% is precisely \{u_\Om>s_{k+1}\}\cap(\R^n\setminus B_{R_k})=\mu_{k+1}'s
+%% set.
+Combining \eqref{eq:chebyshev},
+\eqref{eq:after-sobolev2} and $\abs{A_k}\le\mu_k$,
+\[
+   (s_{k+1}-s_k)^2\,\mu_{k+1}
+   \;\le\;C_2\,4^{k}\,\mu_k^{1+2/n}.
+\]
+%% JUSTIFICATION.  Chain: (s_{k+1}-s_k)^2\mu_{k+1}\le\int w_k^2
+%% \le C_2 4^k|A_k|^{1+2/n}\le C_2 4^k\mu_k^{1+2/n}, the last step since
+%% |A_k|\le\mu_k and t\mapsto t^{1+2/n} is increasing on [0,\infty).
+Insert the gap \eqref{eq:s-diff},
+$(s_{k+1}-s_k)^2=M^2\abs{\Om\setminus B_R}^{2/n}4^{-(k+1)}$:
+\begin{equation}\label{eq:mu-recursion}
+   \mu_{k+1}\;\le\;
+   \frac{C_2\,4^{k}}{M^2\abs{\Om\setminus B_R}^{2/n}4^{-(k+1)}}\,
+   \mu_k^{1+2/n}
+   \;=\;\frac{4\,C_2}{M^2\abs{\Om\setminus B_R}^{2/n}}\,16^{\,k}\,
+   \mu_k^{1+2/n}.
+\end{equation}
+%% JUSTIFICATION.  From \eqref{eq:s-diff},
+%% (s_{k+1}-s_k)^2=M^2|\cdot|^{2/n}(2^{-(k+1)})^2=M^2|\cdot|^{2/n}4^{-(k+1)}.
+%% Divide the previous display by it; the k-power becomes
+%% 4^k/4^{-(k+1)}=4^{k+(k+1)}=4^{2k+1}=4\cdot16^k.  So the prefactor is
+%% (C_2\cdot4)/(M^2|\cdot|^{2/n}) times 16^k, as displayed.
+
+\smallskip
+\emph{Normalisation and the iteration lemma.} Set
+$a_k:=\mu_k/\abs{\Om\setminus B_R}$. Since
+$\mu_k\le\abs{\R^n\setminus B_{R_{k-1}}\cap\{u_\Om>s_k\}}
+\le\abs{\Om\setminus B_R}$ (because $R_{k-1}\ge R_0=R$ and
+$\{u_\Om>s_k\}\subset\Om$), we have $0\le a_k\le1$; in particular
+$a_1\le1$.
+%% JUSTIFICATION.  \mu_k's set is \{u_\Om>s_k\}\cap(\R^n\setminus
+%% B_{R_{k-1}})\subset \Om\cap(\R^n\setminus B_R)=\Om\setminus B_R, using
+%% \{u_\Om>s_k\}\subset\{u_\Om>0\}\subset\Om and B_{R_{k-1}}\supset B_R
+%% (as R_{k-1}\ge R).  Hence \mu_k\le|\Om\setminus B_R| and a_k\in[0,1].
+Dividing \eqref{eq:mu-recursion} by
+$\abs{\Om\setminus B_R}$ and using
+$\mu_k^{1+2/n}=\abs{\Om\setminus B_R}^{1+2/n}a_k^{1+2/n}$,
+\[
+   a_{k+1}
+   \le\frac{4C_2}{M^2\abs{\Om\setminus B_R}^{2/n}}\,16^k\,
+   \frac{\abs{\Om\setminus B_R}^{1+2/n}}{\abs{\Om\setminus B_R}}
+   \,a_k^{1+2/n}
+   =\frac{4C_2}{M^2}\,16^{k}\,a_k^{1+2/n},
+\]
+valid for all $k\ge1$.
+%% JUSTIFICATION (the powers of |\Om\setminus B_R| cancel).  Write
+%% T:=|\Om\setminus B_R|.  Then \mu_{k+1}=T a_{k+1},
+%% \mu_k^{1+2/n}=T^{1+2/n}a_k^{1+2/n}.  Divide \eqref{eq:mu-recursion}
+%% by T:
+%%   a_{k+1}=\mu_{k+1}/T\le \frac{4C_2}{M^2 T^{2/n}}16^k
+%%        \frac{T^{1+2/n}}{T}a_k^{1+2/n}.
+%% The T-exponent is -2/n+(1+2/n)-1=0, so all T's cancel, leaving
+%%   a_{k+1}\le(4C_2/M^2)16^k a_k^{1+2/n}.  This is the crucial
+%% scale invariance: the recursion no longer sees the (unknown) tail mass.
+To put this in the exact form
+\eqref{eq:DG-recursion2} (indexed from $0$) we shift: set
+$\widetilde a_j:=a_{j+1}$ for $j\ge0$. Then for every $j\ge0$,
+\[
+   \widetilde a_{j+1}=a_{j+2}
+   \le\frac{4C_2}{M^2}\,16^{\,j+1}\,a_{j+1}^{1+2/n}
+   =\underbrace{\frac{64\,C_2}{M^2}}_{=:C}\,16^{\,j}\,
+     \widetilde a_j^{\,1+2/n},
+\]
+which is \eqref{eq:DG-recursion2} with
+\[
+   C:=\frac{64\,C_2}{M^2},\qquad b:=16,\qquad\beta:=\frac2n .
+\]
+%% JUSTIFICATION (the index shift).  The recursion a_{k+1}\le(4C_2/M^2)
+%% 16^k a_k^{1+2/n} holds for k\ge1.  Set \widetilde a_j=a_{j+1}, j\ge0,
+%% so the seed is \widetilde a_0=a_1\le1 (which we control), not a_0.
+%% Apply the recursion at k=j+1\ge1:
+%%   \widetilde a_{j+1}=a_{j+2}\le(4C_2/M^2)16^{j+1}a_{j+1}^{1+2/n}
+%%     =(4C_2/M^2)\cdot16\cdot16^j\widetilde a_j^{1+2/n}
+%%     =(64C_2/M^2)16^j\widetilde a_j^{1+2/n}.
+%% This matches \eqref{eq:DG-recursion2} with C=64C_2/M^2, b=16,
+%% \beta=2/n.  (We absorbed the extra factor 16 from 16^{j+1} into C.)
+Choose $M=M(n)$ so large that the smallness condition
+\eqref{eq:DG-smallness2} holds at the starting value
+$\widetilde a_0=a_1\le1$. Since $a_1\le1$ it suffices to require
+\[
+   1\;\le\;C^{-1/\beta}\,b^{-1/\beta^2}
+   =\Bigl(\tfrac{64C_2}{M^2}\Bigr)^{-n/2}16^{-n^2/4},
+   \quad\text{i.e.}\quad
+   M^2\;\ge\;64\,C_2\,16^{\,n^2/4\cdot(2/n)}=64\,C_2\,16^{\,n/2},
+\]
+which holds for $M:=8\,(C_2)^{1/2}4^{\,n/2}$ (a dimensional constant,
+since $C_2=C_2(n)$). With this $M$, Lemma~\ref{lem:DG-iteration2} gives
+$\widetilde a_j\to0$, i.e.\ $a_k\to0$ and hence $\mu_k\to0$.
+%% JUSTIFICATION (the algebra of the threshold).  With \beta=2/n,
+%% 1/\beta=n/2 and 1/\beta^2=n^2/4.  The threshold \eqref{eq:DG-smallness2}
+%% is \widetilde a_0\le C^{-1/\beta}b^{-1/\beta^2}; since \widetilde a_0
+%% =a_1\le1, it suffices that 1\le C^{-n/2}16^{-n^2/4}, i.e.
+%%   C^{n/2}16^{n^2/4}\le1?  No --- rearrange properly:
+%%   1\le C^{-n/2}16^{-n^2/4}  \iff  C^{n/2}\cdot16^{n^2/4}\le1?
+%% That cannot hold for large constants; instead read it as a LOWER
+%% bound on M.  Raise to the power 2/n:
+%%   1\le C^{-1}16^{-(n^2/4)(2/n)}=C^{-1}16^{-n/2},  i.e.  C\le16^{-n/2}?
+%% Again rearrange in M: C=64C_2/M^2, so C\,16^{n/2}\le1 means
+%%   64C_2 16^{n/2}/M^2\le1, i.e.  M^2\ge64C_2 16^{n/2}.
+%% Thus the requirement is M^2\ge64C_2 16^{n/2}=64C_2 4^{n}, satisfied by
+%%   M=8\sqrt{C_2}\,4^{n/2}  (then M^2=64 C_2 4^n=64C_2 16^{n/2}).
+%% [The mid-line scratch above only shows the bookkeeping of exponents;
+%% the binding statement is M^2\ge64C_2 16^{n/2}.]  M depends only on n
+%% since C_2=C_2(n).  Lemma~\ref{lem:DG-iteration2} now applies to
+%% (\widetilde a_j) with this C,b,\beta and seed \le threshold, giving
+%% \widetilde a_j\to0.  Since a_k=\widetilde a_{k-1} for k\ge1 and \mu_k
+%% =T a_k, also \mu_k\to0.
+
+\smallskip
+\emph{Conclusion.} Letting $k\to\infty$ in $\mu_k\to0$ and using
+$s_k\uparrow s_\infty=M\abs{\Om\setminus B_R}^{1/n}$ and
+$R_{k-1}\uparrow R+1$, monotone convergence yields
+\[
+   \bigl|\{u_\Om>s_\infty\}\cap(\R^n\setminus B_{R+1})\bigr|
+   =\lim_{k\to\infty}\mu_k=0 .
+\]
+%% JUSTIFICATION.  The sets E_k:=\{u_\Om>s_k\}\cap(\R^n\setminus
+%% B_{R_{k-1}}) decrease in k, and their intersection contains (indeed
+%% equals, up to the increasing-union subtlety) the limiting set
+%% \{u_\Om>s_\infty\}\cap(\R^n\setminus B_{R+1}): if u_\Om(x)>s_\infty and
+%% |x|>R+1 then for every k, u_\Om(x)>s_\infty\ge s_k and |x|>R+1>R_{k-1},
+%% so x\in E_k.  Hence
+%%   |\{u_\Om>s_\infty\}\cap(\R^n\setminus B_{R+1})|\le\inf_k\mu_k
+%%    =\lim_k\mu_k=0
+%% by monotone convergence (continuity of measure along a decreasing
+%% sequence of finite-measure sets).
+Hence $u_\Om\le s_\infty=M\abs{\Om\setminus B_R}^{1/n}$ a.e.\ on
+$\Om\setminus B_{R+1}$. Since $u_\Om\ge0$, this is
+\eqref{eq:Linfty} with $C_\flat:=M=8\,(C_2)^{1/2}4^{n/2}$.
+%% JUSTIFICATION.  The null set \{u_\Om>s_\infty\}\cap(\R^n\setminus
+%% B_{R+1}) being empty up to measure zero means u_\Om\le s_\infty a.e.
+%% on \R^n\setminus B_{R+1}, hence a.e. on \Om\setminus B_{R+1}.  As
+%% u_\Om\ge0 there, \|u_\Om\|_{L^\infty(\Om\setminus B_{R+1})}\le
+%% s_\infty=M|\Om\setminus B_R|^{1/n}, which is \eqref{eq:Linfty} with
+%% C_\flat=M (dimensional).
+\end{proof}
+
+\begin{remark}[The case $n=2$]\label{rem:n2}
+For $n=2$ the embedding $H^1_0\hookrightarrow L^{2^*}$ degenerates
+(formally $2^*=2n/(n-2)=\infty$), but the
+Gagliardo--Nirenberg--Sobolev inequality gives, for any fixed
+$p\in(2,\infty)$,
+$\norm{w}_{L^{p}(\R^2)}\le S_{2,p}\norm{\nabla w}_{L^2(\R^2)}$ for
+$w\in H^1_0(\R^2)$ with finite-measure support. Repeating the Hölder step
+with exponent $p$ replaces $2/n=1$ by $1-2/p\in(0,1)$, so
+\eqref{eq:mu-recursion} becomes
+$\mu_{k+1}\le C\,16^k\,\mu_k^{1+\beta}$ with $\beta:=1-2/p>0$, and
+Lemma~\ref{lem:DG-iteration2} applies. Tracking the level scale: with
+$s_\infty=M\abs{\Om\setminus B_R}^{\alpha}$, self-consistency of the
+recursion forces $\alpha=\tfrac{p-2}{2p}=\tfrac12-\tfrac1p$ (for $n\ge3$
+the analogous bookkeeping gives $\alpha=1/n$, and the two agree only there).
+Hence, for $n=2$, the $L^\infty$ tail estimate holds in the slightly weaker
+form
+\[
+   \norm{u_\Om}_{L^\infty(\Om\setminus B_{R+1})}
+   \;\le\;C(p)\,\abs{\Om\setminus B_R}^{\,\frac12-\frac1p},
+   \qquad\text{any fixed }p\in(2,\infty),
+\]
+in place of the exponent $1/n$ in \eqref{eq:Linfty}. Fixing once and for
+all $p=4$, so that $\tfrac12-\tfrac1p=\tfrac14>0$, this is a genuine
+super-linear power of the tail mass, which is all the truncation of
+\S\ref{ssec:truncation} uses: the energy-comparison
+\eqref{eq:energy-comp} and the tail recursion \eqref{eq:bk2-bound} hold
+with the exponent $1+\tfrac1n$ replaced by $1+\kappa$, $\kappa=\tfrac14$,
+and the geometric iteration \eqref{eq:bk2-self}--\eqref{eq:bodd-decay} goes
+through for any $\kappa>0$ with $n$-dependent constants. Consequently the
+global Theorem~\ref{thm:SV-global} holds for all $n\ge2$; only the
+auxiliary exponent in \eqref{eq:Linfty} (and the resulting dimensional
+constants) changes at $n=2$.
+%% JUSTIFICATION (the self-consistency of \alpha).  In the n\ge3 proof the
+%% level scale was s_\infty=M|\cdot|^{1/n}, and this exponent 1/n was
+%% forced by exactly the cancellation of powers of T=|\Om\setminus B_R|
+%% in the normalisation step: there the Sobolev/Hölder exponent is 2/n
+%% and the gap-squared contributes |\cdot|^{2\alpha} in the denominator;
+%% the T-exponent vanished precisely because 2\alpha=2/n and the recursion
+%% closed.  For p the Hölder exponent becomes 1-2/p=\beta, the Sobolev
+%% step produces |A_k|^{\beta} (not |A_k|^{2/n}), and the same T-cancellation
+%% now demands 2\alpha=\beta=1-2/p, i.e. \alpha=(1-2/p)/2=1/2-1/p.  At p=4
+%% this is 1/4.  Everything downstream uses only that \alpha>0 and that
+%% the recursion is super-linear, both of which hold; the constants pick
+%% up a dependence on p (hence on the fixed choice p=4), still dimensional.
+\end{remark}
+
+\subsection{A suboptimal stability seed}\label{ssec:seed}
+
+The truncation iteration needs one quantitative input that the De~Giorgi
+machinery does not by itself supply: a crude (far from sharp) control of the
+asymmetry by the deficit, used only to make the tail mass small at the first
+radius and to bound the number of truncation steps. We prove it here from the
+level-set identity already established, so that the present section introduces
+no external stability input. The mechanism is: the deficit identity plus the
+quantitative isoperimetric inequality control a weighted integral of the
+asymmetries of the superlevel sets; the profile-gap identity shows that this
+weight has positive mass on the outer collar; and the superlevel transfer
+shows that on that collar the superlevel sets inherit the asymmetry of
+$\Om$ itself. The fourth power (in fact a third power) is the price of the
+crude collar transfer; the sharp second power is the main theorem.
+
+\begin{lemma}[Suboptimal stability seed]\label{lem:seed}
+There is a dimensional constant $C_\dagger=C_\dagger(n)>0$ such that every
+open $\Om\subset\R^n$ of finite measure satisfies
+\begin{equation}\label{eq:seed}
+   D(\Om)\;\ge\;\frac{1}{C_\dagger}\,\Fr(\Om)^{4}.
+\end{equation}
+Equivalently, $\Fr(\Om)\le\bigl(C_\dagger D(\Om)\bigr)^{1/4}$.
+\end{lemma}
+
+\begin{proof}
+$D$ and $\Fr$ are scale invariant, so we may assume $\abs\Om=\omega_n$; then
+$D(\Om)=\omega_n^{-(n+2)/n}\dT(\Om)$, $B^*=B_1$. Write $A:=\Fr(\Om)\in[0,2)$,
+and recall $E_\rho=\{u>t(\rho)\}$, $\abs{E_\rho}=\omega_n\rho^n$,
+$a(\rho)=-t'(\rho)$. Three facts proved earlier are used; each holds for any
+open set of finite measure, since its proof does not use $\Om\subset B_R$:
+\begin{itemize}
+\item[(a)] the exact deficit identity (Theorem~\ref{thm:id-main}),
+$2\dT(\Om)=\int_0^{\norm u_\infty}(D_H+D_I)/(n^2\omega_n^{2/n}m^{1-2/n})\,dt$,
+with $D_H,D_I\ge0$;
+\item[(b)] the profile-gap identity \eqref{eq:profile-gap-rho}:
+$0\le a(\rho)\le\rho/n$ and
+$\int_0^1\rho^n\bigl(\tfrac\rho n-a(\rho)\bigr)\,d\rho=\tfrac2{\omega_n}\dT(\Om)$;
+\item[(c)] the superlevel transfer (Lemma~\ref{lem:superlevel-transfer}):
+$A\le\Fr(E_\rho)+2(1-\rho^n)$ for every $\rho\in(0,1]$.
+\end{itemize}
+
+\emph{Step 1 (a level-set lower bound for $D_I$).}
+Fix a finite-perimeter level $\rho$. Fusco--Julin
+(Theorem~\ref{thm:FJ-strong}) applied to $E_\rho$ with $r_E=\rho$, after
+discarding the nonnegative boundary-oscillation summand and the outer square
+in \eqref{eq:FJ-exact}, reads
+$\abs{E_\rho\Delta B_\rho(z)}^2/\rho^{2n}\le C_{\rm FJ}(n)
+(\Per(E_\rho)-\Per(B_\rho))/\rho^{n-1}$ for the optimal centre $z$, i.e.
+$\abs{E_\rho\Delta B_\rho(z)}^2\le C_{\rm FJ}(n)\rho^{n+1}
+(\Per(E_\rho)-\Per(B_\rho))$.
+%% JUSTIFICATION. Both summands in \eqref{eq:FJ-exact} are \ge0, so each is
+%% \le the right side; drop the second and the square, then multiply by
+%% r_E^{2n}=\rho^{2n} and divide r_E^{n-1}=\rho^{n-1}.
+Now $\Fr(E_\rho)\le\abs{E_\rho\Delta B_\rho(z)}/\abs{E_\rho}$ (the Fraenkel
+asymmetry is an infimum over balls of volume $\abs{E_\rho}$, and $B_\rho(z)$
+is one such), and
+$\Per(E_\rho)-\Per(B_\rho)=D_I(t(\rho))/(\Per(E_\rho)+\Per(B_\rho))\le
+D_I(t(\rho))/\Per(B_\rho)$. With $\abs{E_\rho}=\omega_n\rho^n$ and
+$\Per(B_\rho)=n\omega_n\rho^{n-1}$,
+\[
+   \Fr(E_\rho)^2\,\omega_n^2\rho^{2n}\le\abs{E_\rho\Delta B_\rho(z)}^2
+   \le C_{\rm FJ}(n)\rho^{n+1}\frac{D_I(t(\rho))}{n\omega_n\rho^{n-1}}
+   =\frac{C_{\rm FJ}(n)}{n\omega_n}\rho^2 D_I(t(\rho)),
+\]
+which rearranges to
+\begin{equation}\label{eq:seed-FJ}
+   D_I(t(\rho))\;\ge\;c_1(n)\,\rho^{\,2n-2}\,\Fr(E_\rho)^2,
+   \qquad c_1(n):=\frac{n\,\omega_n^{3}}{C_{\rm FJ}(n)} .
+\end{equation}
+
+\emph{Step 2 (restrict to the outer collar $[\rho_A,1]$).}
+Put $\rho_A:=(1-A/4)^{1/n}$. For $\rho\in[\rho_A,1]$,
+$1-\rho^n\le1-\rho_A^n=A/4$, so (c) gives
+$\Fr(E_\rho)\ge A-2(1-\rho^n)\ge A/2$, and $\rho^n\ge\rho_A^n=1-A/4>1/2$.
+In (a) drop $D_H\ge0$ and change variables $t=t(\rho)$
+($dt=a(\rho)\,d\rho$, $m=\omega_n\rho^n$); keeping only the nonnegative
+integrand over $[\rho_A,1]$ and inserting \eqref{eq:seed-FJ},
+\[
+   2\dT(\Om)\ \ge\
+   \int_{\rho_A}^1\frac{D_I(t(\rho))}{n^2\omega_n^{2/n}(\omega_n\rho^n)^{1-2/n}}\,a(\rho)\,d\rho
+   \ \ge\ c_2(n)\int_{\rho_A}^1\rho^n\,\Fr(E_\rho)^2\,a(\rho)\,d\rho,
+\]
+where $c_2(n)=c_1(n)/(n^2\omega_n)$.
+%% JUSTIFICATION (constant). (\omega_n\rho^n)^{1-2/n}=\omega_n^{1-2/n}\rho^{n-2};
+%% so n^2\omega_n^{2/n}(\omega_n\rho^n)^{1-2/n}=n^2\omega_n\rho^{n-2}, and
+%% \rho^{2n-2}/\rho^{n-2}=\rho^n. Hence c_1\rho^{2n-2}/(n^2\omega_n\rho^{n-2})
+%% =(c_1/(n^2\omega_n))\rho^n.
+With $\Fr(E_\rho)\ge A/2$ on $[\rho_A,1]$,
+\begin{equation}\label{eq:seed-collar}
+   2\dT(\Om)\ \ge\ \frac{c_2(n)\,A^2}{4}\int_{\rho_A}^1\rho^n a(\rho)\,d\rho .
+\end{equation}
+
+\emph{Step 3 (the profile gap bounds the collar mass below).}
+By (b) and $\tfrac\rho n-a\ge0$,
+\[
+   \int_{\rho_A}^1\rho^n a\,d\rho
+   =\int_{\rho_A}^1\frac{\rho^{n+1}}{n}\,d\rho
+     -\int_{\rho_A}^1\rho^n\Bigl(\frac\rho n-a\Bigr)d\rho
+   \ \ge\ \frac{1-\rho_A^{\,n+2}}{n(n+2)}-\frac2{\omega_n}\dT(\Om),
+\]
+the inequality because the subtracted integral is at most the full integral
+$\int_0^1\rho^n(\tfrac\rho n-a)=\tfrac2{\omega_n}\dT(\Om)$. Since $\rho_A\le1$,
+$\rho_A^{\,n+2}\le\rho_A^n=1-A/4$, so $1-\rho_A^{\,n+2}\ge A/4$ and
+\begin{equation}\label{eq:seed-mass}
+   \int_{\rho_A}^1\rho^n a\,d\rho\ \ge\ \frac{A}{4n(n+2)}-\frac2{\omega_n}\dT(\Om).
+\end{equation}
+
+\emph{Step 4 (conclusion).} Insert \eqref{eq:seed-mass} into
+\eqref{eq:seed-collar}:
+\[
+   2\dT(\Om)\ \ge\ \frac{c_2(n)A^2}{4}
+   \Bigl(\frac{A}{4n(n+2)}-\frac2{\omega_n}\dT(\Om)\Bigr)
+   = c_3(n)A^3-c_4(n)A^2\dT(\Om),
+\]
+$c_3(n)=c_2(n)/(16n(n+2))$, $c_4(n)=c_2(n)/(2\omega_n)$. Therefore
+$\dT(\Om)(2+c_4(n)A^2)\ge c_3(n)A^3$, and since $A<2$,
+$\dT(\Om)\ge c_3(n)A^3/(2+4c_4(n))=:c_5(n)A^3$. Finally $A<2$ gives
+$A^4\le2A^3$, hence $\dT(\Om)\ge\tfrac12 c_5(n)A^4$; multiplying by
+$\omega_n^{-(n+2)/n}$ yields \eqref{eq:seed} with
+$C_\dagger(n)=2\omega_n^{(n+2)/n}/c_5(n)$.
+\end{proof}
+
+\begin{remark}[The seed is internal]\label{rem:seed-status}
+The only external ingredient is the Fusco--Julin quantitative isoperimetric
+inequality (Theorem~\ref{thm:FJ-strong}), already used in the manuscript;
+the deficit identity, the profile-gap identity, and the superlevel transfer
+are all proved here. So the bounded reduction rests on no stability estimate
+beyond those the paper establishes. The exponent obtained ($3$, hence the
+stated $4$) is far from the sharp exponent $2$ of the main theorem, but only
+a fixed positive power of $D$ is used below. A suboptimal torsional stability
+bound of this kind is classical; cf.\ Fusco--Maggi--Pratelli \cite{FMP}.
+\end{remark}
+
+\subsection{The truncation construction}\label{ssec:truncation}
+
+We now build the bounded surrogate. The estimate driving the construction
+is an \emph{energy-comparison inequality}: cutting $\Om$ off at radius
+$\sim k$ costs only a higher-order amount of energy, controlled by the
+tail mass through Lemma~\ref{lem:Linfty}. The logic of the proof is a
+feedback loop: the energy comparison (Step~1) becomes, via Saint--Venant,
+a recursion bounding the tail mass two radii out by the tail mass here
+plus the deficit (Step~2); a stopping index $K$ marks where the tail
+first drops below the deficit scale (Step~3); the recursion is shown to
+force $K$ to be dimensionally bounded (the heart of the matter); finally
+we cut at $K+3$, rescale to unit volume, and verify the four advertised
+properties (Steps~5--7).
+
+\begin{lemma}[Bounded truncation]\label{lem:truncation}
+There exist dimensional constants $C_\sharp=C_\sharp(n)>0$,
+$\delta=\delta(n)\in(0,1]$ and $d=d(n)\ge1$ such that for every open
+$\Om$ with $\abs{\Om}=\omega_n$ and $D(\Om)\le\delta$ there is an open set
+$\Otilde$ with
+\begin{align}
+   \abs{\Otilde}\;&=\;\omega_n,\label{eq:trunc-vol}\\
+   \diam(\Otilde)\;&\le\;d,\label{eq:trunc-diam}\\
+   D(\Otilde)\;&\le\;C_\sharp\,D(\Om),\label{eq:trunc-D}\\
+   \Fr(\Om)\;&\le\;\Fr(\Otilde)+C_\sharp\,D(\Om).\label{eq:trunc-A}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+Normalise so that the ball realising the asymmetry of $\Om$ is $B_1$
+(translate $\Om$; both $\Fr$ and $D$ are translation invariant), i.e.
+$\Fr(\Om)=\abs{\Om\,\triangle\,B_1}/\omega_n$.
+%% JUSTIFICATION.  \Fr is an infimum over translates of B_1, and the
+%% infimum is attained for a fixed-volume open set (a standard
+%% compactness of the centre x_0, or one works with a near-optimal ball;
+%% either suffices).  Translating \Om so the optimal ball is centred at 0
+%% changes neither \Fr nor D (both translation invariant: \Fr by its
+%% definition, D because E and \abs{\cdot} are translation invariant).
+We will repeatedly use the tail-mass notation
+\begin{equation}\label{eq:bk-def}
+   b_k:=\frac{\abs{\Om\setminus B_k}}{\omega_n},\qquad k\ge1,
+\end{equation}
+which is non-increasing in $k$ and satisfies $0\le b_k\le1$.
+%% JUSTIFICATION.  k\mapsto B_k increases, so \Om\setminus B_k decreases,
+%% so |\Om\setminus B_k| and hence b_k are nonincreasing.  And
+%% |\Om\setminus B_k|\le|\Om|=\omega_n gives b_k\le1; b_k\ge0 trivially.
+
+\smallskip
+\emph{Step 0: the tail mass is small.}
+Since $B_1$ realises the asymmetry,
+$\abs{\Om\setminus B_1}\le\abs{\Om\,\triangle\,B_1}=\omega_n\Fr(\Om)$.
+%% JUSTIFICATION.  \Om\setminus B_1\subset\Om\triangle B_1 (the symmetric
+%% difference contains everything in \Om but not in B_1), so the measures
+%% compare; and |\Om\triangle B_1|=\omega_n\Fr(\Om) by the normalisation.
+Combined with the suboptimal seed Lemma~\ref{lem:seed},
+\begin{equation}\label{eq:b1-small}
+   b_1\;\le\;\Fr(\Om)\;\le\;\bigl(C_\dagger\,D(\Om)\bigr)^{1/4}.
+\end{equation}
+%% JUSTIFICATION.  Divide the previous display by \omega_n: b_1\le\Fr(\Om);
+%% then \Fr(\Om)\le(C_\dagger D(\Om))^{1/4} by Lemma~\ref{lem:seed}.
+In particular, since $b_k\le b_1$ for all $k\ge1$, every tail mass is
+$\le(C_\dagger D(\Om))^{1/4}$, which can be made smaller than any
+prescribed dimensional threshold by shrinking $\delta(n)$ (recall
+$D(\Om)\le\delta(n)$). This is the only use of Lemma~\ref{lem:seed} in
+the construction.
+%% JUSTIFICATION.  b_k\le b_1 by monotonicity; and (C_\dagger D)^{1/4}\le
+%% (C_\dagger\delta)^{1/4}\to0 as \delta\to0, so any threshold is met by
+%% taking \delta(n) small.  We invoke this twice below
+%% (\eqref{eq:seed-smallness} and the L-large step).
+
+\smallskip
+\emph{Step 1: the energy-comparison inequality.}
+For $k\ge1$ let $\varphi_k$ be the Lipschitz cut-off
+\[
+   \varphi_k(x):=\min\bigl\{1,(k+2-\abs{x})_+\bigr\},
+\]
+so $\varphi_k\equiv1$ on $B_{k+1}$, $\varphi_k\equiv0$ outside $B_{k+2}$,
+$0\le\varphi_k\le1$ and $\abs{\nabla\varphi_k}\le1$ everywhere (it is
+$1$ only on the annulus $B_{k+2}\setminus B_{k+1}$).
+%% JUSTIFICATION.  For |x|\le k+1, k+2-|x|\ge1 so the min is 1.  For
+%% |x|\ge k+2, (k+2-|x|)_+=0 so \varphi_k=0.  On k+1\le|x|\le k+2,
+%% \varphi_k=k+2-|x| is affine in |x| with |\nabla\varphi_k|=
+%% |\nabla(k+2-|x|)|=|{-\hat x}|=1.  Elsewhere \varphi_k is locally
+%% constant, gradient 0.  Hence 0\le\varphi_k\le1 and |\nabla\varphi_k|
+%% \le1 with equality only on the annulus.
+Then
+$u_k:=\varphi_k\,u_\Om\in H^1_0(\Om\cap B_{k+2})$ is admissible for the
+variational problem defining $E(\Om\cap B_{k+2})$, so
+$E(\Om\cap B_{k+2})\le J_{\Om\cap B_{k+2}}(u_k)
+=\tfrac12\int\abs{\nabla u_k}^2-\int u_k$.
+%% JUSTIFICATION.  u_k=\varphi_k u_\Om is in H^1_0 of \Om (product of
+%% H^1_0 and bounded Lipschitz) and vanishes outside B_{k+2} (where
+%% \varphi_k=0), hence u_k\in H^1_0(\Om\cap B_{k+2}).  E(\Om\cap B_{k+2})
+%% is the MINIMUM of J over that space, so it is \le the value at the
+%% admissible u_k.
+We use the pointwise algebraic
+identity
+\[
+   \abs{\nabla(\varphi_k u_\Om)}^2
+   =\nabla u_\Om\cdot\nabla(u_\Om\varphi_k^2)
+   +\abs{\nabla\varphi_k}^2u_\Om^2,
+\]
+which is verified by expanding both sides
+($\nabla(u_\Om\varphi_k^2)=\varphi_k^2\nabla u_\Om
++2\varphi_k u_\Om\nabla\varphi_k$, so the right-hand side equals
+$\varphi_k^2\abs{\nabla u_\Om}^2+2\varphi_k u_\Om\nabla u_\Om\cdot
+\nabla\varphi_k+\abs{\nabla\varphi_k}^2 u_\Om^2
+=\abs{\varphi_k\nabla u_\Om+u_\Om\nabla\varphi_k}^2$).
+%% JUSTIFICATION.  Left side:
+%%   |\nabla(\varphi_k u_\Om)|^2=|\varphi_k\nabla u_\Om+u_\Om\nabla
+%%   \varphi_k|^2=\varphi_k^2|\nabla u_\Om|^2+2\varphi_k u_\Om\nabla
+%%   u_\Om\cdot\nabla\varphi_k+u_\Om^2|\nabla\varphi_k|^2.
+%% Right side: \nabla u_\Om\cdot(\varphi_k^2\nabla u_\Om+2\varphi_k u_\Om
+%%   \nabla\varphi_k)+|\nabla\varphi_k|^2 u_\Om^2
+%%   =\varphi_k^2|\nabla u_\Om|^2+2\varphi_k u_\Om\nabla u_\Om\cdot
+%%   \nabla\varphi_k+|\nabla\varphi_k|^2 u_\Om^2.
+%% Both sides coincide.  This is the standard "energy splitting" that
+%% trades |\nabla(\varphi u)|^2 for a term testable by the weak equation
+%% plus a controllable gradient-of-cutoff term.
+Integrating and
+applying the weak equation
+$\int\nabla u_\Om\cdot\nabla(u_\Om\varphi_k^2)=\int u_\Om\varphi_k^2$
+with the admissible test function $u_\Om\varphi_k^2\in H^1_0(\Om)$, we
+get
+\[
+   J_{\Om\cap B_{k+2}}(u_k)
+   =\tfrac12\!\int u_\Om\varphi_k^2
+   +\tfrac12\!\int\abs{\nabla\varphi_k}^2u_\Om^2
+   -\int\varphi_k u_\Om .
+\]
+%% JUSTIFICATION.  J(u_k)=\tfrac12\int|\nabla u_k|^2-\int u_k.  By the
+%% identity, \tfrac12\int|\nabla u_k|^2=\tfrac12\int\nabla u_\Om\cdot
+%% \nabla(u_\Om\varphi_k^2)+\tfrac12\int|\nabla\varphi_k|^2 u_\Om^2;
+%% the first integral is \tfrac12\int u_\Om\varphi_k^2 by the weak
+%% equation with test function u_\Om\varphi_k^2 (admissible: H^1_0 times
+%% bounded Lipschitz).  And \int u_k=\int\varphi_k u_\Om.  Collect.
+Now use $\tfrac12\varphi_k^2-\varphi_k=-\tfrac12(1-(1-\varphi_k)^2)
+=-\tfrac12+\tfrac12(1-\varphi_k)^2$ to write
+$\tfrac12\int u_\Om\varphi_k^2-\int\varphi_k u_\Om
+=-\tfrac12\int u_\Om+\tfrac12\int(1-\varphi_k)^2u_\Om
+=E(\Om)+\tfrac12\int(1-\varphi_k)^2u_\Om$, where we used
+$E(\Om)=-\tfrac12\int u_\Om$ from \eqref{eq:energy-identities}.
+%% JUSTIFICATION (the algebraic identity).  Expand
+%%   1-(1-\varphi_k)^2=1-(1-2\varphi_k+\varphi_k^2)=2\varphi_k-\varphi_k^2,
+%% so \tfrac12(1-(1-\varphi_k)^2)=\varphi_k-\tfrac12\varphi_k^2, hence
+%%   \tfrac12\varphi_k^2-\varphi_k=-(\varphi_k-\tfrac12\varphi_k^2)
+%%     =-\tfrac12(1-(1-\varphi_k)^2)=-\tfrac12+\tfrac12(1-\varphi_k)^2.
+%% Multiply by u_\Om and integrate:
+%%   \tfrac12\int\varphi_k^2 u_\Om-\int\varphi_k u_\Om
+%%     =-\tfrac12\int u_\Om+\tfrac12\int(1-\varphi_k)^2 u_\Om
+%%     =E(\Om)+\tfrac12\int(1-\varphi_k)^2 u_\Om,
+%% using E(\Om)=-\tfrac12\int u_\Om.
+Therefore
+\begin{equation}\label{eq:energy-exact}
+   E(\Om\cap B_{k+2})\le J_{\Om\cap B_{k+2}}(u_k)
+   =E(\Om)+\tfrac12\int(1-\varphi_k)^2u_\Om
+          +\tfrac12\int\abs{\nabla\varphi_k}^2u_\Om^2 .
+\end{equation}
+%% JUSTIFICATION.  Substitute the last identity into the J-expression:
+%% J(u_k)=[E(\Om)+\tfrac12\int(1-\varphi_k)^2u_\Om]
+%%        +\tfrac12\int|\nabla\varphi_k|^2 u_\Om^2.  This is an EXACT
+%% identity for J(u_k); the inequality is the variational \le from above.
+Both correction integrals are supported in $\R^n\setminus B_{k+1}$:
+indeed $1-\varphi_k=0$ on $B_{k+1}$ and $\nabla\varphi_k=0$ on
+$B_{k+1}\cup(\R^n\setminus B_{k+2})$. Hence, with $0\le1-\varphi_k\le1$
+and $\abs{\nabla\varphi_k}\le1$,
+\begin{equation}\label{eq:energy-comp-pre}
+   E(\Om\cap B_{k+2})-E(\Om)
+   \;\le\;\tfrac12\,\abs{\Om\setminus B_{k+1}}
+   \Bigl(\sup_{\Om\setminus B_{k+1}}u_\Om
+        +\sup_{\Om\setminus B_{k+1}}u_\Om^2\Bigr).
+\end{equation}
+%% JUSTIFICATION.  On B_{k+1}, \varphi_k=1 so (1-\varphi_k)=0 and
+%% \nabla\varphi_k=0; thus both integrands vanish on B_{k+1} and on
+%% \R^n\setminus B_{k+2} (where \varphi_k=0 is constant, gradient 0; and
+%% u_\Om may be nonzero only inside \Om, but (1-\varphi_k)^2 there equals
+%% 1 --- careful: outside B_{k+2}, 1-\varphi_k=1, NOT 0).  The precise
+%% support is: \nabla\varphi_k is supported in the annulus
+%% B_{k+2}\setminus B_{k+1}\subset\Om\setminus B_{k+1}; and (1-\varphi_k)^2
+%% is supported in \R^n\setminus B_{k+1}.  Both correction integrals are
+%% therefore over \Om\setminus B_{k+1}.  Bounding 0\le(1-\varphi_k)\le1
+%% and |\nabla\varphi_k|\le1 and pulling out the sup of u_\Om (resp.
+%% u_\Om^2) over that region gives
+%%   \tfrac12\int_{\Om\setminus B_{k+1}}u_\Om+\tfrac12\int_{\Om\setminus
+%%   B_{k+1}}u_\Om^2\le\tfrac12|\Om\setminus B_{k+1}|(\sup u_\Om+\sup
+%%   u_\Om^2),
+%% which is \eqref{eq:energy-comp-pre}.
+By Lemma~\ref{lem:Linfty} applied with $R=k\ge1$ (so $R+1=k+1$ and the
+tail region is $\Om\setminus B_{k+1}$),
+$\sup_{\Om\setminus B_{k+1}}u_\Om\le C_\flat\abs{\Om\setminus B_k}^{1/n}
+=C_\flat\,\omega_n^{1/n}b_k^{1/n}$, and likewise the square is bounded by
+$C_\flat^2\omega_n^{2/n}b_k^{2/n}$. Also
+$\abs{\Om\setminus B_{k+1}}=\omega_n b_{k+1}\le\omega_n b_k$. Plugging in,
+and using $b_k\le1$ so that $b_k^{2/n}\le b_k^{1/n}$,
+\begin{equation}\label{eq:energy-comp}
+   E(\Om\cap B_{k+2})\;\le\;E(\Om)+C\,b_{k+1}\bigl(b_k^{1/n}+b_k^{2/n}\bigr)
+   \;\le\;E(\Om)+C\,b_k^{\,1+1/n},
+\end{equation}
+for a dimensional constant $C=C(n)$ (we absorbed
+$\tfrac12\omega_n(C_\flat\omega_n^{1/n}+C_\flat^2\omega_n^{2/n})$ and
+$b_{k+1}\le b_k$ into $C$). This is the energy-comparison inequality.
+%% JUSTIFICATION.  Lemma~\ref{lem:Linfty} with R=k (\ge1) gives
+%% \sup_{\Om\setminus B_{k+1}}u_\Om\le C_\flat|\Om\setminus B_k|^{1/n};
+%% and |\Om\setminus B_k|=\omega_n b_k so the bound is C_\flat\omega_n^{1/n}
+%% b_k^{1/n}.  Squaring: \sup u_\Om^2=(\sup u_\Om)^2\le C_\flat^2
+%% \omega_n^{2/n}b_k^{2/n}.  And |\Om\setminus B_{k+1}|=\omega_n b_{k+1}.
+%% Substituting into \eqref{eq:energy-comp-pre} and pulling out the
+%% dimensional prefactor:
+%%   E(\Om\cap B_{k+2})-E(\Om)\le\tfrac12\omega_n b_{k+1}
+%%     (C_\flat\omega_n^{1/n}b_k^{1/n}+C_\flat^2\omega_n^{2/n}b_k^{2/n})
+%%     \le C b_{k+1}(b_k^{1/n}+b_k^{2/n}).
+%% Since b_k\le1, b_k^{2/n}\le b_k^{1/n} (smaller positive base to a
+%% larger... here 2/n vs 1/n: for n\ge2, 2/n\ge1/n, and base \le1 to a
+%% LARGER exponent is SMALLER), so b_k^{1/n}+b_k^{2/n}\le2 b_k^{1/n}; and
+%% b_{k+1}\le b_k.  Hence
+%%   \le C\,b_k\cdot2 b_k^{1/n}=2C b_k^{1+1/n}, absorb 2 into C.
+%% NOTE on n=2: replace 1/n by \kappa=1/4 throughout (Remark~\ref{rem:n2}),
+%% giving the exponent 1+\kappa; nothing else changes.
+
+\smallskip
+\emph{Step 2: turning energy comparison into a tail recursion.}
+By the Saint--Venant inequality \eqref{eq:saint-venant} applied to the
+set $\Om\cap B_{k+2}$, whose volume is
+$\abs{\Om\cap B_{k+2}}=\omega_n(1-b_{k+2})$,
+\[
+   E(B_1)\abs{B_1}^{-(n+2)/n}
+   \le E(\Om\cap B_{k+2})\,\abs{\Om\cap B_{k+2}}^{-(n+2)/n},
+\]
+that is
+\[
+   E(B_1)\,\omega_n^{-(n+2)/n}\bigl(\omega_n(1-b_{k+2})\bigr)^{(n+2)/n}
+   \le E(\Om\cap B_{k+2}),
+\]
+i.e.
+\[
+   E(B_1)\,(1-b_{k+2})^{(n+2)/n}\le E(\Om\cap B_{k+2}).
+\]
+%% JUSTIFICATION.  |\Om\cap B_{k+2}|=|\Om|-|\Om\setminus B_{k+2}|
+%% =\omega_n-\omega_n b_{k+2}=\omega_n(1-b_{k+2}).  Saint--Venant
+%% \eqref{eq:saint-venant} with the ball B_1:
+%%   E(B_1)\omega_n^{-(n+2)/n}\le E(\Om\cap B_{k+2})|\Om\cap B_{k+2}|^{-(n+2)/n}.
+%% Multiply both sides by |\Om\cap B_{k+2}|^{(n+2)/n}=
+%% (\omega_n(1-b_{k+2}))^{(n+2)/n}=\omega_n^{(n+2)/n}(1-b_{k+2})^{(n+2)/n}.
+%% The \omega_n^{(n+2)/n} cancels the \omega_n^{-(n+2)/n} on the left,
+%% leaving E(B_1)(1-b_{k+2})^{(n+2)/n}\le E(\Om\cap B_{k+2}).
+%% (Sign: E(B_1)<0 and (1-b_{k+2})^{(n+2)/n}\le1, so the left side is a
+%% NEGATIVE number that is \ge E(B_1); the inequality direction is correct
+%% because we multiplied by a positive quantity.)
+Combine with \eqref{eq:energy-comp} and the definition
+$E(\Om)=E(B_1)+\omega_n^{(n+2)/n}D(\Om)$ (which is
+\eqref{eq:deficit-def} at $\abs{\Om}=\omega_n$):
+\[
+   E(B_1)(1-b_{k+2})^{(n+2)/n}
+   \le E(\Om)+C\,b_k^{1+1/n}
+   = E(B_1)+\omega_n^{(n+2)/n}D(\Om)+C\,b_k^{1+1/n}.
+\]
+%% JUSTIFICATION.  Chain the two inequalities just derived:
+%%   E(B_1)(1-b_{k+2})^{(n+2)/n}\le E(\Om\cap B_{k+2})\le E(\Om)+C b_k^{1+1/n}
+%% (the first from Saint--Venant, the second from \eqref{eq:energy-comp}).
+%% Then substitute E(\Om)=E(B_1)+\omega_n^{(n+2)/n}D(\Om), the rearranged
+%% definition of D at unit volume.
+Rearranging, and recalling $E(B_1)<0$, divide by $-E(B_1)>0$:
+\[
+   1-(1-b_{k+2})^{(n+2)/n}
+   \le\frac{\omega_n^{(n+2)/n}D(\Om)+C\,b_k^{1+1/n}}{-E(B_1)}
+   =:\widehat C_1\bigl(D(\Om)+b_k^{1+1/n}\bigr),
+\]
+with $\widehat C_1=\widehat C_1(n)>0$
+(here $\widehat C_1=\max\{\omega_n^{(n+2)/n},C\}/(-E(B_1))$).
+%% JUSTIFICATION.  Subtract E(B_1) from both sides of the previous
+%% display:
+%%   E(B_1)[(1-b_{k+2})^{(n+2)/n}-1]\le\omega_n^{(n+2)/n}D(\Om)+C b_k^{1+1/n}.
+%% The left side is E(B_1)\cdot(\text{negative})=positive\times... since
+%% E(B_1)<0 and the bracket \le0, the product is \ge0; rewrite as
+%%   (-E(B_1))[1-(1-b_{k+2})^{(n+2)/n}]\le\omega_n^{(n+2)/n}D+C b_k^{1+1/n}.
+%% Divide by -E(B_1)>0 (preserves the inequality):
+%%   1-(1-b_{k+2})^{(n+2)/n}\le[\omega_n^{(n+2)/n}D+C b_k^{1+1/n}]/(-E(B_1)).
+%% Bound each coefficient by \max\{\omega_n^{(n+2)/n},C\}/(-E(B_1))=:
+%% \widehat C_1, factoring out (D+b_k^{1+1/n}).  \widehat C_1>0 since
+%% -E(B_1)>0.
+To extract $b_{k+2}$ we use the elementary lower bound
+\begin{equation}\label{eq:power-lb}
+   1-(1-t)^{p}\;\ge\;t\qquad\text{for all }t\in[0,1],\ p\ge1,
+\end{equation}
+which holds because $r\mapsto(1-t)^{r}$ is non-increasing on $[0,\infty)$,
+so $(1-t)^{p}\le(1-t)^{1}=1-t$ for $p=(n+2)/n\ge1$. Applying
+\eqref{eq:power-lb} with $t=b_{k+2}\in[0,1]$ and $p=(n+2)/n$,
+\begin{equation}\label{eq:bk2-bound}
+   b_{k+2}\;\le\;1-(1-b_{k+2})^{(n+2)/n}
+   \;\le\;\widehat C\,\bigl(D(\Om)+b_k^{\,1+1/n}\bigr),
+   \qquad \widehat C:=\widehat C_1 .
+\end{equation}
+%% JUSTIFICATION (\eqref{eq:power-lb}).  For fixed t\in[0,1], the base
+%% 1-t\in[0,1], and x\mapsto(1-t)^x is nonincreasing in x\ge0 (a base in
+%% [0,1] to a larger power is smaller).  So for p\ge1, (1-t)^p\le(1-t)^1
+%% =1-t, hence 1-(1-t)^p\ge1-(1-t)=t.  With t=b_{k+2}\in[0,1] (b's lie in
+%% [0,1]) and p=(n+2)/n\ge1: b_{k+2}\le1-(1-b_{k+2})^{(n+2)/n}.  Chain
+%% with the previous display to get b_{k+2}\le\widehat C(D+b_k^{1+1/n}).
+%% This is the tail recursion: b two radii out \le const\times(deficit +
+%% b here to a super-linear power).
+
+\smallskip
+\emph{Step 3: the geometric iteration to a bounded stopping index.}
+Define the stopping index
+\begin{equation}\label{eq:K-def}
+   K:=\max\bigl\{k\ge1:\ b_k\ge2\widehat C\,D(\Om)\bigr\},
+\end{equation}
+with the convention $K:=0$ if $b_1<2\widehat C D(\Om)$ (then the tail is
+already controlled at the first radius and Step~5 applies with $K=0$).
+The set in \eqref{eq:K-def} is finite because $b_k\to0$ as $k\to\infty$
+(the tail mass of a finite-measure set vanishes), so $K$ is well defined.
+%% JUSTIFICATION.  b_k=|\Om\setminus B_k|/\omega_n\to0 since
+%% |\Om\setminus B_k|\downarrow|\Om\setminus\bigcup_k B_k|=|\Om\setminus
+%% \R^n|=0 (or directly: |\Om|<\infty forces the tails to vanish).  Hence
+%% only finitely many k have b_k\ge2\widehat C D(\Om)>0 (note D(\Om)>0 in
+%% the nontrivial case; if D(\Om)=0 then \Om=B_1 a.e.\ by rigidity and
+%% there is nothing to prove).  The max of a finite nonempty set exists;
+%% if the set is empty, K=0 by convention.
+We prove
+\begin{equation}\label{eq:K-bound}
+   K\;\le\;K(n)
+\end{equation}
+for a dimensional $K(n)$, provided $\delta(n)$ is small enough. Assume
+$K\ge3$ (otherwise \eqref{eq:K-bound} is trivial).
+%% JUSTIFICATION.  If K\le2 then K\le K(n) for any K(n)\ge2, so we may
+%% assume K\ge3 to run the odd-index iteration (which needs at least the
+%% indices 1 and 3 in range).
+
+\emph{Self-improving contraction.} For every $k$ with $k+2\le K$ we have,
+by definition of $K$, that $b_{k+2}\ge2\widehat C D(\Om)$, i.e.\
+$\widehat C D(\Om)\le\tfrac12 b_{k+2}$. Feeding this into
+\eqref{eq:bk2-bound},
+\[
+   b_{k+2}\le\widehat C D(\Om)+\widehat C b_k^{1+1/n}
+   \le\tfrac12 b_{k+2}+\widehat C b_k^{1+1/n},
+\]
+and absorbing $\tfrac12 b_{k+2}$ on the left,
+\begin{equation}\label{eq:bk2-self}
+   b_{k+2}\;\le\;2\widehat C\,b_k^{\,1+1/n}
+   \qquad\text{whenever }k+2\le K .
+\end{equation}
+%% JUSTIFICATION.  k+2\le K and K is the LARGEST index with b\ge2\widehat
+%% C D, so b_{k+2}\ge2\widehat C D(\Om), i.e. \widehat C D(\Om)\le
+%% \tfrac12 b_{k+2}.  \eqref{eq:bk2-bound} says b_{k+2}\le\widehat C D+
+%% \widehat C b_k^{1+1/n}; bound the first summand by \tfrac12 b_{k+2}:
+%%   b_{k+2}\le\tfrac12 b_{k+2}+\widehat C b_k^{1+1/n}.
+%% Subtract \tfrac12 b_{k+2}: \tfrac12 b_{k+2}\le\widehat C b_k^{1+1/n},
+%% i.e. b_{k+2}\le2\widehat C b_k^{1+1/n}.  This is the self-improvement:
+%% as long as we are below the stopping index, the deficit term is
+%% subdominant and the recursion is purely power-contractive.
+
+\emph{Smallness from the seed.} By Step~0, $b_1\le(C_\dagger D(\Om))^{1/4}
+\le(C_\dagger\delta(n))^{1/4}$. Choose $\delta(n)$ small enough that
+\begin{equation}\label{eq:seed-smallness}
+   b_1\;\le\;(C_\dagger\,\delta(n))^{1/4}\;\le\;(2\widehat C)^{-2n}
+   \;=:\;\eta_n\in(0,1).
+\end{equation}
+Then $2\widehat C\,b_k^{1/(2n)}\le2\widehat C\,\eta_n^{1/(2n)}=1$ for all
+$k\ge1$ (as $b_k\le b_1\le\eta_n$), so \eqref{eq:bk2-self} self-improves
+to
+\begin{equation}\label{eq:bk2-power}
+   b_{k+2}\;=\;\bigl(2\widehat C\,b_k^{1/(2n)}\bigr)\,b_k^{\,1+1/(2n)}
+   \;\le\;b_k^{\,1+1/(2n)}\qquad\text{whenever }k+2\le K .
+\end{equation}
+%% JUSTIFICATION.  Choose \delta(n) so that (C_\dagger\delta(n))^{1/4}\le
+%% (2\widehat C)^{-2n}=:\eta_n (possible since the left side \to0 as
+%% \delta\to0; and \eta_n\in(0,1) because 2\widehat C>1, say, or at any
+%% rate (2\widehat C)^{-2n}\in(0,1) for \widehat C\ge1, which we may
+%% assume by enlarging it).  Then for all k, b_k\le b_1\le\eta_n=
+%% (2\widehat C)^{-2n}, so b_k^{1/(2n)}\le(2\widehat C)^{-1}, hence
+%% 2\widehat C b_k^{1/(2n)}\le1.  Now SPLIT the exponent in
+%% \eqref{eq:bk2-self}: write b_k^{1+1/n}=b_k^{1/(2n)}\cdot b_k^{1+1/(2n)}
+%% (check exponents: 1/(2n)+1+1/(2n)=1+1/n).  Thus
+%%   b_{k+2}\le2\widehat C b_k^{1+1/n}=(2\widehat C b_k^{1/(2n)})
+%%     b_k^{1+1/(2n)}\le1\cdot b_k^{1+1/(2n)}=b_k^{1+1/(2n)}.
+%% The constant 2\widehat C has been completely absorbed by the smallness
+%% of b_k; the recursion is now a clean power map with no constant.
+
+\emph{Iterating along odd indices.} Apply \eqref{eq:bk2-power} repeatedly,
+starting from $k=1$, as long as the index stays $\le K$. Writing the odd
+indices $1,3,5,\dots$ and setting $\gamma:=1+\tfrac1{2n}>1$, induction
+gives, for every $j\ge0$ with $2j+1\le K$,
+\begin{equation}\label{eq:bodd-decay}
+   b_{2j+1}\;\le\;b_1^{\,\gamma^{\,j}} .
+\end{equation}
+Indeed \eqref{eq:bodd-decay} holds at $j=0$, and if it holds at $j$ with
+$2(j+1)+1=2j+3\le K$, then \eqref{eq:bk2-power} (at $k=2j+1$, legitimate
+since $2j+3\le K$) gives
+$b_{2j+3}\le b_{2j+1}^{\gamma}\le\bigl(b_1^{\gamma^{j}}\bigr)^{\gamma}
+=b_1^{\gamma^{j+1}}$.
+%% JUSTIFICATION (induction).  Base j=0: b_1\le b_1^{\gamma^0}=b_1^1,
+%% equality.  Step: \eqref{eq:bk2-power} at k=2j+1 requires k+2=2j+3\le K,
+%% which is the hypothesis; it gives b_{2j+3}=b_{(2j+1)+2}\le b_{2j+1}^{\gamma}.
+%% By the inductive hypothesis b_{2j+1}\le b_1^{\gamma^j}, and raising to
+%% the power \gamma>0 (monotone, base\le1) gives b_{2j+1}^{\gamma}\le
+%% (b_1^{\gamma^j})^{\gamma}=b_1^{\gamma^{j+1}}.  Chain.  Note the DOUBLY
+%% EXPONENTIAL decay: the exponent on b_1<1 grows like \gamma^j, so b's
+%% crash extremely fast --- this is what bounds K.
+
+\emph{Bounding $K$.} Let $j_K:=\lfloor(K-1)/2\rfloor$, the largest $j$
+with $2j+1\le K$. By the maximality of $K$ and \eqref{eq:bodd-decay},
+\begin{equation}\label{eq:K-pinch}
+   2\widehat C\,D(\Om)\;\le\;b_{2j_K+1}\;\le\;b_1^{\,\gamma^{\,j_K}}
+   \;\le\;\bigl(C_\dagger D(\Om)\bigr)^{\gamma^{\,j_K}/4},
+\end{equation}
+using $b_1\le(C_\dagger D(\Om))^{1/4}$.
+%% JUSTIFICATION.  2j_K+1\le K, so by the DEFINITION of K (every index
+%% up to K has b\ge2\widehat C D) we have b_{2j_K+1}\ge2\widehat C D(\Om).
+%% By \eqref{eq:bodd-decay} at j=j_K, b_{2j_K+1}\le b_1^{\gamma^{j_K}}.
+%% And b_1\le(C_\dagger D)^{1/4}, so b_1^{\gamma^{j_K}}\le
+%% ((C_\dagger D)^{1/4})^{\gamma^{j_K}}=(C_\dagger D)^{\gamma^{j_K}/4}.
+%% Chain the three.  This "pinch" traps 2\widehat C D between the deficit
+%% scale and a very high power of the deficit; for D small that forces
+%% the exponent \gamma^{j_K} to be bounded.
+Take logarithms (recall
+$D(\Om)\le\delta(n)<1$, so $\log D(\Om)<0$); writing $L:=-\log D(\Om)>0$,
+\eqref{eq:K-pinch} reads
+\[
+   \log(2\widehat C)-L
+   \;\le\;\frac{\gamma^{\,j_K}}{4}\bigl(\log C_\dagger-L\bigr).
+\]
+%% JUSTIFICATION (taking logs; sign handling).  Take \log of the outer
+%% inequality 2\widehat C D\le(C_\dagger D)^{\gamma^{j_K}/4} in
+%% \eqref{eq:K-pinch}.  \log is increasing, so the inequality DIRECTION
+%% is preserved:
+%%   \log(2\widehat C)+\log D\le(\gamma^{j_K}/4)(\log C_\dagger+\log D).
+%% Now \log D=-L (L>0 since 0<D<1).  Substitute:
+%%   \log(2\widehat C)-L\le(\gamma^{j_K}/4)(\log C_\dagger-L).
+%% This is the displayed inequality.  Crucially we did NOT divide by a
+%% negative number yet; both sides may be negative, but the log step is
+%% safe because log is monotone.
+For $\delta(n)$ small, $L=-\log D(\Om)\ge-\log\delta(n)$ is large; in
+particular we may take $\delta(n)$ small enough that
+$L\ge2\max\{\abs{\log(2\widehat C)},\abs{\log C_\dagger}\}$, whence
+$\log(2\widehat C)-L\ge-\tfrac32 L$ and $\log C_\dagger-L\le-\tfrac12 L$.
+%% JUSTIFICATION.  D\le\delta(n) gives L=-\log D\ge-\log\delta(n), which
+%% \to+\infty as \delta\to0; so we may force L\ge2M_0 where
+%% M_0:=\max\{|\log(2\widehat C)|,|\log C_\dagger|\}.  Then:
+%%  \log(2\widehat C)\ge-|\log(2\widehat C)|\ge-M_0\ge-\tfrac12 L, so
+%%    \log(2\widehat C)-L\ge-\tfrac12 L-L=-\tfrac32 L;
+%%  \log C_\dagger\le|\log C_\dagger|\le M_0\le\tfrac12 L, so
+%%    \log C_\dagger-L\le\tfrac12 L-L=-\tfrac12 L.
+%% Both bounds are sign-clean: the LHS of the log-inequality is \ge-\tfrac32 L
+%% and the bracket on the RHS is \le-\tfrac12 L (negative).
+The displayed inequality then forces
+$-\tfrac32 L\le-\tfrac{\gamma^{\,j_K}}{8}L$, i.e.\
+$\gamma^{\,j_K}\le12$.
+%% JUSTIFICATION (the sign handling on dividing).  From the log-inequality
+%%   \log(2\widehat C)-L\le(\gamma^{j_K}/4)(\log C_\dagger-L)
+%% bound the LHS below and the bracket above:
+%%   -\tfrac32 L\le\log(2\widehat C)-L\le(\gamma^{j_K}/4)(\log C_\dagger-L)
+%%             \le(\gamma^{j_K}/4)(-\tfrac12 L)=-\tfrac{\gamma^{j_K}}{8}L.
+%% The last \le uses that the bracket (\log C_\dagger-L) is NEGATIVE
+%% (\le-\tfrac12 L<0) and \gamma^{j_K}/4>0, so multiplying the bound
+%% (\log C_\dagger-L)\le-\tfrac12 L by the POSITIVE \gamma^{j_K}/4
+%% preserves direction.  Now we have -\tfrac32 L\le-\tfrac{\gamma^{j_K}}{8}L.
+%% Divide by -L<0, which REVERSES the inequality:
+%%   \tfrac32\ge\tfrac{\gamma^{j_K}}{8}, i.e. \gamma^{j_K}\le12.
+%% (This is the one place dividing by a negative number flips the sign;
+%% we tracked it explicitly.)
+Since $\gamma=1+\tfrac1{2n}>1$ this bounds
+$j_K\le\log12/\log\gamma=:j_*(n)$, hence
+$K\le2j_K+2\le2j_*(n)+2=:K(n)$, a dimensional constant. This proves
+\eqref{eq:K-bound}.
+%% JUSTIFICATION.  \gamma^{j_K}\le12 with \gamma>1: take logs (both sides
+%% positive), j_K\log\gamma\le\log12, so j_K\le\log12/\log\gamma=:j_*(n)
+%% (depends on n through \gamma=1+1/(2n)).  Since j_K=\lfloor(K-1)/2\rfloor
+%% \ge(K-1)/2-1=(K-3)/2, we get (K-3)/2\le j_K\le j_*(n)?  More simply
+%% K\le2j_K+2 (as 2j_K+1\le K\le2(j_K+1)+1-1=2j_K+2 from maximality of
+%% j_K), so K\le2j_*(n)+2=:K(n).  Dimensional.
+
+\emph{Step 4: tail at the stopping radius.} By the maximality
+\eqref{eq:K-def}, $b_{K+1}<2\widehat C D(\Om)$; we record this for the next
+step.
+%% JUSTIFICATION.  K is the LARGEST k with b_k\ge2\widehat C D, so the
+%% next index K+1 fails the condition: b_{K+1}<2\widehat C D(\Om).  (If
+%% K=0 by convention, this is exactly b_1<2\widehat C D, also fine.)
+
+\smallskip
+\emph{Step 5: the truncated set and its volume.}
+By the definition \eqref{eq:K-def} of $K$ and $K\le K(n)$,
+$b_{K+1}<2\widehat C D(\Om)$, hence
+\begin{equation}\label{eq:tail-controlled}
+   \abs{\Om\setminus B_{K+1}}=\omega_n b_{K+1}<2\widehat C\,\omega_n\,D(\Om).
+\end{equation}
+In fact we cut one radius further out to have room for the cut-off: by
+monotonicity $b_{K+3}\le b_{K+1}<2\widehat C D(\Om)$, so
+\begin{equation}\label{eq:vol-cut}
+   \abs{\Om\cap B_{K+3}}=\omega_n(1-b_{K+3})\ge\omega_n(1-2\widehat C D(\Om)),
+   \qquad
+   \abs{\Om\setminus B_{K+3}}<2\widehat C\,\omega_n D(\Om).
+\end{equation}
+%% JUSTIFICATION.  \eqref{eq:tail-controlled}: multiply b_{K+1}<2\widehat
+%% C D by \omega_n and use |\Om\setminus B_{K+1}|=\omega_n b_{K+1}.
+%% \eqref{eq:vol-cut}: b_{K+3}\le b_{K+1} (monotonicity, K+3>K+1)<2\widehat
+%% C D; then |\Om\cap B_{K+3}|=\omega_n(1-b_{K+3})\ge\omega_n(1-2\widehat C D)
+%% and |\Om\setminus B_{K+3}|=\omega_n b_{K+3}<2\widehat C\omega_n D.
+%% We cut at K+3 rather than K+1 so that the energy-comparison cut-off
+%% \varphi_{K+1} (which lives on the annulus B_{K+3}\setminus B_{K+2}) has
+%% room; this is the "+2" built into Step 1's cut-off.
+Define
+\[
+   r:=\Bigl(\frac{\abs{\Om\cap B_{K+3}}}{\omega_n}\Bigr)^{1/n}
+   =(1-b_{K+3})^{1/n}\in\bigl[(1-2\widehat C D(\Om))^{1/n},\,1\bigr],
+   \qquad
+   \Otilde:=r^{-1}\,(\Om\cap B_{K+3}).
+\]
+Then $\abs{\Otilde}=r^{-n}\abs{\Om\cap B_{K+3}}=\omega_n$, which is
+\eqref{eq:trunc-vol}.
+%% JUSTIFICATION.  r=(|\Om\cap B_{K+3}|/\omega_n)^{1/n}=(1-b_{K+3})^{1/n};
+%% since 0\le b_{K+3}<2\widehat C D\le2\widehat C\delta, r lies in
+%% [(1-2\widehat C D)^{1/n},1].  Dilation by r^{-1} scales volume by
+%% r^{-n}: |\Otilde|=r^{-n}|\Om\cap B_{K+3}|=r^{-n}\cdot\omega_n r^n
+%% =\omega_n.  This rescaling restores unit volume after the cut removed a
+%% sliver; r is chosen exactly to do that.
+Since $\Om\cap B_{K+3}\subset B_{K+3}$ and
+$r\ge(1-2\widehat C\delta(n))^{1/n}\ge\tfrac12$ for $\delta(n)$ small,
+\[
+   \diam(\Otilde)=r^{-1}\diam(\Om\cap B_{K+3})\le r^{-1}\cdot2(K+3)
+   \le4\bigl(K(n)+3\bigr)=:d(n),
+\]
+giving \eqref{eq:trunc-diam}.
+%% JUSTIFICATION.  diam scales linearly: diam(r^{-1}S)=r^{-1}diam(S).
+%% \Om\cap B_{K+3}\subset B_{K+3} has diam\le2(K+3).  r\ge(1-2\widehat C
+%% \delta)^{1/n}\ge1/2 for \delta small (since (1-x)^{1/n}\to1 as x\to0;
+%% pick \delta with 2\widehat C\delta small enough that the n-th root is
+%% \ge1/2, e.g. 1-2\widehat C\delta\ge2^{-n}).  So r^{-1}\le2 and
+%%   diam(\Otilde)\le2\cdot2(K+3)=4(K+3)\le4(K(n)+3)=:d(n),
+%% using K\le K(n).  d(n) dimensional.
+We record for later the linearised bound
+\begin{equation}\label{eq:r-near-1}
+   0\le1-r^n=b_{K+3}<2\widehat C D(\Om),
+   \qquad
+   0\le1-r\le1-r^n<2\widehat C D(\Om),
+\end{equation}
+the middle inequality because $r\le1$ implies $1-r\le1-r^n$.
+%% JUSTIFICATION.  1-r^n=1-(1-b_{K+3})=b_{K+3}\in[0,2\widehat C D).  For
+%% the second chain: r\in(0,1], and for such r and n\ge1, r^n\le r, so
+%% 1-r\le1-r^n.  Both are <2\widehat C D.  These are the "r is close to 1"
+%% bounds used in Steps 6 and 7.
+
+\smallskip
+\emph{Step 6: deficit of the surrogate.}
+Apply the energy comparison \eqref{eq:energy-comp} at $k=K+1$ (so the
+cut radius is $k+2=K+3$):
+\[
+   E(\Om\cap B_{K+3})\le E(\Om)+C\,b_{K+1}^{\,1+1/n}
+   \le E(\Om)+C\,(2\widehat C D(\Om))^{1+1/n}
+   \le E(\Om)+C'\,D(\Om),
+\]
+where in the last step we used $D(\Om)\le\delta(n)\le1$ so that
+$D(\Om)^{1+1/n}\le D(\Om)$, and absorbed constants into
+$C'=C'(n)$.
+%% JUSTIFICATION.  \eqref{eq:energy-comp} at k=K+1 reads E(\Om\cap B_{K+3})
+%% \le E(\Om)+C b_{K+1}^{1+1/n}.  Use b_{K+1}<2\widehat C D
+%% (\eqref{eq:tail-controlled}) and t\mapsto t^{1+1/n} increasing:
+%% b_{K+1}^{1+1/n}\le(2\widehat C D)^{1+1/n}=(2\widehat C)^{1+1/n}D^{1+1/n}.
+%% Since 0\le D\le1 and 1+1/n\ge1, D^{1+1/n}\le D.  So the correction is
+%% \le C(2\widehat C)^{1+1/n}D=:C'D, C'=C'(n).
+Since $E$ scales as
+$E(t\Omega')=t^{n+2}E(\Omega')$ and $\Otilde=r^{-1}(\Om\cap B_{K+3})$,
+\[
+   E(\Otilde)=r^{-(n+2)}E(\Om\cap B_{K+3})
+   \le r^{-(n+2)}\bigl(E(\Om)+C'D(\Om)\bigr).
+\]
+%% JUSTIFICATION.  \Otilde=r^{-1}(\Om\cap B_{K+3}), so by the scaling law
+%% (proved in \S\ref{ssec:notation}) E(\Otilde)=(r^{-1})^{n+2}
+%% E(\Om\cap B_{K+3})=r^{-(n+2)}E(\Om\cap B_{K+3}).  Then substitute the
+%% bound on E(\Om\cap B_{K+3}); r^{-(n+2)}>0 preserves the inequality.
+Because $\abs{\Otilde}=\omega_n$,
+$D(\Otilde)=\omega_n^{-(n+2)/n}(E(\Otilde)-E(B_1))$. Using
+$E(\Om)=E(B_1)+\omega_n^{(n+2)/n}D(\Om)$ and $r\le1$ (so
+$r^{-(n+2)}\ge1$), with $E(B_1)<0$,
+\begin{align*}
+   E(\Otilde)-E(B_1)
+   &\le r^{-(n+2)}\bigl(E(B_1)+\omega_n^{(n+2)/n}D(\Om)+C'D(\Om)\bigr)-E(B_1)\\
+   &=\bigl(r^{-(n+2)}-1\bigr)E(B_1)
+     +r^{-(n+2)}\bigl(\omega_n^{(n+2)/n}+C'\bigr)D(\Om).
+\end{align*}
+%% JUSTIFICATION.  Substitute E(\Om)=E(B_1)+\omega_n^{(n+2)/n}D into the
+%% bound on E(\Otilde) and subtract E(B_1):
+%%   E(\Otilde)-E(B_1)\le r^{-(n+2)}(E(B_1)+\omega_n^{(n+2)/n}D+C'D)-E(B_1).
+%% Group the E(B_1) terms: r^{-(n+2)}E(B_1)-E(B_1)=(r^{-(n+2)}-1)E(B_1);
+%% and the D terms: r^{-(n+2)}(\omega_n^{(n+2)/n}+C')D.  This is the
+%% second line.
+For the first term, $r^{-(n+2)}-1\ge0$ and $E(B_1)<0$, so
+$(r^{-(n+2)}-1)E(B_1)\le0$ and we may bound it by
+$(r^{-(n+2)}-1)|E(B_1)|$.
+%% JUSTIFICATION.  r\le1\Rightarrow r^{-(n+2)}\ge1\Rightarrow
+%% r^{-(n+2)}-1\ge0; times E(B_1)<0 gives a NONPOSITIVE number, which is
+%% \le its absolute value (r^{-(n+2)}-1)|E(B_1)|.  (A nonpositive number
+%% is \le any nonnegative number; we use this nonnegative surrogate as a
+%% clean upper bound.)
+Quantitatively, by \eqref{eq:r-near-1},
+$r^{n}\ge1-2\widehat C D(\Om)$, so
+$r^{-(n+2)}=r^{-n}\cdot r^{-2}\le(1-2\widehat C D(\Om))^{-(n+2)/n}
+\le1+C''D(\Om)$ for $\delta(n)$ small (Bernoulli/Taylor bound, since
+$2\widehat C D(\Om)\le2\widehat C\delta(n)\le\tfrac12$). Hence
+$r^{-(n+2)}-1\le C''D(\Om)$ and $r^{-(n+2)}\le1+C''D(\Om)\le2$, giving
+\[
+   E(\Otilde)-E(B_1)
+   \le C''D(\Om)\cdot\abs{E(B_1)}+2\bigl(\omega_n^{(n+2)/n}+C'\bigr)D(\Om)
+   \le C_2'\,D(\Om),
+\]
+with $C_2'=C_2'(n)$.
+%% JUSTIFICATION (the Bernoulli/Taylor bound).  From \eqref{eq:r-near-1},
+%% r^n=1-b_{K+3}\ge1-2\widehat C D.  So r^{-n}=(r^n)^{-1}\le(1-2\widehat C
+%% D)^{-1}, and r^{-(n+2)}=(r^n)^{-(n+2)/n}\le(1-2\widehat C D)^{-(n+2)/n}.
+%% Set x:=2\widehat C D\in[0,1/2] (since 2\widehat C D\le2\widehat C\delta
+%% \le1/2 for \delta small).  For x\in[0,1/2] and exponent q:=(n+2)/n\le3,
+%% (1-x)^{-q}\le1+C''x with C''=C''(n) (a one-sided Taylor/Bernoulli bound:
+%% e.g. (1-x)^{-q}\le1+2q x for x\le1/2, so C''=2q\cdot2\widehat C works).
+%% Thus r^{-(n+2)}\le1+C''D, hence r^{-(n+2)}-1\le C''D and r^{-(n+2)}\le
+%% 1+C''D\le1+C''\delta\le2 for \delta small.  Plug both into the two
+%% terms: first \le C''D|E(B_1)|, second \le2(\omega_n^{(n+2)/n}+C')D.
+%% Sum and absorb into C_2'(n).
+Dividing by $\omega_n^{(n+2)/n}$,
+\begin{equation}\label{eq:D-tilde}
+   D(\Otilde)=\omega_n^{-(n+2)/n}\bigl(E(\Otilde)-E(B_1)\bigr)
+   \le\omega_n^{-(n+2)/n}C_2'\,D(\Om)=:C_3\,D(\Om),
+\end{equation}
+which is \eqref{eq:trunc-D} with $C_3=C_3(n)$.
+%% JUSTIFICATION.  D(\Otilde)=\omega_n^{-(n+2)/n}(E(\Otilde)-E(B_1))
+%% (unit volume); apply the bound E(\Otilde)-E(B_1)\le C_2'D and set
+%% C_3=\omega_n^{-(n+2)/n}C_2'(n).
+
+\smallskip
+\emph{Step 7: asymmetry loss.}
+Let $B_1(x_0)$ realise the asymmetry of $\Otilde$, so
+$\Fr(\Otilde)=\abs{\Otilde\,\triangle\,B_1(x_0)}/\omega_n$. We compare the
+asymmetry of $\Om$ to that of $\Otilde$ through the chain of inclusions
+relating $\Om$, $\Om\cap B_{K+3}$ and $\Otilde=r^{-1}(\Om\cap B_{K+3})$.
+For any test ball $B_1(y)$,
+\[
+   \abs{\Om\,\triangle\,B_1(y)}
+   \le\abs{\Om\,\triangle\,(\Om\cap B_{K+3})}
+     +\abs{(\Om\cap B_{K+3})\,\triangle\,B_1(y)}.
+\]
+%% JUSTIFICATION (triangle inequality for symmetric difference).  The map
+%% A\mapsto\mathbf 1_A is an isometry of (sets, \triangle) into L^1, with
+%% |A\triangle B|=\|\mathbf 1_A-\mathbf 1_B\|_{L^1}.  Hence \triangle
+%% obeys the triangle inequality: for any A,M,B,
+%%   |A\triangle B|\le|A\triangle M|+|M\triangle B|.
+%% Take A=\Om, M=\Om\cap B_{K+3}, B=B_1(y).  This is the "asymmetry-loss
+%% triangle inequality" the brief refers to.
+The first term is $\abs{\Om\setminus B_{K+3}}<2\widehat C\omega_n D(\Om)$
+by \eqref{eq:vol-cut}.
+%% JUSTIFICATION.  \Om\triangle(\Om\cap B_{K+3})=\Om\setminus(\Om\cap
+%% B_{K+3})=\Om\setminus B_{K+3} (since \Om\cap B_{K+3}\subset\Om, the
+%% symmetric difference is just what \Om loses, i.e. \Om\setminus B_{K+3}).
+%% Its measure is <2\widehat C\omega_n D by \eqref{eq:vol-cut}.
+For the second, scale by $r$: writing
+$E_r:=\Om\cap B_{K+3}=r\Otilde$ and $B_1(y)=r\,B_{1/r}(y/r)$,
+\[
+   \abs{(r\Otilde)\,\triangle\,(r\,B_{1/r}(y/r))}
+   =r^n\,\abs{\Otilde\,\triangle\,B_{1/r}(y/r)}
+   \le r^n\Bigl(\abs{\Otilde\,\triangle\,B_1(y/r)}
+              +\abs{B_1(y/r)\,\triangle\,B_{1/r}(y/r)}\Bigr).
+\]
+%% JUSTIFICATION.  \Om\cap B_{K+3}=r\Otilde by definition of \Otilde
+%% (\Otilde=r^{-1}(\Om\cap B_{K+3})).  A unit ball B_1(y)=\{|x-y|<1\}
+%% equals r\{|z-y/r|<1/r\}=r B_{1/r}(y/r) (write x=rz).  Dilation by r
+%% scales |\cdot\triangle\cdot| by r^n:
+%%   |(rA)\triangle(rB)|=r^n|A\triangle B|.
+%% So |(r\Otilde)\triangle(r B_{1/r}(y/r))|=r^n|\Otilde\triangle
+%% B_{1/r}(y/r)|.  Then the triangle inequality inserts the intermediate
+%% set B_1(y/r):
+%%   |\Otilde\triangle B_{1/r}(y/r)|\le|\Otilde\triangle B_1(y/r)|
+%%     +|B_1(y/r)\triangle B_{1/r}(y/r)|.
+The last term is the volume difference of concentric balls of radii $1$
+and $1/r\ge1$:
+$\abs{B_1\,\triangle\,B_{1/r}}=\omega_n(r^{-n}-1)$. Hence
+\[
+   r^n\abs{B_1(y/r)\,\triangle\,B_{1/r}(y/r)}
+   =r^n\,\omega_n(r^{-n}-1)=\omega_n(1-r^n)
+   <2\widehat C\,\omega_n D(\Om),
+\]
+using \eqref{eq:r-near-1}.
+%% JUSTIFICATION.  Two concentric balls of radii 1\le1/r: B_1\subset
+%% B_{1/r}, so B_1\triangle B_{1/r}=B_{1/r}\setminus B_1, of volume
+%% \omega_n((1/r)^n-1^n)=\omega_n(r^{-n}-1).  Multiply by r^n:
+%%   r^n\omega_n(r^{-n}-1)=\omega_n(1-r^n).
+%% By \eqref{eq:r-near-1}, 1-r^n<2\widehat C D, so this is <2\widehat C
+%% \omega_n D.  (Translation by y/r does not change the volume.)
+Choosing $y:=r x_0$ so that $y/r=x_0$ is the
+optimal centre for $\Otilde$, the middle term becomes
+$r^n\abs{\Otilde\,\triangle\,B_1(x_0)}=r^n\omega_n\Fr(\Otilde)
+\le\omega_n\Fr(\Otilde)$ (as $r\le1$). Collecting,
+\[
+   \abs{\Om\,\triangle\,B_1(rx_0)}
+   \le2\widehat C\omega_n D(\Om)+\omega_n\Fr(\Otilde)+2\widehat C\omega_n D(\Om),
+\]
+%% JUSTIFICATION.  Pick the test ball with y/r=x_0, i.e. y=rx_0; then the
+%% middle term is r^n|\Otilde\triangle B_1(x_0)|=r^n\omega_n\Fr(\Otilde)
+%% (definition of \Fr(\Otilde) with the OPTIMAL ball B_1(x_0)), and
+%% r^n\le1 gives \le\omega_n\Fr(\Otilde).  Now assemble the three pieces:
+%%   |\Om\triangle B_1(rx_0)|\le \underbrace{2\widehat C\omega_n D}_{1st}
+%%     +\underbrace{\omega_n\Fr(\Otilde)}_{middle, scaled}
+%%     +\underbrace{2\widehat C\omega_n D}_{conc. balls},
+%% where "1st" is the cut loss and the third is the concentric-ball loss.
+and dividing by $\omega_n$ and taking the infimum over translates (which
+only decreases the left side),
+\begin{equation}\label{eq:trunc-A-pre}
+   \Fr(\Om)\le\frac{\abs{\Om\,\triangle\,B_1(rx_0)}}{\omega_n}
+   \le\Fr(\Otilde)+4\widehat C\,D(\Om).
+\end{equation}
+This is \eqref{eq:trunc-A} with the constant $4\widehat C$.
+%% JUSTIFICATION.  Divide the collected bound by \omega_n:
+%%   |\Om\triangle B_1(rx_0)|/\omega_n\le\Fr(\Otilde)+4\widehat C D.
+%% \Fr(\Om)=\inf_y|\Om\triangle B_1(y)|/\omega_n\le the value at the
+%% particular y=rx_0, which is the displayed right side.  Hence
+%% \Fr(\Om)\le\Fr(\Otilde)+4\widehat C D.  (The two cut/concentric losses
+%% 2\widehat C D each summed to 4\widehat C D.)
+Taking $C_\sharp:=\max\{C_3,4\widehat C\}=C_\sharp(n)$ proves
+\eqref{eq:trunc-D}--\eqref{eq:trunc-A} simultaneously, and we already have
+\eqref{eq:trunc-vol}--\eqref{eq:trunc-diam}. This completes the proof.
+%% JUSTIFICATION.  \eqref{eq:trunc-D} holds with C_3, \eqref{eq:trunc-A}
+%% with 4\widehat C; taking C_\sharp=\max\{C_3,4\widehat C\} makes both
+%% read with the single constant C_\sharp.  Volume and diameter were
+%% \eqref{eq:trunc-vol}, \eqref{eq:trunc-diam}.  All four hold.
+\end{proof}
+
+\begin{remark}[Translation into a fixed ball]\label{rem:translate}
+The diameter bound \eqref{eq:trunc-diam} is translation invariant, so
+after a translation we may assume $\Otilde\subset B_{d(n)}$. Both
+$\Fr$ and $D$ are translation invariant, so
+\eqref{eq:trunc-vol}--\eqref{eq:trunc-A} are preserved.
+%% JUSTIFICATION.  A set of diameter \le d(n) fits inside a ball of radius
+%% d(n) centred at any of its points; translate that point to 0, so
+%% \Otilde\subset B_{d(n)}.  \Fr, D, |\cdot|, diam are all translation
+%% invariant, so the four conclusions are unaffected.
+\end{remark}
+
+\subsection{The far branch}\label{ssec:far}
+
+When the deficit is not small the inequality is trivial: the asymmetry is
+bounded ($\Fr<2$) while the deficit is bounded below, so a quadratic
+bound holds with a crude constant. No truncation is needed.
+
+\begin{lemma}[Large-deficit quadratic bound]\label{lem:far}
+For every open $\Om$ with $\abs{\Om}=\omega_n$ and
+$D(\Om)\ge\delta(n)/4$,
+\begin{equation}\label{eq:far}
+   E(\Om)-E(B_1)\;\ge\;\omega_n^{(n+2)/n}\,\frac{\delta(n)}{16}\,\Fr(\Om)^2 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Since $\abs{\Om}=\omega_n$ gives $\Fr(\Om)<2$, we have
+$\Fr(\Om)^2/4<1$. Hence
+\[
+   D(\Om)\ge\frac{\delta(n)}{4}
+   =\frac{\delta(n)}{4}\cdot1
+   \ge\frac{\delta(n)}{4}\cdot\frac{\Fr(\Om)^2}{4}
+   =\frac{\delta(n)}{16}\Fr(\Om)^2 .
+\]
+%% JUSTIFICATION.  \Fr(\Om)<2 (asymmetry range at unit volume), so
+%% \Fr(\Om)^2<4, i.e. \Fr(\Om)^2/4<1.  Start from D\ge\delta/4 and
+%% multiply the "1" by the smaller quantity \Fr^2/4<1:
+%%   D\ge\delta/4\ge(\delta/4)(\Fr^2/4)=(\delta/16)\Fr^2.
+Multiplying by $\omega_n^{(n+2)/n}$ and using
+$E(\Om)-E(B_1)=\omega_n^{(n+2)/n}D(\Om)$ gives \eqref{eq:far}.
+%% JUSTIFICATION.  Multiply D\ge(\delta/16)\Fr^2 by \omega_n^{(n+2)/n}>0
+%% and use the unit-volume identity E(\Om)-E(B_1)=\omega_n^{(n+2)/n}D.
+\end{proof}
+
+\subsection{The near branch}\label{ssec:near}
+
+Fix the dimensional working radius
+\begin{equation}\label{eq:Rstar}
+   R_*(n):=\max\{d(n),2\},
+\end{equation}
+so $R_*\ge d(n)$ (the surrogates of Lemma~\ref{lem:truncation} lie in
+$B_{R_*}$ after translation, by Remark~\ref{rem:translate}) and
+$R_*\ge2$ (the hypothesis of Theorem~\ref{thm:SV-bounded}).
+%% JUSTIFICATION.  We need a single radius that (a) contains every
+%% surrogate \Otilde (so Theorem~\ref{thm:SV-bounded} applies to it) and
+%% (b) meets the standing hypothesis R\ge2 of that theorem.  Taking the
+%% max of d(n) and 2 secures both; R_*(n) is dimensional since d(n) is.
+
+\begin{lemma}[Small-deficit transfer]\label{lem:near}
+Set
+\begin{equation}\label{eq:csv-tilde}
+   \widetilde c_{\mathrm{SV}}(n)
+   :=\omega_n^{-(n+2)/n}\,c_{\mathrm{SV}}\bigl(n,R_*(n)\bigr)>0 .
+\end{equation}
+For every open $\Om$ with $\abs{\Om}=\omega_n$ and
+$D(\Om)\le\delta(n)$,
+\begin{equation}\label{eq:near-Fr}
+   \Fr(\Om)^2\;\le\;
+   \Bigl(\frac{4\,C_\sharp(n)}{\widetilde c_{\mathrm{SV}}(n)}
+        +4\,C_\sharp(n)^2\Bigr)\,D(\Om).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Apply Lemma~\ref{lem:truncation} to get $\Otilde$ satisfying
+\eqref{eq:trunc-vol}--\eqref{eq:trunc-A}; by Remark~\ref{rem:translate}
+assume $\Otilde\subset B_{d(n)}\subset B_{R_*(n)}$. Theorem
+\ref{thm:SV-bounded} at $R=R_*(n)$ gives
+$E(\Otilde)-E(B_1)\ge c_{\mathrm{SV}}(n,R_*)\Fr(\Otilde)^2$; dividing by
+$\omega_n^{(n+2)/n}$ and using $\abs{\Otilde}=\omega_n$,
+\begin{equation}\label{eq:D-tilde-A}
+   D(\Otilde)\;\ge\;\widetilde c_{\mathrm{SV}}(n)\,\Fr(\Otilde)^2 .
+\end{equation}
+%% JUSTIFICATION.  D(\Om)\le\delta(n) is the hypothesis of
+%% Lemma~\ref{lem:truncation}, so the surrogate \Otilde exists with the
+%% four properties.  After translation \Otilde\subset B_{d(n)}\subset
+%% B_{R_*(n)} (as R_*\ge d).  Theorem~\ref{thm:SV-bounded} at R=R_*
+%% applies (R_*\ge2, \Otilde\subset B_{R_*}, |\Otilde|=\omega_n):
+%%   E(\Otilde)-E(B_1)\ge c_{\mathrm{SV}}(n,R_*)\Fr(\Otilde)^2.
+%% Divide by \omega_n^{(n+2)/n}; the left becomes D(\Otilde) (unit
+%% volume), the right \widetilde c_{\mathrm{SV}}(n)\Fr(\Otilde)^2.
+Combining \eqref{eq:D-tilde-A} with \eqref{eq:trunc-D},
+\[
+   \Fr(\Otilde)^2\le\frac{D(\Otilde)}{\widetilde c_{\mathrm{SV}}}
+   \le\frac{C_\sharp}{\widetilde c_{\mathrm{SV}}}\,D(\Om).
+\]
+%% JUSTIFICATION.  From \eqref{eq:D-tilde-A}, \Fr(\Otilde)^2\le
+%% D(\Otilde)/\widetilde c_{\mathrm{SV}}; from \eqref{eq:trunc-D},
+%% D(\Otilde)\le C_\sharp D(\Om).  Chain.
+Now use \eqref{eq:trunc-A}, the elementary
+$(a+b)^2\le2a^2+2b^2$, and $D(\Om)\le\delta(n)\le1$ (so
+$D(\Om)^2\le D(\Om)$):
+\begin{align*}
+   \Fr(\Om)^2
+   &\le\bigl(\Fr(\Otilde)+C_\sharp D(\Om)\bigr)^2
+    \le2\Fr(\Otilde)^2+2C_\sharp^2D(\Om)^2\\
+   &\le\frac{2C_\sharp}{\widetilde c_{\mathrm{SV}}}D(\Om)+2C_\sharp^2D(\Om)
+    \le\Bigl(\frac{4C_\sharp}{\widetilde c_{\mathrm{SV}}}+4C_\sharp^2\Bigr)D(\Om),
+\end{align*}
+which is \eqref{eq:near-Fr}.
+%% JUSTIFICATION, line by line.
+%%  (1) \eqref{eq:trunc-A}: \Fr(\Om)\le\Fr(\Otilde)+C_\sharp D, square it.
+%%  (2) (a+b)^2\le2a^2+2b^2 with a=\Fr(\Otilde), b=C_\sharp D:
+%%      \le2\Fr(\Otilde)^2+2C_\sharp^2 D^2.
+%%  (3) \Fr(\Otilde)^2\le(C_\sharp/\widetilde c_{\mathrm{SV}})D (above),
+%%      and D^2\le D (since 0\le D\le1): \le2(C_\sharp/\widetilde
+%%      c_{\mathrm{SV}})D+2C_\sharp^2 D.
+%%  (4) factor D and bound 2\cdot\le4\cdot (just enlarge constants for a
+%%      clean final form): \le(4C_\sharp/\widetilde c_{\mathrm{SV}}
+%%      +4C_\sharp^2)D.  This is \eqref{eq:near-Fr}.
+\end{proof}
+
+\begin{corollary}[Small-deficit quadratic bound]\label{cor:near}
+With
+\begin{equation}\label{eq:cnear}
+   c_{\mathrm{near}}(n):=
+   \frac{\omega_n^{(n+2)/n}}
+        {\,4C_\sharp(n)\bigl(1/\widetilde c_{\mathrm{SV}}(n)+C_\sharp(n)\bigr)}>0,
+\end{equation}
+every open $\Om$ with $\abs{\Om}=\omega_n$ and $D(\Om)\le\delta(n)$
+satisfies $E(\Om)-E(B_1)\ge c_{\mathrm{near}}(n)\,\Fr(\Om)^2$.
+\end{corollary}
+
+\begin{proof}
+Rearrange \eqref{eq:near-Fr} to
+$D(\Om)\ge\Fr(\Om)^2/\bigl(4C_\sharp/\widetilde c_{\mathrm{SV}}
++4C_\sharp^2\bigr)$ and multiply by $\omega_n^{(n+2)/n}$, using
+$E(\Om)-E(B_1)=\omega_n^{(n+2)/n}D(\Om)$.
+%% JUSTIFICATION.  \eqref{eq:near-Fr} is \Fr^2\le A\cdot D with
+%% A:=4C_\sharp/\widetilde c_{\mathrm{SV}}+4C_\sharp^2>0; invert to
+%% D\ge\Fr^2/A.  Multiply by \omega_n^{(n+2)/n}: E(\Om)-E(B_1)=
+%% \omega_n^{(n+2)/n}D\ge(\omega_n^{(n+2)/n}/A)\Fr^2.  Note
+%% \omega_n^{(n+2)/n}/A=c_{\mathrm{near}}(n) after factoring 4C_\sharp out
+%% of A: A=4C_\sharp(1/\widetilde c_{\mathrm{SV}}+C_\sharp).
+\end{proof}
+
+\subsection{Proof of the global theorem}\label{ssec:global-proof}
+
+We now glue the far and near branches, then remove the volume
+normalisation.
+
+\begin{proof}[Proof of Theorem~\ref{thm:SV-global}]
+Set
+\begin{equation}\label{eq:csv-glob}
+   c_{\mathrm{SV}}^{\mathrm{glob}}(n)
+   :=\min\Bigl\{\,c_{\mathrm{near}}(n),\;
+   \omega_n^{(n+2)/n}\,\tfrac{\delta(n)}{16}\,\Bigr\}>0 .
+\end{equation}
+Let $\Om$ be open with $\abs{\Om}=\omega_n$.
+%% JUSTIFICATION.  Both arguments to the min are positive (c_{\mathrm{near}}
+%% >0 from \eqref{eq:cnear}; \delta(n)>0), so c_{\mathrm{SV}}^{\mathrm{glob}}
+%% (n)>0.  Taking the min lets a SINGLE constant work in both regimes.
+
+\emph{Case A: $D(\Om)\ge\delta(n)/4$.} Lemma~\ref{lem:far} gives
+$E(\Om)-E(B_1)\ge\omega_n^{(n+2)/n}(\delta(n)/16)\Fr(\Om)^2
+\ge c_{\mathrm{SV}}^{\mathrm{glob}}(n)\Fr(\Om)^2$.
+%% JUSTIFICATION.  Lemma~\ref{lem:far} applies (D\ge\delta/4) and gives
+%% the first \ge; the second is because \omega_n^{(n+2)/n}\delta/16\ge
+%% \min\{...\}=c_{\mathrm{SV}}^{\mathrm{glob}}.
+
+\emph{Case B: $D(\Om)\le\delta(n)$} (which includes
+$D(\Om)\le\delta(n)/4$). Corollary~\ref{cor:near} gives
+$E(\Om)-E(B_1)\ge c_{\mathrm{near}}(n)\Fr(\Om)^2
+\ge c_{\mathrm{SV}}^{\mathrm{glob}}(n)\Fr(\Om)^2$.
+%% JUSTIFICATION.  Corollary~\ref{cor:near} applies (D\le\delta) and
+%% gives the first \ge; the second because c_{\mathrm{near}}\ge
+%% \min\{...\}=c_{\mathrm{SV}}^{\mathrm{glob}}.
+
+The two cases overlap on $\delta(n)/4\le D(\Om)\le\delta(n)$ and together
+cover $[0,\infty)$; in either case \eqref{eq:SV-global} holds with
+$c_{\mathrm{SV}}^{\mathrm{glob}}(n)$ as in \eqref{eq:csv-glob}, a
+dimensional constant because $\delta(n)$, $c_{\mathrm{near}}(n)$ depend
+only on $n$ (recall $R_*(n)$ and hence $c_{\mathrm{SV}}(n,R_*(n))$ are
+dimensional).
+%% JUSTIFICATION (coverage).  Case A covers [\delta/4,\infty), Case B
+%% covers [0,\delta]\supset[0,\delta/4]; their union is [0,\infty).  Any
+%% D(\Om)\ge0 falls in at least one case, so \eqref{eq:SV-global} holds
+%% for every unit-volume \Om.  All constants are functions of n alone.
+
+\emph{General volume.} For arbitrary finite-measure $\Om$ put
+$\Om_*:=(\omega_n/\abs{\Om})^{1/n}\Om$, so $\abs{\Om_*}=\omega_n$,
+$\Fr(\Om_*)=\Fr(\Om)$ and $D(\Om_*)=D(\Om)$ by scale invariance of
+$\Fr$ and $D$. Applying \eqref{eq:SV-global} to $\Om_*$ reads
+$D(\Om)\ge\omega_n^{-(n+2)/n}c_{\mathrm{SV}}^{\mathrm{glob}}(n)\Fr(\Om)^2$.
+%% JUSTIFICATION (the rescaling).  With t:=(\omega_n/|\Om|)^{1/n},
+%% |\Om_*|=t^n|\Om|=\omega_n.  \Fr and D are scale invariant (dilation
+%% does not change normalized asymmetry, nor the scale-invariant deficit),
+%% so \Fr(\Om_*)=\Fr(\Om), D(\Om_*)=D(\Om).  \eqref{eq:SV-global} for the
+%% unit-volume set \Om_*: E(\Om_*)-E(B_1)\ge c^{\mathrm{glob}}\Fr(\Om_*)^2;
+%% divide by \omega_n^{(n+2)/n} (=\omega_n^{(n+2)/n}, unit volume), using
+%% D(\Om_*)=\omega_n^{-(n+2)/n}(E(\Om_*)-E(B_1)):
+%%   D(\Om_*)\ge\omega_n^{-(n+2)/n}c^{\mathrm{glob}}\Fr(\Om_*)^2,
+%% i.e., by invariance, D(\Om)\ge\omega_n^{-(n+2)/n}c^{\mathrm{glob}}\Fr(\Om)^2.
+Multiplying by $\abs{\Om}^{(n+2)/n}$ and using
+$E(\Om)\abs{\Om}^{-(n+2)/n}-E(B^*)\abs{B^*}^{-(n+2)/n}=D(\Om)$ with
+$\abs{B^*}=\abs{\Om}$, then $E=-T/2$, gives
+\[
+   T(B^*)-T(\Om)=2\bigl(E(\Om)-E(B^*)\bigr)
+   \ge2\,c_{\mathrm{SV}}^{\mathrm{glob}}(n)
+   \Bigl(\tfrac{\abs{\Om}}{\omega_n}\Bigr)^{(n+2)/n}\Fr(\Om)^2,
+\]
+which is \eqref{eq:T-global}.
+%% JUSTIFICATION (undoing the normalisation).  Multiply
+%% D(\Om)\ge\omega_n^{-(n+2)/n}c^{\mathrm{glob}}\Fr(\Om)^2 by
+%% |\Om|^{(n+2)/n}:
+%%   |\Om|^{(n+2)/n}D(\Om)\ge(|\Om|/\omega_n)^{(n+2)/n}c^{\mathrm{glob}}\Fr^2.
+%% By \eqref{eq:deficit-def} with |B^*|=|\Om|,
+%%   |\Om|^{(n+2)/n}D(\Om)=E(\Om)-E(B^*)(|\Om|/|B^*|)^{(n+2)/n}=E(\Om)-E(B^*),
+%% wait: D(\Om)=E(\Om)|\Om|^{-(n+2)/n}-E(B^*)|B^*|^{-(n+2)/n} and
+%% |B^*|=|\Om|, so |\Om|^{(n+2)/n}D(\Om)=E(\Om)-E(B^*).  Hence
+%%   E(\Om)-E(B^*)\ge c^{\mathrm{glob}}(|\Om|/\omega_n)^{(n+2)/n}\Fr^2.
+%% Finally E=-T/2 (\eqref{eq:energy-identities}) gives E(\Om)-E(B^*)
+%% =\tfrac12(T(B^*)-T(\Om)); multiply by 2:
+%%   T(B^*)-T(\Om)=2(E(\Om)-E(B^*))\ge2c^{\mathrm{glob}}
+%%     (|\Om|/\omega_n)^{(n+2)/n}\Fr^2.  This is \eqref{eq:T-global}.
+\end{proof}
+
+\begin{remark}[Sharpness of the exponent]
+The exponent $2$ on $\Fr$ in \eqref{eq:SV-global} is optimal: it is
+saturated by smooth, volume-preserving ellipsoidal perturbations of
+$B_1$, for which both $E(\Om)-E(B_1)$ and $\Fr(\Om)^2$ are of the same
+quadratic order in the perturbation parameter.
+%% JUSTIFICATION.  For an ellipsoidal perturbation \Om_t of B_1 with
+%% volume preserved and perturbation parameter t\to0, a second-order shape
+%% calculation gives E(\Om_t)-E(B_1)\sim c_1 t^2 (the first variation
+%% vanishes at the ball by Saint--Venant optimality, the second variation
+%% is a nonzero quadratic form on the nonradial modes) and \Fr(\Om_t)\sim
+%% c_2 t (the asymmetry is linear in the displacement), so \Fr(\Om_t)^2\sim
+%% c_2^2 t^2.  Thus the ratio (E(\Om_t)-E(B_1))/\Fr(\Om_t)^2 stays bounded
+%% as t\to0; no exponent larger than 2 can hold.  (This shows optimality
+%% of the EXPONENT; it does not bear on the value of the constant.)
+\end{remark}
+
+%=====================================================================
+%  END of exhaustive bounded-reduction section.
+%=====================================================================

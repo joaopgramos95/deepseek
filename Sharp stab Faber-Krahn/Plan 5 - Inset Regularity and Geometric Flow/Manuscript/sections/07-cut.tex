@@ -23,170 +23,179 @@ $u_D=0$ on $\partial D$, and $T(D):=\int_D u_D$ is its torsional rigidity;
 for a general set of finite measure $D$ we set $T(D):=T(\mathrm{int}\,D)$ on
 the open representative produced by our construction, which is all we use.
 Recall (\cref{thm:torsion-reg}) that $u_D$ is real-analytic in $D$ and, by
-the comparison principle for the Laplacian, $u_D\ge0$.
-
-\subsection{The torsion as a Green double integral}
-
-We first record the representation of $T$ that drives the stability bound.
-Let $G_D(x,y)$ be the Green function of $-\Delta$ on the open set $D$ with
-pole at $y$: the distributional solution of $-\Delta_x G_D(\cdot,y)=
-\delta_y$ in $D$, $G_D(\cdot,y)=0$ on $\partial D$ (\cref{thm:torsion-reg}
-and \cite[\S2.4, \S4]{GilbargTrudinger2001}). Two classical properties are
-used.
-
-\begin{lemma}[Positivity and domain monotonicity of $G_D$]\label{lem:greenmono}
-For bounded open $D\subset\R^2$ one has $G_D\ge0$ on $D\times D$. If
-$E\subset F$ are bounded open sets, then $G_E(x,y)\le G_F(x,y)$ for all
-$x,y\in E$.
-\end{lemma}
-
-\begin{proof}
-Fix $y$. The function $x\mapsto G_D(x,y)$ is harmonic on $D\setminus\{y\}$,
-tends to $+\infty$ as $x\to y$ (the logarithmic singularity), and vanishes
-on $\partial D$; by the minimum principle it is $\ge0$ on $D$. This is the
-positivity.
-
-For monotonicity, fix $y\in E$ and set $w:=G_F(\cdot,y)-G_E(\cdot,y)$ on
-$E$. Both functions have the \emph{same} singularity $-\tfrac1{2\pi}\log
-\abs{x-y}$ at $y$, so $w$ extends to a harmonic function on all of $E$
-(the singularities cancel). On $\partial E$ we have $G_E(\cdot,y)=0$ while
-$G_F(\cdot,y)\ge0$ by positivity (since $\partial E\subset F$ up to the
-boundary points lying in $\overline F$, where $G_F\ge0$ by continuity);
-hence $w\ge0$ on $\partial E$. By the minimum principle for harmonic
-functions, $w\ge0$ on $E$, i.e.\ $G_E\le G_F$ on $E\times E$.
-\end{proof}
-
-\begin{lemma}[Green representation of torsion]\label{lem:greenrep}
-For a bounded open set $D\subset\R^2$,
-\begin{equation}\label{eq:greenrep}
-   u_D(y)=\int_D G_D(x,y)\,dx\quad(y\in D),
+the comparison principle for the Laplacian, $u_D\ge0$. The variational
+characterisation we use repeatedly is that $u_D$ minimises the Dirichlet
+energy functional $J_D(v):=\tfrac12\int_D\abs{\nabla v}^2-\int_D v$ over
+$v\in H^1_0(D)$, with
+\begin{equation}\label{eq:torsion-energy}
+   \min_{v\in H^1_0(D)}J_D(v)=J_D(u_D)=-\tfrac12\,T(D),
    \qquad
-   T(D)=\iint_{D\times D}G_D(x,y)\,dx\,dy .
+   \int_D\abs{\nabla u_D}^2=\int_D u_D=T(D),
 \end{equation}
-In particular $T(D)=\iint_{D\times D}G_D\ge0$, and $G_D$ is symmetric,
-$G_D(x,y)=G_D(y,x)$.
-\end{lemma}
+the second identity being the Euler--Lagrange relation tested against $u_D$
+itself.
 
-\begin{proof}
-The Green function reproduces solutions of the Dirichlet problem: for
-$f\in C^\infty_c(D)$ the function $v(y):=\int_D G_D(x,y)f(x)\,dx$ solves
-$-\Delta v=f$ in $D$, $v=0$ on $\partial D$, by the defining property
-$-\Delta_x G_D(\cdot,y)=\delta_y$ and the symmetry $G_D(x,y)=G_D(y,x)$
-(both standard, \cite[Thm.~4.10]{GilbargTrudinger2001}). Taking $f\equiv1$
-(approximated in $L^2(D)$ by $C_c^\infty$ functions, with the corresponding
-solutions converging to $u_D$ in $H^1_0(D)$ by the energy estimate) gives
-$u_D(y)=\int_D G_D(x,y)\,dx$. Integrating over $y\in D$ and using Tonelli
-($G_D\ge0$ by \cref{lem:greenmono}) yields
-$T(D)=\int_D u_D=\iint_{D\times D}G_D$.
-\end{proof}
+\subsection{Torsion loss under radial-cap cutting}
 
-\subsection{Boundary-layer torsion stability}
+The next lemma is the analytic heart of the section: it controls the torsion
+lost when one cuts radial caps off a set trapped in a thin collar. Unlike a
+naive measure-based bound --- which is false in general, since excising a
+zero-area set of positive capacity (a slit) changes the torsion --- the
+estimate is variational and exploits the specific nested radial-cap geometry
+produced in \cref{sec:fold}.
 
-The next lemma controls how much torsion can change when two sets agree
-except in a thin annular collar. It is the analytic heart of the section.
-
-\begin{lemma}[Boundary-layer torsion stability]\label{lem:torsion-stab}
+\begin{lemma}[Torsion loss under radial-cap cutting]\label{lem:torsion-stab}
 Let $z\in\R^2$ and $0<\rho_i\le\rho_e$, and put
 \begin{equation}\label{eq:tildeeta}
    \tilde\eta:=\tfrac14\bigl(\rho_e^2-\rho_i^2\bigr).
 \end{equation}
-Let $E,F\subset\R^2$ be bounded open sets with
+Let $G\subset E\subset\R^2$ be bounded open sets with
 \begin{equation}\label{eq:collar-hyp}
-   B_{\rho_i}(z)\subset E\cap F,\qquad
-   E\cup F\subset B_{\rho_e}(z),\qquad
-   \abs{E\,\triangle\,F}=m,
+   B_{\rho_i}(z)\subset G\subset E\subset B_{\rho_e}(z),\qquad
+   E\setminus G\subset\{\rho_i<\abs{x-z}<\rho_e\},
 \end{equation}
-so that $E\triangle F$ lies in the collar $\{\rho_i<\abs{x-z}<\rho_e\}$.
-Then
-\begin{equation}\label{eq:torsion-stab}
-   \abs{T(E)-T(F)}\ \le\ 3\,\tilde\eta\,m .
+and put $g:=\abs{E\setminus G}$. Then $0\le u_G\le u_E$ on $G$, the
+difference $h:=u_E-u_G$ \textup(extended by $u_E$ on $E\setminus G$, equivalently
+$h=u_E-\bar u_G$ where $\bar u_G\in H^1_0(E)$ is the extension of $u_G$ by
+zero\textup) lies in $H^1_0(E)$ and is harmonic in $G$, and
+\begin{equation}\label{eq:torsion-loss}
+   0\ \le\ T(E)-T(G)
+   \ =\ \int_{E\setminus G}u_E\ +\ \int_G h
+   \ \le\ \tilde\eta\,g\ +\ \int_G h .
 \end{equation}
+Moreover the boundary-layer term $\int_G h$ is non-negative, satisfies the
+energy identity
+\begin{equation}\label{eq:energy-id}
+   \int_G h\ \le\ T(E)-T(G)\ =\ \int_E\abs{\nabla h}^2,
+\end{equation}
+and obeys $0\le h\le\tilde\eta$ throughout $G$, whence the crude bound
+$\int_G h\le\tilde\eta\,\abs G$.
 \end{lemma}
 
 \begin{proof}
-Set $E_\cap:=E\cap F$ and $F_\cup:=E\cup F$; these are bounded open sets
-with $E_\cap\subset E,F\subset F_\cup$ and
-\[
-   F_\cup\setminus E_\cap=E\triangle F,\qquad
-   \abs{F_\cup\setminus E_\cap}=m .
-\]
-By monotonicity of the Green representation in the domain
-(\cref{lem:greenmono,lem:greenrep}), $E_\cap\subset E$ gives
-$T(E_\cap)\le T(E)$ and $E\subset F_\cup$ gives $T(E)\le T(F_\cup)$, and
-likewise for $F$; hence
-\begin{equation}\label{eq:sandwich}
-   T(E_\cap)\le T(E)\le T(F_\cup),\qquad
-   T(E_\cap)\le T(F)\le T(F_\cup),
+\emph{Step A: the exact decomposition.}
+Since $G\subset E$, the restriction $u_E|_G$ solves $-\Delta u_E=1=-\Delta
+u_G$ in $G$ with $u_E\ge0=u_G$ on $\partial G$; by the comparison principle
+on $G$ the difference $h:=u_E-u_G$ is then $\ge0$, i.e.\ $0\le u_G\le u_E$ on
+$G$. Being a difference of two solutions of $-\Delta(\cdot)=1$, $h$ is
+harmonic in $G$, with boundary trace $h=u_E$ on $\partial G$ (as $u_G=0$
+there). Splitting $E=G\cup(E\setminus G)$ and using $u_G=0$ on $E\setminus G$,
+\begin{equation}\label{eq:TEG-split}
+   T(E)-T(G)=\int_E u_E-\int_G u_G
+   =\int_{E\setminus G}u_E+\int_G(u_E-u_G)
+   =\int_{E\setminus G}u_E+\int_G h,
 \end{equation}
-so that
-\begin{equation}\label{eq:reduce-to-cup-cap}
-   \abs{T(E)-T(F)}\ \le\ T(F_\cup)-T(E_\cap).
-\end{equation}
-It therefore suffices to bound $T(F_\cup)-T(E_\cap)$.
+which is the equality in \eqref{eq:torsion-loss}; both summands are
+$\ge0$, so $T(E)-T(G)\ge0$.
 
-Write $A:=F_\cup\setminus E_\cap=E\triangle F$, so
-$F_\cup=E_\cap\cup A$ is a disjoint union and $\abs A=m$. Using
-\cref{lem:greenrep} for both sets and then the domain monotonicity
-$G_{E_\cap}\le G_{F_\cup}$ on $E_\cap\times E_\cap$ (\cref{lem:greenmono}),
-\begin{align}
-   T(F_\cup)-T(E_\cap)
-   &=\iint_{F_\cup\times F_\cup}G_{F_\cup}
-     -\iint_{E_\cap\times E_\cap}G_{E_\cap}
-   \notag\\
-   &\le\iint_{F_\cup\times F_\cup}G_{F_\cup}
-     -\iint_{E_\cap\times E_\cap}G_{F_\cup}.
-   \label{eq:swapgreen}
-\end{align}
-Splitting $F_\cup\times F_\cup=(E_\cap\cup A)\times(E_\cap\cup A)$ into the
-four product pieces and cancelling $E_\cap\times E_\cap$, the right-hand
-side of \eqref{eq:swapgreen} equals, by the symmetry of $G_{F_\cup}$,
-\begin{equation}\label{eq:threepieces}
-   2\!\int_{E_\cap}\!\!\int_A G_{F_\cup}(x,y)\,dy\,dx
-   \ +\ \iint_{A\times A}G_{F_\cup}(x,y)\,dy\,dx .
-\end{equation}
-Each inner integral is bounded by the torsion function: for fixed $y\in A$,
-\cref{lem:greenrep} (with $D=F_\cup$) and positivity give
-\begin{equation}\label{eq:innertou}
-   \int_{E_\cap}G_{F_\cup}(x,y)\,dx\ \le\ \int_{F_\cup}G_{F_\cup}(x,y)\,dx
-   = u_{F_\cup}(y),
-   \qquad
-   \int_{A}G_{F_\cup}(x,y)\,dx\ \le\ u_{F_\cup}(y).
-\end{equation}
-Therefore
-\begin{equation}\label{eq:tothreeintu}
-   T(F_\cup)-T(E_\cap)\ \le\ 2\int_A u_{F_\cup}\ +\ \int_A u_{F_\cup}
-   \ =\ 3\int_A u_{F_\cup}.
-\end{equation}
-
-It remains to bound $u_{F_\cup}$ on the collar by the barrier $\tilde\eta$.
-Since $F_\cup\subset B_{\rho_e}(z)$, comparison gives $u_{F_\cup}\le
-u_{B_{\rho_e}(z)}$ on $F_\cup$: indeed $u_{B_{\rho_e}(z)}-u_{F_\cup}$ is
-$-\Delta$-harmonic in $F_\cup$ (both have $-\Delta(\cdot)=1$) and on
-$\partial F_\cup$ equals $u_{B_{\rho_e}(z)}\ge0$, so it is $\ge0$ in
-$F_\cup$ by the minimum principle. The radial torsion function of the disc
-is, explicitly,
+\emph{Step B: the cap term.}
+Since $E\subset B_{\rho_e}(z)$, the comparison principle gives $u_E\le
+u_{B_{\rho_e}(z)}$ on $E$: the difference $u_{B_{\rho_e}(z)}-u_E$ is harmonic
+in $E$ (both solve $-\Delta(\cdot)=1$) and equals $u_{B_{\rho_e}(z)}\ge0$ on
+$\partial E$, hence is $\ge0$ in $E$ by the minimum principle. The disc
+torsion function is explicit,
 \begin{equation}\label{eq:discu}
-   u_{B_{\rho_e}(z)}(y)=\frac{\rho_e^2-\abs{y-z}^2}{4},
+   u_{B_{\rho_e}(z)}(y)=\frac{\rho_e^2-\abs{y-z}^2}{4}.
 \end{equation}
-which indeed solves $-\Delta u=1$ with $u=0$ on $\abs{y-z}=\rho_e$. Now
-$A=E\triangle F$ lies in the collar $\{\rho_i<\abs{x-z}<\rho_e\}$, by
-\eqref{eq:collar-hyp}: any point of $E\triangle F$ lies in
-$F_\cup\subset B_{\rho_e}(z)$ (so $\abs{x-z}<\rho_e$) and outside
-$E_\cap\supset B_{\rho_i}(z)$ (so $\abs{x-z}\ge\rho_i$; the boundary sphere
-is $\HH^2$-null). Hence for $y\in A$,
+On the caps $E\setminus G\subset\{\rho_i<\abs{x-z}<\rho_e\}$ one has
+$\abs{x-z}\ge\rho_i$, so
 \begin{equation}\label{eq:barrier}
-   u_{F_\cup}(y)\le u_{B_{\rho_e}(z)}(y)
-   =\frac{\rho_e^2-\abs{y-z}^2}{4}
-   \le\frac{\rho_e^2-\rho_i^2}{4}=\tilde\eta .
+   u_E\ \le\ \frac{\rho_e^2-\abs{x-z}^2}{4}
+   \ \le\ \frac{\rho_e^2-\rho_i^2}{4}\ =\ \tilde\eta
+   \qquad\text{on } E\setminus G,
 \end{equation}
-Combining \eqref{eq:tothreeintu} and \eqref{eq:barrier},
-\[
-   T(F_\cup)-T(E_\cap)\ \le\ 3\int_A u_{F_\cup}
-   \ \le\ 3\,\tilde\eta\,\abs A\ =\ 3\,\tilde\eta\,m,
-\]
-and \eqref{eq:torsion-stab} follows from
-\eqref{eq:reduce-to-cup-cap}.
+and therefore $\int_{E\setminus G}u_E\le\tilde\eta\,g$. This is the main
+term and is fully rigorous; combined with \eqref{eq:TEG-split} it gives the
+inequality in \eqref{eq:torsion-loss}.
+
+\emph{Step C: the boundary-layer term, energy form and crude bound.}
+Let $\bar u_G\in H^1_0(E)$ denote the extension of $u_G$ by zero outside $G$;
+then $h=u_E-\bar u_G\in H^1_0(E)$ agrees with the previously defined $h$ on
+$G$ and equals $u_E$ on $E\setminus G$. Since $u_E$ minimises $J_E$ on
+$H^1_0(E)$ and $\bar u_G$ minimises $J_E$ restricted to the subspace
+$H^1_0(G)\subset H^1_0(E)$ (its minimum there being $J_E(\bar
+u_G)=J_G(u_G)=-\tfrac12T(G)$), the parallelogram identity for the quadratic
+functional $J_E$ gives the exact energy balance
+\begin{equation}\label{eq:energy-balance}
+   \tfrac12\int_E\abs{\nabla h}^2
+   =J_E(\bar u_G)-J_E(u_E)
+   =\bigl(-\tfrac12T(G)\bigr)-\bigl(-\tfrac12T(E)\bigr)
+   =\tfrac12\bigl(T(E)-T(G)\bigr),
+\end{equation}
+using \eqref{eq:torsion-energy} for both $D=E$ and $D=G$. Hence
+$T(E)-T(G)=\int_E\abs{\nabla h}^2$, the equality in \eqref{eq:energy-id};
+combined with \eqref{eq:torsion-loss} and $\int_{E\setminus G}u_E\ge0$ this
+gives $\int_G h\le T(E)-T(G)=\int_E\abs{\nabla h}^2$.
+
+Finally, the bounds $0\le h\le\tilde\eta$ in $G$: non-negativity was shown in
+Step A. For the upper bound, $h$ is harmonic in $G$ with boundary trace
+$h=u_E$ on $\partial G$, and on $\partial G$ one has $u_E\le\tilde\eta$
+--- indeed $\partial G\subset\overline{B_{\rho_e}(z)}$, so the barrier
+\eqref{eq:discu} gives $u_E\le u_{B_{\rho_e}(z)}\le\tilde\eta$ on the part of
+$\partial G$ lying in $\{\abs{x-z}\ge\rho_i\}$ (which contains
+$\partial G\cap E$, the interior cap-floor boundary, since $E\setminus G$ is
+confined to the collar by \eqref{eq:collar-hyp}), while $u_E=0$ on
+$\partial G\cap\partial E$. By the maximum principle $h\le\tilde\eta$
+throughout $G$, whence $\int_G h\le\tilde\eta\abs G$.
 \end{proof}
+
+The cap term $\tilde\eta\,g$ in \eqref{eq:torsion-loss} is exactly what the
+deficit algebra of \cref{lem:cutdeficit} can afford. The boundary-layer term
+$\int_G h$ is genuinely smaller in the application but requires care; we
+isolate it next.
+
+\begin{remark}[The boundary-layer term and the residual analytic point]
+\label{gap:torsion-stab}
+The cap term $\int_{E\setminus G}u_E\le\tilde\eta\,g$ of Step B is rigorous
+and, as we show in \cref{lem:cutdeficit}, by itself drives the deficit down
+once the harmonic boundary-layer term $\int_G h$ is controlled at the same
+order. The sharp description of $\int_G h$ is, by Green's identity in $G$
+\textup(legitimate when $\partial G$ admits an outward normal $\HH^1$-a.e.;
+for the rough star-shaped $G$ below it is the limiting form along a smooth
+exhaustion\textup),
+\begin{equation}\label{eq:flux-rep}
+   \int_G h=\int_G h\,(-\Delta u_G)
+   =-\int_{\partial G}h\,\partial_\nu u_G\,d\HH^1
+   =\int_{\partial G}u_E\,\abs{\partial_\nu u_G}\,d\HH^1
+   =\int_\Gamma u_E\,\abs{\partial_\nu u_G}\,d\HH^1,
+\end{equation}
+where $\partial_\nu u_G\le0$ on $\partial G$ \textup(as $u_G\ge0=u_G$ on
+$\partial G$\textup) and the integral is supported on the interior cap-floor
+boundary $\Gamma:=\partial G\cap E$, because $u_E=0$ on the remainder
+$\partial G\cap\partial E$. Since $u_E\le\tilde\eta$ on $\Gamma$ by
+\eqref{eq:barrier}, this yields the clean bound
+\begin{equation}\label{eq:flux-bound}
+   \int_G h\ \le\ \tilde\eta\,\Phi,
+   \qquad
+   \Phi:=\int_\Gamma\abs{\partial_\nu u_G}\,d\HH^1,
+\end{equation}
+where $\Phi$ is the flux of $u_G$ through the interior cap-floor. The total
+flux through the \emph{whole} boundary is exactly $\int_{\partial
+G}\abs{\partial_\nu u_G}=\int_G(-\Delta u_G)=\abs G$, so $\Phi\le\abs G$
+unconditionally; the substance is that $\Gamma$ is only the small,
+fold-supported part of $\partial G$. For a boundary with a one-sided gradient
+bound $\norm{\nabla u_G}_{L^\infty(\partial G)}\le C$ \textup(an $O(1)$
+quantity for the disc-trapped torsion function, by the barrier $u_G\le
+u_{B_{\rho_e}(z)}$ and interior estimates\textup) one has $\Phi\le
+C\,\HH^1(\Gamma)$, so it would suffice to bound the length $\HH^1(\Gamma)$ of
+the interior cap-floor by the fold content of \cref{prop:fold}. This is the
+\emph{single} residual analytic point: the merely measurable core profile
+$\rho_0=r_1$ of \cref{cor:gd} carries no slope control, so $\HH^1(\Gamma)$
+--- which involves the radial derivative of $\rho_0$ --- is not controlled by
+the fold content (a rough graph can have large perimeter over a small angular
+sector). We therefore record the boundary-layer control as the explicit
+scoped hypothesis
+\begin{equation}\label{eq:flux-hyp}
+   \int_G h\ \le\ \tilde\eta\,\Phi\ \le\ \tilde\eta\,g
+\end{equation}
+\textup(equivalently $\Phi\le g$: the flux through the interior cap-floor is
+dominated by the excised area\textup), which holds whenever $\partial G$ has
+the regularity making \eqref{eq:flux-rep} valid and $\HH^1(\Gamma)\le
+C(\Exc+a\eta)$; under \eqref{eq:flux-hyp} the cutting estimate below is
+unconditional. We do not claim \eqref{eq:flux-hyp} for an arbitrary
+measurable star-shaped $G$, and we flag every downstream use of it
+explicitly.
+\end{remark}
 
 \begin{remark}[The barrier constant]\label{rem:barrier}
 The width of the collar enters only through
@@ -208,42 +217,39 @@ Recall the scale-invariant relative deficit of a finite-measure set $D$,
 \end{equation}
 where $B_D$ is any ball with $\abs{B_D}=\abs D$ (so
 $T(B_D)=|B_D|^2/(8\pi)$ by scaling from $T(B_1)=\pi/8$). Equivalently,
-$\dstar(D)=1-8\pi\,T(D)/\abs D^2$. We now show that excising boundary
-material confined to a thin collar lowers $\dstar$, provided the torsion
-density of the larger set exceeds three barrier-widths.
+$\dstar(D)=1-8\pi\,T(D)/\abs D^2$. We now show that excising radial caps
+confined to a thin collar lowers $\dstar$, provided the torsion loss per unit
+excised area stays below the torsion density of the larger set. The
+hypothesis is stated directly as this \emph{loss-slope} condition, which is
+exactly what the sign-critical algebra consumes and which the geometric input
+of \cref{lem:torsion-stab} supplies.
 
 \begin{lemma}[Cutting boundary material decreases $\dstar$]\label{lem:cutdeficit}
 Let $z\in\R^2$, $0<\rho_i\le\rho_e$ and $\tilde\eta=\tfrac14(\rho_e^2-
 \rho_i^2)$. Let $E,G$ be bounded open sets with
 \begin{equation}\label{eq:cut-incl}
    B_{\rho_i}(z)\subset G\subset E\subset B_{\rho_e}(z),
-   \qquad E\setminus G\subset\{\rho_i<\abs{x-z}<\rho_e\}.
+   \qquad E\setminus G\subset\{\rho_i<\abs{x-z}<\rho_e\},
 \end{equation}
-If
+put $V:=\abs E$, $g:=\abs{E\setminus G}=V-\abs G$, and suppose the
+\emph{torsion-loss bound}
 \begin{equation}\label{eq:cutcond}
-   3\,\tilde\eta\ \le\ \frac{T(E)}{\abs E},
+   T(E)-T(G)\ \le\ \lambda\,g
+   \qquad\text{with}\qquad
+   \lambda\ \le\ \frac{T(E)}{\abs E}
 \end{equation}
-then $\dstar(G)\le\dstar(E)$.
+holds. Then $\dstar(G)\le\dstar(E)$.
 \end{lemma}
 
 \begin{proof}
-Write
-\[
-   V:=\abs E,\qquad g:=\abs{E\setminus G}=\abs E-\abs G=V-\abs G,
-   \qquad T:=T(E),
-\]
-so that $\abs G=V-g$ and, since $\varnothing\ne B_{\rho_i}(z)\subset
-G\subset E$, we have $0\le g\le V$ and $V>0$.
+Write $T:=T(E)$; then $\abs G=V-g$ and, since $\varnothing\ne B_{\rho_i}(z)
+\subset G\subset E$, we have $0\le g\le V$ and $V>0$.
 
-\emph{Step 1: lower bound for $T(G)$.} Apply \cref{lem:torsion-stab} with
-$F:=E$ and the present $G$, $E$. The hypotheses \eqref{eq:collar-hyp} hold:
-$B_{\rho_i}(z)\subset G\cap E=G$, $G\cup E=E\subset B_{\rho_e}(z)$, and
-$\abs{G\triangle E}=\abs{E\setminus G}=g$ with $E\triangle G=E\setminus G$
-inside the collar by \eqref{eq:cut-incl}. Hence
+\emph{Step 1: lower bound for $T(G)$.} This is the hypothesis
+\eqref{eq:cutcond} rearranged:
 \begin{equation}\label{eq:TGlower}
-   T(E)-T(G)\le 3\,\tilde\eta\,g,
-   \qquad\text{i.e.}\qquad
-   T(G)\ \ge\ T-3\,\tilde\eta\,g .
+   T(G)\ \ge\ T-\lambda\,g,
+   \qquad \lambda\ \le\ \frac TV .
 \end{equation}
 
 \emph{Step 2: the deficit comparison reduces to a torsion inequality.} By
@@ -273,31 +279,52 @@ Subtracting \eqref{eq:expand} from the lower bound \eqref{eq:TGlower} for
 $T(G)$,
 \begin{align}
    T(G)-T\Bigl(1-\frac gV\Bigr)^2
-   &\ \ge\ \bigl(T-3\,\tilde\eta\,g\bigr)
+   &\ \ge\ \bigl(T-\lambda\,g\bigr)
      -\Bigl(T-\frac{2Tg}{V}+\frac{Tg^2}{V^2}\Bigr)
    \notag\\
-   &\ =\ \frac{2Tg}{V}-\frac{Tg^2}{V^2}-3\,\tilde\eta\,g
-   \ =\ g\Bigl(\frac{2T}{V}-\frac{Tg}{V^2}-3\,\tilde\eta\Bigr).
+   &\ =\ \frac{2Tg}{V}-\frac{Tg^2}{V^2}-\lambda\,g
+   \ =\ g\Bigl(\frac{2T}{V}-\frac{Tg}{V^2}-\lambda\Bigr).
    \label{eq:bracket}
 \end{align}
 We bound the bracket from below. Since $0\le g\le V$ we have
 $0\le g/V\le1$, hence $2-g/V\ge1$, and therefore
 \begin{equation}\label{eq:bracket-key}
    \frac{2T}{V}-\frac{Tg}{V^2}
-   =\frac TV\Bigl(2-\frac gV\Bigr)\ \ge\ \frac TV\ \ge\ 3\,\tilde\eta,
+   =\frac TV\Bigl(2-\frac gV\Bigr)\ \ge\ \frac TV\ \ge\ \lambda,
 \end{equation}
-the last inequality being exactly hypothesis \eqref{eq:cutcond}
-($T/V=T(E)/\abs E\ge3\tilde\eta$). Consequently the bracket in
-\eqref{eq:bracket} is $\ge\frac TV-3\tilde\eta\ge0$, and since $g\ge0$ the
+the last inequality being exactly the loss-slope hypothesis
+\eqref{eq:cutcond} ($\lambda\le T/V=T(E)/\abs E$). Consequently the bracket
+in \eqref{eq:bracket} is $\ge\frac TV-\lambda\ge0$, and since $g\ge0$ the
 whole expression \eqref{eq:bracket} is $\ge0$. This is \eqref{eq:target},
 which by Step 2 yields $\dstar(G)\le\dstar(E)$.
 \end{proof}
 
-\begin{remark}[The hypothesis \eqref{eq:cutcond} holds with room to spare]
-\label{rem:roomtospare}
+\begin{remark}[Supplying the loss-slope hypothesis from
+\cref{lem:torsion-stab}]\label{rem:supply}
+\Cref{lem:torsion-stab} furnishes \eqref{eq:cutcond} as follows. Its
+hypotheses coincide with \eqref{eq:cut-incl}, and \eqref{eq:torsion-loss}
+gives the exact torsion loss $T(E)-T(G)=\int_{E\setminus G}u_E+\int_G h\le
+\tilde\eta\,g+\int_G h$. Under the boundary-layer control \eqref{eq:flux-hyp}
+of \cref{gap:torsion-stab} --- $\int_G h\le\tilde\eta\,g$ --- this reads
+\begin{equation}\label{eq:loss-2eta}
+   T(E)-T(G)\ \le\ 2\,\tilde\eta\,g,
+\end{equation}
+so \eqref{eq:cutcond} holds with the explicit slope $\lambda=2\tilde\eta$,
+provided $2\tilde\eta\le T(E)/\abs E$. Even with only the crude bound
+$\int_G h\le\tilde\eta\abs G$ of \cref{lem:torsion-stab} one obtains the loss
+$\le\tilde\eta(g+\abs G)=\tilde\eta\abs E$, but that slope is
+$\tilde\eta\abs E/g$, which is \emph{not} below $T/V$ at the relevant scales;
+the gain from \eqref{eq:flux-hyp} is precisely the localisation of the
+boundary-layer term to the cap region, replacing the slope $\tilde\eta\abs
+E/g$ by the absolute $2\tilde\eta$.
+\end{remark}
+
+\begin{remark}[The loss-slope hypothesis \eqref{eq:cutcond} holds with room
+to spare]\label{rem:roomtospare}
 In the application $E=\Etil$ is the inset of \cref{def:inset}, of measure
 $\mu_E=\abs\Etil=\pi-O(\sqrt\dT)\ge\pi/2$ and deficit
-$\dstar(\Etil)\le\tfrac12$ for $\dT\le\delta_\star$. Then
+$\dstar(\Etil)\le\tfrac12$ for $\dT\le\delta_\star$. Then the torsion density
+is an \emph{absolute} constant bounded below,
 \[
    \frac{T(\Etil)}{\abs\Etil}
    =\bigl(1-\dstar(\Etil)\bigr)\frac{\abs\Etil}{8\pi}
@@ -305,30 +332,48 @@ $\dstar(\Etil)\le\tfrac12$ for $\dT\le\delta_\star$. Then
    \ =\ \frac1{32},
 \]
 using $T(\Etil)=(1-\dstar(\Etil))\,T(B_{\Etil})=(1-\dstar(\Etil))\,
-\abs\Etil^2/(8\pi)$ from \eqref{eq:dstar-recall}. On the other hand
+\abs\Etil^2/(8\pi)$ from \eqref{eq:dstar-recall}. On the other hand the slope
+$\lambda=2\tilde\eta$ supplied by \cref{rem:supply} vanishes:
 $\tilde\eta\le\tfrac12\rho_e\,\eta\le C\eta\le C(\dT/\tau)^{1/4}\to0$ as
 $\dT\to0$ (\cref{thm:annulus}, with $\tau=\sqrt\dT$ giving
-$\eta\le C\dT^{1/8}$). Hence $3\tilde\eta\le\tfrac1{32}\le
-T(\Etil)/\abs\Etil$ for all $\dT\le\delta_\star$, and \eqref{eq:cutcond} is
-satisfied with a fixed margin. The threshold $1/32$ is not sharp and is
-recorded only to fix $\delta_\star$.
+$\eta\le C\dT^{1/8}$). Hence $\lambda=2\tilde\eta\le\tfrac1{32}\le
+T(\Etil)/\abs\Etil$ for all $\dT\le\delta_\star$, and the loss-slope
+condition \eqref{eq:cutcond} is satisfied with a fixed margin. The crucial
+structural point is that the comparison is between a \emph{vanishing} slope
+$\lambda=2\tilde\eta\to0$ and an \emph{absolute} torsion density $\ge1/32$,
+so the inequality $\lambda\le T(\Etil)/\abs\Etil$ holds robustly; the
+threshold $1/32$ is not sharp and is recorded only to fix $\delta_\star$.
+This is exactly where the boundary-layer control \eqref{eq:flux-hyp} enters:
+it is what turns the exact loss $\int_{E\setminus G}u_E+\int_G h$ into a bound
+with absolute slope $2\tilde\eta$ rather than the much larger
+$\tilde\eta\abs\Etil/g$.
 \end{remark}
 
 \begin{remark}[The application: cutting the caps]\label{rem:twouses}
 \Cref{lem:cutdeficit} is used in the assembly (\cref{thm:reduction}) with
-$E=\Etil$ and $G=G_0=\{z+r\omega:r<\rho_0(\omega)\}$ the radial core profile
-of \cref{cor:gd}. Then $B_{\rho_i}(z)\subset G_0\subset\Etil\subset
-B_{\rho_e}(z)$ holds by \cref{cor:gd,thm:annulus}, the difference
+$E=\Etil$ and $G=G_0=\{z+r\omega:r<\rho_0(\omega)\}$ the measurable radial
+core graph of \cref{cor:gd,prop:realization}, taken in its open star-shaped
+representative. The inclusions $B_{\rho_i}(z)\subset G_0\subset\Etil\subset
+B_{\rho_e}(z)$ hold by \cref{cor:gd,thm:annulus}, the difference
 $\Etil\setminus G_0$ is the union of the radial caps, all contained in the
-collar $\{\rho_i<\abs{x-z}<\rho_e\}$, and \eqref{eq:cutcond} holds by
-\cref{rem:roomtospare}; hence cutting the caps lowers the deficit,
+collar $\{\rho_i<\abs{x-z}<\rho_e\}$, and the exact torsion-loss decomposition
+$T(\Etil)-T(G_0)=\int_{\Etil\setminus G_0}u_{\Etil}+\int_{G_0}h\le\tilde\eta\,g
++\int_{G_0}h$ of \cref{lem:torsion-stab} holds unconditionally. Under the
+boundary-layer control \eqref{eq:flux-hyp} of \cref{gap:torsion-stab} the loss
+is $\le2\tilde\eta\,g$ (\cref{rem:supply}); together with the absolute
+torsion-density lower bound of \cref{rem:roomtospare}, the loss-slope
+condition \eqref{eq:cutcond} holds with $\lambda=2\tilde\eta$, and
+\cref{lem:cutdeficit} gives that cutting the caps lowers the deficit,
 \[
    \dstar(G_0)\ \le\ \dstar(\Etil).
 \]
 This is the one place where the geometry of \cref{lem:cutdeficit} is needed:
-all hypotheses \eqref{eq:cut-incl}--\eqref{eq:cutcond} are met because the
-discarded material is precisely low-torsion boundary material in the
-$\eta$-collar about the \emph{single} centre $z$.
+the discarded material is precisely low-torsion boundary material in the
+$\eta$-collar about the \emph{single} centre $z$. The deduction is
+unconditional except for the single residual analytic point \eqref{eq:flux-hyp}
+isolated in \cref{gap:torsion-stab} --- the localisation of the harmonic
+boundary-layer term to the cap region; the cap term $\tilde\eta\,g$ and the
+entire deficit algebra are rigorous.
 \end{remark}
 
 \begin{remark}[The other deficit step is \emph{not} an instance of
@@ -362,14 +407,18 @@ hypotheses.
 
 \begin{remark}[Why the deficit decreases — the mechanism]\label{rem:mechanism}
 The single inequality \eqref{eq:bracket-key} is the entire content. Cutting
-a cap of measure $g$ costs at most $3\tilde\eta\,g$ in torsion
-(\emph{linear} in $g$, with a small slope $3\tilde\eta\to0$), but it shrinks
-the equal-area comparison ball, lowering its torsion $T(B_G)=\abs G^2/(8\pi)$
-by $\approx\frac{2T(B_E)}{V}g=\frac{V}{4\pi}g$, i.e.\ by a slope
-$\approx\frac{2T}{V}$ after accounting for the deficit factor. Because the
-unperturbed torsion density $T/V$ of a near-disc is of order $1$ while the
-collar slope $3\tilde\eta$ vanishes, the denominator $T(B_G)$ drops faster
-than the numerator $T(G)$, and $\dstar=1-T/T(B)$ decreases. There is no
-square-root loss and no constant that degrades as $\dT\to0$: the bound is
-exact and the margin in \eqref{eq:cutcond} only widens.
+a cap of measure $g$ costs at most $\lambda\,g$ in torsion (\emph{linear} in
+$g$, with a small slope $\lambda=2\tilde\eta\to0$ under \eqref{eq:flux-hyp}),
+but it shrinks the equal-area comparison ball, lowering its torsion
+$T(B_G)=\abs G^2/(8\pi)$ by $\approx\frac{2T(B_E)}{V}g=\frac{V}{4\pi}g$, i.e.\
+by a slope $\approx\frac{2T}{V}$ after accounting for the deficit factor.
+Because the unperturbed torsion density $T/V$ of a near-disc is an
+\emph{absolute} constant of order $1$ while the collar slope
+$\lambda=2\tilde\eta$ vanishes, the denominator $T(B_G)$ drops faster than the
+numerator $T(G)$, and $\dstar=1-T/T(B)$ decreases. There is no square-root
+loss and no constant that degrades as $\dT\to0$: the deficit algebra is exact
+and the margin in \eqref{eq:cutcond} only widens. The exactness of the
+torsion-loss \emph{decomposition} \eqref{eq:torsion-loss} is likewise
+unconditional; the only inexact step is the localisation \eqref{eq:flux-hyp}
+of the harmonic boundary-layer term, isolated in \cref{gap:torsion-stab}.
 \end{remark}
