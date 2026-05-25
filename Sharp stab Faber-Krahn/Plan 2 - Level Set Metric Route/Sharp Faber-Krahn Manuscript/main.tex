@@ -14,6 +14,7 @@
 \newtheorem{corollary}[theorem]{Corollary}
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
 \newtheorem{remark}[theorem]{Remark}
 
 \newcommand{\R}{\mathbb R}
@@ -68,10 +69,11 @@ kinetic estimate, and an endpoint trace yield bounded sharp Saint--Venant
 stability \(\Fr(\Om)^2\le C(n,R)\,\dT(\Om)\) for \(\Om\subset B_R\).  A
 constructive De~Giorgi truncation removes the confinement, and the
 Kohler--Jobin rearrangement transfers the Saint--Venant estimate to the
-eigenvalue.  Apart from the Fusco--Julin strong quantitative isoperimetric
-inequality and standard tools for sets of finite perimeter, the argument --
-including the bounded reduction and the Kohler--Jobin inequality -- is
-self-contained.
+eigenvalue.  The present draft isolates one nonstandard input, a constructive
+Serrin strong-form estimate for torsion level sets
+(Assumption~\ref{ass:constructive-strong}); apart from that input and
+standard tools for sets of finite perimeter, the argument -- including the
+bounded reduction and the Kohler--Jobin inequality -- is self-contained.
 \end{abstract}
 
 \maketitle
@@ -99,9 +101,9 @@ asymmetry.  The exponent \(2\) is sharp.
 \end{theorem}
 
 This is the theorem of Brasco--De~Philippis--Velichkov \cite{BDV}; the present
-proof is structurally different, and self-contained apart from the Fusco--Julin
-quantitative isoperimetric inequality and standard tools for sets of finite
-perimeter.
+draft gives a structurally different proof, conditional only on the constructive
+Serrin strong-form input isolated in Assumption~\ref{ass:constructive-strong}
+and on standard tools for sets of finite perimeter.
 
 \paragraph{Strategy.} The eigenvalue is reached only at the very end, through
 the torsion function \(u=u_\Om\) (\(-\Delta u=1\) in \(\Om\), \(u\in
@@ -128,8 +130,9 @@ exact deficit identity
 where \(D_H\) is the Cauchy--Schwarz defect of \(|\nabla u|\) on
 \(\partial^*E_t\) and \(D_I\) the squared-perimeter isoperimetric defect;
 Section~\ref{sec:profilegap} derives its profile-gap and bad-density
-consequences.  Section~\ref{sec:samecentre} converts the Fusco--Julin inequality
-into a same-centre control of the homothetic trace.
+consequences.  Section~\ref{sec:samecentre} isolates the constructive Serrin
+strong-form input and converts it into same-centre control of the homothetic
+trace.
 Sections~\ref{sec:coarea}--\ref{sec:kinetic} prove a finite-perimeter affine
 first variation for \(q\) and the positive kinetic estimate, and
 Section~\ref{sec:endpoint} closes the bounded estimate
@@ -150,9 +153,9 @@ scale-invariant comparison \(T(\Om)\lambda_1(\Om)^{(n+2)/2}\ge
 T_n\lambda_1(B_1)^{(n+2)/2}\); combined with the global Saint--Venant inequality
 and an elementary one-variable estimate it yields Theorem~\ref{thm:FK-main}.
 
-The one substantive external theorem is the Fusco--Julin quantitative
-isoperimetric inequality; the remaining ingredients are classical tools for sets
-of finite perimeter, collected in Appendix~\ref{app:bv}, and the dependency
+The one nonstandard missing input is Assumption~\ref{ass:constructive-strong};
+all other ingredients are either proved here or are classical tools for sets of
+finite perimeter, collected in Appendix~\ref{app:bv}, and the dependency
 certificate of Appendix~\ref{app:constants}.
 
 \section{Standing notation and scope}\label{sec:notation}
@@ -231,10 +234,10 @@ The bounded Saint--Venant estimate is deduced from the exact level-set
 identity (Theorem~\ref{thm:id-main}), proved in \S\ref{sec:identity}, and its
 profile-gap and bad-density consequences (Proposition~\ref{prop:levelset}).
 The same-centre good-level package (Theorem~\ref{inp:samecenter}) rests on the
-theorem of Fusco--Julin, used in its exact same-centre form; the radial trace
-conversion from normal oscillation to the homothetic trace is
-Lemma~\ref{lem:oriented-radial-trace}.  Every other step, including the first
-variation and the bad-density bookkeeping, is proved here.
+constructive Serrin strong-form input of Assumption~\ref{ass:constructive-strong};
+the radial trace conversion from same-centre volume and normal control to the
+homothetic trace is Lemma~\ref{lem:oriented-radial-trace}.  Every other step,
+including the first variation and the bad-density bookkeeping, is proved here.
 \end{remark}
 
 \section{Finite-perimeter level-set identities}\label{sec:identity}
@@ -654,100 +657,82 @@ smallness is absorbed into the constant.
 \section{Quantitative isoperimetry and same-centre trace control}
 \label{sec:samecentre}
 
-\begin{theorem}[Fusco--Julin strong quantitative isoperimetry]
-\label{thm:FJ-strong}
-For every \(n\ge2\) there is a constant \(C_{\rm FJ}(n)\) with the
-following property.  Let \(E\subset\R^n\) be a set of finite perimeter and
-let \(r_E>0\) be defined by \(|E|=\omega_n r_E^n\).  Then there is a
-centre \(z_E\in\R^n\) such that
-\begin{equation}\label{eq:FJ-exact}
-   \left[
-      \frac{|E\Delta B_{r_E}(z_E)|}{r_E^n}
-      +
-      \left(
-         \frac1{r_E^{\,n-1}}
-         \int_{\partial^*E}
-            \left|\nu_E(x)-\frac{x-z_E}{|x-z_E|}\right|^2
-         d\Hn(x)
-      \right)^{1/2}
-   \right]^2
+\begin{theorem}[Constructive Fraenkel quantitative isoperimetry]
+\label{thm:constructive-fraenkel}
+For every \(n\ge2\) there is a computable constant
+\(C_{\rm iso}(n)\) with the following property.  If
+\(E\subset\R^n\) is a set of finite perimeter and
+\(|E|=\omega_n\rho^n\), then there is a centre \(z_E\in\R^n\) such that
+\begin{equation}\label{eq:constructive-volume}
+   |E\Delta B_\rho(z_E)|^2
    \le
-   C_{\rm FJ}(n)\,
-   \frac{\Per(E)-\Per(B_{r_E})}{r_E^{\,n-1}} .
+   C_{\rm iso}(n)\rho^{n+1}\bigl(\Per(E)-\Per(B_\rho)\bigr).
+\end{equation}
+Consequently, if \(\rho\in[\rstar,1]\), then
+\begin{equation}\label{eq:constructive-volume-DI}
+   |E\Delta B_\rho(z_E)|^2
+   \le C(n,\rstar)\bigl(\Per(E)^2-\Per(B_\rho)^2\bigr).
 \end{equation}
 \end{theorem}
 
 \begin{proof}
-This is exactly \cite[Theorem~1.1]{FJ2014}, with the Fusco--Julin
-asymmetry
+This is the sharp quantitative isoperimetric inequality in Fraenkel form,
+proved constructively by the symmetrisation and mass-transport methods of
+Fusco--Maggi--Pratelli \cite{FMP}.  In the normalisation
+\(|E|=|B_\rho|\), their estimate gives
 \[
-   A(E)=\min_z\left\{
-      \frac{|E\Delta B_{r_E}(z)|}{r_E^n}
-      +
-      \left(
-         \frac1{r_E^{\,n-1}}
-         \int_{\partial^*E}
-            \left|\nu_E(x)-\nu_{B_{r_E}(z)}
-               (\pi_{z,r_E}(x))\right|^2d\Hn(x)
-      \right)^{1/2}
-   \right\}
+   \left(\frac{|E\Delta B_\rho(z_E)|}{|B_\rho|}\right)^2
+   \le C(n)\frac{\Per(E)-\Per(B_\rho)}{\Per(B_\rho)} .
 \]
-and their deficit
-\((\Per(E)-\Per(B_{r_E}))/r_E^{\,n-1}\).  Since
-\(\nu_{B_{r_E}(z)}(\pi_{z,r_E}(x))=(x-z)/|x-z|\), their minimising centre
-is one centre for both the symmetric-difference term and the boundary-normal
-oscillation term.
-\end{proof}
-
-\begin{corollary}[Unnormalised same-centre consequences]
-\label{cor:FJ-unnormalised}
-Fix \(0<\rstar<1\).  Let \(E\subset\R^n\) be a set of finite perimeter with
-\(|E|=\omega_n\rho^n\), where \(\rho\in[\rstar,1]\).  Then there is a
-centre \(z\in\R^n\) such that
-\begin{equation}\label{eq:FJ-volume}
-   |E\Delta B_\rho(z)|^2
-   \le C(n)\bigl(\Per(E)-\Per(B_\rho)\bigr),
-\end{equation}
-and
-\begin{equation}\label{eq:FJ-normal}
-   \int_{\partial^*E}
-      \left|\nu_E(x)-\frac{x-z}{|x-z|}\right|^2d\Hn(x)
-   \le C(n)\bigl(\Per(E)-\Per(B_\rho)\bigr).
-\end{equation}
-Consequently, since \(\rho\ge\rstar\),
-\begin{equation}\label{eq:FJ-DI-version}
-   |E\Delta B_\rho(z)|^2
-   +
-   \int_{\partial^*E}
-      \left|\nu_E(x)-\frac{x-z}{|x-z|}\right|^2d\Hn(x)
-   \le C(n,\rstar)
-      \bigl(\Per(E)^2-\Per(B_\rho)^2\bigr).
-\end{equation}
-\end{corollary}
-
-\begin{proof}
-Apply Theorem~\ref{thm:FJ-strong} with \(r_E=\rho\).  Each summand in the
-left side of \eqref{eq:FJ-exact} is nonnegative, so
-\[
-   \frac{|E\Delta B_\rho(z)|^2}{\rho^{2n}}
-   +
-   \frac1{\rho^{n-1}}
-   \int_{\partial^*E}
-      \left|\nu_E-\frac{x-z}{|x-z|}\right|^2d\Hn
-   \le
-   C(n)\frac{\Per(E)-\Per(B_\rho)}{\rho^{n-1}} .
-\]
-Since \(\rho\le1\), this gives \eqref{eq:FJ-volume} and
-\eqref{eq:FJ-normal}.  Finally,
+Since \(|B_\rho|=\omega_n\rho^n\) and
+\(\Per(B_\rho)=n\omega_n\rho^{n-1}\), this is
+\eqref{eq:constructive-volume}.  The passage to
+\eqref{eq:constructive-volume-DI} follows from
 \[
    \Per(E)-\Per(B_\rho)
-   =
-   \frac{\Per(E)^2-\Per(B_\rho)^2}{\Per(E)+\Per(B_\rho)}
-   \le
-   \frac{\Per(E)^2-\Per(B_\rho)^2}{\Per(B_\rho)}
+   \le \frac{\Per(E)^2-\Per(B_\rho)^2}{\Per(B_\rho)}
    \le C(n,\rstar)\bigl(\Per(E)^2-\Per(B_\rho)^2\bigr).
 \]
 \end{proof}
+
+\begin{assumption}[Constructive Serrin strong-form input]
+\label{ass:constructive-strong}
+There are computable constants
+\(C_{\rm Ser}=C_{\rm Ser}(n,R,\rstar)\) and
+\(\eta_{\rm Ser}=\eta_{\rm Ser}(n,R,\rstar)>0\) such that the following holds
+for the torsion superlevel sets of the bounded core.  For a.e.\ radius
+\(\rho\in[\rstar,\rdel]\) with
+\[
+   D_H(t(\rho))+D_I(t(\rho))\le\eta_{\rm Ser},
+\]
+there is a centre \(z_\rho\in\R^n\) satisfying
+\begin{equation}\label{eq:constructive-strong}
+   |E_\rho\Delta B_\rho(z_\rho)|^2
+   +
+   \int_{\partial^*E_\rho}
+      \left|\nu_\rho(x)-\frac{x-z_\rho}{|x-z_\rho|}\right|^2d\Hn(x)
+   \le
+   C_{\rm Ser}(n,R,\rstar)
+      \bigl(D_H(t(\rho))+D_I(t(\rho))\bigr).
+\end{equation}
+\end{assumption}
+
+\begin{remark}[Status of the constructive input]
+\label{rem:constructive-strong-status}
+Assumption~\ref{ass:constructive-strong} is the exact replacement for the
+Fusco--Julin strong form formerly used here.  It is not a consequence of the
+compactness-built Fusco--Julin theorem.  The intended proof is the constructive
+Reilly--Weinberger/Serrin route described in
+\texttt{CONSTRUCTIVE\_STRONG\_FORM\_STRATEGY.md}: for
+\(v=u-t(\rho)\), the torsion function of \(E_\rho\), prove a weighted
+Reilly--Weinberger estimate controlling
+\(D^2v+I/n\) linearly by the boundary Cauchy--Schwarz defect \(D_H\), then
+convert the resulting bulk deviation into the boundary normal term in
+\eqref{eq:constructive-strong}.  The sign convention in this manuscript is
+\(v>0\) in \(E_\rho\), so the weighted identity must use the positive torsion
+weight \(v\), not \(-v\).  Until this assumption is discharged, the constructive
+version of the manuscript is conditional on this single input.
+\end{remark}
 
 \begin{lemma}[Oriented radial trace]\label{lem:oriented-radial-trace}
 Fix \(R\ge1\) and \(0<\rstar<1\).  Let \(E\subset B_R\) be a set of finite
@@ -833,17 +818,17 @@ Combining this bound with \eqref{eq:radial-oriented-piece} and using
 \(\rho\ge\rstar\) proves \eqref{eq:oriented-radial-trace}.
 \end{proof}
 
-\begin{theorem}[Same-centre good-level geometric package]\label{inp:samecenter}
-There exist constants
+\begin{theorem}[Same-centre good-level geometric package]
+\label{inp:samecenter}
+Assume the constructive strong-form input
+Assumption~\ref{ass:constructive-strong}.  There exists
+\(C_{\rm sc}=C_{\rm sc}(n,R,\rstar)\) such that the following holds.  Define
 \[
-   \eta_I=\eta_I(n,R,\rstar)>0,\qquad
-   C_{\rm sc}=C_{\rm sc}(n,R,\rstar),
+   G_{\rm sc}:=\bigl\{\rho\in[\rstar,\rdel]:
+      D_H(t(\rho))+D_I(t(\rho))\le\eta_{\rm Ser}\bigr\}.
 \]
-such that the following holds.  Define
-\[
-   G_I:=\{\rho\in[\rstar,\rdel]:D_I(t(\rho))\le\eta_I\}.
-\]
-For a.e. \(\rho\in G_I\) there is a centre \(z_\rho^{\rm sc}\) such that
+For a.e.\ \(\rho\in G_{\rm sc}\) there is a centre
+\(z_\rho^{\rm sc}\) such that
 \begin{equation}\label{eq:sc-input}
    |E_\rho\Delta B_\rho(z_\rho^{\rm sc})|^2
    +
@@ -851,26 +836,24 @@ For a.e. \(\rho\in G_I\) there is a centre \(z_\rho^{\rm sc}\) such that
       \int_{\partial^*E_\rho}
          |H_{z_\rho^{\rm sc},\rho}-\bar V_\rho|\,d\Hn
    \right)^2
-   \le C_{\rm sc}\,D_I(t(\rho)).
+   \le C_{\rm sc}\,
+      \bigl(D_H(t(\rho))+D_I(t(\rho))\bigr).
 \end{equation}
 \end{theorem}
 
 \begin{proof}
-Let \(\rho\in G_I\) be a finite-perimeter level.  Apply
-Corollary~\ref{cor:FJ-unnormalised} to \(E_\rho\), and let
-\(z=z_\rho^{\rm sc}\) be the centre obtained there.  Since
-\[
-   D_I(t(\rho))=\Per(E_\rho)^2-\Per(B_\rho)^2,
-\]
-\eqref{eq:FJ-DI-version} gives
-\begin{equation}\label{eq:sc-proof-FJ}
+Let \(\rho\in G_{\rm sc}\) be a finite-perimeter level where
+Assumption~\ref{ass:constructive-strong} applies.  Let
+\(z=z_\rho^{\rm sc}\) be the centre supplied by
+\eqref{eq:constructive-strong}.  Then
+\begin{equation}\label{eq:sc-proof-constructive}
    |E_\rho\Delta B_\rho(z)|^2
    +
    \int_{\partial^*E_\rho}|\nu_\rho-e_z|^2\,d\Hn
-   \le C(n,\rstar)D_I(t(\rho)).
+   \le C(n,R,\rstar)\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr).
 \end{equation}
-Choose \(\eta_I\) so small that the first term in
-\eqref{eq:sc-proof-FJ} implies
+Reducing \(\eta_{\rm Ser}\) if necessary, the first term in
+\eqref{eq:sc-proof-constructive} implies
 \[
    |E_\rho\Delta B_\rho(z)|<|B_\rho|.
 \]
@@ -881,35 +864,27 @@ therefore
    |z|\le R+\rho\le R+1 .
 \end{equation}
 
-The radial trace lemma gives
+The radial trace lemma and \eqref{eq:sc-proof-constructive} give
 \[
    \int_{\partial^*E_\rho}
       \left|\frac{|x-z|}{\rho}-1\right|\,d\Hn
    \le
    C(n,R,\rstar)
-   \bigl(D_I(t(\rho))^{1/2}+D_I(t(\rho))\bigr).
+   \bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)^{1/2},
 \]
-Reducing \(\eta_I\le1\), this is bounded by
-\begin{equation}\label{eq:radial-trace-DI}
-   C(n,R,\rstar)D_I(t(\rho))^{1/2}.
-\end{equation}
-For \(H_{z,\rho}=(|x-z|/\rho)(e_z\cdot\nu_\rho)\),
+after reducing \(\eta_{\rm Ser}\le1\).  For
+\(H_{z,\rho}=(|x-z|/\rho)(e_z\cdot\nu_\rho)\),
 \[
    |H_{z,\rho}-1|
    \le
    \left|\frac{|x-z|}{\rho}-1\right|
-   +
-   |1-e_z\cdot\nu_\rho|
-   =
-   \left|\frac{|x-z|}{\rho}-1\right|
-   +
-   \frac12|\nu_\rho-e_z|^2 .
+   +\frac12|\nu_\rho-e_z|^2 .
 \]
-Together with \eqref{eq:sc-proof-FJ} and \eqref{eq:radial-trace-DI},
-this gives
-\begin{equation}\label{eq:Hminus1-DI}
+Together with \eqref{eq:sc-proof-constructive}, this gives
+\begin{equation}\label{eq:Hminus1-DH-DI}
    \int_{\partial^*E_\rho}|H_{z,\rho}-1|\,d\Hn
-   \le C(n,R,\rstar)D_I(t(\rho))^{1/2}.
+   \le
+   C(n,R,\rstar)\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)^{1/2}.
 \end{equation}
 Finally,
 \[
@@ -919,14 +894,9 @@ Finally,
    \Per(E_\rho)-\Per(B_\rho)
    \le C(n,\rstar)D_I(t(\rho)).
 \]
-Combining this with \eqref{eq:Hminus1-DI} and again using
-\(\eta_I\le1\),
-\[
-   \int_{\partial^*E_\rho}|H_{z,\rho}-\bar V_\rho|\,d\Hn
-   \le C(n,R,\rstar)D_I(t(\rho))^{1/2}.
-\]
-Squaring and adding the first estimate in \eqref{eq:sc-proof-FJ} proves
-\eqref{eq:sc-input}.
+Combining this with \eqref{eq:Hminus1-DH-DI} proves the homothetic-trace
+part of \eqref{eq:sc-input}; the volume part is the first term of
+\eqref{eq:sc-proof-constructive}.  Squaring completes the proof.
 \end{proof}
 
 \begin{lemma}[Velocity defect controlled by \(D_H\)]\label{lem:velocity}
@@ -1400,9 +1370,10 @@ Interchange \(\rho\) and \(\sigma\) to get the reverse inequality.
 
 \section{Positive kinetic estimate}\label{sec:kinetic}
 
-\begin{lemma}[Transfer to a distance-minimising centre]\label{lem:center-transfer}
-After reducing \(\eta_I=\eta_I(n,R,\rstar)\) if necessary, the following
-holds.  Let \(\rho\in G_I\) be a level where
+\begin{lemma}[Transfer to a distance-minimising centre]
+\label{lem:center-transfer}
+After reducing \(\eta_{\rm Ser}=\eta_{\rm Ser}(n,R,\rstar)\) if necessary,
+the following holds.  Let \(\rho\in G_{\rm sc}\) be a level where
 Theorem~\ref{inp:samecenter} holds, and let \(z_\rho^{\min}\) minimise
 \(z\mapsto |E_\rho\Delta B_\rho(z)|\).  Then
 \begin{equation}\label{eq:H-DI-min}
@@ -1410,7 +1381,7 @@ Theorem~\ref{inp:samecenter} holds, and let \(z_\rho^{\min}\) minimise
    \int_{\partial^*E_\rho}
       |H_{z_\rho^{\min},\rho}-\bar V_\rho|\,d\Hn
    \right)^2
-   \le C(n,R,\rstar)D_I(t(\rho)).
+   \le C(n,R,\rstar)\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr).
 \end{equation}
 \end{lemma}
 
@@ -1420,12 +1391,12 @@ Theorem~\ref{inp:samecenter}.  Minimality gives
 \[
    |E_\rho\Delta B_\rho(z_\rho^{\min})|
    \le |E_\rho\Delta B_\rho(z_\rho^{\rm sc})|
-   \le C D_I(t(\rho))^{1/2}.
+   \le C \bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)^{1/2}.
 \]
 Thus
 \[
    |B_\rho(z_\rho^{\min})\Delta B_\rho(z_\rho^{\rm sc})|
-   \le C D_I(t(\rho))^{1/2}.
+   \le C \bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)^{1/2}.
 \]
 For equal balls with centre distance \(d\),
 \[
@@ -1440,11 +1411,11 @@ cross-sections over \(s\in[0,\tfrac12\min\{d,\rho\}]\), where
 \(|B_\rho(z_1)\setminus B_\rho(z_2)|\ge
 \tfrac12\omega_{n-1}(3/4)^{(n-1)/2}\rho^{n-1}\min\{d,\rho\}\), and the
 symmetric difference is twice this.
-Choose \(\eta_I\) so small that the preceding upper bound forces the
+Choose \(\eta_{\rm Ser}\) so small that the preceding upper bound forces the
 linear branch \(d<\rho\).  Since \(\rho\ge\rstar\),
 \[
    |z_\rho^{\min}-z_\rho^{\rm sc}|
-   \le C(n,\rstar)D_I(t(\rho))^{1/2}.
+   \le C(n,\rstar)\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)^{1/2}.
 \]
 The homothetic trace is affine in the centre:
 \[
@@ -1452,12 +1423,13 @@ The homothetic trace is affine in the centre:
    =
    -\frac{(z_\rho^{\min}-z_\rho^{\rm sc})\cdot\nu_\rho}{\rho}.
 \]
-On \(G_I\), the perimeter is uniformly bounded because
-\(D_I(t(\rho))\le\eta_I\) and \(\rho\in[\rstar,1]\).  Hence
+On \(G_{\rm sc}\), the perimeter is uniformly bounded because
+\(D_I(t(\rho))\le D_H(t(\rho))+D_I(t(\rho))\le\eta_{\rm Ser}\) and
+\(\rho\in[\rstar,1]\).  Hence
 \[
    \int_{\partial^*E_\rho}
    |H_{z_\rho^{\min},\rho}-H_{z_\rho^{\rm sc},\rho}|\,d\Hn
-   \le C(n,R,\rstar)D_I(t(\rho))^{1/2}.
+   \le C(n,R,\rstar)\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)^{1/2}.
 \]
 Combining this with \eqref{eq:sc-input} via the triangle inequality,
 \[
@@ -1468,13 +1440,15 @@ Combining this with \eqref{eq:sc-input} via the triangle inequality,
       |H_{z_\rho^{\min},\rho}-H_{z_\rho^{\rm sc},\rho}|\,d\Hn
    +\int_{\partial^*E_\rho}
       |H_{z_\rho^{\rm sc},\rho}-\bar V_\rho|\,d\Hn
-   \le C(n,R,\rstar)D_I(t(\rho))^{1/2},
+   \le C(n,R,\rstar)\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)^{1/2},
 \]
 and squaring gives \eqref{eq:H-DI-min}.
 \end{proof}
 
-\begin{proposition}[Positive kinetic bound]\label{prop:positivekinetic}
-Let \(J\subset[\rstar,\rdel]\) be an interval.  Then
+\begin{proposition}[Positive kinetic bound]
+\label{prop:positivekinetic}
+Assume the constructive input of Assumption~\ref{ass:constructive-strong}.  Let
+\(J\subset[\rstar,\rdel]\) be an interval.  Then
 \[
    \int_J (q'_+(\rho))^2\,d\rho
    \le C(n,R,\rstar)\,\dT(\Om),
@@ -1485,7 +1459,11 @@ where \(q'_+(\rho)=\max\{q'(\rho),0\}\) at a.e. differentiability points.
 \begin{proof}
 Let
 \[
-   G:=J\cap G_I\cap G_\tau,\qquad \mathcal B:=J\setminus G .
+   G_{\rm sc}:=\{\rho\in J:
+      D_H(t(\rho))+D_I(t(\rho))\le\eta_{\rm Ser}\},
+   \qquad
+   G:=G_{\rm sc}\cap G_\tau,
+   \qquad \mathcal B:=J\setminus G .
 \]
 Since \(q\) is Lipschitz, \(q'\) exists a.e.; shell-admissible radii have
 full measure in \(G_\tau\).  At points where both properties hold,
@@ -1497,7 +1475,7 @@ Lemma~\ref{lem:center-transfer}, and Lemma~\ref{lem:velocity} give
    (q'_+)^2
    \le C(n,R,\rstar)\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr).
 \]
-Indeed \(q^2\le C D_I\) on \(G_I\), and
+Indeed \(q^2\le C(D_H+D_I)\) on \(G_{\rm sc}\), and
 \[
 \begin{aligned}
    \inf_a\int |V_\rho-H_{z_\rho^{\min},\rho}-a\cdot\nu_\rho|
@@ -1514,12 +1492,13 @@ On \(G_\tau\), \(d\rho\le\tau_0^{-1}d\mu\).  Hence the budget
 
 It remains to pay \(\mathcal B\).  By Lemma~\ref{lem:qLip},
 \(q'_+\le2n\omega_n\) a.e.  The bad-density part has
-\(|J\cap B_\tau|\le C\,\dT(\Om)\).  For the bad-isoperimetric part on
-good density,
+\(|J\cap B_\tau|\le C\,\dT(\Om)\).  For the bad-strong-form part on good
+density,
 \[
-   |J\cap G_\tau\cap G_I^c|
-   \le \tau_0^{-1}\mu(G_I^c)
-   \le \frac{C}{\eta_I}\int_JD_I(t(\rho))\,d\mu(\rho)
+   |J\cap G_\tau\cap G_{\rm sc}^c|
+   \le \tau_0^{-1}\mu(G_{\rm sc}^c)
+   \le \frac{C}{\eta_{\rm Ser}}
+      \int_J\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)\,d\mu(\rho)
    \le C\,\dT(\Om).
 \]
 Therefore \(|\mathcal B|\le C\,\dT(\Om)\), and
@@ -1530,8 +1509,9 @@ Therefore \(|\mathcal B|\le C\,\dT(\Om)\), and
 
 \section{Endpoint trace and bounded stability}\label{sec:endpoint}
 
-\begin{lemma}[Moving-ball endpoint trace]\label{lem:endpoint}
-Let
+\begin{lemma}[Moving-ball endpoint trace]
+\label{lem:endpoint}
+Assume the constructive input of Assumption~\ref{ass:constructive-strong}.  Let
 \[
    L_0:=\frac{1-\rstar}{8},\qquad
    J:=[\rdel-L_0,\rdel].
@@ -1545,10 +1525,16 @@ Assume \(\dT(\Om)\) is small enough that
 
 \begin{proof}
 The inclusion \(J\subset[\rstar,\rdel]\) follows from
-\(\rdel-\rstar\ge(1-\rstar)/2\).  On \(G=J\cap G_I\cap G_\tau\),
+\(\rdel-\rstar\ge(1-\rstar)/2\).  Let
 \[
-   q(\rho)^2\le C D_I(t(\rho)),\qquad
-   d\rho\le\tau_0^{-1}d\mu(\rho),
+   G_{\rm sc}:=\{\rho\in J:
+      D_H(t(\rho))+D_I(t(\rho))\le\eta_{\rm Ser}\},
+   \qquad G=G_{\rm sc}\cap G_\tau .
+\]
+On \(G\), Theorem~\ref{inp:samecenter} gives
+\[
+   q(\rho)^2\le C\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr),
+   \qquad d\rho\le\tau_0^{-1}d\mu(\rho),
 \]
 so
 \[
@@ -1579,10 +1565,11 @@ By Cauchy--Schwarz and Proposition~\ref{prop:positivekinetic},
 
 \begin{theorem}[Bounded sharp Saint--Venant stability]
 \label{thm:boundedSV}
+Assume the constructive input of Assumption~\ref{ass:constructive-strong}.
 There are computable constants \(C=C(n,R,\rstar)\) and
 \(\delta_0=\delta_0(n,R,\rstar)>0\), depending only on the level-set
-identity constants, the Fusco--Julin constant, and the explicit constants
-above, such that every bounded open \(\Om\subset B_R\),
+identity constants, the constants in Assumption~\ref{ass:constructive-strong},
+and the explicit constants above, such that every bounded open \(\Om\subset B_R\),
 \(|\Om|=\omega_n\), satisfies
 \[
    \Fr(\Om)^2\le C\,\dT(\Om).
@@ -1654,9 +1641,10 @@ derivative \(D^+q\) together with the global Lipschitz bound for \(q\)
 \item Bad-density levels are charged by Lebesgue measure rather than by the
 deficit, which is possible because \(q\) is uniformly Lipschitz by nestedness.
 \item The same-centre good-level package (Theorem~\ref{inp:samecenter}) is
-obtained from the Fusco--Julin strong quantitative isoperimetric inequality
-(Theorem~\ref{thm:FJ-strong}); the passage from normal oscillation to the
-homothetic trace is the radial trace Lemma~\ref{lem:oriented-radial-trace}.
+conditional on the constructive Serrin strong-form input
+(Assumption~\ref{ass:constructive-strong}); the passage from same-centre volume
+and normal control to the homothetic trace is the radial trace
+Lemma~\ref{lem:oriented-radial-trace}.
 \item The bounded reduction (Theorem~\ref{thm:SV-global}) removes the
 confinement \(\Om\subset B_R\): a constructive De~Giorgi \(L^\infty\) tail
 estimate (Lemma~\ref{lem:Linfty}) feeds a truncation construction
@@ -1673,11 +1661,12 @@ yields Theorem~\ref{thm:FK-main} (Theorem~\ref{thm:fk}).
 
 \noindent
 All constants in Theorem~\ref{thm:boundedSV} depend only on \(n\), \(R\), and
-\(\rstar\), together with the Fusco--Julin constant \(C_{\rm FJ}(n)\).  Tracing
-them through the proof: \(C_L=2n^2\omega_n\) and
+\(\rstar\), together with the constants \(C_{\rm Ser}(n,R,\rstar)\) and
+\(\eta_{\rm Ser}(n,R,\rstar)\) from Assumption~\ref{ass:constructive-strong}.
+Tracing them through the proof: \(C_L=2n^2\omega_n\) and
 \(C_\tau=4n/(\omega_n\rstar^{n+1})\) (Proposition~\ref{prop:levelset});
 \(\kappa=(1-\rstar)/4\) and \(\tau_0=\rstar/(2n)\); the same-centre constant
-\(C_{\rm sc}(n,R,\rstar)\) and threshold \(\eta_I(n,R,\rstar)\)
+\(C_{\rm sc}(n,R,\rstar)\) and threshold \(\eta_{\rm Ser}(n,R,\rstar)\)
 (Theorem~\ref{inp:samecenter}, Lemma~\ref{lem:center-transfer}); the ball--ball
 lower constant \(\tfrac12\omega_{n-1}(3/4)^{(n-1)/2}\); the slab length
 \(L_0=(1-\rstar)/8\); and the large-deficit cutoff \(4/\delta_0\).  No constant
@@ -1719,28 +1708,31 @@ this gives the upper bound in Lemma~\ref{lem:BV-tail}.
 
 \section{Dependency certificate}\label{app:constants}
 
-Every step is either proved in this manuscript or quoted from a named
-published theorem.
+Every step is either proved in this manuscript, isolated as the single
+constructive input Assumption~\ref{ass:constructive-strong}, or quoted from a
+named published theorem.
 
 \emph{Proved internally:} the exact deficit identity and its inputs (coarea
 form of \(-m'\), the Lipschitz-truncation flux identity, the rearranged
 primitive with \(I''=-1/\alpha\)) in \S\ref{sec:identity}; the profile-gap and
 bad-density estimates in \S\ref{sec:profilegap}; the
-oriented radial trace, the same-centre package, the velocity defect, and the
+oriented radial trace, the same-centre package conditional on
+Assumption~\ref{ass:constructive-strong}, the velocity defect, and the
 superlevel asymmetry transfer in \S\ref{sec:samecentre}; the two-sided coarea
 differentiation lemma, the shell-admissible registration, and the local BV
 deformation tail in \S\ref{sec:coarea}; the affine shell estimate, the
 one-sided first variation, and the Lipschitz bound for \(q\) in
 \S\ref{sec:shell}; the centre transfer and the positive kinetic estimate in
-\S\ref{sec:kinetic}; the endpoint trace and the bounded stability theorem in
+\S\ref{sec:kinetic}; the endpoint trace and the bounded stability theorem conditional on
+Assumption~\ref{ass:constructive-strong} in
 \S\ref{sec:endpoint}; the De~Giorgi \(L^\infty\) tail estimate, the truncation
 construction, and the global bounded reduction in \S\ref{sec:bddred}; and the
 Kohler--Jobin inequality (via the modified-torsion rearrangement) together with
 the transfer to Faber--Krahn in \S\ref{sec:kj}.
 
-\emph{Quoted with exact citation:} the Fusco--Julin strong quantitative
-isoperimetric inequality \cite{FJ2014}; the BV coarea formula, the
-finite-perimeter Gauss--Green theorem, and Reshetnyak continuity
+\emph{Quoted with exact citation:} the constructive Fraenkel quantitative
+isoperimetric inequality of Fusco--Maggi--Pratelli \cite{FMP}; the BV coarea
+formula, the finite-perimeter Gauss--Green theorem, and Reshetnyak continuity
 \cite{AFP2000,Maggi2012}; the De~Giorgi isoperimetric inequality
 \cite{DeGiorgi1958}; the Talenti rearrangement comparison and \(L^\infty\) bound
 \cite{Talenti1976}; the classical Saint--Venant inequality; the
@@ -1755,8 +1747,10 @@ identification of the ball energy \cite{PolyaSzego1951,Bandle1980}.
 \(\dT(\Om)\ge c\,\Fr(\Om)^4\) (Lemma~\ref{lem:seed}) only to bound the number
 of truncation steps.  This is proved here (Lemma~\ref{lem:seed}) from the
 exact deficit identity, the profile-gap identity, and the superlevel transfer
-established above, together with the Fusco--Julin inequality already in use;
-it relies on no stability estimate external to this paper.  Consequently
+established above, together with the constructive Fraenkel quantitative
+isoperimetric inequality (Theorem~\ref{thm:constructive-fraenkel}); it does
+not use the strong-form input and relies on no sharp stability estimate external
+to this paper.  Consequently
 every ingredient of the argument is either proved above or is one of the
 standard tools just listed.
 
@@ -1823,11 +1817,6 @@ E.~De~Giorgi,
 \emph{Sulla propriet\`a isoperimetrica dell'ipersfera, nella classe degli
 insiemi aventi frontiera orientata di misura finita},
 Atti Accad.\ Naz.\ Lincei \textbf{5} (1958), 33--44.
-
-\bibitem{FJ2014}
-N.~Fusco and V.~Julin,
-\emph{A strong form of the quantitative isoperimetric inequality},
-Calc. Var. Partial Differential Equations \textbf{50} (2014), 925--937.
 
 \bibitem{GilbargTrudinger2001}
 D.~Gilbarg and N.~S.~Trudinger,
