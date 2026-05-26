@@ -39,9 +39,10 @@
 \DeclareMathOperator{\diam}{diam}
 \DeclareMathOperator{\Tmod}{T_{\mathrm{mod}}}
 
-\title[Sharp quantitative Faber--Krahn stability]
+\title[Quantitative Faber--Krahn: constructive Serrin route (exploratory)]
 {The sharp quantitative Faber--Krahn inequality\\
-via the level-set moving-ball route}
+via the level-set moving-ball route\\[2pt]
+{\large\normalfont(exploratory version: the constructive Serrin--gradient strong form)}}
 \author{}
 \date{May 2026}
 
@@ -69,10 +70,14 @@ kinetic estimate, and an endpoint trace yield bounded sharp Saint--Venant
 stability \(\Fr(\Om)^2\le C(n,R)\,\dT(\Om)\) for \(\Om\subset B_R\).  A
 constructive De~Giorgi truncation removes the confinement, and the
 Kohler--Jobin rearrangement transfers the Saint--Venant estimate to the
-eigenvalue.  The present draft isolates one nonstandard input, a constructive
-Serrin strong-form estimate for torsion level sets
-(Assumption~\ref{ass:constructive-strong}); apart from that input and
-standard tools for sets of finite perimeter, the argument -- including the
+eigenvalue.  This is the \emph{exploratory} version of the manuscript: in place
+of the Fusco--Julin strong form it isolates a single \emph{constructive}
+(compactness-free) Serrin strong-form estimate for torsion level sets
+(Assumption~\ref{ass:constructive-strong}) and attempts to discharge it through a
+weighted Reilly--Weinberger identity on the level sets.  That input remains open
+for general domains; it is discussed, with the precise obstruction and concrete
+further directions, in Remark~\ref{rem:constructive-strong-status}.  Apart from
+it and standard tools for sets of finite perimeter, the argument -- including the
 bounded reduction and the Kohler--Jobin inequality -- is self-contained.
 \end{abstract}
 
@@ -721,50 +726,1267 @@ that
 \end{equation}
 \end{assumption}
 
-\begin{remark}[Status of the constructive input]
+\begin{remark}[Status of the constructive input: the weighted-Reilly computation]
 \label{rem:constructive-strong-status}
-Assumption~\ref{ass:constructive-strong} is the replacement for the Fusco--Julin
-strong form formerly used here.  It is not a consequence of the
-compactness-built Fusco--Julin theorem.  Two points are essential and were
-isolated in \texttt{M1\_REILLY\_PROGRESS.md}.
+Assumption~\ref{ass:constructive-strong} replaces the Fusco--Julin strong form
+formerly used here.  It is \emph{not} a consequence of the compactness-built
+Fusco--Julin theorem.  This long remark records, in full and with every step
+justified, the constructive route by which one tries to prove it -- a weighted
+Reilly--Weinberger identity on each level set -- and the precise point at which
+that route stalls for general domains.  Nothing here uses compactness or
+argument by contradiction; every displayed identity is exact.
 
-\emph{(i) The integrated form is what the proof needs, and what is provable.}
-The downstream kinetic estimate uses the strong-form input only through the
-\emph{integrated} squared homothetic trace, and the square there is absorbed by
-the free perimeter bound \(\int_{\partial^*E_\rho}|\nu_\rho-e_z|^2\le4\Per(E_\rho)
-\le C\) on good levels (Theorem~\ref{inp:samecenter} below).  A pointwise
-per-level estimate is therefore unnecessary; \eqref{eq:constructive-strong} is
-stated in the integrated form actually consumed.
+The plan is as follows.  In \textbf{(1)} we record that each superlevel set
+\(E_\rho\) carries its own torsion problem, solved by \(v:=u-t(\rho)\), and we fix
+notation.  In \textbf{(2)} we prove three exact identities for \(v\): a weighted
+Reilly--Weinberger identity (A), a Pohozaev--Rellich identity (B), and their
+combination (C).  In \textbf{(3)}--\textbf{(4)} we turn identity~(A) into an
+inequality: its left-hand side is a nonnegative ``how far is \(E_\rho\) from a
+ball'' energy, and its right-hand side splits into a boundary variance \(V_3\)
+(controlled by \(D_H\)) and a torsion defect \(W\) (controlled by the
+isoperimetric defect \(D_I\) and a torsion deficit \(\tau\)).  In \textbf{(5)} we
+find the structural catch: \(\tau\) is not a single-level quantity but an
+integral over all interior radii, so the bound is available only after
+integrating in \(\rho\).  In \textbf{(6)} the coarea formula reveals that the
+remaining boundary trace costs an \(L^4\) bound on \(\nabla u\), and an exact
+identity on \(\Om\) shows why the tempting \(u^2\)-weighted Hessian closure would
+be the right one if it were true.  The punctured-ball test then shows that this
+global Hessian closure is false for unrestricted open sets.  In \textbf{(7)} we
+explain why the required gradient bound is unavailable for general domains; and
+in \textbf{(8)}--\textbf{(9)} we summarise the honest status and the remaining
+open problem.  Finally, \textbf{(10)} records a concrete workaround: replace the
+Hessian trace by a capacitary radial trace, reducing the missing step to a
+the oscillation-index form of the constructive Fusco--Maggi--Pratelli
+isoperimetric inequality.
 
-\emph{(ii) The intended proof.} For \(v=u-t(\rho)\), the torsion function of
-\(E_\rho\) (so \(v>0\) inside, and the weighted identities use the positive
-weight \(v\)), the exact weighted Reilly--Weinberger identity
-\(2\int_{E_\rho}v|D^2v+\tfrac1n I|^2=\int_{\partial^*E_\rho}|\nabla v|^3
--(1+\tfrac2n)T(E_\rho)\) controls the bulk Hessian deviation; integrating in
-\(\mu\) and using the budget and \(\int_{G_{\rm sc}}T\text{-deficit}\,d\mu\le
-C\dT\) yields the integrated bound, after the bulk-to-normal trace and the
-constructive Fraenkel volume bound (Theorem~\ref{thm:constructive-fraenkel}).
-Volume closeness about the distance-minimising centre is in any case available
-pointwise: \(q(\rho)^2=\inf_z|E_\rho\Delta B_\rho(z)|^2\le CD_I(t(\rho))\) by
-Theorem~\ref{thm:constructive-fraenkel} (this is what is used downstream); only
-the normal term genuinely needs the integrated treatment.
+\medskip
+\noindent\textbf{(0) What the kinetic estimate actually consumes.}
+Before the computation, it is worth seeing why an \emph{integrated} bound
+suffices.  In Proposition~\ref{prop:positivekinetic} the strong-form input is
+used only to control
+\(\int_G\bigl(\int_{\partial^*E_\rho}|H_{z,\rho}-\bar V_\rho|\,d\Hn\bigr)^2d\mu\),
+and the homothetic trace is reduced (Lemma~\ref{lem:oriented-radial-trace}) to
+the volume term and the normal-oscillation term
+\(\int_{\partial^*E_\rho}|\nu_\rho-e_z|^2\,d\Hn\).  Now on a good level the perimeter is bounded,
+\(\Per(E_\rho)^2=\Per(B_\rho)^2+D_I(t(\rho))\le\Per(B_1)^2+\eta_{\rm Ser}=:C^2\);
+and pointwise, writing \(e_z(x):=(x-z)/|x-z|\) for the unit radial field about
+\(z\), \(|\nu_\rho-e_z|^2\le|\nu_\rho|^2+2|\nu_\rho|\,|e_z|+|e_z|^2\le4\) because
+\(\nu_\rho\) and \(e_z\) are unit vectors.
+Hence, writing \(I_\rho:=\int_{\partial^*E_\rho}|\nu_\rho-e_z|^2\,d\Hn\),
+\[
+   I_\rho\le4\Per(E_\rho)\le 4C=:C_0,
+   \qquad\text{so}\qquad
+   I_\rho^2=I_\rho\cdot I_\rho\le C_0\,I_\rho .
+\]
+Thus the \emph{square} of the normal oscillation is bounded by a constant times
+its \emph{first power}; after integrating in \(\rho\), only
+\(\int_G I_\rho\,d\mu\le C\dT(\Om)\) is needed, never a pointwise per-level
+estimate.  This is exactly the integrated form stated in
+\eqref{eq:constructive-strong}.  (The volume term is in any case pointwise:
+\(q(\rho)^2\le CD_I(t(\rho))\) by Theorem~\ref{thm:constructive-fraenkel}.)  The
+rest of this remark is devoted to producing \(\int_G I_\rho\,d\mu\le C\dT\) from
+the geometry of \(u\).
 
-\emph{(iii) Where the analysis stands.}  As recorded in
-\texttt{M1\_REILLY\_PROGRESS.md}, the weighted-Reilly identity reduces the
-normal term to the integrated Hessian deviation \(\int_{G_{\rm sc}}
-\int_{E_\rho}v|D^2v+\tfrac1n I|^2\,d\mu\); this is controlled by \(C\dT\)
-\emph{provided} a uniform gradient bound \(|\nabla u|\le M_0\) holds on the good
-level sets (the large-gradient tail is the only obstruction, since
-\(\int_G\int_{\partial^*E_\rho}|\nabla v|^3\,d\mu=\int|\nabla u|^4\) by coarea).
-Such an \(M_0\) holds for domains of bounded geometry (uniform ball condition,
-convex, or \(C^{2,\alpha}\)), and there the assumption is discharged with a
-computable constant and no compactness, so the Faber--Krahn estimate is fully
-constructive.  For \emph{general} open sets, \(M_0\) need not hold, and the
-normal term remains conditional on either \(M_0\) or the (non-constructive)
-Fusco--Julin strong form: this is the same gradient-regularity barrier the
-moving-ball route avoids elsewhere.  Until \(M_0\) is established for the
-relevant class, the constructive version of the manuscript is conditional on
-this single integrated input.
+\medskip
+\noindent\textbf{(1) Each level set is itself a torsion problem.}
+Fix a good level \(\rho\) and set
+\[
+   v:=u-t(\rho)\qquad\text{on }E_\rho=\{u>t(\rho)\}.
+\]
+Then \(v\) is the torsion function of \(E_\rho\): indeed \(-\Delta v=-\Delta
+u=1\) in \(E_\rho\) (subtracting a constant does not change the Laplacian);
+\(v=u-t(\rho)=0\) on \(\partial E_\rho=\{u=t(\rho)\}\); and \(v=u-t(\rho)>0\)
+inside, since there \(u>t(\rho)\).  Consequently its torsional rigidity is
+\(T:=T(E_\rho)=\int_{E_\rho}v\,dx\).  On the reduced boundary
+\(\partial^*E_\rho\) we abbreviate
+\[
+   g:=|\nabla v|=|\nabla u|,\qquad
+   P:=\Per(E_\rho),\qquad
+   m:=|E_\rho|=\omega_n\rho^n,
+\]
+\[
+   \beta:=\int_{\partial^*E_\rho}g\,d\Hn,\quad
+   \alpha:=\int_{\partial^*E_\rho}\frac1g\,d\Hn,\quad
+   \bar g:=\frac{\beta}{P}\ \ (\text{the average of }g).
+\]
+The flux identity of Lemma~\ref{lem:id-flux}, applied to \(v\), gives the basic
+relation
+\begin{equation}\label{eq:flux-recall}
+   \beta=\int_{\partial^*E_\rho}|\nabla v|\,d\Hn=|E_\rho|=m .
+\end{equation}
+With these abbreviations the two standing defects read
+\[
+   D_H(t(\rho))=\alpha\beta-P^2\ (\ge0\text{ by Cauchy--Schwarz}),
+   \qquad
+   D_I(t(\rho))=P^2-\Per(B_\rho)^2\ (\ge0\text{ by isoperimetry}).
+\]
+
+\emph{Regularity, so that the identities below are licit.}  Since \(-\Delta u=1\)
+with a smooth right-hand side, interior elliptic regularity gives \(u\in
+C^\infty(\Om)\).  By Sard's theorem the level value \(t(\rho)\) is, for a.e.\
+\(\rho\), a regular value of \(u\), so \(\partial E_\rho=\{u=t(\rho)\}\) is a
+\(C^\infty\) hypersurface except on the critical set \(\{\nabla u=0\}\), which is
+\(\Hn\)-negligible on \(\partial^*E_\rho\) and Lebesgue-negligible in \(E_\rho\)
+(Lemma~\ref{lem:id-noatoms}).  All boundary integrals below are taken on the
+smooth part; equivalently one runs the identities on the smooth inner sets
+\(\{u>t(\rho)+\eps\}\) (smooth boundary for a.e.\ \(\eps\), again by Sard) and
+lets \(\eps\downarrow0\), the boundary integrals converging by the coarea
+formula.  No regularity of \(\partial\Om\) is used.
+
+\medskip
+\noindent\textbf{(2) Three exact identities for \(v\).}
+We first record two elementary pointwise computations.  Write
+\(D^2v=(\partial_{ij}v)_{i,j}\) for the Hessian and \(I\) for the identity matrix,
+and \(|A|^2=\sum_{i,j}A_{ij}^2\) for the Frobenius norm of a matrix.
+
+\emph{(2a) The Bochner computation \(\Delta|\nabla v|^2=2|D^2v|^2\).}
+Differentiate \(|\nabla v|^2=\sum_i(\partial_iv)^2\) once,
+\(\partial_j|\nabla v|^2=\sum_i2\,\partial_iv\,\partial_{ij}v\), and once more by
+the product rule,
+\(\partial_{jj}|\nabla v|^2=\sum_i2\bigl[(\partial_{ij}v)^2
++\partial_iv\,\partial_{ijj}v\bigr]\).  Summing over \(j\),
+\[
+   \Delta|\nabla v|^2
+   =\sum_{i,j}2(\partial_{ij}v)^2
+   +2\sum_i\partial_iv\sum_j\partial_{ijj}v
+   =2|D^2v|^2+2\,\nabla v\cdot\nabla(\Delta v),
+\]
+where \(\sum_{i,j}(\partial_{ij}v)^2=|D^2v|^2\) by definition of the Frobenius
+norm and \(\sum_j\partial_{ijj}v=\partial_i(\sum_j\partial_{jj}v)
+=\partial_i(\Delta v)\).  Since \(\Delta v=-1\) is constant,
+\(\nabla(\Delta v)=0\), so \(\Delta|\nabla v|^2=2|D^2v|^2\).
+
+\emph{(2b) The algebraic identity \(|D^2v+\tfrac1n I|^2=|D^2v|^2-\tfrac1n\).}
+Expanding the square of the symmetric matrix \(D^2v+\tfrac1n I\),
+\[
+   \bigl|D^2v+\tfrac1n I\bigr|^2
+   =|D^2v|^2+\tfrac2n\operatorname{tr}(D^2v)+\tfrac1{n^2}|I|^2
+   =|D^2v|^2+\tfrac2n\Delta v+\tfrac1{n^2}\,n
+   =|D^2v|^2-\tfrac2n+\tfrac1n
+   =|D^2v|^2-\tfrac1n,
+\]
+using \(\operatorname{tr}(D^2v)=\Delta v=-1\) and \(|I|^2=\sum_i1=n\).  Note
+\(|D^2v+\tfrac1n I|^2\ge0\) vanishes exactly when \(D^2v=-\tfrac1n I\), i.e.\ when
+\(v\) is a radial (ball) profile; it is the pointwise measure of ``how far
+\(E_\rho\) is from a ball''.
+
+Introduce Weinberger's \(P\)-function \(\Pi:=|\nabla v|^2+\tfrac2n v\).  Combining
+(2a) and (2b),
+\begin{equation}\label{eq:weinberger}
+   \Delta\Pi=\Delta|\nabla v|^2+\tfrac2n\Delta v
+   =2|D^2v|^2-\tfrac2n=2\bigl(|D^2v|^2-\tfrac1n\bigr)
+   =2\bigl|D^2v+\tfrac1n I\bigr|^2 .
+\end{equation}
+
+\emph{Identity A (weighted Reilly--Weinberger).}
+\begin{equation}\label{eq:reilly-A}
+   2\int_{E_\rho}v\,\bigl|D^2v+\tfrac1n I\bigr|^2dx
+   =\int_{\partial^*E_\rho}g^3\,d\Hn-\Bigl(1+\tfrac2n\Bigr)T.
+\end{equation}
+\emph{Proof.}  Green's second identity on \(E_\rho\) reads
+\[
+   \int_{E_\rho}\bigl(v\,\Delta\Pi-\Pi\,\Delta v\bigr)\,dx
+   =\int_{\partial^*E_\rho}\bigl(v\,\partial_\nu\Pi-\Pi\,\partial_\nu v\bigr)\,d\Hn .
+\]
+On \(\partial E_\rho\) we have \(v=0\), so the term \(v\,\partial_\nu\Pi\)
+vanishes and the right-hand side is \(-\int_{\partial^*E_\rho}\Pi\,\partial_\nu
+v\).  We evaluate the three remaining pieces.
+\begin{itemize}[leftmargin=1.6em]
+\item \emph{Left, first term.}  By \eqref{eq:weinberger},
+\(\int_{E_\rho}v\,\Delta\Pi=2\int_{E_\rho}v\,|D^2v+\tfrac1n I|^2\), the left side
+of \eqref{eq:reilly-A}.
+\item \emph{Left, second term.}  Since \(\Delta v=-1\),
+\(-\int_{E_\rho}\Pi\,\Delta v=\int_{E_\rho}\Pi
+=\int_{E_\rho}|\nabla v|^2+\tfrac2n\int_{E_\rho}v\).  The first integral is
+computed by Green's first identity (integration by parts):
+\(\int_{E_\rho}|\nabla v|^2=-\int_{E_\rho}v\,\Delta v+\int_{\partial^*E_\rho}
+v\,\partial_\nu v=\int_{E_\rho}v\cdot1+0=T\), the boundary term vanishing as
+\(v=0\) and \(-\Delta v=1\).
+Hence \(-\int\Pi\Delta v=T+\tfrac2nT=(1+\tfrac2n)T\).
+\item \emph{Right.}  On \(\partial E_\rho\), \(\Pi=|\nabla v|^2+\tfrac2n v=g^2\)
+(as \(v=0\)).  The outward normal is \(\nu=-\nabla v/|\nabla v|\) (the manuscript's
+orientation: \(v\) decreases outward, so \(\nabla v\) points inward), whence
+\(\partial_\nu v=\nabla v\cdot\nu=-g\).  Therefore
+\(-\int_{\partial^*E_\rho}\Pi\,\partial_\nu v
+=-\int_{\partial^*E_\rho}g^2(-g)=\int_{\partial^*E_\rho}g^3\).
+\end{itemize}
+Putting the three pieces into Green's identity,
+\(2\int v|D^2v+\tfrac1n I|^2+(1+\tfrac2n)T=\int g^3\), which is
+\eqref{eq:reilly-A}. \hfill\(\square\)
+
+\emph{Sanity check on a ball.}  For \(E_\rho=B_R\) the torsion function is
+\(v(x)=(R^2-|x|^2)/(2n)\) (indeed \(-\Delta v=1\) and \(v=0\) on \(|x|=R\)), so
+\(\nabla v=-x/n\), \(g=|x|/n\), and on \(\partial B_R\), \(g=R/n\).  Then
+\(\int_{\partial B_R}g^3=(R/n)^3\,n\omega_nR^{n-1}=\omega_nR^{n+2}/n^2\), while
+\(T(B_R)=\int_{B_R}v=\omega_nR^{n+2}/(n(n+2))\) and so
+\((1+\tfrac2n)T=\tfrac{n+2}{n}\cdot\frac{\omega_nR^{n+2}}{n(n+2)}
+=\omega_nR^{n+2}/n^2\).  The right side of \eqref{eq:reilly-A} is \(0\); the left
+side is \(0\) too, since on a ball \(D^2v=-\tfrac1n I\).  \checkmark
+
+\emph{Identity B (Pohozaev--Rellich).}  For every fixed \(z\in\R^n\),
+\begin{equation}\label{eq:pohozaev-B}
+   \int_{\partial^*E_\rho}g^2\,(x-z)\cdot\nu\,d\Hn=(n+2)T,
+   \qquad\text{and}\qquad
+   \int_{\partial^*E_\rho}g^2\,\nu\,d\Hn=0 .
+\end{equation}
+\emph{Proof.}  Write \(X:=x-z\) and consider the vector field
+\(F:=(X\cdot\nabla v)\nabla v-\tfrac12|\nabla v|^2X\).  We compute
+\(\operatorname{div}F\) by the product rule.  First,
+\(\partial_i(X\cdot\nabla v)=\partial_i\bigl(\sum_j(x_j-z_j)\partial_jv\bigr)
+=\partial_iv+\sum_j(x_j-z_j)\partial_{ij}v\), i.e.\
+\(\nabla(X\cdot\nabla v)=\nabla v+D^2v\,X\).  Hence
+\[
+   \operatorname{div}\bigl[(X\cdot\nabla v)\nabla v\bigr]
+   =\nabla(X\cdot\nabla v)\cdot\nabla v+(X\cdot\nabla v)\Delta v
+   =|\nabla v|^2+X\cdot(D^2v\,\nabla v)+(X\cdot\nabla v)\Delta v,
+\]
+where we used \((D^2v\,X)\cdot\nabla v=X\cdot(D^2v\,\nabla v)\) by symmetry of
+\(D^2v\).  Since \((D^2v\,\nabla v)_i=\sum_j\partial_{ij}v\,\partial_jv
+=\partial_i\bigl(\tfrac12|\nabla v|^2\bigr)\), this is
+\(|\nabla v|^2+\tfrac12X\cdot\nabla|\nabla v|^2+(X\cdot\nabla v)\Delta v\).  Next,
+\(\operatorname{div}\bigl[\tfrac12|\nabla v|^2X\bigr]
+=\tfrac12X\cdot\nabla|\nabla v|^2+\tfrac12|\nabla v|^2\operatorname{div}X
+=\tfrac12X\cdot\nabla|\nabla v|^2+\tfrac n2|\nabla v|^2\)
+(as \(\operatorname{div}X=\operatorname{div}(x-z)=n\)).  Subtracting,
+\[
+   \operatorname{div}F
+   =|\nabla v|^2+(X\cdot\nabla v)\Delta v-\tfrac n2|\nabla v|^2
+   =\Bigl(1-\tfrac n2\Bigr)|\nabla v|^2-(X\cdot\nabla v),
+\]
+using \(\Delta v=-1\) in the last step.  Integrate over \(E_\rho\) and apply the
+divergence theorem to the left:
+\[
+   \int_{\partial^*E_\rho}F\cdot\nu\,d\Hn
+   =\Bigl(1-\tfrac n2\Bigr)\int_{E_\rho}|\nabla v|^2-\int_{E_\rho}X\cdot\nabla v .
+\]
+On the right, \(\int_{E_\rho}|\nabla v|^2=T\) (shown above), and
+\[
+   \int_{E_\rho}X\cdot\nabla v
+   =\int_{E_\rho}\operatorname{div}(Xv)-\int_{E_\rho}v\operatorname{div}X
+   =\int_{\partial^*E_\rho}v\,(X\cdot\nu)-n\int_{E_\rho}v=0-nT=-nT
+\]
+(the boundary term vanishes as \(v=0\)).  So the right side equals
+\((1-\tfrac n2)T+nT=(1+\tfrac n2)T\).  On the left, since \(v\) is constant (\(=0\)) along \(\partial E_\rho\) its
+tangential gradient vanishes, so \(\nabla v=(\partial_\nu v)\nu=-g\nu\); thus
+\(X\cdot\nabla v=-g\,(X\cdot\nu)\), \(\nabla v\cdot\nu=-g\), and
+\(|\nabla v|^2=g^2\); therefore
+\[
+   F\cdot\nu=(X\cdot\nabla v)(\nabla v\cdot\nu)-\tfrac12|\nabla v|^2(X\cdot\nu)
+   =\bigl(-g(X\cdot\nu)\bigr)(-g)-\tfrac12g^2(X\cdot\nu)
+   =\tfrac12g^2(x-z)\cdot\nu .
+\]
+Equating the two sides, \(\tfrac12\int_{\partial^*E_\rho}g^2(x-z)\cdot\nu
+=(1+\tfrac n2)T\), i.e.\ \(\int_{\partial^*E_\rho}g^2(x-z)\cdot\nu=(n+2)T\), the
+first identity in \eqref{eq:pohozaev-B}.  For the second, expand
+\(\int g^2(x-z)\cdot\nu=\int g^2x\cdot\nu-z\cdot\int g^2\nu\); the left side is
+\((n+2)T\), independent of \(z\), while the right side is affine in \(z\), so the
+coefficient of \(z\) must vanish: \(\int_{\partial^*E_\rho}g^2\nu=0\).
+\hfill\(\square\)
+
+\emph{Sanity check on a ball.}  With \(z\) the centre of \(B_R\) and
+\(\nu=x/|x|\), one has \((x-z)\cdot\nu=|x|=R\) on \(\partial B_R\), so
+\(\int g^2(x-z)\cdot\nu=(R/n)^2R\,n\omega_nR^{n-1}=\omega_nR^{n+2}/n
+=(n+2)T(B_R)\).  \checkmark
+
+\emph{Identity C (boundary form).}  From \eqref{eq:pohozaev-B},
+\((1+\tfrac2n)T=\tfrac{n+2}{n}T=\tfrac1n\int_{\partial^*E_\rho}g^2(x-z)\cdot\nu\);
+substituting into \eqref{eq:reilly-A} eliminates the bulk term \(T\):
+\begin{equation}\label{eq:reilly-C}
+   2\int_{E_\rho}v\,\bigl|D^2v+\tfrac1n I\bigr|^2dx
+   =\int_{\partial^*E_\rho}g^2\Bigl[g-\tfrac1n(x-z)\cdot\nu\Bigr]d\Hn .
+\end{equation}
+This is a pure boundary integral.  Recalling the homothetic trace
+\(H_{z,\rho}=(x-z)\cdot\nu/\rho\) of the standing notation, the bracket is
+\(g-\tfrac\rho n H_{z,\rho}\); on the ball \(B_\rho(z)\) one has \(g=\rho/n\) and
+\(H_{z,\rho}=1\), so the bracket vanishes identically -- the integrand measures
+the joint failure of the gradient to be constant (\(g\ne\bar g\)) and of the
+boundary to be the sphere about \(z\) (\(H_{z,\rho}\ne1\)).
+
+\medskip
+\noindent\textbf{(3) Turning identity~A into an inequality.}
+Abbreviate the left side of \eqref{eq:reilly-A} as the \emph{weighted Hessian
+deviation}
+\[
+   \mathrm{Dev}(E_\rho):=\int_{E_\rho}v\,\bigl|D^2v+\tfrac1n I\bigr|^2dx\ \ge0
+\]
+(nonnegative because \(v>0\) inside and the integrand is a square; it vanishes
+iff \(E_\rho\) is a ball).  Introduce
+\[
+   V_3:=\int_{\partial^*E_\rho}g^3\,d\Hn-\frac{\beta^3}{P^2},
+   \qquad
+   W:=\Bigl(1+\tfrac2n\Bigr)T-\frac{\beta^3}{P^2}.
+\]
+Subtracting and adding \(\beta^3/P^2\) on the right of \eqref{eq:reilly-A} gives
+the clean split
+\begin{equation}\label{eq:reilly-R}
+   2\,\mathrm{Dev}(E_\rho)
+   =\Bigl(\textstyle\int g^3-\frac{\beta^3}{P^2}\Bigr)
+   -\Bigl((1+\tfrac2n)T-\frac{\beta^3}{P^2}\Bigr)
+   =V_3-W .
+\end{equation}
+We now show \(V_3\) is a (third-moment) variance of \(g\), hence nonnegative and
+controlled by \(D_H\), and that \(-W\) is controlled by \(D_I\) and a torsion
+deficit.
+
+\emph{\(V_3\) is a variance.}  Write \(g=\bar g+\delta\) with
+\(\delta:=g-\bar g\).  Then \(\int_{\partial^*E_\rho}\delta=\beta-\bar gP=
+\beta-\tfrac\beta P P=0\); the average deviation is zero, as it must be.
+Cubing and integrating,
+\[
+   \int g^3=\int(\bar g+\delta)^3
+   =\int\bigl(\bar g^3+3\bar g^2\delta+3\bar g\delta^2+\delta^3\bigr)
+   =\bar g^3P+0+3\bar g\!\int\delta^2+\int\delta^3 ,
+\]
+and \(\beta^3/P^2=(\bar gP)^3/P^2=\bar g^3P\).  Subtracting,
+\begin{equation}\label{eq:V3-variance}
+   V_3=3\bar g\int_{\partial^*E_\rho}(g-\bar g)^2\,d\Hn
+       +\int_{\partial^*E_\rho}(g-\bar g)^3\,d\Hn .
+\end{equation}
+That \(V_3\ge0\) is Jensen's inequality for the convex function \(s\mapsto s^3\)
+on \([0,\infty)\) against the probability measure \(d\Hn/P\) on
+\(\partial^*E_\rho\): \(\bigl(\tfrac1P\int g\bigr)^3\le\tfrac1P\int g^3\), i.e.\
+\((\beta/P)^3\le\tfrac1P\int g^3\), i.e.\ \(\beta^3/P^2\le\int g^3\); equality
+holds iff \(g\) is \(\Hn\)-a.e.\ constant.
+
+\emph{The Cauchy--Schwarz defect is a weighted variance.}  This is the
+computation behind Lemma~\ref{lem:velocity}.  Expand
+\((g-\bar g)^2/g=g-2\bar g+\bar g^2/g\) and integrate:
+\[
+   \int_{\partial^*E_\rho}\frac{(g-\bar g)^2}{g}
+   =\int g-2\bar g\int1+\bar g^2\int\frac1g
+   =\beta-2\bar gP+\bar g^2\alpha ,
+\]
+where \(\int_{\partial^*E_\rho}1\,d\Hn=P\) is the perimeter.  Inserting
+\(\bar g=\beta/P=m/P\) (with \(\beta=m\)), the right-hand side
+\(\beta-2\bar gP+\bar g^2\alpha\) becomes \(m-2m+\tfrac{m^2}{P^2}\alpha\), and
+\[
+\begin{aligned}
+   m-2m+\frac{m^2}{P^2}\alpha
+   &=\frac{m^2}{P^2}\alpha-m\\
+   &=\frac{m}{P^2}\bigl(m\alpha-P^2\bigr)\\
+   &=\frac{m}{P^2}\bigl(\alpha\beta-P^2\bigr)\\
+   &=\frac{m}{P^2}\,D_H ,
+\end{aligned}
+\]
+the third line using \(m\alpha=\alpha\beta\) (again \(\beta=m\)) and the last the
+definition of \(D_H\).  Thus
+\begin{equation}\label{eq:DH-variance}
+   \int_{\partial^*E_\rho}\frac{(g-\bar g)^2}{g}\,d\Hn=\frac{m}{P^2}\,D_H(t(\rho)).
+\end{equation}
+
+\emph{\(V_3\le C\,D_H\), given an upper gradient bound.}  Suppose for the moment
+that \(g\le M_0\) on \(\partial^*E_\rho\).  Two estimates follow.  First, multiplying and dividing by \(g\) and using
+\(g\le M_0\),
+\((g-\bar g)^2=\dfrac{(g-\bar g)^2}{g}\cdot g\le M_0\,\dfrac{(g-\bar g)^2}{g}\);
+integrating and applying \eqref{eq:DH-variance},
+\[
+   \int(g-\bar g)^2\le M_0\int\frac{(g-\bar g)^2}{g}=M_0\,\frac{m}{P^2}\,D_H .
+\]
+Second, \(|g-\bar g|\le M_0+\bar g\) pointwise, because \(0\le g\le M_0\) gives
+\(g-\bar g\in[-\bar g,\,M_0-\bar g]\), so \(|g-\bar g|\le\max(\bar g,M_0-\bar g)
+\le M_0+\bar g\).  Hence \(\int(g-\bar g)^3\le\int|g-\bar g|^3
+\le(M_0+\bar g)\int(g-\bar g)^2\).  Combining with \eqref{eq:V3-variance},
+\begin{equation}\label{eq:V3-bound}
+   V_3=3\bar g\!\int(g-\bar g)^2+\int(g-\bar g)^3
+   \le\bigl(3\bar g+M_0+\bar g\bigr)\int(g-\bar g)^2
+   \le\bigl(4\bar g+M_0\bigr)M_0\,\frac{m}{P^2}\,D_H .
+\end{equation}
+On a good level \(P\ge\Per(B_\rho)=n\omega_n\rho^{n-1}\ge n\omega_n\rstar^{n-1}\),
+\(m=\omega_n\rho^n\le\omega_n\), and \(\bar g=m/P\le1/(n\rstar^{n-1})\), so the
+prefactor is a computable \(C(n,R,\rstar,M_0)\) and
+\(V_3\le C(n,R,\rstar,M_0)\,D_H(t(\rho))\).  The mechanism to note: \(V_3\)
+weights large gradients by \(g\) (cube), while \(D_H\) weights them by \(1/g\)
+(through \eqref{eq:DH-variance}); only an upper bound \(M_0\) closes that gap.
+This is the \emph{first} appearance of the gradient hypothesis.
+
+\medskip
+\noindent\textbf{(4) The defect \(W\) is a torsion deficit.}
+Using \(\beta=m\), \(-W=m^3/P^2-(1+\tfrac2n)T(E_\rho)\).  Let
+\[
+   \tau(E_\rho):=T(B_\rho)-T(E_\rho)\ \ge0
+\]
+be the torsion deficit; nonnegativity is the classical Saint--Venant inequality
+(among sets of given volume the ball has the largest torsional rigidity).  The
+ball of the same volume satisfies the explicit identity
+\begin{equation}\label{eq:K1-ball}
+   T(B_\rho)\,\Per(B_\rho)^2=\tfrac{n}{n+2}\,m^3,
+   \qquad\text{equivalently}\qquad
+   m^3=\Bigl(1+\tfrac2n\Bigr)T(B_\rho)\,\Per(B_\rho)^2 .
+\end{equation}
+\emph{Indeed}, with \(T(B_\rho)=\omega_n\rho^{n+2}/(n(n+2))\),
+\(\Per(B_\rho)=n\omega_n\rho^{n-1}\) and \(m=\omega_n\rho^n\),
+\[
+   T(B_\rho)\Per(B_\rho)^2
+   =\frac{\omega_n\rho^{n+2}}{n(n+2)}\,n^2\omega_n^2\rho^{2n-2}
+   =\frac{n}{n+2}\,\omega_n^3\rho^{3n}
+   =\frac{n}{n+2}\,m^3 .
+\]
+Now use \(P^2=\Per(B_\rho)^2+D_I\) (the definition of \(D_I\)) and
+\eqref{eq:K1-ball}:
+\[
+   \frac{m^3}{P^2}
+   =\bigl(1+\tfrac2n\bigr)T(B_\rho)\,\frac{\Per(B_\rho)^2}{P^2}
+   =\bigl(1+\tfrac2n\bigr)T(B_\rho)\,\frac{P^2-D_I}{P^2}
+   =\bigl(1+\tfrac2n\bigr)T(B_\rho)
+     -\bigl(1+\tfrac2n\bigr)\frac{T(B_\rho)\,D_I}{P^2}.
+\]
+Subtracting \((1+\tfrac2n)T(E_\rho)=(1+\tfrac2n)\bigl(T(B_\rho)-\tau\bigr)\)
+gives the \emph{exact} identity
+\begin{equation}\label{eq:W-exact}
+   -W=\frac{m^3}{P^2}-\Bigl(1+\tfrac2n\Bigr)T(E_\rho)
+   =\Bigl(1+\tfrac2n\Bigr)\left[\tau(E_\rho)-\frac{T(B_\rho)\,D_I(t(\rho))}{P^2}\right].
+\end{equation}
+The subtracted term is nonnegative, so
+\begin{equation}\label{eq:W-tau}
+   -W\le\Bigl(1+\tfrac2n\Bigr)\tau(E_\rho).
+\end{equation}
+Feeding \eqref{eq:V3-bound} and \eqref{eq:W-tau} into the split
+\eqref{eq:reilly-R},
+\begin{equation}\label{eq:Dev-pointwise}
+   2\,\mathrm{Dev}(E_\rho)=V_3-W
+   \le C(n,R,\rstar,M_0)\,D_H(t(\rho))+\Bigl(1+\tfrac2n\Bigr)\tau(E_\rho).
+\end{equation}
+Thus a clean single-level bound \(\mathrm{Dev}(E_\rho)\le C\,(D_H+D_I)(t(\rho))\)
+would follow \emph{if} \(\tau(E_\rho)\le C(D_H+D_I)(t(\rho))\) held.  For
+completeness, the inequality \(W\ge0\) is equivalent, after multiplying by
+\(P^2/(1+\tfrac2n)>0\), to the scale-invariant ``reverse'' torsion--perimeter
+inequality
+\begin{equation}\label{eq:K1}
+   T(\Om)\,\Per(\Om)^2\ge\tfrac{n}{n+2}\,|\Om|^3,
+   \qquad\text{with equality iff \(\Om\) is a ball}
+\end{equation}
+(equality on balls is \eqref{eq:K1-ball}).  We neither prove nor need
+\eqref{eq:K1}: by \eqref{eq:W-tau} only the \emph{upper} bound on \(\tau\)
+enters, and an upper bound on the nonnegative \(-W\) is all
+\eqref{eq:Dev-pointwise} requires.
+
+\medskip
+\noindent\textbf{(5) Bulk versus single level: why the bound must be integrated.}
+The crucial structural point is that \(\tau(E_\rho)\) is \emph{not} a single-level
+quantity.  The superlevel sets of \(v=u-t(\rho)\) inside \(E_\rho\) are, for
+\(s\in(0,\|v\|_\infty)\),
+\[
+   \{v>s\}=\{u>t(\rho)+s\}=E_{\rho'},
+   \qquad |E_{\rho'}|=\omega_n\rho'^n,
+\]
+where \(\rho'\) decreases from \(\rho\) (at \(s=0\)) to \(0\).  Since
+\(\nabla v=\nabla u\) and the sets are the same, the Cauchy--Schwarz and
+isoperimetric defects of \(v\)'s superlevels are exactly \(D_H(t(\rho'))\) and
+\(D_I(t(\rho'))\) of \(u\)'s.  Therefore the exact deficit identity
+(Theorem~\ref{thm:id-main}) applied to the torsion function \(v\) on \(E_\rho\),
+written in the radius variable exactly as in the proof of
+Proposition~\ref{prop:levelset}, reads
+\begin{equation}\label{eq:tau-interior}
+   \tau(E_\rho)=2\,\delta_T(E_\rho)
+   =\int_{(0,\rho]}
+     \frac{D_H(t(\rho'))+D_I(t(\rho'))}{n^2\omega_n\,\rho'^{\,n-2}}\,d\mu(\rho').
+\end{equation}
+Here \(\delta_T(E_\rho)=E(E_\rho)-E(B_\rho)=\tfrac12\bigl(T(B_\rho)-T(E_\rho)\bigr)
+=\tfrac12\tau(E_\rho)\), since \(E(\cdot)=-\tfrac12T(\cdot)\); and the integrand on
+the right is \emph{the same} one the identity assigns to \(\Om\) itself
+(compare the displayed formula in the proof of
+Proposition~\ref{prop:levelset}), only with the integration cut off at the radius
+\(\rho\) of \(E_\rho\).  Two consequences follow.
+
+\emph{(5a) The pointwise bound is false.}  The right side of
+\eqref{eq:tau-interior} integrates the defects over \emph{all} interior radii
+\(\rho'\le\rho\).  A deep interior level \(\rho'\ll\rho\) may carry a large defect
+while the level \(\rho\) itself is nearly spherical (so
+\(D_H(t(\rho))+D_I(t(\rho))\) is tiny), and conversely.  Hence
+\(\tau(E_\rho)\le C(D_H+D_I)(t(\rho))\) cannot hold at a single level, so by
+\eqref{eq:Dev-pointwise} neither can \(\mathrm{Dev}(E_\rho)\le
+C(D_H+D_I)(t(\rho))\).  A pointwise, per-\(\rho\) strong-form input is simply not
+what identity~A produces.
+
+\emph{(5b) The integrated bound is clean.}  Because the integrand in
+\eqref{eq:tau-interior} is nonnegative and \((0,\rho]\subset(0,1]\), the integral
+over \((0,\rho]\) is at most the integral over \((0,1]\), which is the full
+deficit identity for \(\Om\).  That is,
+\begin{equation}\label{eq:tau-mono}
+   \tau(E_\rho)=2\,\delta_T(E_\rho)\le2\,\dT(\Om)\qquad\text{for every }\rho:
+\end{equation}
+\emph{the deficit of any superlevel set is at most the deficit of the whole
+domain}.  Integrating \eqref{eq:tau-mono} in \(\mu\) over the good set \(G\),
+\begin{equation}\label{eq:tau-integrated}
+   \int_G\tau(E_\rho)\,d\mu(\rho)\le2\dT(\Om)\,\mu(G)\le\tfrac2n\,\dT(\Om),
+\end{equation}
+where \(\mu(G)\le\mu([\rstar,\rdel])=\int_{\rstar}^{\rdel}\wt\,d\rho
+\le\tfrac1n(\rdel-\rstar)\le\tfrac1n\), using the density bound
+\(0\le\wt\le1/n\) of Proposition~\ref{prop:levelset} and \(\rdel-\rstar<1\).
+Finally, integrate \eqref{eq:Dev-pointwise} over \(G\) and use the budget
+\eqref{eq:budget} (\(\int_G D_H\,d\mu\le\int_G(D_H+D_I)\,d\mu\le C_L\dT\))
+together with \eqref{eq:tau-integrated}:
+\begin{equation}\label{eq:Dev-integrated}
+   \int_G\mathrm{Dev}(E_\rho)\,d\mu(\rho)
+   =\tfrac12\int_G(V_3-W)\,d\mu
+   \le C(n,R,\rstar,M_0)\,\dT(\Om).
+\end{equation}
+This is the genuine output of the weighted-Reilly identity: the
+\emph{integrated} bound on the Hessian deviation, with an explicit constant,
+contingent only on the gradient bound \(M_0\) (through \eqref{eq:V3-bound}).
+
+\medskip
+\noindent\textbf{(6) From bulk to boundary: why the route needs a gradient bound, twice.}
+The bound \eqref{eq:Dev-integrated} controls the integrated \emph{bulk}
+quantity \(\int_G\!\int_{E_\rho}v|D^2v+\tfrac1n I|^2dx\,d\mu(\rho)\), while
+Assumption~\ref{ass:constructive-strong} asks for the integrated \emph{boundary}
+quantity \(\int_G I_\rho\,d\mu\), with
+\(I_\rho:=\int_{\partial^*E_\rho}|\nu_\rho-e_z|^2\,d\Hn\).  Between them stand
+two steps: a pointwise comparison of \(\nu_\rho\) to \(e_z\), and a trace
+inequality moving the resulting boundary integral to the bulk.  Gradient
+information enters each one, and the coarea formula will then give a third,
+independent reason that the same gradient information is necessary.  The whole
+purpose of this part is to make those three appearances of \(g=|\nabla u|\)
+visible.
+
+\emph{(6a) The Hessian deviation is the Jacobian of an explicit vector field.}
+Define
+\[
+   F(x):=\nabla v(x)+\frac{x-z}{n}\qquad(x\in E_\rho).
+\]
+On the ball \(B_\rho(z)\), \(v(x)=(\rho^2-|x-z|^2)/(2n)\), so
+\(\nabla v=-(x-z)/n\) and \(F\equiv0\).  In general, differentiating the
+definition,
+\begin{equation}\label{eq:F-jacobian}
+   \partial_iF_j=\partial_{ij}v+\frac{\delta_{ij}}{n},
+   \qquad\text{i.e.}\qquad
+   DF=D^2v+\tfrac1n I .
+\end{equation}
+Thus the pointwise integrand of \(\mathrm{Dev}(E_\rho)\) is exactly the squared
+Frobenius norm of the Jacobian of \(F\):
+\[
+   \mathrm{Dev}(E_\rho)=\int_{E_\rho}v\,|DF|^2\,dx ,
+\]
+a \(v\)-weighted bulk \(L^2\) norm.  This identifies what \(\mathrm{Dev}\)
+measures: the failure of \(F\) to be constant on \(E_\rho\), so
+\(\mathrm{Dev}=0\) iff \(F\) is constant; combined with \(F\equiv0\) on the ball
+about \(z\), \(\mathrm{Dev}=0\) iff \(E_\rho\) is the ball about \(z\).  The
+vector field \(F\) is the bridge we will use to walk from the Hessian deviation
+in the bulk to the normal oscillation on the boundary.
+
+\emph{(6b) The boundary normal, point-by-point, in terms of \(F\) and \(g\).}
+On \(\partial^*E_\rho\) the outward unit normal is
+\(\nu_\rho=-\nabla v/|\nabla v|=-\nabla v/g\) (part~(1)).  Solving the
+definition of \(F\) for \(\nabla v\), \(\nabla v=F-(x-z)/n\), and substituting,
+\[
+   \nu_\rho
+   =-\frac{F-(x-z)/n}{g}
+   =\frac{x-z}{n\,g}-\frac{F}{g}.
+\]
+Subtracting \(e_z=(x-z)/|x-z|\) gives the \emph{exact pointwise formula} we will
+work from:
+\begin{equation}\label{eq:nu-minus-ez}
+   \nu_\rho-e_z
+   =(x-z)\!\left[\frac{1}{n\,g}-\frac{1}{|x-z|}\right]\;-\;\frac{F}{g}.
+\end{equation}
+Each of the two terms has a clean geometric meaning.  The bracketed factor
+vanishes iff \(n\,g=|x-z|\), which on the ball reads \(|\nabla v|=|x-z|/n\);
+hence the first term is a \emph{gradient magnitude} deviation -- how far
+\(|\nabla v|\) is from its ball value at the point \(x\).  The second term is
+\(F/g\); on the ball both \(F\) and the bracket vanish, and away from the ball
+\(F/g\) measures the deviation of \(\nabla v/g\) from a radial direction.
+Taking lengths and simplifying the bracketed coefficient,
+\[
+   \frac1{ng}-\frac1{|x-z|}
+   =\frac{|x-z|-n\,g}{n\,g\,|x-z|},
+   \qquad\text{so}\qquad
+   |x-z|\cdot\Bigl|\frac1{ng}-\frac1{|x-z|}\Bigr|
+   =\frac{|\,|x-z|-ng\,|}{n\,g}
+   =\frac{1}{g}\,\Bigl|\tfrac{|x-z|}{n}-g\Bigr| ,
+\]
+the last equality dividing numerator and denominator of \(|\,|x-z|-ng|/(ng)\) by
+\(n\).  Therefore
+\[
+   |\nu_\rho-e_z|\le\frac1g\,\Bigl|\tfrac{|x-z|}{n}-g\Bigr|+\frac{|F|}{g}.
+\]
+Squaring (and using \((a+b)^2\le2a^2+2b^2\)) yields
+\begin{equation}\label{eq:nu-pointwise}
+   |\nu_\rho-e_z|^2\;\le\;\frac{2}{g^2}\Bigl[\Bigl(\tfrac{|x-z|}{n}-g\Bigr)^2+|F|^2\Bigr] .
+\end{equation}
+\emph{This is the first place a gradient hypothesis enters.}  Both summands on
+the right carry the factor \(1/g^2\); they are unbounded at points where
+\(g=|\nabla u|\) is small.  A uniform lower bound \(g\ge m_0>0\) on
+\(\partial^*E_\rho\) is required even to make sense of the pointwise estimate
+\eqref{eq:nu-pointwise}.
+
+\emph{(6c) The boundary integral by a trace inequality: where \(M_0\) enters.}
+Integrate \eqref{eq:nu-pointwise} over \(\partial^*E_\rho\):
+\begin{equation}\label{eq:Irho-split}
+   I_\rho\le\frac{2}{m_0^2}\!\int_{\partial^*E_\rho}\!\Bigl(\tfrac{|x-z|}{n}-g\Bigr)^2 d\Hn
+        +\frac{2}{m_0^2}\!\int_{\partial^*E_\rho}|F|^2\,d\Hn .
+\end{equation}
+Both boundary integrals are now of the form ``\(L^2\) of a function or field
+whose gradient is built from \(D^2v+\tfrac1n I\)'', so each should be controlled
+by the bulk Hessian and ultimately by \(\mathrm{Dev}\).  This is done by three
+classical tools, chained together.
+\begin{enumerate}[leftmargin=2.4em]
+\item \emph{Trace} on the smooth bounded set \(E_\rho\):
+\[
+   \int_{\partial^*E_\rho}|F|^2\,d\Hn
+   \;\le\;C(E_\rho)\!\int_{E_\rho}\bigl(|F|^2+|DF|^2\bigr)dx ,
+\]
+with \(C(E_\rho)\) depending only on diameter and a perimeter constant (both
+controlled on good levels).
+\item \emph{Poincaré} on \(E_\rho\), after subtracting the average of \(F\):
+\(\int_{E_\rho}|F|^2\le C(E_\rho)\int_{E_\rho}|DF|^2\).  Combining (1)+(2),
+\(\int_{\partial^*E_\rho}|F|^2\le C(E_\rho)\!\int_{E_\rho}|DF|^2\).
+\item \emph{Hopf--Hardy} -- the conversion to the \(v\)-weighted bulk we
+actually control by \eqref{eq:Dev-integrated}.  The Hopf lemma applied to the
+torsion function \(v\) says that \(v\) vanishes \emph{linearly} at
+\(\partial E_\rho\) with rate proportional to \(g\): on a tubular collar of
+\(\partial E_\rho\), \(v(x)\ge c\,\mathrm{dist}(x,\partial E_\rho)\cdot
+\inf_{\partial E_\rho}g\).  The classical Hardy inequality on \(E_\rho\) then
+trades a distance-to-boundary weight against an extra Hessian, and the
+unweighted bulk Hessian is bounded by the \(v\)-weighted one up to a constant
+involving \(\sup_{E_\rho}g\):
+\[
+   \int_{E_\rho}|DF|^2\,dx
+   \le C(E_\rho,M_0,m_0)\!\int_{E_\rho}v\,|DF|^2\,dx
+   =C(E_\rho,M_0,m_0)\,\mathrm{Dev}(E_\rho).
+\]
+The constant depends on \(M_0=\sup g\) (the absorption \(v\le M_0\cdot
+\mathrm{dist}\) inside the collar) and on \(m_0=\inf g\) (the Hopf rate); it is
+finite \emph{only} if \(g\) is bounded both above and below.
+\end{enumerate}
+The first integral in \eqref{eq:Irho-split} is treated analogously: the function
+\(g-|x-z|/n\) has gradient built from \(D^2v+\tfrac1n I\) and from a smooth
+radial term, so the same trace-Poincaré-Hopf-Hardy chain bounds its boundary
+\(L^2\) norm by \(C(E_\rho,M_0,m_0)\,\mathrm{Dev}(E_\rho)\).  Inserting into
+\eqref{eq:Irho-split} produces the trace inequality
+\begin{equation}\label{eq:trace-bound}
+   I_\rho\;\le\;\frac{C(n,R,\rstar,M_0)}{m_0^2}\,\mathrm{Dev}(E_\rho).
+\end{equation}
+\emph{This is the second place the gradient hypothesis enters.}  The trace
+constant carries \(M_0\) in the numerator (from the Hopf--Hardy unweighting
+\(\int|DF|^2\le C\cdot M_0\cdot\mathrm{Dev}\)) and \(1/m_0^2\) in the
+denominator (from \eqref{eq:nu-pointwise}, the pointwise \(\nu\)-formula).
+Both must be finite.  Integrating \eqref{eq:trace-bound} against \(d\mu\) and
+feeding in \eqref{eq:Dev-integrated},
+\[
+   \int_G I_\rho\,d\mu\;\le\;\frac{C(n,R,\rstar,M_0)}{m_0^2}\,\dT(\Om) ,
+\]
+which is the integrated bound \eqref{eq:constructive-strong} demands.
+
+\emph{(6d) The coarea formula: an independent reason the integral cannot be
+controlled without bounding \(|\nabla u|\).}
+The trace argument hides the gradient inside a multiplicative constant.  The
+coarea formula gives the same conclusion in an entirely different and more
+transparent way: it shows that the bulk integral
+\(\int_G\!\int_{\partial^*E_\rho}g^3\,d\Hn\,d\mu\) is literally an explicit
+Lebesgue integral of \(|\nabla u|^4\), so any quantitative bound on it forces a
+quantitative bound on the \(L^4\) norm of \(\nabla u\).
+
+Take \(\varphi=|\nabla u|^3\) in the BV coarea identity
+\(\int_\Om|\nabla u|\varphi\,dx=\int_\R\bigl(\int_{\partial^*\{u>t\}}\varphi\,d\Hn\bigr)dt\):
+\[
+   \int_\Om|\nabla u|^4\,dx
+   =\int_\R\Bigl(\int_{\partial^*\{u>t\}}|\nabla u|^3\,d\Hn\Bigr)dt .
+\]
+Under the parametrisation \(t=t(\rho)\) the measure \(|dt|\) equals
+\(d\mu(\rho)\), and \(\{u=t(\rho)\}=\partial E_\rho\), \(|\nabla u|=g\); restricting
+to \(t\in t(G)\),
+\begin{equation}\label{eq:coarea-g4}
+   \int_G\Bigl(\int_{\partial^*E_\rho}g^3\,d\Hn\Bigr)d\mu(\rho)
+   =\int_{u^{-1}(t(G))}|\nabla u|^4\,dx .
+\end{equation}
+By identity~A, \(\int_{\partial^*E_\rho}g^3=2\,\mathrm{Dev}(E_\rho)
++(1+\tfrac2n)T(E_\rho)\); substituting into \eqref{eq:coarea-g4} produces the
+\emph{exact identity}
+\begin{equation}\label{eq:dev-equals-L4}
+   \int_{u^{-1}(t(G))}|\nabla u|^4\,dx
+   \;=\;
+   2\!\int_G\!\mathrm{Dev}(E_\rho)\,d\mu(\rho)
+   \;+\;R_n(\Om),
+\end{equation}
+where the remainder
+\[
+   R_n(\Om):=\Bigl(1+\tfrac2n\Bigr)\!\int_G T(E_\rho)\,d\mu(\rho)
+\]
+is nonnegative, depends only on the geometry of \(\Om\) and the good set \(G\),
+and is bounded above by a specific dimensional constant: by Saint--Venant
+\(T(E_\rho)\le T(B_\rho)\le T(B_1)=\omega_n/(n(n+2))\), and by
+Proposition~\ref{prop:levelset} \(\mu(G)\le1/n\), so
+\begin{equation}\label{eq:Rn-bound}
+   0\le R_n(\Om)\le \Bigl(1+\tfrac2n\Bigr)\cdot
+   \frac{\omega_n}{n(n+2)}\cdot\frac1n
+   =\frac{\omega_n}{n^3} .
+\end{equation}
+The bound \eqref{eq:Rn-bound} is uniform: \(R_n(\Om)\) depends on \(\Om\) only
+through quantities already bounded on good levels, never exceeding the explicit
+dimensional ceiling \(\omega_n/n^3\).  The set \(u^{-1}(t(G))\) on the left of
+\eqref{eq:dev-equals-L4} is the ``good bulk'' -- the Lebesgue-positive subset of
+\(\Om\) consisting of those points \(x\) whose level \(u(x)\) is one of the good
+values \(\{t(\rho):\rho\in G\}\); under the area formula it is the union of the
+level sets \(\partial E_\rho\) over \(\rho\in G\).  No estimate is hidden in
+\eqref{eq:dev-equals-L4}: it is a strict equality with an explicit, computable,
+uniformly bounded remainder.
+\eqref{eq:dev-equals-L4} is an \emph{exact identity}, not an inequality; it uses
+only the coarea formula and identity~A, no compactness, no Reilly bound.  It
+answers the question ``why do we need \(|\nabla u|\) bounded?'' directly:
+\begin{itemize}[leftmargin=2em]
+\item \emph{(i) Finiteness, no constants.}  The left side of
+\eqref{eq:dev-equals-L4} is the very quantity \eqref{eq:Dev-integrated} bounds.
+By \eqref{eq:dev-equals-L4} it is \emph{finite} if and only if the right side is
+finite, i.e.\ iff \(\nabla u\) lies in \(L^4\) on the good bulk
+\(u^{-1}(t(G))\).  If a thin spike near \(\partial\Om\) lets \(|\nabla u|\) blow
+up so fast that \(\int|\nabla u|^4=\infty\), the left side is also infinite and
+\eqref{eq:Dev-integrated} has nothing to bound.  This is independent of any
+Reilly-type argument: it is a property of the integral itself.
+\item \emph{(ii) The exact quantitative \(L^4\) bound the route asks for.}
+For \eqref{eq:Dev-integrated} to read
+\(\int_G\mathrm{Dev}\,d\mu\le C\,\dT(\Om)\) -- the form actually used to
+conclude -- we passed through \(V_3\le C(M_0)D_H\) in \eqref{eq:V3-bound},
+which assumed \(g\le M_0\) on each \(\partial^*E_\rho\).  By
+\eqref{eq:dev-equals-L4} this is precisely the bound
+\begin{equation}\label{eq:L4-bound}
+   \int_{u^{-1}(t(G))}|\nabla u|^4\,dx
+   \;\le\;
+   2\,C(n,R,\rstar,M_0)\,\dT(\Om)\;+\;R_n(\Om)
+   \;\le\;
+   2\,C(n,R,\rstar,M_0)\,\dT(\Om)\;+\;\frac{\omega_n}{n^3} ,
+\end{equation}
+i.e.\ the \(L^4\) integral of \(\nabla u\) over the good bulk is bounded by a
+specific dimensional baseline (at most \(\omega_n/n^3\)) plus a multiple of the
+Saint--Venant deficit.  The cleaner ``excess'' form, equivalent to
+\eqref{eq:L4-bound} via \eqref{eq:dev-equals-L4} (which is an identity, not an
+inequality), reads
+\[
+   \int_{u^{-1}(t(G))}|\nabla u|^4\,dx-R_n(\Om)
+   \;\le\;2\,C(n,R,\rstar,M_0)\,\dT(\Om):
+\]
+the \emph{excess} of \(\int|\nabla u|^4\) above its \(\Om\)-dependent
+``Saint--Venant baseline'' \(R_n(\Om)\) is bounded by a deficit-sized term.
+In the small-deficit regime \(\dT\downarrow0\) the integral itself approaches
+\(R_n(\Om)\); on the ball \(\Om=B_1\) one checks by direct computation that
+\(\int_{u^{-1}(t(G))}|\nabla u|^4=R_n(B_1)\) (the Reilly identity reduces to
+\(0=0\)).  The pointwise \(L^\infty\) hypothesis \(M_0\) is the natural and
+standard way to obtain \eqref{eq:V3-bound} (one cannot in general read off a
+pointwise sup-norm bound from an \(L^4\) bound, so the route consumes the
+stronger \(L^\infty\) hypothesis).
+\end{itemize}
+The coarea identity is therefore an independent confirmation of the same
+conclusion reached in (6c): the bulk integral the route hinges on is, up to a
+bounded remainder, the \(L^4\) norm of \(\nabla u\) over the good bulk, and any
+quantitative bound on it must come from a quantitative \(L^4\) (morally
+\(L^\infty\)) gradient bound.
+
+\emph{(6e) Summary, with the right ``iff''.}
+Three statements have been established, and they should not be conflated.
+\begin{itemize}[leftmargin=2em]
+\item \emph{The genuine ``iff'' is for \(L^4\), via coarea.}  Identity
+\eqref{eq:dev-equals-L4} is exact, so
+\(\int_G\mathrm{Dev}(E_\rho)\,d\mu\le C\,\dT(\Om)\) holds \emph{if and only if}
+\eqref{eq:L4-bound} does, with the same constant \(C\) and the explicit
+remainder \(R_n(\Om)\le\omega_n/n^3\) of \eqref{eq:Rn-bound}: a quantitative
+\(L^4\) bound on \(\nabla u\) over the good bulk, with an explicit dimensional
+baseline, is the exact necessary-and-sufficient condition for the Reilly bulk
+bound, and this is rigorous in both directions because \eqref{eq:dev-equals-L4}
+is an identity.
+\item \emph{Sufficient pointwise hypothesis (this is what the chain uses).}
+The argument actually written here passes through \(V_3\le C(M_0)D_H\) at each
+level \eqref{eq:V3-bound} and through a trace constant
+\(C(M_0)/m_0^2\) at \eqref{eq:trace-bound}; both steps consume a
+\emph{pointwise} upper bound \(g\le M_0\) (and the trace also uses a pointwise
+lower bound \(g\ge m_0>0\)) on the good level sets.  A pointwise \(L^\infty\)
+bound is \emph{stronger} than the \(L^4\) bound the coarea identity isolates
+(\(L^\infty\Rightarrow L^4\) on a bounded set, but not conversely), so this chain
+consumes more than coarea minimally requires.
+\item \emph{What is \emph{not} proved.}  We do \emph{not} show that a pointwise
+\(L^\infty\) gradient bound is \emph{necessary} for the route to close; only
+that the present chain uses one.  An alternative chain -- redistributing the
+\(V_3\)-vs-\(D_H\) estimate by H\"older with different exponents, or replacing
+the Hopf--Hardy unweighting by a different trace -- could in principle close the
+route on an \(L^4\) (or some intermediate \(L^p\)) hypothesis on \(\nabla u\).
+Whether such a chain exists is an open question of the route; this remark does
+not settle it.
+\end{itemize}
+What is unambiguous is the layered hierarchy of necessity: the coarea identity
+\eqref{eq:dev-equals-L4} \emph{forces} a quantitative \(L^4\) bound on
+\(\nabla u\) over the good bulk, no matter how the bulk bound is proved; and the
+only constructive route currently available to such an \(L^4\) bound goes
+through a pointwise upper bound on the good level sets, obtained from interior
+gradient estimates on domains of bounded geometry.  Part~(7) shows that for
+\emph{general} open sets even the \(L^4\) bound is not free (Meyers'
+higher-integrability theorem gives only \(L^{2+\eps}\)), so any alternative
+\(L^4\)-only chain would face the same boundary-regularity obstacle as the
+present \(L^\infty\) chain.
+
+\medskip
+\emph{(6f) An alternative reduction: an exact identity on \(\Om\), and the
+false global closure it suggests.}
+The chain of (6c)--(6e) routes \(I_\rho\) to \(\mathrm{Dev}(E_\rho)\) through a
+pointwise gradient hypothesis.  An exact identity on \(\Om\) -- not on the
+level sets -- reduces the question of controlling
+\(\int_\Om|\nabla u|^4\,dx\) to a single \(u^2\)-weighted Hessian estimate.  This
+is the most natural last step to try, because it says precisely that the
+\(L^4\) norm of \(\nabla u\) is close to the \(L^2\) norm of \(u\), with the
+same scaling as the ball.  The identity is useful, but the estimate it suggests
+is false for general open sets; the punctured-ball computation below is the
+decisive test.
+
+\emph{Three preliminary integration-by-parts identities on \(\Om\).}
+We will need them all.  Each is a one-line integration by parts using
+\(u=0\) on \(\partial\Om\) and \(\Delta u=-1\).
+\begin{enumerate}[leftmargin=2.4em,label=\textup{(\Alph*)}]
+\item \(\displaystyle\int_{\Om}u|\nabla u|^2\,dx=\tfrac12\!\int_{\Om}u^2\,dx\).
+Indeed, by parts with \(u=0\) on \(\partial\Om\),
+\(\int u|\nabla u|^2=\int\nabla u\cdot(u\nabla u)
+=-\int u\operatorname{div}(u\nabla u)
+=-\int u\bigl(|\nabla u|^2+u\,\Delta u\bigr)
+=-\int u|\nabla u|^2+\int u^2\) (using \(\Delta u=-1\)), so
+\(2\int u|\nabla u|^2=\int u^2\).
+\item \(\displaystyle\int_{\Om}u\,\operatorname{div}(|\nabla u|^2\nabla u)\,dx
+=-\int_{\Om}|\nabla u|^4\,dx\).  Indeed, by parts (with \(u=0\) on
+\(\partial\Om\)), the left side equals
+\(-\int\nabla u\cdot|\nabla u|^2\,\nabla u=-\int|\nabla u|^4\).
+\item Pointwise on \(\Om\),
+\(2\,\nabla u^TD^2u\,\nabla u
+=\operatorname{div}(|\nabla u|^2\nabla u)+|\nabla u|^2\).  Indeed,
+\(\operatorname{div}(|\nabla u|^2\nabla u)
+=\nabla|\nabla u|^2\cdot\nabla u+|\nabla u|^2\,\Delta u
+=2\,\nabla u^T D^2u\,\nabla u-|\nabla u|^2\) (using
+\(\nabla|\nabla u|^2=2D^2u\,\nabla u\) and \(\Delta u=-1\)); rearrange.
+\end{enumerate}
+
+\emph{The identity.}
+By the Bochner formula \(\Delta|\nabla u|^2=2|D^2u|^2\) of (2a), and one
+integration by parts (\(u=0\) on \(\partial\Om\)),
+\[
+   2\!\int_{\Om}u^2|D^2u|^2\,dx
+   =\int_{\Om}u^2\,\Delta|\nabla u|^2\,dx
+   =-\int_{\Om}\nabla(u^2)\cdot\nabla|\nabla u|^2\,dx
+   =-2\!\int_{\Om}u\,\nabla u\cdot\nabla|\nabla u|^2\,dx ;
+\]
+the last quantity equals
+\(-4\!\int u\,\nabla u^TD^2u\,\nabla u\stackrel{(C)}{=}
+-2\!\int u\bigl(\operatorname{div}(|\nabla u|^2\nabla u)+|\nabla u|^2\bigr)
+\stackrel{(A),(B)}{=}\,2\!\int|\nabla u|^4-\int u^2\).  Dividing by \(2\),
+\(\int u^2|D^2u|^2=\int|\nabla u|^4-\tfrac12\int u^2\).  Substituting the
+pointwise identity \(|D^2u+\tfrac1n I|^2=|D^2u|^2-\tfrac1n\) from (2b)
+(multiplied by \(u^2\) and integrated),
+\begin{equation}\label{eq:weighted-L4-identity}
+   \boxed{\;
+   \int_{\Om}u^2\,\Bigl|D^2u+\tfrac1n I\Bigr|^2\,dx
+   \;=\;
+   \int_{\Om}|\nabla u|^4\,dx\;-\;\frac{n+2}{2n}\!\int_{\Om}u^2\,dx .
+   \;}
+\end{equation}
+This is an exact equality, holding at least by smooth approximation on every
+regular domain for which the displayed quantities are finite, and in particular
+on the model domains used below.  No curvature term appears.  On \(B_R\),
+\(u(x)=(R^2-|x|^2)/(2n)\), so \(D^2u=-\tfrac1n I\); explicit integration gives
+\(\int_{B_R}|\nabla u|^4=\omega_n R^{n+4}/(n^3(n+4))\) and
+\((n+2)/(2n)\int_{B_R}u^2=\omega_n R^{n+4}/(n^3(n+4))\), so both sides vanish.
+More generally, the left side also vanishes on a disjoint union of balls, because
+on each ball component the torsion function has Hessian \(-I/n\).  Thus this
+quantity is a gradient/Hessian defect, not a complete geometric asymmetry.
+
+\emph{What \eqref{eq:weighted-L4-identity} says.}
+The right side of \eqref{eq:weighted-L4-identity} is the \(L^4\) integral of
+\(\nabla u\) minus the explicit baseline \((n+2)/(2n)\int u^2\).  In the
+normalisation \(|\Om|=\omega_n\), Talenti and Saint--Venant give
+\[
+   0\le\frac{n+2}{2n}\int_{\Om}u^2\,dx
+   \le \frac{n+2}{2n}\|u\|_\infty T(\Om)
+   \le \frac{\omega_n}{4n^3} .
+\]
+So proving a quantitative estimate for the left side is exactly the same thing
+as proving that \(\int|\nabla u|^4\) is bounded by this \(L^2\)-baseline plus a
+Saint--Venant-deficit error.
+
+\emph{The tempting estimate.}
+The identity points to the following possible closure:
+\begin{equation}\label{eq:hessian-conj}
+   \int_{\Om}u^2\,\Bigl|D^2u+\tfrac1n I\Bigr|^2\,dx
+   \;\le\;C_*(n)\,\dT(\Om).
+\end{equation}
+If \eqref{eq:hessian-conj} held for all volume-normalised open sets with
+\(\nabla u\in L^4\), then \eqref{eq:weighted-L4-identity} would give
+\[
+   \int_{\Om}|\nabla u|^4\,dx
+   \le C_*(n)\,\dT(\Om)+\frac{\omega_n}{4n^3},
+\]
+and inserting this into \eqref{eq:dev-equals-L4} would control the integrated
+bulk Reilly deviation without any pointwise bound \(M_0\).  This would be the
+cleanest possible way to close the constructive Serrin route.
+
+\emph{The punctured-ball test.}
+Estimate \eqref{eq:hessian-conj}, however, is false in the unrestricted class.
+Let
+\[
+   \Om_a:=B_{R_a}\setminus \overline{B_a},\qquad R_a^n-a^n=1,
+   \qquad 0<a\ll1,
+\]
+so \(|\Om_a|=\omega_n\).  The domain is a ball with a very small concentric
+Dirichlet hole, and the outer radius is enlarged only enough to keep the volume
+fixed.
+
+First assume \(n\ge3\).  The torsion function is radial and is given by
+\[
+   u_a(r)=\frac{R_a^2-r^2}{2n}-\gamma_a\bigl(r^{2-n}-R_a^{2-n}\bigr),
+   \qquad
+   \gamma_a:=\frac{R_a^2-a^2}{2n\bigl(a^{2-n}-R_a^{2-n}\bigr)} .
+\]
+Here \(\gamma_a\) is comparable to \(a^{n-2}\): there are dimensional constants
+\(c_n,C_n>0\) such that
+\[
+   c_n a^{n-2}\le \gamma_a\le C_n a^{n-2}\qquad(0<a<a_n).
+\]
+The singular term is exactly the harmonic correction needed to force
+\(u_a=0\) on the small inner sphere.  Differentiating the radial formula gives
+\[
+   u_a'(r)=-\frac r n+(n-2)\gamma_a r^{1-n},
+\tag{6f.1}
+\]
+and the eigenvalues of \(D^2u_a+I/n\) are
+\[
+   -(n-1)(n-2)\gamma_a r^{-n}
+   \quad\hbox{in the radial direction,}
+   \qquad
+   (n-2)\gamma_a r^{-n}
+   \quad\hbox{in each tangential direction.}
+\]
+Consequently
+\begin{equation}\label{eq:annulus-hessian-density}
+   \Bigl|D^2u_a+\tfrac1n I\Bigr|^2
+   = n(n-1)(n-2)^2\gamma_a^2 r^{-2n} .
+\end{equation}
+On the fixed relative collar \(2a<r<3a\), the formula for \(u_a\) shows
+\(u_a(r)\ge c_n>0\): starting from the inner boundary, the derivative in
+\((6f.1)\) is of size \(1/a\), so over a distance comparable to \(a\) the
+function rises by an amount comparable to one.  Combining this lower bound with
+\eqref{eq:annulus-hessian-density}, and using that the volume of the collar is
+comparable to \(a^n\), gives
+\begin{equation}\label{eq:annulus-H-lower-nge3}
+   \int_{\Om_a}u_a^2\Bigl|D^2u_a+\tfrac1n I\Bigr|^2dx
+   \ge c_n a^{n-4}. 
+\end{equation}
+The torsion deficit is much smaller.  Direct integration of the displayed
+formula for \(u_a\) gives
+\begin{equation}\label{eq:annulus-deficit-nge3}
+   0\le T(B_1)-T(\Om_a)\le C_n a^{n-2} .
+\end{equation}
+Indeed, the change of the outer radius from \(1\) to \(R_a=(1+a^n)^{1/n}\)
+contributes only \(O(a^n)\), while the harmonic correction is multiplied by
+\(\gamma_a=O(a^{n-2})\).  Since \(\dT=(T(B_1)-T(\Om_a))/2\),
+\[
+   \frac{\displaystyle\int_{\Om_a}u_a^2|D^2u_a+\tfrac1n I|^2dx}
+        {\dT(\Om_a)}
+   \ge c_n a^{-2}\longrightarrow\infty .
+\]
+Thus no dimensional constant \(C_*(n)\) can make \eqref{eq:hessian-conj} true.
+
+The same conclusion holds in dimension \(2\), with logarithms replacing
+capacity powers.  Now \(R_a^2-a^2=1\), set \(L_a:=\log(R_a/a)\), and
+\[
+   u_a(r)=\frac{R_a^2-r^2}{4}+\frac{1}{4L_a}\log\frac r{R_a} .
+\]
+On \(2a<r<3a\), one has \(u_a(r)\ge c/L_a\), while
+\(|D^2u_a+I/2|^2\ge c/(L_a^2 r^4)\).  Hence
+\[
+   \int_{\Om_a}u_a^2\Bigl|D^2u_a+\tfrac12 I\Bigr|^2dx
+   \ge \frac{c}{a^2L_a^4} .
+\]
+A direct integration of \(u_a\) gives \(T(B_1)-T(\Om_a)\le C/L_a\), and therefore
+\[
+   \frac{\displaystyle\int_{\Om_a}u_a^2|D^2u_a+\tfrac12 I|^2dx}
+        {\dT(\Om_a)}
+   \ge \frac{c}{a^2L_a^3}\longrightarrow\infty .
+\]
+For every fixed \(a>0\) these are smooth annuli, so \(\nabla u_a\in L^4\); the
+failure is quantitative, not a matter of infinite integrals.
+
+\emph{What the test teaches.}
+The \(u^2\) weight does cancel the literal boundary blow-up at a fixed smooth
+boundary, but it does not pay for a boundary component whose radius tends to
+zero.  The Saint--Venant deficit sees a tiny Dirichlet hole at the scale of its
+capacity, namely \(a^{n-2}\) for \(n\ge3\) and \(1/|\log a|\) for \(n=2\).  The
+weighted Hessian defect sees the much thinner transition layer around the hole
+and is larger by the factor \(a^{-2}\) (up to logarithms in dimension \(2\)).
+So the exact identity \eqref{eq:weighted-L4-identity} is still the correct
+scaling diagnostic, but the global estimate \eqref{eq:hessian-conj} cannot be
+the missing theorem for arbitrary open sets.
+
+The surviving possibilities are narrower.  A version of \eqref{eq:hessian-conj}
+may hold under a uniform interior thickness condition, or with an additional
+capacitary term that charges tiny holes, or after restricting the estimate to
+level regions where such holes have already been ruled out by the level-set
+budget \(D_H+D_I\).  What is not available is a purely dimensional, all-domain
+bound of the form \eqref{eq:hessian-conj}.
+
+\medskip
+\noindent\textbf{(7) Why the gradient bound \(M_0\) fails for general domains.}
+On a good level (\(\rho\le\rdel<1\), so \(t(\rho)>0\)) the boundary
+\(\partial E_\rho=\{u=t(\rho)\}\) lies in the interior of \(\Om\), but it may run
+arbitrarily close to \(\partial\Om\): imagine a thin spike of \(\Om\) on which the
+torsion function climbs from \(0\) up to the level \(t(\rho)\) over a very short
+distance.  At a point \(x_0\in\partial E_\rho\) the interior gradient estimate for
+\(-\Delta u=1\) (e.g.\ \cite{GilbargTrudinger2001}) gives only
+\[
+   |\nabla u(x_0)|\le C(n)\Bigl(\frac{\|u\|_{L^\infty(B_d(x_0))}}{d}+d\Bigr),
+   \qquad d:=\operatorname{dist}(x_0,\partial\Om),
+\]
+which \emph{blows up} as \(d\downarrow0\) while \(u(x_0)=t(\rho)\) stays fixed.
+There is no universal upper bound \(g\le M_0\) on \(\partial E_\rho\).  Nor does
+integrability save \eqref{eq:coarea-g4}: Meyers' theorem gives only
+\(|\nabla u|\in L^{2+\eps}\) for a dimensional \(\eps>0\), in general \(\eps<2\),
+so even the \(L^4\) bound is not automatic.  This is exactly why the constructive
+Reilly--Serrin stability theorems (Magnanini--Poggesi;
+Brandolini--Nitsch--Salani--Trombetti) are stated for domains of bounded geometry
+(uniform interior ball condition, convexity, or \(C^{2,\alpha}\)), where \(M_0\)
+\emph{does} hold -- the very regularity that our level sets need not have.
+
+The reason this is not a technicality is that \(D_H\) is structurally blind to
+the obstruction.  The Cauchy--Schwarz defect \(D_H\) vanishes iff \(g\) is
+constant on \(\partial E_\rho\); the normal oscillation \(I_\rho\) vanishes iff
+\(\partial E_\rho\) is a sphere.  For a level set of \(u\) these two are linked by
+the PDE, but only \emph{in measure}: a set \(E_\rho\) close to a ball in volume
+(\(D_I\) and \(|E_\rho\Delta B_\rho|\) small) may still possess a small boundary
+piece near \(\partial\Om\) on which \(g\) spikes.  The deviation
+\(\mathrm{Dev}(E_\rho)\) and the cube \(\int g^3\) \emph{see} such a spike (they
+weight large \(g\) heavily), whereas \(D_H+D_I\) do not.  Hence
+\(\mathrm{Dev}(E_\rho)\le C(D_H+D_I)\) cannot hold without first excluding the
+spike -- that is, without \(M_0\).
+
+\medskip
+\noindent\textbf{(8) Honest status of the route.}
+The chain \eqref{eq:reilly-A}--\eqref{eq:Dev-integrated} is exact, explicit, and
+free of any compactness or contradiction.  \emph{Granting} a uniform gradient
+bound \(M_0\) on the good level sets, it discharges
+Assumption~\ref{ass:constructive-strong} -- and therefore yields a fully
+computable Faber--Krahn constant -- through the integrated bound
+\eqref{eq:Dev-integrated}, the coarea trace \eqref{eq:coarea-g4}, the constructive
+Fraenkel volume bound (Theorem~\ref{thm:constructive-fraenkel}), and the centre
+reconciliation inside Theorem~\ref{inp:samecenter}.  Such an \(M_0\) is available
+for domains of bounded geometry (uniform ball condition, convex, \(C^{2,\alpha}\)),
+and there the constructive route is complete.  For \emph{general} open sets
+\(M_0\) need not hold.  The exact identity \eqref{eq:weighted-L4-identity} shows
+why one would like to replace \(M_0\) by a quantitative \(L^4\) estimate, but the
+punctured annuli above show that the simplest global Hessian estimate cannot
+supply it.  Thus the normal term stays conditional on either a genuine level-set
+regularity estimate, a capacitary correction excluding tiny holes, or the
+non-constructive Fusco--Julin strong form.
+
+\medskip
+\noindent\textbf{(9) Partial constructive control, and the open problem.}
+The missing ingredient is therefore not the false all-domain estimate
+\eqref{eq:hessian-conj}.  What is still needed is a constructive, level-local
+upper control of \(|\nabla u|\) (or of its \(L^4\) coarea contribution) on the
+good level sets, strong enough to exclude the same boundary-layer concentration
+that appears in the punctured-ball test.  Encouragingly, both defects already
+provide one-sided density control there, with no compactness.  From \(D_H\): a
+localised version of the flux identity together with the relative isoperimetric
+inequality shows that a thin outward spike would force a large Cauchy--Schwarz
+defect, so \(D_H\) small excludes such spikes (a lower-density, non-degeneracy
+bound).  From \(D_I\): an upper-density bound excludes inward fjords and small
+extra boundary components once their perimeter is visible at the level under
+consideration.  Together these estimates suggest two-sided density of the level
+sets at all scales above a deficit-dependent cutoff.
+
+At present, however, these density bounds are themselves proved
+\emph{conditionally} on an a priori interior gradient bound \(G_0\), which
+degenerates as the level approaches \(\partial\Om\).  Closing the loop would mean
+proving, directly from the level budget \(D_H+D_I\) and the nesting of the
+superlevels, an estimate of the form
+\[
+   \int_{u^{-1}(t(G))}|\nabla u|^4\,dx
+   \le C(n,R,\rstar)\bigl(1+\dT(\Om)\bigr)
+\]
+with the correct deficit-sized excess after subtracting the baseline in
+\eqref{eq:dev-equals-L4}, and with no a priori \(G_0\).  Equivalently, one must
+show that the good-level set cannot contain the annular-hole concentration
+mechanism above unless \(D_H+D_I\) has already paid for it.  This is the genuine
+open problem of the constructive route, and the reason the companion standard
+version keeps the Fusco--Julin strong form as its one deep input.
+
+\medskip
+\noindent\textbf{(10) Workaround: a capacitary radial trace instead of a Hessian trace.}
+The annulus test says that the Hessian route asks for too much near tiny
+Dirichlet holes.  The normal term in Assumption~\ref{ass:constructive-strong},
+however, does \emph{not} ask for \(\int |\nabla u|^4\).  It asks only for
+\(\int_{\partial E_\rho}|\nu_\rho-e_z|^2\), integrated in the level variable.  A
+small hole has large gradient, but its boundary area is small; after integrating
+in \(dt\), it is charged at the capacity scale.  The right replacement for the
+Hessian trace is therefore a geometric identity that sees holes by capacity, not
+by \(L^4\) gradient size.
+
+Let \(E\subset B_R\) be a set of finite perimeter with
+\(|E|=|B_\rho|\), \(\rho\in[\rstar,1]\).  Fix a centre \(z\), write
+\(B=B_\rho(z)\), \(r=|x-z|\), and \(e_z=(x-z)/|x-z|\).  Define the
+\emph{radial potential deficit}
+\[
+   \mathcal C_z(E)
+   :=(n-1)\int_{B}\frac{dx}{|x-z|}
+     -(n-1)\int_E\frac{dx}{|x-z|}\, .
+\]
+The kernel \(|x-z|^{-1}\) is radially decreasing, so the bathtub principle gives
+\(\mathcal C_z(E)\ge0\): among sets with volume \(|B_\rho|\), the centred ball
+maximises this potential.  Gauss--Green applied to the vector field \(e_z\)
+(the singularity is harmless because \(|x-z|^{-1}\in L^1_{\rm loc}\) for
+\(n\ge2\), and one may truncate near \(z\)) gives
+\[
+   \int_{\partial^*E}\nu_E\cdot e_z\,d\Hn
+   =(n-1)\int_E\frac{dx}{|x-z|}.
+\]
+Since also \(P(B)=(n-1)\int_B|x-z|^{-1}dx\), we get the exact identity
+\begin{equation}\label{eq:radial-normal-capacity}
+   \frac12\int_{\partial^*E}|\nu_E-e_z|^2\,d\Hn
+   =P(E)-P(B)+\mathcal C_z(E).
+\end{equation}
+This is the key point.  A tiny concentric hole of radius \(a\) contributes
+\(a^{n-1}\) to \(\mathcal C_z\) and to the normal oscillation, not
+\(a^{n-4}\).  Thus \eqref{eq:radial-normal-capacity} lives at the same scale as
+perimeter and capacity, exactly where the annulus counterexample is affordable.
+
+The same identity also controls the homothetic trace.  Let
+\(H_{z,\rho}=(x-z)\cdot\nu_E/\rho\) and
+\(\bar V=P(B)/P(E)\).  The mean is already correct:
+\[
+   \int_{\partial^*E}H_{z,\rho}\,d\Hn
+   =\frac1\rho\int_{\partial^*E}(x-z)\cdot\nu_E\,d\Hn
+   =\frac{n|E|}{\rho}=P(B)
+   =\int_{\partial^*E}\bar V\,d\Hn .
+\]
+Furthermore,
+\[
+   |H_{z,\rho}-1|
+   \le \left|\frac{|x-z|}{\rho}-1\right|
+       +\frac{|x-z|}{\rho}(1-\nu_E\cdot e_z).
+\]
+The proof of Lemma~\ref{lem:oriented-radial-trace}, but with
+\(1-\nu_E\cdot e_z\) kept instead of estimated by an unknown normal term, gives
+\[
+   \int_{\partial^*E}\left|\frac{|x-z|}{\rho}-1\right|d\Hn
+   \le C(n,\rstar)|E\Delta B_\rho(z)|
+      +C(R,\rstar)\int_{\partial^*E}(1-\nu_E\cdot e_z)d\Hn .
+\]
+Combining this with \eqref{eq:radial-normal-capacity} and with
+\(P(E)|1-\bar V|=P(E)-P(B)\), one obtains
+\begin{equation}\label{eq:capacity-trace-prelemma}
+   \int_{\partial^*E}|H_{z,\rho}-\bar V|\,d\Hn
+   \le C(n,R,\rstar)
+      \bigl(|E\Delta B_\rho(z)|+P(E)-P(B_\rho)+\mathcal C_z(E)\bigr).
+\end{equation}
+Everything in \eqref{eq:radial-normal-capacity}--\eqref{eq:capacity-trace-prelemma}
+is exact or elementary; no gradient bound and no Hessian estimate is present.
+
+The remaining geometric input is not new.  It is exactly the
+\emph{oscillation-index} form of the Fusco--Maggi--Pratelli quantitative
+isoperimetric inequality.  For a set \(E\) with \(|E|=|B_\rho|\), define
+\[
+   \beta(E)^2
+   :=P(E)-(n-1)\sup_{y\in\R^n}\int_E\frac{dx}{|x-y|} .
+\]
+The supremum is attained: as \(|y|\to\infty\) the integral tends to \(0\), while
+for \(E\subset B_R\) any maximiser may be taken in \(\overline{B_R}\) by moving
+an exterior point toward the convex hull of \(E\).  The FMP oscillation-index
+estimate \cite{FMP} says that there is a computable dimensional constant
+\(C_\beta(n)\) such that
+\begin{equation}\label{eq:FMP-beta}
+   \beta(E)^2\le C_\beta(n)\bigl(P(E)-P(B_\rho)\bigr)
+\end{equation}
+for every finite-perimeter set \(E\).  This is the strengthened form of the same
+constructive symmetrisation theorem quoted in Theorem~\ref{thm:constructive-fraenkel};
+it is not the compactness-built Fusco--Julin Serrin input.
+
+Choose \(z=z_E\) to maximise the potential in the definition of \(\beta(E)\).
+Since
+\[
+   P(B_\rho)=(n-1)\int_{B_\rho(z)}\frac{dx}{|x-z|},
+\]
+the definition of \(\mathcal C_z(E)\) gives the exact decomposition
+\begin{equation}\label{eq:beta-decomposition}
+   \beta(E)^2
+   =P(E)-P(B_\rho)+\mathcal C_z(E).
+\end{equation}
+Combining \eqref{eq:FMP-beta} and \eqref{eq:beta-decomposition},
+\begin{equation}\label{eq:potential-by-perimeter}
+   \mathcal C_z(E)
+   \le (C_\beta(n)-1)_+\bigl(P(E)-P(B_\rho)\bigr),
+   \qquad
+   P(E)-P(B_\rho)+\mathcal C_z(E)
+   \le C_\beta(n)\bigl(P(E)-P(B_\rho)\bigr).
+\end{equation}
+Thus the potential part is already paid for by the ordinary perimeter deficit.
+Together with \eqref{eq:radial-normal-capacity}, this immediately yields the
+same-centre normal estimate
+\begin{equation}\label{eq:FMP-normal-from-beta}
+   \int_{\partial^*E}|\nu_E-e_z|^2\,d\Hn
+   \le 2C_\beta(n)\bigl(P(E)-P(B_\rho)\bigr).
+\end{equation}
+
+It remains only to make sure that the \emph{same} centre also has the required
+volume control.  This follows directly from the potential deficit.  Write
+\(B=B_\rho(z)\), \(A=B\setminus E\), \(F=E\setminus B\), and
+\(a:=|A|=|F|=\tfrac12|E\Delta B|\).  By the bathtub principle, for fixed \(a\)
+the quantity
+\[
+   (n-1)\int_A\frac{dx}{|x-z|}-(n-1)\int_F\frac{dx}{|x-z|}
+\]
+is minimised by taking \(A\) to be the outer shell of \(B\) of volume \(a\) and
+\(F\) to be the adjacent outer shell just outside \(B\) of the same volume.  For
+\(\rho\in[\rstar,1]\), a direct one-dimensional computation on these two shells
+gives, whenever \(a\le c(n)\rstar^n\),
+\begin{equation}\label{eq:potential-controls-centered-volume}
+   \mathcal C_z(E)\ge c(n,\rstar)a^2
+   =c(n,\rstar)|E\Delta B_\rho(z)|^2 .
+\end{equation}
+Indeed, if the shell thicknesses are \(h_-\) and \(h_+\), then
+\(a\simeq \rho^{n-1}h_\pm\) and
+\(h_- -h_+\simeq a^2/\rho^{2n-1}\); integrating
+\((n-1)r^{-1}\) against the surface measure density \(n\omega_n r^{n-1}dr\)
+across the two shells gives a loss comparable to
+\(\rho^{n-2}(h_- -h_+)\), hence to \(a^2\) with constants depending only on
+\(n\) and \(\rstar\).  If \(a\) is not small, then the same inequality follows
+after decreasing the constant, because \(E\subset B_R\) and the radial decreasing
+kernel has a positive bathtub gap once \(|E\Delta B|\ge c(n)\rstar^n\).  Thus, in
+all cases relevant to good levels,
+\begin{equation}\label{eq:FMP-same-centre-volume}
+   |E\Delta B_\rho(z)|^2
+   \le C(n,R,\rstar)\mathcal C_z(E)
+   \le C(n,R,\rstar)\bigl(P(E)-P(B_\rho)\bigr).
+\end{equation}
+
+Equations \eqref{eq:FMP-normal-from-beta} and \eqref{eq:FMP-same-centre-volume}
+prove the desired potential--perimeter selection, with \(z\) the FMP
+oscillation-index centre:
+\begin{equation}\label{eq:potential-perimeter-selection}
+   |E\Delta B_\rho(z)|^2+
+   \int_{\partial^*E}|\nu_E-e_z|^2\,d\Hn
+   \le C(n,R,\rstar)\bigl(P(E)-P(B_\rho)\bigr).
+\end{equation}
+On a good torsion level, \(P(E_\rho)-P(B_\rho)\le D_I(t(\rho))/(P(E_\rho)+P(B_\rho))\le C(n,\rstar)D_I(t(\rho))\), so
+\eqref{eq:potential-perimeter-selection} gives
+\[
+   |E_\rho\Delta B_\rho(z_\rho)|^2+
+   \int_{\partial^*E_\rho}|\nu_\rho-e_{z_\rho}|^2\,d\Hn
+   \le C(n,R,\rstar)D_I(t(\rho)).
+\]
+Integrating over \(G_{\rm sc}\) and using the budget \eqref{eq:budget} gives the
+integrated strong-form estimate \eqref{eq:constructive-strong}, with a
+computable constant and with no gradient bound.
+
+The same centre also feeds directly into the homothetic trace.  From
+\eqref{eq:capacity-trace-prelemma}, \eqref{eq:potential-by-perimeter}, and
+\eqref{eq:FMP-same-centre-volume},
+\[
+   \int_{\partial^*E}|H_{z,\rho}-\bar V|\,d\Hn
+   \le C(n,R,\rstar)\bigl(P(E)-P(B_\rho)\bigr)^{1/2}.
+\]
+Squaring and applying the good-level bound above gives
+\[
+   \left(\int_{\partial^*E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|\,d\Hn\right)^2
+   \le C(n,R,\rstar)D_I(t(\rho)),
+\]
+which is exactly the estimate consumed by the positive kinetic argument, again
+using only the isoperimetric part of the level-set budget.
+
+This proves the workaround in principle: replace the unavailable Hessian
+\(L^4\) closure by the FMP oscillation-index inequality plus the elementary
+radial potential identities above.  The annulus obstruction is neutralised
+because both \(\beta(E)^2\) and \(P(E)-P(B_\rho)\) see a tiny hole at scale
+\(a^{n-1}\), whereas the false Hessian estimate saw it at scale \(a^{n-4}\).
+
 \end{remark}
 
 \begin{lemma}[Oriented radial trace]\label{lem:oriented-radial-trace}
@@ -1589,9 +2811,9 @@ If \(\dT(\Om)>\delta_0\), then \(\Fr(\Om)<2\), so
 Enlarging \(C\) completes the proof.
 \end{proof}
 
-\input{parts/sec_bounded_reduction_body.tex}
+\input{parts/exhaustive_bounded_reduction.tex}
 
-\input{parts/sec_kohler_jobin_body.tex}
+\input{parts/exhaustive_kohler_jobin.tex}
 
 \section{Proof architecture and constants}\label{sec:architecture}
 

@@ -1,0 +1,195 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.78in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlist[itemize]{leftmargin=1.4em,itemsep=2pt,topsep=2pt}
+\newcommand{\Om}{\Omega}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Hh}{\mathcal H}
+\newcommand{\dT}{\delta_T}
+\newcommand{\Per}{P}
+\begin{document}
+
+\begin{center}
+{\large\bf Main Ideas of the Level-Set Route}\\
+{\small A compact guide to the $D_H$/$D_I$ proof and the remaining geometric input}
+\end{center}
+
+Let $u$ be the torsion function of $\Om$, and write its superlevel sets as
+\[
+   E_t=\{u>t\}.
+\]
+We parametrize levels by volume: $t=t(\rho)$ is chosen so that
+\[
+   |E_{t(\rho)}|=|B_\rho|, \qquad E_\rho:=E_{t(\rho)}.
+\]
+For almost every $\rho$, $E_\rho$ has finite perimeter and
+\[
+   \nu_\rho=-\frac{\nabla u}{|\nabla u|}
+   \qquad \Hh^{n-1}\hbox{-a.e. on }\partial^*E_\rho .
+\]
+Set
+\[
+   w(\rho):=-t'(\rho),\qquad d\mu(\rho)=w(\rho)\,d\rho,
+   \qquad V_\rho:=\frac{w(\rho)}{|\nabla u|}.
+\]
+Thus $V_\rho$ is the normal velocity of the level set under the $\rho$-flow. The corresponding average ball velocity is
+\[
+   \bar V_\rho:=\frac{\Per(B_\rho)}{\Per(E_\rho)}.
+\]
+The coarea identities give
+\[
+   \int_{\partial^*E_\rho} V_\rho\,d\Hh^{n-1}=\Per(B_\rho),
+   \qquad
+   \bar V_\rho=\frac1{\Per(E_\rho)}
+      \int_{\partial^*E_\rho}V_\rho\,d\Hh^{n-1}.
+\]
+
+\subsection*{The two defects}
+
+The new proof gives an exact budget in terms of two nonnegative level defects. The first is the Cauchy--Schwarz defect
+\[
+D_H(t(\rho))
+:=\left(\int_{\partial^*E_\rho}\frac1{|\nabla u|}\,d\Hh^{n-1}\right)
+  \left(\int_{\partial^*E_\rho}|\nabla u|\,d\Hh^{n-1}\right)
+   -\Per(E_\rho)^2.
+\]
+It vanishes exactly when $|\nabla u|$ is constant on the level. The second is the squared-perimeter isoperimetric defect
+\[
+   D_I(t(\rho)):=\Per(E_\rho)^2-\Per(B_\rho)^2.
+\]
+It vanishes exactly when $E_\rho$ is a ball.
+
+The exact level-set identity gives, on good intervals $J\subset[\rho_*,\rho_\delta]$,
+\[
+   \int_J \bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)\,d\mu(\rho)
+   \le C(n,R,\rho_*)\dT(\Om).
+\]
+Since both defects are nonnegative, each has the same average bound separately.
+
+The interpretation is simple. The defect $D_I$ controls how round the levels are. Quantitative isoperimetry gives
+\[
+   q(\rho)^2\le C(n,\rho_*)D_I(t(\rho)),
+   \qquad
+   q(\rho):=\inf_{z\in\R^n}|E_\rho\Delta B_\rho(z)|.
+\]
+The defect $D_H$ controls how uniformly the level moves, because
+\[
+   \left(\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,d\Hh^{n-1}\right)^2
+   \le D_H(t(\rho)).
+\]
+Thus $D_I$ pays for shape, while $D_H$ pays for speed.
+
+\subsection*{The moving-ball distance}
+
+The quantity propagated to the endpoint is
+\[
+   q(\rho):=\inf_{z\in\R^n}|E_\rho\Delta B_\rho(z)|.
+\]
+It is Lipschitz for a reason that uses only nesting:
+\[
+   |q(\sigma)-q(\rho)|
+   \le 2\omega_n(\sigma^n-\rho^n)
+   \le 2n\omega_n|\sigma-\rho|.
+\]
+The average bound $\int q^2\,d\mu\le C\dT(\Om)$ follows from $D_I$, but this alone does not control the endpoint. A function can be small on average and still rise near the end. The first variation of $q$ prevents this rise unless the deficit pays for it.
+
+Fix a good $\rho$, and let $z_\rho$ minimize $z\mapsto |E_\rho\Delta B_\rho(z)|$. Compare $E_{\rho+h}$ with an affine image of $E_\rho$ which sends the comparison ball exactly to $B_{\rho+h}(z_\rho+ha)$. On the boundary, the mismatch between the true level motion and this affine motion is
+\[
+   V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho,
+   \qquad
+   H_{z,\rho}(x):=\frac{(x-z)\cdot\nu_\rho(x)}{\rho}.
+\]
+This gives the one-sided variation formula
+\[
+   D^+q(\rho)
+   \le \frac n\rho q(\rho)
+   +\inf_{a\in\R^n}\int_{\partial^*E_\rho}
+      |V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,d\Hh^{n-1}.
+\]
+For the current route, take $a=0$ and insert $\bar V_\rho$:
+\[
+D^+q(\rho)
+\le \frac n\rho q(\rho)
++\int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,d\Hh^{n-1}
++\int_{\partial^*E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|\,d\Hh^{n-1}.
+\]
+The first term is controlled by $D_I$, the second by $D_H$, and the third is the remaining geometric trace term.
+
+If the trace term satisfies
+\[
+\left(\int_{\partial^*E_\rho}|H_{z_\rho,\rho}-\bar V_\rho|\,d\Hh^{n-1}\right)^2
+\le C(n,R,\rho_*)D_I(t(\rho)),
+\]
+then squaring and integrating gives the positive kinetic estimate
+\[
+   \int_J (q'_+(\rho))^2\,d\rho\le C(n,R,\rho_*)\dT(\Om),
+   \qquad q'_+=\max\{q',0\}.
+\]
+Bad radii are harmless because $q$ is unconditionally Lipschitz and the bad set has measure $O(\dT(\Om))$.
+
+Finally, the average bound for $q^2$ gives a radius $\rho_0$ near the endpoint with $q(\rho_0)^2\le C\dT(\Om)$. Then
+\[
+   q(\rho_\delta)
+   \le q(\rho_0)+\int_{\rho_0}^{\rho_\delta}q'_+(\rho)\,d\rho,
+\]
+so Cauchy--Schwarz and the kinetic estimate imply
+\[
+   q(\rho_\delta)^2\le C\dT(\Om).
+\]
+This is the endpoint asymmetry estimate.
+
+\subsection*{The geometric input}
+
+The missing input is a same-centre estimate. For good levels, one needs a centre $z_\rho$ such that
+\[
+|E_\rho\Delta B_\rho(z_\rho)|^2+
+\int_{\partial^*E_\rho}|\nu_\rho-e_{z_\rho}|^2\,d\Hh^{n-1}
+\le C(n,R,\rho_*)D_I(t(\rho)),
+\qquad e_z(x)=\frac{x-z}{|x-z|}.
+\]
+The radial trace lemma then turns this into the needed estimate for
+$H_{z_\rho,\rho}-\bar V_\rho$.
+
+There is a centre issue. The variation formula uses a centre minimizing $|E_\rho\Delta B_\rho(z)|$. The FMP strategy below naturally selects a potential-maximizing centre. The proof must either show the trace estimate directly for a minimizing centre, or prove it for the FMP centre and then transfer it to a minimizing centre. The manuscript already has the right transfer mechanism: if two same-radius balls both approximate $E_\rho$, their centres are close except on radii whose measure is paid for by Chebyshev.
+
+\subsection*{The FMP/capacitary strategy}
+
+For a finite-perimeter set $E$ with $|E|=|B_\rho|$, define the FMP oscillation index
+\[
+   \beta(E)^2:=\Per(E)-(n-1)\sup_y\int_E |x-y|^{-1}\,dx.
+\]
+Fusco--Maggi--Pratelli gives
+\[
+   \beta(E)^2\le C(n)(\Per(E)-\Per(B_\rho)).
+\]
+Choose $z$ maximizing the potential and set
+\[
+\mathcal C_z(E)
+:=(n-1)\int_{B_\rho(z)}|x-z|^{-1}\,dx
+ -(n-1)\int_E|x-z|^{-1}\,dx.
+\]
+Because $(n-1)\int_{B_\rho(z)}|x-z|^{-1}\,dx=\Per(B_\rho)$,
+\[
+   \beta(E)^2=\Per(E)-\Per(B_\rho)+\mathcal C_z(E).
+\]
+Thus $\mathcal C_z(E)$ is controlled by the perimeter deficit. A BV Gauss--Green identity gives
+\[
+   \frac12\int_{\partial^*E}|\nu_E-e_z|^2\,d\Hh^{n-1}
+   =\Per(E)-\Per(B_\rho)+\mathcal C_z(E),
+\]
+so the radial normal error is also controlled.
+
+It remains to prove the elementary shell lemma
+\[
+   |E\Delta B_\rho(z)|^2\le C(n,R,\rho_*)\mathcal C_z(E).
+\]
+Write $A=B_\rho(z)\setminus E$ and $F=E\setminus B_\rho(z)$. Since $|A|=|F|$, the potential deficit is the loss from moving mass from inside the ball to outside the ball. By the bathtub principle, the cheapest such move removes mass from the shell just inside $\partial B_\rho(z)$ and adds it to the shell just outside. The first-order terms cancel, and the second-order shell calculation gives a quadratic loss in the exchanged volume. This gives the desired same-centre volume estimate.
+
+Combining FMP, radial Gauss--Green, and the shell lemma yields the same-centre package from $D_I$ alone. That closes the geometric trace term; together with $D_H$ controlling velocity, the variation argument for $q$ closes the quantitative Faber--Krahn route.
+
+\end{document}

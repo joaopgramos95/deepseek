@@ -256,3 +256,78 @@ bound; and that integrated bound is exactly the bulk-compatible output of the
 weighted-Reilly identity. No compactness or contradiction enters at any point.
 What remains is (M₀) and the integrated trace — both concrete analysis tasks,
 not the non-constructive reduction that blocks general-set Fusco–Julin.
+
+---
+
+## Part 6. The genuine obstruction in (M₀): gradient integrability, and why
+## `D_H` cannot supply the shape
+
+Tackling the two remaining items (M₀ and the integrated trace) exposes a real
+barrier, which I record honestly.
+
+### 6.1 What the integrated trace actually needs
+Coarea turns the integrated boundary cube into a bulk power of the gradient:
+with `dt=-d\mu` and `∫_0^M(∫_{{u=t}}φ)dt = ∫ φ|∇u|dx`,
+```
+   ∫_G ( ∫_{∂E_ρ} g³ dH ) dμ(ρ) = ∫_{u^{-1}(t(G))} |∇u|^4 dx .
+```
+So controlling `∫_G Dev_w dμ` (via identity A) requires `∫|∇u|^4 < ∞` over the
+good bulk — i.e. an `L^4` (morally `L^∞`, the bound `M₀`) gradient bound.
+Pointwise, `V₃ ≤ C D_H` needs `g ≤ M₀` on `∂E_ρ`: indeed
+`V₃ = 3\bar g∫(g-\bar g)² + ∫(g-\bar g)³` weights large `g` heavily, whereas
+`D_H = (P²/m)∫(g-\bar g)²/g` weights it by `1/g`; the gap is exactly the
+large-gradient tail.
+
+### 6.2 `M₀` is NOT available for general domains in the class
+On a good level `∂E_ρ` (`ρ≤ρ_δ<1`, so `t(ρ)>0`), a point `x_0` with `u(x_0)=t`
+can lie arbitrarily close to `∂Ω` (a thin spike on which `u` rises to `t`
+quickly). The interior gradient estimate then gives only
+`|∇u(x_0)| ≲ \|u\|_∞/\mathrm{dist}(x_0,∂Ω) + \dots`, which blows up. There is no
+universal upper bound `|∇u|≤M₀` on `∂E_ρ`; Meyers' higher integrability gives
+only `|∇u|∈L^{2+ε}` for a dimensional `ε>0`, in general `ε<2`, so even `L^4` is
+not free. The constructive Reilly–Serrin stability of Magnanini–Poggesi is, for
+this reason, stated for domains of bounded geometry (uniform ball condition /
+`C^{2,α}`), where `M₀` holds — exactly the hypothesis our level sets lack.
+
+### 6.3 The deeper reason: `D_H ⟂ shape`
+`D_H` is the Cauchy–Schwarz/gradient-oscillation defect (`=0` iff `|∇u|` is
+constant on `∂E_ρ`); the normal/shape oscillation `∫_{∂*E_ρ}|ν-e_z|²` is `=0`
+iff `∂E_ρ` is a sphere. For a *general* surface these are independent (a wavy
+surface with constant `|∇u|` has `D_H=0` but large normal oscillation). For a
+*torsion level set* they are PDE-linked (a ball `E_ρ` forces `v` radial, hence
+`g` constant, hence `D_H=0`), but only in measure: `E_ρ` close to a ball *in
+volume* (`D_I`, `|EΔB|` small) still allows small boundary pieces near `∂Ω`
+where `|∇u|` spikes. The `L²`-Hessian `Dev_w` (and `∫g³`) sees those spikes,
+while `D_H+D_I` do not. Hence `Dev_w ≤ C(D_H+D_I)` **fails** without controlling
+the spikes, i.e. without `M₀`.
+
+Conclusion: the shape/normal term is genuinely a `D_I`-controlled quantity, and
+its constructive control is exactly the open strong-form problem. `D_H` does not
+supply it; the Reilly identity converts the non-constructive Fusco–Julin
+constant into a gradient-regularity hypothesis `M₀`, not into nothing.
+
+### 6.4 Honest status of the route
+The Reilly/quantitative-Serrin route yields a **constructive, explicit-constant**
+discharge of `ass:constructive-strong` — and hence a fully computable sharp
+Faber–Krahn constant — **for domains whose good torsion level sets carry a
+uniform gradient bound `M₀`** (e.g. domains of bounded geometry; convex
+domains). For such domains the chain is complete and contradiction-free.
+
+For *fully general* open sets the normal term remains conditional: it needs
+either the non-constructive Fusco–Julin strong form, or the unavailable `M₀`.
+This is the same regularity barrier the moving-ball route was built to avoid;
+the Reilly route does not remove it for the general class, it relocates it to a
+transparent gradient-regularity hypothesis.
+
+### 6.5 What this means concretely
+- The manuscript is correct and, modulo `ass:constructive-strong`, complete.
+- `ass:constructive-strong` is now understood to be **equivalent (via the
+  weighted-Reilly identity + the integrated kinetic estimate) to a gradient
+  bound `M₀` on good level sets**, up to the `τ`-integration
+  `∫_G τ(E_ρ)dμ ≤ Cδ_T` (which holds by Fubini on the deficit identity for the
+  inner radii) and the bulk→normal Poincaré trace.
+- Therefore: **sharp Faber–Krahn is fully constructive (computable constant) on
+  the bounded-geometry / `M₀` class**; the obstruction to the general case is
+  precisely the absence of an a priori gradient bound, equivalently the
+  constructive control of the normal oscillation by `D_I` (the open strong
+  form). No fabricated closure.
