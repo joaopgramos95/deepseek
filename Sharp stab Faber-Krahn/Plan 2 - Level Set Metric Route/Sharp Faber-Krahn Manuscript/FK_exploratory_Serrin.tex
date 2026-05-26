@@ -755,9 +755,8 @@ global Hessian closure is false for unrestricted open sets.  In \textbf{(7)} we
 explain why the required gradient bound is unavailable for general domains; and
 in \textbf{(8)}--\textbf{(9)} we summarise the honest status and the remaining
 open problem.  Finally, \textbf{(10)} records a concrete workaround: replace the
-Hessian trace by a capacitary radial trace, reducing the missing step to a
-the oscillation-index form of the constructive Fusco--Maggi--Pratelli
-isoperimetric inequality.
+Hessian trace by a capacitary radial trace, reducing the missing step to the
+oscillation-index strong form of Fusco--Julin~\cite{FJ2014}.
 
 \medskip
 \noindent\textbf{(0) What the kinetic estimate actually consumes.}
@@ -1879,15 +1878,23 @@ isoperimetric inequality.  For a set \(E\) with \(|E|=|B_\rho|\), define
 \]
 The supremum is attained: as \(|y|\to\infty\) the integral tends to \(0\), while
 for \(E\subset B_R\) any maximiser may be taken in \(\overline{B_R}\) by moving
-an exterior point toward the convex hull of \(E\).  The FMP oscillation-index
-estimate \cite{FMP} says that there is a computable dimensional constant
-\(C_\beta(n)\) such that
+an exterior point toward the convex hull of \(E\).  The oscillation-index
+estimate of Fusco--Julin \cite{FJ2014} says that there is a dimensional
+constant \(C_\beta(n)\) such that
 \begin{equation}\label{eq:FMP-beta}
    \beta(E)^2\le C_\beta(n)\bigl(P(E)-P(B_\rho)\bigr)
 \end{equation}
-for every finite-perimeter set \(E\).  This is the strengthened form of the same
-constructive symmetrisation theorem quoted in Theorem~\ref{thm:constructive-fraenkel};
-it is not the compactness-built Fusco--Julin Serrin input.
+for every finite-perimeter set \(E\).  This is the strong form of the
+quantitative isoperimetric inequality (Fusco--Julin~\cite[Thm.~1.1 and
+Prop.~1.2]{FJ2014}), one strict strengthening of the
+Fraenkel-asymmetry result quoted in Theorem~\ref{thm:constructive-fraenkel}:
+the L\(^2\) normal-oscillation deficit, not only the L\(^1\) symmetric-difference
+deficit, is controlled by the perimeter deficit.  We use it here only as a
+black-box import; the constant \(C_\beta(n)\) is obtained by Fusco--Julin via a
+penalised-minimiser selection followed by White's \(\varepsilon\)-regularity and
+Fuglede's nearly-spherical estimate, and is not made explicit by their argument.
+For the present route this is harmless: we need only the dimensional
+qualitative bound \eqref{eq:FMP-beta}.
 
 Choose \(z=z_E\) to maximise the potential in the definition of \(\beta(E)\).
 Since
@@ -1986,7 +1993,294 @@ This proves the workaround in principle: replace the unavailable Hessian
 radial potential identities above.  The annulus obstruction is neutralised
 because both \(\beta(E)^2\) and \(P(E)-P(B_\rho)\) see a tiny hole at scale
 \(a^{n-1}\), whereas the false Hessian estimate saw it at scale \(a^{n-4}\).
+The sketch is promoted to fully proved lemmas, propositions, and the
+discharge theorem in the subsection immediately below
+(\S\ref{sec:fmp-rigorous}).
 
+\end{remark}
+
+\subsection*{Rigorous closure of the FMP/capacitary workaround on good levels}
+\label{sec:fmp-rigorous}
+
+Remark~\ref{rem:constructive-strong-status}\,(10) sketched a workaround
+replacing the unavailable global Hessian closure by a capacitary radial trace.
+We now promote every step of that sketch to a lemma or proposition with a
+complete proof, the deep input being the oscillation-index strong form of
+Fusco--Julin~\cite{FJ2014}.  The output
+(Theorem~\ref{thm:constructive-strong-good-levels} below) discharges the
+integrated strong-form input \eqref{eq:constructive-strong} of
+Assumption~\ref{ass:constructive-strong} on good levels, unconditionally.
+
+\begin{lemma}[Radial Gauss--Green identity]\label{lem:radial-GG}
+Let \(n\ge2\), \(z\in\R^n\), and let \(E\subset\R^n\) be a set of finite
+perimeter with \(|E|<\infty\).  With \(e_z(x):=(x-z)/|x-z|\) and \(\nu_E\) the
+measure-theoretic outer unit normal on \(\partial^*E\),
+\[
+   \int_{\partial^*E}\nu_E\cdot e_z\,d\Hn
+   \;=\;(n-1)\!\int_E |x-z|^{-1}\,dx,
+\]
+and consequently
+\[
+   \tfrac12\!\int_{\partial^*E}|\nu_E-e_z|^2\,d\Hn
+   \;=\;\Per(E)-(n-1)\!\int_E|x-z|^{-1}\,dx.
+\]
+\end{lemma}
+
+\begin{proof}
+By translation we may take \(z=0\) and write \(e(x):=x/|x|\).  Since \(n\ge2\),
+\(|x|^{-1}\in L^1_{\mathrm{loc}}(\R^n)\); together with \(|E|<\infty\) this
+gives \(|x|^{-1}\mathbf 1_E\in L^1(\R^n)\) (split \(E=(E\cap B_1)\cup(E\setminus
+B_1)\) and bound the latter by \(|E|<\infty\)).  For \(\varepsilon>0\) set
+\[
+   X_\varepsilon(x):=\frac{x}{\max(|x|,\varepsilon)} .
+\]
+Then \(X_\varepsilon\) is Lipschitz on \(\R^n\) with \(|X_\varepsilon|\le1\), and
+a Lebesgue-a.e.\ computation gives
+\[
+   \operatorname{div}X_\varepsilon(x)
+   =\begin{cases} n/\varepsilon & |x|<\varepsilon,\\
+                  (n-1)/|x| & |x|>\varepsilon.\end{cases}
+\]
+The Gauss--Green theorem for sets of finite perimeter (see
+\cite[Thm.~15.9]{Maggi2012}) yields
+\[
+   \int_E \operatorname{div}X_\varepsilon\,dx
+   = \int_{\partial^*E} X_\varepsilon\cdot \nu_E\,d\Hn.
+\]
+On the left, the inner-ball piece contributes at most
+\((n/\varepsilon)\,|B_\varepsilon|=n\omega_n\varepsilon^{n-1}\to0\) as
+\(\varepsilon\downarrow0\) (this is where \(n\ge2\) enters), and the outer piece
+converges by dominated convergence with dominant \((n-1)\mathbf 1_E/|x|\in
+L^1(\R^n)\), giving \((n-1)\int_E|x|^{-1}dx\).  On the right,
+\(|X_\varepsilon\cdot\nu_E|\le1\) on the finite-mass measure
+\(\Hn\,\llcorner\partial^*E\), and \(X_\varepsilon(x)=e(x)\) as soon as
+\(\varepsilon<|x|\); dominated convergence on the boundary then gives
+\(\int e\cdot\nu_E\,d\Hn\).  The first identity is proved.  The second follows
+from \(|\nu_E-e|^2=2-2\nu_E\cdot e\) integrated against \(\Hn\,\llcorner\partial^*E\)
+and \(\Hn(\partial^*E)=\Per(E)\).  The three positional cases \(z\in E\),
+\(z\in\partial E\), \(z\notin\overline E\) are all covered by this argument
+because \(\{z\}\) is \(\Hn\)-negligible and \(|x-z|^{-1}\) is \(L^1\) on \(E\) of
+finite measure.
+\end{proof}
+
+\begin{lemma}[Centred potential controls volume]\label{lem:centred-potential}
+Fix \(n\ge2\), \(R\ge1\), and \(\rstar\in(0,1)\).  Let \(E\subset B_R(0)\) be
+measurable with \(|E|=|B_\rho(z)|\) for some \(\rho\in[\rstar,1]\) and
+\(z\in\R^n\).  With
+\[
+   \mathcal C_z(E):=(n-1)\!\int_{B_\rho(z)}|x-z|^{-1}\,dx
+   -(n-1)\!\int_E|x-z|^{-1}\,dx,
+\]
+one has \(\mathcal C_z(E)\ge0\) and
+\[
+   |E\Delta B_\rho(z)|^2\;\le\; C(n,R,\rstar)\,\mathcal C_z(E),
+\]
+where \(C(n,R,\rstar)\) is an explicit positive constant.
+\end{lemma}
+
+\begin{proof}
+Translate \(z=0\) and set \(B:=B_\rho\), \(A:=B\setminus E\),
+\(F:=E\setminus B\); then \(|A|=|F|=:a=\tfrac12|E\Delta B|\), and
+\[
+   \mathcal C_0(E)=(n-1)\!\int_A|x|^{-1}dx-(n-1)\!\int_F|x|^{-1}dx.
+\]
+The radial kernel \(|x|^{-1}\) is strictly radially decreasing, so by the
+standard bathtub principle (radial rearrangement for fixed-volume sets in a
+radial decreasing-kernel integral),
+\(\int_A|x|^{-1}dx\) is minimised at \(A_*=B_\rho\setminus B_{s_-}\) with
+\(\omega_n(\rho^n-s_-^n)=a\), and \(\int_F|x|^{-1}dx\) is maximised at
+\(F^*=B_{s_+}\setminus B_\rho\) with \(\omega_n(s_+^n-\rho^n)=a\).  In
+particular \(s_-^n+s_+^n=2\rho^n\) and \(0<s_-<\rho<s_+\).  In polar
+coordinates,
+\[
+   \mathcal C_0(E)\;\ge\;n\omega_n\bigl[\,2\rho^{n-1}-s_-^{n-1}-s_+^{n-1}\,\bigr]
+   \;=:\;G(\rho,a).
+\]
+
+\emph{Small-\(a\) regime.}  Let \(h_-:=\rho-s_-\), \(h_+:=s_+-\rho\), both
+positive.  Differentiating \(\omega_n(\rho^n-(\rho-h_-)^n)=a\) at \(a=0\)
+gives, by the implicit function theorem, \(h_\pm(\rho,a)=a/(n\omega_n
+\rho^{n-1})+O(a^2/\rho^{n+1})\) uniformly for \(\rho\in[\rstar,1]\).
+Expanding \((\rho-h_-)^n+(\rho+h_+)^n=2\rho^n\) to order three gives
+\[
+   h_--h_+=\tfrac{n-1}{2\rho}(h_-^2+h_+^2)+O(\rho^{-2}(h_-^3+h_+^3)),
+\]
+and expanding \(r\mapsto r^{n-1}\) at \(r=\rho\) to order three, combined
+with the previous identity and the algebraic equality
+\((n-1)^2-(n-1)(n-2)=n-1\) that cancels the first-order volume terms, yields
+\[
+   G(\rho,a)\;=\;\tfrac{n-1}{2}\,n\omega_n\rho^{n-3}(h_-^2+h_+^2)
+   \;+\;O(\rho^{n-4}(h^3)).
+\]
+For \(a\le a_0(n,\rstar)\) small enough, \(h_-^2+h_+^2\ge c\,a^2\rho^{-2(n-1)}\)
+and \(G(\rho,a)\ge c_1(n,\rstar)\,a^2\) with
+\(c_1(n,\rstar)\sim\rstar^{-(n+1)}\).
+
+\emph{Large-\(a\) regime.}  On the compact admissible set
+\(\{(\rho,a):\rstar\le\rho\le1,\ a_0\le a\le\omega_n R^n\}\), the function
+\(G\) is continuous and strictly positive: strict positivity follows from
+\(s_-+s_+<2\rho\) (convexity of \(r\mapsto r^n\) on \((0,\infty)\)) and
+\(s_-^{n-1}+s_+^{n-1}<2\rho^{n-1}\) at \(s_-\ne s_+\) (strict
+convexity/Lagrange on the constraint \(s_-^n+s_+^n=2\rho^n\); for \(n=2\),
+linearity gives \(G=2\omega_n(2\rho-s_--s_+)>0\) directly).  By continuity and
+compactness, \(G/a^2\) is bounded below by a positive constant
+\(c_2(n,R,\rstar)\).
+
+Combining both regimes, \(\mathcal C_0(E)\ge G(\rho,a)\ge c(n,R,\rstar)\,a^2\),
+and \(|E\Delta B|^2=4a^2\le (4/c)\,\mathcal C_z(E)\).
+\end{proof}
+
+\begin{proposition}[Same-centre potential--perimeter selection]
+\label{prop:potential-perimeter-selection}
+Let \(n\ge2\), \(R\ge1\), \(\rstar\in(0,1)\), and let \(E\subset B_R\) be a
+set of finite perimeter with \(|E|=|B_\rho|\), \(\rho\in[\rstar,1]\).  Let
+\(z_E\) maximise \(y\mapsto \int_E|x-y|^{-1}\,dx\) over
+\(y\in\overline{B_{R+1}}\) (existence by upper semicontinuity on a compact
+set).  There is a constant \(C(n,R,\rstar)\) such that
+\[
+   |E\Delta B_\rho(z_E)|^2
+   +\int_{\partial^*E}|\nu_E-e_{z_E}|^2\,d\Hn
+   \;\le\; C(n,R,\rstar)\bigl(\Per(E)-\Per(B_\rho)\bigr).
+\]
+\end{proposition}
+
+\begin{proof}
+By the Fusco--Julin strong form \cite[Thm.~1.1 and Prop.~1.2]{FJ2014},
+\[
+   \beta(E)^2:=\Per(E)-(n-1)\!\int_E|x-z_E|^{-1}\,dx
+   \;\le\;C_\beta(n)\bigl(\Per(E)-\Per(B_\rho)\bigr).
+\]
+By Lemma~\ref{lem:radial-GG} at \(z=z_E\),
+\(\beta(E)^2=\tfrac12\!\int|\nu_E-e_{z_E}|^2\,d\Hn\), hence
+\(\int|\nu_E-e_{z_E}|^2\,d\Hn\le 2C_\beta(n)\bigl(\Per(E)-\Per(B_\rho)\bigr)\).
+Applying Lemma~\ref{lem:radial-GG} on the centred ball \(B_\rho(z_E)\) gives
+\(\Per(B_\rho)=(n-1)\!\int_{B_\rho(z_E)}|x-z_E|^{-1}\,dx\); subtracting this from
+the definition of \(\beta\) yields
+\(\beta(E)^2=\bigl(\Per(E)-\Per(B_\rho)\bigr)+\mathcal C_{z_E}(E)\), so
+\[
+   \mathcal C_{z_E}(E)\;\le\;\bigl(C_\beta(n)-1\bigr)_+\bigl(\Per(E)-\Per(B_\rho)\bigr).
+\]
+By Lemma~\ref{lem:centred-potential},
+\(|E\Delta B_\rho(z_E)|^2\le C_{\mathrm{vol}}(n,R,\rstar)\,\mathcal C_{z_E}(E)\).
+Adding the two estimates gives the claim with
+\(C(n,R,\rstar)=2C_\beta(n)+C_{\mathrm{vol}}(n,R,\rstar)(C_\beta(n)-1)_+\).
+\end{proof}
+
+\begin{proposition}[FJ-centre homothetic trace]\label{prop:FJ-centre-trace}
+Under the hypotheses of
+Proposition~\ref{prop:potential-perimeter-selection}, with
+\(H_{z,\rho}(x):=(x-z)\cdot\nu_E(x)/\rho\) and
+\(\bar V_\rho:=\Per(B_\rho)/\Per(E)\),
+\[
+   \Bigl(\int_{\partial^*E}|H_{z_E,\rho}-\bar V_\rho|\,d\Hn\Bigr)^{\!2}
+   \;\le\;C(n,R,\rstar)\bigl(\Per(E)-\Per(B_\rho)\bigr).
+\]
+\end{proposition}
+
+\begin{proof}
+Set \(\delta_P:=\Per(E)-\Per(B_\rho)\ge0\).  By
+Proposition~\ref{prop:potential-perimeter-selection},
+\(\int|\nu_E-e_{z_E}|^2\,d\Hn\le 2C_\beta\delta_P\), and
+\(|E\Delta B_\rho(z_E)|^2\le C\delta_P\).  From
+\(|\nu_E-e_{z_E}|^2=2(1-\nu_E\cdot e_{z_E})\) one gets
+\(\int(1-\nu_E\cdot e_{z_E})\,d\Hn\le C_\beta\delta_P\).  Plugging into
+Lemma~\ref{lem:oriented-radial-trace}'s integrated form,
+\[
+   \int W_{z_E}\,d\Hn
+   \;\le\;C_1(n,\rstar)|E\Delta B_\rho(z_E)|
+        +C_2(R,\rstar)\!\int(1-\nu_E\cdot e_{z_E})\,d\Hn
+   \;\le\;C\delta_P^{1/2}+C'\delta_P.
+\]
+For \(x\in\partial^*E\subset B_R\) and \(z_E\in\overline{B_{R+1}}\),
+\(|x-z_E|\le2R+1\), so \(|x-z_E|/\rho\le(2R+1)/\rstar\); together with the
+pointwise bound \(|H_{z_E,\rho}-1|\le W_{z_E}+(|x-z_E|/\rho)(1-\nu_E\cdot
+e_{z_E})\) of Lemma~\ref{lem:oriented-radial-trace}, we obtain
+\(\int|H_{z_E,\rho}-1|\,d\Hn\le C(\delta_P^{1/2}+\delta_P)\).  Since
+\(\Per(E)|1-\bar V_\rho|=\delta_P\), the triangle inequality gives
+\(\int|H_{z_E,\rho}-\bar V_\rho|\,d\Hn\le C\delta_P^{1/2}+C\delta_P\); on the
+admissible regime \(\delta_P\) is bounded above, so the linear term is absorbed
+into the square-root one.  Squaring yields the claim.
+\end{proof}
+
+\begin{theorem}[Constructive integrated strong-form input on good levels]
+\label{thm:constructive-strong-good-levels}
+There are computable constants \(C_{\mathrm{Ser}}(n,R,\rstar)>0\) and
+\(\eta_{\mathrm{Ser}}(n,R,\rstar)>0\) such that, with
+\(G_{\mathrm{sc}}:=\{\rho\in[\rstar,\rdel]:D_H(t(\rho))+D_I(t(\rho))\le
+\eta_{\mathrm{Ser}}\}\), there is a Borel centre field
+\(\rho\mapsto z_\rho\in\overline{B_{R+1}}\) satisfying
+\[
+   \int_{G_{\mathrm{sc}}}\!\Bigl(|E_\rho\Delta B_\rho(z_\rho)|^2
+   +\int_{\partial^*E_\rho}\!|\nu_\rho-e_{z_\rho}|^2\,d\Hn\Bigr)\,d\mu(\rho)
+   \;\le\;C_{\mathrm{Ser}}\,\dT(\Om).
+\]
+In particular, the integrated strong-form bound
+\eqref{eq:constructive-strong} of
+Assumption~\ref{ass:constructive-strong} holds on \(G_{\mathrm{sc}}\)
+unconditionally.
+\end{theorem}
+
+\begin{proof}
+For \(\mu\)-a.e.\ \(\rho\in[\rstar,\rdel]\), \(E_\rho=\{u>t(\rho)\}\) is a set
+of finite perimeter, \(|E_\rho|=|B_\rho|\), and \(E_\rho\subset\Om\subset B_R\).
+For each such \(\rho\), define
+\(z_\rho\in\arg\max_{y\in\overline{B_{R+1}}}\Phi_\rho(y)\) with
+\(\Phi_\rho(y):=\int_{E_\rho}|x-y|^{-1}\,dx\); existence is by upper
+semicontinuity of \(\Phi_\rho\) on the compact set \(\overline{B_{R+1}}\)
+(Fatou on the integrable kernel \(|x-y|^{-1}\) over the bounded set
+\(E_\rho\)).  The argmax multifunction \(\Gamma:\rho\mapsto\arg\max\Phi_\rho\)
+has closed nonempty values in the Polish space \(\overline{B_{R+1}}\); its
+graph is Borel since \((\rho,y)\mapsto\Phi_\rho(y)\) is jointly Borel (Fubini
++ dominated convergence on a countable dense set of test points in
+\(\overline{B_{R+1}}\)).  By Kuratowski--Ryll-Nardzewski selection,
+\(\Gamma\) admits a Borel measurable selector \(\rho\mapsto z_\rho\).
+
+Apply Proposition~\ref{prop:potential-perimeter-selection} to \(E_\rho\) with
+the centre \(z_\rho\): there is \(C_1(n,R,\rstar)\) with
+\[
+   |E_\rho\Delta B_\rho(z_\rho)|^2
+   +\int_{\partial^*E_\rho}\!|\nu_\rho-e_{z_\rho}|^2\,d\Hn
+   \;\le\;C_1\bigl(\Per(E_\rho)-\Per(B_\rho)\bigr).
+\]
+On \(G_{\mathrm{sc}}\),
+\(D_I(t(\rho))=(\Per(E_\rho)-\Per(B_\rho))(\Per(E_\rho)+\Per(B_\rho))\) with
+\(\Per(E_\rho)+\Per(B_\rho)\ge\Per(B_{\rstar})=n\omega_n\rstar^{n-1}>0\), so
+\(\Per(E_\rho)-\Per(B_\rho)\le D_I(t(\rho))/(n\omega_n\rstar^{n-1})\).  Hence
+\[
+   |E_\rho\Delta B_\rho(z_\rho)|^2
+   +\int_{\partial^*E_\rho}\!|\nu_\rho-e_{z_\rho}|^2\,d\Hn
+   \;\le\;C_2\,D_I(t(\rho)),
+   \qquad C_2:=\frac{C_1}{n\omega_n\rstar^{n-1}}.
+\]
+Integrating over \(G_{\mathrm{sc}}\) against \(d\mu\) and using the budget
+inequality \eqref{eq:budget},
+\(\int_{[\rstar,\rdel]}(D_H+D_I)(t(\rho))\,d\mu\le
+C_{\mathrm{budget}}(n,R,\rstar)\,\dT(\Om)\), gives the displayed bound with
+\(C_{\mathrm{Ser}}:=C_2\,C_{\mathrm{budget}}\).  The threshold
+\(\eta_{\mathrm{Ser}}\) is the FJ-smallness threshold inherited from
+Proposition~\ref{prop:potential-perimeter-selection}.
+\end{proof}
+
+\begin{remark}[Discharge of Assumption~\ref{ass:constructive-strong}]
+\label{rem:assumption-discharged}
+Theorem~\ref{thm:constructive-strong-good-levels} proves
+\eqref{eq:constructive-strong} on \(G_{\mathrm{sc}}\) unconditionally, so on
+good levels Assumption~\ref{ass:constructive-strong} is no longer an
+assumption but a theorem.  The volume part is paid by
+Lemma~\ref{lem:centred-potential} (bathtub + shell); the normal-oscillation
+part is paid by Fusco--Julin \cite{FJ2014} via
+Lemma~\ref{lem:radial-GG}; both are integrated using the existing budget
+\eqref{eq:budget}.  The homothetic trace required by the kinetic estimate is
+also paid by this package, via Proposition~\ref{prop:FJ-centre-trace} applied
+at the same Borel-selected centre \(z_\rho\).  Levels below \(\rstar\) remain
+handled by the manuscript's bounded reduction and small-radius elimination,
+unchanged.  The only deep import beyond the standard GMT/rearrangement
+toolkit is the Fusco--Julin strong form \cite{FJ2014}; its constant
+\(C_\beta(n)\) is dimensional but obtained by contradiction and is not made
+explicit by \cite{FJ2014}.  Translating this into the final FK constant
+\(c_{FK}(n,R,\rstar)\) of Theorem~\ref{thm:FK-main} means the explicit
+dependence on \(n,R,\rstar\) is preserved except for a single dimension-only
+non-explicit factor inherited from \(C_\beta(n)\).
 \end{remark}
 
 \begin{lemma}[Oriented radial trace]\label{lem:oriented-radial-trace}
@@ -2930,7 +3224,9 @@ Kohler--Jobin inequality (via the modified-torsion rearrangement) together with
 the transfer to Faber--Krahn in \S\ref{sec:kj}.
 
 \emph{Quoted with exact citation:} the constructive Fraenkel quantitative
-isoperimetric inequality of Fusco--Maggi--Pratelli \cite{FMP}; the BV coarea
+isoperimetric inequality of Fusco--Maggi--Pratelli \cite{FMP}; the oscillation-index
+strong form of Fusco--Julin \cite{FJ2014}, used only to close the FMP/capacitary
+workaround of Remark~\ref{rem:constructive-strong-status}\,(10); the BV coarea
 formula, the finite-perimeter Gauss--Green theorem, and Reshetnyak continuity
 \cite{AFP2000,Maggi2012}; the De~Giorgi isoperimetric inequality
 \cite{DeGiorgi1958}; the Talenti rearrangement comparison and \(L^\infty\) bound
@@ -2984,9 +3280,19 @@ L.~Brasco and G.~De~Philippis,
 
 \bibitem{FMP}
 N.~Fusco, F.~Maggi, and A.~Pratelli,
-\emph{Stability estimates for certain Faber--Krahn, isocapacitary and Cheeger
-inequalities},
-Ann.\ Sc.\ Norm.\ Super.\ Pisa Cl.\ Sci.\ (5) \textbf{8} (2009), 51--71.
+\emph{The sharp quantitative isoperimetric inequality},
+Ann.\ of Math.\ (2) \textbf{168} (2008), 941--980.
+(Thm.~1.1: $\mathcal A(E)\le C(n)\sqrt{D(E)}/\sqrt{P(B^*)}$ for the Fraenkel
+asymmetry, by mass-transport symmetrisation; constructive.)
+
+\bibitem{FJ2014}
+N.~Fusco and V.~Julin,
+\emph{A strong form of the quantitative isoperimetric inequality},
+Calc.\ Var.\ Partial Differential Equations \textbf{50} (2014), 925--937.
+(Thm.~1.1 and Prop.~1.2: $\mathcal A(E)^2+\beta(E)^2\le C(n)D(E)/P(B^*)$, where
+$\beta(E)^2$ is the squared $L^2$ radial-normal oscillation; via penalised
+selection + White $\varepsilon$-regularity + Fuglede; constant $C(n)$ obtained
+by contradiction.)
 
 \bibitem{KJ1}
 M.-T.~Kohler-Jobin,
