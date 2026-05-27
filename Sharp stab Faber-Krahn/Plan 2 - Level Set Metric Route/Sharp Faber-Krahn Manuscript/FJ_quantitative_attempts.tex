@@ -158,12 +158,19 @@ Theorem~\ref{thm:global-computable-FJ} proves \eqref{eq:FJ} with a
 computable dimensional constant.  Corollary~\ref{cor:original-FJ-computable}
 then gives the original combined formulation with a computable constant.
 
-There is one separate attempt not closed here:
+There are two separate intrinsic attempts not closed here:
 \begin{enumerate}[label=\textnormal{(\roman*)},leftmargin=2.2em]
 \item Section~\ref{sec:reilly} derives a torsion/Reilly route relevant to
 torsion superlevel sets.  The identities are proved, but their use for general
 level sets requires a gradient-tail estimate and a bulk-to-boundary trace
 estimate which are not proved here.
+\item Section~\ref{sec:intrinsic} derives slicing and meridian-action
+identities modelled on the geometric FMP proof and on coherent-level
+arguments in functional Brunn--Minkowski stability.  It also proves the
+centred-reflection reduction to \(n-1\) transverse symmetries and closes
+the full oriented symmetry reduction in dimension \(2\).  For
+\(n\ge3\), full centred symmetry, slice-motion control, and centred
+meridian closure remain proposed problems, not proved inputs.
 \end{enumerate}
 
 \begin{remark}[Two corrections to preliminary notes]\label{rem:corrections}
@@ -3648,51 +3655,703 @@ Theorem~\ref{thm:reilly-identities} is an exact identity available toward
 this problem; (R1)--(R3) are the unresolved estimates.
 \end{problem}
 
-\section{Attempt IV: transport and restricted geometric classes}
-\label{sec:transport}
+\section{Attempt IV: an intrinsic slicing and centre-motion route}
+\label{sec:intrinsic}
 
-This final attempt is shorter because, at present, it produces a programme
-rather than a new estimate.  The sharp quantitative Fraenkel inequality can
-be proved constructively by transport or symmetrisation methods
-\cite{FMP}.  It supplies a ball centre \(z\) with
+The proof completed in Section~\ref{sec:selection} is effective, but its
+organising principle is regularisation by penalised minimisers.  This
+section records a different question: can one prove the strong
+isoperimetric inequality by an argument whose variables directly exhibit
+why a nearly optimal set is forced to be a single nearly spherical body?
+The model is the Plan~2 torsion argument: a global deficit is decomposed
+into levelwise geometric defects and a kinetic term paying for movement of
+the comparison balls.
+
+\subsection{The relevant precedent in quantitative isoperimetry}
+
+The closest existing precedent is not the selection principle, but the
+symmetrisation-and-induction proof of the sharp quantitative
+isoperimetric inequality by Fusco--Maggi--Pratelli \cite{FMP}.  Their proof
+passes through hyperplane sections, controls the loss incurred by
+symmetrising those sections, and uses successive reflection symmetries to
+remove the translation freedom of the comparison ball.  Thus it already
+has the two features relevant here: an integrated family of
+lower-dimensional deficits and a mechanism preventing independent centres
+from drifting from slice to slice.
+
+This is also the feature of the recent functional stability argument of
+Figalli--van Hintum--Tiba \cite{FvHTPL}: in their
+Pr\'ekopa--Leindler/Borell--Brascamp--Lieb proof, comparison translations
+are first obtained on truncated ranges of level sets, and overlap between
+successive ranges is then used to show that the translations can be chosen
+coherently.  The analogy is structural, not yet a deduction: their
+deficit is a functional Brunn--Minkowski deficit, whereas the quantity to
+be controlled here is a boundary-normal defect.
+
+\subsection{Why the fixed-centre form is the correct intrinsic quantity}
+
+For \(z\in\R^n\) write
 \[
-   |E\mathbin{\triangle}B_\rho(z)|^2
-   \le C_{\rm iso}(n)\rho^{n+1}\Def(E).
-\tag{6.1}\label{eq:FMP-volume}
+   \mathcal B_z(E)
+   :=\frac12\int_{\partial^*E}
+        \left|\nu_E-\frac{x-z}{|x-z|}\right|^2\,d\Hn.
+\tag{6.1}\label{eq:fixed-centre-B}
 \]
-Estimate \eqref{eq:FMP-volume} controls a volume displacement.  Fusco--Julin
-requires, in addition, the boundary direction term
+Proposition~\ref{prop:radial-GG} gives, for \(|E|=|B_1|\),
 \[
-   \int_{\partial^*E}|\nu_E-e_z|^2\,d\Hn.
-\tag{6.2}\label{eq:normal-needed}
+   \mathcal B_z(E)
+   =\Per(E)-(n-1)\int_E\frac{dx}{|x-z|}
+   =\Def(E)
+     +(n-1)\left\{\int_{B_1(z)}\frac{dx}{|x-z|}
+                       -\int_E\frac{dx}{|x-z|}\right\}.
+\tag{6.2}\label{eq:B-def-plus-potential}
 \]
-For a general finite-perimeter target set, no boundary regularity of a
-transport map is available from \eqref{eq:FMP-volume}.  Therefore an argument
-which simply differentiates a transport map on \(\partial B_\rho\) is not a
-proof of \eqref{eq:normal-needed}.
+The first term is the ordinary isoperimetric deficit.  The second is a
+radial-displacement deficit about the \emph{same} centre.  Formula
+\eqref{eq:B-def-plus-potential} explains why ordinary quantitative
+isoperimetry alone is insufficient: small symmetric difference controls
+from below, but not from above, the loss of a decreasing radial potential.
+A small piece of mass transported far from the ball has radial-potential
+loss of order its volume, even though its squared symmetric difference is
+of smaller order.  A geometric FJ proof must show that the perimeter cost
+of such displacement pays for this additional term.
 
-There are, however, restricted settings in which this approach may become
-effective.  If an independent hypothesis gives a small radial
-\(W^{1,\infty}\) representation with the transport/Fraenkel centre, then
-Corollary~\ref{cor:scaled-graph} already supplies the required normal term.
-Convexity or a uniform interior-and-exterior ball condition are natural
-sources of such a representation, but the quantitative implication must be
-proved before it is used.
+\subsection{A rigorous slicing calculation}
 
-\begin{problem}[Geometric bridge]\label{prob:bridge}
-Prove a computable statement of the following form.  Given a specified
-geometric class \(\mathcal C\), find \(\eta_{\mathcal C}(n)>0\) such that if
-\(E\in\mathcal C\), \(|E|=|B_\rho|\), and
-\(\Def(E)\le\eta_{\mathcal C}(n)\rho^{n-1}\), then there is a centre \(z\)
-for which
+Translate the proposed centre to \(0\), and write \(x=(s,y)\in
+\R\times\R^{n-1}\).  Let \(E_s=\{y:(s,y)\in E\}\), \(v(s)=|E_s|\), and,
+where \(v(s)>0\), let \(r(s)\ge0\) be defined by
 \[
-   \partial E=\{z+\rho(1+u(\theta))\theta:\theta\in S\},
+   v(s)=\omega_{n-1}r(s)^{n-1}.
+\]
+The transverse Schwarz symmetral of \(E\) is
+\[
+   E^\sharp:=\{(s,y):|y|<r(s)\}.
+\tag{6.3}\label{eq:transverse-symmetral}
+\]
+
+\begin{lemma}[Potential monotonicity under transverse symmetrisation]
+\label{lem:potential-transverse}
+Let \(E\subset\R^n\) be measurable with finite measure and finite radial
+potential about \(0\).  Then
+\[
+   \int_E\frac{dx}{|x|}
+      \le \int_{E^\sharp}\frac{dx}{|x|}.
+\tag{6.4}\label{eq:potential-transverse}
+\]
+If \(E\) also has finite perimeter, transverse Schwarz symmetrisation
+does not increase perimeter.  Consequently,
+\[
+   \mathcal B_0(E)-\mathcal B_0(E^\sharp)
+      =
+      \bigl\{\Per(E)-\Per(E^\sharp)\bigr\}
+      +(n-1)\left\{
+          \int_{E^\sharp}\frac{dx}{|x|}
+           -\int_E\frac{dx}{|x|}
+       \right\}\ge0 .
+\tag{6.5}\label{eq:B-symmetrisation-direction}
+\]
+\end{lemma}
+
+\begin{proof}
+For a.e.\ \(s\), the function
+\(y\mapsto(s^2+|y|^2)^{-1/2}\) is radial and decreasing on
+\(\R^{n-1}\).  Among sets of \((n-1)\)-dimensional measure \(v(s)\),
+its integral is maximised by \(B_{r(s)}^{n-1}\).  Integrating the
+resulting inequality in \(s\) proves \eqref{eq:potential-transverse}.
+The perimeter assertion is the standard Schwarz symmetrisation
+inequality for finite-perimeter sets, in the slicing form used in
+\cite{FMP}.  Substitution in \eqref{eq:fixed-centre-B} proves
+\eqref{eq:B-symmetrisation-direction}.
+\end{proof}
+
+The direction in \eqref{eq:B-symmetrisation-direction} is important.
+Symmetrising produces a set whose oriented defect is smaller.  Therefore
+one cannot merely symmetrise, prove FJ for \(E^\sharp\), and infer it for
+\(E\).  One must estimate the oriented loss discarded by
+symmetrisation.  This is exactly where a slice-motion term must enter.
+
+For the axially symmetric output the oriented loss has a direct
+one-dimensional expression.  Set
+\(\sigma_{n-2}:=\mathcal H^{n-2}(S^{n-2})=(n-1)\omega_{n-1}\).
+
+\begin{lemma}[Meridian action of an axially symmetric set]
+\label{lem:meridian-action}
+Let \(I=(a,b)\), let \(r\in W^{1,1}(I)\) be nonnegative with compact
+support in \(I\), and suppose the set
+\[
+   F:=\{(s,y):s\in I,\ |y|<r(s)\}
+\]
+has finite perimeter and has no boundary portion other than the surface
+generated by the graph \(r\).  Then
+\[
+\begin{aligned}
+   \mathcal B_0(F)
+   =\sigma_{n-2}\int_I r(s)^{n-2}
+       \left[
+          \sqrt{1+r'(s)^2}
+          -\frac{r(s)-s r'(s)}
+                 {\sqrt{s^2+r(s)^2}}
+       \right]\,ds .
+\end{aligned}
+\tag{6.6}\label{eq:meridian-action}
+\]
+The integrand is nonnegative.  It vanishes a.e.\ exactly when the
+outward normal of the generating curve agrees with its radial direction;
+on each connected nontrivial component this means that the curve lies on
+a circle centred at \(0\).
+\end{lemma}
+
+\begin{proof}
+At a point \((s,r(s)\theta)\), \(\theta\in S^{n-2}\), the area element
+and the two unit vectors are
+\[
+   d\Hn=\sigma_{n-2}r(s)^{n-2}\sqrt{1+r'(s)^2}\,ds,
+\quad
+   \nu_F=\frac{(-r'(s),\theta)}{\sqrt{1+r'(s)^2}},
+\quad
+   e_0=\frac{(s,r(s)\theta)}{\sqrt{s^2+r(s)^2}}.
+\]
+Since \(\tfrac12|\nu_F-e_0|^2=1-\nu_F\cdot e_0\), direct substitution
+gives \eqref{eq:meridian-action}.  Its bracket is nonnegative by
+Cauchy--Schwarz:
+\[
+   r-sr'\le\sqrt{s^2+r^2}\sqrt{1+(r')^2}.
+\]
+Equality means that \((-r',1)\) is a nonnegative multiple of
+\((s,r)\); equivalently \(r'=-s/r\) wherever \(r>0\).  Hence
+\((s^2+r(s)^2)'=0\) on each such component.
+\end{proof}
+
+Formula \eqref{eq:meridian-action} is the intrinsic analogue of the
+Plan~2 action.  The profile \(r(s)\) is the moving radius of the
+sections, and the integrand measures its failure to move according to
+the profile of one fixed ball.  What has disappeared after transverse
+symmetrisation is the motion of the section \emph{centres}; the
+perimeter loss in \eqref{eq:B-symmetrisation-direction} must pay for
+that lost motion.
+
+\subsection{Attempt at the first lemma: centred reflections}
+
+We now attempt the oriented symmetry reduction.  The basic operation in
+the FMP reduction is to bisect a set by a hyperplane and reflect one of
+the two halves.  For the oriented quantity there is a decisive
+restriction: the reflecting hyperplane must contain the centre of the
+radial field.  Under that restriction the operation has an exact
+identity.
+
+For \(q\in\R^n\) and a finite-measure set \(G\), write
+\[
+   I_q(G):=\int_G\frac{dx}{|x-q|}.
+\]
+The integral is finite: the kernel is integrable on \(B_1(q)\) and is
+bounded by \(1\) outside \(B_1(q)\).
+
+\begin{lemma}[One centred bisection]\label{lem:one-centred-bisection}
+Let \(G\subset\R^n\) have finite perimeter and
+\(|G|=\omega_n\).  Let \(q\in\R^n\), and let \(H\) be an affine
+hyperplane containing \(q\), with complementary open half-spaces
+\(H^+\) and \(H^-\).  Assume
+\[
+   |G\cap H^+|=|G\cap H^-|=\frac{\omega_n}{2}.
+\tag{6.7a}\label{eq:centred-cut-assumptions}
+\]
+If \(R_H\) denotes reflection across \(H\), define
+\[
+   G^\pm:=(G\cap H^\pm)\cup R_H(G\cap H^\pm).
+\]
+Then \(|G^\pm|=\omega_n\), and
+\[
+\begin{aligned}
+   \Def(G^+)+\Def(G^-)&=2\Def(G)-2\Per(G;H),\\
+   \mathcal B_q(G^+)+\mathcal B_q(G^-)
+      &=2\mathcal B_q(G)-2\Per(G;H).
+\end{aligned}
+\tag{6.7b}\label{eq:centred-cut-identities}
+\]
+Consequently there is a sign \(s\in\{+,-\}\) for which
+\[
+   \Def(G^s)\le2\Def(G),
    \qquad
-   \norm{u}_{W^{1,\infty}(S)}\le\frac1{100n^3}.
+   \mathcal B_q(G^s)\ge\mathcal B_q(G)-\Def(G).
+\tag{6.7c}\label{eq:centred-cut-choice}
 \]
-Once this is proved, Corollary~\ref{cor:scaled-graph} makes the strong form
-explicit on \(\mathcal C\).
+\end{lemma}
+
+\begin{proof}
+Since \(H\) bisects \(G\) and reflection preserves Lebesgue measure,
+\(|G^\pm|=2|G\cap H^\pm|=\omega_n\).
+
+We first record the perimeter identity.  The reduced boundary of
+\(G^+\) away from \(H\) consists of the reduced boundary of \(G\) in
+\(H^+\) and its reflected copy.  Along \(H\) the two reflected traces
+match, so there is no jump interface in \(G^+\).  The same observation
+applies to \(G^-\).  Applying the BV restriction and gluing formula
+on the two half-spaces gives
+\[
+   \Per(G^\pm)=2\Per(G;H^\pm),
+   \qquad
+   \Per(G^+)+\Per(G^-)=2\{\Per(G)-\Per(G;H)\}.
+\tag{6.7d}\label{eq:perimeter-reflected-halves}
+\]
+All four sets in this equality have volume \(\omega_n\); subtracting
+\(2\Per(B_1)\) proves the first identity in
+\eqref{eq:centred-cut-identities}.
+
+Because \(q\in H\), reflection fixes \(q\) and therefore
+\(|R_Hx-q|=|x-q|\).  It follows that
+\[
+   I_q(G^\pm)=2I_q(G\cap H^\pm),
+   \qquad I_q(G^+)+I_q(G^-)=2I_q(G).
+\tag{6.7e}\label{eq:potential-reflected-halves}
+\]
+Insert \eqref{eq:perimeter-reflected-halves} and
+\eqref{eq:potential-reflected-halves} in
+\(\mathcal B_q(A)=\Per(A)-(n-1)I_q(A)\), which is
+\eqref{eq:fixed-centre-B}, to obtain the second identity in
+\eqref{eq:centred-cut-identities}.
+
+By the isoperimetric inequality both deficits in the first line of
+\eqref{eq:centred-cut-identities} are nonnegative.  Consequently
+\[
+   \Per(G;H)\le\Def(G),
+\]
+and each reflected deficit is at most \(2\Def(G)\).  By the second
+line at least one of
+\(\mathcal B_q(G^+)\), \(\mathcal B_q(G^-)\) is at least
+\(\mathcal B_q(G)-\Per(G;H)\), hence at least
+\(\mathcal B_q(G)-\Def(G)\).  Choose that sign.
+\end{proof}
+
+\begin{remark}[What a centred facet costs]\label{rem:facet-loss}
+The terms involving \(\Per(G;H)\) in
+\eqref{eq:centred-cut-identities} have a direct meaning.  The
+reflected constructions erase every reduced-boundary
+portion lying in \(H\).  On such a portion \(e_q(x)\) is tangent to
+\(H\), while \(\nu_G(x)\) is normal to \(H\), so
+\(\tfrac12|\nu_G-e_q|^2=1\): its oriented cost is exactly its
+perimeter.  Crucially, this erased cost is not an obstruction at the
+level of one bisection: nonnegativity of the two reflected deficits
+automatically pays it through \(\Per(G;H)\le\Def(G)\).
+\end{remark}
+
+The next theorem iterates Lemma~\ref{lem:one-centred-bisection}.
+It proves every centred reflection which can be forced by an
+intermediate-value argument.
+
+\begin{theorem}[Centred transverse symmetry reduction]
+\label{thm:transverse-oriented-reduction}
+Let \(E\subset\R^n\), \(n\ge2\), be a finite-perimeter set with
+\(|E|=\omega_n\), and let \(q\in\R^n\).
+There exist \(n-1\) mutually orthogonal hyperplanes
+\(H_1,\ldots,H_{n-1}\), all containing \(q\), and a set
+\(F\subset\R^n\), symmetric with respect to every \(H_i\), such that
+\[
+   |F|=\omega_n,\qquad
+   \Def(F)\le2^{\,n-1}\Def(E),\qquad
+   \mathcal B_q(E)
+      \le \mathcal B_q(F)+(2^{\,n-1}-1)\Def(E).
+\tag{6.7g}\label{eq:transverse-reduction-output}
+\]
+In particular, if \(q\) is a minimising centre for \(\beta(E)\), then,
+after translating \(q\) to \(0\) and rotating the line
+\(\bigcap_{i=1}^{n-1}H_i\) to the \(x_1\)-axis,
+\[
+   \beta(E)^2
+      \le\mathcal B_0(F)+(2^{\,n-1}-1)\Def(E),
+   \qquad
+   \Def(F)\le2^{\,n-1}\Def(E),
+\tag{6.7h}\label{eq:transverse-reduction-beta}
+\]
+and \(F\) is symmetric in all transverse coordinate variables.
+\end{theorem}
+
+\begin{proof}
+Set \(F_0=E\).  We inductively construct \(F_j\) and mutually
+orthogonal unit normals \(\nu_1,\ldots,\nu_j\), for
+\(0\le j\le n-1\), such that \(F_j\) is symmetric with respect to
+\[
+   H_i:=q+\nu_i^\perp,\qquad 1\le i\le j,
+\]
+and
+\[
+   \Def(F_j)\le2^j\Def(E),
+   \qquad
+   \mathcal B_q(F_j)
+      \ge\mathcal B_q(E)-(2^j-1)\Def(E).
+\tag{6.7i}\label{eq:induction-reflections}
+\]
+
+Assume \(j\le n-2\) and \(F_j\) has been constructed.  Put
+\[
+   V_j:=\{\nu_1,\ldots,\nu_j\}^{\perp};
+\]
+then \(\dim V_j=n-j\ge2\).  For \(\nu\in S(V_j)\) define
+\[
+   \Phi_j(\nu)
+   :=|F_j\cap\{(x-q)\cdot\nu>0\}|
+      -|F_j\cap\{(x-q)\cdot\nu<0\}|.
+\]
+Since hyperplanes have zero \(n\)-dimensional Lebesgue measure,
+dominated convergence shows that \(\Phi_j\) is continuous.  Moreover
+\(\Phi_j(-\nu)=-\Phi_j(\nu)\).  The sphere \(S(V_j)\) is connected, so
+there is \(\nu_{j+1}\in S(V_j)\) with
+\(\Phi_j(\nu_{j+1})=0\).  Thus
+\(H_{j+1}=q+\nu_{j+1}^{\perp}\) bisects \(F_j\).
+
+Apply Lemma~\ref{lem:one-centred-bisection} and select the sign in
+\eqref{eq:centred-cut-choice}; call the selected reflected set
+\(F_{j+1}\).  Since \(\nu_{j+1}\perp\nu_i\), reflection across
+\(H_{j+1}\) commutes with reflection across each \(H_i\), and each of
+the two half-spaces bounded by \(H_{j+1}\) is invariant under the
+previous reflections.  Thus \(F_{j+1}\) retains all previous
+symmetries and gains the new one.  Estimate
+\eqref{eq:induction-reflections} follows because
+\[
+\begin{aligned}
+   \mathcal B_q(F_{j+1})
+   &\ge\mathcal B_q(F_j)-\Def(F_j)\\
+   &\ge\mathcal B_q(E)
+       -\{(2^j-1)+2^j\}\Def(E)
+    =\mathcal B_q(E)-(2^{j+1}-1)\Def(E).
+\end{aligned}
+\]
+At \(j=n-1\) this proves
+\eqref{eq:transverse-reduction-output}; invariance under rigid motions
+and \(\mathcal B_q(E)=\beta(E)^2\) give
+\eqref{eq:transverse-reduction-beta}.
+\end{proof}
+
+\begin{remark}[Why the iteration stops at \(n-1\)]
+\label{rem:last-centred-reflection}
+After \(j\) reflections the new normal is searched for in
+\(V_j=\{\nu_1,\ldots,\nu_j\}^{\perp}\).  Up to \(j=n-2\), the sphere
+\(S(V_j)\) is connected and oddness of \(\Phi_j\) produces a
+centred bisection.  At \(j=n-1\), \(V_j\) is one-dimensional:
+\(S(V_j)=\{\nu,-\nu\}\), and oddness gives no zero.  The last
+orthogonal plane through \(q\) need not bisect \(F_{n-1}\).  Moving
+that plane until it becomes a median is the step used in the FMP
+volume-asymmetry reduction, but it no longer fixes \(q\), so
+\(|R_Hx-q|=|x-q|\) and \eqref{eq:potential-reflected-halves} fail.
+This is precisely the axial centre-motion term still missing from the
+oriented argument.
+\end{remark}
+
+\begin{proposition}[The exact last-axis target]\label{prop:last-axis-target}
+Let \(q\) be a minimising centre for \(\beta(E)\), and let \(G\) be
+the set produced by Theorem~\ref{thm:transverse-oriented-reduction},
+so that the intersection of its \(n-1\) symmetry hyperplanes is a
+line \(L\) through \(q\).  Let \(c\in L\) be chosen so that the
+hyperplane \(H_c\) through \(c\), perpendicular to \(L\), bisects
+\(G\).  Suppose that, for some dimensional number \(K_n\),
+\[
+   (n-1)\bigl\{I_c(G)-I_q(G)\bigr\}
+      \le K_n\Def(E).
+\tag{6.7j}\label{eq:last-axis-potential-shift}
+\]
+Then there is an \(n\)-symmetric set \(F\), centred at \(c\), with
+\[
+   \Def(F)\le2^n\Def(E),
+   \qquad
+   \beta(E)^2
+      \le \mathcal B_c(F)
+           +\{2^n-1+K_n\}\Def(E).
+\tag{6.7k}\label{eq:last-axis-output}
+\]
+\end{proposition}
+
+\begin{proof}
+The fixed-centre identity gives
+\[
+   \mathcal B_q(G)-\mathcal B_c(G)
+      =(n-1)\{I_c(G)-I_q(G)\}
+      \le K_n\Def(E).
+\]
+Apply Lemma~\ref{lem:one-centred-bisection} to \(G\), now with centre
+\(c\) and cutting plane \(H_c\).  Choose one reflected half, denoted
+by \(F\), for which
+\[
+   \Def(F)\le2\Def(G),
+   \qquad
+   \mathcal B_c(G)\le\mathcal B_c(F)+\Def(G).
+\]
+Every earlier symmetry hyperplane contains the axis \(L\), hence
+contains \(c\); it is orthogonal to \(H_c\).  Its reflection commutes
+with reflection across \(H_c\), so \(F\) has all \(n\) symmetries and
+their intersection is \(c\).  Finally,
+\[
+\begin{aligned}
+   \beta(E)^2
+   &\le \mathcal B_q(G)+(2^{n-1}-1)\Def(E)\\
+   &\le \mathcal B_c(F)+\Def(G)
+        +\{K_n+2^{n-1}-1\}\Def(E)\\
+   &\le \mathcal B_c(F)+\{K_n+2^n-1\}\Def(E),
+\end{aligned}
+\]
+while \(\Def(F)\le2\Def(G)\le2^n\Def(E)\).
+\end{proof}
+
+\begin{proposition}[What a full orthogonal equipartition would give]
+\label{prop:orthant-oriented-reduction}
+Let \(E\) have finite perimeter and \(|E|=\omega_n\), and let
+\(q\in\R^n\).  Suppose that there are \(n\) mutually orthogonal
+hyperplanes through \(q\) whose \(2^n\) open orthants \(Q_\sigma\)
+satisfy
+\[
+   |E\cap Q_\sigma|=2^{-n}\omega_n
+   \quad\hbox{for every \(\sigma\in\{+,-\}^n\)}.
+\tag{6.7l}\label{eq:orthant-equipartition}
+\]
+Then there is an \(n\)-symmetric set \(F\), with symmetry centre \(q\),
+such that
+\[
+   |F|=\omega_n,\qquad
+   \Def(F)\le2^n\Def(E),\qquad
+   \mathcal B_q(E)\le\mathcal B_q(F)+\Def(E).
+\tag{6.7m}\label{eq:full-orthant-output}
+\]
+\end{proposition}
+
+\begin{proof}
+For each orthant \(Q_\sigma\), reflect \(E\cap Q_\sigma\) through the
+group generated by the \(n\) hyperplane reflections, and denote the
+resulting \(n\)-symmetric set by \(F_\sigma\).  By
+\eqref{eq:orthant-equipartition}, \(|F_\sigma|=\omega_n\).  Put
+\(\Sigma:=\bigcup_{i=1}^nH_i\).  As in
+Lemma~\ref{lem:one-centred-bisection}, boundary on \(\Sigma\) is
+erased by reflection and the radial kernel about \(q\) is invariant
+under all the reflections.  Summing over the \(2^n\) orthants gives
+\[
+   \sum_\sigma\Def(F_\sigma)
+      =2^n\{\Def(E)-\Per(E;\Sigma)\},
+   \qquad
+   \sum_\sigma\mathcal B_q(F_\sigma)
+      =2^n\{\mathcal B_q(E)-\Per(E;\Sigma)\}.
+\]
+Every deficit is nonnegative, so
+\(\Per(E;\Sigma)\le\Def(E)\), and every individual deficit is at most
+\(2^n\Def(E)\).  Choose an orthant for which
+\(\mathcal B_q(F_\sigma)\ge
+\mathcal B_q(E)-\Per(E;\Sigma)\); it satisfies the claimed estimates.
+\end{proof}
+
+\begin{lemma}[Orthogonal quadrisection in the plane]
+\label{lem:orthogonal-quadrisection}
+Let \(E\subset\R^2\) be measurable with \(0<|E|<\infty\).  There are
+two perpendicular lines \(H_1,H_2\) whose four open quadrants each
+contain measure \(|E|/4\) of \(E\).
+\end{lemma}
+
+\begin{proof}
+We first suppose that the measure \(\mu=\mathbf1_E\,dx\) is replaced
+by a finite measure having a strictly positive continuous density and
+finite total mass \(m\).  For every \(\theta\in\R\), put
+\[
+   u_\theta=(\cos\theta,\sin\theta),
+   \qquad v_\theta=(-\sin\theta,\cos\theta).
+\]
+There is a unique number \(a(\theta)\) such that the oriented line
+\[
+   H_\theta:=\{x:x\cdot u_\theta=a(\theta)\}
+\]
+bisects \(\mu\); positivity and continuity of the density imply that
+\(a(\theta)\) depends continuously on \(\theta\).  There is likewise
+a unique \(b(\theta)\), continuous in \(\theta\), such that
+\[
+   K_\theta:=\{x:x\cdot v_\theta=b(\theta)\}
+\]
+bisects \(\mu\).  Let
+\[
+   Q_\theta^{++}
+   :=\{x:x\cdot u_\theta>a(\theta),\
+          x\cdot v_\theta>b(\theta)\},
+   \qquad
+   f(\theta):=\mu(Q_\theta^{++})-\frac m4.
+ \]
+The function \(f\) is continuous.  At angle \(\theta+\pi/2\), the
+two bisecting lines are the same lines with the roles of their
+positive sides changed:
+\[
+   Q_{\theta+\pi/2}^{++}
+   =\{x:x\cdot v_\theta>b(\theta),\
+          x\cdot u_\theta<a(\theta)\}.
+ \]
+Since \(K_\theta\) bisects \(\mu\), this gives
+\[
+   f(\theta+\pi/2)
+   =\left\{\frac m2-\mu(Q_\theta^{++})\right\}-\frac m4
+   =-f(\theta).
+ \]
+The intermediate value theorem provides \(\theta_0\) with
+\(f(\theta_0)=0\).  Both lines bisect the measure and one quadrant
+has mass \(m/4\), so each of the remaining three quadrants also has
+mass \(m/4\).
+
+For the original measure, take smooth strictly positive densities
+\(\mu_k\) converging narrowly to \(\mathbf1_E\,dx\), with total mass
+\(|E|\), for example by convolving with a Gaussian of variance
+\(1/k\).  Choose perpendicular quadrisecting lines for \(\mu_k\).
+Their normals have a convergent subsequence.  Their offsets remain
+bounded: otherwise one of the corresponding half-spaces would contain
+mass tending to \(0\) or to \(|E|\), although it contains
+\(|E|/2\) for every \(k\).  Pass to a subsequence so both lines
+converge.  A line has two-dimensional Lebesgue measure zero, hence
+the four limiting open quadrants are continuity sets for
+\(\mathbf1_E\,dx\).  Narrow convergence therefore passes the
+quadrant masses to the limit and gives \(|E|/4\) in each quadrant.
+\end{proof}
+
+\begin{corollary}[Full oriented reduction in dimension two]
+\label{cor:oriented-reduction-plane}
+Let \(E\subset\R^2\) have finite perimeter and \(|E|=\omega_2\).
+There is a set \(F\), symmetric with respect to two perpendicular
+lines meeting at \(q\), such that, after translating \(q\) to \(0\),
+\[
+   |F|=\omega_2,\qquad
+   \Def(F)\le4\Def(E),\qquad
+   \beta(E)^2\le\mathcal B_0(F)+\Def(E).
+\tag{6.7n}\label{eq:planar-oriented-reduction}
+\]
+\end{corollary}
+
+\begin{proof}
+Apply Lemma~\ref{lem:orthogonal-quadrisection} and let \(q\) be the
+intersection of the two quadrisecting lines.  Proposition
+~\ref{prop:orthant-oriented-reduction}, with \(n=2\), gives
+\(\mathcal B_q(E)\le\mathcal B_q(F)+\Def(E)\) and the asserted
+deficit estimate.  Since
+\(\beta(E)^2=\inf_z\mathcal B_z(E)\le\mathcal B_q(E)\), translation
+completes the proof.
+\end{proof}
+
+Proposition~\ref{prop:orthant-oriented-reduction} completely proves
+the desired oriented reduction if an orthogonal equipartition is
+available.  Corollary~\ref{cor:oriented-reduction-plane}
+therefore closes the first missing lemma in dimension \(2\).  This is
+not a dimension-free device:
+Maldonado and Rold\'an-Pensado \cite{MaldonadoRoldan} construct, for
+every \(n\ge3\), measures in \(\R^n\) admitting no equipartition into
+\(2^n\) equal parts by \(n\) mutually orthogonal hyperplanes.  Thus
+the higher-dimensional proof cannot obtain its final centred symmetry
+merely by reflecting one equal-volume orthant.
+
+\subsection{The three geometric lemmas that would close this route}
+
+The FMP proof suggests the following route, which uses no penalised
+minimisation and no regularity theorem.
+
+\begin{problem}[Full oriented symmetry reduction]\label{prob:oriented-reduction}
+Remove the remaining restrictions in
+Theorem~\ref{thm:transverse-oriented-reduction}: the resulting set
+should acquire the last axial symmetry in a manner compatible with
+the same-centre quantity needed
+in Problem~\ref{prob:meridian-closure}.  More precisely, construct from arbitrary \(E\) an
+\(n\)-symmetric set \(F\) whose symmetry centre is \(0\), with
+\[
+   \Def(F)\le C_n\Def(E),
+   \qquad
+   \beta(E)^2\le C_n\bigl\{\Def(E)+\mathcal B_0(F)\bigr\}.
+\tag{6.7}\label{eq:oriented-reduction-target}
+\]
+The centred reflection theorem proves the transverse \(n-1\)
+symmetries without losing oriented defect.  The final FMP reflection
+uses an axial median hyperplane, which need not contain the tracked
+radial centre; by Proposition~\ref{prop:last-axis-target}, it remains
+to prove the potential-shift bound
+\eqref{eq:last-axis-potential-shift}.  This is the unresolved
+centre-motion step.
 \end{problem}
+
+\begin{problem}[Transverse slice-motion estimate]\label{prob:slice-motion}
+For an \(n\)-symmetric, small-deficit, bounded set \(F\), prove
+\[
+   \mathcal B_0(F)-\mathcal B_0(F^\sharp)
+      \le C_n\bigl\{\Per(F)-\Per(F^\sharp)\bigr\}.
+\tag{6.8}\label{eq:slice-motion-target}
+\]
+In a nonsymmetrised formulation, the left side should be represented by
+the variation of a section-centre field \(a(s)\); the estimate would
+then be the isoperimetric analogue of controlling the centre velocity
+in Plan~2.
+\end{problem}
+
+\begin{problem}[Centred meridian closure]\label{prob:meridian-closure}
+For axially symmetric, volume-normalised \(F=F^\sharp\), assume in
+addition that \(0\) is a radial-potential maximiser for \(F\), namely
+\[
+   I_0(F)=\sup_{z\in\R^n}I_z(F).
+\]
+Prove directly from \eqref{eq:meridian-action} that
+\[
+   \mathcal B_0(F)
+      \le C_n\{\Per(F)-\Per(B_1)\}.
+\tag{6.9}\label{eq:meridian-target}
+\]
+This is a one-dimensional weighted inequality for the generating
+profile \(r\).  It is the first part of the intrinsic programme to
+attempt once the centre is inherited correctly.  The centring
+assumption cannot be omitted: \(F=B_1(ae_1)\), \(a\ne0\), is axially
+symmetric and has zero perimeter deficit, whereas
+\(\mathcal B_0(F)>0\).
+\end{problem}
+
+If \eqref{eq:oriented-reduction-target}--\eqref{eq:meridian-target}
+hold, their composition proves Fusco--Julin by a geometric
+symmetrisation argument.  More importantly, the proof would expose
+the mechanism: transverse perimeter pays for movement of section
+centres, while meridian perimeter pays for failure of the section
+radii to follow one centred sphere.
+
+\subsection{Sobolev and Minkowski formulations: useful diagnostics, not yet proofs}
+
+The \(BV\)-Sobolev equivalence does contain an exact integrated-level
+identity.  For \(q=n/(n-1)\) and a nonnegative compactly supported
+\(f\in BV(\R^n)\), write \(E_t=\{f>t\}\).  Coarea and Minkowski's
+integral inequality give
+\[
+\begin{aligned}
+   |Df|(\R^n)-n\omega_n^{1/n}\|f\|_{L^q}
+   &=
+   \int_0^\infty
+     \left\{\Per(E_t)-n\omega_n^{1/n}|E_t|^{(n-1)/n}\right\}\,dt \\
+   &\quad+
+   n\omega_n^{1/n}
+   \left\{\int_0^\infty |E_t|^{(n-1)/n}\,dt-\|f\|_{L^q}\right\},
+\end{aligned}
+\tag{6.10}\label{eq:BV-Sobolev-splitting}
+\]
+and both terms on the right are nonnegative.  Thus Sobolev does
+produce integrated isoperimetric deficits.  It does not, by itself,
+solve the present problem.  If \(f=\mathbf1_E\), there is only one
+nontrivial level and no centre-motion information.  If \(f\) is a
+smoothing or a potential associated to \(E\), one still needs a
+non-circular estimate bounding its Sobolev deficit by \(\Def(E)\) and
+a trace statement recovering \(\mathcal B_z(E)\).  Applying
+quantitative isoperimetry or Fusco--Julin separately to the levels
+would assume the desired input rather than derive it.
+
+Likewise, outer parallel sets connect isoperimetry to Brunn--Minkowski:
+for a sufficiently regular set,
+\[
+   \left.\frac{d}{dt}\right|_{t=0^+}|E+tB_1|=\Per(E).
+\tag{6.11}\label{eq:parallel-first-var}
+\]
+The stability results of Figalli--van Hintum--Tiba
+\cite{FvHTBM,FvHTPL} make this connection compelling at the level of
+volume and coherent translations.  However, their conclusions do not
+presently bound the boundary direction term
+\(\mathcal B_z(E)\).  An isoperimetric application would require a new
+oriented first-variation version of Brunn--Minkowski stability.
+
+\begin{remark}[Current assessment]\label{rem:intrinsic-assessment}
+The slicing route is the most faithful analogue of Plan~2 presently
+visible in the isoperimetric literature.  It starts from a proof method
+already designed to prevent translation drift, and
+\eqref{eq:meridian-action} shows exactly where the FJ normal
+oscillation sits.  The Sobolev and Brunn--Minkowski viewpoints help
+organise possible identities, but neither removes the centre-motion
+lemma without an additional, presently unproved, oriented estimate.
+\end{remark}
 
 \section{Consequences for the Faber--Krahn manuscript}\label{sec:application}
 
@@ -3726,6 +4385,14 @@ same-centre combined formulation, with computable dimensional constants.
 \item The weighted Reilly calculations prove exact identities tailored to
 torsion levels, but do not yet provide the missing normal estimate in the
 generality of arbitrary bounded open sets.
+\item Section~\ref{sec:intrinsic} formulates a separate intrinsic programme.
+It proves the fixed-centre symmetrisation and meridian-action identities
+and Theorem~\ref{thm:transverse-oriented-reduction}, which performs the
+oriented reflection reduction through \(n-1\) transverse symmetries.
+Corollary~\ref{cor:oriented-reduction-plane} supplies the full first
+reduction in dimension \(2\).  In dimensions \(n\ge3\), the last
+centred symmetry, transverse slice-motion control, and centred
+one-dimensional meridian closure remain open in that route.
 \end{enumerate}
 
 Accordingly, the regularised-selection branch provides a truly quantitative
@@ -3779,6 +4446,25 @@ A.~Figalli, F.~Maggi, and A.~Pratelli,
 \emph{A mass transportation approach to quantitative isoperimetric
 inequalities},
 Invent. Math. \textbf{182} (2010), 167--211.
+
+\bibitem{FvHTBM}
+A.~Figalli, P.~van Hintum, and M.~Tiba,
+\emph{Sharp quantitative stability of the Brunn--Minkowski inequality},
+preprint, 2023.
+\url{https://arxiv.org/abs/2310.20643}.
+
+\bibitem{FvHTPL}
+A.~Figalli, P.~van Hintum, and M.~Tiba,
+\emph{Sharp quantitative stability for the Pr\'ekopa--Leindler and
+Borell--Brascamp--Lieb inequalities},
+preprint, 2025.
+\url{https://arxiv.org/abs/2501.04656}.
+
+\bibitem{MaldonadoRoldan}
+G.~L.~Maldonado and E.~Rold\'an-Pensado,
+\emph{On the orthogonal Gr\"unbaum partition problem in dimension three},
+preprint, 2024.
+\url{https://arxiv.org/abs/2404.01504}.
 
 \bibitem{Fuglede}
 B.~Fuglede,
