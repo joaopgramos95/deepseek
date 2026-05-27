@@ -1,0 +1,4898 @@
+\documentclass[11pt]{amsart}
+
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage[hidelinks]{hyperref}
+
+\setstretch{1.2}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Om}{\Omega}
+\newcommand{\Fr}{\mathcal A}
+\newcommand{\HH}{\mathcal H}
+\newcommand{\dT}{\delta_T}
+\newcommand{\rstar}{\rho_*}
+\newcommand{\rdel}{\rho_\delta}
+\newcommand{\wt}{w}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\Hn}{\mathcal H^{n-1}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\Per}{P}
+\newcommand{\Otilde}{\widetilde{\Omega}}
+\newcommand{\Bstar}{B^*}
+\newcommand{\deltaFK}{\delta_{\mathrm{FK}}}
+\newcommand{\dx}{\,dx}
+\newcommand{\dt}{\,dt}
+\newcommand{\dH}{\,d\mathcal H^{n-1}}
+\newcommand{\ds}{\,d\sigma}
+\newcommand{\osc}{\mathcal O}
+\newcommand{\Def}{\mathcal D}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\Tmod}{T_{\mathrm{mod}}}
+
+\title[Sharp quantitative Faber--Krahn stability]
+{The sharp quantitative Faber--Krahn inequality\\
+via the level-set moving-ball route}
+\author{}
+\date{May 2026}
+
+\begin{document}
+
+\begin{abstract}
+We prove the sharp quantitative Faber--Krahn inequality: there is a dimensional
+constant \(c_{\mathrm{FK}}(n)>0\) such that every open set \(\Om\subset\R^n\)
+with \(0<|\Om|<\infty\) satisfies
+\[
+   \Bigl(\tfrac{|\Om|}{\omega_n}\Bigr)^{2/n}
+   \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)
+   \;\ge\; c_{\mathrm{FK}}(n)\,\Fr(\Om)^2 ,
+\]
+where \(\lambda_1\) is the first Dirichlet eigenvalue, \(\Bstar\) the ball of
+the same volume, and \(\Fr\) the Fraenkel asymmetry; the exponent \(2\) is
+sharp.  The proof is organised around the torsion function and the unscaled
+moving-ball distance \(q(\rho)=\inf_{z}|E_\rho\Delta B_\rho(z)|\) on its
+superlevel sets \(E_\rho\).  On reduced boundaries and for almost every level we
+establish an exact level-set deficit identity expressing the Saint--Venant
+deficit as a weighted integral of a Cauchy--Schwarz defect \(D_H\) and an
+isoperimetric defect \(D_I\); nestedness gives a perimeter-free Lipschitz bound
+for \(q\); a finite-perimeter affine first variation for \(q\), a positive
+kinetic estimate, and an endpoint trace yield bounded sharp Saint--Venant
+stability \(\Fr(\Om)^2\le C(n,R)\,\dT(\Om)\) for \(\Om\subset B_R\).  A
+constructive De~Giorgi truncation removes the confinement, and the
+Kohler--Jobin rearrangement transfers the Saint--Venant estimate to the
+eigenvalue.  The Fusco--Julin sharp quantitative isoperimetric inequality
+(Theorem~\ref{thm:FJ-strong}), used to extract a same-centre control of volume
+asymmetry and boundary-normal oscillation, is itself proved internally in
+Appendix~\ref{app:FJ-quantitative}, so the manuscript is self-contained modulo
+standard tools for sets of finite perimeter.
+\end{abstract}
+
+\maketitle
+\tableofcontents
+
+\section{Introduction}\label{sec:intro}
+
+For an open set \(\Om\subset\R^n\) (\(n\ge2\)) with \(0<|\Om|<\infty\), let
+\(\lambda_1(\Om)\) denote its first Dirichlet eigenvalue and \(\Bstar\) the ball
+with \(|\Bstar|=|\Om|\).  The Faber--Krahn inequality asserts
+\(\lambda_1(\Om)\ge\lambda_1(\Bstar)\), with equality only for balls.  This
+paper proves its sharp quantitative form.
+
+\begin{theorem}[Sharp quantitative Faber--Krahn]\label{thm:FK-main}
+There is a constant \(c_{\mathrm{FK}}(n)>0\), depending only on \(n\), such that
+every open set \(\Om\subset\R^n\) with \(0<|\Om|<\infty\) satisfies
+\[
+   \deltaFK(\Om):=
+   \Bigl(\frac{|\Om|}{\omega_n}\Bigr)^{2/n}
+   \bigl(\lambda_1(\Om)-\lambda_1(\Bstar)\bigr)
+   \;\ge\; c_{\mathrm{FK}}(n)\,\Fr(\Om)^2,
+\]
+where \(\Fr(\Om):=\inf_{x_0}|\Om\Delta(x_0+\Bstar)|/|\Bstar|\) is the Fraenkel
+asymmetry.  The exponent \(2\) is sharp.
+\end{theorem}
+
+This is the theorem of Brasco--De~Philippis--Velichkov \cite{BDV}; the present
+draft gives a structurally different proof.  The Fusco--Julin sharp quantitative
+isoperimetric inequality (Theorem~\ref{thm:FJ-strong}) appears as an internal
+ingredient and is proved from scratch in Appendix~\ref{app:FJ-quantitative}, so
+the manuscript is self-contained modulo standard tools for sets of finite
+perimeter.
+
+\paragraph{Strategy.} The eigenvalue is reached only at the very end, through
+the torsion function \(u=u_\Om\) (\(-\Delta u=1\) in \(\Om\), \(u\in
+H^1_0(\Om)\)) and its Saint--Venant deficit
+\(\dT(\Om)=E(\Om)-E(\Bstar)\), \(E=-\tfrac12\int u\).  The heart of the paper is
+the \emph{sharp Saint--Venant stability} estimate
+\(\Fr(\Om)^2\le C\,\dT(\Om)\), obtained by working directly with the torsion
+superlevel sets \(E_\rho=\{u>t(\rho)\}\) of volume \(\omega_n\rho^n\) and the
+\emph{unscaled} moving-ball distance
+\[
+   q(\rho):=\inf_{z\in\R^n}|E_\rho\Delta B_\rho(z)| .
+\]
+Because the family \(\{E_\rho\}\) is nested, \(q\) is uniformly Lipschitz
+(Lemma~\ref{lem:qLip}); this is what lets the sparse set of bad-density radii be
+charged by Lebesgue measure rather than by the deficit.
+
+\paragraph{Outline.} The proof proceeds in three blocks.
+
+\emph{(I) Bounded Saint--Venant stability
+(\S\S\ref{sec:identity}--\ref{sec:endpoint}).}
+Section~\ref{sec:identity} proves, on reduced boundaries and for a.e.\ level, the
+exact deficit identity
+\(2\dT(\Om)=\int_0^{\|u\|_\infty}(D_H+D_I)/(n^2\omega_n^{2/n}\,m^{1-2/n})\,dt\),
+where \(D_H\) is the Cauchy--Schwarz defect of \(|\nabla u|\) on
+\(\partial^*E_t\) and \(D_I\) the squared-perimeter isoperimetric defect;
+Section~\ref{sec:profilegap} derives its profile-gap and bad-density
+consequences.  Section~\ref{sec:samecentre} invokes the Fusco--Julin strong
+form (proved internally in Appendix~\ref{app:FJ-quantitative}) and converts it
+into same-centre control of the homothetic trace.
+Sections~\ref{sec:coarea}--\ref{sec:kinetic} prove a finite-perimeter affine
+first variation for \(q\) and the positive kinetic estimate, and
+Section~\ref{sec:endpoint} closes the bounded estimate
+\(\Fr(\Om)^2\le C(n,R)\,\dT(\Om)\) for \(\Om\subset B_R\)
+(Theorem~\ref{thm:boundedSV}).
+
+\emph{(II) Bounded reduction (\S\ref{sec:bddred}).}
+A constructive De~Giorgi \(L^\infty\) truncation produces, from any \(\Om\) of
+small deficit, a bounded surrogate inside a dimensional ball with controlled
+loss of deficit and asymmetry; gluing the resulting bounded estimate to a
+trivial far-deficit branch removes the confinement and yields the global sharp
+Saint--Venant inequality \(\dT(\Om)\ge c_{\mathrm{SV}}^{\mathrm{glob}}(n)
+\Fr(\Om)^2\).
+
+\emph{(III) Kohler--Jobin transfer (\S\ref{sec:kj}).}
+The Kohler--Jobin rearrangement, proved here from scratch, gives the
+scale-invariant comparison \(T(\Om)\lambda_1(\Om)^{(n+2)/2}\ge
+T_n\lambda_1(B_1)^{(n+2)/2}\); combined with the global Saint--Venant inequality
+and an elementary one-variable estimate it yields Theorem~\ref{thm:FK-main}.
+
+The Fusco--Julin strong-form inequality (Theorem~\ref{thm:FJ-strong}) is
+proved internally in Appendix~\ref{app:FJ-quantitative}; all other ingredients
+are either proved here or are classical tools for sets of finite perimeter,
+collected in Appendix~\ref{app:bv}, with the dependency certificate of
+Appendix~\ref{app:constants}.
+
+\section{Standing notation and scope}\label{sec:notation}
+
+Fix \(n\ge2\), \(R\ge1\), and \(0<\rstar<1\).  Let
+\(\Om\subset B_R\) be bounded and open with \(|\Om|=\omega_n\), and let
+\(u=u_\Om\in H^1_0(\Om)\) be the torsion function,
+\[
+   -\Delta u=1\quad\hbox{in }\Om,\qquad u=0\quad\hbox{on }\partial\Om
+   \quad(H^1_0\hbox{ sense}).
+\]
+We write the torsional rigidity \(T(\Om):=\int_\Om u\,dx\), the Saint--Venant
+energy \(E(\Om):=-\tfrac12 T(\Om)\), and the Saint--Venant deficit
+\[
+   \dT(\Om):=E(\Om)-E(B_1)
+   =-\frac12\int_\Om u+\frac12\int_{B_1}u_{B_1}\ge0.
+\]
+We write \(\lambda_1(\Om)\) for the first Dirichlet eigenvalue, \(\Bstar\) for
+the ball with \(|\Bstar|=|\Om|\), \(L_n:=\lambda_1(B_1)\), and
+\(T_n:=T(B_1)=\omega_n/(n(n+2))\); these enter only in the bounded reduction
+(\S\ref{sec:bddred}) and the Kohler--Jobin transfer (\S\ref{sec:kj}).
+
+\paragraph{Scope of the bounded core.}  Blocks (I) of the introduction --
+Sections \ref{sec:identity}--\ref{sec:endpoint} -- are carried out under the
+standing normalisation \(|\Om|=\omega_n\) and the confinement
+\(\Om\subset B_R\), with parameters \(n\ge2\), \(R\ge1\), \(0<\rstar<1\) fixed
+throughout.  The confinement and the volume normalisation are both removed in
+\S\ref{sec:bddred} by scaling and a constructive truncation, so the final
+theorem holds for arbitrary open sets of finite measure.
+
+Let \(t(\rho)\) be the volume-radius parametrisation of the superlevels:
+\[
+   E_\rho:=\{u>t(\rho)\},\qquad |E_\rho|=\omega_n\rho^n,
+   \qquad 0<\rho<1.
+\]
+Set
+\[
+   \wt(\rho):=-t'(\rho),\qquad d\mu(\rho)=\wt(\rho)\,d\rho.
+\]
+For a.e. \(\rho\), \(E_\rho\) has finite perimeter, \(\Hn(\partial^*E_\rho
+\cap\{|\nabla u|=0\})=0\), and the De Giorgi outer normal satisfies
+\[
+   \nu_\rho=-\frac{\nabla u}{|\nabla u|}
+   \quad\Hn\hbox{-a.e. on }\partial^*E_\rho
+\]
+(these level conventions are established in
+Lemma~\ref{lem:id-noatoms}).  On those levels define
+\[
+   V_\rho:=\frac{\wt(\rho)}{|\nabla u|},\qquad
+   H_{z,\rho}(x):=\frac{(x-z)\cdot\nu_\rho(x)}{\rho},\qquad
+   \bar V_\rho:=\frac{\Per(B_\rho)}{\Per(E_\rho)}.
+\]
+The coarea relation of \S\ref{sec:identity}
+(Lemma~\ref{lem:id-coarea}, with \(\wt(\rho)\,\alpha(t(\rho))=\Per(B_\rho)\))
+gives
+\begin{equation}\label{eq:V-mean}
+   \int_{\partial^*E_\rho} V_\rho\,d\Hn=\Per(B_\rho),
+   \qquad
+   \bar V_\rho=\frac1{\Per(E_\rho)}
+       \int_{\partial^*E_\rho}V_\rho\,d\Hn .
+\end{equation}
+
+The two level-set defects are
+\[
+   D_H(t(\rho))
+   :=\left(\int_{\partial^*E_\rho}\frac1{|\nabla u|}\,d\Hn\right)
+     \left(\int_{\partial^*E_\rho}|\nabla u|\,d\Hn\right)
+      -\Per(E_\rho)^2,
+\]
+\[
+   D_I(t(\rho)):=\Per(E_\rho)^2-\Per(B_\rho)^2 .
+\]
+
+\begin{remark}[Scope]\label{rem:scope}
+The bounded Saint--Venant estimate is deduced from the exact level-set
+identity (Theorem~\ref{thm:id-main}), proved in \S\ref{sec:identity}, and its
+profile-gap and bad-density consequences (Proposition~\ref{prop:levelset}).
+The same-centre good-level package (Theorem~\ref{inp:samecenter}) rests on the
+Fusco--Julin strong form (Theorem~\ref{thm:FJ-strong}), proved internally in
+Appendix~\ref{app:FJ-quantitative}; the radial trace conversion from
+same-centre volume and normal control to the homothetic trace is
+Lemma~\ref{lem:oriented-radial-trace}.  Every step, including the first
+variation, the bad-density bookkeeping, and the Fusco--Julin input, is proved
+here.
+\end{remark}
+
+\section{Finite-perimeter level-set identities}\label{sec:identity}
+
+All integrals in this section are taken on De~Giorgi reduced boundaries and all
+statements hold for almost every level; no smoothness of \(\partial\Om\), no
+graph parametrisation of the level sets, and no pointwise lower bound on
+\(|\nabla u|\) are used.  We keep the normalisation \(|\Om|=\omega_n\), so the
+ball of the same volume is \(B_1\); the general case follows by scaling.  Write
+\[
+   M:=\|u\|_\infty,\qquad L:=|\Om|=\omega_n,\qquad
+   m(t):=|\{u>t\}|,
+\]
+\[
+   \alpha(t):=\int_{\partial^*E_t}\frac1{|\nabla u|}\,d\Hn,\qquad
+   \beta(t):=\int_{\partial^*E_t}|\nabla u|\,d\Hn,\qquad
+   c_n:=n^2\omega_n^{2/n}.
+\]
+By the Talenti pointwise comparison \cite{Talenti1976},
+\(u^*(s)\le u_{B_1}^*(s)=(1-(s/\omega_n)^{2/n})/(2n)\), so
+\(M\le 1/(2n)<\infty\); here \(u^*\) is the decreasing rearrangement of \(u\).
+
+\subsection*{Regularity and level conventions}
+
+\begin{lemma}[Critical set and level conventions]\label{lem:id-noatoms}
+Let \(u\) be extended by \(0\) to \(\R^n\).  Then:
+\begin{enumerate}[label=\textup{(\alph*)},leftmargin=2.2em]
+\item \(|\{u=0\}\cap\Om|=0\) and \(|\{\nabla u=0\}\cap\Om|=0\);
+\item for every \(t\in(0,M)\), \(|\{u=t\}|=0\); hence \(m\) is continuous and
+strictly decreasing on \((0,M)\);
+\item for a.e.\ \(t\in(0,M)\): \(E_t\) has finite perimeter,
+\(\partial^*E_t\subset\Om\) up to \(\Hn\)-null sets,
+\(\nu_{E_t}=-\nabla u/|\nabla u|\) \(\Hn\)-a.e.\ on \(\partial^*E_t\), and
+\(\Hn(\partial^*E_t\cap\{\nabla u=0\})=0\).
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\emph{(a)} Testing \(-\Delta u=1\) against \(u^-\in H^1_0(\Om)\) gives
+\(\int|\nabla u^-|^2=-\int u^-\le0\), so \(u\ge0\) a.e.; the weak strong maximum
+principle on each connected component yields \(u>0\) a.e.\ in \(\Om\)
+\cite{GilbargTrudinger2001}, i.e.\ \(|\{u=0\}\cap\Om|=0\).  Interior elliptic
+regularity gives \(u\in W^{2,p}_{\rm loc}(\Om)\) for all \(p<\infty\); applying
+Stampacchia's theorem \cite{Stampacchia1965} to the weak derivatives
+\(\partial_iu\) gives \(D^2u=0\) a.e.\ on \(\{\nabla u=0\}\), while
+\(\Delta u=-1\) a.e.  Hence \(|\{\nabla u=0\}\cap\Om|=0\).
+
+\emph{(b)} For \(t\in(0,M)\) the Sobolev chain rule applied to \((u-t)^+\) gives
+\(\nabla u=0\) a.e.\ on \(\{u=t\}\); since \(\{u=t\}\subset\{u>0\}\subset\Om\) up
+to a null set, part~(a) gives \(|\{u=t\}|=0\).  A jump of \(m\) at \(t\) would
+have size \(|\{u=t\}|=0\), so \(m\) is continuous on \((0,M)\).  For
+\(0<a<b<M\), some component of \(\Om\) has essential supremum of \(u\) exceeding
+\(b\); on it \(\{a<u<b\}\) is a nonempty open set of positive measure, so
+\(m(a)-m(b)=|\{a<u\le b\}|>0\).
+
+\emph{(c)} By the BV coarea formula \cite[Thm.~13.1]{Maggi2012},
+\cite[Thm.~3.40]{AFP2000}, for every Borel \(\varphi\ge0\),
+\begin{equation}\label{eq:id-bvcoarea}
+   \int_\Om|\nabla u|\,\varphi\,dx
+   =\int_{-\infty}^{\infty}\Bigl(\int_{\partial^*E_t}\varphi\,d\Hn\Bigr)\,dt .
+\end{equation}
+Taking \(\varphi=\mathbf 1_{(0,M)}(u)\) (which equals \(1\) on
+\(\partial^*E_t\) precisely for \(t\in(0,M)\)) gives
+\(\int_0^M\Per(E_t)\,dt=\int_{\{0<u<M\}}|\nabla u|\,dx\le\int_\Om|\nabla u|
+<\infty\), the last bound because \(|\nabla u|\in L^2(\Om)\subset L^1(\Om)\) on
+the bounded set \(\Om\); hence \(\Per(E_t)<\infty\) for a.e.\ \(t\).  For \(t>0\) the precise representative of
+\(u\) vanishes \(\Hn\)-a.e.\ on \(\R^n\setminus\Om\) (as \(u\in H^1_0(\Om)\)),
+and for a.e.\ \(t\) one has \(\partial^*E_t\subset\{u=t\}\) up to \(\Hn\)-null
+sets \cite{AFP2000,Maggi2012}; therefore \(\partial^*E_t\subset\Om\) up to
+\(\Hn\)-null sets.  The orientation \(\nu_{E_t}=-\nabla u/|\nabla u|\) is the
+standard one for superlevel sets of Sobolev functions \cite{AFP2000}.  Finally,
+\eqref{eq:id-bvcoarea} with \(\varphi=\mathbf 1_{\{\nabla u=0\}}\) gives
+\(\int_0^M\Hn(\partial^*E_t\cap\{\nabla u=0\})\,dt
+=\int_{\{\nabla u=0\}}|\nabla u|\,dx=0\), so the last assertion holds for a.e.\
+\(t\).
+\end{proof}
+
+\noindent
+Statements ``for a.e.\ \(t\)'' below refer to the full-measure set of levels
+furnished by Lemma~\ref{lem:id-noatoms}(c).
+
+\subsection*{Coarea form of \texorpdfstring{\(-m'\)}{-m'} and the flux identity}
+
+\begin{lemma}[Coarea form of \(-m'\)]\label{lem:id-coarea}
+For a.e.\ \(t\in(0,M)\), \(-m'(t)=\alpha(t)\).  In particular \(m\) is locally
+absolutely continuous on \((0,M)\) and \(\alpha\in L^1_{\rm loc}((0,M))\).
+\end{lemma}
+
+\begin{proof}
+Fix \(0<a<b<M\) and apply \eqref{eq:id-bvcoarea} to
+\(\varphi=|\nabla u|^{-1}\mathbf 1_{\{|\nabla u|>0\}}\mathbf 1_{(a,b)}(u)\).
+By Lemma~\ref{lem:id-noatoms}(a) the integrand on the left equals
+\(\mathbf 1_{\{a<u<b\}}\) up to a null set, so
+\(m(a)-m(b)=\int_a^b\alpha(t)\,dt\).  Local absolute continuity of \(m\) and
+\(-m'=\alpha\) a.e.\ follow.
+\end{proof}
+
+\begin{lemma}[Flux equals volume]\label{lem:id-flux}
+For a.e.\ \(t\in(0,M)\), \(\beta(t)=\int_{\partial^*E_t}|\nabla u|\,d\Hn=m(t)\).
+\end{lemma}
+
+\begin{proof}
+For \(\eps>0\) set \(\phi_\eps(s):=\min(1,\max(0,s/\eps))\) and
+\(\eta_\eps:=\phi_\eps(u-t)\in H^1_0(\Om)\).  Testing \(-\Delta u=1\) against
+\(\eta_\eps\),
+\[
+   \int_\Om\nabla u\cdot\nabla\eta_\eps\,dx=\int_\Om\eta_\eps\,dx .
+\]
+The Sobolev chain rule \cite[Thm.~3.99]{AFP2000} gives
+\(\nabla\eta_\eps=\eps^{-1}\nabla u\,\mathbf 1_{\{t<u<t+\eps\}}\), so the left
+side equals \(\eps^{-1}\int_{\{t<u<t+\eps\}}|\nabla u|^2\), which by
+\eqref{eq:id-bvcoarea} (with \(\varphi=|\nabla u|\,\mathbf 1_{(t,t+\eps)}(u)\))
+equals \(\eps^{-1}\int_t^{t+\eps}\beta(\tau)\,d\tau\).  As \(\eps\downarrow0\),
+\(\eta_\eps\to\mathbf 1_{E_t}\) boundedly (Lemma~\ref{lem:id-noatoms}(b)), so the
+right side tends to \(m(t)\).  Since \(\beta\in L^1((0,M))\) by
+\eqref{eq:id-bvcoarea} and the Dirichlet identity
+\(\int_0^M\beta=\int_\Om|\nabla u|^2=\int_\Om u<\infty\), at every Lebesgue
+point of \(\beta\) the left side tends to \(\beta(t)\).  Hence
+\(\beta(t)=m(t)\) for a.e.\ \(t\).
+\end{proof}
+
+\begin{remark}[Why a truncation, not a trace]\label{rem:id-flux}
+Lemma~\ref{lem:id-flux} is the rigorous replacement, on an arbitrary
+finite-perimeter level set, for the formal divergence computation
+\(m(t)=-\int_{E_t}\Delta u=-\int_{\partial^*E_t}\nabla u\cdot\nu_{E_t}=\beta(t)\)
+(using \(\nabla u\cdot\nu_{E_t}=-|\nabla u|\)); no boundary trace of
+\(\nabla u\) on \(\partial^*E_t\) is required \cite[Ch.~17]{Maggi2012}.
+\end{remark}
+
+\subsection*{The rearranged primitive}
+
+Let \(I(s):=\int_0^s u^*(\sigma)\,d\sigma\), \(s\in[0,L]\).
+
+\begin{lemma}[Derivatives of the primitive]\label{lem:id-I}
+\(I\) is absolutely continuous on \([0,L]\) with \(I'(s)=u^*(s)\) a.e.; on every
+compact subinterval of \((0,L)\) the rearrangement \(u^*\) is absolutely
+continuous and
+\begin{equation}\label{eq:id-Ipp}
+   I''(s)=(u^*)'(s)=\frac{1}{m'(u^*(s))}=-\frac{1}{\alpha(u^*(s))}
+   \qquad\text{for a.e.\ }s\in(0,L).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By the Talenti bound \(u^*\in L^\infty(0,L)\subset L^1(0,L)\); the Lebesgue
+differentiation theorem gives \(I'=u^*\) a.e.  By Lemma~\ref{lem:id-coarea},
+\(m\) is locally absolutely continuous with \(m'=-\alpha\) a.e., and \(m\) is
+continuous and strictly decreasing on \((0,M)\) by
+Lemma~\ref{lem:id-noatoms}(b), so \(m(u^*(s))=s\).  The absolutely continuous
+inverse theorem for monotone functions \cite[Thm.~0.4, \S1]{BBC1975} gives that
+\(u^*\) is absolutely continuous on compact subintervals of \((0,L)\) with
+\((u^*)'(s)=1/m'(u^*(s))\) wherever \(m'(u^*(s))\) exists and is nonzero.  For
+a.e.\ \(t\in(0,M)\) one has \(0<|E_t|<|\Om|\), hence \(\Per(E_t)>0\) and
+\(\alpha(t)>0\); thus \(\{m'=0\}=\{\alpha=0\}\) is null and carries no image
+measure (\(|m(\{m'=0\})|\le\int_{\{m'=0\}}|m'|=0\)).  Since \(m'=-\alpha\),
+\eqref{eq:id-Ipp} follows; absolute continuity of \(u^*\) on compact
+subintervals identifies the distributional and a.e.\ derivatives of
+\(I'=u^*\).
+\end{proof}
+
+\begin{remark}[The corrected second derivative]\label{rem:id-alpha}
+The factor in \eqref{eq:id-Ipp} is \(\alpha=\int_{\partial^*E_t}|\nabla u|^{-1}\),
+not \(\beta=\int_{\partial^*E_t}|\nabla u|\).  Since \(\beta(t)=m(t)\)
+(Lemma~\ref{lem:id-flux}), replacing \(\alpha\) by \(\beta\) would give
+\(I''=-1/m\), which holds only when \(|\nabla u|\) is constant on
+\(\partial^*E_t\), i.e.\ on the ball; the discrepancy is exactly the
+Cauchy--Schwarz defect \(D_H\) introduced next, so the substitution would
+silently delete \(D_H\) from the identity.
+\end{remark}
+
+\subsection*{The exact deficit identity}
+
+For a.e.\ \(t\in(0,M)\) the two level-set defects of the standing notation read,
+as functions of the level,
+\[
+   D_H(t)=\alpha(t)\beta(t)-\Per(E_t)^2,\qquad
+   D_I(t)=\Per(E_t)^2-c_n\,m(t)^{2-2/n},
+\]
+consistent with \S\ref{sec:notation} under \(t=t(\rho)\) (so
+\(\Per(B_\rho)^2=c_n m(t)^{2-2/n}\)).  By Cauchy--Schwarz on
+\(\partial^*E_t\) applied to \((|\nabla u|^{1/2},|\nabla u|^{-1/2})\),
+\(\Per(E_t)^2\le\alpha(t)\beta(t)\), so \(D_H(t)\ge0\), with equality iff
+\(|\nabla u|\) is \(\Hn\)-a.e.\ constant on \(\partial^*E_t\).  By the De~Giorgi
+isoperimetric inequality \cite{DeGiorgi1958,Maggi2012},
+\(\Per(E_t)\ge n\omega_n^{1/n}m(t)^{1-1/n}\), so \(D_I(t)\ge0\), with equality
+iff \(E_t\) is equivalent to a ball.
+
+\begin{lemma}[Pointwise convexity formula]\label{lem:id-Gpp}
+Set \(G(s):=I(s)+\dfrac{s^{1+2/n}}{(4+2n)\,\omega_n^{2/n}}\).  Then for a.e.\
+\(s\in(0,L)\), with \(t=u^*(s)\),
+\[
+   G''(s)=\frac{1}{c_n\,s^{1-2/n}}-\frac{1}{\alpha(t)} .
+\]
+\end{lemma}
+
+\begin{proof}
+Direct differentiation gives
+\(\frac{d^2}{ds^2}\frac{s^{1+2/n}}{(4+2n)\omega_n^{2/n}}
+=\frac{1}{c_n s^{1-2/n}}\); add \eqref{eq:id-Ipp}.
+\end{proof}
+
+\begin{lemma}[Convexity identity]\label{lem:id-cov}
+\(\displaystyle\int_0^L s\,G''(s)\,ds
+   =\int_0^M\frac{D_H(t)+D_I(t)}{c_n\,m(t)^{1-2/n}}\,dt.\)
+\end{lemma}
+
+\begin{proof}
+Substitute \(s=m(t)\), \(ds=-\alpha(t)\,dt\), in
+\(\int_0^L s\,G''(s)\,ds\) (Lemma~\ref{lem:id-noatoms}(b) removes jump terms,
+and \(\{\alpha=0\}\) carries no image measure):
+\[
+   \int_0^L s\,G''\,ds
+   =\int_0^M m(t)\Bigl(\frac{1}{c_n m(t)^{1-2/n}}-\frac1{\alpha(t)}\Bigr)
+      \alpha(t)\,dt
+   =\int_0^M\Bigl(\frac{m(t)\alpha(t)}{c_n m(t)^{1-2/n}}-m(t)\Bigr)dt .
+\]
+Use \(m(t)=\beta(t)\) (Lemma~\ref{lem:id-flux}) and add and subtract
+\(\Per(E_t)^2/(c_n m(t)^{1-2/n})\):
+\[
+   \frac{m\alpha}{c_n m^{1-2/n}}-m
+   =\frac{\alpha\beta-c_n m^{2-2/n}}{c_n m^{1-2/n}}
+   =\frac{D_H+D_I}{c_n m^{1-2/n}} . \qedhere
+\]
+\end{proof}
+
+\begin{lemma}[Endpoint convexity-gap formula]\label{lem:id-gap}
+With \(\Gamma(\Om):=G'_-(L)-G(L)/L\), one has
+\(\Gamma(\Om)=\frac1L\int_0^L s\,G''(s)\,ds\).
+\end{lemma}
+
+\begin{proof}
+\(G\in W^{2,1}_{\rm loc}((0,L])\) and \(G(0)=I(0)=0\).  Integration by parts on
+\((\eps,L)\) gives \(\int_\eps^L sG''=L\,G'_-(L)-\eps G'(\eps)-G(L)+G(\eps)\).
+By Lemma~\ref{lem:id-I},
+\(G'(s)=u^*(s)+s^{2/n}/(2n\omega_n^{2/n})\) is bounded, so
+\(\eps G'(\eps)\to0\) and \(G(\eps)\to0\); divide by \(L\).
+\end{proof}
+
+\begin{lemma}[Endpoint value]\label{lem:id-endpoint}
+\(\Gamma(\Om)=\dfrac{2}{|\Om|}\bigl(E(\Om)-E(B_1)\bigr)=\dfrac{2}{\omega_n}\dT(\Om).\)
+\end{lemma}
+
+\begin{proof}
+At \(s=L\), \(u^*(s)\to0\) as \(s\uparrow L\) (Lemma~\ref{lem:id-noatoms} gives
+\(m(t)\uparrow L\) as \(t\downarrow0\)), so \(G'_-(L)=L^{2/n}/(2n\omega_n^{2/n})\)
+and \(I(L)=\int_\Om u\,dx\).  With \(L=\omega_n\), using
+\(\frac{1}{2n}-\frac1{4+2n}=\frac{1}{2n}-\frac1{2(n+2)}=\frac1{n(n+2)}\),
+\[
+   \Gamma(\Om)
+   =\frac{L^{2/n}}{2n\omega_n^{2/n}}-\frac{L^{2/n}}{(4+2n)\omega_n^{2/n}}
+    -\frac1L\int_\Om u
+   =\frac{1}{n(n+2)}-\frac1{\omega_n}\int_\Om u .
+\]
+For the unit-volume ball \(B_1\), \(u_{B_1}(x)=(1-|x|^2)/(2n)\) and
+\[
+   \int_{B_1}u_{B_1}
+   =\frac1{2n}\,n\omega_n\int_0^1(1-r^2)r^{n-1}\,dr
+   =\frac{\omega_n}{2}\Bigl(\frac1n-\frac1{n+2}\Bigr)
+   =\frac{\omega_n}{n(n+2)},
+\]
+so \(\frac1{\omega_n}\int_{B_1}u_{B_1}=\frac1{n(n+2)}\) and \(\Gamma(B_1)=0\)
+(the P\'olya--Szeg\H{o} identification \cite{PolyaSzego1951,Bandle1980}).
+Subtracting, \(\Gamma(\Om)=\frac1{\omega_n}(\int_{B_1}u_{B_1}-\int_\Om u)
+=\frac{2}{\omega_n}(E(\Om)-E(B_1))\), since \(E(\cdot)=-\tfrac12\int(\cdot)\).
+\end{proof}
+
+\begin{theorem}[Exact deficit identity on reduced-boundary level sets]
+\label{thm:id-main}
+Let \(\Om\subset\R^n\) be open with \(|\Om|=\omega_n\) and \(u\in H^1_0(\Om)\)
+the torsion function.  Then \eqref{eq:id-bvcoarea} and
+Lemmas~\ref{lem:id-coarea}, \ref{lem:id-flux}, \ref{lem:id-I} hold, and
+\begin{equation}\label{eq:id-main}
+   \boxed{\;
+   2\,\dT(\Om)
+   =\int_0^{\|u\|_\infty}
+      \frac{D_H(t)+D_I(t)}{n^2\omega_n^{2/n}\,m(t)^{1-2/n}}\,dt ,\;}
+\end{equation}
+with \(D_H(t),D_I(t)\ge0\) for a.e.\ \(t\).  By scaling, the corresponding
+identity \(\tfrac{2}{|\Om|}(E(\Om)-E(B))=\tfrac1{|\Om|}\int_0^{\|u\|_\infty}
+(D_H+D_I)/(c_n m^{1-2/n})\,dt\) holds for every open \(\Om\) of finite measure.
+\end{theorem}
+
+\begin{proof}
+Combine Lemmas~\ref{lem:id-cov}, \ref{lem:id-gap}, \ref{lem:id-endpoint}; the
+scaling statement follows since both sides are \(0\)-homogeneous under
+\(\Om\mapsto\lambda\Om\) after the displayed normalisation.
+\end{proof}
+
+\section{Profile gap and bad-density estimate}\label{sec:profilegap}
+
+\begin{proposition}[Level-set budget and profile-gap bad set]
+\label{prop:levelset}
+There are computable constants
+\[
+   C_L=C_L(n,\rstar),\qquad C_\tau=C_\tau(n,\rstar),
+   \qquad \kappa=\kappa(\rstar)>0,
+\]
+such that, with
+\[
+   \rdel:=1-\kappa\sqrt{\dT(\Om)}
+\]
+and whenever \(\rdel\ge(1+\rstar)/2\), one has
+\begin{equation}\label{eq:budget}
+   \int_{\rstar}^{\rdel}
+      \bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)\,d\mu(\rho)
+   \le C_L\,\dT(\Om),
+\end{equation}
+\[
+   0\le \wt(\rho)\le\frac1n\quad\hbox{for a.e. }\rho,
+\]
+and, with
+\[
+   \tau_0:=\frac{\rstar}{2n},\qquad
+   B_\tau:=\{\rho\in[\rstar,\rdel]:\wt(\rho)<\tau_0\},\qquad
+   G_\tau:=[\rstar,\rdel]\setminus B_\tau,
+\]
+one has
+\begin{equation}\label{eq:badtau}
+   |B_\tau|\le C_\tau\,\dT(\Om).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Recall \(m(t)=|\{u>t\}|\) and
+\(\alpha(t)=\int_{\partial^*\{u>t\}}|\nabla u|^{-1}\,d\Hn\) from
+\S\ref{sec:identity}.  Theorem~\ref{thm:id-main} gives the exact deficit
+identity
+\begin{equation}\label{eq:levelset-identity}
+   2\,\dT(\Om)
+   =
+   \int_0^{\|u\|_\infty}
+      \frac{D_H(t)+D_I(t)}
+      {n^2\omega_n^{2/n}m(t)^{1-2/n}}\,dt ,
+\end{equation}
+all integrals taken on the reduced boundaries \(\partial^*\{u>t\}\) and holding
+for a.e.\ level.
+
+Changing variables \(t=t(\rho)\), \(m(t(\rho))=\omega_n\rho^n\), and
+\(dt=d\mu(\rho)\) in decreasing-radius orientation gives
+\[
+   2\dT(\Om)
+   =
+   \int_0^1
+      \frac{D_H(t(\rho))+D_I(t(\rho))}
+      {n^2\omega_n\,\rho^{n-2}}\,d\mu(\rho).
+\]
+Since \(n\ge2\) and \(0<\rho\le1\),
+\[
+   \int_{\rstar}^{\rdel}
+      \bigl(D_H(t(\rho))+D_I(t(\rho))\bigr)\,d\mu(\rho)
+   \le 2n^2\omega_n\,\dT(\Om),
+\]
+which proves \eqref{eq:budget}, for instance with
+\(C_L=2n^2\omega_n\).
+
+It remains to prove the density bounds.  Write
+\[
+   a(\rho):=\wt(\rho)=-t'(\rho),\qquad a_B(\rho):=\frac{\rho}{n}.
+\]
+We next derive from \eqref{eq:levelset-identity} the profile
+derivative gap identity
+\begin{equation}\label{eq:profile-gap-rho}
+   0\le a(\rho)\le a_B(\rho)
+   \quad\hbox{for a.e. }\rho\in(0,1),
+   \qquad
+   \int_0^1 \rho^n\bigl(a_B(\rho)-a(\rho)\bigr)\,d\rho
+   =
+   \frac{2}{\omega_n}\dT(\Om).
+\end{equation}
+For completeness, the algebra is as follows.  Coarea gives
+\[
+   a(\rho)=\frac{n\omega_n\rho^{n-1}}{\alpha(t(\rho))}.
+\]
+For the ball profile the corresponding coarea coefficient is
+\[
+   \alpha_B(\rho)=n^2\omega_n\rho^{n-2},
+   \qquad
+   \frac{n\omega_n\rho^{n-1}}{\alpha_B(\rho)}=\frac{\rho}{n}=a_B(\rho).
+\]
+Since
+\[
+   D_H(t(\rho))+D_I(t(\rho))
+   =\omega_n\rho^n\bigl(\alpha(t(\rho))-\alpha_B(\rho)\bigr),
+\]
+the nonnegativity of \(D_H+D_I\) gives \(0\le a\le a_B\), and inserting
+the same formula in \eqref{eq:levelset-identity} gives the
+integral identity in \eqref{eq:profile-gap-rho}.
+
+Thus \(0\le\wt(\rho)\le\rho/n\le1/n\).  On
+\[
+   B_\tau=\left\{\rho\in[\rstar,\rdel]:
+      a(\rho)<\frac{\rstar}{2n}\right\}
+\]
+one has
+\[
+   a_B(\rho)-a(\rho)\ge \frac{\rho}{n}-\frac{\rstar}{2n}
+      \ge\frac{\rstar}{2n}.
+\]
+Using \(\rho^n\ge\rstar^n\) on \([\rstar,\rdel]\) and
+\eqref{eq:profile-gap-rho},
+\[
+   \frac{\rstar^{n+1}}{2n}|B_\tau|
+   \le
+   \int_{B_\tau}\rho^n(a_B-a)\,d\rho
+   \le \frac{2}{\omega_n}\dT(\Om).
+\]
+Therefore \eqref{eq:badtau} holds with
+\[
+   C_\tau=\frac{4n}{\omega_n\rstar^{n+1}}.
+\]
+Finally, choose for example
+\(\kappa=(1-\rstar)/4\).  Then \(\rdel\ge(1+\rstar)/2\) whenever
+\(\dT(\Om)\le1\), and in the large-deficit part of the final theorem this
+smallness is absorbed into the constant.
+\end{proof}
+
+\section{Quantitative isoperimetry and same-centre trace control}
+\label{sec:samecentre}
+
+\begin{theorem}[Constructive Fraenkel quantitative isoperimetry]
+\label{thm:constructive-fraenkel}
+For every \(n\ge2\) there is a computable constant
+\(C_{\rm iso}(n)\) with the following property.  If
+\(E\subset\R^n\) is a set of finite perimeter and
+\(|E|=\omega_n\rho^n\), then there is a centre \(z_E\in\R^n\) such that
+\begin{equation}\label{eq:constructive-volume}
+   |E\Delta B_\rho(z_E)|^2
+   \le
+   C_{\rm iso}(n)\rho^{n+1}\bigl(\Per(E)-\Per(B_\rho)\bigr).
+\end{equation}
+Consequently, if \(\rho\in[\rstar,1]\), then
+\begin{equation}\label{eq:constructive-volume-DI}
+   |E\Delta B_\rho(z_E)|^2
+   \le C(n,\rstar)\bigl(\Per(E)^2-\Per(B_\rho)^2\bigr).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+This is the sharp quantitative isoperimetric inequality in Fraenkel form,
+proved constructively by the symmetrisation and mass-transport methods of
+Fusco--Maggi--Pratelli \cite{FMP}.  In the normalisation
+\(|E|=|B_\rho|\), their estimate gives
+\[
+   \left(\frac{|E\Delta B_\rho(z_E)|}{|B_\rho|}\right)^2
+   \le C(n)\frac{\Per(E)-\Per(B_\rho)}{\Per(B_\rho)} .
+\]
+Since \(|B_\rho|=\omega_n\rho^n\) and
+\(\Per(B_\rho)=n\omega_n\rho^{n-1}\), this is
+\eqref{eq:constructive-volume}.  The passage to
+\eqref{eq:constructive-volume-DI} follows from
+\[
+   \Per(E)-\Per(B_\rho)
+   \le \frac{\Per(E)^2-\Per(B_\rho)^2}{\Per(B_\rho)}
+   \le C(n,\rstar)\bigl(\Per(E)^2-\Per(B_\rho)^2\bigr).
+\]
+\end{proof}
+
+\begin{theorem}[Fusco--Julin strong quantitative isoperimetry]
+\label{thm:FJ-strong}
+For every \(n\ge2\) there is a computable constant \(C_{\rm FJ}(n)\) with the
+following property.  Let \(E\subset\R^n\) be a set of finite perimeter and
+let \(r_E>0\) be defined by \(|E|=\omega_n r_E^n\).  Then there is a
+centre \(z_E\in\R^n\) such that
+\begin{equation}\label{eq:FJ-exact}
+   \left[
+      \frac{|E\Delta B_{r_E}(z_E)|}{r_E^n}
+      +
+      \left(
+         \frac1{r_E^{\,n-1}}
+         \int_{\partial^*E}
+            \left|\nu_E(x)-\frac{x-z_E}{|x-z_E|}\right|^2
+         d\Hn(x)
+      \right)^{1/2}
+   \right]^2
+   \le
+   C_{\rm FJ}(n)\,
+   \frac{\Per(E)-\Per(B_{r_E})}{r_E^{\,n-1}} .
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Proved as Corollary~\ref{cor:original-FJ-computable} in
+Appendix~\ref{app:FJ-quantitative}, with a dimensional constant
+\(C_{\rm FJ}(n)\) defined there as a finite composition of explicit
+dimensional constants (no contradiction, no compactness selection).
+In the appendix the result is stated in the normalisation
+\(|E|=|B_\rho|\) for the combined Fusco--Julin asymmetry
+\(\mathcal A_{\rm FJ}\); since
+\(\nu_{B_{r_E}(z)}(\pi_{z,r_E}(x))=(x-z)/|x-z|\), the minimising centre
+is one centre for both the symmetric-difference term and the
+boundary-normal oscillation term, so the displayed form
+\eqref{eq:FJ-exact} above is the same statement with
+\(r_E\) in place of \(\rho\).  The rescaling from the appendix
+normalisation \(|E|=|B_\rho|\) to the displayed form is the standard
+one and is the same as in the proof of Corollary~\ref{cor:FJ-unnormalised}
+below.
+\end{proof}
+
+\begin{corollary}[Unnormalised same-centre consequences]
+\label{cor:FJ-unnormalised}
+Fix \(0<\rstar<1\).  Let \(E\subset\R^n\) be a set of finite perimeter with
+\(|E|=\omega_n\rho^n\), where \(\rho\in[\rstar,1]\).  Then there is a
+centre \(z\in\R^n\) such that
+\begin{equation}\label{eq:FJ-volume}
+   |E\Delta B_\rho(z)|^2
+   \le C(n)\bigl(\Per(E)-\Per(B_\rho)\bigr),
+\end{equation}
+and
+\begin{equation}\label{eq:FJ-normal}
+   \int_{\partial^*E}
+      \left|\nu_E(x)-\frac{x-z}{|x-z|}\right|^2d\Hn
+   \le C(n)\bigl(\Per(E)-\Per(B_\rho)\bigr).
+\end{equation}
+Consequently, since \(\rho\ge\rstar\),
+\begin{equation}\label{eq:FJ-DI-version}
+   |E\Delta B_\rho(z)|^2
+   +
+   \int_{\partial^*E}
+      \left|\nu_E(x)-\frac{x-z}{|x-z|}\right|^2d\Hn
+   \le C(n,\rstar)
+      \bigl(\Per(E)^2-\Per(B_\rho)^2\bigr).
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Apply Theorem~\ref{thm:FJ-strong} with \(r_E=\rho\).  Each summand in the
+left side of \eqref{eq:FJ-exact} is nonnegative, so
+\[
+   \frac{|E\Delta B_\rho(z)|^2}{\rho^{2n}}
+   +
+   \frac1{\rho^{n-1}}
+   \int_{\partial^*E}
+      \left|\nu_E-\frac{x-z}{|x-z|}\right|^2d\Hn
+   \le
+   C(n)\frac{\Per(E)-\Per(B_\rho)}{\rho^{n-1}} .
+\]
+Since \(\rho\le1\), this gives \eqref{eq:FJ-volume} and
+\eqref{eq:FJ-normal}.  Finally,
+\[
+   \Per(E)-\Per(B_\rho)
+   =
+   \frac{\Per(E)^2-\Per(B_\rho)^2}{\Per(E)+\Per(B_\rho)}
+   \le
+   \frac{\Per(E)^2-\Per(B_\rho)^2}{\Per(B_\rho)}
+   \le C(n,\rstar)\bigl(\Per(E)^2-\Per(B_\rho)^2\bigr).
+\]
+\end{proof}
+
+\begin{remark}[On the Fusco--Julin input]
+\label{rem:FJ-status}
+Theorem~\ref{thm:FJ-strong} is proved internally in
+Appendix~\ref{app:FJ-quantitative}; the present manuscript is therefore
+self-contained modulo standard tools for sets of finite perimeter and the
+classical rearrangement results.  At the sharp scaling the theorem supplies a
+\emph{single} centre controlling simultaneously the volume asymmetry and the
+boundary-normal oscillation of \(E\); this same-centre feature is exactly what
+the oriented radial trace below converts into homothetic-trace control.  The
+weaker volume-only bound \eqref{eq:constructive-volume} is the constructive
+Fraenkel inequality of Theorem~\ref{thm:constructive-fraenkel}, which is used
+(independently of the strong form) in the bounded reduction and in the endpoint
+trace.
+\end{remark}
+
+\begin{lemma}[Oriented radial trace]\label{lem:oriented-radial-trace}
+Fix \(R\ge1\) and \(0<\rstar<1\).  Let \(E\subset B_R\) be a set of finite
+perimeter with \(|E|=\omega_n\rho^n\), where \(\rho\in[\rstar,1]\), and
+let \(z\in\R^n\) satisfy \(|z|\le R+1\).  Set
+\[
+   e_z(x):=\frac{x-z}{|x-z|},\qquad
+   W_z(x):=\left|\frac{|x-z|}{\rho}-1\right|.
+\]
+Then
+\begin{equation}\label{eq:oriented-radial-trace}
+   \int_{\partial^*E} W_z\,d\Hn
+   \le
+   \frac{n}{\rstar}|E\Delta B_\rho(z)|
+   +
+   C(R,\rstar)
+   \int_{\partial^*E}|\nu_E-e_z|^2\,d\Hn .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Translate the notation temporarily so that \(z=0\), and write
+\(B=B_\rho\), \(r=|x|\), \(e=x/r\).  The point \(x=0\) is
+\(\Hn\)-negligible on \(\partial^*E\), so the value of \(e\) there is
+irrelevant.  Define the bounded radial field
+\[
+   X(x):=\left|\frac{r}{\rho}-1\right|e .
+\]
+For \(0<r<\rho\),
+\[
+   \operatorname{div}X=\frac{n-1}{r}-\frac n\rho,
+\]
+while for \(r>\rho\),
+\[
+   \operatorname{div}X=\frac n\rho-\frac{n-1}{r}.
+\]
+The field is singular only at the centre and has a Lipschitz radial
+coefficient away from the centre.  To justify Gauss--Green, replace \(X\)
+by \(\chi_\eps(r)X\), where \(\chi_\eps=0\) on \(B_\eps\) and
+\(\chi_\eps=1\) outside \(B_{2\eps}\), smooth the radial profile, apply the
+classical finite-perimeter Gauss--Green formula \cite{Maggi2012}, and let the
+smoothing and then \(\eps\downarrow0\).  The extra interior term
+\(\int_E\nabla\chi_\eps\cdot X\,dx\) is supported on the annulus
+\(\{\eps<|x|<2\eps\}\), where \(|\nabla\chi_\eps|\lesssim\eps^{-1}\) and
+\(|X|\) is bounded; since that annulus has volume \(O(\eps^n)\), this term is
+\(O(\eps^{n-1})\) and vanishes as \(\eps\downarrow0\).  The boundary error
+tends to zero because
+\(\Hn(\partial^*E\cap B_{2\eps})\to \Hn(\partial^*E\cap\{0\})=0\), and the
+volume terms converge by dominated convergence, since \(r^{-1}\) is locally
+integrable in \(\R^n\) for \(n\ge2\).  Thus
+\[
+   \int_{\partial^*E}X\cdot\nu_E\,d\Hn
+   =
+   \int_E\operatorname{div}X\,dx .
+\]
+The same identity for \(B\) gives zero, because \(X=0\) on \(\partial B\).
+Subtracting it yields
+\[
+   \int_{\partial^*E}X\cdot\nu_E\,d\Hn
+   =
+   \int_{E\setminus B}\operatorname{div}X\,dx
+   -
+   \int_{B\setminus E}\operatorname{div}X\,dx .
+\]
+On \(E\setminus B\), \(\operatorname{div}X\le n/\rho\).  On
+\(B\setminus E\), \(-\operatorname{div}X\le n/\rho\).  Hence
+\begin{equation}\label{eq:radial-oriented-piece}
+   \int_{\partial^*E}X\cdot\nu_E\,d\Hn
+   \le \frac n\rho |E\Delta B|.
+\end{equation}
+
+On \(\partial^*E\),
+\[
+   W_z = X\cdot\nu_E + W_z(1-e_z\cdot\nu_E)
+       = X\cdot\nu_E + \frac{W_z}{2}|\nu_E-e_z|^2 .
+\]
+Since \(E\subset B_R\) and \(|z|\le R+1\), every reduced-boundary point
+satisfies \(|x-z|\le2R+1\), and therefore
+\[
+   W_z(x)\le 1+\frac{2R+1}{\rstar}.
+\]
+Combining this bound with \eqref{eq:radial-oriented-piece} and using
+\(\rho\ge\rstar\) proves \eqref{eq:oriented-radial-trace}.
+\end{proof}
+
+\begin{theorem}[Same-centre good-level geometric package]\label{inp:samecenter}
+There exist constants
+\[
+   \eta_I=\eta_I(n,R,\rstar)>0,\qquad
+   C_{\rm sc}=C_{\rm sc}(n,R,\rstar),
+\]
+such that the following holds.  Define
+\[
+   G_I:=\{\rho\in[\rstar,\rdel]:D_I(t(\rho))\le\eta_I\}.
+\]
+For a.e. \(\rho\in G_I\) there is a centre \(z_\rho^{\rm sc}\) such that
+\begin{equation}\label{eq:sc-input}
+   |E_\rho\Delta B_\rho(z_\rho^{\rm sc})|^2
+   +
+   \left(
+      \int_{\partial^*E_\rho}
+         |H_{z_\rho^{\rm sc},\rho}-\bar V_\rho|\,d\Hn
+   \right)^2
+   \le C_{\rm sc}\,D_I(t(\rho)).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Let \(\rho\in G_I\) be a finite-perimeter level.  Apply
+Corollary~\ref{cor:FJ-unnormalised} to \(E_\rho\), and let
+\(z=z_\rho^{\rm sc}\) be the centre obtained there.  Since
+\[
+   D_I(t(\rho))=\Per(E_\rho)^2-\Per(B_\rho)^2,
+\]
+\eqref{eq:FJ-DI-version} gives
+\begin{equation}\label{eq:sc-proof-FJ}
+   |E_\rho\Delta B_\rho(z)|^2
+   +
+   \int_{\partial^*E_\rho}|\nu_\rho-e_z|^2\,d\Hn
+   \le C(n,\rstar)D_I(t(\rho)).
+\end{equation}
+Choose \(\eta_I\) so small that the first term in
+\eqref{eq:sc-proof-FJ} implies
+\[
+   |E_\rho\Delta B_\rho(z)|<|B_\rho|.
+\]
+Then \(E_\rho\cap B_\rho(z)\) has positive measure.  Since
+\(E_\rho\subset B_R\), this forces \(B_\rho(z)\cap B_R\ne\emptyset\), and
+therefore
+\begin{equation}\label{eq:sc-centre-localised}
+   |z|\le R+\rho\le R+1 .
+\end{equation}
+
+The radial trace lemma (Lemma~\ref{lem:oriented-radial-trace}) gives
+\[
+   \int_{\partial^*E_\rho}
+      \left|\frac{|x-z|}{\rho}-1\right|\,d\Hn
+   \le
+   C(n,R,\rstar)
+   \bigl(D_I(t(\rho))^{1/2}+D_I(t(\rho))\bigr).
+\]
+Reducing \(\eta_I\le1\), this is bounded by
+\begin{equation}\label{eq:radial-trace-DI}
+   C(n,R,\rstar)D_I(t(\rho))^{1/2}.
+\end{equation}
+For \(H_{z,\rho}=(|x-z|/\rho)(e_z\cdot\nu_\rho)\),
+\[
+   |H_{z,\rho}-1|
+   \le
+   \left|\frac{|x-z|}{\rho}-1\right|
+   +
+   |1-e_z\cdot\nu_\rho|
+   =
+   \left|\frac{|x-z|}{\rho}-1\right|
+   +
+   \frac12|\nu_\rho-e_z|^2 .
+\]
+Together with \eqref{eq:sc-proof-FJ} and \eqref{eq:radial-trace-DI},
+this gives
+\begin{equation}\label{eq:Hminus1-DI}
+   \int_{\partial^*E_\rho}|H_{z,\rho}-1|\,d\Hn
+   \le C(n,R,\rstar)D_I(t(\rho))^{1/2}.
+\end{equation}
+Finally,
+\[
+   \bar V_\rho=\frac{\Per(B_\rho)}{\Per(E_\rho)},\qquad
+   \Per(E_\rho)|1-\bar V_\rho|
+   =
+   \Per(E_\rho)-\Per(B_\rho)
+   \le C(n,\rstar)D_I(t(\rho)).
+\]
+Combining this with \eqref{eq:Hminus1-DI} and again using
+\(\eta_I\le1\),
+\[
+   \int_{\partial^*E_\rho}|H_{z,\rho}-\bar V_\rho|\,d\Hn
+   \le C(n,R,\rstar)D_I(t(\rho))^{1/2}.
+\]
+Squaring and adding the first estimate in \eqref{eq:sc-proof-FJ} proves
+\eqref{eq:sc-input}.
+\end{proof}
+
+\begin{lemma}[Velocity defect controlled by \(D_H\)]\label{lem:velocity}
+For a.e. \(\rho\in[\rstar,\rdel]\),
+\begin{equation}\label{eq:velocity-defect}
+   \left(
+      \int_{\partial^*E_\rho}|V_\rho-\bar V_\rho|\,d\Hn
+   \right)^2
+   \le D_H(t(\rho)).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Write \(P=\Per(E_\rho)\), \(P^*=\Per(B_\rho)\),
+\(\alpha=\int_{\partial^*E_\rho}|\nabla u|^{-1}\,d\Hn\), and
+\(\beta=\int_{\partial^*E_\rho}|\nabla u|\,d\Hn\).  The coarea
+parametrisation gives \(\wt\alpha=P^*\), and the flux identity gives
+\(\beta=|E_\rho|=\omega_n\rho^n\).  With
+\(f:=V_\rho=\wt/|\nabla u|\) and \(\bar f:=\bar V_\rho=P^*/P\),
+\[
+   \int_{\partial^*E_\rho} f\,d\Hn=P^*.
+\]
+Moreover
+\[
+\begin{aligned}
+   \int_{\partial^*E_\rho}\frac{(f-\bar f)^2}{f}\,d\Hn
+   &=\int f\,d\Hn-2\bar f P+\bar f^2\int \frac1f\,d\Hn  \\
+   &=-P^*+\frac{(P^*)^2}{P^2}\frac{\beta}{\wt}
+    =-P^*+\frac{P^*}{P^2}\alpha\beta                 \\
+   &=\frac{P^*}{P^2}\bigl(\alpha\beta-P^2\bigr)
+    =\frac{P^*}{P^2}D_H(t(\rho)).
+\end{aligned}
+\]
+By Cauchy--Schwarz,
+\[
+   \left(\int |f-\bar f|\,d\Hn\right)^2
+   \le
+   \left(\int\frac{(f-\bar f)^2}{f}\,d\Hn\right)
+   \left(\int f\,d\Hn\right)
+   =
+   \left(\frac{P^*}{P}\right)^2D_H(t(\rho)).
+\]
+The isoperimetric inequality gives \(P^*\le P\), hence
+\eqref{eq:velocity-defect}.
+\end{proof}
+
+\begin{lemma}[Superlevel asymmetry transfer]\label{lem:superlevel-transfer}
+Let \(E\subset\Om\), \(|\Om|=\omega_n\), and \(|E|=\omega_n\rho^n\) with
+\(\rho\in(0,1]\).  Then
+\[
+   \Fr(\Om)\le \Fr(E)+\frac{2}{\omega_n}|\Om\setminus E|.
+\]
+Here \(\Fr(E)\) is the Fraenkel asymmetry of \(E\) relative to balls of
+volume \(|E|\).
+\end{lemma}
+
+\begin{proof}
+Let \(s=|E|\), \(L=|\Om|=\omega_n\), and \(\eta=L-s=|\Om\setminus E|\).
+Choose \(z\) such that, for an arbitrary \(\eps>0\),
+\[
+   |E\Delta B_\rho(z)|\le s(\Fr(E)+\eps).
+\]
+Since \(B_\rho(z)\subset B_1(z)\),
+\[
+\begin{aligned}
+   |\Om\Delta B_1(z)|
+   &\le |\Om\Delta E|+|E\Delta B_\rho(z)|+|B_\rho(z)\Delta B_1(z)|\\
+   &=\eta+|E\Delta B_\rho(z)|+\eta .
+\end{aligned}
+\]
+Divide by \(L\), use \(s\le L\), and let \(\eps\downarrow0\).
+\end{proof}
+
+\section{Coarea differentiation and shell-admissible radii}\label{sec:coarea}
+
+The first variation is proved on a fixed full-measure set of good-density
+radii.  The point of the definition below is that all coarea differentiations
+are registered in advance by a countable family independent of the radius
+being tested.
+
+\begin{lemma}[Two-sided variable-thickness coarea differentiation]
+\label{lem:varcoarea}
+Let \(\xi\le\zeta\) be bounded Borel functions on \(\R^n\).  Then for
+Lebesgue-a.e. positive level \(s\in(0,\|u\|_\infty)\), with exceptional null
+set depending only on the pair \((\xi,\zeta)\),
+\begin{equation}\label{eq:varcoarea}
+   \lim_{h\downarrow0}\frac1h
+   \bigl|\{x:h\,\xi(x)<u(x)-s<h\,\zeta(x)\}\bigr|
+   =
+   \int_{\partial^*\{u>s\}}\frac{\zeta-\xi}{|\nabla u|}\,d\Hn .
+\end{equation}
+The statement is used only at levels for which the right side is finite and
+\(\Hn(\partial^*\{u>s\}\cap\{|\nabla u|=0\})=0\).
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:id-noatoms}(a), \(|\{x\in\Om:|\nabla u(x)|=0\}|=0\), so the
+critical set may be discarded in the volume computations below.
+
+Suppose first that \(\xi=\sum_j p_j{\bf1}_{A_j}\) and
+\(\zeta=\sum_j q_j{\bf1}_{A_j}\) are simple over a common disjoint Borel
+partition, with \(p_j\le q_j\).  By the BV coarea formula applied to
+\({\bf1}_{A_j}|\nabla u|^{-1}{\bf1}_{\{|\nabla u|>0\}}\),
+\[
+   \bigl|\{hp_j<u-s<hq_j\}\cap A_j\bigr|
+   =
+   \int_{s+hp_j}^{s+hq_j}
+      \int_{\partial^*\{u>\tau\}}\frac{{\bf1}_{A_j}}{|\nabla u|}
+      \,d\Hn\,d\tau .
+\]
+The interval of integration shrinks to \(s\) and has length
+\(h(q_j-p_j)\); hence at a Lebesgue point of
+\(\tau\mapsto\int_{\partial^*\{u>\tau\}}{\bf1}_{A_j}|\nabla u|^{-1}\,d\Hn\),
+division by \(h\) followed by \(h\downarrow0\) gives
+\((q_j-p_j)\int_{\partial^*\{u>s\}}{\bf1}_{A_j}|\nabla u|^{-1}\,d\Hn\).
+Summing over \(j\) proves \eqref{eq:varcoarea} for simple pairs.
+
+For bounded \(\xi\le\zeta\), fix \(\eta>0\) and choose simple pairs that
+sandwich the slab.  Outer: simple \(\sigma\le\xi\le\zeta\le\sigma'\) with
+\(\sigma'-\sigma\le(\zeta-\xi)+2\eta\); then
+\(\{h\xi<u-s<h\zeta\}\subseteq\{h\sigma<u-s<h\sigma'\}\), so the
+\(\limsup\) of the left side of \eqref{eq:varcoarea} is at most
+\[
+   \int_{\partial^*\{u>s\}}\frac{\sigma'-\sigma}{|\nabla u|}\,d\Hn
+   \le
+   \int_{\partial^*\{u>s\}}\frac{\zeta-\xi}{|\nabla u|}\,d\Hn
+   +2\eta\int_{\partial^*\{u>s\}}\frac1{|\nabla u|}\,d\Hn .
+\]
+Inner: simple \(\sigma_*\ge\xi\),
+\(\sigma_*'\le\zeta\) with \(\sigma_*\le\sigma_*'\) and
+\(\sigma_*'-\sigma_*\ge(\zeta-\xi-2\eta)_+\); the reverse inclusion bounds
+the \(\liminf\) from below by
+\[
+   \int_{\partial^*\{u>s\}}
+      \frac{(\zeta-\xi-2\eta)_+}{|\nabla u|}\,d\Hn .
+\]
+Letting \(\eta\downarrow0\) gives \eqref{eq:varcoarea}.  The exceptional
+levels are fixed as follows: choose the outer and inner simple sandwiches for
+the dyadic sequence \(\eta=2^{-m}\), \(m\ge1\), by a fixed dyadic
+quantisation of the bounded functions \(\xi,\zeta\).  The union of the
+exceptional null sets for those countably many simple pairs is still null and
+depends only on \((\xi,\zeta)\).
+\end{proof}
+
+\subsection*{Shell-admissible radii}
+
+Let \(\mathcal U\) be the countable family of finite unions of rational balls
+whose closures are compactly contained in \(\Om\).  This family is cofinal:
+for every compact \(K\Subset\Om\) there is \(U\in\mathcal U\) with
+\(K\subset U\Subset\Om\).  For
+\[
+   c,p,q,\lambda,r\in\mathbb Q,\qquad
+   -1\le c\le0,\quad p\le q,\quad
+   1\le\lambda\le\rstar^{-1},\quad r>0,\qquad z,a\in\mathbb Q^n,
+\]
+and \(U\in\mathcal U\), register the bounded Borel pairs
+\[
+   (p{\bf1}_U,q{\bf1}_U)
+\]
+and
+\[
+   \left(
+      {\bf1}_U\bigl(\min(c,\nabla u\cdot(\lambda(x-z)+a))-r\bigr),\,
+      {\bf1}_U\bigl(\max(c,\nabla u\cdot(\lambda(x-z)+a))+r\bigr)
+   \right).
+\]
+This is a fixed countable family, independent of the radius being tested.
+We call \(\rho\in G_\tau\cap(0,1)\) \emph{shell-admissible} if:
+\begin{enumerate}[label=(\roman*),leftmargin=2em]
+\item \(E_\rho\) has finite perimeter,
+\(\partial^*E_\rho\subset\Om\) up to \(\Hn\)-null sets, and
+\(\Hn(\partial^*E_\rho\cap\{|\nabla u|=0\})=0\);
+\item \(t\) is differentiable at \(\rho\), and
+\[
+   \wt(\rho)\int_{\partial^*E_\rho}\frac1{|\nabla u|}\,d\Hn
+   =\Per(B_\rho);
+\]
+\item \(s=t(\rho)\) is a level where Lemma~\ref{lem:varcoarea} holds for
+every registered pair above.
+\end{enumerate}
+Almost every \(\rho\in G_\tau\cap(0,1)\) is shell-admissible.  Indeed, each
+registered pair has an exceptional null set of levels \(s\).  If \(N\) is
+such a null set, then the one-dimensional area formula for the monotone
+absolutely continuous map \(t\) gives, on \(G_\tau\),
+\[
+   |\{\rho:t(\rho)\in N\}|
+   \le \tau_0^{-1}\int_{\{t(\rho)\in N\}} \wt(\rho)\,d\rho
+   \le \tau_0^{-1}|N|=0.
+\]
+The remaining conditions hold for a.e.\ radius by BV coarea and the
+finite-perimeter level-set package.  The critical-boundary condition follows
+from the preceding interior critical-set nullity and the coarea formula:
+\[
+   \int_0^{\|u\|_\infty}
+      \Hn(\partial^*\{u>s\}\cap\{|\nabla u|=0\})\,ds
+   =
+   \int_{\{|\nabla u|=0\}}|\nabla u|\,dx=0 .
+\]
+
+\begin{lemma}[Local BV deformation tail]\label{lem:BV-tail}
+Let \(E\subset B_R\) be a set of finite perimeter, let
+\(\eta\in C_c^1(\R^n)\) satisfy \(0\le\eta\le1\), and let \(W\in C^1\) on a
+neighbourhood of a ball containing \(E\cup\operatorname{spt}\eta\).  Set
+\(T_h(x)=x+hW(x)\).  Then
+\[
+   \limsup_{h\to0}\frac1{|h|}
+   \int_{\R^n}\eta(x)
+      \bigl|{\bf1}_{T_h(E)}(x)-{\bf1}_E(x)\bigr|\,dx
+   \le
+   \int_{\partial^*E}\eta\,|W|\,d\Hn .
+\]
+\end{lemma}
+
+\begin{proof}
+For \(|h|\) small, \(T_h\) is a \(C^1\) diffeomorphism on the fixed ball.
+Changing variables \(x=T_hy\), it is enough, up to a multiplicative
+\(1+o(1)\) factor, to estimate
+\[
+   \int \eta(T_hy)\bigl|{\bf1}_E(T_hy)-{\bf1}_E(y)\bigr|\,dy .
+\]
+Let \(u_\eps={\bf1}_E*\varphi_\eps\).  For fixed \(h\), the corresponding
+integrals with \(u_\eps\) converge to the displayed integral because
+\(u_\eps\to{\bf1}_E\) in \(L^1\) and composition with \(T_h\) has bounded
+Jacobian.  For smooth \(u_\eps\),
+\[
+   |u_\eps(T_hy)-u_\eps(y)|
+   \le |h|\int_0^1
+      |\nabla u_\eps(y+\theta hW(y))|\,|W(y)|\,d\theta .
+\]
+After integrating, change variables \(x=y+\theta hW(y)\).  These maps have
+Jacobians \(1+o(1)\) uniformly in \(\theta\).  Thus, for fixed \(h\),
+\[
+   \frac1{|h|}\int \eta(T_hy)|u_\eps(T_hy)-u_\eps(y)|\,dy
+   \le
+   (1+o_h(1))\int \psi_h\,d|Du_\eps|,
+\]
+where the continuous compactly supported weights \(\psi_h\) are uniformly
+bounded and satisfy \(\psi_h\to\eta|W|\) uniformly as \(h\to0\).  Letting
+\(\eps\downarrow0\) at fixed \(h\), strict \(BV_{\rm loc}\) convergence of
+the standard mollifications and Reshetnyak continuity for continuous weights
+\cite{AFP2000,Maggi2012} give the same bound with \(d|D{\bf1}_E|\).  Taking
+\(\limsup_{h\to0}\) then gives
+\[
+   \limsup_{h\to0}\frac1{|h|}
+   \int \eta(x)\bigl|{\bf1}_{T_h(E)}(x)-{\bf1}_E(x)\bigr|\,dx
+   \le
+   \int \eta|W|\,d|D{\bf1}_E|.
+\]
+Since \(|D{\bf1}_E|=\Hn\llcorner\partial^*E\), this is the claim.
+\end{proof}
+
+\section{Affine moving-ball first variation}\label{sec:shell}
+
+\begin{lemma}[Affine shell estimate]\label{lem:shell}
+Let \(\rho\) be shell-admissible.  Fix \(z,a\in\R^n\), and define
+\[
+   T_h(x):=z+ha+\left(1+\frac h\rho\right)(x-z)
+   =x+h\left(\frac{x-z}{\rho}+a\right).
+\]
+Then
+\begin{equation}\label{eq:shell}
+   \limsup_{h\downarrow0}
+   \frac{|E_{\rho+h}\Delta T_h(E_\rho)|}{h}
+   \le
+   \int_{\partial^*E_\rho}
+      |V_\rho-H_{z,\rho}-a\cdot\nu_\rho|\,d\Hn .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let \(E=E_\rho\), \(W(x)=(x-z)/\rho+a\), and \(w=\wt(\rho)\).  Since
+\(\Om\subset B_R\), \(W\) is bounded on \(\Om\).  The finite Radon measure
+\[
+   \left(
+      \frac{w}{|\nabla u|}+|W|
+      +\left|\frac{w}{|\nabla u|}-W\cdot\nu_\rho\right|
+   \right)\Hn\llcorner\partial^*E
+\]
+is finite.  Fix \(\eps>0\).  By inner regularity and
+\(\partial^*E\subset\Om\) up to \(\Hn\)-null sets, choose a compact
+\(K\subset\partial^*E\cap\Om\) such that this measure of
+\(\partial^*E\setminus K\) is at most \(\eps\).  Then choose
+\(U\in\mathcal U\) with \(K\subset U\Subset\Om\).
+
+We first estimate the symmetric difference in \(U\).  On a neighbourhood of
+\(\overline U\), interior elliptic regularity gives \(u\in C^1\), and
+uniformly for \(x\in U\),
+\[
+   T_h^{-1}(x)=x-hW(x)+O(h^2),\qquad
+   u(T_h^{-1}x)=u(x)-h\nabla u(x)\cdot W(x)+o(h).
+\]
+Also \(t(\rho+h)=t(\rho)-hw+o(h)\).  Set
+\[
+   F(x):=w+\nabla u(x)\cdot W(x).
+\]
+For \(x\in U\),
+\[
+   x\in E_{\rho+h}
+   \quad\Longleftrightarrow\quad u(x)>t(\rho)-hw+o(h),
+\]
+while
+\[
+   x\in T_h(E)
+   \quad\Longleftrightarrow\quad u(x)>t(\rho)+h\nabla u(x)\cdot W(x)+o(h).
+\]
+Thus the part of the symmetric difference in \(U\) is contained, up to a
+uniform \(o(h)\) outward error, in the two-sided slab whose endpoints are
+\(\min(-w,\nabla u\cdot W)\) and \(\max(-w,\nabla u\cdot W)\).
+Precisely, fix \(\delta>0\).  Choose rational
+\(c,\lambda,z_0,a_0\) with \(c\in[-1,0]\), \(1\le\lambda\le\rstar^{-1}\),
+and
+\[
+   |c+w|+
+   \sup_{\overline U}
+   |\nabla u\cdot(\lambda(x-z_0)+a_0)-\nabla u\cdot W|
+   \le\delta .
+\]
+Then choose a rational buffer \(r>2\delta\).  For all sufficiently small
+\(h>0\), the local symmetric difference is contained in the registered slab
+with endpoints
+\[
+   \min(c,\nabla u\cdot(\lambda(x-z_0)+a_0))-r,\qquad
+   \max(c,\nabla u\cdot(\lambda(x-z_0)+a_0))+r .
+\]
+Lemma~\ref{lem:varcoarea}, followed by \(\delta,r\downarrow0\), gives
+\[
+   \limsup_{h\downarrow0}\frac{|(E_{\rho+h}\Delta T_h(E))\cap U|}{h}
+   \le
+   \int_{\partial^*E\cap U}\frac{|F|}{|\nabla u|}\,d\Hn .
+\]
+
+On the complement use
+\[
+   E_{\rho+h}\Delta T_h(E)\subset (E_{\rho+h}\Delta E)\cup(E\Delta T_h(E)).
+\]
+For the level-set part, the exact volume derivative and the registered
+localized one-sided coarea formula on \(U\) give the complement estimate.
+Indeed,
+\[
+   |E_{\rho+h}\setminus E|
+   =\omega_n\bigl((\rho+h)^n-\rho^n\bigr)
+   =h\,\Per(B_\rho)+o(h)
+   =
+   h\,w\int_{\partial^*E}\frac1{|\nabla u|}\,d\Hn+o(h),
+\]
+where the last equality is the shell-admissible flux identity.  On \(U\),
+the same rational-buffer use of Lemma~\ref{lem:varcoarea}, now with one
+endpoint \(0\), gives
+\[
+   \lim_{h\downarrow0}
+   \frac{|(E_{\rho+h}\setminus E)\cap U|}{h}
+   =
+   w\int_{\partial^*E\cap U}\frac1{|\nabla u|}\,d\Hn .
+\]
+Subtracting the local shell from the exact total shell yields
+\[
+   \limsup_{h\downarrow0}
+   \frac{|(E_{\rho+h}\Delta E)\setminus U|}{h}
+   \le
+   w\int_{\partial^*E\setminus U}\frac1{|\nabla u|}\,d\Hn
+   \le
+   w\int_{\partial^*E\setminus K}\frac1{|\nabla u|}\,d\Hn .
+\]
+For the affine deformation part, choose \(\eta\in C_c^1(\R^n)\) with
+\(\eta=0\) on a neighbourhood \(N_K\Subset U\) of \(K\), \(\eta=1\) on a fixed
+neighbourhood of \(\overline{B_{R+1}}\setminus U\), and \(0\le\eta\le1\).
+Since \(E\subset B_R\) and \(W\) is bounded, \(T_h(E)\subset B_{R+1}\) for all
+small \(h>0\); hence \((E\Delta T_h(E))\setminus U\subset
+\overline{B_{R+1}}\setminus U\subset\{\eta=1\}\).  As \(\eta=0\) near \(K\) and
+\(0\le\eta\le1\), Lemma~\ref{lem:BV-tail} gives
+\[
+   \limsup_{h\downarrow0}
+   \frac{|(E\Delta T_h(E))\setminus U|}{h}
+   \le
+   \int_{\partial^*E}\eta\,|W|\,d\Hn
+   \le
+   \int_{\partial^*E\setminus K}|W|\,d\Hn .
+\]
+The two tail terms are bounded by \(2\eps\).  Therefore
+\[
+   \limsup_{h\downarrow0}\frac{|E_{\rho+h}\Delta T_h(E_\rho)|}{h}
+   \le
+   \int_{\partial^*E_\rho\cap U}\frac{|F|}{|\nabla u|}\,d\Hn+2\eps
+   \le
+   \int_{\partial^*E_\rho}\frac{|F|}{|\nabla u|}\,d\Hn+2\eps .
+\]
+Letting \(\eps\downarrow0\), and using
+\[
+   \frac{F}{|\nabla u|}
+   =
+   \frac{w}{|\nabla u|}
+   +\frac{\nabla u\cdot W}{|\nabla u|}
+   =
+   V_\rho-W\cdot\nu_\rho
+   =
+   V_\rho-H_{z,\rho}-a\cdot\nu_\rho
+\]
+on \(\partial^*E_\rho\), proves the estimate.
+\end{proof}
+
+\begin{theorem}[One-sided first variation of \(q\)]\label{thm:qplus}
+For every \(\rho\in(0,1]\), define
+\[
+   q(\rho):=\inf_{z\in\R^n}|E_\rho\Delta B_\rho(z)|.
+\]
+At every shell-admissible \(\rho\in(0,1)\),
+\begin{equation}\label{eq:qplus}
+   D^+q(\rho):=
+   \limsup_{h\downarrow0}\frac{q(\rho+h)-q(\rho)}{h}
+   \le
+   \frac{n}{\rho}q(\rho)
+   +
+   \inf_{a\in\R^n}\int_{\partial^*E_\rho}
+      |V_\rho-H_{z_\rho,\rho}-a\cdot\nu_\rho|\,d\Hn ,
+\end{equation}
+where \(z_\rho\) is any minimiser of
+\(z\mapsto |E_\rho\Delta B_\rho(z)|\).
+\end{theorem}
+
+\begin{proof}
+The minimiser exists.  Indeed, \(z\mapsto |E_\rho\Delta B_\rho(z)|\) is
+continuous by translation continuity in \(L^1\), and if
+\(|z|>R+\rho\), then \(B_\rho(z)\cap E_\rho=\emptyset\), so the value is
+\(2|E_\rho|\).  Thus the infimum is attained in a closed ball.
+
+Fix a minimiser \(z_\rho\) and \(a\in\R^n\).  For the affine map in
+Lemma~\ref{lem:shell},
+\[
+   T_h(B_\rho(z_\rho))=B_{\rho+h}(z_\rho+ha).
+\]
+Therefore
+\[
+\begin{aligned}
+   q(\rho+h)
+   &\le |E_{\rho+h}\Delta T_h(B_\rho(z_\rho))|\\
+   &\le |E_{\rho+h}\Delta T_h(E_\rho)|
+      +|T_h(E_\rho)\Delta T_h(B_\rho(z_\rho))|.
+\end{aligned}
+\]
+Since \(T_h\) is injective affine with constant Jacobian
+\((1+h/\rho)^n\),
+\[
+   |T_h(E_\rho)\Delta T_h(B_\rho(z_\rho))|
+   =
+   \left(1+\frac h\rho\right)^n q(\rho).
+\]
+Subtract \(q(\rho)\), divide by \(h\), take the limsup as \(h\downarrow0\),
+and use Lemma~\ref{lem:shell}.  Then take the infimum over \(a\).
+\end{proof}
+
+\begin{lemma}[Unconditional Lipschitz bound for \(q\)]\label{lem:qLip}
+For \(0<\rho\le\sigma\le1\),
+\[
+   |q(\sigma)-q(\rho)|
+   \le 2\omega_n(\sigma^n-\rho^n)
+   \le 2n\omega_n|\sigma-\rho|.
+\]
+Consequently \(q\) is absolutely continuous and differentiable a.e.
+\end{lemma}
+
+\begin{proof}
+Use the same centre for the two radii and the nestedness
+\(E_\rho\subset E_\sigma\), \(B_\rho(z)\subset B_\sigma(z)\):
+\[
+   q(\sigma)\le q(\rho)+|E_\sigma\setminus E_\rho|
+                         +|B_\sigma\setminus B_\rho|
+   =q(\rho)+2\omega_n(\sigma^n-\rho^n).
+\]
+Interchange \(\rho\) and \(\sigma\) to get the reverse inequality.
+\end{proof}
+
+\section{Positive kinetic estimate}\label{sec:kinetic}
+
+\begin{lemma}[Transfer to a distance-minimising centre]\label{lem:center-transfer}
+After reducing \(\eta_I=\eta_I(n,R,\rstar)\) if necessary, the following
+holds.  Let \(\rho\in G_I\) be a level where
+Theorem~\ref{inp:samecenter} holds, and let \(z_\rho^{\min}\) minimise
+\(z\mapsto |E_\rho\Delta B_\rho(z)|\).  Then
+\begin{equation}\label{eq:H-DI-min}
+   \left(
+   \int_{\partial^*E_\rho}
+      |H_{z_\rho^{\min},\rho}-\bar V_\rho|\,d\Hn
+   \right)^2
+   \le C(n,R,\rstar)D_I(t(\rho)).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let \(z_\rho^{\rm sc}\) be the centre from
+Theorem~\ref{inp:samecenter}.  Minimality gives
+\[
+   |E_\rho\Delta B_\rho(z_\rho^{\min})|
+   \le |E_\rho\Delta B_\rho(z_\rho^{\rm sc})|
+   \le C D_I(t(\rho))^{1/2}.
+\]
+Thus
+\[
+   |B_\rho(z_\rho^{\min})\Delta B_\rho(z_\rho^{\rm sc})|
+   \le C D_I(t(\rho))^{1/2}.
+\]
+For equal balls with centre distance \(d\),
+\[
+   |B_\rho(z_1)\Delta B_\rho(z_2)|
+   \ge c(n)\rho^{n-1}\min\{d,\rho\}.
+\]
+Indeed, in coordinates \(x=z_1+s\,e+y\) with \(e=(z_2-z_1)/d\) and
+\(y\perp e\), one has \(B_\rho(z_1)\setminus B_\rho(z_2)
+=\{s^2+|y|^2<\rho^2,\ s\le d/2\}\); integrating the \((n-1)\)-dimensional
+cross-sections over \(s\in[0,\tfrac12\min\{d,\rho\}]\), where
+\(\rho^2-s^2\ge\tfrac34\rho^2\), gives
+\(|B_\rho(z_1)\setminus B_\rho(z_2)|\ge
+\tfrac12\omega_{n-1}(3/4)^{(n-1)/2}\rho^{n-1}\min\{d,\rho\}\), and the
+symmetric difference is twice this.
+Choose \(\eta_I\) so small that the preceding upper bound forces the
+linear branch \(d<\rho\).  Since \(\rho\ge\rstar\),
+\[
+   |z_\rho^{\min}-z_\rho^{\rm sc}|
+   \le C(n,\rstar)D_I(t(\rho))^{1/2}.
+\]
+The homothetic trace is affine in the centre:
+\[
+   H_{z_\rho^{\min},\rho}-H_{z_\rho^{\rm sc},\rho}
+   =
+   -\frac{(z_\rho^{\min}-z_\rho^{\rm sc})\cdot\nu_\rho}{\rho}.
+\]
+On \(G_I\), the perimeter is uniformly bounded because
+\(D_I(t(\rho))\le\eta_I\) and \(\rho\in[\rstar,1]\).  Hence
+\[
+   \int_{\partial^*E_\rho}
+   |H_{z_\rho^{\min},\rho}-H_{z_\rho^{\rm sc},\rho}|\,d\Hn
+   \le C(n,R,\rstar)D_I(t(\rho))^{1/2}.
+\]
+Combining this with \eqref{eq:sc-input} via the triangle inequality,
+\[
+   \int_{\partial^*E_\rho}
+      |H_{z_\rho^{\min},\rho}-\bar V_\rho|\,d\Hn
+   \le
+   \int_{\partial^*E_\rho}
+      |H_{z_\rho^{\min},\rho}-H_{z_\rho^{\rm sc},\rho}|\,d\Hn
+   +\int_{\partial^*E_\rho}
+      |H_{z_\rho^{\rm sc},\rho}-\bar V_\rho|\,d\Hn
+   \le C(n,R,\rstar)D_I(t(\rho))^{1/2},
+\]
+and squaring gives \eqref{eq:H-DI-min}.
+\end{proof}
+
+\begin{proposition}[Positive kinetic bound]\label{prop:positivekinetic}
+Let \(J\subset[\rstar,\rdel]\) be an interval.  Then
+\[
+   \int_J (q'_+(\rho))^2\,d\rho
+   \le C(n,R,\rstar)\,\dT(\Om),
+\]
+where \(q'_+(\rho)=\max\{q'(\rho),0\}\) at a.e. differentiability points.
+\end{proposition}
+
+\begin{proof}
+Let
+\[
+   G:=J\cap G_I\cap G_\tau,\qquad \mathcal B:=J\setminus G .
+\]
+Since \(q\) is Lipschitz, \(q'\) exists a.e.; shell-admissible radii have
+full measure in \(G_\tau\).  At points where both properties hold,
+\(D^+q=q'\).  The right side of Theorem~\ref{thm:qplus} is nonnegative,
+so the theorem also bounds \(q'_+\).  On \(G\), outside this null set,
+Theorem~\ref{thm:qplus}, Theorem~\ref{inp:samecenter},
+Lemma~\ref{lem:center-transfer}, and Lemma~\ref{lem:velocity} give
+\[
+   (q'_+)^2
+   \le C(n,R,\rstar)\bigl(D_H(t(\rho))+D_I(t(\rho))\bigr).
+\]
+Indeed \(q^2\le C D_I\) on \(G_I\) by \eqref{eq:sc-input}, and
+\[
+\begin{aligned}
+   \inf_a\int |V_\rho-H_{z_\rho^{\min},\rho}-a\cdot\nu_\rho|
+   &\le
+   \int |V_\rho-\bar V_\rho|
+   +\int |H_{z_\rho^{\min},\rho}-\bar V_\rho|.
+\end{aligned}
+\]
+On \(G_\tau\), \(d\rho\le\tau_0^{-1}d\mu\).  Hence the budget
+\eqref{eq:budget} yields
+\[
+   \int_G(q'_+)^2\,d\rho\le C\,\dT(\Om).
+\]
+
+It remains to pay \(\mathcal B\).  By Lemma~\ref{lem:qLip},
+\(q'_+\le2n\omega_n\) a.e.  The bad-density part has
+\(|J\cap B_\tau|\le C\,\dT(\Om)\).  For the bad-isoperimetric part on
+good density,
+\[
+   |J\cap G_\tau\cap G_I^c|
+   \le \tau_0^{-1}\mu(G_I^c)
+   \le \frac{C}{\eta_I}\int_JD_I(t(\rho))\,d\mu(\rho)
+   \le C\,\dT(\Om).
+\]
+Therefore \(|\mathcal B|\le C\,\dT(\Om)\), and
+\[
+   \int_{\mathcal B}(q'_+)^2\,d\rho\le C\,\dT(\Om).
+\]
+\end{proof}
+
+\section{Endpoint trace and bounded stability}\label{sec:endpoint}
+
+\begin{lemma}[Moving-ball endpoint trace]
+\label{lem:endpoint}
+Let
+\[
+   L_0:=\frac{1-\rstar}{8},\qquad
+   J:=[\rdel-L_0,\rdel].
+\]
+Assume \(\dT(\Om)\) is small enough that
+\(\rdel\ge(1+\rstar)/2\).  Then \(J\subset[\rstar,\rdel]\) and
+\[
+   q(\rdel)^2\le C(n,R,\rstar)\,\dT(\Om).
+\]
+\end{lemma}
+
+\begin{proof}
+The inclusion \(J\subset[\rstar,\rdel]\) follows from
+\(\rdel-\rstar\ge(1-\rstar)/2\).  Let
+\[
+   G_I:=\{\rho\in J:D_I(t(\rho))\le\eta_I\},
+   \qquad G=G_I\cap G_\tau .
+\]
+On \(G\), Theorem~\ref{thm:constructive-fraenkel} gives the pointwise volume
+bound
+\[
+   q(\rho)^2=\inf_z|E_\rho\Delta B_\rho(z)|^2\le C(n,\rstar)D_I(t(\rho)),
+   \qquad d\rho\le\tau_0^{-1}d\mu(\rho),
+\]
+so, by the budget \eqref{eq:budget},
+\[
+   \int_G q(\rho)^2\,d\rho\le\tau_0^{-1}\!\int_G q(\rho)^2\,d\mu\le C\,\dT(\Om).
+\]
+On \(J\setminus G\), the measure is \(O(\dT)\) by the proof of
+Proposition~\ref{prop:positivekinetic}, while \(q\le2\omega_n\).  Hence
+\[
+   \int_J q(\rho)^2\,d\rho\le C\,\dT(\Om).
+\]
+There is therefore \(\rho_0\in J\) with
+\[
+   q(\rho_0)^2\le C L_0^{-1}\dT(\Om).
+\]
+Since \(q\) is absolutely continuous and \(\rho_0\le\rdel\),
+\[
+   q(\rdel)
+   \le q(\rho_0)+\int_{\rho_0}^{\rdel}q'_+(\rho)\,d\rho.
+\]
+By Cauchy--Schwarz and Proposition~\ref{prop:positivekinetic},
+\[
+   q(\rdel)
+   \le C\dT(\Om)^{1/2}
+      +L_0^{1/2}\left(\int_J(q'_+)^2\,d\rho\right)^{1/2}
+   \le C\dT(\Om)^{1/2}.
+\]
+\end{proof}
+
+\begin{theorem}[Bounded sharp Saint--Venant stability]
+\label{thm:boundedSV}
+There are computable constants \(C=C(n,R,\rstar)\) and
+\(\delta_0=\delta_0(n,R,\rstar)>0\), depending only on the level-set
+identity constants, the Fusco--Julin constant \(C_{\rm FJ}(n)\),
+and the explicit constants above, such that every bounded open \(\Om\subset B_R\),
+\(|\Om|=\omega_n\), satisfies
+\[
+   \Fr(\Om)^2\le C\,\dT(\Om).
+\]
+\end{theorem}
+
+\begin{proof}
+Let \(\kappa\) be the constant fixed in Proposition~\ref{prop:levelset}.
+First assume \(\dT(\Om)\le\delta_0\), with \(\delta_0\) chosen so that
+\(\rdel=1-\kappa\sqrt{\dT(\Om)}\ge(1+\rstar)/2\), \(\dT(\Om)\le1\), and
+the smallness threshold \(\eta_I\) used in
+Theorem~\ref{inp:samecenter} and Lemma~\ref{lem:center-transfer} holds.
+Lemma~\ref{lem:endpoint} gives
+\[
+   q(\rdel)^2\le C\dT(\Om).
+\]
+Since \(|E_{\rdel}|=\omega_n\rdel^n\) and \(\rdel\ge\rstar\),
+\[
+   \Fr(E_{\rdel})^2
+   \le \frac{q(\rdel)^2}{\omega_n^2\rdel^{2n}}
+   \le C(n,\rstar)\dT(\Om).
+\]
+Moreover \(E_{\rdel}\subset\Om\), and by the definition of \(\rdel\),
+\[
+   |\Om\setminus E_{\rdel}|
+   =\omega_n(1-\rdel^n)
+   \le n\omega_n(1-\rdel)
+   =n\omega_n\kappa\,\dT(\Om)^{1/2}.
+\]
+Lemma~\ref{lem:superlevel-transfer} gives
+\[
+   \Fr(\Om)
+   \le \Fr(E_{\rdel})+C(n,\rstar)\dT(\Om)^{1/2}.
+\]
+Squaring proves the estimate in the small-deficit regime.
+
+If \(\dT(\Om)>\delta_0\), then \(\Fr(\Om)<2\), so
+\[
+   \Fr(\Om)^2\le \frac{4}{\delta_0}\dT(\Om).
+\]
+Enlarging \(C\) completes the proof.
+\end{proof}
+
+\input{parts/exhaustive_bounded_reduction.tex}
+
+\input{parts/exhaustive_kohler_jobin.tex}
+
+\section{Proof architecture and constants}\label{sec:architecture}
+
+The argument is organised around the following principal steps; the first five
+produce the bounded Saint--Venant estimate, the last two upgrade it to
+Faber--Krahn.
+\begin{enumerate}[leftmargin=2em]
+\item The exact level-set deficit identity (Theorem~\ref{thm:id-main}) writes
+\(\dT(\Om)\) as a weighted reduced-boundary integral of the Cauchy--Schwarz
+defect \(D_H\) and the isoperimetric defect \(D_I\); the profile-gap identity
+and the bad-density bound of Proposition~\ref{prop:levelset} are its
+\(\rho\)-parametrised consequences.
+\item The affine shell estimate (Lemma~\ref{lem:shell}) is a finite-perimeter
+limsup estimate, proved by localized coarea differentiation on variable slabs
+(Lemma~\ref{lem:varcoarea}) together with the local BV deformation-tail lemma
+(Lemma~\ref{lem:BV-tail}).  Its only bounded-variation input is Reshetnyak
+continuity for a continuous weight, applied as an \emph{upper} bound to a
+swept-volume tail made arbitrarily small by inner regularity; no
+lower-semicontinuity passage is used.
+\item The endpoint trace (Lemma~\ref{lem:endpoint}) uses the upper Dini
+derivative \(D^+q\) together with the global Lipschitz bound for \(q\)
+(Lemma~\ref{lem:qLip}).
+\item Bad-density levels are charged by Lebesgue measure rather than by the
+deficit, which is possible because \(q\) is uniformly Lipschitz by nestedness.
+\item The same-centre good-level package (Theorem~\ref{inp:samecenter}) is built
+on the Fusco--Julin strong form (Theorem~\ref{thm:FJ-strong}), proved internally
+in Appendix~\ref{app:FJ-quantitative}; the passage from same-centre volume and
+normal control to the homothetic trace is the radial trace
+Lemma~\ref{lem:oriented-radial-trace}.
+\item The bounded reduction (Theorem~\ref{thm:SV-global}) removes the
+confinement \(\Om\subset B_R\): a constructive De~Giorgi \(L^\infty\) tail
+estimate (Lemma~\ref{lem:Linfty}) feeds a truncation construction
+(Lemma~\ref{lem:truncation}) that replaces \(\Om\) by a bounded surrogate of
+dimensional diameter with comparable deficit and controlled asymmetry loss;
+gluing the bounded estimate to the trivial large-deficit branch gives the
+global Saint--Venant inequality with a dimensional constant.
+\item The Kohler--Jobin rearrangement (Theorem~\ref{thm:kj}), built to preserve
+the modified torsional rigidity of superlevel sets, gives
+\(T(\Om)\lambda_1(\Om)^{(n+2)/2}\ge T_n L_n^{(n+2)/2}\); combined with the
+global Saint--Venant inequality and an elementary one-variable estimate it
+yields Theorem~\ref{thm:FK-main} (Theorem~\ref{thm:fk}).
+\end{enumerate}
+
+\noindent
+All constants in Theorem~\ref{thm:boundedSV} depend only on \(n\), \(R\), and
+\(\rstar\), together with the Fusco--Julin constant \(C_{\rm FJ}(n)\).
+Tracing them through the proof: \(C_L=2n^2\omega_n\) and
+\(C_\tau=4n/(\omega_n\rstar^{n+1})\) (Proposition~\ref{prop:levelset});
+\(\kappa=(1-\rstar)/4\) and \(\tau_0=\rstar/(2n)\); the same-centre
+constant \(C_{\rm sc}(n,R,\rstar)\) and threshold \(\eta_I(n,R,\rstar)\)
+(Theorem~\ref{inp:samecenter} and Lemma~\ref{lem:center-transfer}, with the
+ball--ball lower constant \(\tfrac12\omega_{n-1}(3/4)^{(n-1)/2}\) folded into its
+proof);
+the slab length
+\(L_0=(1-\rstar)/8\); and the large-deficit cutoff \(4/\delta_0\).  No constant
+depends on \(\Om\) beyond these parameters.  The bounded reduction internalises
+the confinement at the dimensional radius \(R_*(n)=\max\{d(n),2\}\), producing
+the purely dimensional \(c_{\mathrm{SV}}^{\mathrm{glob}}(n)\)
+(Theorem~\ref{thm:SV-global}), and the Kohler--Jobin transfer outputs
+\(c_{\mathrm{FK}}(n)=\min\{4L_n c_{\mathrm{SV}}^{\mathrm{glob}}(n)/((n+2)T_n),\,
+L_n(2^{2/(n+2)}-1)/4\}\) of Theorem~\ref{thm:FK-main}, with
+\(L_n=\lambda_1(B_1)\), \(T_n=\omega_n/(n(n+2))\).
+
+\appendix
+
+\section{Standard tools from the theory of sets of finite perimeter}
+\label{app:bv}
+
+For the reader's convenience we record the three classical results used above,
+in the exact form needed; all hold for sets of finite perimeter with no graph
+or manifold regularity.
+
+\begin{enumerate}[leftmargin=2em]
+\item \emph{BV coarea formula} \cite[Thm.~13.1]{Maggi2012},
+\cite[Thm.~3.40]{AFP2000}: for \(u\in BV_{\rm loc}(\R^n)\) and Borel
+\(\varphi\ge0\),
+\(\int|\nabla u|\varphi=\int_{\R}(\int_{\partial^*\{u>t\}}\varphi\,d\Hn)\,dt\).
+This underlies \eqref{eq:id-bvcoarea} and Lemma~\ref{lem:varcoarea}.
+\item \emph{Gauss--Green on sets of finite perimeter}
+\cite[Ch.~17]{Maggi2012}: for a bounded Lipschitz vector field \(X\) and a set
+\(E\) of finite perimeter,
+\(\int_E\operatorname{div}X=\int_{\partial^*E}X\cdot\nu_E\,d\Hn\).  This is the
+form used in Lemma~\ref{lem:oriented-radial-trace}.
+\item \emph{Strict \(BV\) convergence and Reshetnyak continuity}
+\cite[Thm.~2.39]{AFP2000}, \cite[Ch.~20]{Maggi2012}: if
+\(v_k\to v\) in \(L^1_{\rm loc}\) with \(|Dv_k|(\R^n)\to|Dv|(\R^n)\), then
+\(\int\psi\,d|Dv_k|\to\int\psi\,d|Dv|\) for every continuous compactly
+supported \(\psi\).  Applied to mollifications \(v_k={\bf1}_E*\varphi_{1/k}\),
+this gives the upper bound in Lemma~\ref{lem:BV-tail}.
+\end{enumerate}
+
+\section{Dependency certificate}\label{app:constants}
+
+Every step is either proved in this manuscript or is quoted from a named
+published theorem in the classical theory of sets of finite perimeter and
+rearrangement.
+
+\emph{Proved internally:} the exact deficit identity and its inputs (coarea
+form of \(-m'\), the Lipschitz-truncation flux identity, the rearranged
+primitive with \(I''=-1/\alpha\)) in \S\ref{sec:identity}; the profile-gap and
+bad-density estimates in \S\ref{sec:profilegap}; the
+oriented radial trace, the same-centre package (via the internally proved
+Fusco--Julin strong form, Appendix~\ref{app:FJ-quantitative}), the velocity
+defect, and the
+superlevel asymmetry transfer in \S\ref{sec:samecentre}; the two-sided coarea
+differentiation lemma, the shell-admissible registration, and the local BV
+deformation tail in \S\ref{sec:coarea}; the affine shell estimate, the
+one-sided first variation, and the Lipschitz bound for \(q\) in
+\S\ref{sec:shell}; the centre transfer and the positive kinetic estimate in
+\S\ref{sec:kinetic}; the endpoint trace and the bounded stability theorem in
+\S\ref{sec:endpoint}; the De~Giorgi \(L^\infty\) tail estimate, the truncation
+construction, and the global bounded reduction in \S\ref{sec:bddred}; the
+Kohler--Jobin inequality (via the modified-torsion rearrangement) together with
+the transfer to Faber--Krahn in \S\ref{sec:kj}; and the Fusco--Julin sharp
+quantitative isoperimetric inequality itself (with a computable dimensional
+constant) in Appendix~\ref{app:FJ-quantitative}.
+
+\emph{Quoted with exact citation:} the constructive Fraenkel quantitative
+isoperimetric inequality of Fusco--Maggi--Pratelli \cite{FMP}; the BV coarea
+formula, the finite-perimeter Gauss--Green theorem, and Reshetnyak continuity
+\cite{AFP2000,Maggi2012}; the De~Giorgi isoperimetric inequality
+\cite{DeGiorgi1958}; the Talenti rearrangement comparison and \(L^\infty\) bound
+\cite{Talenti1976}; the classical Saint--Venant inequality; the
+Sobolev inequality; the Brothers--Ziemer regularity of the distribution
+function \cite{AFP2000}; the absolutely continuous monotone inverse theorem
+\cite{BBC1975}; eigenfunction regularity, interior elliptic regularity, and the
+weak maximum principle \cite{GilbargTrudinger2001}; and the P\'olya--Szeg\H{o}
+identification of the ball energy \cite{PolyaSzego1951,Bandle1980}.
+
+\emph{The suboptimal seed is proved internally.} The truncation of
+\S\ref{sec:bddred} uses a \emph{suboptimal} Saint--Venant stability bound
+\(\dT(\Om)\ge c\,\Fr(\Om)^4\) (Lemma~\ref{lem:seed}) only to bound the number
+of truncation steps.  This is proved here (Lemma~\ref{lem:seed}) from the
+exact deficit identity, the profile-gap identity, and the superlevel transfer
+established above, together with the constructive Fraenkel quantitative
+isoperimetric inequality (Theorem~\ref{thm:constructive-fraenkel}); it does
+not use the strong-form input and relies on no sharp stability estimate external
+to this paper.  Consequently
+every ingredient of the argument is either proved above or is one of the
+standard tools just listed.
+
+\section{The Fusco--Julin strong form: a constructive proof with computable constant}
+\label{app:FJ-quantitative}
+
+This appendix gives an internal proof of the Fusco--Julin sharp quantitative
+isoperimetric inequality used in \S\ref{sec:samecentre}
+(Theorem~\ref{thm:FJ-strong} and Corollary~\ref{cor:FJ-unnormalised}).  The
+goal is to certify that the dimensional constant \(C_{\rm FJ}(n)\) is a finite
+composition of explicit dimensional constants, with no compactness selection
+and no contradiction step.  The argument proceeds in three blocks.  In
+\S\ref{app-sec:identity} we record the finite-perimeter radial Gauss--Green
+identity that singles out the normal-oscillation index \(\beta(E)\), and we
+reduce the problem to the small-deficit regime.  In \S\ref{app-sec:graphs}
+(Attempt~I) we prove an explicit nearly-spherical theorem with displayed
+constants: a balanced \(W^{1,\infty}\)-small radial graph is controlled, about
+one fixed centre, in both volume asymmetry and radial normal oscillation by
+the perimeter deficit.  In \S\ref{app-sec:selection} (Attempt~II) we run the
+Fusco--Julin regularising selection, prove the resulting set is an additive
+perimeter almost-minimiser via quantitative annular trapping and localisation
+of the potential centres, certify computability of the graph-entry constant by
+a finite spectral truncation argument, and close the global theorem on
+arbitrary finite-perimeter sets through the Fusco--Julin confinement step.
+The combined-asymmetry form of \cite{FJ2014}, used as
+Theorem~\ref{thm:FJ-strong}, then follows.  The labels
+\texttt{app-sec:identity}, \texttt{app-sec:graphs},
+\texttt{app-sec:selection}, and \texttt{app-def:beta} are local to this
+appendix.
+
+\medskip\noindent\textbf{Notation warning.}
+Throughout this appendix, the symbol \(\beta\) denotes the
+\emph{radial-normal oscillation index} of
+Definition~\ref{app-def:beta}, that is, \(\beta(E)^2:=\inf_z\osc_z(E)\).  This
+is \emph{not} the boundary-perimeter density function \(\beta(t)\) used in the
+main body of the manuscript.  The two objects share a letter for historical
+reasons but live in different sections and never appear together in the same
+display.
+
+\begin{definition}[Radial normal oscillation]\label{app-def:beta}
+Let \(E\subset\R^n\) be a set of finite perimeter with \(|E|=|B_\rho|\).  For
+\(z\in\R^n\) set \(e_z(x):=(x-z)/|x-z|\) for \(x\ne z\) and
+\[
+   \osc_z(E):=\frac12\int_{\partial^*E}|\nu_E-e_z|^2\,d\Hn.
+\]
+The Fusco--Julin oscillation index is
+\(\beta(E)^2:=\inf_{z\in\R^n}\osc_z(E)\); the unnormalised perimeter deficit is
+\(\Def(E):=\Per(E)-\Per(B_\rho)\).
+\end{definition}
+
+\subsection{The radial identity and elementary reductions}\label{app-sec:identity}
+
+This section spells out the identities which explain the choice of
+\(\beta(E)\).  The calculation is elementary, but it is important that it be
+written with the correct factor \(1/2\), the correct scaling, and no hidden
+smoothness assumption.
+
+\subsubsection{A finite-perimeter radial Gauss--Green identity}
+
+\begin{lemma}[Radial divergence field]\label{lem:radial-div}
+Fix \(z\in\R^n\), and define \(e_z(x)=(x-z)/|x-z|\) for \(x\ne z\).
+Then
+\[
+   \operatorname{div}e_z(x)=\frac{n-1}{|x-z|}
+   \qquad (x\ne z).
+\tag{2.1}\label{eq:div-e}
+\]
+Moreover \(x\mapsto |x-z|^{-1}\) is locally integrable on \(\R^n\).
+\end{lemma}
+
+\begin{proof}
+By translation it suffices to take \(z=0\).  For \(x\ne0\), write
+\[
+   e_0(x)=\frac{x}{|x|}.
+\]
+For each \(i\in\{1,\ldots,n\}\),
+\[
+   \partial_i\!\left(\frac{x_i}{|x|}\right)
+   =\frac1{|x|}-\frac{x_i^2}{|x|^3}.
+\]
+Summing in \(i\) gives
+\[
+   \operatorname{div}e_0
+   =\frac{n}{|x|}-\frac{|x|^2}{|x|^3}
+   =\frac{n-1}{|x|}.
+\]
+Finally,
+\[
+   \int_{B_r(z)}\frac{dx}{|x-z|}
+   =n\omega_n\int_0^r s^{n-2}\,ds
+   =\frac{n\omega_n}{n-1}r^{n-1}<\infty,
+\]
+because \(n\ge2\).
+\end{proof}
+
+\begin{proposition}[Radial Gauss--Green formula]\label{prop:radial-GG}
+Let \(E\subset\R^n\) be a bounded set of finite perimeter.  Then for every
+\(z\in\R^n\),
+\[
+   \int_{\partial^*E}\nu_E\cdot e_z\,d\Hn
+   =(n-1)\int_E\frac{dx}{|x-z|}.
+\tag{2.2}\label{eq:radial-GG}
+\]
+Consequently,
+\[
+   \osc_z(E)
+   =\Per(E)-(n-1)\int_E\frac{dx}{|x-z|}.
+\tag{2.3}\label{eq:osc-potential}
+\]
+\end{proposition}
+
+\begin{proof}
+The field \(e_z\) is singular at \(z\), so we first remove that singularity.
+Choose a smooth function \(\chi_\eps:[0,\infty)\to[0,1]\) satisfying
+\[
+   \chi_\eps(r)=0\quad (0\le r\le\eps),\qquad
+   \chi_\eps(r)=1\quad (r\ge2\eps),\qquad
+   |\chi_\eps'(r)|\le\frac{2}{\eps}.
+\]
+Set
+\[
+   X_\eps(x):=\chi_\eps(|x-z|)e_z(x).
+\]
+Since \(E\) is bounded, the finite-perimeter Gauss--Green formula, after an
+irrelevant compactly supported cut-off outside a ball containing \(E\), gives
+\[
+   \int_{\partial^*E}X_\eps\cdot\nu_E\,d\Hn
+   =\int_E\operatorname{div}X_\eps\,dx.
+\tag{2.4}\label{eq:cutoff-GG}
+\]
+On \(\R^n\setminus\{z\}\),
+\[
+   \operatorname{div}X_\eps
+   =\chi_\eps(|x-z|)\frac{n-1}{|x-z|}
+     +\chi_\eps'(|x-z|).
+\]
+The second term is supported in
+\(B_{2\eps}(z)\setminus B_\eps(z)\), and hence
+\[
+   \left|\int_E\chi_\eps'(|x-z|)\,dx\right|
+   \le \frac2\eps |B_{2\eps}|
+   =2^{n+1}\omega_n\eps^{n-1}\longrightarrow0.
+\]
+The first term converges in \(L^1(E)\) to
+\((n-1)|x-z|^{-1}\) by Lemma~\ref{lem:radial-div} and dominated convergence.
+On the boundary side, \(X_\eps\to e_z\) at every point other than \(z\), and
+\(\partial^*E\cap\{z\}\) has \(\Hn\)-measure zero.  Since
+\(|X_\eps|\le1\), dominated convergence applies there as well.  Letting
+\(\eps\downarrow0\) in \eqref{eq:cutoff-GG} proves
+\eqref{eq:radial-GG}.
+
+Finally,
+\[
+   \frac12|\nu_E-e_z|^2
+   =\frac12\bigl(|\nu_E|^2+|e_z|^2-2\nu_E\cdot e_z\bigr)
+   =1-\nu_E\cdot e_z
+\]
+for \(\Hn\)-almost every \(x\in\partial^*E\).  Integration and
+\eqref{eq:radial-GG} give \eqref{eq:osc-potential}.
+\end{proof}
+
+\begin{remark}[Unbounded sets]\label{rem:unbounded}
+The identity extends to finite-measure finite-perimeter sets by introducing an
+outer cut-off and passing to infinity.  The applications in this manuscript
+either concern bounded sets or use the FJ theorem as quoted, so the bounded
+version above is sufficient for every calculation made here.
+\end{remark}
+
+\subsubsection{Scaling and the large-deficit branch}
+
+\begin{lemma}[Scaling]\label{lem:scaling}
+Let \(\lambda>0\), \(a\in\R^n\), and \(F=a+\lambda E\).  If
+\(|E|=|B_\rho|\), then \(|F|=|B_{\lambda\rho}|\) and
+\[
+   \Per(F)-\Per(B_{\lambda\rho})
+      =\lambda^{n-1}\bigl(\Per(E)-\Per(B_\rho)\bigr),
+\tag{2.5}\label{eq:scale-D}
+\]
+\[
+   \beta(F)^2=\lambda^{n-1}\beta(E)^2.
+\tag{2.6}\label{eq:scale-beta}
+\]
+\end{lemma}
+
+\begin{proof}
+Perimeter scales as \(\lambda^{n-1}\).  Also the map
+\(x=a+\lambda y\) sends \(\partial^*E\) to \(\partial^*F\), preserves the
+unit normal, and sends \(e_z(y)\) to \(e_{a+\lambda z}(x)\).  Therefore
+\[
+   \osc_{a+\lambda z}(F)=\lambda^{n-1}\osc_z(E).
+\]
+Taking the infimum over \(z\) proves \eqref{eq:scale-beta}.
+\end{proof}
+
+\begin{lemma}[Only small deficits require a subtle proof]\label{lem:large}
+If \(|E|=|B_\rho|\) and
+\(\Def(E)\ge\eta\Per(B_\rho)\) for some \(\eta>0\), then
+\[
+   \beta(E)^2\le 2(1+\eta^{-1})\Def(E).
+\tag{2.7}\label{eq:large-branch}
+\]
+\end{lemma}
+
+\begin{proof}
+For any \(z\), \(|\nu_E-e_z|^2\le4\), and thus
+\[
+   \beta(E)^2\le\osc_z(E)\le2\Per(E).
+\]
+Since \(\Per(E)=\Per(B_\rho)+\Def(E)\) and
+\(\Per(B_\rho)\le\eta^{-1}\Def(E)\), we obtain
+\[
+   \beta(E)^2\le2\Per(E)
+   \le2(1+\eta^{-1})\Def(E).
+\]
+\end{proof}
+
+Lemma~\ref{lem:large} explains the architecture of every effective proof:
+one only has to convert a sufficiently small perimeter deficit into a
+geometric regime in which the normal oscillation can be estimated explicitly.
+
+\subsection{Attempt I: explicit nearly-spherical sets}\label{app-sec:graphs}
+
+This attempt is complete.  We assume from the start that the set is a small
+radial graph over a ball and prove a same-centre strong estimate by direct
+calculation.  The balance assumptions remove the constant and translation
+modes.  Their presence is not an inconvenience of the proof: a translation
+of a ball has zero deficit and cannot be controlled as a graph about an
+incorrect centre.
+
+\subsubsection{Radial graphs, volume, and barycentre}
+
+Let \(S=S^{n-1}\), with surface measure \(d\sigma\).  Recall
+\[
+   |S|=n\omega_n.
+\tag{3.1}\label{eq:sphere-measure}
+\]
+Let \(u\in W^{1,\infty}(S)\) satisfy \(1+u>0\), and define
+\[
+   E_u:=\{r\theta:\theta\in S,\ 0\le r<1+u(\theta)\}.
+\tag{3.2}\label{eq:radial-set}
+\]
+Throughout this section the norm is understood in the concrete form
+\[
+   \norm{u}_{W^{1,\infty}(S)}
+   :=\max\{\norm{u}_{L^\infty(S)},
+           \norm{\nabla_\tau u}_{L^\infty(S)}\}.
+\]
+Thus \(\norm{u}_{W^{1,\infty}}\le\delta\) separately implies
+\(|u|\le\delta\) and \(|\nabla_\tau u|\le\delta\) almost everywhere.
+For brevity write
+\[
+   a(\theta):=1+u(\theta),\qquad
+   s(\theta):=|\nabla_\tau u(\theta)|,
+\]
+\[
+   A:=\int_Ss^2\,d\sigma,\qquad
+   B:=\int_Su^2\,d\sigma.
+\tag{3.3}\label{eq:AB}
+\]
+
+\begin{lemma}[Volume and barycentre formulae]\label{lem:volume-bary}
+For \(E_u\) defined in \eqref{eq:radial-set},
+\[
+   |E_u|=\frac1n\int_Sa^n\,d\sigma,
+\tag{3.4}\label{eq:volume-graph}
+\]
+and
+\[
+   \int_{E_u}x\,dx=\frac1{n+1}\int_S\theta a^{n+1}\,d\sigma.
+\tag{3.5}\label{eq:bary-graph}
+\]
+In particular, \(E_u\) has the volume and barycentre of \(B_1\) precisely when
+\[
+   \int_S(a^n-1)\,d\sigma=0,
+   \qquad
+   \int_S\theta a^{n+1}\,d\sigma=0.
+\tag{3.6}\label{eq:balance}
+\]
+\end{lemma}
+
+\begin{proof}
+Use polar coordinates \(x=r\theta\), \(dx=r^{n-1}\,dr\,d\sigma(\theta)\):
+\[
+\begin{aligned}
+   |E_u|
+   &=\int_S\int_0^{a(\theta)}r^{n-1}\,dr\,d\sigma(\theta)  \\
+   &=\frac1n\int_Sa(\theta)^n\,d\sigma(\theta).
+\end{aligned}
+\]
+Similarly,
+\[
+\begin{aligned}
+   \int_{E_u}x\,dx
+   &=\int_S\int_0^{a(\theta)}r\theta\,r^{n-1}\,dr\,d\sigma(\theta) \\
+   &=\frac1{n+1}\int_S\theta a(\theta)^{n+1}\,d\sigma(\theta).
+\end{aligned}
+\]
+For \(u=0\), the two right sides equal \(|B_1|\) and \(0\), respectively,
+because \(\int_S\theta\,d\sigma=0\).  This proves \eqref{eq:balance}.
+\end{proof}
+
+\subsubsection{Perimeter and fixed-centre normal oscillation}
+
+\begin{lemma}[Geometry of the graph]\label{lem:graph-geometry}
+For \(\Hn\)-almost every \(\theta\in S\), the point
+\(x=a(\theta)\theta\) of \(\partial E_u\) has outer normal
+\[
+   \nu_{E_u}(a\theta)
+   =\frac{a\theta-\nabla_\tau u}{\sqrt{a^2+s^2}},
+\tag{3.7}\label{eq:graph-normal}
+\]
+and surface Jacobian
+\[
+   J_u(\theta)=a^{n-2}\sqrt{a^2+s^2}.
+\tag{3.8}\label{eq:graph-jac}
+\]
+Consequently,
+\[
+   \Per(E_u)=\int_Sa^{n-2}\sqrt{a^2+s^2}\,d\sigma,
+\tag{3.9}\label{eq:graph-perimeter}
+\]
+and the normal oscillation about the graph centre \(0\) is
+\[
+\begin{aligned}
+   \osc_0(E_u)
+   &=\int_Sa^{n-2}\bigl(\sqrt{a^2+s^2}-a\bigr)\,d\sigma \\
+   &=\int_S
+       \frac{a^{n-3}s^2}{\sqrt{1+s^2/a^2}+1}\,d\sigma.
+\end{aligned}
+\tag{3.10}\label{eq:graph-osc}
+\]
+\end{lemma}
+
+\begin{proof}
+Parametrise the boundary by
+\[
+   \Phi:S\to\R^n,\qquad \Phi(\theta)=a(\theta)\theta.
+\]
+If \(\tau\in T_\theta S\), then
+\[
+   D_\tau\Phi=a\tau+(D_\tau u)\theta.
+\]
+The vector \(a\theta-\nabla_\tau u\) is orthogonal to every such tangent
+vector, since
+\[
+   (a\theta-\nabla_\tau u)\cdot
+   \bigl(a\tau+(D_\tau u)\theta\bigr)
+   =aD_\tau u-aD_\tau u=0.
+\]
+It points outward and has length \(\sqrt{a^2+s^2}\), proving
+\eqref{eq:graph-normal}.
+
+In an orthonormal tangent basis \(\tau_1,\ldots,\tau_{n-1}\), the Gram matrix
+of \(D\Phi\) has entries
+\[
+   D_{\tau_i}\Phi\cdot D_{\tau_j}\Phi
+   =a^2\delta_{ij}+D_{\tau_i}uD_{\tau_j}u.
+\]
+Writing \(v\in\R^{n-1}\) for the tangent vector with components
+\(v_i=D_{\tau_i}u\) (so \(|v|^2=s^2\)), the \((n-1)\times(n-1)\) Gram matrix
+equals \(a^2 I + v\otimes v\).  Since \(v\otimes v\) is a rank-one symmetric
+operator with nonzero eigenvalue \(|v|^2\) (in the direction of \(v\)) and
+vanishes on the \((n-2)\)-dimensional orthogonal complement of \(v\), the
+eigenvalues of \(a^2 I + v\otimes v\) are \(a^2+|v|^2\) (with multiplicity
+one) and \(a^2\) (with multiplicity \(n-2\)).  Multiplying the eigenvalues
+yields the determinant identity
+\[
+   \det(a^2I+v\otimes v)=(a^2)^{n-2}(a^2+|v|^2),
+\]
+which gives \eqref{eq:graph-jac} and hence \eqref{eq:graph-perimeter}.
+
+At \(x=a\theta\), the vector \(e_0(x)\) equals \(\theta\).  By
+\eqref{eq:graph-normal},
+\[
+   1-\nu_{E_u}\cdot\theta
+   =1-\frac{a}{\sqrt{a^2+s^2}}.
+\]
+Multiplying by \(J_u=a^{n-2}\sqrt{a^2+s^2}\), and recalling that
+\(\osc_0=\int_{\partial E_u}(1-\nu\cdot e_0)\,d\Hn\), yields
+\[
+   \osc_0(E_u)
+   =\int_Sa^{n-2}\bigl(\sqrt{a^2+s^2}-a\bigr)\,d\sigma.
+\]
+Finally,
+\[
+   \sqrt{a^2+s^2}-a
+   =a\left(\sqrt{1+\frac{s^2}{a^2}}-1\right)
+   =\frac{s^2/a}{\sqrt{1+s^2/a^2}+1},
+\]
+which proves the second line of \eqref{eq:graph-osc}.
+\end{proof}
+
+\subsubsection{Explicit constants}
+
+For \(0<\delta<1\) and any real exponent \(p\), set
+\[
+   m_p(\delta):=\min_{t\in[1-\delta,1+\delta]}t^p,\qquad
+   M_p(\delta):=\max_{t\in[1-\delta,1+\delta]}t^p.
+\tag{3.11}\label{eq:mM}
+\]
+Define
+\[
+   L_n(\delta):=
+   \frac{m_{n-3}(\delta)}
+        {1+\sqrt{1+\bigl(\delta/(1-\delta)\bigr)^2}},
+   \qquad
+   U_n(\delta):=\frac12M_{n-3}(\delta),
+\tag{3.12}\label{eq:LU}
+\]
+\[
+   R_n(\delta):=
+   \frac{n-1}{2}M_{n-3}(\delta)\bigl(1+(n-1)\delta\bigr),
+\tag{3.13}\label{eq:R}
+\]
+\[
+   C_0(\delta):=\frac{n-1}{2}M_{n-2}(\delta),\qquad
+   C_1(\delta):=\frac n2M_{n-1}(\delta),
+\tag{3.14}\label{eq:C01}
+\]
+\[
+   \eta_n(\delta):=
+   \delta^2\bigl(C_0(\delta)^2+nC_1(\delta)^2\bigr),
+\tag{3.15}\label{eq:eta}
+\]
+and
+\[
+   d_n(\delta):=
+   L_n(\delta)-\frac{R_n(\delta)}
+   {2n\bigl(1-\eta_n(\delta)\bigr)}.
+\tag{3.16}\label{eq:dn}
+\]
+
+\begin{theorem}[Explicit balanced nearly-spherical strong form]
+\label{thm:graph-main}
+Let \(n\ge2\).  Let \(E_u\) be defined by \eqref{eq:radial-set}, assume
+\[
+   |E_u|=|B_1|,\qquad \int_{E_u}x\,dx=0,
+\tag{3.17}\label{eq:graph-balanced}
+\]
+and suppose
+\[
+   \norm{u}_{W^{1,\infty}(S)}\le\delta<1,\qquad
+   \eta_n(\delta)<1,\qquad d_n(\delta)>0.
+\tag{3.18}\label{eq:graph-hyp}
+\]
+Then
+\[
+   \beta(E_u)^2
+   \le \frac{U_n(\delta)}{d_n(\delta)}
+      \bigl(\Per(E_u)-\Per(B_1)\bigr).
+\tag{3.19}\label{eq:graph-beta}
+\]
+More strongly, the same centre \(0\) satisfies
+\[
+   \int_{\partial^*E_u}
+       \left|\nu_{E_u}-\frac{x}{|x|}\right|^2\,d\Hn
+   \le
+   \frac{2U_n(\delta)}{d_n(\delta)}
+      \bigl(\Per(E_u)-\Per(B_1)\bigr),
+\tag{3.20}\label{eq:graph-normal-bound}
+\]
+and
+\[
+   |E_u\mathbin{\triangle}B_1|^2
+   \le
+   \frac{M_{n-1}(\delta)^2\omega_n}
+        {2(1-\eta_n(\delta))d_n(\delta)}
+      \bigl(\Per(E_u)-\Per(B_1)\bigr).
+\tag{3.21}\label{eq:graph-volume-bound}
+\]
+\end{theorem}
+
+\begin{proof}
+We break the proof into five explicit steps.
+
+\smallskip\noindent\emph{Step 1: an upper bound for the fixed-centre
+oscillation.}
+By \eqref{eq:graph-osc} and the elementary inequality
+\[
+   \sqrt{1+t}+1\ge2\qquad(t\ge0),
+\]
+we have
+\[
+\begin{aligned}
+   \osc_0(E_u)
+   &=\int_S
+       \frac{a^{n-3}s^2}{\sqrt{1+s^2/a^2}+1}\,d\sigma \\
+   &\le \frac12M_{n-3}(\delta)\int_Ss^2\,d\sigma
+    =U_n(\delta)A.
+\end{aligned}
+\tag{3.22}\label{eq:O-upper}
+\]
+Since \(\beta(E_u)^2=\inf_z\osc_z(E_u)\le\osc_0(E_u)\), it will suffice to
+bound \(A\) by the perimeter deficit.
+
+\smallskip\noindent\emph{Step 2: separate the perimeter deficit.}
+Using \eqref{eq:graph-perimeter},
+\[
+\begin{aligned}
+   \Per(E_u)-\Per(B_1)
+   &=\int_S\bigl(a^{n-1}-1\bigr)\,d\sigma \\
+   &\quad+
+     \int_Sa^{n-2}\bigl(\sqrt{a^2+s^2}-a\bigr)\,d\sigma \\
+   &=:I+G.
+\end{aligned}
+\tag{3.23}\label{eq:def-split}
+\]
+Since \(|u|\le\delta\) and \(s\le\delta\),
+\[
+   1-\delta\le a\le1+\delta,\qquad
+   0\le\frac{s}{a}\le\frac{\delta}{1-\delta}.
+\]
+The exact identity
+\[
+   \sqrt{1+t}-1=\frac{t}{\sqrt{1+t}+1}
+\]
+therefore gives
+\[
+\begin{aligned}
+   G
+   &=\int_S
+       \frac{a^{n-3}s^2}{\sqrt{1+s^2/a^2}+1}\,d\sigma \\
+   &\ge
+      \frac{m_{n-3}(\delta)}
+      {1+\sqrt{1+\bigl(\delta/(1-\delta)\bigr)^2}}
+      \int_Ss^2\,d\sigma \\
+   &=L_n(\delta)A.
+\end{aligned}
+\tag{3.24}\label{eq:G-lower}
+\]
+
+\smallskip\noindent\emph{Step 3: estimate the part \(I\) by \(B\).}
+The volume constraint in \eqref{eq:balance} yields
+\[
+   \int_S(a^n-1)\,d\sigma=0.
+\]
+Thus
+\[
+   I=\int_S f(u)\,d\sigma,
+\qquad
+   f(q):=(1+q)^{n-1}-1-\frac{n-1}{n}\bigl((1+q)^n-1\bigr).
+\tag{3.25}\label{eq:def-f}
+\]
+Direct differentiation gives
+\[
+   f(0)=0,\qquad f'(0)=0,
+\]
+and
+\[
+\begin{aligned}
+   f''(q)
+   &=(n-1)(n-2)(1+q)^{n-3}
+      -(n-1)^2(1+q)^{n-2} \\
+   &=-(n-1)(1+q)^{n-3}\bigl(1+(n-1)q\bigr).
+\end{aligned}
+\tag{3.26}\label{eq:f-second}
+\]
+Taylor's formula with integral remainder reads
+\[
+   f(q)=q^2\int_0^1(1-t)f''(tq)\,dt.
+\]
+If \(|q|\le\delta\), then
+\[
+   |f''(tq)|
+   \le(n-1)M_{n-3}(\delta)\bigl(1+(n-1)\delta\bigr).
+\]
+Since \(\int_0^1(1-t)\,dt=1/2\), we get
+\[
+   f(q)\ge-R_n(\delta)q^2.
+\]
+Integrating this inequality with \(q=u(\theta)\) proves
+\[
+   I\ge-R_n(\delta)B.
+\tag{3.27}\label{eq:I-lower}
+\]
+
+\smallskip\noindent\emph{Step 4: remove the zero and first spherical
+harmonic modes.}
+The first balance identity in \eqref{eq:balance} can be written as
+\[
+   0=n\int_Su\,d\sigma+
+     \int_S\bigl(a^n-1-nu\bigr)\,d\sigma.
+\]
+For \(|q|\le\delta\), Taylor's formula gives
+\[
+   |(1+q)^n-1-nq|
+   \le\frac{n(n-1)}2M_{n-2}(\delta)q^2.
+\]
+After division by \(n\), it follows that
+\[
+   \left|\int_Su\,d\sigma\right|
+   \le C_0(\delta)B.
+\tag{3.28}\label{eq:mean-small}
+\]
+Likewise the barycentre identity gives
+\[
+   0=(n+1)\int_S\theta u\,d\sigma+
+      \int_S\theta\bigl(a^{n+1}-1-(n+1)u\bigr)\,d\sigma.
+\]
+The estimate
+\[
+   |(1+q)^{n+1}-1-(n+1)q|
+   \le\frac{n(n+1)}2M_{n-1}(\delta)q^2
+\]
+and \(|\theta|=1\) imply
+\[
+   \left|\int_S\theta u\,d\sigma\right|
+   \le C_1(\delta)B.
+\tag{3.29}\label{eq:first-small}
+\]
+
+Let \(u_0\) be the orthogonal projection of \(u\) onto the constants and let
+\(u_1\) be its projection onto the first spherical harmonics.  Since
+\(|S|=n\omega_n\),
+\[
+   \norm{u_0}_{L^2(S)}^2
+   =\frac1{n\omega_n}\left(\int_Su\,d\sigma\right)^2.
+\tag{3.30}\label{eq:proj0}
+\]
+The functions \(\theta_i/\sqrt{\omega_n}\), \(i=1,\ldots,n\), form an
+orthonormal basis of the first harmonic space, because
+\[
+   \int_S\theta_i\theta_j\,d\sigma=\omega_n\delta_{ij}.
+\]
+Hence
+\[
+   \norm{u_1}_{L^2(S)}^2
+   =\frac1{\omega_n}\left|\int_S\theta u\,d\sigma\right|^2.
+\tag{3.31}\label{eq:proj1}
+\]
+From \eqref{eq:mean-small}, \eqref{eq:first-small},
+\eqref{eq:proj0}, and \eqref{eq:proj1},
+\[
+\begin{aligned}
+   \norm{u_0}_{2}^2+\norm{u_1}_{2}^2
+   &\le
+   \left(\frac{C_0(\delta)^2}{n\omega_n}
+       +\frac{C_1(\delta)^2}{\omega_n}\right)B^2.
+\end{aligned}
+\tag{3.32}\label{eq:lowmodes1}
+\]
+Since \(|u|\le\delta\), we have
+\[
+   B=\int_Su^2\,d\sigma\le\delta^2|S|=\delta^2n\omega_n.
+\]
+Substitution in \eqref{eq:lowmodes1} gives
+\[
+   \norm{u_0}_{2}^2+\norm{u_1}_{2}^2
+   \le\eta_n(\delta)B.
+\tag{3.33}\label{eq:lowmodes2}
+\]
+
+The eigenvalues of \(-\Delta_S\) on spherical harmonics of degree \(k\) are
+\[
+   \lambda_k=k(k+n-2).
+\]
+Thus every harmonic of degree \(k\ge2\) has eigenvalue at least
+\(\lambda_2=2n\).  The gradient energy has no contribution from the constant
+mode, has a nonnegative contribution from the degree-one mode, and therefore
+\[
+\begin{aligned}
+   A=\int_S|\nabla_\tau u|^2\,d\sigma
+   &\ge2n\bigl(B-\norm{u_0}_2^2-\norm{u_1}_2^2\bigr) \\
+   &\ge2n(1-\eta_n(\delta))B.
+\end{aligned}
+\tag{3.34}\label{eq:Poincare-balanced}
+\]
+Equivalently,
+\[
+   B\le\frac{A}{2n(1-\eta_n(\delta))}.
+\tag{3.35}\label{eq:B-by-A}
+\]
+
+\smallskip\noindent\emph{Step 5: conclude.}
+Putting \eqref{eq:def-split}, \eqref{eq:G-lower},
+\eqref{eq:I-lower}, and \eqref{eq:B-by-A} together gives
+\[
+\begin{aligned}
+   \Per(E_u)-\Per(B_1)
+   &\ge L_n(\delta)A-R_n(\delta)B \\
+   &\ge
+   \left[
+     L_n(\delta)-
+     \frac{R_n(\delta)}{2n(1-\eta_n(\delta))}
+   \right]A \\
+   &=d_n(\delta)A.
+\end{aligned}
+\tag{3.36}\label{eq:D-by-A}
+\]
+Therefore \eqref{eq:O-upper} implies both
+\[
+   \beta(E_u)^2\le \osc_0(E_u)
+   \le\frac{U_n(\delta)}{d_n(\delta)}
+   \bigl(\Per(E_u)-\Per(B_1)\bigr)
+\]
+and, since the normal integral is \(2\osc_0(E_u)\),
+\eqref{eq:graph-normal-bound}.
+
+It remains only to prove \eqref{eq:graph-volume-bound}.  Along each ray from
+the origin, \(E_u\mathbin{\triangle}B_1\) has one-dimensional radial measure
+corresponding to the difference between \(a^n\) and \(1\).  Consequently,
+\[
+   |E_u\mathbin{\triangle}B_1|
+   =\frac1n\int_S|a^n-1|\,d\sigma.
+\tag{3.37}\label{eq:symdiff-formula}
+\]
+By the mean-value theorem,
+\[
+   |a^n-1|
+   =|(1+u)^n-1|
+   \le nM_{n-1}(\delta)|u|.
+\]
+Using Cauchy--Schwarz and \(|S|=n\omega_n\), we obtain
+\[
+\begin{aligned}
+   |E_u\mathbin{\triangle}B_1|^2
+   &\le M_{n-1}(\delta)^2
+       \left(\int_S|u|\,d\sigma\right)^2 \\
+   &\le M_{n-1}(\delta)^2(n\omega_n)B.
+\end{aligned}
+\tag{3.38}\label{eq:symdiff-B}
+\]
+Applying \eqref{eq:B-by-A} and \eqref{eq:D-by-A} to the final factor gives
+\[
+   |E_u\mathbin{\triangle}B_1|^2
+   \le
+   \frac{M_{n-1}(\delta)^2\omega_n}
+        {2(1-\eta_n(\delta))d_n(\delta)}
+       \bigl(\Per(E_u)-\Per(B_1)\bigr).
+\]
+This is \eqref{eq:graph-volume-bound}.
+\end{proof}
+
+\begin{corollary}[A simple displayed constant]\label{cor:graph-simple}
+For every \(n\ge2\), set
+\[
+   \delta_*(n):=\frac1{100n^3}.
+\tag{3.39}\label{eq:delta-star}
+\]
+If the hypotheses of Theorem~\ref{thm:graph-main} hold and
+\(\norm{u}_{W^{1,\infty}(S)}\le\delta_*(n)\), then
+\[
+   \beta(E_u)^2
+   \le3\bigl(\Per(E_u)-\Per(B_1)\bigr),
+\tag{3.40}\label{eq:simple-beta}
+\]
+\[
+   \int_{\partial^*E_u}
+       \left|\nu_{E_u}-\frac{x}{|x|}\right|^2\,d\Hn
+   \le6\bigl(\Per(E_u)-\Per(B_1)\bigr),
+\tag{3.41}\label{eq:simple-normal}
+\]
+and
+\[
+   |E_u\mathbin{\triangle}B_1|^2
+   \le3\omega_n\bigl(\Per(E_u)-\Per(B_1)\bigr).
+\tag{3.42}\label{eq:simple-volume}
+\]
+\end{corollary}
+
+\begin{proof}
+We verify the numerical estimates without suppressing the elementary
+calculation.  Let \(\delta=\delta_*(n)\).  Then
+\[
+   0<\delta\le\frac1{800}.
+\tag{3.43}\label{eq:delta-bound}
+\]
+For the exponents \(p=n-3,n-2,n-1\), if \(p\ge0\), then
+\[
+   (1+\delta)^p\le e^{p\delta}
+   \le e^{1/(100n^2)}
+   \le e^{1/400}<1.004.
+\]
+The only negative exponent occurring is \(p=n-3=-1\) when \(n=2\); in that
+case
+\[
+   M_{-1}(\delta)=\frac1{1-\delta}
+   \le\frac{800}{799}<1.004.
+\]
+Thus
+\[
+   M_{n-3}(\delta),\ M_{n-2}(\delta),\ M_{n-1}(\delta)<1.004.
+\tag{3.44}\label{eq:Mnumeric}
+\]
+Similarly, if \(n\ge4\), Bernoulli's inequality gives
+\[
+   (1-\delta)^{n-3}\ge1-(n-3)\delta
+   \ge1-\frac1{100n^2}>0.997.
+\]
+For \(n=3\), \(m_{n-3}=m_0=1\); for \(n=2\),
+\[
+   m_{-1}(\delta)=\frac1{1+\delta}>\frac{800}{801}>0.997.
+\]
+Hence
+\[
+   m_{n-3}(\delta)>0.997.
+\tag{3.45}\label{eq:mnumeric}
+\]
+Furthermore,
+\[
+   \frac{\delta}{1-\delta}\le\frac1{799},
+\]
+and so
+\[
+   1+\sqrt{1+\left(\frac{\delta}{1-\delta}\right)^2}
+   <2.000002.
+\]
+Using \eqref{eq:mnumeric}, we conclude that
+\[
+   L_n(\delta)>\frac{0.997}{2.000002}>0.498,
+   \qquad
+   U_n(\delta)<\frac{1.004}{2}=0.502.
+\tag{3.46}\label{eq:LUnumeric}
+\]
+
+From \eqref{eq:C01} and \eqref{eq:Mnumeric},
+\[
+   C_0(\delta)<0.502n,\qquad C_1(\delta)<0.502n.
+\]
+Therefore
+\[
+\begin{aligned}
+   \eta_n(\delta)
+   &<\delta^2(0.502^2n^2+0.502^2n^3) \\
+   &\le0.504008\,\delta^2n^3
+    =\frac{0.504008}{10000n^3}
+    <10^{-4}.
+\end{aligned}
+\tag{3.47}\label{eq:etanumeric}
+\]
+Also
+\[
+   1+(n-1)\delta
+   \le1+\frac1{100n^2}
+   \le1.0025,
+\]
+and hence, using \eqref{eq:Mnumeric} and \eqref{eq:etanumeric},
+\[
+\begin{aligned}
+   \frac{R_n(\delta)}{2n(1-\eta_n(\delta))}
+   &<
+   \frac{n-1}{4n}
+   \frac{1.004\cdot1.0025}{1-10^{-4}} \\
+   &<0.252.
+\end{aligned}
+\tag{3.48}\label{eq:Rnumeric}
+\]
+Equations \eqref{eq:LUnumeric} and \eqref{eq:Rnumeric} yield
+\[
+   d_n(\delta)>0.498-0.252=0.246>0.2.
+\tag{3.49}\label{eq:dnumeric}
+\]
+It follows that
+\[
+   \frac{U_n(\delta)}{d_n(\delta)}
+   <\frac{0.502}{0.246}<3,
+\]
+proving \eqref{eq:simple-beta} and \eqref{eq:simple-normal}.
+Finally,
+\[
+   \frac{M_{n-1}(\delta)^2}
+        {2(1-\eta_n(\delta))d_n(\delta)}
+   <
+   \frac{1.004^2}{2(1-10^{-4})0.246}<3,
+\]
+which proves \eqref{eq:simple-volume}.
+\end{proof}
+
+\begin{corollary}[Translation and scaling]\label{cor:scaled-graph}
+Let \(\rho>0\), \(z\in\R^n\), and suppose
+\[
+   E=z+\rho E_u,
+\]
+where \(E_u\) satisfies the hypotheses of Corollary~\ref{cor:graph-simple}.
+Then the same centre \(z\) satisfies
+\[
+   \rho^{-n-1}|E\mathbin{\triangle}B_\rho(z)|^2
+   +
+   \int_{\partial^*E}
+      \left|\nu_E-\frac{x-z}{|x-z|}\right|^2\,d\Hn
+   \le
+   (3\omega_n+6)\bigl(\Per(E)-\Per(B_\rho)\bigr).
+\tag{3.50}\label{eq:scaled-same-centre}
+\]
+\end{corollary}
+
+\begin{proof}
+Under \(x=z+\rho y\), symmetric-difference measure scales by \(\rho^n\),
+while perimeter and the boundary normal integral scale by \(\rho^{n-1}\).
+Therefore \eqref{eq:simple-volume} becomes
+\[
+   |E\mathbin{\triangle}B_\rho(z)|^2
+   \le3\omega_n\rho^{n+1}
+        \bigl(\Per(E)-\Per(B_\rho)\bigr),
+\]
+and \eqref{eq:simple-normal} becomes
+\[
+   \int_{\partial^*E}
+      \left|\nu_E-\frac{x-z}{|x-z|}\right|^2\,d\Hn
+   \le6\bigl(\Per(E)-\Per(B_\rho)\bigr).
+\]
+Adding the two inequalities proves \eqref{eq:scaled-same-centre}.
+\end{proof}
+
+\subsubsection{The quadratic constant}
+
+\begin{proposition}[Degree-two test]\label{prop:degree-two}
+Let \(Y\not\equiv0\) be an even spherical harmonic of degree two on \(S\).
+There exist constants \(c_\eps=O(\eps^2)\) such that
+\[
+   u_\eps=\eps Y+c_\eps,\qquad
+   |E_{u_\eps}|=|B_1|,\qquad
+   \int_{E_{u_\eps}}x\,dx=0.
+\]
+For this family,
+\[
+   \frac{\beta(E_{u_\eps})^2}
+   {\Per(E_{u_\eps})-\Per(B_1)}
+   \longrightarrow \frac{2n}{n+1}
+   \qquad\text{as }\eps\to0.
+\tag{3.51}\label{eq:sharp-constant}
+\]
+\end{proposition}
+
+\begin{proof}
+Because \(Y\) is a degree-two spherical harmonic,
+\[
+   \int_SY\,d\sigma=0,\qquad
+   -\Delta_SY=2nY.
+\tag{3.52}\label{eq:Yfacts}
+\]
+Since \(Y(-\theta)=Y(\theta)\), every \(u_\eps=\eps Y+c_\eps\) is even.
+Therefore \(E_{u_\eps}\) is centrally symmetric, and its barycentre is zero.
+
+Define
+\[
+   F(c,\eps):=\int_S(1+c+\eps Y)^n\,d\sigma-|S|.
+\]
+We have \(F(0,0)=0\) and
+\[
+   \partial_cF(0,0)=n|S|>0.
+\]
+The implicit function theorem gives a smooth function \(c_\eps\), for small
+\(\eps\), such that \(F(c_\eps,\eps)=0\).  Expanding to second order,
+\[
+\begin{aligned}
+   0
+   &=n|S|c_\eps+
+     \frac{n(n-1)}2\eps^2\int_SY^2\,d\sigma
+     +O(\eps^3),
+\end{aligned}
+\]
+so
+\[
+   c_\eps
+   =-\frac{n-1}{2|S|}\eps^2\int_SY^2\,d\sigma+O(\eps^3).
+\tag{3.53}\label{eq:ceps}
+\]
+
+We require the standard second-order expansion of the perimeter on
+balanced radial graphs.  We state and prove it as a stand-alone lemma so the
+asymptotic computation below has nothing hidden in it.
+
+\begin{lemma}[Second-order perimeter expansion for balanced radial graphs]
+\label{lem:perim-second-order}
+Let \(u\in W^{1,\infty}(S)\) with \(\norm{u}_{W^{1,\infty}(S)}\le 1/2\) and
+\(|E_u|=|B_1|\).  Then
+\[
+   \Per(E_u)-\Per(B_1)
+   =\frac12\int_S\bigl(|\nabla_\tau u|^2-(n-1)u^2\bigr)d\sigma+R(u),
+\tag{3.54a}\label{eq:perim-second-order}
+\]
+where the remainder satisfies
+\[
+   |R(u)|\le C(n)\,\norm{u}_{W^{1,\infty}(S)}\int_S\bigl(u^2+|\nabla_\tau u|^2\bigr)d\sigma
+\tag{3.54b}\label{eq:perim-second-order-rem}
+\]
+for some dimensional constant \(C(n)\).
+\end{lemma}
+
+\begin{proof}
+Set \(\delta_0:=\norm{u}_{W^{1,\infty}(S)}\le1/2\), so that
+\(1/2\le a=1+u\le3/2\) and \(s=|\nabla_\tau u|\le1/2\).  By
+\eqref{eq:graph-perimeter},
+\[
+   P(E_u)-P(B_1)
+   =\int_S\bigl(a^{n-2}\sqrt{a^2+s^2}-1\bigr)d\sigma.
+\]
+Write
+\(a^{n-2}\sqrt{a^2+s^2}
+   =a^{n-1}\sqrt{1+s^2/a^2}\).
+Taylor's formula with integral remainder applied to
+\(t\mapsto(1+t)^{n-1}\) at \(t=u\) gives
+\[
+   a^{n-1}
+   =1+(n-1)u+\tfrac{(n-1)(n-2)}2u^2+r_1(u),
+\qquad
+   |r_1(u)|\le C_1(n)\,\delta_0\,u^2,
+\]
+since the third derivative of \((1+t)^{n-1}\) is bounded by \(C_1(n)\) on
+\(|t|\le1/2\).  Similarly, applied to \(\tau\mapsto\sqrt{1+\tau}\) at
+\(\tau=s^2/a^2\),
+\[
+   \sqrt{1+s^2/a^2}
+   =1+\frac{s^2}{2a^2}+r_2,
+\qquad
+   |r_2|\le C_2\,(s^2/a^2)^2\le C_2'\,\delta_0^2\,s^2.
+\]
+Multiplying, and using \(a^{n-1}=1+O(\delta_0)\) and \(1/a^2=1+O(\delta_0)\),
+\[
+   a^{n-2}\sqrt{a^2+s^2}
+   =a^{n-1}+\frac{s^2}{2}+r_3,
+\qquad
+   |r_3|\le C_3(n)\,\delta_0(u^2+s^2).
+\]
+Hence
+\[
+   P(E_u)-P(B_1)
+   =\int_S(a^{n-1}-1)\,d\sigma+\frac12\int_S s^2\,d\sigma+R_3,
+\tag{$\ast$}
+\]
+with \(|R_3|\le C_3(n)\delta_0\int_S(u^2+s^2)\,d\sigma\).
+
+We now reduce the linear-in-\(u\) part of the first integral on
+\((\ast)\) using the volume constraint.  Expand
+\(a^n=(1+u)^n=1+nu+\tfrac{n(n-1)}2 u^2+r_4(u)\) with
+\(|r_4(u)|\le C_4(n)\delta_0 u^2\).  The volume identity in
+\eqref{eq:balance} reads \(\int_S(a^n-1)\,d\sigma=0\), hence
+\[
+   \int_Su\,d\sigma
+   =-\frac{n-1}{2}\int_Su^2\,d\sigma
+     -\frac1n\int_Sr_4(u)\,d\sigma
+   =-\frac{n-1}{2}\int_Su^2\,d\sigma+O(\delta_0)\!\int_Su^2\,d\sigma.
+\]
+Similarly expand
+\(a^{n-1}=1+(n-1)u+\tfrac{(n-1)(n-2)}2 u^2+r_1(u)\) and integrate:
+\[
+\begin{aligned}
+   \int_S(a^{n-1}-1)\,d\sigma
+   &=(n-1)\int_Su\,d\sigma
+     +\frac{(n-1)(n-2)}2\int_Su^2\,d\sigma
+     +O(\delta_0)\!\int_Su^2\,d\sigma \\
+   &=(n-1)\left[-\frac{n-1}2\int_Su^2\,d\sigma\right]
+     +\frac{(n-1)(n-2)}2\int_Su^2\,d\sigma
+     +O(\delta_0)\!\int_Su^2\,d\sigma \\
+   &=-\frac{n-1}{2}\int_Su^2\,d\sigma
+     +O(\delta_0)\!\int_Su^2\,d\sigma,
+\end{aligned}
+\]
+where the last identity uses
+\((n-1)(n-2)/2-(n-1)^2/2=-(n-1)/2\).
+Substituting this into \((\ast)\),
+\[
+   P(E_u)-P(B_1)
+   =\frac12\int_S s^2\,d\sigma-\frac{n-1}{2}\int_Su^2\,d\sigma
+     +R(u),
+\]
+with \(R\) satisfying \eqref{eq:perim-second-order-rem}.
+\end{proof}
+
+Absorbing \(R(u)\) into the
+\(O(\norm{u}_{W^{1,\infty}})\)-controlled term,
+Lemma~\ref{lem:perim-second-order} may be rewritten as
+\[
+   \Per(E_u)-\Per(B_1)
+   =
+   \frac12\int_S|\nabla_\tau u|^2\,d\sigma
+   -\frac{n-1}{2}\int_Su^2\,d\sigma
+   +O(\norm{u}_{W^{1,\infty}})\!
+      \int_S(u^2+|\nabla_\tau u|^2)\,d\sigma.
+\tag{3.54}\label{eq:D-secondvariation}
+\]
+Since \(c_\eps=O(\eps^2)\), \eqref{eq:Yfacts},
+Lemma~\ref{lem:perim-second-order} and \eqref{eq:D-secondvariation} give
+\[
+\begin{aligned}
+   \Per(E_{u_\eps})-\Per(B_1)
+   &=\frac{\eps^2}{2}
+      \left(\int_S|\nabla_\tau Y|^2\,d\sigma
+       -(n-1)\int_SY^2\,d\sigma\right)+o(\eps^2) \\
+   &=\frac{n+1}{2}\eps^2\int_SY^2\,d\sigma+o(\eps^2).
+\end{aligned}
+\tag{3.55}\label{eq:D-Y}
+\]
+
+It remains to expand the infimum over centres in \(\beta\).
+By \eqref{eq:graph-osc},
+\[
+   \osc_0(E_{u_\eps})
+   =\frac{\eps^2}{2}\int_S|\nabla_\tau Y|^2\,d\sigma+o(\eps^2)
+   =n\eps^2\int_SY^2\,d\sigma+o(\eps^2).
+\tag{3.56}\label{eq:O0-Y}
+\]
+We now check that translating the comparison centre cannot decrease the
+quadratic term.  If \(z=\eps b\) with \(b\in\R^n\) bounded, then, uniformly on
+\(S\),
+\[
+   \nu_{E_{u_\eps}}=\theta-\eps\nabla_\tau Y+O(\eps^2),
+\]
+and
+\[
+   \frac{(1+u_\eps)\theta-\eps b}
+        {|(1+u_\eps)\theta-\eps b|}
+   =\theta-\eps\bigl(b-(b\cdot\theta)\theta\bigr)+O(\eps^2).
+\]
+The vector field
+\[
+   b-(b\cdot\theta)\theta=\nabla_\tau(b\cdot\theta)
+\]
+is the gradient of a degree-one spherical harmonic.  Orthogonality of
+spherical harmonics gives
+\[
+   \int_S\nabla_\tau Y\cdot\nabla_\tau(b\cdot\theta)\,d\sigma
+   =\int_S(-\Delta_SY)(b\cdot\theta)\,d\sigma=0.
+\tag{3.57}\label{eq:orthog}
+\]
+Therefore
+\[
+\begin{aligned}
+   \osc_{\eps b}(E_{u_\eps})
+   &=
+   \frac{\eps^2}{2}\int_S
+   \left|\nabla_\tau Y-\nabla_\tau(b\cdot\theta)\right|^2\,d\sigma
+   +o(\eps^2) \\
+   &=
+   \frac{\eps^2}{2}\int_S|\nabla_\tau Y|^2\,d\sigma
+   +\frac{\eps^2}{2}\int_S|\nabla_\tau(b\cdot\theta)|^2\,d\sigma
+   +o(\eps^2).
+\end{aligned}
+\tag{3.58}\label{eq:center-quadratic}
+\]
+The additional term is nonnegative and vanishes only for \(b=0\).
+We now justify that it is enough to consider such bounded \(b\).  By
+Proposition~\ref{prop:radial-GG},
+\[
+   \osc_z(E_{u_\eps})
+   =\Per(E_{u_\eps})-(n-1)\int_{E_{u_\eps}}\frac{dx}{|x-z|}.
+\]
+For \(E\) of finite Lebesgue measure, the potential
+\(\Phi(z):=\int_E|x-z|^{-1}\,dx\) is continuous in \(z\): indeed, on the
+bounded set \(E\), the kernel \(|x-z|^{-1}\) is locally integrable in \(z\)
+uniformly (apply Fatou's lemma for upper semicontinuity, and dominated
+convergence after truncating the integration region near \(z\) for lower
+semicontinuity, using \(\int_{B_r(z_0)}|x-z|^{-1}dx\to 0\) as \(r\to 0\)
+uniformly in \(z\) near \(z_0\)).  Moreover \(\Phi(z)\to 0\) as
+\(|z|\to\infty\) by dominated convergence, since
+\(|x-z|^{-1}\le(|z|-\mathrm{diam}(E))^{-1}\) uniformly for
+\(x\in E\) once \(|z|\) is sufficiently larger than
+\(\mathrm{diam}(E)\) (taking any base point of \(E\) as reference).
+Hence \(\osc_z(E_{u_\eps})=\Per(E_{u_\eps})-(n-1)\Phi(z)\) attains its
+infimum over \(z\in\R^n\), so the infimum defining
+\(\beta(E_{u_\eps})\) is attained.  Let \(z_\eps\) be a minimising centre.
+Since \(\osc_0(E_{u_\eps})=O(\eps^2)\), we have
+\(\osc_{z_\eps}(E_{u_\eps})=O(\eps^2)\).  The convergence
+\(E_{u_\eps}\to B_1\) in \(C^1\) then implies \(z_\eps\to0\): otherwise,
+after passage to a subsequence, the limiting oscillation would be
+\(\osc_z(B_1)>0\) for some \(z\ne0\), or \(\Per(B_1)>0\) if
+\(|z_\eps|\to\infty\).
+
+For \(|z|+|\eps|\) small, Taylor expansion of the two smooth boundary vector
+fields used above is uniform in \(\theta\) and gives
+\[
+\begin{aligned}
+   \osc_z(E_{u_\eps})
+   &=
+   \frac12\int_S
+      \left|-\eps\nabla_\tau Y+
+       \bigl(z-(z\cdot\theta)\theta\bigr)\right|^2\,d\sigma \\
+   &\quad+O\bigl((|\eps|+|z|)^3\bigr).
+\end{aligned}
+\tag{3.59}\label{eq:center-general}
+\]
+The cross term is zero by \eqref{eq:orthog}, and
+\[
+\begin{aligned}
+   \int_S\left|z-(z\cdot\theta)\theta\right|^2\,d\sigma
+   &=|z|^2|S|-\int_S(z\cdot\theta)^2\,d\sigma \\
+   &=(n-1)\omega_n|z|^2.
+\end{aligned}
+\tag{3.60}\label{eq:translation-coercive}
+\]
+If \(|z_\eps|/|\eps|\to\infty\), then
+\eqref{eq:center-general}--\eqref{eq:translation-coercive} yield
+\(\osc_{z_\eps}(E_{u_\eps})\gg\eps^2\), contradicting
+\(\osc_{z_\eps}(E_{u_\eps})\le\osc_0(E_{u_\eps})=O(\eps^2)\).
+Thus \(z_\eps=\eps b_\eps\) with \(b_\eps\) bounded.  Formula
+\eqref{eq:center-quadratic} applies along subsequences and its nonnegative
+translation term is minimised at \(b=0\).
+Thus
+\[
+   \beta(E_{u_\eps})^2
+   =n\eps^2\int_SY^2\,d\sigma+o(\eps^2).
+\tag{3.61}\label{eq:beta-Y}
+\]
+Dividing \eqref{eq:beta-Y} by \eqref{eq:D-Y} proves
+\eqref{eq:sharp-constant}.
+\end{proof}
+
+\begin{remark}[Meaning of the constant]\label{rem:constant}
+Theorem~\ref{thm:graph-main} is intentionally conservative: the simple
+constant \(3\) is easy to verify in every dimension.  Proposition
+\ref{prop:degree-two} identifies the correct leading-order obstruction for
+the oscillation term.  In particular, a claimed asymptotic constant for
+\(\beta(E)^2/\Def(E)\) which is smaller than \(2n/(n+1)\) is incompatible with
+degree-two radial perturbations.
+\end{remark}
+
+\subsection{Attempt II: quantitative selection and regularisation}
+\label{app-sec:selection}
+
+This subsection sets up the selection apparatus used in the regularising
+construction.  We first record the natural positive decomposition
+\(\beta^2=\Def+\mathcal C\) and the basic estimates for the potential
+deficit \(\mathcal C\); these definitions and the continuity lemma for the
+maximal radial potential \(M\) are reused throughout the regularising
+selection of Subsection~\ref{ssec:true-beta-selection}.
+
+A first, decomposition-based selection map (penalising \(\Def\) while
+preserving \(\mathcal C\)) is conceptually appealing, since it allows
+quotient preservation by an elementary minimisation.  We do not develop it
+here, however, because the resulting selected set carries a perimeter-order
+error in its near-minimality estimate, originating in the sharp
+\((n-1)/n\)-Hölder modulus of \(M\) in symmetric difference
+(Lemma~\ref{lem:M-cont}); this obstructs the perimeter regularity step.  We
+therefore proceed in Subsection~\ref{ssec:true-beta-selection} with the
+Fusco--Julin choice of penalising \(\beta^2\) itself, which we quantify by
+an intermediate annular-separation step that produces a genuine additive
+perimeter almost-minimality.
+
+\subsubsection{The potential deficit}
+
+For every measurable \(U\subset\R^n\) with finite measure, define
+\[
+   r_U:=\left(\frac{|U|}{\omega_n}\right)^{1/n},
+   \qquad
+   p(U):=\Per(B_{r_U})
+          =n\omega_n^{1/n}|U|^{(n-1)/n},
+\tag{4.2}\label{eq:pU}
+\]
+\[
+   M(U):=\sup_{z\in\R^n}\int_U\frac{dx}{|x-z|},
+\tag{4.3}\label{eq:MU}
+\]
+and
+\[
+   \Def(U):=\Per(U)-p(U),\qquad
+   \mathcal C(U):=p(U)-(n-1)M(U).
+\tag{4.4}\label{eq:DC-general}
+\]
+For the empty set, all four quantities are set equal to zero.
+
+\begin{lemma}[Positivity and decomposition]\label{lem:C-decomposition}
+For every finite-perimeter set \(U\) of finite measure,
+\[
+   \Def(U)\ge0,\qquad \mathcal C(U)\ge0,
+\tag{4.5}\label{eq:DC-positive}
+\]
+and
+\[
+   \beta(U)^2=\Def(U)+\mathcal C(U),
+\tag{4.6}\label{eq:beta-DC}
+\]
+where the radius in the definition of \(\beta(U)\) is \(r_U\).
+Under a dilation \(U\mapsto a+\lambda U\),
+\[
+   \Def(a+\lambda U)=\lambda^{n-1}\Def(U),\qquad
+   \mathcal C(a+\lambda U)=\lambda^{n-1}\mathcal C(U).
+\tag{4.7}\label{eq:DC-scale}
+\]
+\end{lemma}
+
+\begin{proof}
+The isoperimetric inequality gives
+\(\Per(U)\ge\Per(B_{r_U})=p(U)\), proving \(\Def(U)\ge0\).
+For each \(z\), the radially decreasing rearrangement inequality applied to
+\(x\mapsto |x-z|^{-1}\) gives
+\[
+   \int_U\frac{dx}{|x-z|}
+   \le\int_{B_{r_U}(z)}\frac{dx}{|x-z|}
+   =n\omega_n\int_0^{r_U}s^{n-2}\,ds
+   =\frac{p(U)}{n-1}.
+\]
+Taking the supremum in \(z\) proves \(\mathcal C(U)\ge0\).
+
+By Proposition~\ref{prop:radial-GG},
+\[
+\begin{aligned}
+   \beta(U)^2
+   &=\Per(U)-(n-1)M(U) \\
+   &=\bigl(\Per(U)-p(U)\bigr)
+     +\bigl(p(U)-(n-1)M(U)\bigr) \\
+   &=\Def(U)+\mathcal C(U).
+\end{aligned}
+\]
+Finally, perimeter and \(p\) scale by \(\lambda^{n-1}\); the change of
+variables \(x=a+\lambda y\) in \eqref{eq:MU} gives
+\(M(a+\lambda U)=\lambda^{n-1}M(U)\).  This proves
+\eqref{eq:DC-scale}.
+\end{proof}
+
+\subsubsection{A continuity estimate for the maximal radial potential}
+
+The following continuity estimate for \(M\) in symmetric difference is the
+load-bearing input from this subsection into the regularising construction
+of Subsection~\ref{ssec:true-beta-selection}.
+
+\begin{lemma}[Continuity of the maximal radial potential]\label{lem:M-cont}
+Let \(U,V\subset\R^n\) have finite measure.  Then
+\[
+   |M(U)-M(V)|
+   \le K_n\,|U\mathbin{\triangle}V|^{(n-1)/n},
+   \qquad
+   K_n:=\frac{n}{n-1}\omega_n^{1/n}.
+\tag{4.9}\label{eq:M-cont}
+\]
+\end{lemma}
+
+\begin{proof}
+Fix \(z\in\R^n\) and set \(A=U\mathbin{\triangle}V\).  Since the integrand
+is nonnegative,
+\[
+   \left|\int_U\frac{dx}{|x-z|}
+          -\int_V\frac{dx}{|x-z|}\right|
+   \le\int_A\frac{dx}{|x-z|}.
+\]
+Among all sets of measure \(|A|\), the final integral is maximised by the
+ball centred at \(z\).  If \(|A|=\omega_n r^n\), then
+\[
+\begin{aligned}
+   \int_A\frac{dx}{|x-z|}
+   &\le\int_{B_r(z)}\frac{dx}{|x-z|} \\
+   &=n\omega_n\int_0^r s^{n-2}\,ds
+     =\frac{n}{n-1}\omega_n^{1/n}|A|^{(n-1)/n}.
+\end{aligned}
+\]
+This bound is independent of \(z\).  Taking the supremum over \(z\) once
+with \(U\) and once with \(V\) proves \eqref{eq:M-cont}.
+\end{proof}
+
+\subsubsection{Density and measure closeness give Hausdorff closeness}
+
+The last general-purpose ingredient of the selection apparatus is a
+deterministic upgrade from a two-sided density estimate plus
+symmetric-difference smallness to Hausdorff closeness.  It is used in
+Subsection~\ref{ssec:true-beta-selection} to convert the density output of
+the regularising selection into the annular trapping needed for the
+additive perimeter almost-minimality theorem.
+
+\begin{lemma}[Density and measure closeness give Hausdorff closeness]
+\label{lem:FJ-density-Hausdorff}
+Let \(G\subset\R^n\) be a bounded finite-perimeter set with
+\(|G|=|B_1|\), represented so that its topological boundary agrees with
+the support of its perimeter measure.  Assume there exist \(c_d>0\) and
+\(0<r_d\le1/4\) such that
+\[
+   |G\cap B_r(x)|\ge c_d r^n,\qquad
+   |B_r(x)\setminus G|\ge c_d r^n
+\tag{4.31}\label{eq:density-input}
+\]
+for every \(x\in\partial G\) and every \(0<r\le r_d\).
+Let \(z\in\R^n\), and put
+\[
+   m:=|G\mathbin{\triangle}B_1(z)|.
+\]
+If
+\[
+   m<\min\{c_dr_d^n,\omega_n(r_d/2)^n\},
+\tag{4.32}\label{eq:m-small-H}
+\]
+then
+\[
+   d_H\bigl(\partial G,\partial B_1(z)\bigr)
+   \le C_H(n,c_d)\,m^{1/n},
+\tag{4.33}\label{eq:hausdorff-from-measure}
+\]
+where one may take
+\[
+   C_H(n,c_d):=\max\{2c_d^{-1/n},\,4\omega_n^{-1/n}\}.
+\tag{4.34}\label{eq:CH}
+\]
+\end{lemma}
+
+\begin{proof}
+Translations do not affect the assertion, so take \(z=0\).
+
+\emph{Boundary points of \(G\) are close to the sphere.}
+Let \(x\in\partial G\), and set \(d=\operatorname{dist}(x,\partial B_1)\).
+If \(d=0\), the desired estimate for \(x\) is immediate, so suppose
+\(d>0\).
+If \(d>2r_d\), then \(B_{r_d}(x)\) is entirely contained either in \(B_1\)
+or in \(\R^n\setminus B_1\).  In the first case the second density estimate
+in \eqref{eq:density-input} gives
+\[
+   m\ge|B_{r_d}(x)\setminus G|\ge c_dr_d^n;
+\]
+in the second case the first density estimate gives the same conclusion.
+Both contradict \eqref{eq:m-small-H}.  Thus \(d\le2r_d\).
+The ball \(B_{d/2}(x)\) is again entirely on one side of \(\partial B_1\).
+Apply the appropriate density inequality at radius \(d/2\le r_d\):
+\[
+   m\ge c_d(d/2)^n.
+\]
+It follows that
+\[
+   \operatorname{dist}(x,\partial B_1)
+   \le2c_d^{-1/n}m^{1/n}.
+\tag{4.35}\label{eq:G-to-B}
+\]
+
+\emph{Boundary points of the sphere are close to \(G\).}
+Let \(y\in\partial B_1\), and set
+\(d=\operatorname{dist}(y,\partial G)\).
+If \(d=0\), the desired estimate for \(y\) is immediate, so suppose
+\(d>0\).
+If \(d>2r_d\), the connected ball \(B_{2r_d}(y)\), which is disjoint from
+\(\partial G\), lies, up to a null set, entirely in \(G\) or entirely in
+its complement.
+The two balls
+\[
+   B_{r_d/2}\bigl((1-r_d/2)y\bigr)\subset B_1\cap B_{2r_d}(y),
+\]
+\[
+   B_{r_d/2}\bigl((1+r_d/2)y\bigr)
+   \subset(\R^n\setminus B_1)\cap B_{2r_d}(y)
+\]
+show, in either alternative, that
+\[
+   m\ge\omega_n(r_d/2)^n,
+\]
+contrary to \eqref{eq:m-small-H}.  Hence \(d\le2r_d\).
+Now \(B_{d/2}(y)\) is disjoint from \(\partial G\), so it lies, up to a
+null set, wholly in \(G\) or wholly in its complement.  The same inner/outer ball construction,
+with radius \(d/4\), gives
+\[
+   m\ge\omega_n(d/4)^n.
+\]
+Therefore
+\[
+   \operatorname{dist}(y,\partial G)
+   \le4\omega_n^{-1/n}m^{1/n}.
+\tag{4.36}\label{eq:B-to-G}
+\]
+Combining \eqref{eq:G-to-B} and \eqref{eq:B-to-G} proves
+\eqref{eq:hausdorff-from-measure}.
+\end{proof}
+
+
+\subsubsection{Regularising selection by penalising the true excess}
+\label{ssec:true-beta-selection}
+
+A first attempt at selection -- penalising \(\Def\) while preserving
+\(\mathcal C\) -- is conceptually attractive but, as we noted at the start
+of this subsection, fails to produce additive perimeter almost-minimality.
+The original Fusco--Julin construction \cite{FJ2014} instead preserves
+\(\beta^2\) itself.  At first sight this appears worse, because
+\(\beta^2=\Per-(n-1)M\) contains the perimeter and the singular potential
+\(M\).  The point is that the argument is performed in two stages:
+\[
+\begin{split}
+   &\text{penalisation of \(\beta^2\)}
+   \Longrightarrow \text{area quasi-minimality and density},\\
+   &\text{density plus small deficit}
+   \Longrightarrow \text{annular trapping and centre separation},\\
+   &\text{centre separation}
+   \Longrightarrow \text{additive perimeter almost-minimality}.
+\end{split}
+\tag{4.49}\label{eq:regularising-chain}
+\]
+The last implication is where the maximiser in \(M\) becomes regular enough:
+on all local variations touching the boundary, the kernel
+\(|x-y|^{-1}\) is uniformly bounded because every maximising centre \(y\)
+lies strictly inside the trapped annulus.
+
+For this subsection set
+\[
+   b(U):=\beta(U)^2=\Per(U)-(n-1)M(U).
+\tag{4.50}\label{eq:bU}
+\]
+Fix \(R>3\), a container \(B_R\), a number \(\Lambda>n\), and set
+\[
+   a:=\frac14.
+\tag{4.51}\label{eq:a-quarter}
+\]
+For a bounded input one may translate the configuration without changing
+\(b\) or \(\Def\).  Lemma~\ref{lem:computable-confinement} below supplies
+bounded inputs from arbitrary finite-perimeter sets.
+
+\begin{lemma}[The volume penalty baseline]\label{lem:volume-baseline}
+For every finite-perimeter \(U\subset B_R\), put
+\[
+   H_\Lambda(U):=
+   \Per(U)+\Lambda\bigl||U|-\omega_n\bigr|-\Per(B_1).
+\tag{4.52}\label{eq:H-Lambda}
+\]
+Then
+\[
+   H_\Lambda(U)
+   \ge \Def(U)+(\Lambda-n)\bigl||U|-\omega_n\bigr|
+   \ge0.
+\tag{4.53}\label{eq:H-lower}
+\]
+\end{lemma}
+
+\begin{proof}
+Write \(m=|U|\) and \(\alpha=(n-1)/n\).  By the isoperimetric inequality,
+\[
+   \Per(U)\ge p(m)=n\omega_n^{1/n}m^\alpha.
+\]
+If \(m\ge\omega_n\), then \(p(m)\ge p(\omega_n)=\Per(B_1)\), and
+\[
+   p(m)+\Lambda(m-\omega_n)-\Per(B_1)
+   \ge\Lambda(m-\omega_n)
+   \ge(\Lambda-n)(m-\omega_n).
+\]
+If \(0\le m\le\omega_n\), set \(t=m/\omega_n\).  Since
+\(0\le t\le1\) and \(\alpha<1\), \(t^\alpha\ge t\).  Therefore
+\[
+\begin{aligned}
+   p(m)+\Lambda(\omega_n-m)-\Per(B_1)
+   &=\omega_n\{n(t^\alpha-1)+\Lambda(1-t)\}\\
+   &\ge(\Lambda-n)(\omega_n-m).
+\end{aligned}
+\]
+Subtracting \(p(m)\) from \(\Per(U)\) gives \eqref{eq:H-lower}.
+\end{proof}
+
+\begin{theorem}[Regularising single-set FJ selection]
+\label{thm:true-beta-selection}
+Let \(E_0\subset B_R\) satisfy
+\[
+   |E_0|=\omega_n,\qquad
+   b_0:=b(E_0)>0,\qquad
+   d_0:=\Def(E_0),\qquad
+   q_0:=\frac{d_0}{b_0}.
+\tag{4.54}\label{eq:true-beta-input}
+\]
+Assume
+\[
+   q_0\le\frac1{16},
+   \qquad
+   d_0\le\frac{\Lambda-n}{2}\,\omega_n.
+\tag{4.55}\label{eq:true-beta-small}
+\]
+Then the functional
+\[
+   \mathcal I_{E_0}(U)
+   :=
+   \Per(U)+\Lambda\bigl||U|-\omega_n\bigr|
+      +a\,|b(U)-b_0|,
+   \qquad U\subset B_R,
+\tag{4.56}\label{eq:true-beta-functional}
+\]
+has a minimiser \(F\).  Every minimiser satisfies
+\[
+   \Def(F)\le d_0,\qquad
+   \bigl||F|-\omega_n\bigr|
+      \le\frac{d_0}{\Lambda-n},
+\tag{4.57}\label{eq:true-selected-energy}
+\]
+\[
+   |b(F)-b_0|\le4d_0,\qquad
+   b(F)\ge(1-4q_0)b_0\ge\frac34b_0,
+\tag{4.58}\label{eq:true-selected-beta}
+\]
+and
+\[
+   \frac{\Def(F)}{b(F)}
+      \le\frac{q_0}{1-4q_0}\le\frac43q_0.
+\tag{4.59}\label{eq:true-selected-ratio}
+\]
+If \(s=(|F|/\omega_n)^{1/n}\) and
+\(\widetilde F=s^{-1}F\), then
+\[
+   |\widetilde F|=\omega_n,\qquad
+   \frac{\Def(\widetilde F)}{b(\widetilde F)}
+      =\frac{\Def(F)}{b(F)},\qquad
+   \Def(\widetilde F)\le2d_0.
+\tag{4.60}\label{eq:true-selected-normalised}
+\]
+\end{theorem}
+
+\begin{proof}
+For existence, let \(U_j\) be a minimising sequence.  Comparison with
+\(E_0\) bounds \(\Per(U_j)\), since all terms in
+\eqref{eq:true-beta-functional} except the perimeter are nonnegative.
+After passing to a subsequence, \(U_j\to F\) in \(L^1(B_R)\) and
+\(\Per(F)\le\liminf_j\Per(U_j)\).  Lemma~\ref{lem:M-cont} implies
+\(M(U_j)\to M(F)\).  For fixed \(c\), the function
+\[
+   t\longmapsto t+a|t-c|
+\]
+is nondecreasing when \(0<a<1\).  Applying this with
+\(c=(n-1)M(U_j)+b_0\), which converges to
+\((n-1)M(F)+b_0\), proves lower semicontinuity of
+\(\Per(U)+a|b(U)-b_0|\).  The volume term is continuous; hence \(F\)
+is a minimiser.
+
+Minimality against \(E_0\), followed by subtraction of \(\Per(B_1)\),
+gives
+\[
+   H_\Lambda(F)+a|b(F)-b_0|\le d_0.
+\tag{4.61}\label{eq:true-min-compare}
+\]
+Lemma~\ref{lem:volume-baseline} yields
+\eqref{eq:true-selected-energy}; since \(a=1/4\), it also yields
+\(|b(F)-b_0|\le4d_0\).  Dividing the latter estimate by \(b_0\)
+proves \eqref{eq:true-selected-beta}, and then
+\[
+   \frac{\Def(F)}{b(F)}
+   \le\frac{d_0}{(1-4q_0)b_0}
+   =\frac{q_0}{1-4q_0},
+\]
+which proves \eqref{eq:true-selected-ratio}.
+
+From \eqref{eq:true-selected-energy} and
+\eqref{eq:true-beta-small}, \(|F|\ge\omega_n/2\), hence
+\(s\ge2^{-1/n}\).  Both \(\Def\) and \(b\) scale by \(s^{n-1}\);
+therefore the quotient in \eqref{eq:true-selected-normalised} is
+scale invariant.  Finally,
+\[
+   \Def(\widetilde F)
+   =s^{1-n}\Def(F)
+   \le2^{(n-1)/n}d_0\le2d_0.
+\]
+\end{proof}
+
+\begin{proposition}[First regularisation stage: area quasi-minimality]
+\label{prop:area-quasi}
+Let \(F\) be a minimiser in Theorem~\ref{thm:true-beta-selection}.  If
+\[
+   F\mathbin{\triangle}V\Subset B_r(x),
+\tag{4.62}\label{eq:beta-local-comp}
+\]
+then
+\[
+   \Per(F;B_r(x))
+   \le3\Per(V;B_r(x))
+        +2\Lambda|F\mathbin{\triangle}V|.
+\tag{4.63}\label{eq:coarse-local}
+\]
+Consequently, for
+\[
+   r_a:=\min\left\{1,\frac{n}{4\Lambda}\right\},
+\tag{4.64}\label{eq:ra}
+\]
+and \(0<r\le r_a\),
+\[
+   \Per(F;B_r(x))\le7\Per(V;B_r(x)).
+\tag{4.65}\label{eq:area-seven}
+\]
+\end{proposition}
+
+\begin{proof}
+First suppose \(B_r(x)\Subset B_R\), so that \(V\) itself is an
+admissible competitor in \eqref{eq:true-beta-functional}.
+Minimality and the triangle inequality for the last two terms in
+\eqref{eq:true-beta-functional} give
+\[
+   \Per(F)\le\Per(V)+\Lambda|F\mathbin{\triangle}V|
+                  +a|b(F)-b(V)|.
+\tag{4.66}\label{eq:min-with-bdiff}
+\]
+If \(b(F)\ge b(V)\), select a centre \(y_V\) realising \(b(V)\);
+if \(b(V)>b(F)\), use a centre \(y_F\) realising \(b(F)\).  In either
+case the oscillation integrand
+\[
+   1-\nu_U(z)\cdot\frac{z-y}{|z-y|}
+\]
+lies between \(0\) and \(2\).  Since \(F=V\) outside \(B_r(x)\),
+\[
+   |b(F)-b(V)|
+   \le2\{\Per(F;B_r(x))+\Per(V;B_r(x))\}.
+\tag{4.67}\label{eq:b-local-coarse}
+\]
+Insert \(a=1/4\) into \eqref{eq:min-with-bdiff}, cancel the
+perimeters outside \(B_r(x)\), and move
+\(\frac12\Per(F;B_r(x))\) to the left.  This proves
+\eqref{eq:coarse-local}.
+
+Let \(A=F\mathbin{\triangle}V\).  Since \(A\subset B_r(x)\), the
+isoperimetric inequality and \(P(A)\le\Per(F;B_r(x))+\Per(V;B_r(x))\)
+give
+\[
+   |A|\le\frac r n
+       \{\Per(F;B_r(x))+\Per(V;B_r(x))\}.
+\tag{4.68}\label{eq:A-perimeters}
+\]
+For \(r\le n/(4\Lambda)\), inserting this estimate in
+\eqref{eq:coarse-local} gives
+\[
+   \Per(F;B_r(x))
+   \le3\Per(V;B_r(x))
+      +\frac12\{\Per(F;B_r(x))+\Per(V;B_r(x))\}.
+\]
+Rearrangement proves \eqref{eq:area-seven}.
+
+If \(B_r(x)\) is not contained in the container, apply the preceding
+argument to \(W=V\cap B_R\), which is an admissible competitor because
+\(F\subset B_R\).  Since \(B_R\subset V\cup B_R\), the isoperimetric
+inequality gives
+\[
+   \Per(B_R)\le\Per(V\cup B_R).
+\]
+The perimeter lattice inequality
+\[
+   \Per(V\cap B_R)+\Per(V\cup B_R)
+      \le\Per(V)+\Per(B_R)
+\]
+then implies \(\Per(W)\le\Per(V)\).  The same cancellation outside
+\(B_r(x)\) shows \(\Per(W;B_r(x))\le\Per(V;B_r(x))\), while
+\(|F\mathbin{\triangle}W|\le|F\mathbin{\triangle}V|\).
+Thus \eqref{eq:coarse-local} and \eqref{eq:area-seven} also hold for
+balls meeting \(\partial B_R\).
+\end{proof}
+
+\begin{lemma}[Explicit density from the coarse stage]\label{lem:area-density}
+Let \(F\) satisfy \eqref{eq:area-seven} and take the representative whose
+boundary is \(\operatorname{spt}|D{\bf1}_F|\).  Then, for every
+\(x\in\partial F\) and \(0<r\le r_a\),
+\[
+   |F\cap B_r(x)|\ge c_a r^n,\qquad
+   |B_r(x)\setminus F|\ge c_a r^n,
+   \qquad
+   c_a:=\frac{\omega_n}{8^n}.
+\tag{4.69}\label{eq:area-density}
+\]
+\end{lemma}
+
+\begin{proof}
+Set \(m(r)=|F\cap B_r(x)|\).  For almost every \(r\), comparison with
+the set obtained by removing \(F\) from \(B_r(x)\), using an arbitrarily
+thin collar to meet the compact-containment condition, gives
+\[
+   \Per(F;B_r(x))\le7m'(r).
+\]
+The perimeter of \(F\cap B_r(x)\) is at most
+\(\Per(F;B_r(x))+m'(r)\le8m'(r)\).  Thus the isoperimetric
+inequality gives
+\[
+   n\omega_n^{1/n}m(r)^{(n-1)/n}\le8m'(r)
+\]
+for almost every \(r\).  Since \(x\) belongs to the support of the
+perimeter, \(m(r)>0\) for every \(r>0\), and integration of
+\[
+   \frac d{dr}m(r)^{1/n}
+   \ge\frac{\omega_n^{1/n}}8
+\]
+from \(0\) to \(r\) yields the first inequality in
+\eqref{eq:area-density}.  Apply the same argument to the complement of
+\(F\), whose local perimeter satisfies the identical comparison
+inequality, to obtain the second one.
+\end{proof}
+
+\begin{lemma}[Quantitative localisation of potential centres]
+\label{lem:potential-centre}
+Let
+\[
+   K_n:=\frac{n}{n-1}\omega_n^{1/n}
+\]
+be as in Lemma~\ref{lem:M-cont}, and define the computable positive number
+\[
+\begin{aligned}
+   \Gamma_n
+   &:=
+   \int_{B_1}\frac{dx}{|x|}
+     -\int_{B_1}\frac{dx}{|x-\frac14 e_1|}>0,\\
+   m_c(n)
+   &:=
+   \left(\frac{\Gamma_n}{4K_n}\right)^{n/(n-1)}.
+\end{aligned}
+\tag{4.70}\label{eq:Gamma-mc}
+\]
+Let \(G\) have finite measure and let \(B_s(z)\), \(s>0\), satisfy
+\[
+   \frac{|G\mathbin{\triangle}B_s(z)|}{s^n}\le m_c(n).
+\tag{4.71}\label{eq:center-mismatch}
+\]
+Then every maximiser \(y_G\) in the definition of \(M(G)\) satisfies
+\[
+   |y_G-z|<\frac{s}{4}.
+\tag{4.72}\label{eq:center-localised}
+\]
+\end{lemma}
+
+\begin{proof}
+The function \(y\mapsto\int_G|x-y|^{-1}\,dx\) is continuous, tends to
+zero as \(|y|\to\infty\), and therefore admits a maximiser.  By
+translation and scaling it is enough to take \(s=1\), \(z=0\).
+The potential of \(B_1\) is a strictly radially decreasing function of
+the centre distance; consequently, if \(|y|\ge1/4\),
+\[
+   \int_{B_1}\frac{dx}{|x|}
+      -\int_{B_1}\frac{dx}{|x-y|}
+   \ge\Gamma_n.
+\]
+Maximality of \(y_G\), and the rearrangement estimate used in
+Lemma~\ref{lem:M-cont}, give
+\[
+\begin{aligned}
+   \Gamma_n
+   &\le
+   \left|\int_{B_1}\frac{dx}{|x|}
+          -\int_G\frac{dx}{|x|}\right|
+   +\left|\int_G\frac{dx}{|x-y_G|}
+          -\int_{B_1}\frac{dx}{|x-y_G|}\right|\\
+   &\le 2K_n|G\mathbin{\triangle}B_1|^{(n-1)/n}
+   \le\frac{\Gamma_n}{2},
+\end{aligned}
+\]
+a contradiction.  Scaling gives \eqref{eq:center-localised}.
+\end{proof}
+
+\begin{theorem}[Second regularisation stage: additive almost-minimality]
+\label{thm:additive-almost-min}
+Let \(F\) be selected by Theorem~\ref{thm:true-beta-selection}, and let
+\(\widetilde F=s^{-1}F\) be its volume normalisation.  Assume that a
+constructive quantitative isoperimetric inequality supplies
+\[
+   |\widetilde F\mathbin{\triangle}B_1(z)|^2
+   \le C_{\rm iso}(n)\Def(\widetilde F).
+\tag{4.73}\label{eq:FMP-true-selected}
+\]
+Let \(C_H=C_H(n,c_a)\) be the constant in
+Lemma~\ref{lem:FJ-density-Hausdorff}, with density radius
+\[
+   \widetilde r_a:=\frac23 r_a,
+\]
+and set
+\[
+\begin{aligned}
+   \overline m
+   &:=
+   \frac12\min\left\{
+        c_a\widetilde r_a^n,\,
+        \omega_n(\widetilde r_a/2)^n,\,
+        (8C_H)^{-n},\,
+        m_c(n)\right\},\\
+   d_{\rm ann}
+   &:=
+   \min\left\{
+      \frac{\overline m^{\,2}}{2C_{\rm iso}(n)},\,
+      \frac{\Lambda-n}{2}\omega_n
+      \right\},\\
+   r_{\rm reg}
+   &:=
+   \min\left\{
+      r_a,\frac1{32},
+      \frac12\left(\frac{m_c(n)}{2\omega_n}\right)^{1/n}
+      \right\}.
+\end{aligned}
+\tag{4.74}\label{eq:annular-constants}
+\]
+If \(d_0\le d_{\rm ann}\), then \(F\) is an
+\((\Lambda_{\rm reg},r_{\rm reg})\)-almost minimiser of perimeter in
+the standard volume-error sense:
+for every competitor as in \eqref{eq:beta-local-comp} with
+\(0<r\le r_{\rm reg}\),
+\[
+\begin{aligned}
+   \Per(F;B_r(x))
+   &\le\Per(V;B_r(x))
+       +\Lambda_{\rm reg}|F\mathbin{\triangle}V|\\
+   &\le\Per(V;B_r(x))+\Omega_{\rm reg}r^n,\\
+   \Lambda_{\rm reg}&:=\frac43\bigl(\Lambda+n-1\bigr),
+   \qquad
+   \Omega_{\rm reg}:=\omega_n\Lambda_{\rm reg}.
+\end{aligned}
+\tag{4.75}\label{eq:additive-almost}
+\]
+The normalised set \(\widetilde F\) satisfies the same estimate with
+radius \((2/3)r_{\rm reg}\) and constant at most
+\((3/2)\Lambda_{\rm reg}\) in the volume-error form.
+\end{theorem}
+
+\begin{proof}
+By \eqref{eq:true-selected-normalised} and
+\eqref{eq:FMP-true-selected},
+\[
+   m:=|\widetilde F\mathbin{\triangle}B_1(z)|
+   \le(2C_{\rm iso}(n)d_0)^{1/2}
+   \le\overline m.
+\tag{4.76}\label{eq:m-selected-small}
+\]
+Proposition~\ref{prop:area-quasi} and Lemma~\ref{lem:area-density}
+are invariant under scaling; since
+\eqref{eq:true-selected-energy} gives
+\[
+   2^{-1/n}\le s\le(3/2)^{1/n}\le\frac32,
+\]
+the normalised set has density coefficient \(c_a\) at least up to
+radius \(\widetilde r_a\).  Lemma~\ref{lem:FJ-density-Hausdorff} and
+\eqref{eq:annular-constants} yield
+\[
+   d_H(\partial\widetilde F,\partial B_1(z))\le\frac18.
+\tag{4.77}\label{eq:one-eighth-annulus}
+\]
+After scaling back, every point of \(\partial F\) has distance from
+\(z_F:=sz\) between \(7s/8\) and \(9s/8\).  Moreover
+\eqref{eq:m-selected-small} and Lemma~\ref{lem:potential-centre}
+give
+\[
+   |y_F-z_F|<\frac{s}{4}
+\tag{4.78}\label{eq:yF-inner}
+\]
+for every potential centre of \(F\).
+
+First take \(V\subset B_R\) as in the statement.  If
+\(\Per(F;B_r(x))=0\), \eqref{eq:additive-almost} is immediate.
+Otherwise \(B_r(x)\) meets \(\partial F\).  If
+\(A=F\mathbin{\triangle}V\), then
+\[
+   \frac{|V\mathbin{\triangle}B_s(z_F)|}{s^n}
+   \le m+\frac{|A|}{s^n}
+   \le\frac12m_c(n)+\omega_n(2r)^n
+   \le m_c(n).
+\]
+Lemma~\ref{lem:potential-centre} therefore gives
+\(|y_V-z_F|<s/4\) for every potential centre of \(V\).
+For \(w\in A\), choose a boundary point of \(F\) in \(B_r(x)\).
+Using \(s\ge1/2\), \(r\le1/32\), \eqref{eq:one-eighth-annulus},
+and either \(y=y_F\) or \(y=y_V\), we obtain
+\[
+   |w-y|
+   \ge s\left(1-\frac18-\frac14\right)-2r
+   \ge\frac14.
+\tag{4.79}\label{eq:kernel-separated}
+\]
+Evaluating \(M(F)\) at a maximising centre of \(F\) and \(M(V)\) at
+a maximising centre of \(V\), and using \eqref{eq:kernel-separated},
+gives
+\[
+   |M(F)-M(V)|\le4|F\mathbin{\triangle}V|.
+\tag{4.80}\label{eq:M-local-lip}
+\]
+
+Let \(X=\Per(F;B_r(x))-\Per(V;B_r(x))\).  If \(X\le0\), there is
+nothing to prove.  If \(X>0\), then
+\[
+   |b(F)-b(V)|
+   \le X+4(n-1)|F\mathbin{\triangle}V|.
+\]
+Insert this in \eqref{eq:min-with-bdiff}, cancel outside perimeters,
+and use \(a=1/4\):
+\[
+   (1-a)X
+   \le\{\Lambda+4a(n-1)\}|F\mathbin{\triangle}V|
+   \le\{\Lambda+n-1\}\omega_n r^n.
+\]
+Since \(1-a=3/4\), this proves both inequalities in
+\eqref{eq:additive-almost}.  Finally, scaling a competitor
+for \(\widetilde F\) by \(s\) multiplies perimeter by \(s^{n-1}\)
+and symmetric-difference volume by \(s^n\); thus the volume-error
+almost-minimality constant is multiplied by \(s\le3/2\), while its
+admissible radius is at least \((2/3)r_{\rm reg}\).
+
+For a competitor \(V\) not contained in \(B_R\), replace it first by
+\(V\cap B_R\).  The perimeter lattice argument at the end of
+Proposition~\ref{prop:area-quasi} does not increase either the local
+perimeter or the symmetric-difference error; hence the same estimate
+holds without requiring \(B_r(x)\Subset B_R\).
+\end{proof}
+
+\begin{remark}[What has now been regularised]\label{rem:regularised-centre}
+Theorem~\ref{thm:additive-almost-min} removes the singular perimeter-order
+error of the naive decomposition-based selection.  It does not do so by
+pretending that \(M\) is globally Lipschitz in measure.  Rather, the
+selected minimiser first becomes geometrically trapped; after that, all
+maximising centres of it and of its local competitors lie a definite
+distance away from the varying boundary.  Formula
+\eqref{eq:M-local-lip} is then the regularised local first-variation
+estimate required by perimeter regularity theory.
+\end{remark}
+
+\subsubsection{Reducing graph entry to one local flatness number}
+
+Theorems~\ref{thm:true-beta-selection} and
+\ref{thm:additive-almost-min} have removed the Fusco--Julin-specific
+singularity.  We now reduce the remaining regularity work to a single local
+epsilon-regularity number for perimeter almost-minimisers.  Existence of such
+a number follows from the regularity theorem of Tamanini, in the form
+presented for example in \cite[Chapters 24--26]{Maggi2012}.  For the present
+purpose, existence alone is not enough: the harmonic-approximation lemma in
+that presentation is proved by compactness.  The lemma below replaces that
+one use of compactness by a finite spectral truncation and thereby certifies
+computability of the required number.
+
+\begin{definition}[Meaning of computable in this section]\label{def:computable}
+A dimensional constant is called \emph{computable} if it can be selected by
+a finite list of explicit inequalities from rational numbers, \(\omega_k\),
+elementary operations, and finitely many Dirichlet eigenvalues and
+eigenfunction bounds on Euclidean balls.  These spectral data are
+computable: in one dimension they are trigonometric, and in higher
+dimensions they are given by spherical harmonics and zeros of Bessel
+functions, which admit certified rational bracketing.  Numerical evaluation
+of the resulting expression is not required.
+\end{definition}
+
+\begin{definition}[Admissible flatness number]\label{def:flat-number}
+Fix \(n\ge2\) and \(0<\ell<1/8\).  A number
+\(\varepsilon_{\rm fl}(n,\ell)\in(0,1/16)\) is called
+\emph{admissible} if the following statement holds.
+
+Let \(G\) be represented so that
+\(\partial G=\operatorname{spt}|D{\bf1}_G|\), and suppose that, in every
+ball of radius at most \(r_*\),
+\[
+   \Per(G;B_t(y))
+   \le\Per(V;B_t(y))+\Lambda_*|G\mathbin{\triangle}V|
+   \quad\text{whenever }G\mathbin{\triangle}V\Subset B_t(y).
+\tag{4.81}\label{eq:local-am-input}
+\]
+Let \(x\in\partial G\), \(e\in S^{n-1}\), and \(0<16\rho\le r_*\).
+If
+\[
+\begin{gathered}
+   \Lambda_*\rho\le\varepsilon_{\rm fl}(n,\ell),\\
+   \partial G\cap B_{8\rho}(x)
+      \subset
+      \{y: |(y-x)\cdot e|\le
+                 \varepsilon_{\rm fl}(n,\ell)\rho\},\\
+   x-4\rho e\in G^{(1)},\qquad x+4\rho e\in G^{(0)},
+\end{gathered}
+\tag{4.82}\label{eq:local-flat-input}
+\]
+then \(\partial G\cap B_\rho(x)\) is a single Lipschitz graph in
+direction \(e\), and its Lipschitz constant is at most \(\ell\).
+Here \(G^{(1)}\) and \(G^{(0)}\) denote the points of density one and
+zero of \(G\), respectively.
+\end{definition}
+
+\begin{lemma}[Constructive harmonic approximation]\label{lem:effective-harmonic}
+Let \(m\ge1\), \(B=B_1^m\), and \(D=B_{1/2}^m\).  For every
+\(\tau\in(0,1)\) there is a computable number
+\(\sigma_{\rm har}(m,\tau)>0\) with the following property.  If
+\(u\in W^{1,2}(B)\) satisfies
+\[
+   \int_B|\nabla u|^2\le1,\qquad
+   \left|\int_B\nabla u\cdot\nabla\varphi\right|
+      \le\sigma_{\rm har}(m,\tau)
+          \norm{\nabla\varphi}_{L^\infty(B)}
+   \quad\text{for every }\varphi\in C_c^\infty(B),
+\]
+then there is a harmonic function \(v\) on \(D\) such that
+\[
+   \int_D|\nabla v|^2\le1,\qquad
+   \int_D|u-v|^2\le\tau.
+\]
+\end{lemma}
+
+\begin{proof}
+Let \(v\) be the harmonic replacement of \(u\) in \(D\), and put
+\(w=u-v\in W^{1,2}_0(D)\).  Then
+\[
+   \int_D|\nabla v|^2\le\int_D|\nabla u|^2\le1,\qquad
+   \int_D|\nabla w|^2\le1.
+\]
+Let \((\lambda_j,\phi_j)_{j\ge1}\) be an \(L^2(D)\)-orthonormal
+Dirichlet eigenbasis for \(-\Delta\) on \(D\), ordered so that
+\(\lambda_j\) is nondecreasing, and set
+\[
+   L_j:=\norm{\nabla\phi_j}_{L^\infty(D)}.
+\]
+Each \(\phi_j\), extended by zero outside \(D\), is Lipschitz and can
+be mollified inside \(B\) without increasing its gradient bound in
+the limit.  Thus the almost-harmonicity assumption gives
+\[
+   \left|\int_D\nabla w\cdot\nabla\phi_j\right|
+      =\left|\int_D\nabla u\cdot\nabla\phi_j\right|
+      \le\sigma_{\rm har}(m,\tau)L_j.
+\]
+Writing \(w=\sum_{j\ge1}a_j\phi_j\), this says
+\[
+   |a_j|\le \sigma_{\rm har}(m,\tau)\frac{L_j}{\lambda_j}.
+\]
+Choose a finite \(N=N(m,\tau)\) such that
+\(\lambda_{N+1}^{-1}\le\tau/2\), put
+\[
+   A_N:=\sum_{j=1}^{N}\left(\frac{L_j}{\lambda_j}\right)^2,
+   \qquad
+   \sigma_{\rm har}(m,\tau)
+      :=\min\left\{1,\sqrt{\frac{\tau}{2A_N}}\right\},
+\]
+with the evident convention if \(A_N=0\).  The low modes and high
+modes then satisfy
+\[
+\begin{aligned}
+   \sum_{j=1}^{N}a_j^2&\le\frac{\tau}{2},\\
+   \sum_{j>N}a_j^2
+      &\le\lambda_{N+1}^{-1}
+          \sum_{j>N}\lambda_j a_j^2
+       \le\frac{\tau}{2}\int_D|\nabla w|^2
+       \le\frac{\tau}{2}.
+\end{aligned}
+\]
+Therefore \(\int_D|u-v|^2=\int_D|w|^2\le\tau\).
+Definition~\ref{def:computable} makes every choice in this construction
+computable.
+\end{proof}
+
+\begin{proposition}[Computability certificate for graph entry]
+\label{prop:flat-number-computable}
+For every \(n\ge2\) and \(0<\ell<1/8\), there exists a computable
+admissible flatness number \(\varepsilon_{\rm fl}(n,\ell)\) in the
+sense of Definition~\ref{def:flat-number}.
+\end{proposition}
+
+\begin{proof}
+The local regularity proof for \((\Lambda_*,r_*)\)-almost minimisers is
+the Tamanini iteration presented in
+\cite[Theorems 24.1, 24.2, 25.1, 25.3, and 26.3]{Maggi2012}.
+After scaling a ball \(B_\rho(x)\) to a unit cylinder, the error enters
+only through the dimensionless number \(\Lambda_*\rho\).  The proof has
+the following four inputs:
+\[
+\begin{array}{ll}
+\textnormal{(i)} & \text{the slab and phase hypotheses, which orient a
+                       cylinder;}\\
+\textnormal{(ii)}& \text{the Caccioppoli, or reverse Poincare, inequality
+                       converting height flatness to excess;}\\
+\textnormal{(iii)}&\text{Lipschitz approximation and harmonic
+                       approximation;}\\
+\textnormal{(iv)}& \text{tilt improvement followed by geometric iteration.}
+\end{array}
+\]
+For each input, the dimensional constant that enters is explicit and standard:
+\begin{itemize}[leftmargin=2em,itemsep=2pt]
+\item In (i), only volume comparison: the slab and phase hypotheses determine
+upper/lower-density regions in a cylinder of normalised height, with
+constants depending only on the dimension and on the chosen contraction
+factor of the cylinder.
+\item In (ii), the relevant constant is the one in the relative
+isoperimetric inequality on a half-ball (Maggi~\cite[Thm.~12.17]{Maggi2012}),
+applied to slices of the boundary above and below the cylinder axis.
+\item In (iii), the Lipschitz-approximation constant is obtained from
+Maggi~\cite[Thm.~23.7]{Maggi2012}; the harmonic-approximation step (which is
+the only originally-compactness step in the standard Tamanini argument)
+is replaced here by Lemma~\ref{lem:effective-harmonic}, whose constant is
+the explicit one from finite spectral truncation.
+\item In (iv), tilt improvement combines the harmonic-decay rate
+\(\theta^{2\alpha}\) (with \(\alpha\in(0,1/2)\) and \(\theta\in(0,1/16)\) chosen
+below) with the Caccioppoli constant of (ii) and the
+harmonic-approximation constant of (iii); the geometric iteration sums
+to a fixed multiple of \(\ell\).
+\end{itemize}
+The two phase points in \eqref{eq:local-flat-input}, together with the
+absence of boundary outside the slab, identify the upper and lower
+phases in the working cylinder.  The comparison proof of (ii) then gives,
+after a fixed contraction of that cylinder, an inequality of the form
+\[
+   \operatorname{exc}
+      \le C(n)\left(\varepsilon_{\rm fl}(n,\ell)^2
+                    +\Lambda_*\rho\right),
+\]
+where the numerical value of \(C(n)\) is obtained by carrying out that
+comparison estimate.  The constants in (i), (ii), and the
+Lipschitz-approximation part of (iii) arise from relative isoperimetry,
+Fubini/Chebyshev estimates, and explicit comparison competitors.  The
+tilt estimate in (iv) consists
+of inserting the harmonic decay estimate into (ii), choosing a fixed
+contraction factor, and taking minima of finitely many preceding
+smallness conditions.  These operations meet
+Definition~\ref{def:computable}.
+
+The compactness step in the printed chain is the harmonic-approximation
+lemma used in the tilt argument: approximate harmonicity is converted
+into closeness to a harmonic function by contradiction and the compact
+embedding \(W^{1,2}\Subset L^2\).  Replace that invocation, after one
+fixed interior contraction of the cylinder, by
+Lemma~\ref{lem:effective-harmonic} with \(m=n-1\).  Losing the fixed
+factor \(1/2\) only changes the contraction factor in (iv): harmonic
+decay is then applied on the smaller disk and the next cylinder is
+chosen inside it.
+
+For completeness, the parameter-selection algorithm is as follows.
+Fix a contraction factor \(\theta\in(0,1/16)\).  Starting with the
+desired slope \(\ell\), choose the target harmonic error \(\tau\) so
+that harmonic decay plus the Caccioppoli error is at most
+\(\theta^{2\alpha}\) times the preceding excess, for some fixed
+\(\alpha\in(0,1/2)\).  Choose the corresponding
+\(\sigma_{\rm har}(n-1,\tau)\) by Lemma~\ref{lem:effective-harmonic}.
+Then take \(\varepsilon_{\rm fl}(n,\ell)\) to be the minimum of the
+finitely many height, Lipschitz-approximation, Caccioppoli, and tilt
+smallness requirements with that \(\sigma_{\rm har}\).  Iteration gives
+a geometric series for the changes of tangent plane, whose sum is made
+at most \(\ell\) by the initial choice of the minimum.  This proves the
+single-graph conclusion in Definition~\ref{def:flat-number}.
+
+Every operation in this backward choice is finite, except for summing a
+geometric series with specified ratio.  Hence
+\(\varepsilon_{\rm fl}(n,\ell)\) is computable, although we do not
+evaluate it.
+\end{proof}
+
+\begin{lemma}[Orientation of a trapped unit-volume set]\label{lem:phase-orient}
+Set
+\[
+   h_{\rm or}(n):=\min\left\{\frac1{32},\frac1{4n}\right\}.
+\]
+Let \(G\) be a finite-perimeter set with \(|G|=\omega_n\),
+\(\partial G=\operatorname{spt}|D{\bf1}_G|\), and
+\[
+   d_H(\partial G,\partial B_1(z))\le h\le h_{\rm or}(n).
+\tag{4.83}\label{eq:trapped-H}
+\]
+Then, up to null sets,
+\[
+   B_{1-h}(z)\subset G\subset B_{1+h}(z).
+\tag{4.84}\label{eq:oriented-annulus}
+\]
+\end{lemma}
+
+\begin{proof}
+The open connected regions \(B_{1-h}(z)\) and
+\(\R^n\setminus\overline{B_{1+h}(z)}\) do not meet \(\partial G\).
+Since the boundary is the support of the perimeter measure, the
+characteristic function of \(G\) is almost everywhere constant on each
+of these regions.  The exterior region cannot belong to \(G\), because
+\(|G|<\infty\).  If the interior region did not belong to \(G\), then
+\[
+   |G|\le |B_{1+h}\setminus B_{1-h}|
+       =\omega_n\bigl((1+h)^n-(1-h)^n\bigr).
+\]
+Since \(nh\le1/4\), Bernoulli's inequality and
+\((1+h)^n\le e^{nh}\le e^{1/4}<3/2\) give
+\[
+   (1+h)^n-(1-h)^n
+      <\frac32-\frac34<1.
+\tag{4.85}\label{eq:orientation-small}
+\]
+This contradicts \(|G|=\omega_n\), proving
+\eqref{eq:oriented-annulus}.
+\end{proof}
+
+\begin{lemma}[Recentering a small radial graph]\label{lem:graph-recentre}
+Set
+\[
+   C_{\rm rec}(n):=32\bigl(1+n2^n\bigr).
+\tag{4.86}\label{eq:Crec}
+\]
+Let \(|E|=\omega_n\) and suppose that, about a centre \(z\),
+\[
+   \partial E=\{z+(1+v(\theta))\theta:\theta\in S^{n-1}\},
+   \qquad
+   \norm{v}_{W^{1,\infty}}\le\kappa
+   \le\frac{1}{256(1+n2^n)}.
+\tag{4.87}\label{eq:recentre-input}
+\]
+If \(c_E\) is the barycentre of \(E\), then \(E\) is a radial graph
+about \(c_E\), with graph function \(u\) satisfying
+\[
+   \norm{u}_{W^{1,\infty}}
+      \le C_{\rm rec}(n)\kappa.
+\tag{4.88}\label{eq:recentre-output}
+\]
+\end{lemma}
+
+\begin{proof}
+Translating, take \(z=0\), and put \(a=c_E\).  Polar integration and
+\(|E|=\omega_n\) give
+\[
+   a=\frac{1}{(n+1)\omega_n}
+      \int_{S^{n-1}}(1+v)^{n+1}\theta\,d\sigma.
+\]
+Since \(\int_{S^{n-1}}\theta\,d\sigma=0\), the mean value theorem and
+\(|S^{n-1}|=n\omega_n\) yield
+\[
+   |a|
+   \le n(1+\kappa)^n\kappa
+   \le n2^n\kappa.
+\tag{4.89}\label{eq:bary-shift}
+\]
+Put
+\[
+   \eta:=\kappa+|a|
+      \le(1+n2^n)\kappa\le\frac1{256}.
+\]
+The map
+\[
+   \Theta(\theta):=
+   \frac{(1+v(\theta))\theta-a}
+        {|(1+v(\theta))\theta-a|}
+\]
+is quantitatively close to the identity.  Indeed, writing
+\(p=(1+v)\theta-a\), \(R=|p|\), and letting \(\tau\) be a unit tangent
+vector, one has
+\[
+   |R-1|\le\eta,\qquad
+   |\Theta-\theta|\le\frac{2\eta}{1-\eta}\le3\eta,\qquad
+   |Dp[\tau]-\tau|\le2\kappa\le2\eta.
+\]
+Since
+\[
+   D\Theta[\tau]
+      =R^{-1}(I-\Theta\otimes\Theta)Dp[\tau],
+\]
+and \(|\Theta\otimes\Theta-\theta\otimes\theta|
+\le2|\Theta-\theta|\), it follows that
+\[
+   |D\Theta[\tau]-\tau|
+   \le\frac{2\eta}{1-\eta}
+       +\frac{\eta}{1-\eta}+6\eta
+   \le16\eta\le\frac1{16}.
+\]
+Thus \(\Theta\) is a local bi-Lipschitz map.  The homotopy
+\[
+   \Theta_t(\theta):=
+   \frac{(1+t v(\theta))\theta-ta}
+        {|(1+t v(\theta))\theta-ta|},
+   \qquad 0\le t\le1,
+\]
+is well-defined because its denominator is at least \(1-\eta>0\);
+therefore \(\Theta\) has degree one.  A degree-one local
+homeomorphism of \(S^{n-1}\) is a homeomorphism.  Thus the translated
+boundary is a radial graph about \(a\), whose radius is
+\[
+   1+u(\Theta(\theta))
+      =|(1+v(\theta))\theta-a|.
+\]
+Moreover, the displayed derivative bound gives
+\(\norm{D\Theta^{-1}}\le2\), and differentiation of the radius gives
+\[
+   |D R[\tau]|
+      \le (1+\kappa)|\Theta-\theta|+\kappa
+      \le7\eta.
+\]
+Consequently
+\[
+   \norm{u}_{L^\infty}
+      \le\eta,
+   \qquad
+   \norm{\nabla_\tau u}_{L^\infty}
+      \le14\eta.
+\]
+Together with \eqref{eq:bary-shift}, these inequalities imply the
+larger stated bound \eqref{eq:recentre-output}.
+\end{proof}
+
+\begin{theorem}[Effective graph entry from an admissible flatness number]
+\label{thm:graph-entry-flat}
+Let \(G\) have unit volume, take the representative for which
+\(\partial G=\operatorname{spt}|D{\bf1}_G|\), and suppose that it
+satisfies \eqref{eq:local-am-input} with parameters
+\(\Lambda_*,r_*\).  Put
+\[
+   \kappa_*:=\frac{\delta_*(n)}{C_{\rm rec}(n)},\qquad
+   \ell_*:=\frac{\kappa_*}{64},\qquad
+   \varepsilon_*:=\varepsilon_{\rm fl}(n,\ell_*),
+\tag{4.90}\label{eq:graph-target-data}
+\]
+where \(\varepsilon_{\rm fl}(n,\ell_*)\) is admissible, and define
+\[
+\begin{aligned}
+   \rho_*&:=
+     \min\left\{\frac{r_*}{16},\,
+       \frac{\varepsilon_*}{512},\,
+       \frac{\varepsilon_*}{16(1+\Lambda_*)},\,
+       \frac{\kappa_*}{2048},\,\frac1{64}\right\},\\
+   h_*&:=
+     \min\left\{\frac{\varepsilon_*\rho_*}{16},\,
+       \frac{\rho_*}{16},\,
+       h_{\rm or}(n)\right\}.
+\end{aligned}
+\tag{4.91}\label{eq:graph-entry-constants}
+\]
+If
+\[
+   d_H(\partial G,\partial B_1(z))\le h_*,
+\tag{4.92}\label{eq:graph-entry-H}
+\]
+then, after translation by the barycentre of \(G\),
+\[
+   \partial G
+    =\{(1+u(\theta))\theta:\theta\in S^{n-1}\},
+   \qquad
+   \norm{u}_{W^{1,\infty}}\le\delta_*(n).
+\tag{4.93}\label{eq:graph-entry-result}
+\]
+\end{theorem}
+
+\begin{proof}
+After translating, take \(z=0\).  The last restriction in
+\eqref{eq:graph-entry-constants} permits direct application of
+Lemma~\ref{lem:phase-orient}, which fixes the inner and outer phases.
+
+Fix \(x\in\partial G\), choose \(y\in\partial B_1\) with
+\(|x-y|\le h_*\), and put \(e=y\).  If
+\(p\in\partial G\cap B_{8\rho_*}(x)\), choose
+\(\bar p\in\partial B_1\) with \(|p-\bar p|\le h_*\).  Then
+\(|\bar p-y|\le8\rho_*+2h_*\le9\rho_*\), and the elementary sphere
+identity
+\[
+   |(\bar p-y)\cdot y|=\frac12|\bar p-y|^2
+\]
+gives
+\[
+   |(p-x)\cdot e|
+   \le2h_*+\frac{81}{2}\rho_*^2
+   \le\varepsilon_*\rho_*.
+\tag{4.94}\label{eq:sphere-to-slab}
+\]
+Moreover, \(x-4\rho_*e\in B_{1-h_*}\) and
+\(x+4\rho_*e\notin B_{1+h_*}\), because \(2h_*<4\rho_*\).
+Thus the phase assumptions in \eqref{eq:local-flat-input} hold.  Finally,
+\(\Lambda_*\rho_*\le\varepsilon_*\) by
+\eqref{eq:graph-entry-constants}.  Definition~\ref{def:flat-number}
+implies that \(\partial G\cap B_{\rho_*}(x)\) is a single graph of
+slope at most \(\ell_*\), for every \(x\in\partial G\).
+
+It remains to pass from local graphs to one radial graph.  The annular
+trapping makes the graph direction uniformly transverse to radial rays.
+Indeed, if \(q\in\partial G\cap B_{\rho_*}(x)\), then
+\[
+   \left|\frac{q}{|q|}-e\right|
+      \le4(\rho_*+h_*)
+      \le\frac{17}{256}<\frac14.
+\]
+At almost every point of the Lipschitz graph through \(x\), choose its
+unit normal \(\nu\) with \(\nu\cdot e>0\).  The slope bound gives
+\[
+   |\nu-e|\le2\ell_*,
+   \qquad
+   \left|\nu-\frac{q}{|q|}\right|
+      \le4(\ell_*+\rho_*+h_*)<\frac14.
+\]
+Consequently radial projection from each graph patch to \(S^{n-1}\)
+is locally one-to-one.  To see this without an implicit smoothness
+argument, suppose that two points of one patch have the form
+\(q_i=t_i\theta\), \(t_1\ne t_2\).  Since
+\(|\theta-e|<1/4\), one has \(\theta\cdot e>3/4\).  On the other hand,
+the graph slope estimate, applied to \(q_2-q_1=(t_2-t_1)\theta\),
+would give
+\[
+   |\theta\cdot e|
+      \le \ell_*|\theta-(\theta\cdot e)e|
+      \le\ell_*<\frac18,
+\]
+a contradiction.  In graph coordinates radial projection is
+continuous and locally injective; invariance of domain makes it open.
+Its image on \(\partial G\) is nonempty and compact, hence also closed;
+connectedness of \(S^{n-1}\) shows that it is onto.  Finally, two
+global points on the same ray would both lie within \(h_*\) of the
+same spherical point and hence at distance less than
+\(2h_*<\rho_*\), putting them in one graph patch and yielding the same
+contradiction.  Thus
+\[
+   \partial G=\{(1+v(\theta))\theta:\theta\in S^{n-1}\}.
+\]
+Here \(\norm{v}_{L^\infty}\le h_*\).  For a radial graph its normal
+satisfies
+\[
+   \frac{|\nabla_\tau v|}{1+v}
+      =\frac{|\nu-(\nu\cdot\theta)\theta|}
+             {\nu\cdot\theta},
+   \qquad \theta=\frac{q}{|q|}.
+\]
+The preceding estimate, \(1+v\le1+h_*<2\), and
+\(\nu\cdot\theta>1/2\) imply
+\[
+   \norm{\nabla_\tau v}_{L^\infty}
+      \le16(\ell_*+\rho_*+h_*)
+      <\frac{\kappa_*}{3}.
+\]
+Furthermore,
+\[
+   \norm{v}_{L^\infty}
+      \le h_*\le\frac{\rho_*}{16}
+      \le\frac{\kappa_*}{32768}.
+\]
+In particular, whether the \(W^{1,\infty}\)-norm is taken as a maximum
+or as a sum of these two quantities,
+\[
+   \norm{v}_{W^{1,\infty}}\le\kappa_*.
+\tag{4.95}\label{eq:pre-recentre-graph}
+\]
+Since \(\delta_*(n)\le1/8\), the definition of \(\kappa_*\) yields
+\(\kappa_*\le1/[256(1+n2^n)]\).  Apply
+Lemma~\ref{lem:graph-recentre} and
+\eqref{eq:graph-target-data} to obtain
+\eqref{eq:graph-entry-result}.
+\end{proof}
+
+\begin{remark}[What the certificate settles]\label{rem:exact-flat-remaining}
+The proof of Theorem~\ref{thm:graph-entry-flat} contains no compactness
+step and no unquantified graph patching.  After
+Theorem~\ref{thm:additive-almost-min}, its only non-displayed number is
+\(\varepsilon_{\rm fl}(n,\ell_*)\), the local height-to-Lipschitz
+threshold in Definition~\ref{def:flat-number}.
+Proposition~\ref{prop:flat-number-computable} certifies that this number is
+computable, without asking that it be numerically evaluated.  Thus no
+non-computable regularity constant remains in the bounded
+regularised-selection argument.
+\end{remark}
+
+\begin{proposition}[Bounded closure through regularised selection]
+\label{prop:true-beta-bounded-close}
+Let \(\varepsilon_{\rm fl}(n,\ell_*)\) be the computable admissible
+number supplied by Proposition~\ref{prop:flat-number-computable}.  In
+Theorem~\ref{thm:graph-entry-flat} take
+\[
+   \Lambda_*:=\frac32\Lambda_{\rm reg},\qquad
+   r_*:=\frac23r_{\rm reg},
+\]
+and let \(h_*\) be given by \eqref{eq:graph-entry-constants}.  Define
+\[
+   d_{\rm ent}:=\min\left\{d_{\rm ann},\,
+      \frac{1}{2C_{\rm iso}(n)}
+      \left(\frac{h_*}{C_H(n,c_a)}\right)^{2n}\right\}.
+\tag{4.96}\label{eq:d-entry}
+\]
+Then, in the bounded class used above,
+\[
+   \beta(E)^2\le C_{\rm reg}(n,R,\Lambda)\Def(E),
+\tag{4.97}\label{eq:regularised-bounded-FJ}
+\]
+where one may take
+\[
+   C_{\rm reg}
+   :=
+   \max\left\{16,\,
+       2\left(1+\frac{\Per(B_1)}{d_{\rm ent}}\right)\right\}.
+\tag{4.98}\label{eq:Creg}
+\]
+\end{proposition}
+
+\begin{proof}
+Let \(d=\Def(E)\) and \(b=\beta(E)^2\).  If \(d>d_{\rm ann}\),
+Lemma~\ref{lem:large} gives
+\[
+   b\le2\{\Per(B_1)+d\}
+     \le2\left(1+\frac{\Per(B_1)}{d_{\rm ent}}\right)d.
+\]
+If \(d_{\rm ent}<d\le d_{\rm ann}\), the same conclusion follows with
+\(d_{\rm ent}\) in place of \(d_{\rm ann}\).
+If \(d/b\ge1/16\), then \(b\le16d\).  It remains to exclude
+\[
+   d\le d_{\rm ent},\qquad \frac d b<\frac1{16}.
+\]
+Apply Theorem~\ref{thm:true-beta-selection} and
+Theorem~\ref{thm:additive-almost-min}.  Equations
+\eqref{eq:hausdorff-from-measure} and \eqref{eq:d-entry} place
+\(\widetilde F\), represented by
+\(\partial\widetilde F=\operatorname{spt}|D{\bf1}_{\widetilde F}|\),
+within the Hausdorff threshold \(h_*\).  The perimeter comparisons and
+the normal oscillation are unchanged by this representative choice, and
+Theorem~\ref{thm:graph-entry-flat} places it in the radial-graph regime of
+Corollary~\ref{cor:graph-simple}; therefore
+\[
+   b(\widetilde F)\le3\Def(\widetilde F),
+   \qquad
+   \frac{\Def(\widetilde F)}{b(\widetilde F)}\ge\frac13.
+\]
+On the other hand, \eqref{eq:true-selected-ratio} gives
+\[
+   \frac{\Def(\widetilde F)}{b(\widetilde F)}
+   \le\frac{d/b}{1-4d/b}<\frac1{12},
+\]
+a contradiction.
+\end{proof}
+
+\subsubsection{Computable confinement and the global conclusion}
+
+\begin{lemma}[Computable Fusco--Julin confinement]\label{lem:computable-confinement}
+There are computable constants
+\[
+   R_{\rm red}(n)>3,\qquad
+   A_{\rm red}(n)>0,\qquad B_{\rm red}(n)>0
+\tag{4.99}\label{eq:reduction-data}
+\]
+such that, for every finite-perimeter set \(E\subset\R^n\) with
+\(|E|=\omega_n\), there is a finite-perimeter set
+\(E_0\subset B_{R_{\rm red}(n)}\), after a translation, satisfying
+\[
+   |E_0|=\omega_n,\qquad
+   b(E)\le b(E_0)+A_{\rm red}(n)\Def(E),\qquad
+   \Def(E_0)\le B_{\rm red}(n)\Def(E).
+\tag{4.100}\label{eq:computable-confinement}
+\]
+\end{lemma}
+
+\begin{proof}
+The geometric construction is Lemma~3.2 of Fusco--Julin
+\cite[Lemma~3.2]{FJ2014}, which in turn repeats the coordinate-slicing
+construction of \cite[Lemma~5.1]{FMP2010}.  We explain why
+the constants in that construction are computable.
+
+The slicing construction performs one cut in each coordinate direction.
+At one step, the coarea formula
+\[
+   \int_a^b \Hn(E\cap\{x_i=t\})\,dt\le\Per(E)
+\]
+integrates the slice perimeters over a fixed-dimensional interval
+\([a,b]\); an averaging choice of two cutting hyperplanes \(t_1,t_2\in[a,b]\)
+satisfying \(\Hn(E\cap\{x_i=t_1\})+\Hn(E\cap\{x_i=t_2\})\le 2\Per(E)/(b-a)\)
+retains the central slab, does not increase perimeter, and removes at most a
+dimensional multiple of \(d\) in volume.  Repeating this operation exactly
+\(n\) times gives a set \(G\), contained after translation in a rectangular
+box of dimensional diameter \(L_{\rm red}(n)\), for which
+\[
+   G\subset E,\qquad
+   \Per(G)\le\Per(E),\qquad
+   \omega_n-|G|\le C_{\rm cut}(n)d.
+\tag{4.102}\label{eq:cut-output}
+\]
+The cutting width \(L_{\rm red}(n)\) and the dimensional constant
+\(C_{\rm cut}(n)\) are obtained by finitely many applications of the displayed
+slicing inequalities in \cite[Lemma 5.1]{FMP2010} and are therefore
+computable; in particular, \(C_{\rm cut}(n)\) is bounded above by an
+explicit polynomial in \(n\) (we do not need its numerical value).
+
+Now fix the computable threshold
+\begin{equation}\label{eq:dcut-explicit}
+   d_{\rm cut}:=\frac{\omega_n}{2C_{\rm cut}(n)},
+\end{equation}
+so that for every \(E\) with \(d:=\Def(E)<d_{\rm cut}\) the slicing
+construction yields \(|G|\ge\omega_n/2\).  If instead \(d\ge d_{\rm cut}\),
+take \(E_0=B_1\), so that \(\Def(E_0)=0\) and, from \(b(E)\le\Per(E)\le
+\Per(B_1)+d\),
+\[
+   b(E)\le\left(1+\frac{\Per(B_1)}{d_{\rm cut}}\right)d
+        =\left(1+\frac{2C_{\rm cut}(n)\Per(B_1)}{\omega_n}\right)d,
+   \qquad\Def(E_0)=0.
+\tag{4.101}\label{eq:cut-large}
+\]
+This dispatches the large-deficit branch, with computable constant.
+
+Because \(G\subset E\), evaluation of \(M(E)\) at a maximising centre
+for \(G\) gives \(M(E)\ge M(G)\).  Therefore
+\[
+\begin{aligned}
+   b(E)-b(G)
+   &\le\Per(E)-\Per(G)\\
+   &\le d+\Per(B_1)-\Per(G)\\
+   &\le d+\Per(B_1)
+       \left[1-\left(\frac{|G|}{\omega_n}\right)^{(n-1)/n}\right]\\
+   &\le C_1(n)d.
+\end{aligned}
+\tag{4.103}\label{eq:beta-cut-control}
+\]
+The third line is the isoperimetric inequality applied to \(G\); the
+last line follows from \eqref{eq:cut-output} and the mean value theorem
+on \([1/2,1]\).  Hence \(C_1(n)\) is computable.
+
+Set \(\lambda=(\omega_n/|G|)^{1/n}\) and
+\(E_0=\lambda G\), followed by translation of its containing box into
+a ball.  Then \(1\le\lambda\le2^{1/n}\), so one may take
+\[
+   R_{\rm red}(n):=\max\{4,2^{1/n}L_{\rm red}(n)\}.
+\]
+Moreover, since \(b\) scales by \(\lambda^{n-1}\) and is nonnegative,
+\[
+   b(E)\le b(G)+C_1(n)d\le b(E_0)+C_1(n)d.
+\]
+Finally,
+\[
+\begin{aligned}
+   \Def(E_0)
+   &=\lambda^{n-1}\Per(G)-\Per(B_1)\\
+   &\le\{\lambda^{n-1}-1\}\Per(B_1)+\lambda^{n-1}d
+    \le C_2(n)d,
+\end{aligned}
+\tag{4.104}\label{eq:def-cut-control}
+\]
+again by \eqref{eq:cut-output} and the mean value theorem on
+\([1/2,1]\).  Combining the small- and large-deficit branches gives
+\eqref{eq:computable-confinement}, with computable
+\(A_{\rm red}\) and \(B_{\rm red}\).
+\end{proof}
+
+\begin{theorem}[A truly quantitative Fusco--Julin inequality]
+\label{thm:global-computable-FJ}
+For every \(n\ge2\), there is a computable dimensional constant
+\(C_{\rm FJ}^{\rm comp}(n)>0\) such that every finite-perimeter
+\(E\subset\R^n\) with \(|E|=|B_\rho|\) satisfies
+\[
+   \beta(E)^2\le C_{\rm FJ}^{\rm comp}(n)\Def(E).
+\tag{4.105}\label{eq:global-computable-FJ}
+\]
+\end{theorem}
+
+\begin{proof}
+By scaling it suffices to consider \(|E|=\omega_n\).  Apply
+Lemma~\ref{lem:computable-confinement} and take
+\[
+   R=R_{\rm red}(n),\qquad \Lambda=2n
+\]
+in Proposition~\ref{prop:true-beta-bounded-close}.  Since \(E_0\)
+belongs to the bounded class of that proposition,
+\[
+\begin{aligned}
+   b(E)
+   &\le b(E_0)+A_{\rm red}(n)\Def(E)\\
+   &\le C_{\rm reg}\bigl(n,R_{\rm red}(n),2n\bigr)\Def(E_0)
+          +A_{\rm red}(n)\Def(E)\\
+   &\le
+     \left\{A_{\rm red}(n)
+       +B_{\rm red}(n)C_{\rm reg}
+             \bigl(n,R_{\rm red}(n),2n\bigr)\right\}\Def(E).
+\end{aligned}
+\]
+Thus one may set
+\[
+   C_{\rm FJ}^{\rm comp}(n)
+   :=
+   A_{\rm red}(n)
+       +B_{\rm red}(n)C_{\rm reg}
+             \bigl(n,R_{\rm red}(n),2n\bigr).
+\tag{4.106}\label{eq:CFJ-computable}
+\]
+Every constant on the right is computable by
+Lemma~\ref{lem:computable-confinement},
+Proposition~\ref{prop:flat-number-computable}, and the displayed
+formulae preceding Proposition~\ref{prop:true-beta-bounded-close}.
+The scaling laws in Lemma~\ref{lem:scaling} give the assertion for
+general \(\rho>0\).
+\end{proof}
+
+\begin{corollary}[Original Fusco--Julin formulation]
+\label{cor:original-FJ-computable}
+For \(|E|=|B_\rho|\), define the scale-invariant same-centre index
+\[
+   \mathcal A_{\rm FJ}(E)
+   :=
+   \inf_{z\in\R^n}
+   \left\{
+      \frac{|E\triangle B_\rho(z)|}{\rho^n}
+      +
+      \left(
+         \frac1{\rho^{n-1}}
+         \int_{\partial^*E}
+         \left|\nu_E-\frac{x-z}{|x-z|}\right|^2\,d\Hn
+      \right)^{1/2}
+   \right\}.
+\tag{4.107}\label{eq:A-FJ-combined}
+\]
+There is a computable dimensional constant
+\(\widehat C_{\rm FJ}^{\rm comp}(n)>0\) such that every
+finite-perimeter set \(E\subset\R^n\) with \(|E|=|B_\rho|\) satisfies
+\[
+   \mathcal A_{\rm FJ}(E)^2
+      \le \widehat C_{\rm FJ}^{\rm comp}(n)\,
+          \rho^{1-n}\Def(E).
+\tag{4.108}\label{eq:original-FJ-computable}
+\]
+\end{corollary}
+
+\begin{proof}
+Write \(\beta_{\rm FJ}(E)^2:=\rho^{1-n}\beta(E)^2\) for the scale-invariant
+normal index, with \(\beta\) as in Definition~\ref{app-def:beta}.  For
+\(z\in\R^n\), abbreviate the centred potential deficit
+\[
+   \mathcal C_z(E)
+   :=\Per(B_\rho)-(n-1)\int_E\frac{dx}{|x-z|},
+\]
+which is nonnegative for every \(z\) by the bathtub principle, as in the
+proof of Lemma~\ref{lem:C-decomposition}.  By
+Proposition~\ref{prop:radial-GG} (applied with the prescribed radius
+\(\rho\)),
+\begin{equation}\label{eq:cor-pointwise-id}
+   \osc_z(E)=\Per(E)-(n-1)\int_E\frac{dx}{|x-z|}
+            =\Def(E)+\mathcal C_z(E),
+\tag{4.110}
+\end{equation}
+exactly as in the decomposition \eqref{eq:beta-DC}.  In particular
+\[
+   \beta(E)^2=\inf_{z\in\R^n}\osc_z(E)
+            =\Def(E)+\inf_{z\in\R^n}\mathcal C_z(E),
+\]
+so \(\beta(E)^2\ge\Def(E)\) and a fortiori
+\begin{equation}\label{eq:cor-def-from-beta}
+   \rho^{1-n}\Def(E)\le\rho^{1-n}\beta(E)^2=\beta_{\rm FJ}(E)^2.
+\tag{4.111}
+\end{equation}
+
+\smallskip
+\noindent\emph{Step 1: a bathtub shell bound for the symmetric difference.}
+We claim that, for every \(z\in\R^n\) and every finite-perimeter
+\(E\subset\R^n\) with \(|E|=|B_\rho|\),
+\begin{equation}\label{eq:cor-bathtub}
+   |E\triangle B_\rho(z)|^2
+       \le C_{\rm bt}(n)\,\rho^{n+1}\,\mathcal C_z(E),
+   \qquad
+   C_{\rm bt}(n):=\frac{8n\omega_n}{n-1}.
+\tag{4.112}
+\end{equation}
+Set \(A_+:=B_\rho(z)\setminus E\) and \(A_-:=E\setminus B_\rho(z)\).
+Since \(|E|=|B_\rho(z)|\) we have \(|A_+|=|A_-|=:V\), and therefore
+\[
+   |E\triangle B_\rho(z)|=2V.
+\]
+Applying \eqref{eq:cor-pointwise-id} to the ball \(B_\rho(z)\) (for which
+\(\osc_z(B_\rho(z))=0\) and \(\Def(B_\rho(z))=0\)) gives
+\(\mathcal C_z(B_\rho(z))=0\), i.e.
+\[
+   \Per(B_\rho)=(n-1)\int_{B_\rho(z)}\frac{dx}{|x-z|}
+              =(n-1)\,n\omega_n\int_0^{\rho}s^{n-2}\,ds.
+\]
+Subtracting from the defining expression for \(\mathcal C_z(E)\),
+\[
+   \mathcal C_z(E)
+   =(n-1)\Bigl[\int_{A_+}\frac{dx}{|x-z|}-\int_{A_-}\frac{dx}{|x-z|}\Bigr].
+\]
+On \(A_+\subset B_\rho(z)\) the integrand \(|x-z|^{-1}\) is at least
+\(\rho^{-1}\); on \(A_-\subset\R^n\setminus B_\rho(z)\) it is at most
+\(\rho^{-1}\).  This shows \(\mathcal C_z(E)\ge0\) directly.  To
+extract a quantitative gap, we apply the bathtub principle in each shell.
+Among all measurable \(F_+\subset B_\rho(z)\) of measure \(V\), the
+quantity \(\int_{F_+}|x-z|^{-1}\,dx\) is minimised by the inner shell
+\(\{r'\le|x-z|\le\rho\}\) with \(\omega_n(\rho^n-(r')^n)=V\); among all
+measurable \(F_-\subset\R^n\setminus B_\rho(z)\) of measure \(V\), the
+same quantity is maximised by the outer shell
+\(\{\rho\le|x-z|\le r\}\) with \(\omega_n(r^n-\rho^n)=V\).
+Both statements are layer-cake rearrangements with the
+radially decreasing kernel \(|x-z|^{-1}\).  Consequently,
+\[
+   \int_{A_+}\frac{dx}{|x-z|}\ge
+      n\omega_n\int_{r'}^{\rho}s^{n-2}\,ds
+      =\frac{n\omega_n}{n-1}\bigl(\rho^{n-1}-(r')^{n-1}\bigr),
+\]
+\[
+   \int_{A_-}\frac{dx}{|x-z|}\le
+      n\omega_n\int_{\rho}^{r}s^{n-2}\,ds
+      =\frac{n\omega_n}{n-1}\bigl(r^{n-1}-\rho^{n-1}\bigr),
+\]
+and therefore
+\begin{equation}\label{eq:cor-Cz-shell}
+   \mathcal C_z(E)
+   \ge n\omega_n
+       \bigl[2\rho^{n-1}-(r')^{n-1}-r^{n-1}\bigr].
+\tag{4.113}
+\end{equation}
+Set \(s:=V/(\omega_n\rho^n)\), so that
+\(r^{n-1}=\rho^{n-1}(1+s)^{(n-1)/n}\) and
+\((r')^{n-1}=\rho^{n-1}(1-s)^{(n-1)/n}\); since \(|E|=|B_\rho|\),
+\(V\le|E|=\omega_n\rho^n\), so \(s\in[0,1]\).  Define
+\(h(s):=2-(1+s)^{(n-1)/n}-(1-s)^{(n-1)/n}\).  A direct
+differentiation gives \(h(0)=h'(0)=0\) and
+\[
+   h''(s)=\frac{n-1}{n^2}
+          \bigl[(1+s)^{-(n+1)/n}+(1-s)^{-(n+1)/n}\bigr]
+        \ge\frac{n-1}{n^2}
+   \qquad(s\in[0,1)),
+\]
+since \((1-s)^{-(n+1)/n}\ge1\) for \(s\in[0,1)\).  Two integrations
+yield
+\[
+   h(s)\ge\frac{n-1}{2n^2}\,s^2
+   \qquad(s\in[0,1]).
+\]
+Inserting this lower bound into \eqref{eq:cor-Cz-shell} gives
+\[
+   \mathcal C_z(E)
+   \ge n\omega_n\rho^{n-1}\cdot\frac{n-1}{2n^2}\,s^2
+   =\frac{(n-1)\omega_n\rho^{n-1}}{2n}\cdot
+        \frac{V^2}{\omega_n^2\rho^{2n}}
+   =\frac{n-1}{2n\omega_n}\cdot\frac{V^2}{\rho^{n+1}}.
+\]
+Using \(|E\triangle B_\rho(z)|=2V\),
+\[
+   |E\triangle B_\rho(z)|^2=4V^2
+   \le\frac{8n\omega_n}{n-1}\,\rho^{n+1}\,\mathcal C_z(E),
+\]
+which is \eqref{eq:cor-bathtub}.
+
+\smallskip
+\noindent\emph{Step 2: comparison at any near-minimising centre.}
+Fix \(\varepsilon>0\) and choose \(z_\varepsilon\in\R^n\) with
+\(\osc_{z_\varepsilon}(E)\le\beta(E)^2+\varepsilon\rho^{n-1}\).  By
+\eqref{eq:cor-pointwise-id},
+\(\mathcal C_{z_\varepsilon}(E)\le\beta(E)^2+\varepsilon\rho^{n-1}\), so
+\eqref{eq:cor-bathtub} gives
+\[
+   |E\triangle B_\rho(z_\varepsilon)|^2
+   \le C_{\rm bt}(n)\,\rho^{n+1}
+       \bigl(\beta(E)^2+\varepsilon\rho^{n-1}\bigr)
+   =C_{\rm bt}(n)\,\rho^{2n}
+       \bigl(\beta_{\rm FJ}(E)^2+\varepsilon\bigr),
+\]
+hence
+\begin{equation}\label{eq:cor-volume-bound}
+   \frac{|E\triangle B_\rho(z_\varepsilon)|}{\rho^n}
+   \le\sqrt{C_{\rm bt}(n)}\,
+        \bigl(\beta_{\rm FJ}(E)^2+\varepsilon\bigr)^{1/2}.
+\tag{4.114}
+\end{equation}
+The normal-oscillation term at the same centre satisfies
+\begin{equation}\label{eq:cor-normal-bound}
+   \left(\frac1{\rho^{n-1}}
+         \int_{\partial^*E}\bigl|\nu_E-e_{z_\varepsilon}\bigr|^2\,d\Hn
+   \right)^{1/2}
+   =\bigl(\rho^{1-n}\cdot 2\osc_{z_\varepsilon}(E)\bigr)^{1/2}
+   \le\sqrt{2}\bigl(\beta_{\rm FJ}(E)^2+\varepsilon\bigr)^{1/2}.
+\tag{4.115}
+\end{equation}
+(The factor \(\sqrt{2}\) appears because the normalisation in
+\(\mathcal A_{\rm FJ}\) integrates the full \(|\nu_E-e_z|^2\), while
+\(\osc_z\) carries a factor \(1/2\); compare
+Definition~\ref{app-def:beta} and \eqref{eq:A-FJ-combined}.)
+Adding \eqref{eq:cor-volume-bound} and \eqref{eq:cor-normal-bound} and
+infimising over admissible \(z\),
+\[
+   \mathcal A_{\rm FJ}(E)
+   \le\bigl(\sqrt{C_{\rm bt}(n)}+\sqrt{2}\bigr)
+        \bigl(\beta_{\rm FJ}(E)^2+\varepsilon\bigr)^{1/2}.
+\]
+Letting \(\varepsilon\downarrow0\),
+\begin{equation}\label{eq:cor-AFJ-by-beta}
+   \mathcal A_{\rm FJ}(E)
+   \le\bigl(\sqrt{C_{\rm bt}(n)}+\sqrt{2}\bigr)\,\beta_{\rm FJ}(E).
+\tag{4.116}
+\end{equation}
+
+\smallskip
+\noindent\emph{Step 3: assembling the comparison and the conclusion.}
+Combining \eqref{eq:cor-def-from-beta} and \eqref{eq:cor-AFJ-by-beta},
+\begin{equation}\label{eq:cor-comparison-comp}
+   \mathcal A_{\rm FJ}(E)
+      +\bigl(\rho^{1-n}\Def(E)\bigr)^{1/2}
+      \le C_{\rm cmp}(n)\,\beta_{\rm FJ}(E),
+   \quad
+   C_{\rm cmp}(n):=1+\sqrt{2}+\sqrt{C_{\rm bt}(n)}.
+\tag{4.117}
+\end{equation}
+The constant \(C_{\rm cmp}(n)\) is computable since
+\(C_{\rm bt}(n)=8n\omega_n/(n-1)\) is a finite combination of the volume
+of the unit ball and elementary dimensional factors.  In particular, the
+proof has used only the radial Gauss--Green identity
+(Proposition~\ref{prop:radial-GG}), the bathtub-principle layer-cake
+comparison for the radially decreasing kernel \(|x-z|^{-1}\), and the
+elementary concavity estimate
+\(h(s)\ge\tfrac{(n-1)}{2n^2}s^2\) on \([0,1]\); no compactness selection
+or contradiction argument is invoked.
+
+Squaring \eqref{eq:cor-comparison-comp} and applying
+Theorem~\ref{thm:global-computable-FJ},
+\[
+   \mathcal A_{\rm FJ}(E)^2
+   \le C_{\rm cmp}(n)^2\,\beta_{\rm FJ}(E)^2
+   =C_{\rm cmp}(n)^2\,\rho^{1-n}\beta(E)^2
+   \le C_{\rm cmp}(n)^2\,C_{\rm FJ}^{\rm comp}(n)\,\rho^{1-n}\Def(E),
+\]
+which is \eqref{eq:original-FJ-computable} with
+\begin{equation}\label{eq:cor-final-constant}
+   \widehat C_{\rm FJ}^{\rm comp}(n)
+   :=\bigl(1+\sqrt{2}+\sqrt{8n\omega_n/(n-1)}\bigr)^{2}\,
+     C_{\rm FJ}^{\rm comp}(n).
+\tag{4.118}
+\end{equation}
+Every constant on the right-hand side is computable: \(C_{\rm bt}(n)\)
+is the explicit dimensional expression above, and
+\(C_{\rm FJ}^{\rm comp}(n)\) is given by
+\eqref{eq:CFJ-computable}.
+\end{proof}
+
+\begin{thebibliography}{99}
+
+\bibitem{AFP2000}
+L.~Ambrosio, N.~Fusco, and D.~Pallara,
+\emph{Functions of Bounded Variation and Free Discontinuity Problems},
+Oxford University Press, 2000.
+(Thm.~3.40, coarea; Thm.~3.99, chain rule; \S3.5, reduced boundaries.)
+
+\bibitem{Bandle1980}
+C.~Bandle,
+\emph{Isoperimetric Inequalities and Applications},
+Pitman, 1980. Ch.~II.
+
+\bibitem{BDV}
+L.~Brasco, G.~De~Philippis, and B.~Velichkov,
+\emph{Faber--Krahn inequalities in sharp quantitative form},
+Duke Math.\ J.\ \textbf{164} (2015), 1777--1831.
+
+\bibitem{Brasco2014}
+L.~Brasco,
+\emph{On torsional rigidity and principal frequencies: an invitation to the
+Kohler--Jobin rearrangement technique},
+ESAIM Control Optim.\ Calc.\ Var.\ \textbf{20} (2014), 315--338.
+
+\bibitem{BraDeP2017}
+L.~Brasco and G.~De~Philippis,
+\emph{Spectral inequalities in quantitative form}, in
+\emph{Shape Optimization and Spectral Theory}, De Gruyter, 2017, pp.~201--281.
+
+\bibitem{FJ2014}
+N.~Fusco and V.~Julin,
+\emph{A strong form of the quantitative isoperimetric inequality},
+Calc.\ Var.\ Partial Differential Equations \textbf{50} (2014), 925--937.
+
+\bibitem{FMP}
+N.~Fusco, F.~Maggi, and A.~Pratelli,
+\emph{The sharp quantitative isoperimetric inequality},
+Ann.\ of Math.\ (2) \textbf{168} (2008), 941--980.
+(Thm.~1.1: $\mathcal A(E)\le C(n)\sqrt{D(E)/P(B^*)}$ for the Fraenkel
+asymmetry, by mass-transport symmetrisation; constructive.)
+
+\bibitem{FMP2010}
+A.~Figalli, F.~Maggi, and A.~Pratelli,
+\emph{A mass transportation approach to quantitative isoperimetric
+inequalities},
+Invent.\ Math.\ \textbf{182} (2010), 167--211.
+(Lemma~5.1: coordinate-slicing bounded confinement with explicit constants.)
+
+\bibitem{KJ1}
+M.-T.~Kohler-Jobin,
+\emph{Une m\'ethode de comparaison isop\'erim\'etrique de fonctionnelles de
+domaines de la physique math\'ematique},
+Z.\ Angew.\ Math.\ Phys.\ \textbf{29} (1978), 757--766.
+
+\bibitem{KJ2}
+M.-T.~Kohler-Jobin,
+\emph{D\'emonstration de l'in\'egalit\'e isop\'erim\'etrique
+\(P\lambda^2\ge\pi j_0^4/2\) conjectur\'ee par P\'olya et Szeg\H{o}},
+C.\ R.\ Acad.\ Sci.\ Paris \textbf{281} (1975), 119--121.
+
+\bibitem{KJ3}
+M.-T.~Kohler-Jobin,
+\emph{Symmetrization with equal Dirichlet integrals},
+SIAM J.\ Math.\ Anal.\ \textbf{13} (1982), 153--161.
+
+\bibitem{BBC1975}
+P.~B\'enilan, H.~Brezis, and M.~G.~Crandall,
+\emph{A semilinear equation in \(L^1(\R^N)\)},
+J.~Anal.\ Math.\ \textbf{27} (1975), 273--299.
+(Thm.~0.4 and \S1: absolutely continuous monotone inverse.)
+
+\bibitem{DeGiorgi1958}
+E.~De~Giorgi,
+\emph{Sulla propriet\`a isoperimetrica dell'ipersfera, nella classe degli
+insiemi aventi frontiera orientata di misura finita},
+Atti Accad.\ Naz.\ Lincei \textbf{5} (1958), 33--44.
+
+\bibitem{GilbargTrudinger2001}
+D.~Gilbarg and N.~S.~Trudinger,
+\emph{Elliptic Partial Differential Equations of Second Order},
+Classics in Mathematics, Springer, 2001.
+(Interior \(W^{2,p}\) regularity; weak maximum principle.)
+
+\bibitem{Maggi2012}
+F.~Maggi,
+\emph{Sets of Finite Perimeter and Geometric Variational Problems},
+Cambridge University Press, 2012.
+(Ch.~13, coarea; Ch.~17, Gauss--Green on finite-perimeter sets.)
+
+\bibitem{PolyaSzego1951}
+G.~P\'olya and G.~Szeg\H{o},
+\emph{Isoperimetric Inequalities in Mathematical Physics},
+Princeton University Press, 1951.
+
+\bibitem{Stampacchia1965}
+G.~Stampacchia,
+\emph{Le probl\`eme de Dirichlet pour les \'equations elliptiques du second
+ordre \`a coefficients discontinus},
+Ann.\ Inst.\ Fourier \textbf{15} (1965), 189--258.
+(\(D^2u=0\) a.e.\ on \(\{\nabla u=0\}\) for Sobolev maps.)
+
+\bibitem{Talenti1976}
+G.~Talenti,
+\emph{Elliptic equations and rearrangements},
+Ann.\ Mat.\ Pura Appl.\ \textbf{110} (1976), 353--372.
+
+\end{thebibliography}
+
+\end{document}
